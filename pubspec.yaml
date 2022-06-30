@@ -10,22 +10,29 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   cupertino_icons: ^1.0.2
-  fluttertoast: ^8.0.8
+  drift: ^1.7.0
+  fluttertoast: ^8.0.9
   get: ^4.6.1
   get_storage: ^2.0.3
   google_fonts: ^2.3.1
-  hive: ^2.0.5
   http: ^0.13.4
-  intl: ^0.17.0
-  json_annotation: ^4.4.0
-  provider: ^5.0.0
+  provider: ^6.0.3
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
-  flutter_test:
+  build_runner: ^2.1.8
+  flutter_driver:
     sdk: flutter
   flutter_lints: ^1.0.0
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+  mockito: ^5.1.0
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/
