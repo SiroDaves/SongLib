@@ -73,8 +73,8 @@ class MockHomeController extends _i1.Mock implements _i4.HomeController {
       super.noSuchMethod(Invocation.setter(#searchDebouncer, _searchDebouncer),
           returnValueForMissingStub: null);
   @override
-  set tasks(List<_i4.Book>? _tasks) =>
-      super.noSuchMethod(Invocation.setter(#tasks, _tasks),
+  set books(List<_i4.Book>? _books) =>
+      super.noSuchMethod(Invocation.setter(#books, _books),
           returnValueForMissingStub: null);
   @override
   _i5.InternalFinalCallback<void> get onStart =>

@@ -14,7 +14,7 @@ void main() {
       when(
         controller.fetchBooks(),
       ).thenAnswer(
-        (_) async => controller.tasks = [
+        (_) async => controller.books = [
           Book(title: 'this task'),
         ],
       );

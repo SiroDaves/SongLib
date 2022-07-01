@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:drift/drift.dart';
+import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';

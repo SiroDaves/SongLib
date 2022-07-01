@@ -40,8 +40,8 @@ class MockTodosController extends _i1.Mock implements _i4.TodosController {
       (super.noSuchMethod(Invocation.getter(#userData),
           returnValue: _FakeGetStorage_0()) as _i2.GetStorage);
   @override
-  set task(_i4.Book? _task) =>
-      super.noSuchMethod(Invocation.setter(#task, _task),
+  set book(_i4.Book? _book) =>
+      super.noSuchMethod(Invocation.setter(#book, _book),
           returnValueForMissingStub: null);
   @override
   bool get isLoading =>
@@ -52,12 +52,12 @@ class MockTodosController extends _i1.Mock implements _i4.TodosController {
       super.noSuchMethod(Invocation.setter(#isLoading, _isLoading),
           returnValueForMissingStub: null);
   @override
-  set taskTitle(String? _taskTitle) =>
-      super.noSuchMethod(Invocation.setter(#taskTitle, _taskTitle),
+  set bookTitle(String? _bookTitle) =>
+      super.noSuchMethod(Invocation.setter(#bookTitle, _bookTitle),
           returnValueForMissingStub: null);
   @override
-  set taskContent(String? _taskContent) =>
-      super.noSuchMethod(Invocation.setter(#taskContent, _taskContent),
+  set bookContent(String? _bookContent) =>
+      super.noSuchMethod(Invocation.setter(#bookContent, _bookContent),
           returnValueForMissingStub: null);
   @override
   set titleController(_i5.TextEditingController? _titleController) =>

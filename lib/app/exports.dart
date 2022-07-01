@@ -1,3 +1,4 @@
+export 'data/exports.dart';
 export 'constants/exports.dart';
 export 'models/exports.dart';
 export 'modules/exports.dart';
