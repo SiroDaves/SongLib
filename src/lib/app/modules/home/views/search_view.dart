@@ -47,8 +47,13 @@ class SearchView extends StatelessWidget {
   Widget searchField(
       TextEditingController qryController, FocusNode? focusNode) {
     return Container(
-      padding: const EdgeInsets.all(10),
-      height: height! * 0.1,
+      margin: const EdgeInsets.all(10),
+      //height: height! * 0.1,
+      decoration: const BoxDecoration(
+        color: AppColors.white,
+        boxShadow: [BoxShadow(blurRadius: 3)],
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
       child: TextField(
         controller: qryController,
         focusNode: focusNode,
@@ -65,11 +70,9 @@ class SearchView extends StatelessWidget {
           prefixIcon: const Icon(Icons.search, color: AppColors.primaryColor),
           suffixIcon: const Icon(Icons.mic, color: AppColors.primaryColor),
           border: InputBorder.none,
-          hintText: "Search for a Song",
+          hintText: "Search a Song",
           contentPadding: const EdgeInsets.all(20),
         ),
-        onTap: () => controller.setSearchingMode(true),
-        onSubmitted: (qry) => controller.setSearchingMode(false),
       ),
     );
   }

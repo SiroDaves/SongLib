@@ -39,7 +39,7 @@ class BookItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            book.title!,
+            book.title!.replaceAll("''", "'"),
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -67,21 +67,25 @@ class SongBook extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 100,
-      margin: const EdgeInsets.only(right: 10),
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      decoration: BoxDecoration(
-        color: AppColors.primaryColor,
-        border: Border.all(color: AppColors.white),
-        boxShadow: const [BoxShadow(blurRadius: 3)],
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Center(
-        child: Text(
-          book.title!,
-          textAlign: TextAlign.center,
-          style: normalTextStyle.copyWith(color: AppColors.white, fontSize: 16),
+    return Hero(
+      tag: 'BookIndex_${book.objectId}',
+      child: Container(
+        width: 120,
+        margin: const EdgeInsets.only(right: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        decoration: BoxDecoration(
+          color: AppColors.primaryColor,
+          border: Border.all(color: AppColors.white),
+          boxShadow: const [BoxShadow(blurRadius: 3)],
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+        ),
+        child: Center(
+          child: Text(
+            '${book.title!.replaceAll("''", "'")} (${book.songs})',
+            textAlign: TextAlign.center,
+            style:
+                normalTextStyle.copyWith(color: AppColors.white, fontSize: 16),
+          ),
         ),
       ),
     );
@@ -95,25 +99,105 @@ class SongItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 50,
-      child: ListTile(
-        leading: const Icon(Icons.book),
-        title: Text(
-          '${song.songno!}. ${song.title!}',
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    String hasChorus = '', verseCount = '';
+    var verses = song.content!.split("\\n\\n");
+
+    if (song.content!.contains("CHORUS")) {
+      hasChorus = AppConstants.hasChorus;
+      verseCount = '${verses.length} Vs';
+    } else {
+      hasChorus = AppConstants.noChorus;
+      verseCount = '${verses.length} Vs';
+    }
+
+    return GestureDetector(
+      child: Hero(
+        tag: 'SongIndex_${song.objectId}',
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                songItemTitle(song.songno!, song.title!),
+                maxLines: 1,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              Text(
+                refineContent(verses[0]),
+                maxLines: 2,
+                style: const TextStyle(fontSize: 16),
+              ),
+              SizedBox(
+                height: 35,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: <Widget>[
+                    //tagView(songBook),
+                    tagView(hasChorus),
+                    tagView(verseCount),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
-        subtitle: Text(
-          song.alias!,
-          style: const TextStyle(fontSize: 14),
-        ),
-        onTap: () {
-          /*Get.to(
+      ),
+      onTap: () {},
+    );
+
+    return Hero(
+      tag: 'SongIndex_${song.objectId}',
+      child: SizedBox(
+        height: 50,
+        child: ListTile(
+          leading: const Icon(Icons.book),
+          title: Text(
+            '${song.songno!}. ${song.title!}',
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          subtitle: Text(
+            song.alias!,
+            style: const TextStyle(fontSize: 14),
+          ),
+          onTap: () {
+            /*Get.to(
             () => TodosView(currentBook: setBook),
             transition: Transition.rightToLeft,
           );*/
-        },
+          },
+        ),
       ),
     );
+  }
+
+  Widget tagView(String tagText) {
+    try {
+      if (tagText.isNotEmpty) {
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          margin: const EdgeInsets.only(top: 5, left: 5),
+          decoration: BoxDecoration(
+            color: AppColors.primaryColor,
+            border: Border.all(color: AppColors.white),
+            borderRadius: const BorderRadius.all(Radius.circular(5)),
+            boxShadow: const [BoxShadow(blurRadius: 1)],
+          ),
+          child: Text(
+            tagText,
+            style: const TextStyle(
+              color: AppColors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 15,
+            ),
+          ),
+        );
+      } else {
+        return Container();
+      }
+    } on Exception {
+      return Container();
+    }
   }
 }

@@ -20,7 +20,7 @@ class HomeView extends StatelessWidget {
 
     return Scaffold(
       body: Container(
-        margin: const EdgeInsets.only(top: 40, left: 10, right: 10),
+        margin: const EdgeInsets.only(top: 40),
         child: GetBuilder<HomeController>(
           builder: (controller) => SingleChildScrollView(
             child: Column(
@@ -79,7 +79,7 @@ class HomeView extends StatelessWidget {
         if (snapshot.hasData) {
           if (snapshot.data!.isNotEmpty) {
             return SizedBox(
-              height: size!.height * 0.0875,
+              height: size!.height * 0.125,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.all(10),
@@ -102,38 +102,6 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget bookListx(BuildContext context) {
-    return FutureBuilder<List<Book>?>(
-      future: controller.fetchBookList(),
-      builder: (BuildContext context, AsyncSnapshot<List<Book>?> snapshot) {
-        if (snapshot.hasData) {
-          if (snapshot.data!.isNotEmpty) {
-            return SizedBox(
-              height: size!.height * 0.0875,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.all(10),
-                itemBuilder: (context, index) => SongBook(
-                  book: snapshot.data![index],
-                ),
-                itemCount: snapshot.data!.length,
-                controller: controller.bookListScrollController,
-              ),
-            );
-          } else {
-            return const Center(
-              child: Text("Its empty here, no books yet"),
-            );
-          }
-        } else if (snapshot.hasError) {
-          return Container();
-        } else {
-          return const CircularProgress();
-        }
-      },
-    );
-  }
-
   Widget songList(BuildContext context) {
     return FutureBuilder<List<Song>?>(
       future: controller.fetchSongList(),
@@ -141,7 +109,7 @@ class HomeView extends StatelessWidget {
         if (snapshot.hasData) {
           if (snapshot.data!.isNotEmpty) {
             return SizedBox(
-              height: size!.height * 0.625,
+              height: size!.height * 0.6125,
               child: ListView.builder(
                 padding: const EdgeInsets.all(10),
                 itemBuilder: (context, index) => SongItem(

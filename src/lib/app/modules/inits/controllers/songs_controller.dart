@@ -36,7 +36,7 @@ class SongsController extends GetxController {
     if (isConnected) {
       final EventObject eventObject = await httpGet(
         client: http.Client(),
-        url: '${ApiConstants.song}?where={"book":{"\$in":[$selectedBooks]}}',
+        url: '${ApiConstants.song}?where={"book":{"\$in":[$selectedBooks]}}&order=songno',
       );
 
       try {

@@ -352,7 +352,7 @@ class $TbBooksTable extends TbBooks with TableInfo<$TbBooksTable, TbBook> {
   late final GeneratedColumn<String?> objectId = GeneratedColumn<String?>(
       'object_id', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 50),
+          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 100),
       type: const StringType(),
       requiredDuringInsert: true);
   final VerificationMeta _bookidMeta = const VerificationMeta('bookid');
@@ -370,7 +370,7 @@ class $TbBooksTable extends TbBooks with TableInfo<$TbBooksTable, TbBook> {
   late final GeneratedColumn<String?> title = GeneratedColumn<String?>(
       'title', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 50),
+          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 100),
       type: const StringType(),
       requiredDuringInsert: true);
   final VerificationMeta _subtitleMeta = const VerificationMeta('subtitle');
@@ -378,7 +378,7 @@ class $TbBooksTable extends TbBooks with TableInfo<$TbBooksTable, TbBook> {
   late final GeneratedColumn<String?> subtitle = GeneratedColumn<String?>(
       'subtitle', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 50),
+          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 100),
       type: const StringType(),
       requiredDuringInsert: true);
   final VerificationMeta _songsMeta = const VerificationMeta('songs');
@@ -396,7 +396,7 @@ class $TbBooksTable extends TbBooks with TableInfo<$TbBooksTable, TbBook> {
   late final GeneratedColumn<String?> createdAt = GeneratedColumn<String?>(
       'created_at', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 50),
+          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 30),
       type: const StringType(),
       requiredDuringInsert: true);
   final VerificationMeta _updatedAtMeta = const VerificationMeta('updatedAt');
@@ -404,7 +404,7 @@ class $TbBooksTable extends TbBooks with TableInfo<$TbBooksTable, TbBook> {
   late final GeneratedColumn<String?> updatedAt = GeneratedColumn<String?>(
       'updated_at', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 50),
+          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 30),
       type: const StringType(),
       requiredDuringInsert: true);
   @override
@@ -883,7 +883,7 @@ class $TbSongsTable extends TbSongs with TableInfo<$TbSongsTable, TbSong> {
   late final GeneratedColumn<String?> objectId = GeneratedColumn<String?>(
       'object_id', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 50),
+          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 20),
       type: const StringType(),
       requiredDuringInsert: true);
   final VerificationMeta _bookMeta = const VerificationMeta('book');
@@ -901,7 +901,7 @@ class $TbSongsTable extends TbSongs with TableInfo<$TbSongsTable, TbSong> {
   late final GeneratedColumn<String?> title = GeneratedColumn<String?>(
       'title', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 50),
+          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 100),
       type: const StringType(),
       requiredDuringInsert: true);
   final VerificationMeta _aliasMeta = const VerificationMeta('alias');
@@ -909,7 +909,7 @@ class $TbSongsTable extends TbSongs with TableInfo<$TbSongsTable, TbSong> {
   late final GeneratedColumn<String?> alias = GeneratedColumn<String?>(
       'alias', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 50),
+          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 100),
       type: const StringType(),
       requiredDuringInsert: true);
   final VerificationMeta _contentMeta = const VerificationMeta('content');
@@ -922,7 +922,7 @@ class $TbSongsTable extends TbSongs with TableInfo<$TbSongsTable, TbSong> {
   late final GeneratedColumn<String?> key = GeneratedColumn<String?>(
       'key', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 50),
+          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 20),
       type: const StringType(),
       requiredDuringInsert: true);
   final VerificationMeta _authorMeta = const VerificationMeta('author');
@@ -930,7 +930,7 @@ class $TbSongsTable extends TbSongs with TableInfo<$TbSongsTable, TbSong> {
   late final GeneratedColumn<String?> author = GeneratedColumn<String?>(
       'author', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 50),
+          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 100),
       type: const StringType(),
       requiredDuringInsert: true);
   final VerificationMeta _viewsMeta = const VerificationMeta('views');
@@ -943,7 +943,7 @@ class $TbSongsTable extends TbSongs with TableInfo<$TbSongsTable, TbSong> {
   late final GeneratedColumn<String?> createdAt = GeneratedColumn<String?>(
       'created_at', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 50),
+          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 30),
       type: const StringType(),
       requiredDuringInsert: true);
   final VerificationMeta _updatedAtMeta = const VerificationMeta('updatedAt');
@@ -951,7 +951,7 @@ class $TbSongsTable extends TbSongs with TableInfo<$TbSongsTable, TbSong> {
   late final GeneratedColumn<String?> updatedAt = GeneratedColumn<String?>(
       'updated_at', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 50),
+          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 30),
       type: const StringType(),
       requiredDuringInsert: true);
   @override

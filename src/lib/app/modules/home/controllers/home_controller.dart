@@ -42,9 +42,4 @@ class HomeController extends GetxController {
     return songs;
   }
 
-  /// Set searching mode on
-  Future<void> setSearchingMode(bool mode) async {
-    isSearching = mode;
-    update();
-  }
 }
