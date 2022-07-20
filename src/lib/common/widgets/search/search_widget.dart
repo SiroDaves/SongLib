@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:songlib/common/exports.dart';
 import 'dart:async';
 
 import 'no_item_found.dart';
@@ -276,19 +277,15 @@ class MySingleChoiceSearchState<T> extends State<SearchWidget<T>> {
                   height: listContainerHeight,
                   margin: const EdgeInsets.symmetric(horizontal: 12),
                   child: Card(
-                    color: Colors.white,
+                    color: AppColors.secondaryColor,
                     elevation: 5,
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(4)),
                     ),
                     child: _tempList.isNotEmpty
                         ? Scrollbar(
-                            child: ListView.separated(
+                            child: ListView.builder(
                               padding: const EdgeInsets.symmetric(vertical: 4),
-                              separatorBuilder: (context, index) =>
-                                  const Divider(
-                                height: 1,
-                              ),
                               itemBuilder: (context, index) => Material(
                                 color: Colors.transparent,
                                 child: InkWell(

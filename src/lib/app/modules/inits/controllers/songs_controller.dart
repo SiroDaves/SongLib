@@ -36,7 +36,8 @@ class SongsController extends GetxController {
     if (isConnected) {
       final EventObject eventObject = await httpGet(
         client: http.Client(),
-        url: '${ApiConstants.song}?where={"book":{"\$in":[$selectedBooks]}}&order=songno',
+        url:
+            '${ApiConstants.song}?where={"book":{"\$in":[$selectedBooks]}}&order=songno&limit=10000',
       );
 
       try {
@@ -71,12 +72,16 @@ class SongsController extends GetxController {
   /// Proceed to a saving songs data
   Future<void> proceedtoSave() async {
     for (int i = 0; i < songs!.length; i++) {
-      progressValue = (i / songs!.length * 100).toInt();
+      int progress = (i / songs!.length * 100).toInt();
+      if (progress > progressValue) {
+        progressValue = progress;
+        update();
+      }
       await db!.saveNewSong(songs![i]);
     }
 
-    userData.write(PrefKeys.songsLoaded, true);
+    //userData.write(PrefKeys.songsLoaded, true);
 
-    Get.offAll(() => HomeView(database: db!));
+    //Get.offAll(() => HomeView(database: db!));
   }
 }

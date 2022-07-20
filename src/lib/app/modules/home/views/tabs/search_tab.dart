@@ -4,12 +4,12 @@ import 'package:get/get.dart';
 import '../../../../../exports.dart';
 
 // ignore: must_be_immutable
-class HomeView extends StatelessWidget {
+class SearchTab extends StatelessWidget {
   final HomeController controller = Get.put(HomeController());
   final MyDatabase database;
   Size? size;
 
-  HomeView({Key? key, required this.database}) : super(key: key);
+  SearchTab({Key? key, required this.database}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

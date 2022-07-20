@@ -67,16 +67,43 @@ class MockHomeController extends _i1.Mock implements _i5.HomeController {
       super.noSuchMethod(Invocation.setter(#isSearching, _isSearching),
           returnValueForMissingStub: null);
   @override
+  String get selectedBooks =>
+      (super.noSuchMethod(Invocation.getter(#selectedBooks), returnValue: '')
+          as String);
+  @override
+  set selectedBooks(String? _selectedBooks) =>
+      super.noSuchMethod(Invocation.setter(#selectedBooks, _selectedBooks),
+          returnValueForMissingStub: null);
+  @override
+  int get mainBook =>
+      (super.noSuchMethod(Invocation.getter(#mainBook), returnValue: 0) as int);
+  @override
+  set mainBook(int? _mainBook) =>
+      super.noSuchMethod(Invocation.setter(#mainBook, _mainBook),
+          returnValueForMissingStub: null);
+  @override
   set books(List<_i5.Book>? _books) =>
       super.noSuchMethod(Invocation.setter(#books, _books),
           returnValueForMissingStub: null);
   @override
-  set songs(List<_i5.Song>? _songs) =>
-      super.noSuchMethod(Invocation.setter(#songs, _songs),
+  set fullList(List<_i5.Song>? _fullList) =>
+      super.noSuchMethod(Invocation.setter(#fullList, _fullList),
+          returnValueForMissingStub: null);
+  @override
+  set bookList(List<_i5.Song>? _bookList) =>
+      super.noSuchMethod(Invocation.setter(#bookList, _bookList),
           returnValueForMissingStub: null);
   @override
   set db(_i5.MyDatabase? _db) => super.noSuchMethod(Invocation.setter(#db, _db),
       returnValueForMissingStub: null);
+  @override
+  int get selectedTab =>
+      (super.noSuchMethod(Invocation.getter(#selectedTab), returnValue: 0)
+          as int);
+  @override
+  set selectedTab(int? _selectedTab) =>
+      super.noSuchMethod(Invocation.setter(#selectedTab, _selectedTab),
+          returnValueForMissingStub: null);
   @override
   _i4.InternalFinalCallback<void> get onStart =>
       (super.noSuchMethod(Invocation.getter(#onStart),
@@ -113,15 +140,29 @@ class MockHomeController extends _i1.Mock implements _i5.HomeController {
   void onClose() => super.noSuchMethod(Invocation.method(#onClose, []),
       returnValueForMissingStub: null);
   @override
+  void onTabTapped(int? index) =>
+      super.noSuchMethod(Invocation.method(#onTabTapped, [index]),
+          returnValueForMissingStub: null);
+  @override
   _i6.Future<List<_i5.Book>?> fetchBookList() =>
       (super.noSuchMethod(Invocation.method(#fetchBookList, []),
               returnValue: Future<List<_i5.Book>?>.value())
           as _i6.Future<List<_i5.Book>?>);
   @override
-  _i6.Future<List<_i5.Song>?> fetchSongList() =>
-      (super.noSuchMethod(Invocation.method(#fetchSongList, []),
+  _i6.Future<List<_i5.Song>?> fetchFullSongList() =>
+      (super.noSuchMethod(Invocation.method(#fetchFullSongList, []),
               returnValue: Future<List<_i5.Song>?>.value())
           as _i6.Future<List<_i5.Song>?>);
+  @override
+  _i6.Future<List<_i5.Song>?> fetchBookSongList() =>
+      (super.noSuchMethod(Invocation.method(#fetchBookSongList, []),
+              returnValue: Future<List<_i5.Song>?>.value())
+          as _i6.Future<List<_i5.Song>?>);
+  @override
+  _i6.Future<void> resetBookSongList(_i5.Book? book) =>
+      (super.noSuchMethod(Invocation.method(#resetBookSongList, [book]),
+          returnValue: Future<void>.value(),
+          returnValueForMissingStub: Future<void>.value()) as _i6.Future<void>);
   @override
   void update([List<Object>? ids, bool? condition = true]) =>
       super.noSuchMethod(Invocation.method(#update, [ids, condition]),

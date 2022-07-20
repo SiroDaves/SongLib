@@ -25,7 +25,8 @@ class SplashView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Image.asset(
-              'assets/app_icon.png',
+              key: const ValueKey(KeyConstants.appIcon),
+              AppConstants.appIconPath,
               height: 200,
               width: 200,
             ),
@@ -33,6 +34,7 @@ class SplashView extends StatelessWidget {
               height: 35,
             ),
             Text(
+              key: const ValueKey(KeyConstants.appTitle),
               AppConstants.appTitle,
               style: titleTextStyle.copyWith(
                 fontSize: 40,

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const Color activeColor = Color(0XFF4FAADF);
-  static const Color primaryColor = Colors.deepOrange;
-  static const Color secondaryColor = Colors.deepOrangeAccent;
-  static const Color themeColor = Colors.orange;
+  static const Color activeColor = Color(0XFFF4B183);
+  static const Color primaryColor = Color(0XFF843C0C);
+  static const Color secondaryColor = Color(0XFFC55A11);
 
   static const Color errorColor = Color(0xFFB00020);
   static const Color splashColor = Colors.white24;

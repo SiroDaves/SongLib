@@ -8,13 +8,15 @@ import 'package:http/http.dart' as http;
 
 import '../../../../exports.dart';
 
-/// The controller for the Todos screen
-class TodosController extends GetxController {
+/// The controller for the Song screen
+class SongController extends GetxController {
   final GetStorage userData = GetStorage();
-  Book? book;
+  Song? song;
   bool isLoading = false;
-  String? bookTitle, bookContent;
+  String? songTitle, songContent;
   TextEditingController? titleController, contentController;
+
+  MyDatabase? db;
 
   @override
   void onInit() {
@@ -34,17 +36,17 @@ class TodosController extends GetxController {
     contentController?.dispose();
   }
 
-  Future<void> showCurrentBook() async {
-    titleController!.text = book!.title!;
-    contentController!.text = book!.subtitle!;
+  Future<void> showCurrentSong() async {
+    titleController!.text = song!.title!;
+    contentController!.text = song!.content!;
   }
 
   // function to validate creds
   bool validateInput() {
     bool validated = false;
     if (titleController!.text.isNotEmpty) {
-      bookTitle = titleController!.text;
-      bookContent = contentController!.text;
+      songTitle = titleController!.text;
+      songContent = contentController!.text;
       validated = true;
     } else {
       validated = false;
@@ -52,8 +54,8 @@ class TodosController extends GetxController {
     return validated;
   }
 
-  /// Save changes for a book be it a new one or simply updating an old one
-  Future<bool?> saveBook() async {
+  /// Save changes for a song be it a new one or simply updating an old one
+  Future<bool?> saveSong() async {
     bool? success;
 
     if (validateInput()) {
@@ -65,13 +67,13 @@ class TodosController extends GetxController {
       if (isConnected) {
         final EventObject? eventObject = await httpPost(
           client: http.Client(),
-          //appending the primary key is where the difference of updating vs new book comes in
-          url: book != null
-              ? ApiConstants.book
-              : "${ApiConstants.book}/${book!.objectId}",
+          //appending the primary key is where the difference of updating vs new song comes in
+          url: song != null
+              ? ApiConstants.song
+              : "${ApiConstants.song}/${song!.objectId}",
           data: jsonEncode(<String, String>{
-            'title': bookTitle!,
-            'content': bookContent!,
+            'title': songTitle!,
+            'content': songContent!,
           }),
         );
 
@@ -83,9 +85,9 @@ class TodosController extends GetxController {
             case EventConstants.requestSuccessful:
               success = true;
               showToast(
-                text: book != null
-                    ? "Book updated successfully"
-                    : "New book saved successfully",
+                text: song != null
+                    ? "Song updated successfully"
+                    : "New song saved successfully",
                 state: ToastStates.success,
               );
               //Get.offAll(() => HomeView());
@@ -105,9 +107,9 @@ class TodosController extends GetxController {
 
             default:
               showToast(
-                text: book != null
-                    ? "Updating new book was not successful"
-                    : "Saving new book was not successful",
+                text: song != null
+                    ? "Updating new song was not successful"
+                    : "Saving new song was not successful",
                 state: ToastStates.error,
               );
               success = null;
@@ -126,8 +128,8 @@ class TodosController extends GetxController {
     return success;
   }
 
-  /// Remove a book from the records
-  Future<bool?> deleteBook() async {
+  /// Remove a song from the records
+  Future<bool?> deleteSong() async {
     bool? success;
 
     if (validateInput()) {
@@ -139,7 +141,7 @@ class TodosController extends GetxController {
       if (isConnected) {
         final EventObject eventObject = await httpDelete(
           client: http.Client(),
-          url: "${ApiConstants.book}/${book!.objectId}",
+          url: "${ApiConstants.song}/${song!.objectId}",
         );
 
         isLoading = false;
@@ -150,7 +152,7 @@ class TodosController extends GetxController {
             case EventConstants.requestSuccessful:
               success = true;
               showToast(
-                text: "Book deleted successfully",
+                text: "Song deleted successfully",
                 state: ToastStates.success,
               );
               //Get.offAll(() => HomeView());
@@ -170,7 +172,7 @@ class TodosController extends GetxController {
 
             default:
               showToast(
-                text: "Deleting book was not successful",
+                text: "Deleting song was not successful",
                 state: ToastStates.error,
               );
               success = null;
@@ -199,14 +201,14 @@ class TodosController extends GetxController {
             style: titleTextStyle.copyWith(fontSize: 18),
           ),
           content: Text(
-            'Are you sure you want to close without saving your changes of the book: ${titleController!.text}?',
+            'Are you sure you want to close without saving your changes of the song: ${titleController!.text}?',
             style: titleTextStyle.copyWith(fontSize: 14),
           ),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
-                saveBook();
+                saveSong();
               },
               child: const Text("SAVE"),
             ),
@@ -239,14 +241,14 @@ class TodosController extends GetxController {
             style: titleTextStyle.copyWith(fontSize: 18),
           ),
           content: Text(
-            'Are you sure you want to delete the book: ${titleController!.text}?',
+            'Are you sure you want to delete the song: ${titleController!.text}?',
             style: titleTextStyle.copyWith(fontSize: 14),
           ),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
-                deleteBook();
+                deleteSong();
               },
               child: const Text("DELETE"),
             ),

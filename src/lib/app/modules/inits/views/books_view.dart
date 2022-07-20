@@ -4,7 +4,6 @@ import 'package:get_storage/get_storage.dart';
 
 import '../../../../exports.dart';
 
-/// Books screen after Books
 // ignore: must_be_immutable
 class BooksView extends StatelessWidget {
   final BooksController controller = Get.put(BooksController());
@@ -23,16 +22,17 @@ class BooksView extends StatelessWidget {
       backgroundColor: AppColors.grey,
       appBar: AppBar(
         title: Text(
+          key: const ValueKey('${KeyConstants.booksScreen}title'),
           AppConstants.booksTitle,
-          style: titleTextStyle.copyWith(),
+          style: titleTextStyle,
         ),
       ),
       body: SizedBox(
-        child: GetBuilder<BooksController>(
-          builder: (controller) => listedItems(context),
-        ),
+        key: const ValueKey('${KeyConstants.booksScreen}sizedbox'),
+        child: listedItems(context),
       ),
       floatingActionButton: FloatingActionButton(
+        key: const ValueKey(KeyConstants.booksScreenFab),
         onPressed: () => controller.areYouDoneDialog(context),
         backgroundColor: AppColors.primaryColor,
         child: const Icon(Icons.check, color: AppColors.white),
@@ -46,62 +46,43 @@ class BooksView extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<List<Book>?> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data!.isNotEmpty) {
-            return ListView.builder(
-              padding: const EdgeInsets.all(5),
-              itemBuilder: (context, index) => GestureDetector(
-                child: BookItem(
-                  book: snapshot.data![index],
-                  selected: controller.listedBooks[index]!.isSelected,
+            return GetBuilder<BooksController>(
+              builder: (controller) => Scrollbar(
+                key: const ValueKey('${KeyConstants.booksScreen}scrollbar'),
+                child: ListView.builder(
+                  key: const ValueKey('${KeyConstants.booksScreen}listview'),
+                  padding: const EdgeInsets.all(5),
+                  itemBuilder: (context, index) => GestureDetector(
+                    key:
+                        ValueKey('${KeyConstants.booksScreen}book_item_$index'),
+                    child: BookItem(
+                      book: snapshot.data![index],
+                      selected: controller.listedBooks[index]!.isSelected,
+                    ),
+                    onTap: () => controller.onBookSelected(index),
+                  ),
+                  itemCount: snapshot.data!.length,
+                  controller: controller.listScrollController,
                 ),
-                onTap: () => controller.onBookSelected(index),
               ),
-              itemCount: snapshot.data!.length,
-              controller: controller.listScrollController,
             );
           } else {
-            return noBookData();
+            return const NoDataToShow(
+              title: AppConstants.errorOccurred,
+              description: AppConstants.errorOccurredBody,
+            );
           }
         } else if (snapshot.hasError) {
-          return Container();
+          return const NoDataToShow(
+            title: AppConstants.errorOccurred,
+            description: AppConstants.noConnectionBody,
+          );
         } else {
-          return const CircularProgress();
+          return const CircularProgress(
+            key: ValueKey(KeyConstants.circularProgress),
+          );
         }
       },
-    );
-  }
-
-  Widget noBookData() {
-    return Center(
-      child: Container(
-        width: 500,
-        height: 175,
-        margin: const EdgeInsets.all(30),
-        decoration: const BoxDecoration(
-          color: AppColors.white,
-          //border: Border.all(color: ),
-          boxShadow: [BoxShadow(blurRadius: 5)],
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Center(
-            child: Column(children: [
-              Text(
-                AppConstants.noConnection,
-                style: titleTextStyle.copyWith(
-                  fontSize: 20,
-                  color: AppColors.red,
-                ),
-              ),
-              const SizedBox(height: 10),
-              const Text(
-                AppConstants.noConnectionBody,
-                style: TextStyle(fontSize: 16),
-              ),
-            ]),
-          ),
-        ),
-      ),
     );
   }
 }

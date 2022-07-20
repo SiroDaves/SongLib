@@ -20,7 +20,7 @@ class SearchView extends StatelessWidget {
     return SearchWidget<Song>(
       dataList: songs!,
       hideSearchBoxWhenItemSelected: false,
-      listContainerHeight: height! / 4,
+      listContainerHeight: height! * 0.70625,
       queryBuilder: (query, list) {
         return list
             .where(
@@ -29,7 +29,7 @@ class SearchView extends StatelessWidget {
             .toList();
       },
       popupListItemBuilder: (song) {
-        return popupListSongWidget(song);
+        return SongItem(song: song);
       },
       selectedItemBuilder: (selectedSong, deleteSelectedSong) {
         return selectedSongWidget(selectedSong, deleteSelectedSong);
@@ -48,7 +48,6 @@ class SearchView extends StatelessWidget {
       TextEditingController qryController, FocusNode? focusNode) {
     return Container(
       margin: const EdgeInsets.all(10),
-      //height: height! * 0.1,
       decoration: const BoxDecoration(
         color: AppColors.white,
         boxShadow: [BoxShadow(blurRadius: 3)],
@@ -57,7 +56,10 @@ class SearchView extends StatelessWidget {
       child: TextField(
         controller: qryController,
         focusNode: focusNode,
-        style: const TextStyle(fontSize: 20, color: AppColors.primaryColor),
+        style: normalTextStyle.copyWith(
+          fontSize: 20,
+          color: AppColors.primaryColor,
+        ),
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
@@ -71,6 +73,9 @@ class SearchView extends StatelessWidget {
           suffixIcon: const Icon(Icons.mic, color: AppColors.primaryColor),
           border: InputBorder.none,
           hintText: "Search a Song",
+          hintStyle: normalTextStyle.copyWith(
+            color: AppColors.primaryColor,
+          ),
           contentPadding: const EdgeInsets.all(20),
         ),
       ),

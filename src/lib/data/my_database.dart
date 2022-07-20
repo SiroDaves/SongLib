@@ -9,19 +9,11 @@ import '../exports.dart';
 
 part 'my_database.g.dart';
 
-LazyDatabase openConnection() {
-  // the LazyDatabase util lets us find the right location for the file async.
-  return LazyDatabase(() async {
-    // put the database file, called db.sqlite here, into the documents folder for the app.
-    final dbFolder = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dbFolder.path, 'songlib.sqlite'));
-    return NativeDatabase(file);
-  });
-}
-
 @DriftDatabase(tables: [TbBooks, TbSongs])
 class MyDatabase extends _$MyDatabase {
-  MyDatabase() : super(openConnection());
+  MyDatabase() : super(NativeDatabase.memory());
+
+  MyDatabase.connect(DatabaseConnection connection) : super.connect(connection);
 
   @override
   int get schemaVersion => 1;

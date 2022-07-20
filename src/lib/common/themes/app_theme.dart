@@ -46,9 +46,9 @@ ThemeData darkTheme() {
     brightness: Brightness.dark,
     indicatorColor: Colors.white,
     toggleableActiveColor: AppColors.activeColor,
-    canvasColor: AppColors.themeColor,
-    scaffoldBackgroundColor: AppColors.themeColor,
-    backgroundColor: AppColors.themeColor,
+    canvasColor: AppColors.primaryColor,
+    scaffoldBackgroundColor: AppColors.primaryColor,
+    backgroundColor: AppColors.primaryColor,
     errorColor: AppColors.errorColor,
     buttonTheme: ButtonThemeData(
       colorScheme: colorScheme,

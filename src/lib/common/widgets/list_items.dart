@@ -39,7 +39,7 @@ class BookItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            book.title!.replaceAll("''", "'"),
+            refineTitle(book.title!),
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -81,8 +81,9 @@ class SongBook extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            '${book.title!.replaceAll("''", "'")} (${book.songs})',
+            '${truncateString(19, refineTitle(book.title!))} (${book.songs})',
             textAlign: TextAlign.center,
+            maxLines: 3,
             style:
                 normalTextStyle.copyWith(color: AppColors.white, fontSize: 16),
           ),
@@ -100,7 +101,7 @@ class SongItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String hasChorus = '', verseCount = '';
-    var verses = song.content!.split("\\n\\n");
+    var verses = song.content!.split("##");
 
     if (song.content!.contains("CHORUS")) {
       hasChorus = AppConstants.hasChorus;
@@ -110,30 +111,36 @@ class SongItem extends StatelessWidget {
       verseCount = '${verses.length} Vs';
     }
 
-    return GestureDetector(
-      child: Hero(
-        tag: 'SongIndex_${song.objectId}',
-        child: Container(
-          margin: const EdgeInsets.only(bottom: 5),
+    return Hero(
+      tag: 'SongIndex_${song.objectId}',
+      child: Card(
+        elevation: 2,
+        child: Padding(
+          padding: const EdgeInsets.all(5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
                 songItemTitle(song.songno!, song.title!),
                 maxLines: 1,
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                style: titleTextStyle.copyWith(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
+              const Divider(color: AppColors.activeColor),
               Text(
                 refineContent(verses[0]),
                 maxLines: 2,
-                style: const TextStyle(fontSize: 16),
+                style: normalTextStyle.copyWith(
+                  fontSize: 16,
+                ),
               ),
               SizedBox(
                 height: 35,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
+                child: Row(
                   children: <Widget>[
+                    const Spacer(),
                     //tagView(songBook),
                     tagView(hasChorus),
                     tagView(verseCount),
@@ -142,31 +149,6 @@ class SongItem extends StatelessWidget {
               ),
             ],
           ),
-        ),
-      ),
-      onTap: () {},
-    );
-
-    return Hero(
-      tag: 'SongIndex_${song.objectId}',
-      child: SizedBox(
-        height: 50,
-        child: ListTile(
-          leading: const Icon(Icons.book),
-          title: Text(
-            '${song.songno!}. ${song.title!}',
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          subtitle: Text(
-            song.alias!,
-            style: const TextStyle(fontSize: 14),
-          ),
-          onTap: () {
-            /*Get.to(
-            () => TodosView(currentBook: setBook),
-            transition: Transition.rightToLeft,
-          );*/
-          },
         ),
       ),
     );
@@ -186,10 +168,9 @@ class SongItem extends StatelessWidget {
           ),
           child: Text(
             tagText,
-            style: const TextStyle(
+            style: normalTextStyle.copyWith(
+              fontSize: 14,
               color: AppColors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 15,
             ),
           ),
         );

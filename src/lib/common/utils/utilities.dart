@@ -43,12 +43,33 @@ bool isNumeric(String s) {
   return double.tryParse(s) != null;
 }
 
-String refineTitle(String songTitle) {
-  return songTitle.replaceAll("''L", "'l").replaceAll("''", "'");
+String truncateString(int cutoff, String myString) {
+  var words = myString.split(' ');
+  if (myString.length > cutoff) {
+    if ((myString.length - words[words.length - 1].length) < cutoff) {
+      return myString.replaceAll(words[words.length - 1], '');
+    } else {
+      return (myString.length <= cutoff)
+          ? myString
+          : myString.substring(0, cutoff);
+    }
+  } else {
+    return myString;
+  }
 }
 
-String refineContent(String songContent) {
-  return songContent.replaceAll("''", "'").replaceAll("\\n", " ");
+String truncateWithEllipsis(int cutoff, String myString) {
+  return (myString.length <= cutoff)
+      ? myString
+      : '${myString.substring(0, cutoff)}...';
+}
+
+String refineTitle(String textTitle) {
+  return textTitle.replaceAll("''", "'");
+}
+
+String refineContent(String contentText) {
+  return contentText.replaceAll("''", "'").replaceAll("#", " ");
 }
 
 String songItemTitle(int number, String title) {
@@ -64,7 +85,7 @@ String bookCountString(String title, int count) {
 }
 
 String lyricsString(String lyrics) {
-  return lyrics.replaceAll("\\n", "\n").replaceAll("''", "'");
+  return lyrics.replaceAll("#", "\n").replaceAll("''", "'");
 }
 
 String songViewerTitle(int number, String title, String alias) {

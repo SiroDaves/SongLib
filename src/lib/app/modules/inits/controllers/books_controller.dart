@@ -92,14 +92,16 @@ class BooksController extends GetxController {
       return Alert(
         context: context,
         alertTitle: AppConstants.doneSelecting,
-        alertMessage: AppConstants.doneSelecting,
-        style: const AlertStyle(alertHeight: 40),
+        alertMessage: AppConstants.doneSelectingBody,
+        style: const AlertStyle(alertHeight: 60),
         buttons: [
           AlertButton(
+            key: const ValueKey('${KeyConstants.booksScreenAlertButton}cancel'),
             text: AppConstants.cancel,
             onPressed: () => Navigator.pop(context),
           ),
           AlertButton(
+            key: const ValueKey('${KeyConstants.booksScreenAlertButton}proceed'),
             text: AppConstants.proceed,
             onPressed: () {
               Navigator.pop(context);

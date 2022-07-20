@@ -3,6 +3,7 @@ abstract class Routes {
   static const books = Paths.books;
   static const songs = Paths.songs;
   static const home = Paths.home;
+  static const song = Paths.song;
 }
 
 abstract class Paths {
@@ -10,4 +11,5 @@ abstract class Paths {
   static const books = '/books';
   static const songs = '/songs';
   static const home = '/home';
+  static const song = '/song';
 }

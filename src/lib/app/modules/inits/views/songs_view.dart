@@ -4,7 +4,6 @@ import 'package:get_storage/get_storage.dart';
 
 import '../../../../exports.dart';
 
-/// Books screen after Books
 // ignore: must_be_immutable
 class SongsView extends StatelessWidget {
   final SongsController controller = Get.put(SongsController());
@@ -21,20 +20,16 @@ class SongsView extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: AppColors.grey,
-      body: songLoading(context),
-      /*body: Center(
+      body: Center(
+        key: const ValueKey('${KeyConstants.songsScreen}center'),
         child: Container(
-          margin: const EdgeInsets.symmetric(vertical: 75),
-          child: LineProgress(
-            isVertical: true,
-            progressSize: size!.width * 0.6,
-            progressVl: 100,
-            borderColor: Colors.black,
-            progressColor: AppColors.secondaryColor,
-            backgroundColor: AppColors.white,
+          key: const ValueKey('${KeyConstants.songsScreen}container'),
+          margin: const EdgeInsets.all(30),
+          child: GetBuilder<SongsController>(
+            builder: (controller) => songLoading(context),
           ),
         ),
-      ),*/
+      ),
     );
   }
 
@@ -42,64 +37,33 @@ class SongsView extends StatelessWidget {
     return FutureBuilder<List<Song>?>(
       future: controller.fetchSongs(),
       builder: (BuildContext context, AsyncSnapshot<List<Song>?> snapshot) {
-        Widget? widget;
-
         if (snapshot.hasData) {
           if (snapshot.data!.isNotEmpty) {
-            return Center(
-              child: Container(
-                margin: const EdgeInsets.all(30),
-                child: LineProgress(
-                  progressSize: 100,
-                  progressVl: controller.progressValue,
-                  borderColor: Colors.black,
-                  progressColor: AppColors.primaryColor,
-                  backgroundColor: AppColors.secondaryColor,
-                ),
-              ),
+            return LineProgress(
+              key: const ValueKey('${KeyConstants.songsScreen}progress'),
+              progressSize: 100,
+              progressVl: controller.progressValue,
+              borderColor: Colors.black,
+              progressColor: AppColors.primaryColor,
+              backgroundColor: AppColors.secondaryColor,
             );
           } else {
-            return Center(
-              child: Container(
-                width: 500,
-                height: 175,
-                margin: const EdgeInsets.all(30),
-                decoration: const BoxDecoration(
-                  color: AppColors.white,
-                  //border: Border.all(color: ),
-                  boxShadow: [BoxShadow(blurRadius: 5)],
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Center(
-                    child: Column(children: [
-                      Text(
-                        AppConstants.noConnection,
-                        style: titleTextStyle.copyWith(
-                          fontSize: 20,
-                          color: AppColors.red,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      const Text(
-                        AppConstants.noConnectionBody,
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ]),
-                  ),
-                ),
-              ),
+            return const NoDataToShow(
+              title: AppConstants.errorOccurred,
+              description: AppConstants.errorOccurredBody,
             );
           }
         } else if (snapshot.hasError) {
-          widget = Container();
+          return const NoDataToShow(
+            title: AppConstants.errorOccurred,
+            description: AppConstants.noConnectionBody,
+          );
         } else {
-          widget = const CircularProgress();
+          return const CircularProgress(
+            key: ValueKey(KeyConstants.circularProgress),
+          );
         }
-        return widget;
       },
     );
   }
-
 }

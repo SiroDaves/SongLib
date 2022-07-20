@@ -1060,6 +1060,7 @@ class $TbSongsTable extends TbSongs with TableInfo<$TbSongsTable, TbSong> {
 
 abstract class _$MyDatabase extends GeneratedDatabase {
   _$MyDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
+  _$MyDatabase.connect(DatabaseConnection c) : super.connect(c);
   late final $TbBooksTable tbBooks = $TbBooksTable(this);
   late final $TbSongsTable tbSongs = $TbSongsTable(this);
   @override

@@ -8,7 +8,8 @@
             "name": "songlib",
             "cwd": "src",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "flutterMode": "debug"
         },
         {
             "name": "src (profile mode)",

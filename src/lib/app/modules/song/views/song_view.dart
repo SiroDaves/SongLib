@@ -4,22 +4,25 @@ import 'package:get_storage/get_storage.dart';
 
 import '../../../../exports.dart';
 
-/// Todos screen after Todos
+/// Song screen after Song
 // ignore: must_be_immutable
-class TodosView extends StatelessWidget {
-  final TodosController controller = Get.put(TodosController());
+class SongView extends StatelessWidget {
+  final SongController controller = Get.put(SongController());
   final GetStorage userData = GetStorage();
-  final Book? currentBook;
+  final Song? song;
   Size? size;
+  final MyDatabase database;
 
-  TodosView({Key? key, this.currentBook}) : super(key: key);
+  SongView({Key? key, required this.song, required this.database}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    controller.db = database;
     size = Get.size;
-    if (currentBook != null) {
-      controller.book = currentBook;
-      controller.showCurrentBook();
+    
+    if (song != null) {
+      controller.song = song;
+      controller.showCurrentSong();
     }
     return Scaffold(
       appBar: AppBar(
@@ -28,7 +31,7 @@ class TodosView extends StatelessWidget {
           style: titleTextStyle.copyWith(fontSize: 25),
         ),
         actions: [
-          currentBook != null
+          song != null
               ? InkWell(
                   child: const Padding(
                     padding: EdgeInsets.all(10),
@@ -47,7 +50,7 @@ class TodosView extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: SizedBox(
-          child: GetBuilder<TodosController>(
+          child: GetBuilder<SongController>(
             builder: (controller) =>
                 controller.isLoading ? const CircularProgress() : inputForm(),
           ),
@@ -55,7 +58,7 @@ class TodosView extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          controller.saveBook();
+          controller.saveSong();
         },
         backgroundColor: AppColors.primaryColor,
         child: const Icon(Icons.save, color: AppColors.white),
@@ -75,7 +78,7 @@ class TodosView extends StatelessWidget {
             iOptions: const <String>[],
           ),
           FormInput(
-            iLabel: 'Description',
+            iLabel: 'Content',
             iController: controller.contentController!,
             isMultiline: true,
             iType: TextInputType.multiline,

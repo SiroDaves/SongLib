@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 var titleTextStyle = GoogleFonts.comfortaa(
-  textStyle: const TextStyle(fontWeight: FontWeight.w700),
+  textStyle: const TextStyle(fontWeight: FontWeight.w900),
 );
 
 var normalTextStyle = GoogleFonts.comfortaa(
