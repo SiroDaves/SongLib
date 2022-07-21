@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -15,8 +16,9 @@ class HomeController extends GetxController {
   String selectedBooks = "";
   int mainBook = 0;
 
-  List<Book>? books = [];
-  List<Song>? fullList = [], bookList = [];
+  DioService dioService = DioService();
+  List<Book>? booksList = [];
+  List<Song>? searchList = [], songsList = [];
   MyDatabase? db;
 
   int selectedTab = 0;
@@ -27,6 +29,8 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    dioService.init();
+    db = Get.find<MyDatabase>();
     selectedBooks = userData.read(PrefKeys.selectedBooks);
     var bookids = selectedBooks.split(",");
     mainBook = int.parse(bookids[0]);
@@ -35,6 +39,7 @@ class HomeController extends GetxController {
   @override
   void onReady() {
     super.onReady();
+    db = Get.find<MyDatabase>();
   }
 
   @override
@@ -47,28 +52,28 @@ class HomeController extends GetxController {
 
   /// Get the list of books
   Future<List<Book>?> fetchBookList() async {
-    books = await db!.bookList();
-    return books;
+    booksList = await db!.bookList();
+    return booksList;
   }
 
   /// Get the list of songs
   Future<List<Song>?> fetchFullSongList() async {
-    fullList = await db!.songList();
-    return fullList;
+    searchList = await db!.songList();
+    return searchList;
   }
 
   /// Get the list of songs
-  Future<List<Song>?> fetchBookSongList() async {
-    bookList = await db!.songList();
-    bookList!.removeWhere((item) => item.book != mainBook);
-    return bookList;
+  Future<List<Song>?> fetchSongsByBook() async {
+    songsList = await db!.songList();
+    songsList!.removeWhere((item) => item.book != mainBook);
+    return songsList;
   }
 
   /// Get the list of songs for the current book
   Future<void> resetBookSongList(Book book) async {
-    bookList = fullList;
+    songsList = searchList;
     mainBook = book.bookid!;
-    bookList!.removeWhere((item) => item.book != mainBook);
+    songsList!.removeWhere((item) => item.book != mainBook);
     update();
   }
 }

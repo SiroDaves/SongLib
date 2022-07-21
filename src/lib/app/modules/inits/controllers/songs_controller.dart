@@ -1,8 +1,6 @@
-import 'dart:convert';
-
+import 'package:dio/dio.dart' as dio;
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:http/http.dart' as http;
 
 import '../../../../exports.dart';
 
@@ -10,6 +8,7 @@ import '../../../../exports.dart';
 class SongsController extends GetxController {
   final GetStorage userData = GetStorage();
 
+  DioService dioService = DioService();
   String selectedBooks = '';
   int progressValue = 0;
   List<Song>? songs = [];
@@ -18,12 +17,15 @@ class SongsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    dioService.init();
+    db = Get.find<MyDatabase>();
     selectedBooks = userData.read(PrefKeys.selectedBooks);
   }
 
   @override
   void onReady() {
     super.onReady();
+    db = Get.find<MyDatabase>();
   }
 
   @override
@@ -34,26 +36,32 @@ class SongsController extends GetxController {
     bool isConnected = await hasReliableInternetConnectivity();
 
     if (isConnected) {
-      final EventObject eventObject = await httpGet(
-        client: http.Client(),
-        url:
-            '${ApiConstants.song}?where={"book":{"\$in":[$selectedBooks]}}&order=songno&limit=10000',
-      );
-
       try {
-        if (eventObject.id == EventConstants.requestSuccessful) {
-          final SongsResponse songResponse = SongsResponse.fromJson(
-            json.decode(eventObject.response),
-          );
-          songs = songResponse.results;
+        final result = await dioService.request(
+          url:
+              '${ApiConstants.song}?where={"book":{"\$in":[$selectedBooks]}}&order=songno&limit=10000',
+          method: Method.get,
+        );
 
-          if (songs!.isNotEmpty) {
-            proceedtoSave();
+        if (result != null) {
+          if (result is dio.Response) {
+            SongsResponse resp = SongsResponse.fromJson(result.data);
+            songs = resp.results;
+
+            if (songs!.isNotEmpty) {
+              proceedtoSave();
+            } else {
+              showToast(
+                text: "No data was found, try again later",
+                state: ToastStates.error,
+              );
+            }
           } else {
             showToast(
-              text: "You don't seem to have reliable internet connection",
+              text: "An unknown error occurred",
               state: ToastStates.error,
             );
+            songs = null;
           }
         }
       } catch (exception) {
@@ -72,16 +80,13 @@ class SongsController extends GetxController {
   /// Proceed to a saving songs data
   Future<void> proceedtoSave() async {
     for (int i = 0; i < songs!.length; i++) {
-      int progress = (i / songs!.length * 100).toInt();
-      if (progress > progressValue) {
-        progressValue = progress;
-        update();
-      }
+      progressValue = (i / songs!.length * 100).toInt();
+      update();
       await db!.saveNewSong(songs![i]);
     }
 
-    //userData.write(PrefKeys.songsLoaded, true);
+    userData.write(PrefKeys.songsLoaded, true);
 
-    //Get.offAll(() => HomeView(database: db!));
+    Get.offAll(() => HomeView());
   }
 }

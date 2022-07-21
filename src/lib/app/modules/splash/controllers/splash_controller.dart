@@ -9,7 +9,6 @@ class SplashController extends GetxController {
 
   bool booksLoaded = false;
   bool songsLoaded = false;
-  MyDatabase? db;
 
   @override
   void onInit() {
@@ -35,12 +34,12 @@ class SplashController extends GetxController {
 
     if (booksLoaded) {
       if (songsLoaded) {
-        Get.offAll(() => HomeView(database: db!));
+        Get.offAll(() => HomeView());
       } else {
-        Get.offAll(() => SongsView(database: db!));
+        Get.offAll(() => SongsView());
       }
     } else {
-      Get.offAll(() => BooksView(database: db!));
+      Get.offAll(() => BooksView());
     }
   }
 }

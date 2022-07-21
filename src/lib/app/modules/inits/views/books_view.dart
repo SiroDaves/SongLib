@@ -8,14 +8,12 @@ import '../../../../exports.dart';
 class BooksView extends StatelessWidget {
   final BooksController controller = Get.put(BooksController());
   final GetStorage userData = GetStorage();
-  final MyDatabase database;
   Size? size;
 
-  BooksView({Key? key, required this.database}) : super(key: key);
+  BooksView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    controller.db = database;
     size = Get.size;
 
     return Scaffold(

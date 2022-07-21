@@ -1,9 +1,7 @@
-import 'dart:convert';
-
+import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:http/http.dart' as http;
 
 import '../../../../exports.dart';
 
@@ -11,6 +9,7 @@ import '../../../../exports.dart';
 class BooksController extends GetxController {
   final GetStorage userData = GetStorage();
 
+  DioService dioService = DioService();
   final ScrollController listScrollController = ScrollController();
 
   List<Listed<Book>?> selected = [], listedBooks = [];
@@ -20,6 +19,8 @@ class BooksController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    dioService.init();
+    db = Get.find<MyDatabase>();
     userData.writeIfNull(PrefKeys.selectedBooks, '');
   }
 
@@ -36,31 +37,33 @@ class BooksController extends GetxController {
     bool isConnected = await hasReliableInternetConnectivity();
 
     if (isConnected) {
-      final EventObject eventObject = await httpGet(
-        client: http.Client(),
-        url: '${ApiConstants.book}?where={"enabled":1}&order=bookid',
-      );
-
       try {
-        if (eventObject.id == EventConstants.requestSuccessful) {
-          final BooksResponse bookResponse = BooksResponse.fromJson(
-            json.decode(eventObject.response),
-          );
-          books = bookResponse.results;
-          //books!.removeWhere((item) => item.enabled == 0);
-          //books!.sort((a, b) => a.bookid!.compareTo(b.bookid!));
+        final result = await dioService.request(
+          url: '${ApiConstants.book}?where={"enabled":1}&order=bookid',
+          method: Method.get,
+        );
 
-          if (books!.isNotEmpty) {
-            for (int i = 0; i < books!.length; i++) {
-              listedBooks.add(
-                Listed<Book>(books![i]),
+        if (result != null) {
+          if (result is dio.Response) {
+            BooksResponse resp = BooksResponse.fromJson(result.data);
+            books = resp.results;
+
+            if (books!.isNotEmpty) {
+              for (int i = 0; i < books!.length; i++) {
+                listedBooks.add(Listed<Book>(books![i]));
+              }
+            } else {
+              showToast(
+                text: "No data was found, try again later",
+                state: ToastStates.error,
               );
             }
           } else {
             showToast(
-              text: "You don't seem to have reliable internet connection",
+              text: "An unknown error occurred",
               state: ToastStates.error,
             );
+            books = null;
           }
         }
       } catch (exception) {
@@ -101,7 +104,8 @@ class BooksController extends GetxController {
             onPressed: () => Navigator.pop(context),
           ),
           AlertButton(
-            key: const ValueKey('${KeyConstants.booksScreenAlertButton}proceed'),
+            key:
+                const ValueKey('${KeyConstants.booksScreenAlertButton}proceed'),
             text: AppConstants.proceed,
             onPressed: () {
               Navigator.pop(context);
@@ -146,6 +150,6 @@ class BooksController extends GetxController {
     userData.write(PrefKeys.selectedBooks, selectedBooks);
     userData.write(PrefKeys.booksLoaded, true);
 
-    Get.offAll(() => SongsView(database: db!));
+    Get.offAll(() => SongsView());
   }
 }

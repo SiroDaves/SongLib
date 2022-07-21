@@ -8,14 +8,12 @@ import '../../../../exports.dart';
 class SongsView extends StatelessWidget {
   final SongsController controller = Get.put(SongsController());
   final GetStorage userData = GetStorage();
-  final MyDatabase database;
   Size? size;
 
-  SongsView({Key? key, required this.database}) : super(key: key);
+  SongsView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    controller.db = database;
     size = Get.size;
 
     return Scaffold(
@@ -24,7 +22,7 @@ class SongsView extends StatelessWidget {
         key: const ValueKey('${KeyConstants.songsScreen}center'),
         child: Container(
           key: const ValueKey('${KeyConstants.songsScreen}container'),
-          margin: const EdgeInsets.all(30),
+          margin: const EdgeInsets.all(50),
           child: GetBuilder<SongsController>(
             builder: (controller) => songLoading(context),
           ),
@@ -41,7 +39,8 @@ class SongsView extends StatelessWidget {
           if (snapshot.data!.isNotEmpty) {
             return LineProgress(
               key: const ValueKey('${KeyConstants.songsScreen}progress'),
-              progressSize: 100,
+              isVertical: true,
+              progressSize: size!.width * 0.6,
               progressVl: controller.progressValue,
               borderColor: Colors.black,
               progressColor: AppColors.primaryColor,

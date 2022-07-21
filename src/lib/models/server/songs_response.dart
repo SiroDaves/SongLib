@@ -1,15 +1,15 @@
 import '../exports.dart';
 
-class BooksResponse {
-  List<Book>? results;
+class SongsResponse {
+  List<Song>? results;
 
-  BooksResponse({this.results});
+  SongsResponse({this.results});
 
-  BooksResponse.fromJson(Map<String, dynamic> json) {
+  SongsResponse.fromJson(Map<String, dynamic> json) {
     if (json['results'] != null) {
-      results = <Book>[];
+      results = <Song>[];
       json['results'].forEach((v) {
-        results!.add(Book.fromJson(v));
+        results!.add(Song.fromJson(v));
       });
     }
   }

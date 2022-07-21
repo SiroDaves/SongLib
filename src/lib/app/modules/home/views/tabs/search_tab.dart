@@ -6,14 +6,12 @@ import '../../../../../exports.dart';
 // ignore: must_be_immutable
 class SearchTab extends StatelessWidget {
   final HomeController controller = Get.put(HomeController());
-  final MyDatabase database;
   Size? size;
 
-  SearchTab({Key? key, required this.database}) : super(key: key);
+  SearchTab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    controller.db = database;
     size = Get.size;
 
     return Scaffold(
@@ -117,7 +115,7 @@ class SearchTab extends StatelessWidget {
 
   Widget songList(BuildContext context) {
     return FutureBuilder<List<Song>?>(
-      future: controller.fetchBookSongList(),
+      future: controller.fetchSongsByBook(),
       builder: (BuildContext context, AsyncSnapshot<List<Song>?> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data!.isNotEmpty) {
@@ -127,19 +125,18 @@ class SearchTab extends StatelessWidget {
                 padding: const EdgeInsets.all(5),
                 itemBuilder: (context, index) => GestureDetector(
                   child: SongItem(
-                    song: controller.bookList![index],
+                    song: controller.songsList![index],
                   ),
                   onTap: () {
                     Get.to(
                       () => SongView(
-                        song: controller.bookList![index],
-                        database: database,
+                        song: controller.songsList![index],
                       ),
                       transition: Transition.rightToLeft,
                     );
                   },
                 ),
-                itemCount: controller.bookList!.length,
+                itemCount: controller.songsList!.length,
                 controller: controller.songListScrollController,
               ),
             );

@@ -70,7 +70,7 @@ class LineProgress extends StatelessWidget {
                   child: Text(
                     "$progressVl %",
                     style: titleTextStyle.copyWith(
-                      fontSize: isVertical ? 40 : 20,
+                      fontSize: isVertical ? 50 : 20,
                       fontWeight: FontWeight.bold,
                       color: AppColors.black,
                     ),
@@ -79,7 +79,7 @@ class LineProgress extends StatelessWidget {
               ),
             ),
             leadingContainer(),
-            traillingContainer(),
+            //traillingContainer(),
           ],
         ),
       ),

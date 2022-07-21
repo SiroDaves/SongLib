@@ -9,14 +9,12 @@ import '../../../../exports.dart';
 class SplashView extends StatelessWidget {
   final SplashController controller = Get.put(SplashController());
   final GetStorage userData = GetStorage();
-  final MyDatabase database;
   Size? size;
 
-  SplashView({Key? key, required this.database}) : super(key: key);
+  SplashView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    controller.db = database;
     size = Get.size;
 
     return Scaffold(

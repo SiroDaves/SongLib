@@ -1,10 +1,7 @@
-import 'dart:convert';
-
+import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-
-import 'package:http/http.dart' as http;
 
 import '../../../../exports.dart';
 
@@ -16,11 +13,14 @@ class SongController extends GetxController {
   String? songTitle, songContent;
   TextEditingController? titleController, contentController;
 
+  DioService dioService = DioService();
   MyDatabase? db;
 
   @override
   void onInit() {
     super.onInit();
+    dioService.init();
+    db = Get.find<MyDatabase>();
     titleController = TextEditingController();
     contentController = TextEditingController();
   }
@@ -58,73 +58,6 @@ class SongController extends GetxController {
   Future<bool?> saveSong() async {
     bool? success;
 
-    if (validateInput()) {
-      isLoading = true;
-      update();
-
-      bool isConnected = await hasReliableInternetConnectivity();
-
-      if (isConnected) {
-        final EventObject? eventObject = await httpPost(
-          client: http.Client(),
-          //appending the primary key is where the difference of updating vs new song comes in
-          url: song != null
-              ? ApiConstants.song
-              : "${ApiConstants.song}/${song!.objectId}",
-          data: jsonEncode(<String, String>{
-            'title': songTitle!,
-            'content': songContent!,
-          }),
-        );
-
-        isLoading = false;
-        update();
-        try {
-          // Give the user the appropriate feedback
-          switch (eventObject!.id) {
-            case EventConstants.requestSuccessful:
-              success = true;
-              showToast(
-                text: song != null
-                    ? "Song updated successfully"
-                    : "New song saved successfully",
-                state: ToastStates.success,
-              );
-              //Get.offAll(() => HomeView());
-              break;
-
-            case EventConstants.requestInvalid:
-              success = false;
-              showToast(
-                text: "Invalid request",
-                state: ToastStates.error,
-              );
-              break;
-
-            case EventConstants.requestUnsuccessful:
-              success = false;
-              break;
-
-            default:
-              showToast(
-                text: song != null
-                    ? "Updating new song was not successful"
-                    : "Saving new song was not successful",
-                state: ToastStates.error,
-              );
-              success = null;
-              break;
-          }
-        } catch (exception) {
-          success = null;
-        }
-      } else {
-        showToast(
-          text: "You don't seem to have reliable internet connection",
-          state: ToastStates.error,
-        );
-      }
-    }
     return success;
   }
 
@@ -132,62 +65,6 @@ class SongController extends GetxController {
   Future<bool?> deleteSong() async {
     bool? success;
 
-    if (validateInput()) {
-      isLoading = true;
-      update();
-
-      bool isConnected = await hasReliableInternetConnectivity();
-
-      if (isConnected) {
-        final EventObject eventObject = await httpDelete(
-          client: http.Client(),
-          url: "${ApiConstants.song}/${song!.objectId}",
-        );
-
-        isLoading = false;
-        update();
-        try {
-          switch (eventObject.id) {
-            // Give the user the appropriate feedback
-            case EventConstants.requestSuccessful:
-              success = true;
-              showToast(
-                text: "Song deleted successfully",
-                state: ToastStates.success,
-              );
-              //Get.offAll(() => HomeView());
-              break;
-
-            case EventConstants.requestInvalid:
-              success = false;
-              showToast(
-                text: "Invalid request",
-                state: ToastStates.error,
-              );
-              break;
-
-            case EventConstants.requestUnsuccessful:
-              success = false;
-              break;
-
-            default:
-              showToast(
-                text: "Deleting song was not successful",
-                state: ToastStates.error,
-              );
-              success = null;
-              break;
-          }
-        } catch (exception) {
-          success = null;
-        }
-      } else {
-        showToast(
-          text: "You don't seem to have reliable internet connection",
-          state: ToastStates.error,
-        );
-      }
-    }
     return success;
   }
 

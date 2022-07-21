@@ -4,20 +4,17 @@ import 'package:get_storage/get_storage.dart';
 
 import '../../../../exports.dart';
 
-/// Song screen after Song
 // ignore: must_be_immutable
 class SongView extends StatelessWidget {
   final SongController controller = Get.put(SongController());
   final GetStorage userData = GetStorage();
   final Song? song;
   Size? size;
-  final MyDatabase database;
 
-  SongView({Key? key, required this.song, required this.database}) : super(key: key);
+  SongView({Key? key, required this.song}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    controller.db = database;
     size = Get.size;
     
     if (song != null) {
