@@ -10,35 +10,56 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  # Swiper/Carousel for flutter, with multiple layouts, infinite loop
   card_swiper: ^2.0.4
+  # Adds the Cupertino Icons font to your application.
   cupertino_icons: ^1.0.5
+  # Powerful Http client for Dart, supporting Interceptors, Global configuration, FormData, Request Cancellation, File downloading, Timeout
   dio: ^4.0.6
+  # Reactive persistence library for Flutter and Dart, built on top of sqlite
   drift: ^1.7.0
+  # Toast Library for Flutter
   fluttertoast: ^8.0.9
+  # React to Keyboard Visibility Changes
   flutter_keyboard_visibility: ^5.3.0
+  # Annotations for the freezed code-generator
   freezed_annotation: ^2.0.3
+  # Getx state management
   get: ^4.6.5
+  # A fast, extra light and synchronous key-value storage
   get_storage: ^2.0.3
+  # use fonts from fonts.google.com
   google_fonts: ^3.0.1
+  # Annotations for code generation via `json_serializable` pacakage
   json_annotation: ^4.5.0
+  # comprehensive, cross-platform path manipulation library
   path: ^1.8.1
+  # Finds commonly used locations on the filesystem
   path_provider: ^2.0.0
+  # Circular and Linear percent indicators
   percent_indicator: ^4.2.2
-  shared_preferences: ^2.0.15
+  # sqlite support from native to flutter
   sqlite3_flutter_libs: ^0.5.0
   
 dev_dependencies:
+  # Code generator
   build_runner: ^2.1.11
+  # contains the generator that turns table classes from drift into database code
   drift_dev: ^1.7.0
+  # Provides API to test Flutter applications that run on real devices and emulators
   flutter_driver:
     sdk: flutter
+  # contains a set of recommended lints to encourage good coding practices.
   flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter
   integration_test:
     sdk: flutter
   json_serializable: ^6.1.1
+  # Library for testing
   mockito: ^5.2.0
+  # used to generate JsonSerializable models
   model_generator: ^5.8.1
 
 flutter:
