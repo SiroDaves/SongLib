@@ -23,14 +23,9 @@ class MyApp extends StatelessWidget {
           binding: SplashBinding(),
         ),
         GetPage(
-          name: Paths.books,
-          page: () => BooksView(),
-          binding: BooksBinding(),
-        ),
-        GetPage(
-          name: Paths.songs,
-          page: () => SongsView(),
-          binding: SongsBinding(),
+          name: Paths.init,
+          page: () => DataInitView(),
+          binding: DataInitBinding(),
         ),
         GetPage(
           name: Paths.home,

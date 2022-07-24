@@ -8,10 +8,6 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 Future<DriftIsolate> createDriftIsolate() async {
-  // this method is called from the main isolate. Since we can't use
-  // getApplicationDocumentsDirectory on a background isolate, we calculate
-  // the database path in the foreground isolate and then inform the
-  // background isolate about the path.
   final dir = await getApplicationDocumentsDirectory();
   final path = p.join(dir.path, 'songlib.sqlite');
   final receivePort = ReceivePort();

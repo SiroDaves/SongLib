@@ -2,6 +2,7 @@ class AppConstants {
   static const appTitle = "SongLib";
   static const loginTitle = "Login";
   static const booksTitle = "Select Song Books";
+  static const booksTitleLoading = "Loading data ...";
 
   static const appIconPath = "assets/app_icon.png";
 
@@ -31,7 +32,6 @@ class AppConstants {
 
 class PrefKeys {
   static const selectedBooks = "selected_books";
-  static const booksLoaded = "books_loaded";
-  static const songsLoaded = "songs_loaded";
+  static const dataLoaded = "data_loaded";
   // Preferences.setBooksLoaded(true);
 }

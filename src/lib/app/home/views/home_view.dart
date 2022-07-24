@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:card_swiper/card_swiper.dart';
 
 import '../../../../../exports.dart';
 
@@ -13,152 +14,74 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     size = Get.size;
+    controller.fetchSongData();
+
+    final appPages = <Widget>[
+      ListsTab(),
+      SearchTab(),
+      NotesTab(),
+    ];
 
     return Scaffold(
-      body: Container(
-        margin: const EdgeInsets.only(top: 40),
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                AppColors.white,
-                AppColors.secondaryColor,
-                AppColors.black
-              ]),
+      body: Swiper(
+        index: controller.selectedTab,
+        itemBuilder: (context, index) {
+          return appPages[index];
+        },
+        indicatorLayout: PageIndicatorLayout.COLOR,
+        autoplay: false,
+        itemCount: appPages.length,
+        pagination: const PageSwiper(
+          margin: EdgeInsets.only(top: 35),
         ),
-        child: GetBuilder<HomeController>(
-          builder: (controller) => SingleChildScrollView(
-            child: Column(
-              children: [
-                titleBox(),
-                songSearch(context),
-                bookList(context),
-                songList(context),
-              ],
-            ),
-          ),
+        control: PageSwiperControl(
+          iconPrevious: previousWidget(),
+          iconNext: nextWidget(),
         ),
       ),
     );
   }
 
-  Widget titleBox() {
-    return SizedBox(
-      height: size!.height * 0.0625,
-      child: Center(
-        child: Text(
-          AppConstants.appTitle,
-          style: titleTextStyle.copyWith(
-            fontSize: 40,
-            fontWeight: FontWeight.bold,
-            color: AppColors.primaryColor,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget songSearch(BuildContext context) {
-    return FutureBuilder<List<Song>?>(
-      future: controller.fetchFullSongList(),
-      builder: (BuildContext context, AsyncSnapshot<List<Song>?> snapshot) {
-        if (snapshot.hasData) {
-          if (snapshot.data!.isNotEmpty) {
-            return SearchView(songs: snapshot.data!, height: size!.height);
-          } else {
-            return Container();
-          }
-        } else if (snapshot.hasError) {
-          return Container();
-        } else {
-          return const CircularProgress();
-        }
-      },
-    );
-  }
-
-  Widget bookList(BuildContext context) {
-    return FutureBuilder<List<Book>?>(
-      future: controller.fetchBookList(),
-      builder: (BuildContext context, AsyncSnapshot<List<Book>?> snapshot) {
-        if (snapshot.hasData) {
-          if (snapshot.data!.isNotEmpty) {
-            return SizedBox(
-              height: size!.height * 0.09375,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.all(5),
-                itemBuilder: (context, index) => GestureDetector(
-                  child: SongBook(
-                    book: snapshot.data![index],
-                  ),
-                  onTap: () {
-                    controller.resetBookSongList(snapshot.data![index]);
-                  },
-                ),
-                itemCount: snapshot.data!.length,
-                controller: controller.bookListScrollController,
-              ),
-            );
-          } else {
-            return Container();
-          }
-        } else if (snapshot.hasError) {
-          return Container();
-        } else {
-          return const CircularProgress();
-        }
-      },
-    );
-  }
-
-  Widget songList(BuildContext context) {
-    return FutureBuilder<List<Song>?>(
-      future: controller.fetchSongsByBook(),
-      builder: (BuildContext context, AsyncSnapshot<List<Song>?> snapshot) {
-        if (snapshot.hasData) {
-          if (snapshot.data!.isNotEmpty) {
-            return SizedBox(
-              height: size!.height * 0.70625,
-              child: ListView.builder(
-                padding: const EdgeInsets.all(5),
-                itemBuilder: (context, index) => GestureDetector(
-                  child: SongItem(
-                    song: controller.songsList![index],
-                  ),
-                  onTap: () {
-                    Get.to(
-                      () => SongView(
-                        song: controller.songsList![index],
-                      ),
-                      transition: Transition.rightToLeft,
-                    );
-                  },
-                ),
-                itemCount: controller.songsList!.length,
-                controller: controller.songListScrollController,
-              ),
-            );
-          } else {
-            return noSongData();
-          }
-        } else if (snapshot.hasError) {
-          return Container();
-        } else {
-          return const CircularProgress();
-        }
-      },
-    );
-  }
-
-  Widget noSongData() {
-    return Center(
+  Widget previousWidget() {
+    return Padding(
+      padding: const EdgeInsets.all(5),
       child: Column(
         children: [
-          titleBox(),
-          const Center(
-            child: Text("Its empty here, no songs yet"),
+          const Icon(
+            Icons.list_alt,
+            color: AppColors.primaryColor,
+            size: 20,
+          ),
+          Text(
+            'Lists',
+            style: titleTextStyle.copyWith(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: AppColors.primaryColor,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget nextWidget() {
+    return Padding(
+      padding: const EdgeInsets.all(5),
+      child: Column(
+        children: [
+          const Icon(
+            Icons.edit,
+            color: AppColors.primaryColor,
+            size: 20,
+          ),
+          Text(
+            'Notes',
+            style: titleTextStyle.copyWith(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: AppColors.primaryColor,
+            ),
           ),
         ],
       ),

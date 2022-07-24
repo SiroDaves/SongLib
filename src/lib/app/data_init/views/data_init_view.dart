@@ -5,12 +5,12 @@ import 'package:get_storage/get_storage.dart';
 import '../../../../exports.dart';
 
 // ignore: must_be_immutable
-class BooksView extends StatelessWidget {
-  final BooksController controller = Get.put(BooksController());
+class DataInitView extends StatelessWidget {
+  final DataInitController controller = Get.put(DataInitController());
   final GetStorage userData = GetStorage();
   Size? size;
 
-  BooksView({Key? key}) : super(key: key);
+  DataInitView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +21,19 @@ class BooksView extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           key: const ValueKey('${KeyConstants.booksScreen}title'),
-          AppConstants.booksTitle,
+          controller.isBusy
+              ? AppConstants.booksTitleLoading
+              : AppConstants.booksTitle,
           style: titleTextStyle,
         ),
       ),
-      body: SizedBox(
-        key: const ValueKey('${KeyConstants.booksScreen}sizedbox'),
-        child: listedItems(context),
+      body: GetBuilder<DataInitController>(
+        builder: (controller) => SizedBox(
+          key: const ValueKey('${KeyConstants.booksScreen}sizedbox'),
+          child: controller.isBusy
+              ? const CircularProgress()
+              : listedItems(context),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         key: const ValueKey(KeyConstants.booksScreenFab),
@@ -44,7 +50,7 @@ class BooksView extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<List<Book>?> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data!.isNotEmpty) {
-            return GetBuilder<BooksController>(
+            return GetBuilder<DataInitController>(
               builder: (controller) => Scrollbar(
                 key: const ValueKey('${KeyConstants.booksScreen}scrollbar'),
                 child: ListView.builder(

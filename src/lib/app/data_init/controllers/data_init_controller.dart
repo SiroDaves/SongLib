@@ -5,28 +5,38 @@ import 'package:get_storage/get_storage.dart';
 
 import '../../../../exports.dart';
 
-/// The controller for the Books screen
-class BooksController extends GetxController {
+/// The controller for the Data Initializing screen
+class DataInitController extends GetxController {
   final GetStorage userData = GetStorage();
 
   DioService dioService = DioService();
   final ScrollController listScrollController = ScrollController();
 
+  bool isBusy = false;
   List<Listed<Book>?> selected = [], listedBooks = [];
   List<Book>? books = [];
-  BookRepository? bookRepo;
+  List<Song>? songs = [];
+
+  BookDaoStorage? bookDao;
+  SongDaoStorage? songDao;
+  MyDatabase? database;
+
+  String selectedBooks = "";
 
   @override
   void onInit() {
     super.onInit();
     dioService.init();
-    bookRepo = Get.find<BookRepository>();
-    userData.writeIfNull(PrefKeys.selectedBooks, '');
+    database = Get.find<MyDatabase>();
+    bookDao = Get.find<BookDaoStorage>();
+    songDao = Get.find<SongDaoStorage>();
   }
 
   @override
   void onReady() {
     super.onReady();
+    userData.writeIfNull(PrefKeys.selectedBooks, '');
+    database!.deleteAllData();
   }
 
   @override
@@ -109,7 +119,7 @@ class BooksController extends GetxController {
             text: AppConstants.proceed,
             onPressed: () {
               Navigator.pop(context);
-              proceedtoSave();
+              saveBooks();
             },
           ),
         ],
@@ -131,12 +141,11 @@ class BooksController extends GetxController {
   }
 
   /// Proceed to a saving books data
-  Future<void> proceedtoSave() async {
-    String selectedBooks = "";
+  Future<void> saveBooks() async {
     for (int i = 0; i < selected.length; i++) {
       Book book = selected[i]!.data;
       selectedBooks = "$selectedBooks${book.bookid},";
-      await bookRepo!.saveBook(book);
+      await bookDao!.createBook(book);
     }
 
     try {
@@ -147,8 +156,71 @@ class BooksController extends GetxController {
     print('Selected books: $selectedBooks');
 
     userData.write(PrefKeys.selectedBooks, selectedBooks);
-    userData.write(PrefKeys.booksLoaded, true);
 
-    Get.offAll(() => SongsView());
+    fetchSongs();
+  }
+
+  /// Get the list of songs
+  Future<void> fetchSongs() async {
+    isBusy = true;
+    update();
+    await Future.delayed(const Duration(seconds: 1), () {});
+
+    bool isConnected = await hasReliableInternetConnectivity();
+
+    if (isConnected) {
+      try {
+        final result = await dioService.request(
+          url:
+              '${ApiConstants.song}?where={"book":{"\$in":[$selectedBooks]}}&order=songno&limit=10000',
+          method: Method.get,
+        );
+
+        if (result != null) {
+          if (result is dio.Response) {
+            SongsResponse resp = SongsResponse.fromJson(result.data);
+            songs = resp.results;
+
+            if (songs!.isNotEmpty) {
+              saveSongs();
+            } else {
+              showToast(
+                text: "No data was found, try again later",
+                state: ToastStates.error,
+              );
+            }
+          } else {
+            showToast(
+              text: "An unknown error occurred",
+              state: ToastStates.error,
+            );
+          }
+        }
+      } catch (exception) {
+        showToast(
+          text: "An unknown error occurred",
+          state: ToastStates.error,
+        );
+      }
+    } else {
+      showToast(
+        text: "You don't seem to have reliable internet connection",
+        state: ToastStates.error,
+      );
+    }
+  }
+
+  /// Proceed to a saving songs data
+  Future<void> saveSongs() async {
+    for (int i = 0; i < songs!.length; i++) {
+      await songDao!.createSong(songs![i]);
+    }
+
+    isBusy = false;
+    update();
+
+    userData.write(PrefKeys.dataLoaded, true);
+
+    Get.offAll(() => HomeView());
   }
 }

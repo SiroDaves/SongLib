@@ -11,13 +11,12 @@ part 'my_database.g.dart';
 class MyDatabase extends _$MyDatabase {
   MyDatabase(QueryExecutor db) : super(db);
 
-
   MyDatabase.connect(DatabaseConnection connection) : super.connect(connection);
 
   @override
   int get schemaVersion => 1;
 
-  Future<void> deleteAllData() {
+  Future<void> deleteAllData() async {
     return transaction(() async {
       for (final table in allTables) {
         await delete<Table, dynamic>(table).go();

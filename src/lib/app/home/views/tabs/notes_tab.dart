@@ -4,12 +4,11 @@ import 'package:get/get.dart';
 
 import '../../../../../exports.dart';
 
-class HistoryTab extends StatelessWidget {
+class NotesTab extends StatelessWidget {
   final HomeController controller = Get.put(HomeController());
-  final MyDatabase database;
   Size? size;
 
-  HistoryTab({Key? key, required this.database}) : super(key: key);
+  NotesTab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

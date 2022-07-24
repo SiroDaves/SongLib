@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -12,7 +11,7 @@ class HomeController extends GetxController {
   final ScrollController bookListScrollController = ScrollController();
   final ScrollController songListScrollController = ScrollController();
 
-  bool isLoading = false, isSearching = false;
+  bool isBusy = false, isSearching = false;
   String selectedBooks = "";
   int mainBook = 0;
 
@@ -20,19 +19,19 @@ class HomeController extends GetxController {
   List<Book>? booksList = [];
   List<Song>? searchList = [], songsList = [];
 
-  int selectedTab = 0;
+  int selectedTab = 1;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  
-  BookRepository? bookRepo;
-  SongRepository? songRepo;
+
+  BookDaoStorage? bookDao;
+  SongDaoStorage? songDao;
 
   @override
   void onInit() {
     super.onInit();
-    bookRepo = Get.find<BookRepository>();
-    songRepo = Get.find<SongRepository>();
-    
+    bookDao = Get.find<BookDaoStorage>();
+    songDao = Get.find<SongDaoStorage>();
+
     selectedBooks = userData.read(PrefKeys.selectedBooks);
     var bookids = selectedBooks.split(",");
     mainBook = int.parse(bookids[0]);
@@ -44,37 +43,25 @@ class HomeController extends GetxController {
   }
 
   @override
-  void onClose() {}
+  void onClose() {
+    super.onClose();
+  }
 
-  void onTabTapped(int index) {
-    selectedTab = index;
+  void changeTab(int newTab) {
+    selectedTab = newTab;
     update();
   }
 
-  /// Get the list of books
-  Future<List<Book>?> fetchBookList() async {
-    booksList = await bookRepo!.fetchBooks();
-    return booksList;
-  }
+  /// Get the data
+  Future<void> fetchSongData() async {
+    isBusy = true;
+    update();
 
-  /// Get the list of songs
-  Future<List<Song>?> fetchFullSongList() async {
-    searchList = await songRepo!.fetchSongs();
-    return searchList;
-  }
-
-  /// Get the list of songs
-  Future<List<Song>?> fetchSongsByBook() async {
-    songsList = await songRepo!.fetchSongs();
+    booksList = await bookDao!.getAllBooks();
+    songsList = searchList = await songDao!.getAllSongs();
     songsList!.removeWhere((item) => item.book != mainBook);
-    return songsList;
-  }
 
-  /// Get the list of songs for the current book
-  Future<void> resetBookSongList(Book book) async {
-    songsList = searchList;
-    mainBook = book.bookid!;
-    songsList!.removeWhere((item) => item.book != mainBook);
+    isBusy = false;
     update();
   }
 }

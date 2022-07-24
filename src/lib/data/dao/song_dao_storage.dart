@@ -9,7 +9,7 @@ abstract class SongDaoStorage {
 
   Stream<List<DbSong>> getAllSongsStream();
 
-  Future<List<DbSong>> getAllSongs();
+  Future<List<Song>> getAllSongs();
 
   Future<void> createSong(Song song);
 
@@ -27,7 +27,30 @@ class _SongDaoStorage extends DatabaseAccessor<MyDatabase>
   _SongDaoStorage(MyDatabase db) : super(db);
 
   @override
-  Future<List<DbSong>> getAllSongs() => select(db.dbSongTable).get();
+  Future<List<Song>> getAllSongs() async {
+    List<DbSong> dbsongs = await select(db.dbSongTable).get();
+    List<Song> songs = [];
+
+    for (int i = 0; i < dbsongs.length; i++) {
+      songs.add(
+        Song(
+          id: dbsongs[i].id,
+          objectId: dbsongs[i].objectId,
+          book: dbsongs[i].book,
+          songno: dbsongs[i].songno,
+          title: dbsongs[i].title,
+          alias: dbsongs[i].alias,
+          content: dbsongs[i].content,
+          author: dbsongs[i].author,
+          key: dbsongs[i].key,
+          views: dbsongs[i].views,
+          createdAt: dbsongs[i].createdAt,
+          updatedAt: dbsongs[i].updatedAt,
+        ),
+      );
+    }
+    return songs;
+  }
 
   @override
   Stream<List<DbSong>> getAllSongsStream() => select(db.dbSongTable).watch();

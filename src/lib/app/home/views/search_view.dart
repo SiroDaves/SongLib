@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../../../exports.dart';
 
 class SearchView extends StatelessWidget {
-  final HomeController controller = Get.put(HomeController());
-
   final List<Song>? songs;
   final double? height;
 
-  SearchView({
+  const SearchView({
     Key? key,
     required this.songs,
     required this.height,

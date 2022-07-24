@@ -1,9 +1,11 @@
 import '../exports.dart';
 
 abstract class BookRepository {
-  factory BookRepository(BookService service, BookDaoStorage storage) =
-      _BookRepository;
-
+  factory BookRepository(
+    BookService service,
+    BookDaoStorage storage,
+  ) = _BookRepository;
+    
   Stream<List<Book>> getBooks();
 
   Future<List<Book>> fetchBooks();

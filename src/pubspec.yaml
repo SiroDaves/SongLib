@@ -39,6 +39,8 @@ dependencies:
   path_provider: ^2.0.0
   # Circular and Linear percent indicators
   percent_indicator: ^4.2.2
+  # fully customizable loading skeleton
+  skeleton_loader: ^2.0.0+4
   # sqlite support from native to flutter
   sqlite3_flutter_libs: ^0.5.0
   

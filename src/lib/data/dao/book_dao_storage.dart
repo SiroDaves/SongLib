@@ -9,7 +9,7 @@ abstract class BookDaoStorage {
 
   Stream<List<DbBook>> getAllBooksStream();
 
-  Future<List<DbBook>> getAllBooks();
+  Future<List<Book>> getAllBooks();
 
   Future<void> createBook(Book book);
 
@@ -27,7 +27,28 @@ class _BookDaoStorage extends DatabaseAccessor<MyDatabase>
   _BookDaoStorage(MyDatabase db) : super(db);
 
   @override
-  Future<List<DbBook>> getAllBooks() => select(db.dbBookTable).get();
+  Future<List<Book>> getAllBooks() async {
+    List<DbBook> dbBooks = await select(db.dbBookTable).get();
+    List<Book> books = [];
+
+    for (int i = 0; i < dbBooks.length; i++) {
+      books.add(
+        Book(
+          id: dbBooks[i].id,
+          objectId: dbBooks[i].objectId,
+          bookid: dbBooks[i].bookid,
+          enabled: dbBooks[i].enabled,
+          title: dbBooks[i].title,
+          subtitle: dbBooks[i].subtitle,
+          songs: dbBooks[i].songs,
+          position: dbBooks[i].position,
+          createdAt: dbBooks[i].createdAt,
+          updatedAt: dbBooks[i].updatedAt,
+        ),
+      );
+    }
+    return books;
+  }
 
   @override
   Stream<List<DbBook>> getAllBooksStream() => select(db.dbBookTable).watch();

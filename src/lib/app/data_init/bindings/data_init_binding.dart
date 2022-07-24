@@ -2,11 +2,11 @@ import 'package:get/get.dart';
 
 import '../../../exports.dart';
 
-class SongsBinding extends Bindings {
+class DataInitBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<SongsController>(
-      () => SongsController(),
+    Get.lazyPut<DataInitController>(
+      () => DataInitController(),
     );
   }
 }

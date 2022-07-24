@@ -4,12 +4,11 @@ import 'package:get/get.dart';
 
 import '../../../../../exports.dart';
 
-class LikesTab extends StatelessWidget {
+class ListsTab extends StatelessWidget {
   final HomeController controller = Get.put(HomeController());
-  final MyDatabase database;
   Size? size;
 
-  LikesTab({Key? key, required this.database}) : super(key: key);
+  ListsTab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

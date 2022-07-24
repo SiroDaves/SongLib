@@ -14,31 +14,42 @@ class SearchTab extends StatelessWidget {
   Widget build(BuildContext context) {
     size = Get.size;
 
-    return Scaffold(
-      body: Container(
-        margin: const EdgeInsets.only(top: 40),
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                AppColors.white,
-                AppColors.secondaryColor,
-                AppColors.black
-              ]),
+    return Container(
+      height: size!.height,
+      margin: const EdgeInsets.only(top: 40),
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [AppColors.white, AppColors.secondaryColor, AppColors.black],
         ),
-        child: GetBuilder<HomeController>(
-          builder: (controller) => SingleChildScrollView(
-            child: Column(
-              children: [
-                titleBox(),
-                songSearch(context),
-                bookList(context),
-                songList(context),
-              ],
-            ),
-          ),
+      ),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            titleBox(),
+            mainWrapper(context),
+          ],
         ),
+      ),
+    );
+  }
+
+  Widget mainWrapper(BuildContext context) {
+    return GetBuilder<HomeController>(
+      builder: (controller) => SizedBox(
+        child: controller.isBusy
+            ? const ListLoading()
+            : Column(
+                children: [
+                  SearchView(
+                    songs: controller.searchList,
+                    height: size!.height,
+                  ),
+                  bookList(context),
+                  songList(context),
+                ],
+              ),
       ),
     );
   }
@@ -59,108 +70,41 @@ class SearchTab extends StatelessWidget {
     );
   }
 
-  Widget songSearch(BuildContext context) {
-    return FutureBuilder<List<Song>?>(
-      future: controller.fetchFullSongList(),
-      builder: (BuildContext context, AsyncSnapshot<List<Song>?> snapshot) {
-        if (snapshot.hasData) {
-          if (snapshot.data!.isNotEmpty) {
-            return SearchView(songs: snapshot.data!, height: size!.height);
-          } else {
-            return Container();
-          }
-        } else if (snapshot.hasError) {
-          return Container();
-        } else {
-          return const CircularProgress();
-        }
-      },
-    );
-  }
-
   Widget bookList(BuildContext context) {
-    return FutureBuilder<List<Book>?>(
-      future: controller.fetchBookList(),
-      builder: (BuildContext context, AsyncSnapshot<List<Book>?> snapshot) {
-        if (snapshot.hasData) {
-          if (snapshot.data!.isNotEmpty) {
-            return SizedBox(
-              height: size!.height * 0.09375,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.all(5),
-                itemBuilder: (context, index) => GestureDetector(
-                  child: SongBook(
-                    book: snapshot.data![index],
-                  ),
-                  onTap: () {
-                    controller.resetBookSongList(snapshot.data![index]);
-                  },
-                ),
-                itemCount: snapshot.data!.length,
-                controller: controller.bookListScrollController,
-              ),
-            );
-          } else {
-            return Container();
-          }
-        } else if (snapshot.hasError) {
-          return Container();
-        } else {
-          return const CircularProgress();
-        }
-      },
+    return SizedBox(
+      height: size!.height * 0.0875,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.all(5),
+        itemBuilder: (context, index) => GestureDetector(
+          child: SongBook(book: controller.booksList![index]),
+          onTap: () {
+            controller.mainBook = controller.booksList![index].bookid!;
+            controller.fetchSongData();
+          },
+        ),
+        itemCount: controller.booksList!.length,
+        controller: controller.bookListScrollController,
+      ),
     );
   }
 
   Widget songList(BuildContext context) {
-    return FutureBuilder<List<Song>?>(
-      future: controller.fetchSongsByBook(),
-      builder: (BuildContext context, AsyncSnapshot<List<Song>?> snapshot) {
-        if (snapshot.hasData) {
-          if (snapshot.data!.isNotEmpty) {
-            return SizedBox(
-              height: size!.height * 0.70625,
-              child: ListView.builder(
-                padding: const EdgeInsets.all(5),
-                itemBuilder: (context, index) => GestureDetector(
-                  child: SongItem(
-                    song: controller.songsList![index],
-                  ),
-                  onTap: () {
-                    Get.to(
-                      () => SongView(
-                        song: controller.songsList![index],
-                      ),
-                      transition: Transition.rightToLeft,
-                    );
-                  },
-                ),
-                itemCount: controller.songsList!.length,
-                controller: controller.songListScrollController,
-              ),
+    return SizedBox(
+      height: size!.height * 0.69375,
+      child: ListView.builder(
+        padding: const EdgeInsets.all(5),
+        itemBuilder: (context, index) => GestureDetector(
+          child: SongItem(song: controller.songsList![index]),
+          onTap: () {
+            Get.to(
+              () => SongView(song: controller.songsList![index]),
+              transition: Transition.rightToLeft,
             );
-          } else {
-            return noSongData();
-          }
-        } else if (snapshot.hasError) {
-          return Container();
-        } else {
-          return const CircularProgress();
-        }
-      },
-    );
-  }
-
-  Widget noSongData() {
-    return Center(
-      child: Column(
-        children: [
-          titleBox(),
-          const Center(
-            child: Text("Its empty here, no songs yet"),
-          ),
-        ],
+          },
+        ),
+        itemCount: controller.songsList!.length,
+        controller: controller.songListScrollController,
       ),
     );
   }

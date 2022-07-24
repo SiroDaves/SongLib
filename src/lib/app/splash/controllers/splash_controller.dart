@@ -7,16 +7,14 @@ import '../../../../exports.dart';
 class SplashController extends GetxController {
   final GetStorage userData = GetStorage();
 
-  bool booksLoaded = false, songsLoaded = false;
+  bool dataLoaded = false;
 
   @override
   void onInit() {
     super.onInit();
-    userData.writeIfNull(PrefKeys.booksLoaded, false);
-    userData.writeIfNull(PrefKeys.songsLoaded, false);
+    userData.writeIfNull(PrefKeys.dataLoaded, false);
 
-    booksLoaded = userData.read(PrefKeys.booksLoaded);
-    songsLoaded = userData.read(PrefKeys.songsLoaded);
+    dataLoaded = userData.read(PrefKeys.dataLoaded);
   }
 
   @override
@@ -31,14 +29,10 @@ class SplashController extends GetxController {
   Future<void> moveToNext() async {
     await Future.delayed(const Duration(seconds: 3), () {});
 
-    if (booksLoaded) {
-      if (songsLoaded) {
-        Get.offAll(() => HomeView());
-      } else {
-        Get.offAll(() => SongsView());
-      }
+    if (dataLoaded) {
+      Get.offAll(() => HomeView());
     } else {
-      Get.offAll(() => BooksView());
+      Get.offAll(() => DataInitView());
     }
   }
 }

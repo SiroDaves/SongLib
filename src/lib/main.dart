@@ -7,33 +7,19 @@ import 'package:get_storage/get_storage.dart';
 
 import 'exports.dart';
 
-DatabaseConnection backgroundConnection() {
-  final database = NativeDatabase.memory();
-  return DatabaseConnection.fromExecutor(database);
-}
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
 
-  DriftIsolate isolate = await DriftIsolate.spawn(backgroundConnection);
-  DatabaseConnection connection = await isolate.connect();
+  DatabaseConnection connection = DatabaseConnection.delayed(() async {
+    final isolate = await createDriftIsolate();
+    return await isolate.connect();
+  }());
 
   Get.put(MyDatabase.connect(connection));
 
-  Get.put<BookService>(BookDummyService());
   Get.lazyPut<BookDaoStorage>(() => BookDaoStorage(Get.find<MyDatabase>()));
-
-  Get.lazyPut<BookRepository>(
-    () => BookRepository(Get.find<BookService>(), Get.find<BookDaoStorage>()),
-  );
-
-  Get.put<SongService>(SongDummyService());
   Get.lazyPut<SongDaoStorage>(() => SongDaoStorage(Get.find<MyDatabase>()));
-
-  Get.lazyPut<SongRepository>(
-    () => SongRepository(Get.find<SongService>(), Get.find<SongDaoStorage>()),
-  );
 
   runApp(const MyApp());
 }
