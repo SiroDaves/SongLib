@@ -1,6 +1,7 @@
 class AppConstants {
   static const appTitle = "SongLib";
-  static const loginTitle = "Login";
+  static const listTitle = "Song Lists";
+  static const draftTitle = "Song Drafts";
   static const booksTitle = "Select Song Books";
   static const booksTitleLoading = "Loading data ...";
 

@@ -19,7 +19,7 @@ class HomeController extends GetxController {
   List<Book>? booksList = [];
   List<Song>? searchList = [], songsList = [];
 
-  int selectedTab = 1;
+  int selectedTab = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 

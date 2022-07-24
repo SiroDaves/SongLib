@@ -16,7 +16,7 @@ class SearchTab extends StatelessWidget {
 
     return Container(
       height: size!.height,
-      margin: const EdgeInsets.only(top: 40),
+      padding: const EdgeInsets.only(top: 40),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
@@ -27,34 +27,34 @@ class SearchTab extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            titleBox(),
-            mainWrapper(context),
+            titleContainer(),
+            mainContainer(context),
           ],
         ),
       ),
     );
   }
 
-  Widget mainWrapper(BuildContext context) {
+  Widget mainContainer(BuildContext context) {
     return GetBuilder<HomeController>(
       builder: (controller) => SizedBox(
         child: controller.isBusy
             ? const ListLoading()
             : Column(
                 children: [
-                  SearchView(
+                  SearchContainer(
                     songs: controller.searchList,
                     height: size!.height,
                   ),
-                  bookList(context),
-                  songList(context),
+                  bookContainer(context),
+                  listContainer(context),
                 ],
               ),
       ),
     );
   }
 
-  Widget titleBox() {
+  Widget titleContainer() {
     return SizedBox(
       height: size!.height * 0.0625,
       child: Center(
@@ -70,7 +70,7 @@ class SearchTab extends StatelessWidget {
     );
   }
 
-  Widget bookList(BuildContext context) {
+  Widget bookContainer(BuildContext context) {
     return SizedBox(
       height: size!.height * 0.0875,
       child: ListView.builder(
@@ -89,7 +89,7 @@ class SearchTab extends StatelessWidget {
     );
   }
 
-  Widget songList(BuildContext context) {
+  Widget listContainer(BuildContext context) {
     return SizedBox(
       height: size!.height * 0.69375,
       child: ListView.builder(

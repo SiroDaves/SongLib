@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 
 import '../../../../exports.dart';
 
-class SearchView extends StatelessWidget {
+class SearchContainer extends StatelessWidget {
   final List<Song>? songs;
   final double? height;
+  final String? hint;
 
-  const SearchView({
+  const SearchContainer({
     Key? key,
     required this.songs,
     required this.height,
+    this.hint = "Search a Song",
   }) : super(key: key);
 
   @override
@@ -67,9 +69,9 @@ class SearchView extends StatelessWidget {
             borderSide: const BorderSide(color: AppColors.primaryColor),
           ),
           prefixIcon: const Icon(Icons.search, color: AppColors.primaryColor),
-          suffixIcon: const Icon(Icons.mic, color: AppColors.primaryColor),
+          //suffixIcon: const Icon(Icons.mic, color: AppColors.primaryColor),
           border: InputBorder.none,
-          hintText: "Search a Song",
+          hintText: hint,
           hintStyle: normalTextStyle.copyWith(
             color: AppColors.primaryColor,
           ),
