@@ -1,4 +1,4 @@
-import 'package:dio/dio.dart' as dio;
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -30,9 +30,9 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    dioService.init();
     bookRepo = Get.find<BookRepository>();
     songRepo = Get.find<SongRepository>();
+    
     selectedBooks = userData.read(PrefKeys.selectedBooks);
     var bookids = selectedBooks.split(",");
     mainBook = int.parse(bookids[0]);

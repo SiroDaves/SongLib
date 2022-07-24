@@ -28,5 +28,12 @@ void main() async {
     () => BookRepository(Get.find<BookService>(), Get.find<BookDaoStorage>()),
   );
 
+  Get.put<SongService>(SongDummyService());
+  Get.lazyPut<SongDaoStorage>(() => SongDaoStorage(Get.find<MyDatabase>()));
+
+  Get.lazyPut<SongRepository>(
+    () => SongRepository(Get.find<SongService>(), Get.find<SongDaoStorage>()),
+  );
+
   runApp(const MyApp());
 }

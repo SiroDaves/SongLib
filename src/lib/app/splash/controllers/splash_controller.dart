@@ -7,8 +7,7 @@ import '../../../../exports.dart';
 class SplashController extends GetxController {
   final GetStorage userData = GetStorage();
 
-  bool booksLoaded = false;
-  bool songsLoaded = false;
+  bool booksLoaded = false, songsLoaded = false;
 
   @override
   void onInit() {

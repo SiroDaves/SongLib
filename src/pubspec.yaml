@@ -67,3 +67,4 @@ flutter:
 
   assets:
     - assets/
+    - assets/api/

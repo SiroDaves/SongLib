@@ -109,7 +109,7 @@ class BooksController extends GetxController {
             text: AppConstants.proceed,
             onPressed: () {
               Navigator.pop(context);
-              submitAction();
+              proceedtoSave();
             },
           ),
         ],
@@ -131,7 +131,7 @@ class BooksController extends GetxController {
   }
 
   /// Proceed to a saving books data
-  Future<void> submitAction() async {
+  Future<void> proceedtoSave() async {
     String selectedBooks = "";
     for (int i = 0; i < selected.length; i++) {
       Book book = selected[i]!.data;

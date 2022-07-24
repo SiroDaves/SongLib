@@ -34,7 +34,7 @@ class HomeView extends StatelessWidget {
                 titleBox(),
                 songSearch(context),
                 bookList(context),
-                //songList(context),
+                songList(context),
               ],
             ),
           ),

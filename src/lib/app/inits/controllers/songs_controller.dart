@@ -79,8 +79,17 @@ class SongsController extends GetxController {
   /// Proceed to a saving songs data
   Future<void> proceedtoSave() async {
     for (int i = 0; i < songs!.length; i++) {
+      await songRepo!.saveSong(songs![i]);
+    }
+
+    userData.write(PrefKeys.songsLoaded, true);
+    Get.offAll(() => HomeView());
+  }
+
+  /// Proceed to a saving songs data
+  Future<void> proceedtoSaveX() async {
+    for (int i = 0; i < songs!.length; i++) {
       progressValue = (i / songs!.length * 100).toInt();
-      update();
       await songRepo!.saveSong(songs![i]);
     }
 
