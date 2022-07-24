@@ -18,12 +18,15 @@ void main() async {
 
   DriftIsolate isolate = await DriftIsolate.spawn(backgroundConnection);
   DatabaseConnection connection = await isolate.connect();
-  MyDatabase database = MyDatabase.connect(connection);
 
-  Get.put(database);
+  Get.put(MyDatabase.connect(connection));
 
-  Get.put(BookRepository);
-  Get.put(SongRepository);
+  Get.put<BookService>(BookDummyService());
+  Get.lazyPut<BookDaoStorage>(() => BookDaoStorage(Get.find<MyDatabase>()));
+
+  Get.lazyPut<BookRepository>(
+    () => BookRepository(Get.find<BookService>(), Get.find<BookDaoStorage>()),
+  );
 
   runApp(const MyApp());
 }

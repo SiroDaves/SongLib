@@ -24,7 +24,7 @@ class SearchView extends StatelessWidget {
       queryBuilder: (query, list) {
         return list
             .where(
-              (song) => song.title!.toLowerCase().contains(query.toLowerCase()),
+              (song) => song.title.toLowerCase().contains(query.toLowerCase()),
             )
             .toList();
       },
@@ -102,7 +102,7 @@ class SearchView extends StatelessWidget {
                 bottom: 8,
               ),
               child: Text(
-                selectedSong.title!,
+                selectedSong.title,
                 style: const TextStyle(fontSize: 14),
               ),
             ),
@@ -142,7 +142,7 @@ class SearchView extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       child: Text(
-        song.title!,
+        song.title,
         style: const TextStyle(fontSize: 16),
       ),
     );

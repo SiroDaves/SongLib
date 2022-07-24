@@ -39,7 +39,7 @@ class BookItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            refineTitle(book.title!),
+            refineTitle(book.title),
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
@@ -48,7 +48,7 @@ class BookItem extends StatelessWidget {
           ),
           const SizedBox(height: 5),
           Text(
-            "${book.songs!} ${book.subtitle!} songs",
+            "${book.songs!} ${book.subtitle} songs",
             style: TextStyle(
               fontSize: 16,
               color: selected ? Colors.white : Colors.black,
@@ -81,7 +81,7 @@ class SongBook extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            '${truncateString(19, refineTitle(book.title!))} (${book.songs})',
+            '${truncateString(19, refineTitle(book.title))} (${book.songs})',
             textAlign: TextAlign.center,
             maxLines: 3,
             style:
@@ -101,9 +101,9 @@ class SongItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String hasChorus = '', verseCount = '';
-    var verses = song.content!.split("##");
+    var verses = song.content.split("##");
 
-    if (song.content!.contains("CHORUS")) {
+    if (song.content.contains("CHORUS")) {
       hasChorus = AppConstants.hasChorus;
       verseCount = '${verses.length} Vs';
     } else {
@@ -121,7 +121,7 @@ class SongItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                songItemTitle(song.songno!, song.title!),
+                songItemTitle(song.songno!, song.title),
                 maxLines: 1,
                 style: titleTextStyle.copyWith(
                   fontSize: 20,

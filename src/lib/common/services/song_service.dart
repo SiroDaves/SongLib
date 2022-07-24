@@ -1,4 +1,4 @@
-import '../exports.dart';
+import '../../exports.dart';
 
 abstract class SongService {
   Future<List<Song>> getSongs();

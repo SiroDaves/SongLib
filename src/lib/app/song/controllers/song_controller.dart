@@ -37,8 +37,8 @@ class SongController extends GetxController {
   }
 
   Future<void> showCurrentSong() async {
-    titleController!.text = song!.title!;
-    contentController!.text = song!.content!;
+    titleController!.text = song!.title;
+    contentController!.text = song!.content;
   }
 
   // function to validate creds
