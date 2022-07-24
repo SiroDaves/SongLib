@@ -22,5 +22,8 @@ void main() async {
 
   Get.put(database);
 
+  Get.put(BookRepository);
+  Get.put(SongRepository);
+
   runApp(const MyApp());
 }

@@ -14,13 +14,13 @@ class BooksController extends GetxController {
 
   List<Listed<Book>?> selected = [], listedBooks = [];
   List<Book>? books = [];
-  MyDatabase? db;
+  BookRepository? bookRepo;
 
   @override
   void onInit() {
     super.onInit();
     dioService.init();
-    db = Get.find<MyDatabase>();
+    bookRepo = Get.find<BookRepository>();
     userData.writeIfNull(PrefKeys.selectedBooks, '');
   }
 
@@ -136,6 +136,7 @@ class BooksController extends GetxController {
     for (int i = 0; i < selected.length; i++) {
       Book book = selected[i]!.data;
       selectedBooks = "$selectedBooks${book.bookid},";
+      await bookRepo!.saveBook(book);
     }
 
     try {
@@ -144,8 +145,6 @@ class BooksController extends GetxController {
     } on Exception {}
     // ignore: avoid_print
     print('Selected books: $selectedBooks');
-
-    await db!.saveBooks(selected);
 
     userData.write(PrefKeys.selectedBooks, selectedBooks);
     userData.write(PrefKeys.booksLoaded, true);

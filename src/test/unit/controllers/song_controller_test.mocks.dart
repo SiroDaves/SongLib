@@ -6,11 +6,11 @@ import 'dart:async' as _i6;
 import 'dart:ui' as _i8;
 
 import 'package:flutter/material.dart' as _i5;
-import 'package:get/get.dart' as _i3;
+import 'package:get/get.dart' as _i4;
 import 'package:get/get_state_manager/src/simple/list_notifier.dart' as _i7;
 import 'package:get_storage/get_storage.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:songlib/exports.dart' as _i4;
+import 'package:songlib/exports.dart' as _i3;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -24,13 +24,15 @@ import 'package:songlib/exports.dart' as _i4;
 
 class _FakeGetStorage_0 extends _i1.Fake implements _i2.GetStorage {}
 
-class _FakeInternalFinalCallback_1<T> extends _i1.Fake
-    implements _i3.InternalFinalCallback<T> {}
+class _FakeDioService_1 extends _i1.Fake implements _i3.DioService {}
+
+class _FakeInternalFinalCallback_2<T> extends _i1.Fake
+    implements _i4.InternalFinalCallback<T> {}
 
 /// A class which mocks [SongController].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSongController extends _i1.Mock implements _i4.SongController {
+class MockSongController extends _i1.Mock implements _i3.SongController {
   MockSongController() {
     _i1.throwOnMissingStub(this);
   }
@@ -40,7 +42,7 @@ class MockSongController extends _i1.Mock implements _i4.SongController {
       (super.noSuchMethod(Invocation.getter(#userData),
           returnValue: _FakeGetStorage_0()) as _i2.GetStorage);
   @override
-  set song(_i4.Song? _song) =>
+  set song(_i3.Song? _song) =>
       super.noSuchMethod(Invocation.setter(#song, _song),
           returnValueForMissingStub: null);
   @override
@@ -68,18 +70,26 @@ class MockSongController extends _i1.Mock implements _i4.SongController {
       .noSuchMethod(Invocation.setter(#contentController, _contentController),
           returnValueForMissingStub: null);
   @override
-  set db(_i4.MyDatabase? _db) => super.noSuchMethod(Invocation.setter(#db, _db),
+  _i3.DioService get dioService =>
+      (super.noSuchMethod(Invocation.getter(#dioService),
+          returnValue: _FakeDioService_1()) as _i3.DioService);
+  @override
+  set dioService(_i3.DioService? _dioService) =>
+      super.noSuchMethod(Invocation.setter(#dioService, _dioService),
+          returnValueForMissingStub: null);
+  @override
+  set db(_i3.MyDatabase? _db) => super.noSuchMethod(Invocation.setter(#db, _db),
       returnValueForMissingStub: null);
   @override
-  _i3.InternalFinalCallback<void> get onStart =>
+  _i4.InternalFinalCallback<void> get onStart =>
       (super.noSuchMethod(Invocation.getter(#onStart),
-              returnValue: _FakeInternalFinalCallback_1<void>())
-          as _i3.InternalFinalCallback<void>);
+              returnValue: _FakeInternalFinalCallback_2<void>())
+          as _i4.InternalFinalCallback<void>);
   @override
-  _i3.InternalFinalCallback<void> get onDelete =>
+  _i4.InternalFinalCallback<void> get onDelete =>
       (super.noSuchMethod(Invocation.getter(#onDelete),
-              returnValue: _FakeInternalFinalCallback_1<void>())
-          as _i3.InternalFinalCallback<void>);
+              returnValue: _FakeInternalFinalCallback_2<void>())
+          as _i4.InternalFinalCallback<void>);
   @override
   bool get initialized =>
       (super.noSuchMethod(Invocation.getter(#initialized), returnValue: false)

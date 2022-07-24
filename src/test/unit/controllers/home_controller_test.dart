@@ -14,8 +14,8 @@ void main() {
       when(
         controller.fetchBookList(),
       ).thenAnswer(
-        (_) async => controller.books = [
-          Book(title: 'this book'),
+        (_) async => controller.booksList = [
+          //Book(title: 'this book'),
         ],
       );
       controller.fetchBookList();

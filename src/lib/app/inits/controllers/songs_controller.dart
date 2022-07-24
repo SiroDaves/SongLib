@@ -12,20 +12,19 @@ class SongsController extends GetxController {
   String selectedBooks = '';
   int progressValue = 0;
   List<Song>? songs = [];
-  MyDatabase? db;
+  SongRepository? songRepo;
 
   @override
   void onInit() {
     super.onInit();
     dioService.init();
-    db = Get.find<MyDatabase>();
+    songRepo = Get.find<SongRepository>();
     selectedBooks = userData.read(PrefKeys.selectedBooks);
   }
 
   @override
   void onReady() {
     super.onReady();
-    db = Get.find<MyDatabase>();
   }
 
   @override
@@ -82,7 +81,7 @@ class SongsController extends GetxController {
     for (int i = 0; i < songs!.length; i++) {
       progressValue = (i / songs!.length * 100).toInt();
       update();
-      await db!.saveNewSong(songs![i]);
+      await songRepo!.saveSong(songs![i]);
     }
 
     userData.write(PrefKeys.songsLoaded, true);
