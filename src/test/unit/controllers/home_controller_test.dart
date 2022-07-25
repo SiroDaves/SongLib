@@ -12,15 +12,15 @@ void main() {
       final controller = MockHomeController();
 
       when(
-        controller.fetchBookList(),
+        controller.fetchSongData(),
       ).thenAnswer(
         (_) async => controller.booksList = [
           //Book(title: 'this book'),
         ],
       );
-      controller.fetchBookList();
+      controller.fetchSongData();
 
-      verify(controller.fetchBookList());
+      verify(controller.fetchSongData());
     });
   });
 }

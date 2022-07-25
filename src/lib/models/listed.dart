@@ -6,12 +6,12 @@ part 'listed.g.dart';
 class Listed {
   @JsonKey(name: 'objectId', required: true, includeIfNull: false)
   final String objectId;
+  @JsonKey(name: 'parentid', required: true, includeIfNull: false)
+  final int? parentid;
   @JsonKey(name: 'title', required: true, includeIfNull: false)
   final String title;
   @JsonKey(name: 'description', required: true, includeIfNull: false)
   final String description;
-  @JsonKey(name: 'parentid', required: true, includeIfNull: false)
-  final int? parentid;
   @JsonKey(name: 'position', required: true, includeIfNull: false)
   final int? position;
   @JsonKey(name: 'createdAt', required: true, includeIfNull: false)
@@ -23,9 +23,9 @@ class Listed {
 
   const Listed({
     required this.objectId,
+    required this.parentid,
     required this.title,
     required this.description,
-    required this.parentid,
     required this.position,
     required this.createdAt,
     required this.updatedAt,

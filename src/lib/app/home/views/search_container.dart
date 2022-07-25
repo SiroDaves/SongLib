@@ -19,7 +19,7 @@ class SearchContainer extends StatelessWidget {
     return SearchWidget<Song>(
       dataList: songs!,
       hideSearchBoxWhenItemSelected: false,
-      listContainerHeight: height! * 0.70625,
+      listContainerHeight: height! - 125,
       queryBuilder: (query, list) {
         return list
             .where(
@@ -28,7 +28,7 @@ class SearchContainer extends StatelessWidget {
             .toList();
       },
       popupListItemBuilder: (song) {
-        return SongItem(song: song);
+        return SongItem(song: song, height: height!);
       },
       selectedItemBuilder: (selectedSong, deleteSelectedSong) {
         return selectedSongWidget(selectedSong, deleteSelectedSong);
@@ -46,7 +46,10 @@ class SearchContainer extends StatelessWidget {
   Widget searchField(
       TextEditingController qryController, FocusNode? focusNode) {
     return Container(
-      margin: const EdgeInsets.all(10),
+      margin: EdgeInsets.symmetric(
+        vertical: height! * 0.0082,
+        horizontal: height! * 0.0163,
+      ),
       decoration: const BoxDecoration(
         color: AppColors.white,
         boxShadow: [BoxShadow(blurRadius: 3)],
@@ -56,7 +59,7 @@ class SearchContainer extends StatelessWidget {
         controller: qryController,
         focusNode: focusNode,
         style: normalTextStyle.copyWith(
-          fontSize: 20,
+          fontSize: height! * 0.0326,
           color: AppColors.primaryColor,
         ),
         decoration: InputDecoration(
@@ -75,7 +78,7 @@ class SearchContainer extends StatelessWidget {
           hintStyle: normalTextStyle.copyWith(
             color: AppColors.primaryColor,
           ),
-          contentPadding: const EdgeInsets.all(20),
+          contentPadding: const EdgeInsets.all(10),
         ),
       ),
     );

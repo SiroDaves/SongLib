@@ -14,7 +14,9 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     size = Get.size;
+    controller.fetchListData();
     controller.fetchSongData();
+    controller.fetchDraftsData();
 
     final appPages = <Widget>[
       ListsTab(),
@@ -24,7 +26,7 @@ class HomeView extends StatelessWidget {
 
     return Scaffold(
       body: Swiper(
-        index: controller.selectedTab,
+        index: 0,
         itemBuilder: (context, index) {
           return appPages[index];
         },

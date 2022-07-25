@@ -276,3 +276,41 @@ class PageSwiperControl extends SwiperPlugin {
     );
   }
 }
+
+class TagView extends StatelessWidget {
+  final String tagText;
+  final double height;
+
+  const TagView({Key? key, required this.tagText, required this.height})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    try {
+      if (tagText.isNotEmpty) {
+        return Container(
+          padding:
+              EdgeInsets.symmetric(horizontal: 10, vertical: height * 0.0049),
+          margin: EdgeInsets.only(top: 2, left: height * 0.0049),
+          decoration: BoxDecoration(
+            color: AppColors.primaryColor,
+            border: Border.all(color: AppColors.white),
+            borderRadius: const BorderRadius.all(Radius.circular(5)),
+            boxShadow: const [BoxShadow(blurRadius: 1)],
+          ),
+          child: Text(
+            tagText,
+            style: normalTextStyle.copyWith(
+              fontSize: height * 0.0195,
+              color: AppColors.white,
+            ),
+          ),
+        );
+      } else {
+        return Container();
+      }
+    } on Exception {
+      return Container();
+    }
+  }
+}

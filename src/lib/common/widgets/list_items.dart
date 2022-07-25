@@ -62,8 +62,10 @@ class BookItem extends StatelessWidget {
 
 class SongBook extends StatelessWidget {
   final Book book;
+  final double height;
 
-  const SongBook({Key? key, required this.book}) : super(key: key);
+  const SongBook({Key? key, required this.book, required this.height})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -84,8 +86,53 @@ class SongBook extends StatelessWidget {
             '${truncateString(19, refineTitle(book.title))} (${book.songs})',
             textAlign: TextAlign.center,
             maxLines: 3,
-            style:
-                normalTextStyle.copyWith(color: AppColors.white, fontSize: 16),
+            style: normalTextStyle.copyWith(
+              color: AppColors.white,
+              fontSize: height * 0.0228,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ListedItem extends StatelessWidget {
+  final Listed listed;
+  final double height;
+
+  const ListedItem({Key? key, required this.listed, required this.height})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Hero(
+      tag: 'ListedIndex_${listed.id}',
+      child: Card(
+        elevation: 2,
+        margin: EdgeInsets.only(right: 5, bottom: height * 0.0049),
+        child: Padding(
+          padding: EdgeInsets.all(height * 0.0049),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                listed.title,
+                maxLines: 1,
+                style: titleTextStyle.copyWith(
+                  fontSize: height * 0.0261,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Divider(color: AppColors.activeColor, height: height * 0.0049),
+              Text(
+                listed.description,
+                maxLines: 2,
+                style: normalTextStyle.copyWith(
+                  fontSize: height * 0.0228,
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -95,8 +142,10 @@ class SongBook extends StatelessWidget {
 
 class SongItem extends StatelessWidget {
   final Song song;
+  final double height;
 
-  const SongItem({Key? key, required this.song}) : super(key: key);
+  const SongItem({Key? key, required this.song, required this.height})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -112,11 +161,12 @@ class SongItem extends StatelessWidget {
     }
 
     return Hero(
-      tag: 'SongIndex_${song.objectId}',
+      tag: 'SongIndex_${song.id}',
       child: Card(
         elevation: 2,
+        margin: EdgeInsets.only(right: 5, bottom: height * 0.0049),
         child: Padding(
-          padding: const EdgeInsets.all(5),
+          padding: EdgeInsets.all(height * 0.0049),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -124,28 +174,25 @@ class SongItem extends StatelessWidget {
                 songItemTitle(song.songno!, song.title),
                 maxLines: 1,
                 style: titleTextStyle.copyWith(
-                  fontSize: 20,
+                  fontSize: height * 0.0261,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const Divider(color: AppColors.activeColor),
+              Divider(color: AppColors.activeColor, height: height * 0.0049),
               Text(
                 refineContent(verses[0]),
                 maxLines: 2,
                 style: normalTextStyle.copyWith(
-                  fontSize: 16,
+                  fontSize: height * 0.0228,
                 ),
               ),
-              SizedBox(
-                height: 35,
-                child: Row(
-                  children: <Widget>[
-                    const Spacer(),
-                    //tagView(songBook),
-                    tagView(hasChorus),
-                    tagView(verseCount),
-                  ],
-                ),
+              Row(
+                children: <Widget>[
+                  const Spacer(),
+                  //tagView(songBook),
+                  TagView(tagText: hasChorus, height: height),
+                  TagView(tagText: verseCount, height: height),
+                ],
               ),
             ],
           ),
@@ -153,32 +200,65 @@ class SongItem extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget tagView(String tagText) {
-    try {
-      if (tagText.isNotEmpty) {
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          margin: const EdgeInsets.only(top: 5, left: 5),
-          decoration: BoxDecoration(
-            color: AppColors.primaryColor,
-            border: Border.all(color: AppColors.white),
-            borderRadius: const BorderRadius.all(Radius.circular(5)),
-            boxShadow: const [BoxShadow(blurRadius: 1)],
-          ),
-          child: Text(
-            tagText,
-            style: normalTextStyle.copyWith(
-              fontSize: 14,
-              color: AppColors.white,
-            ),
-          ),
-        );
-      } else {
-        return Container();
-      }
-    } on Exception {
-      return Container();
+class DraftItem extends StatelessWidget {
+  final Draft draft;
+  final double height;
+
+  const DraftItem({Key? key, required this.draft, required this.height})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    String hasChorus = '', verseCount = '';
+    var verses = draft.content.split("##");
+
+    if (draft.content.contains("CHORUS")) {
+      hasChorus = AppConstants.hasChorus;
+      verseCount = '${verses.length} Vs';
+    } else {
+      hasChorus = AppConstants.noChorus;
+      verseCount = '${verses.length} Vs';
     }
+
+    return Hero(
+      tag: 'SongIndex_${draft.id}',
+      child: Card(
+        elevation: 2,
+        margin: EdgeInsets.only(right: 5, bottom: height * 0.0049),
+        child: Padding(
+          padding: EdgeInsets.all(height * 0.0049),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                songItemTitle(draft.songno!, draft.title),
+                maxLines: 1,
+                style: titleTextStyle.copyWith(
+                  fontSize: height * 0.0261,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Divider(color: AppColors.activeColor, height: height * 0.0049),
+              Text(
+                refineContent(verses[0]),
+                maxLines: 2,
+                style: normalTextStyle.copyWith(
+                  fontSize: height * 0.0228,
+                ),
+              ),
+              Row(
+                children: <Widget>[
+                  const Spacer(),
+                  TagView(tagText: hasChorus, height: height),
+                  TagView(tagText: verseCount, height: height),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

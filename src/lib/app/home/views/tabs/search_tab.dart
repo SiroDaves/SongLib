@@ -38,12 +38,12 @@ class SearchTab extends StatelessWidget {
   Widget mainContainer(BuildContext context) {
     return GetBuilder<HomeController>(
       builder: (controller) => SizedBox(
-        child: controller.isBusy
+        child: controller.isTab2Busy
             ? const ListLoading()
             : Column(
                 children: [
                   SearchContainer(
-                    songs: controller.searchList,
+                    songs: controller.searches,
                     height: size!.height,
                   ),
                   bookContainer(context),
@@ -56,12 +56,12 @@ class SearchTab extends StatelessWidget {
 
   Widget titleContainer() {
     return SizedBox(
-      height: size!.height * 0.0625,
+      height: size!.height * 0.0815,
       child: Center(
         child: Text(
           AppConstants.appTitle,
           style: titleTextStyle.copyWith(
-            fontSize: 40,
+            fontSize: size!.height * 0.057,
             fontWeight: FontWeight.bold,
             color: AppColors.primaryColor,
           ),
@@ -72,39 +72,51 @@ class SearchTab extends StatelessWidget {
 
   Widget bookContainer(BuildContext context) {
     return SizedBox(
-      height: size!.height * 0.0875,
+      height: size!.height * 0.0897,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.all(5),
         itemBuilder: (context, index) => GestureDetector(
-          child: SongBook(book: controller.booksList![index]),
+          child: SongBook(
+              book: controller.books![index], height: size!.height),
           onTap: () {
-            controller.mainBook = controller.booksList![index].bookid!;
+            controller.mainBook = controller.books![index].bookid!;
             controller.fetchSongData();
           },
         ),
-        itemCount: controller.booksList!.length,
-        controller: controller.bookListScrollController,
+        itemCount: controller.books!.length,
       ),
     );
   }
 
   Widget listContainer(BuildContext context) {
-    return SizedBox(
-      height: size!.height * 0.69375,
-      child: ListView.builder(
-        padding: const EdgeInsets.all(5),
-        itemBuilder: (context, index) => GestureDetector(
-          child: SongItem(song: controller.songsList![index]),
-          onTap: () {
-            Get.to(
-              () => SongView(song: controller.songsList![index]),
-              transition: Transition.rightToLeft,
-            );
-          },
+    return Container(
+      height: size!.height - 125,
+      padding: const EdgeInsets.only(right: 2),
+      child: Scrollbar(
+        thickness: 10,
+        trackVisibility: true,
+        thumbVisibility: true,
+        radius: const Radius.circular(20),
+        controller: controller.songScroller,
+        child: ListView.builder(
+          controller: controller.songScroller,
+          itemCount: controller.songs!.length,
+          padding: EdgeInsets.only(
+            left: size!.height * 0.0082,
+            right: size!.height * 0.0163,
+          ),
+          itemBuilder: (context, index) => GestureDetector(
+            child: SongItem(
+                song: controller.songs![index], height: size!.height),
+            onTap: () {
+              Get.to(
+                () => SongView(song: controller.songs![index]),
+                transition: Transition.rightToLeft,
+              );
+            },
+          ),
         ),
-        itemCount: controller.songsList!.length,
-        controller: controller.songListScrollController,
       ),
     );
   }

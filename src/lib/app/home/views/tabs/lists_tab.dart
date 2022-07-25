@@ -38,12 +38,12 @@ class ListsTab extends StatelessWidget {
   Widget mainContainer(BuildContext context) {
     return GetBuilder<HomeController>(
       builder: (controller) => SizedBox(
-        child: controller.isBusy
+        child: controller.isTab1Busy
             ? const ListLoading()
             : Column(
                 children: [
                   SearchContainer(
-                    songs: controller.searchList,
+                    songs: controller.searches,
                     height: size!.height,
                     hint: 'Search a List',
                   ),
@@ -56,12 +56,12 @@ class ListsTab extends StatelessWidget {
 
   Widget titleContainer() {
     return SizedBox(
-      height: size!.height * 0.0625,
+      height: size!.height * 0.0815,
       child: Center(
         child: Text(
           AppConstants.listTitle,
           style: titleTextStyle.copyWith(
-            fontSize: 30,
+            fontSize: size!.height * 0.057,
             fontWeight: FontWeight.bold,
             color: AppColors.primaryColor,
           ),
@@ -76,16 +76,17 @@ class ListsTab extends StatelessWidget {
       child: ListView.builder(
         padding: const EdgeInsets.all(5),
         itemBuilder: (context, index) => GestureDetector(
-          child: SongItem(song: controller.songsList![index]),
+          child: ListedItem(
+              listed: controller.listeds![index], height: size!.height),
           onTap: () {
             Get.to(
-              () => SongView(song: controller.songsList![index]),
+              () => SongView(song: controller.songs![index]),
               transition: Transition.rightToLeft,
             );
           },
         ),
-        itemCount: controller.songsList!.length,
-        controller: controller.songListScrollController,
+        itemCount: controller.listeds!.length,
+        controller: controller.listsScroller,
       ),
     );
   }

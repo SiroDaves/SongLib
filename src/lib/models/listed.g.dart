@@ -11,9 +11,9 @@ Listed _$ListedFromJson(Map<String, dynamic> json) {
     json,
     requiredKeys: const [
       'objectId',
+      'parentid',
       'title',
       'description',
-      'parentid',
       'position',
       'createdAt',
       'updatedAt'
@@ -21,9 +21,9 @@ Listed _$ListedFromJson(Map<String, dynamic> json) {
   );
   return Listed(
     objectId: json['objectId'] as String,
+    parentid: json['parentid'] as int?,
     title: json['title'] as String,
     description: json['description'] as String,
-    parentid: json['parentid'] as int?,
     position: json['position'] as int?,
     createdAt: json['createdAt'] as String,
     updatedAt: json['updatedAt'] as String,
@@ -34,8 +34,6 @@ Listed _$ListedFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$ListedToJson(Listed instance) {
   final val = <String, dynamic>{
     'objectId': instance.objectId,
-    'title': instance.title,
-    'description': instance.description,
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -45,6 +43,8 @@ Map<String, dynamic> _$ListedToJson(Listed instance) {
   }
 
   writeNotNull('parentid', instance.parentid);
+  val['title'] = instance.title;
+  val['description'] = instance.description;
   writeNotNull('position', instance.position);
   val['createdAt'] = instance.createdAt;
   val['updatedAt'] = instance.updatedAt;

@@ -8,28 +8,42 @@ import '../../../../exports.dart';
 class HomeController extends GetxController {
   final GetStorage userData = GetStorage();
 
-  final ScrollController bookListScrollController = ScrollController();
-  final ScrollController songListScrollController = ScrollController();
+  final ScrollController listsScroller =
+      ScrollController(initialScrollOffset: 0);
 
-  bool isBusy = false, isSearching = false;
+  final ScrollController songScroller =
+      ScrollController(initialScrollOffset: 0);
+
+  final ScrollController notesScroller =
+      ScrollController(initialScrollOffset: 0);
+
+  bool isTab1Busy = false, isTab2Busy = false,isTab3Busy = false;
   String selectedBooks = "";
   int mainBook = 0;
 
-  DioService dioService = DioService();
-  List<Book>? booksList = [];
-  List<Song>? searchList = [], songsList = [];
+  List<Book>? books = [];
+  List<Song>? searches = [], songs = [];
 
-  int selectedTab = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  List<Listed>? listeds = [];
+  List<Draft>? drafts = [];
 
   BookDaoStorage? bookDao;
+  DraftDaoStorage? draftDao;
+  HistoryDaoStorage? historyDao;
+  LikeDaoStorage? likeDao;
+  ListedDaoStorage? listedDao;
+  SearchDaoStorage? searchDao;
   SongDaoStorage? songDao;
 
   @override
   void onInit() {
     super.onInit();
     bookDao = Get.find<BookDaoStorage>();
+    draftDao = Get.find<DraftDaoStorage>();
+    historyDao = Get.find<HistoryDaoStorage>();
+    likeDao = Get.find<LikeDaoStorage>();
+    listedDao = Get.find<ListedDaoStorage>();
+    searchDao = Get.find<SearchDaoStorage>();
     songDao = Get.find<SongDaoStorage>();
 
     selectedBooks = userData.read(PrefKeys.selectedBooks);
@@ -47,21 +61,38 @@ class HomeController extends GetxController {
     super.onClose();
   }
 
-  void changeTab(int newTab) {
-    selectedTab = newTab;
+  /// Get the lists data
+  Future<void> fetchListData() async {
+    isTab1Busy = true;
+    update();
+
+    listeds = await listedDao!.getAllListeds();
+
+    isTab1Busy = false;
     update();
   }
 
-  /// Get the data
+  /// Get the songs data
   Future<void> fetchSongData() async {
-    isBusy = true;
+    isTab2Busy = true;
     update();
 
-    booksList = await bookDao!.getAllBooks();
-    songsList = searchList = await songDao!.getAllSongs();
-    songsList!.removeWhere((item) => item.book != mainBook);
+    books = await bookDao!.getAllBooks();
+    songs = searches = await songDao!.getAllSongs();
+    songs!.removeWhere((item) => item.book != mainBook);
 
-    isBusy = false;
+    isTab2Busy = false;
+    update();
+  }
+
+  /// Get the drafts data
+  Future<void> fetchDraftsData() async {
+    isTab3Busy = true;
+    update();
+
+    drafts = await draftDao!.getAllDrafts();
+
+    isTab3Busy = false;
     update();
   }
 }

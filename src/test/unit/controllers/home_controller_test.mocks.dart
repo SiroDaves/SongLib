@@ -6,11 +6,11 @@ import 'dart:async' as _i6;
 import 'dart:ui' as _i8;
 
 import 'package:flutter/material.dart' as _i3;
-import 'package:get/get.dart' as _i5;
+import 'package:get/get.dart' as _i4;
 import 'package:get/get_state_manager/src/simple/list_notifier.dart' as _i7;
 import 'package:get_storage/get_storage.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:songlib/exports.dart' as _i4;
+import 'package:songlib/exports.dart' as _i5;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -27,15 +27,13 @@ class _FakeGetStorage_0 extends _i1.Fake implements _i2.GetStorage {}
 class _FakeScrollController_1 extends _i1.Fake implements _i3.ScrollController {
 }
 
-class _FakeDioService_2 extends _i1.Fake implements _i4.DioService {}
-
-class _FakeInternalFinalCallback_3<T> extends _i1.Fake
-    implements _i5.InternalFinalCallback<T> {}
+class _FakeInternalFinalCallback_2<T> extends _i1.Fake
+    implements _i4.InternalFinalCallback<T> {}
 
 /// A class which mocks [HomeController].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockHomeController extends _i1.Mock implements _i4.HomeController {
+class MockHomeController extends _i1.Mock implements _i5.HomeController {
   MockHomeController() {
     _i1.throwOnMissingStub(this);
   }
@@ -45,12 +43,16 @@ class MockHomeController extends _i1.Mock implements _i4.HomeController {
       (super.noSuchMethod(Invocation.getter(#userData),
           returnValue: _FakeGetStorage_0()) as _i2.GetStorage);
   @override
-  _i3.ScrollController get bookListScrollController =>
-      (super.noSuchMethod(Invocation.getter(#bookListScrollController),
+  _i3.ScrollController get listsScroller =>
+      (super.noSuchMethod(Invocation.getter(#listsScroller),
           returnValue: _FakeScrollController_1()) as _i3.ScrollController);
   @override
-  _i3.ScrollController get songListScrollController =>
-      (super.noSuchMethod(Invocation.getter(#songListScrollController),
+  _i3.ScrollController get songScroller =>
+      (super.noSuchMethod(Invocation.getter(#songScroller),
+          returnValue: _FakeScrollController_1()) as _i3.ScrollController);
+  @override
+  _i3.ScrollController get notesScroller =>
+      (super.noSuchMethod(Invocation.getter(#notesScroller),
           returnValue: _FakeScrollController_1()) as _i3.ScrollController);
   @override
   bool get isBusy =>
@@ -84,51 +86,43 @@ class MockHomeController extends _i1.Mock implements _i4.HomeController {
       super.noSuchMethod(Invocation.setter(#mainBook, _mainBook),
           returnValueForMissingStub: null);
   @override
-  _i4.DioService get dioService =>
-      (super.noSuchMethod(Invocation.getter(#dioService),
-          returnValue: _FakeDioService_2()) as _i4.DioService);
-  @override
-  set dioService(_i4.DioService? _dioService) =>
-      super.noSuchMethod(Invocation.setter(#dioService, _dioService),
+  set books(List<_i5.Book>? _books) =>
+      super.noSuchMethod(Invocation.setter(#books, _books),
           returnValueForMissingStub: null);
   @override
-  set booksList(List<_i4.Book>? _booksList) =>
-      super.noSuchMethod(Invocation.setter(#booksList, _booksList),
+  set searches(List<_i5.Song>? _searches) =>
+      super.noSuchMethod(Invocation.setter(#searches, _searches),
           returnValueForMissingStub: null);
   @override
-  set searchList(List<_i4.Song>? _searchList) =>
-      super.noSuchMethod(Invocation.setter(#searchList, _searchList),
+  set songs(List<_i5.Song>? _songs) =>
+      super.noSuchMethod(Invocation.setter(#songs, _songs),
           returnValueForMissingStub: null);
   @override
-  set songsList(List<_i4.Song>? _songsList) =>
-      super.noSuchMethod(Invocation.setter(#songsList, _songsList),
+  set listedList(List<_i5.Listed>? _listedList) =>
+      super.noSuchMethod(Invocation.setter(#listedList, _listedList),
           returnValueForMissingStub: null);
   @override
-  int get selectedTab =>
-      (super.noSuchMethod(Invocation.getter(#selectedTab), returnValue: 0)
-          as int);
-  @override
-  set selectedTab(int? _selectedTab) =>
-      super.noSuchMethod(Invocation.setter(#selectedTab, _selectedTab),
+  set drafts(List<_i5.Draft>? _drafts) =>
+      super.noSuchMethod(Invocation.setter(#drafts, _drafts),
           returnValueForMissingStub: null);
   @override
-  set bookDao(_i4.BookDaoStorage? _bookDao) =>
+  set bookDao(_i5.BookDaoStorage? _bookDao) =>
       super.noSuchMethod(Invocation.setter(#bookDao, _bookDao),
           returnValueForMissingStub: null);
   @override
-  set songDao(_i4.SongDaoStorage? _songDao) =>
+  set songDao(_i5.SongDaoStorage? _songDao) =>
       super.noSuchMethod(Invocation.setter(#songDao, _songDao),
           returnValueForMissingStub: null);
   @override
-  _i5.InternalFinalCallback<void> get onStart =>
+  _i4.InternalFinalCallback<void> get onStart =>
       (super.noSuchMethod(Invocation.getter(#onStart),
-              returnValue: _FakeInternalFinalCallback_3<void>())
-          as _i5.InternalFinalCallback<void>);
+              returnValue: _FakeInternalFinalCallback_2<void>())
+          as _i4.InternalFinalCallback<void>);
   @override
-  _i5.InternalFinalCallback<void> get onDelete =>
+  _i4.InternalFinalCallback<void> get onDelete =>
       (super.noSuchMethod(Invocation.getter(#onDelete),
-              returnValue: _FakeInternalFinalCallback_3<void>())
-          as _i5.InternalFinalCallback<void>);
+              returnValue: _FakeInternalFinalCallback_2<void>())
+          as _i4.InternalFinalCallback<void>);
   @override
   bool get initialized =>
       (super.noSuchMethod(Invocation.getter(#initialized), returnValue: false)
@@ -154,10 +148,6 @@ class MockHomeController extends _i1.Mock implements _i4.HomeController {
   @override
   void onClose() => super.noSuchMethod(Invocation.method(#onClose, []),
       returnValueForMissingStub: null);
-  @override
-  void changeTab(int? newTab) =>
-      super.noSuchMethod(Invocation.method(#changeTab, [newTab]),
-          returnValueForMissingStub: null);
   @override
   _i6.Future<void> fetchSongData() =>
       (super.noSuchMethod(Invocation.method(#fetchSongData, []),
