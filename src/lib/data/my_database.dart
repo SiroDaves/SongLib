@@ -6,6 +6,11 @@ part 'my_database.g.dart';
 
 @DriftDatabase(tables: [
   DbBookTable,
+  DbDraftTable,
+  DbHistoryTable,
+  DbLikeTable,
+  DbListedTable,
+  DbSearchTable,
   DbSongTable,
 ])
 class MyDatabase extends _$MyDatabase {

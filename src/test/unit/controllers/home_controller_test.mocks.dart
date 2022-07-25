@@ -53,12 +53,12 @@ class MockHomeController extends _i1.Mock implements _i4.HomeController {
       (super.noSuchMethod(Invocation.getter(#songListScrollController),
           returnValue: _FakeScrollController_1()) as _i3.ScrollController);
   @override
-  bool get isLoading =>
-      (super.noSuchMethod(Invocation.getter(#isLoading), returnValue: false)
+  bool get isBusy =>
+      (super.noSuchMethod(Invocation.getter(#isBusy), returnValue: false)
           as bool);
   @override
-  set isLoading(bool? _isLoading) =>
-      super.noSuchMethod(Invocation.setter(#isLoading, _isLoading),
+  set isBusy(bool? _isBusy) =>
+      super.noSuchMethod(Invocation.setter(#isBusy, _isBusy),
           returnValueForMissingStub: null);
   @override
   bool get isSearching =>
@@ -104,15 +104,20 @@ class MockHomeController extends _i1.Mock implements _i4.HomeController {
       super.noSuchMethod(Invocation.setter(#songsList, _songsList),
           returnValueForMissingStub: null);
   @override
-  set db(_i4.MyDatabase? _db) => super.noSuchMethod(Invocation.setter(#db, _db),
-      returnValueForMissingStub: null);
-  @override
   int get selectedTab =>
       (super.noSuchMethod(Invocation.getter(#selectedTab), returnValue: 0)
           as int);
   @override
   set selectedTab(int? _selectedTab) =>
       super.noSuchMethod(Invocation.setter(#selectedTab, _selectedTab),
+          returnValueForMissingStub: null);
+  @override
+  set bookDao(_i4.BookDaoStorage? _bookDao) =>
+      super.noSuchMethod(Invocation.setter(#bookDao, _bookDao),
+          returnValueForMissingStub: null);
+  @override
+  set songDao(_i4.SongDaoStorage? _songDao) =>
+      super.noSuchMethod(Invocation.setter(#songDao, _songDao),
           returnValueForMissingStub: null);
   @override
   _i5.InternalFinalCallback<void> get onStart =>
@@ -150,27 +155,12 @@ class MockHomeController extends _i1.Mock implements _i4.HomeController {
   void onClose() => super.noSuchMethod(Invocation.method(#onClose, []),
       returnValueForMissingStub: null);
   @override
-  void onTabTapped(int? index) =>
-      super.noSuchMethod(Invocation.method(#onTabTapped, [index]),
+  void changeTab(int? newTab) =>
+      super.noSuchMethod(Invocation.method(#changeTab, [newTab]),
           returnValueForMissingStub: null);
   @override
-  _i6.Future<List<_i4.Book>?> fetchBookList() =>
-      (super.noSuchMethod(Invocation.method(#fetchBookList, []),
-              returnValue: Future<List<_i4.Book>?>.value())
-          as _i6.Future<List<_i4.Book>?>);
-  @override
-  _i6.Future<List<_i4.Song>?> fetchFullSongList() =>
-      (super.noSuchMethod(Invocation.method(#fetchFullSongList, []),
-              returnValue: Future<List<_i4.Song>?>.value())
-          as _i6.Future<List<_i4.Song>?>);
-  @override
-  _i6.Future<List<_i4.Song>?> fetchSongsByBook() =>
-      (super.noSuchMethod(Invocation.method(#fetchSongsByBook, []),
-              returnValue: Future<List<_i4.Song>?>.value())
-          as _i6.Future<List<_i4.Song>?>);
-  @override
-  _i6.Future<void> resetBookSongList(_i4.Book? book) =>
-      (super.noSuchMethod(Invocation.method(#resetBookSongList, [book]),
+  _i6.Future<void> fetchSongData() =>
+      (super.noSuchMethod(Invocation.method(#fetchSongData, []),
           returnValue: Future<void>.value(),
           returnValueForMissingStub: Future<void>.value()) as _i6.Future<void>);
   @override
