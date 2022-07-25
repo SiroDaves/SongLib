@@ -32,7 +32,7 @@ class SplashController extends GetxController {
     if (dataLoaded) {
       Get.offAll(() => HomeView());
     } else {
-      Get.offAll(() => DataInitView());
+      Get.offAll(() => SelectionView());
     }
   }
 }

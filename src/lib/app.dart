@@ -23,9 +23,9 @@ class MyApp extends StatelessWidget {
           binding: SplashBinding(),
         ),
         GetPage(
-          name: Paths.init,
-          page: () => DataInitView(),
-          binding: DataInitBinding(),
+          name: Paths.selection,
+          page: () => SelectionView(),
+          binding: SelectionBinding(),
         ),
         GetPage(
           name: Paths.home,
