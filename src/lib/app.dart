@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         ),
         GetPage(
           name: Paths.song,
-          page: () => SongView(song: null),
+          page: () => SongView(books: null, song: null),
           binding: SongBinding(),
         ),
       ],

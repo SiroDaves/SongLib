@@ -42,7 +42,8 @@ class SearchTab extends StatelessWidget {
             ? const ListLoading()
             : Column(
                 children: [
-                  SearchContainer(
+                  Tab2Search(
+                    books: controller.books,
                     songs: controller.searches,
                     height: size!.height,
                   ),
@@ -61,7 +62,7 @@ class SearchTab extends StatelessWidget {
         child: Text(
           AppConstants.appTitle,
           style: titleTextStyle.copyWith(
-            fontSize: size!.height * 0.057,
+            fontSize: size!.height * 0.05,
             fontWeight: FontWeight.bold,
             color: AppColors.primaryColor,
           ),
@@ -77,8 +78,7 @@ class SearchTab extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.all(5),
         itemBuilder: (context, index) => GestureDetector(
-          child: SongBook(
-              book: controller.books![index], height: size!.height),
+          child: SongBook(book: controller.books![index], height: size!.height),
           onTap: () {
             controller.mainBook = controller.books![index].bookid!;
             controller.fetchSongData();
@@ -107,11 +107,14 @@ class SearchTab extends StatelessWidget {
             right: size!.height * 0.0163,
           ),
           itemBuilder: (context, index) => GestureDetector(
-            child: SongItem(
-                song: controller.songs![index], height: size!.height),
+            child:
+                SongItem(song: controller.songs![index], height: size!.height),
             onTap: () {
               Get.to(
-                () => SongView(song: controller.songs![index]),
+                () => SongView(
+                  books: controller.books!,
+                  song: controller.songs![index],
+                ),
                 transition: Transition.rightToLeft,
               );
             },

@@ -26,7 +26,7 @@ class HomeView extends StatelessWidget {
 
     return Scaffold(
       body: Swiper(
-        index: 0,
+        index: 1,
         itemBuilder: (context, index) {
           return appPages[index];
         },

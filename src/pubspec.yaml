@@ -19,6 +19,8 @@ dependencies:
   dio: ^4.0.6
   # Reactive persistence library for Flutter and Dart, built on top of sqlite
   drift: ^1.7.0
+  # create a animated menu using a Floating Action Button
+  floating_action_bubble: ^1.1.4
   # Toast Library for Flutter
   fluttertoast: ^8.0.9
   # React to Keyboard Visibility Changes
@@ -39,6 +41,10 @@ dependencies:
   path_provider: ^2.0.0
   # Circular and Linear percent indicators
   percent_indicator: ^4.2.2
+  # capture widgets as Images
+  screenshot: ^1.2.3
+  # share content from your Flutter app via the platform's share dialog
+  share_plus: ^4.0.10
   # fully customizable loading skeleton
   skeleton_loader: ^2.0.0+4
   # sqlite support from native to flutter

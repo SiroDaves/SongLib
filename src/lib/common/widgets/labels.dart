@@ -94,7 +94,7 @@ class NoDataToShow extends StatelessWidget {
                 title!,
                 style: titleTextStyle.copyWith(
                   fontSize: 20,
-                  color: AppColors.red,
+                  color: AppColors.primaryColor,
                 ),
               ),
               const SizedBox(

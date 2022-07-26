@@ -1,43 +1,41 @@
 import 'package:flutter/material.dart';
 
-import '../../../../exports.dart';
+import '../../../../../exports.dart';
 
-class SearchContainer extends StatelessWidget {
-  final List<Song>? songs;
+class Tab1Search extends StatelessWidget {
+  final List<Listed>? listeds;
   final double? height;
-  final String? hint;
 
-  const SearchContainer({
+  const Tab1Search({
     Key? key,
-    required this.songs,
+    required this.listeds,
     required this.height,
-    this.hint = "Search a Song",
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SearchWidget<Song>(
-      dataList: songs!,
+    return SearchWidget<Listed>(
+      dataList: listeds!,
       hideSearchBoxWhenItemSelected: false,
       listContainerHeight: height! - 125,
       queryBuilder: (query, list) {
         return list
             .where(
-              (song) => song.title.toLowerCase().contains(query.toLowerCase()),
+              (listed) => listed.title.toLowerCase().contains(query.toLowerCase()),
             )
             .toList();
       },
-      popupListItemBuilder: (song) {
-        return SongItem(song: song, height: height!);
+      popupListItemBuilder: (listed) {
+        return ListedItem(listed: listed, height: height!);
       },
-      selectedItemBuilder: (selectedSong, deleteSelectedSong) {
-        return selectedSongWidget(selectedSong, deleteSelectedSong);
+      selectedItemBuilder: (selectedListed, deleteSelectedListed) {
+        return selectedListedWidget(selectedListed, deleteSelectedListed);
       },
-      noItemsFoundWidget: noSongsFound(),
+      noItemsFoundWidget: noListedsFound(),
       textFieldBuilder: (controller, focusNode) {
         return searchField(controller, focusNode);
       },
-      onItemSelected: (song) {
+      onItemSelected: (listed) {
         //_selectedItem = item;
       },
     );
@@ -74,7 +72,7 @@ class SearchContainer extends StatelessWidget {
           prefixIcon: const Icon(Icons.search, color: AppColors.primaryColor),
           //suffixIcon: const Icon(Icons.mic, color: AppColors.primaryColor),
           border: InputBorder.none,
-          hintText: hint,
+          hintText: "Search a List",
           hintStyle: normalTextStyle.copyWith(
             color: AppColors.primaryColor,
           ),
@@ -84,9 +82,9 @@ class SearchContainer extends StatelessWidget {
     );
   }
 
-  Widget selectedSongWidget(
-    Song selectedSong,
-    VoidCallback deleteSelectedSong,
+  Widget selectedListedWidget(
+    Listed selectedListed,
+    VoidCallback deleteSelectedListed,
   ) {
     return Container(
       padding: const EdgeInsets.symmetric(
@@ -104,7 +102,7 @@ class SearchContainer extends StatelessWidget {
                 bottom: 8,
               ),
               child: Text(
-                selectedSong.title,
+                selectedListed.title,
                 style: const TextStyle(fontSize: 14),
               ),
             ),
@@ -112,14 +110,14 @@ class SearchContainer extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.delete_outline, size: 22),
             color: Colors.grey[700],
-            onPressed: deleteSelectedSong,
+            onPressed: deleteSelectedListed,
           ),
         ],
       ),
     );
   }
 
-  Widget noSongsFound() {
+  Widget noListedsFound() {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -130,7 +128,7 @@ class SearchContainer extends StatelessWidget {
         ),
         const SizedBox(width: 10),
         Text(
-          "No Songs Found",
+          "No Listeds Found",
           style: TextStyle(
             fontSize: 16,
             color: Colors.grey[900]!.withOpacity(0.7),
@@ -140,11 +138,11 @@ class SearchContainer extends StatelessWidget {
     );
   }
 
-  Widget popupListSongWidget(Song song) {
+  Widget popupListListedWidget(Listed listed) {
     return Container(
       padding: const EdgeInsets.all(12),
       child: Text(
-        song.title,
+        listed.title,
         style: const TextStyle(fontSize: 16),
       ),
     );

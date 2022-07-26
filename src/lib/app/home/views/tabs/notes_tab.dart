@@ -36,20 +36,27 @@ class NotesTab extends StatelessWidget {
   }
 
   Widget mainContainer(BuildContext context) {
+    Widget dataWidget;
+    if (controller.listeds!.isNotEmpty) {
+      dataWidget = Column(
+        children: [
+          Tab3Search(
+            drafts: controller.drafts,
+            height: size!.height,
+          ),
+          listContainer(context),
+        ],
+      );
+    } else {
+      dataWidget = const NoDataToShow(
+        title: AppConstants.itsEmptyHere,
+        description: AppConstants.itsEmptyHereBody2,
+      );
+    }
+
     return GetBuilder<HomeController>(
       builder: (controller) => SizedBox(
-        child: controller.isTab3Busy
-            ? const ListLoading()
-            : Column(
-                children: [
-                  SearchContainer(
-                    songs: controller.searches,
-                    height: size!.height,
-                    hint: 'Search a Draft',
-                  ),
-                  listContainer(context),
-                ],
-              ),
+        child: controller.isTab3Busy ? const ListLoading() : dataWidget,
       ),
     );
   }
@@ -61,7 +68,7 @@ class NotesTab extends StatelessWidget {
         child: Text(
           AppConstants.draftTitle,
           style: titleTextStyle.copyWith(
-            fontSize: size!.height * 0.057,
+            fontSize: size!.height * 0.04375,
             fontWeight: FontWeight.bold,
             color: AppColors.primaryColor,
           ),
@@ -73,20 +80,25 @@ class NotesTab extends StatelessWidget {
   Widget listContainer(BuildContext context) {
     return SizedBox(
       height: size!.height * 0.78125,
-      child: ListView.builder(
-        padding: const EdgeInsets.all(5),
-        itemBuilder: (context, index) => GestureDetector(
-          child: DraftItem(
-              draft: controller.drafts![index], height: size!.height),
-          onTap: () {
-            Get.to(
-              () => SongView(song: controller.songs![index]),
-              transition: Transition.rightToLeft,
-            );
-          },
-        ),
-        itemCount: controller.drafts!.length,
+      child: Scrollbar(
+        thickness: 10,
+        trackVisibility: true,
+        thumbVisibility: true,
+        radius: const Radius.circular(20),
         controller: controller.notesScroller,
+        child: ListView.builder(
+          controller: controller.notesScroller,
+          padding: EdgeInsets.only(
+            left: size!.height * 0.0082,
+            right: size!.height * 0.0163,
+          ),
+          itemBuilder: (context, index) => GestureDetector(
+            child: DraftItem(
+                draft: controller.drafts![index], height: size!.height),
+            onTap: () {},
+          ),
+          itemCount: controller.drafts!.length,
+        ),
       ),
     );
   }

@@ -72,7 +72,7 @@ class SongBook extends StatelessWidget {
     return Hero(
       tag: 'BookIndex_${book.objectId}',
       child: Container(
-        width: 120,
+        width: height * 0.1958,
         margin: const EdgeInsets.only(right: 10),
         padding: const EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
