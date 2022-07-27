@@ -14,23 +14,34 @@ class ListsTab extends StatelessWidget {
   Widget build(BuildContext context) {
     size = Get.size;
 
-    return Container(
-      height: size!.height,
-      padding: const EdgeInsets.only(top: 40),
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          colors: [AppColors.white, AppColors.secondaryColor, AppColors.black],
+    return Scaffold(
+      body: Container(
+        height: size!.height,
+        padding: const EdgeInsets.only(top: 40),
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              AppColors.white,
+              AppColors.secondaryColor,
+              AppColors.black
+            ],
+          ),
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              titleContainer(),
+              mainContainer(context),
+            ],
+          ),
         ),
       ),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            titleContainer(),
-            mainContainer(context),
-          ],
-        ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.primaryColor,
+        onPressed: () => newListForm(context),
+        child: const Icon(Icons.add, color: AppColors.white),
       ),
     );
   }
@@ -100,6 +111,63 @@ class ListsTab extends StatelessWidget {
           itemCount: controller.listeds!.length,
         ),
       ),
+    );
+  }
+
+  void newListForm(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(
+              AppConstants.listedTitle,
+              style: normalTextStyle,
+            ),
+            actions: [
+              InkWell(
+                child: const Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Icon(Icons.clear),
+                ),
+                onTap: () => controller.confirmCancel(context),
+              ),
+            ],
+          ),
+          body: Container(
+            height: 250,
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  FormInput(
+                    iLabel: 'Title',
+                    iController: controller.titleController!,
+                    prefix: const Icon(Icons.text_fields),
+                    iOptions: const <String>[],
+                  ),
+                  FormInput(
+                    iLabel: 'Description (Optional)',
+                    iController: controller.contentController!,
+                    prefix: const Icon(Icons.text_format),
+                    iOptions: const <String>[],
+                  ),
+                  ElevatedButton(
+                    child: const Text('Save New List'),
+                    onPressed: () {
+                      controller.saveListed();
+                      controller.fetchListData();
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

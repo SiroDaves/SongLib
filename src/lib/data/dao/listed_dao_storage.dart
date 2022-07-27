@@ -54,13 +54,13 @@ class _ListedDaoStorage extends DatabaseAccessor<MyDatabase>
   @override
   Future<void> createListed(Listed listed) => into(db.dbListedTable).insert(
         DbListedTableCompanion.insert(
-          objectId: listed.objectId,
-          parentid: Value(listed.parentid),
-          title: listed.title,
-          description: listed.description,
-          position: Value(listed.position),
-          createdAt: listed.createdAt,
-          updatedAt: listed.updatedAt,
+          objectId: listed.objectId!,
+          parentid: Value(listed.parentid!),
+          title: listed.title!,
+          description: listed.description!,
+          position: Value(listed.position!),
+          createdAt: Value(listed.createdAt!),
+          updatedAt: Value(listed.updatedAt!),
         ),
       );
 
@@ -68,13 +68,13 @@ class _ListedDaoStorage extends DatabaseAccessor<MyDatabase>
   Future<void> createListedWithValue(Listed listed) async =>
       into(db.dbListedTable).insert(
         DbListedTableCompanion.insert(
-          objectId: listed.objectId,
-          parentid: Value(listed.parentid),
-          title: listed.title,
-          description: listed.description,
-          position: Value(listed.position),
-          createdAt: listed.createdAt,
-          updatedAt: listed.updatedAt,
+          objectId: listed.objectId!,
+          parentid: Value(listed.parentid!),
+          title: listed.title!,
+          description: listed.description!,
+          position: Value(listed.position!),
+          createdAt: Value(listed.createdAt!),
+          updatedAt: Value(listed.updatedAt!),
         ),
       );
 
@@ -82,11 +82,11 @@ class _ListedDaoStorage extends DatabaseAccessor<MyDatabase>
   Future<void> updateListed(Listed listed) =>
       (update(db.dbListedTable)..where((row) => row.id.equals(listed.id))).write(
         DbListedTableCompanion(
-          parentid: Value(listed.parentid),
-          title: Value(listed.title),
-          description: Value(listed.description),
-          position: Value(listed.position),
-          updatedAt: Value(listed.updatedAt),
+          parentid: Value(listed.parentid!),
+          title: Value(listed.title!),
+          description: Value(listed.description!),
+          position: Value(listed.position!),
+          updatedAt: Value(listed.updatedAt!),
         ),
       );
 }

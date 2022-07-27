@@ -5,35 +5,34 @@ part 'listed.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Listed {
   @JsonKey(name: 'objectId', required: true, includeIfNull: false)
-  final String objectId;
+  String? objectId;
   @JsonKey(name: 'parentid', required: true, includeIfNull: false)
-  final int? parentid;
+  int? parentid;
   @JsonKey(name: 'title', required: true, includeIfNull: false)
-  final String title;
+  String? title;
   @JsonKey(name: 'description', required: true, includeIfNull: false)
-  final String description;
+  String? description;
   @JsonKey(name: 'position', required: true, includeIfNull: false)
-  final int? position;
+  int? position;
   @JsonKey(name: 'createdAt', required: true, includeIfNull: false)
-  final String createdAt;
+  String? createdAt;
   @JsonKey(name: 'updatedAt', required: true, includeIfNull: false)
-  final String updatedAt;
+  String? updatedAt;
   @JsonKey(name: 'id', includeIfNull: false)
-  final int? id;
+  int? id;
 
-  const Listed({
-    required this.objectId,
-    required this.parentid,
-    required this.title,
-    required this.description,
-    required this.position,
-    required this.createdAt,
-    required this.updatedAt,
+  Listed({
+    this.objectId,
+    this.parentid,
+    this.title,
+    this.description,
+    this.position,
+    this.createdAt,
+    this.updatedAt,
     this.id,
   });
 
   factory Listed.fromJson(Map<String, dynamic> json) => _$ListedFromJson(json);
 
   Map<String, dynamic> toJson() => _$ListedToJson(this);
-
 }

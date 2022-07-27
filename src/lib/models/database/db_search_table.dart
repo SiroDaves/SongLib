@@ -10,7 +10,7 @@ class DbSearchTable extends Table {
 
   TextColumn get title => text().withLength(min: 3, max: 100)();
 
-  TextColumn get createdAt => text().withLength(min: 3, max: 30)();
+  TextColumn get createdAt => text().withDefault(Constant(dateNow()))();
 }
 
 extension DbSearchExtension on DbSearch {
@@ -27,9 +27,9 @@ extension SearchExtension on Search {
     final id = this.id;
     return DbSearchTableCompanion.insert(
       id: id == null ? const Value.absent() : Value(id),
-      objectId: objectId,
-      title: title,
-      createdAt: createdAt,
+      objectId: objectId!,
+      title: title!,
+      createdAt: Value(createdAt!),
     );
   }
 }

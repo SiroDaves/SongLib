@@ -5,36 +5,36 @@ part 'book.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Book {
   @JsonKey(name: 'objectId', required: true, includeIfNull: false)
-  final String objectId;
+  String? objectId;
   @JsonKey(name: 'bookid', required: true, includeIfNull: false)
-  final int? bookid;
+  int? bookid;
   @JsonKey(name: 'enabled', required: true, includeIfNull: false)
-  final int? enabled;
+  int? enabled;
   @JsonKey(name: 'title', required: true, includeIfNull: false)
-  final String title;
+  String? title;
   @JsonKey(name: 'subtitle', required: true, includeIfNull: false)
-  final String subtitle;
+  String? subtitle;
   @JsonKey(name: 'songs', required: true, includeIfNull: false)
-  final int? songs;
+  int? songs;
   @JsonKey(name: 'position', required: true, includeIfNull: false)
-  final int? position;
+  int? position;
   @JsonKey(name: 'createdAt', required: true, includeIfNull: false)
-  final String createdAt;
+  String? createdAt;
   @JsonKey(name: 'updatedAt', required: true, includeIfNull: false)
-  final String updatedAt;
+  String? updatedAt;
   @JsonKey(name: 'id', includeIfNull: false)
-  final int? id;
+  int? id;
 
-  const Book({
-    required this.objectId,
-    required this.bookid,
-    required this.enabled,
-    required this.title,
-    required this.subtitle,
-    required this.songs,
-    required this.position,
-    required this.createdAt,
-    required this.updatedAt,
+   Book({
+    this.objectId,
+    this.bookid,
+    this.enabled,
+    this.title,
+    this.subtitle,
+    this.songs,
+    this.position,
+    this.createdAt,
+    this.updatedAt,
     this.id,
   });
 

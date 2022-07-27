@@ -33,9 +33,19 @@ class MyApp extends StatelessWidget {
           binding: HomeBinding(),
         ),
         GetPage(
-          name: Paths.song,
-          page: () => SongView(books: null, song: null),
-          binding: SongBinding(),
+          name: Paths.listeds,
+          page: () => ListedsView(listed: null),
+          binding: ListedsBinding(),
+        ),
+        GetPage(
+          name: Paths.songsPresentor,
+          page: () => PresentorView(books: null, song: null),
+          binding: PresentorBinding(),
+        ),
+        GetPage(
+          name: Paths.songsEditor,
+          page: () => EditorView(song: null),
+          binding: EditorBinding(),
         ),
       ],
     );

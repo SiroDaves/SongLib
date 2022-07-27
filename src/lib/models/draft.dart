@@ -5,42 +5,45 @@ part 'draft.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Draft {
   @JsonKey(name: 'objectId', required: true, includeIfNull: false)
-  final String objectId;
+  String? objectId;
   @JsonKey(name: 'book', required: true, includeIfNull: false)
-  final int? book;
+  int? book;
   @JsonKey(name: 'songno', required: true, includeIfNull: false)
-  final int? songno;
+  int? songno;
   @JsonKey(name: 'title', required: true, includeIfNull: false)
-  final String title;
+  String? title;
   @JsonKey(name: 'alias', required: true, includeIfNull: false)
-  final String alias;
+  String? alias;
   @JsonKey(name: 'content', required: true, includeIfNull: false)
-  final String content;
+  String? content;
   @JsonKey(name: 'key', required: true, includeIfNull: false)
-  final String key;
+  String? key;
   @JsonKey(name: 'author', required: true, includeIfNull: false)
-  final String author;
+  String? author;
   @JsonKey(name: 'views', required: true, includeIfNull: false)
-  final int? views;
+  int? views;
   @JsonKey(name: 'createdAt', required: true, includeIfNull: false)
-  final String createdAt;
+  String? createdAt;
   @JsonKey(name: 'updatedAt', required: true, includeIfNull: false)
-  final String updatedAt;
+  String? updatedAt;
+  @JsonKey(name: 'liked', includeIfNull: false)
+  bool? liked;
   @JsonKey(name: 'id', includeIfNull: false)
-  final int? id;
+  int? id;
 
-  const Draft({
-    required this.objectId,
-    required this.book,
-    required this.songno,
-    required this.title,
-    required this.alias,
-    required this.content,
-    required this.key,
-    required this.author,
-    required this.views,
-    required this.createdAt,
-    required this.updatedAt,
+  Draft({
+    this.objectId,
+    this.book,
+    this.songno,
+    this.title,
+    this.alias,
+    this.content,
+    this.key,
+    this.author,
+    this.views,
+    this.createdAt,
+    this.updatedAt,
+    this.liked,
     this.id,
   });
 

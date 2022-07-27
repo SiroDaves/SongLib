@@ -24,7 +24,7 @@ class Tab2Search extends StatelessWidget {
       queryBuilder: (query, list) {
         return list
             .where(
-              (song) => song.title.toLowerCase().contains(query.toLowerCase()),
+              (song) => song.title!.toLowerCase().contains(query.toLowerCase()),
             )
             .toList();
       },
@@ -33,7 +33,7 @@ class Tab2Search extends StatelessWidget {
           child: SongItem(song: song, height: height!),
           onTap: () {
             Get.to(
-              () => SongView(books: books, song: song),
+              () => PresentorView(books: books, song: song),
               transition: Transition.rightToLeft,
             );
           },
@@ -114,7 +114,7 @@ class Tab2Search extends StatelessWidget {
                 bottom: 8,
               ),
               child: Text(
-                selectedSong.title,
+                selectedSong.title!,
                 style: const TextStyle(fontSize: 14),
               ),
             ),
@@ -154,7 +154,7 @@ class Tab2Search extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       child: Text(
-        song.title,
+        song.title!,
         style: const TextStyle(fontSize: 16),
       ),
     );

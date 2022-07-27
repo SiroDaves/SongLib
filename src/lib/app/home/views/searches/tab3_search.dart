@@ -21,7 +21,7 @@ class Tab3Search extends StatelessWidget {
       queryBuilder: (query, list) {
         return list
             .where(
-              (draft) => draft.title.toLowerCase().contains(query.toLowerCase()),
+              (draft) => draft.title!.toLowerCase().contains(query.toLowerCase()),
             )
             .toList();
       },
@@ -102,7 +102,7 @@ class Tab3Search extends StatelessWidget {
                 bottom: 8,
               ),
               child: Text(
-                selectedDraft.title,
+                selectedDraft.title!,
                 style: const TextStyle(fontSize: 14),
               ),
             ),
@@ -142,7 +142,7 @@ class Tab3Search extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       child: Text(
-        draft.title,
+        draft.title!,
         style: const TextStyle(fontSize: 16),
       ),
     );

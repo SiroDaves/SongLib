@@ -7,5 +7,6 @@ export 'labels.dart';
 export 'progress.dart';
 export 'list_items.dart';
 export 'search/exports.dart';
+export 'swiper_widgets.dart';
 export 'toast.dart';
 export 'vertical_tabs.dart';

@@ -14,23 +14,39 @@ class NotesTab extends StatelessWidget {
   Widget build(BuildContext context) {
     size = Get.size;
 
-    return Container(
-      height: size!.height,
-      padding: const EdgeInsets.only(top: 40),
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [AppColors.white, AppColors.secondaryColor, AppColors.black],
+    return Scaffold(
+      body: Container(
+        height: size!.height,
+        padding: const EdgeInsets.only(top: 40),
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              AppColors.white,
+              AppColors.secondaryColor,
+              AppColors.black
+            ],
+          ),
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              titleContainer(),
+              mainContainer(context),
+            ],
+          ),
         ),
       ),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            titleContainer(),
-            mainContainer(context),
-          ],
-        ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.primaryColor,
+        onPressed: () {
+          Get.to(
+            () => EditorView(),
+            transition: Transition.downToUp,
+          );
+        },
+        child: const Icon(Icons.add, color: AppColors.white),
       ),
     );
   }

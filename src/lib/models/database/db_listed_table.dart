@@ -6,19 +6,19 @@ import '../../exports.dart';
 class DbListedTable extends Table {
   IntColumn get id => integer().autoIncrement()();
 
-  TextColumn get objectId => text().withLength(min: 3, max: 100)();
+  TextColumn get objectId => text().withLength(min: 0, max: 100)();
 
-  IntColumn get parentid => integer().nullable()();
+  IntColumn get parentid => integer().withDefault(const Constant(0))();
 
-  TextColumn get title => text().withLength(min: 3, max: 100)();
+  TextColumn get title => text().withLength(min: 0, max: 100)();
 
-  TextColumn get description => text().withLength(min: 3, max: 200)();
+  TextColumn get description => text().withLength(min: 0, max: 200)();
 
-  IntColumn get position => integer().nullable()();
+  IntColumn get position => integer().withDefault(const Constant(0))();
 
-  TextColumn get createdAt => text().withLength(min: 3, max: 30)();
+  TextColumn get createdAt => text().withDefault(Constant(dateNow()))();
 
-  TextColumn get updatedAt => text().withLength(min: 3, max: 30)();
+  TextColumn get updatedAt => text().withDefault(Constant(dateNow()))();
 }
 
 extension DbListedExtension on DbListed {
@@ -39,13 +39,13 @@ extension ListedExtension on Listed {
     final id = this.id;
     return DbListedTableCompanion.insert(
       id: id == null ? const Value.absent() : Value(id),
-      objectId: objectId,
-      parentid: Value(parentid),
-      title: title,
-      description: description,
-      position: Value(position),
-      createdAt: createdAt,
-      updatedAt: updatedAt,
+      objectId: objectId!,
+      parentid: Value(parentid!),
+      title: title!,
+      description: description!,
+      position: Value(position!),
+      createdAt: Value(createdAt!),
+      updatedAt: Value(updatedAt!),
     );
   }
 }

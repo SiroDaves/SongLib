@@ -16,30 +16,32 @@ class SelectionView extends StatelessWidget {
   Widget build(BuildContext context) {
     size = Get.size;
 
-    return Scaffold(
-      backgroundColor: AppColors.grey,
-      appBar: AppBar(
-        title: Text(
-          key: const ValueKey('${KeyConstants.booksScreen}title'),
-          controller.isBusy
-              ? AppConstants.booksTitleLoading
-              : AppConstants.booksTitle,
-          style: titleTextStyle,
+    return GetBuilder<SelectionController>(
+      builder: (controller) => Scaffold(
+        backgroundColor: AppColors.grey,
+        appBar: AppBar(
+          title: Text(
+            key: const ValueKey('${KeyConstants.booksScreen}title'),
+            controller.isBusy
+                ? AppConstants.booksTitleLoading
+                : AppConstants.booksTitle,
+            style: normalTextStyle,
+          ),
         ),
-      ),
-      body: GetBuilder<SelectionController>(
-        builder: (controller) => SizedBox(
+        body: SizedBox(
           key: const ValueKey('${KeyConstants.booksScreen}sizedbox'),
           child: controller.isBusy
               ? const CircularProgress()
               : mainContainer(context),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        key: const ValueKey(KeyConstants.booksScreenFab),
-        onPressed: () => areYouDoneDialog(context),
-        backgroundColor: AppColors.primaryColor,
-        child: const Icon(Icons.check, color: AppColors.white),
+        floatingActionButton: controller.isBusy
+            ? Container()
+            : FloatingActionButton(
+                key: const ValueKey(KeyConstants.booksScreenFab),
+                backgroundColor: AppColors.primaryColor,
+                onPressed: () => areYouDoneDialog(context),
+                child: const Icon(Icons.check, color: AppColors.white),
+              ),
       ),
     );
   }

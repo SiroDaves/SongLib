@@ -26,7 +26,10 @@ Future<List<Song>?> getSongs(
           songs = resp.results;
 
           if (songs!.isNotEmpty) {
-            //
+            showToast(
+              text: "Please wait as we load the songs",
+              state: ToastStates.success,
+            );
           } else {
             showToast(
               text: "No data was found, try again later",

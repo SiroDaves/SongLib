@@ -24,25 +24,24 @@ Draft _$DraftFromJson(Map<String, dynamic> json) {
     ],
   );
   return Draft(
-    objectId: json['objectId'] as String,
+    objectId: json['objectId'] as String?,
     book: json['book'] as int?,
     songno: json['songno'] as int?,
-    title: json['title'] as String,
-    alias: json['alias'] as String,
-    content: json['content'] as String,
-    key: json['key'] as String,
-    author: json['author'] as String,
+    title: json['title'] as String?,
+    alias: json['alias'] as String?,
+    content: json['content'] as String?,
+    key: json['key'] as String?,
+    author: json['author'] as String?,
     views: json['views'] as int?,
-    createdAt: json['createdAt'] as String,
-    updatedAt: json['updatedAt'] as String,
+    createdAt: json['createdAt'] as String?,
+    updatedAt: json['updatedAt'] as String?,
+    liked: json['liked'] as bool?,
     id: json['id'] as int?,
   );
 }
 
 Map<String, dynamic> _$DraftToJson(Draft instance) {
-  final val = <String, dynamic>{
-    'objectId': instance.objectId,
-  };
+  final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -50,16 +49,18 @@ Map<String, dynamic> _$DraftToJson(Draft instance) {
     }
   }
 
+  writeNotNull('objectId', instance.objectId);
   writeNotNull('book', instance.book);
   writeNotNull('songno', instance.songno);
-  val['title'] = instance.title;
-  val['alias'] = instance.alias;
-  val['content'] = instance.content;
-  val['key'] = instance.key;
-  val['author'] = instance.author;
+  writeNotNull('title', instance.title);
+  writeNotNull('alias', instance.alias);
+  writeNotNull('content', instance.content);
+  writeNotNull('key', instance.key);
+  writeNotNull('author', instance.author);
   writeNotNull('views', instance.views);
-  val['createdAt'] = instance.createdAt;
-  val['updatedAt'] = instance.updatedAt;
+  writeNotNull('createdAt', instance.createdAt);
+  writeNotNull('updatedAt', instance.updatedAt);
+  writeNotNull('liked', instance.liked);
   writeNotNull('id', instance.id);
   return val;
 }

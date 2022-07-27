@@ -20,21 +20,19 @@ Listed _$ListedFromJson(Map<String, dynamic> json) {
     ],
   );
   return Listed(
-    objectId: json['objectId'] as String,
+    objectId: json['objectId'] as String?,
     parentid: json['parentid'] as int?,
-    title: json['title'] as String,
-    description: json['description'] as String,
+    title: json['title'] as String?,
+    description: json['description'] as String?,
     position: json['position'] as int?,
-    createdAt: json['createdAt'] as String,
-    updatedAt: json['updatedAt'] as String,
+    createdAt: json['createdAt'] as String?,
+    updatedAt: json['updatedAt'] as String?,
     id: json['id'] as int?,
   );
 }
 
 Map<String, dynamic> _$ListedToJson(Listed instance) {
-  final val = <String, dynamic>{
-    'objectId': instance.objectId,
-  };
+  final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -42,12 +40,13 @@ Map<String, dynamic> _$ListedToJson(Listed instance) {
     }
   }
 
+  writeNotNull('objectId', instance.objectId);
   writeNotNull('parentid', instance.parentid);
-  val['title'] = instance.title;
-  val['description'] = instance.description;
+  writeNotNull('title', instance.title);
+  writeNotNull('description', instance.description);
   writeNotNull('position', instance.position);
-  val['createdAt'] = instance.createdAt;
-  val['updatedAt'] = instance.updatedAt;
+  writeNotNull('createdAt', instance.createdAt);
+  writeNotNull('updatedAt', instance.updatedAt);
   writeNotNull('id', instance.id);
   return val;
 }

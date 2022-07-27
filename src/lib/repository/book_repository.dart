@@ -30,7 +30,7 @@ class _BookRepository implements BookRepository {
   Future<List<Book>> fetchBooks() async {
     final results = await _bookService.getBooks();
     for (final book in results) {
-      await _bookDao.createBookWithValue(book);
+      await _bookDao.createBook(book);
     }
     return results;
   }

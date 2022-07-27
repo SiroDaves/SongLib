@@ -20,13 +20,14 @@ class HomeView extends StatelessWidget {
 
     final appPages = <Widget>[
       ListsTab(),
+      LikesTab(),
       SearchTab(),
       NotesTab(),
     ];
 
     return Scaffold(
       body: Swiper(
-        index: 1,
+        index: 0,
         itemBuilder: (context, index) {
           return appPages[index];
         },
@@ -37,14 +38,18 @@ class HomeView extends StatelessWidget {
           margin: EdgeInsets.only(top: 35),
         ),
         control: PageSwiperControl(
-          iconPrevious: previousWidget(),
-          iconNext: nextWidget(),
+          icons: [
+            indicatorIcon1(),
+            indicatorIcon2(),
+            indicatorIcon3(),
+            indicatorIcon4(),
+          ],
         ),
       ),
     );
   }
 
-  Widget previousWidget() {
+  Widget indicatorIcon1() {
     return Padding(
       padding: const EdgeInsets.all(5),
       child: Column(
@@ -67,7 +72,53 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget nextWidget() {
+  Widget indicatorIcon2() {
+    return Padding(
+      padding: const EdgeInsets.all(5),
+      child: Column(
+        children: [
+          const Icon(
+            Icons.favorite,
+            color: AppColors.primaryColor,
+            size: 20,
+          ),
+          Text(
+            'Likes',
+            style: titleTextStyle.copyWith(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: AppColors.primaryColor,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget indicatorIcon3() {
+    return Padding(
+      padding: const EdgeInsets.all(5),
+      child: Column(
+        children: [
+          const Icon(
+            Icons.search,
+            color: AppColors.primaryColor,
+            size: 20,
+          ),
+          Text(
+            'Search',
+            style: titleTextStyle.copyWith(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: AppColors.primaryColor,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget indicatorIcon4() {
     return Padding(
       padding: const EdgeInsets.all(5),
       child: Column(

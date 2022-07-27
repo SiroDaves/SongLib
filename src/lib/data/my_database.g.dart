@@ -10,23 +10,23 @@ part of 'my_database.dart';
 class DbBook extends DataClass implements Insertable<DbBook> {
   final int id;
   final String objectId;
-  final int? bookid;
-  final int? enabled;
+  final int bookid;
+  final int enabled;
   final String title;
   final String subtitle;
-  final int? songs;
-  final int? position;
+  final int songs;
+  final int position;
   final String createdAt;
   final String updatedAt;
   DbBook(
       {required this.id,
       required this.objectId,
-      this.bookid,
-      this.enabled,
+      required this.bookid,
+      required this.enabled,
       required this.title,
       required this.subtitle,
-      this.songs,
-      this.position,
+      required this.songs,
+      required this.position,
       required this.createdAt,
       required this.updatedAt});
   factory DbBook.fromData(Map<String, dynamic> data, {String? prefix}) {
@@ -37,17 +37,17 @@ class DbBook extends DataClass implements Insertable<DbBook> {
       objectId: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}object_id'])!,
       bookid: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}bookid']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}bookid'])!,
       enabled: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}enabled']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}enabled'])!,
       title: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}title'])!,
       subtitle: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}subtitle'])!,
       songs: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}songs']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}songs'])!,
       position: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}position']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}position'])!,
       createdAt: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}created_at'])!,
       updatedAt: const StringType()
@@ -59,20 +59,12 @@ class DbBook extends DataClass implements Insertable<DbBook> {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['object_id'] = Variable<String>(objectId);
-    if (!nullToAbsent || bookid != null) {
-      map['bookid'] = Variable<int?>(bookid);
-    }
-    if (!nullToAbsent || enabled != null) {
-      map['enabled'] = Variable<int?>(enabled);
-    }
+    map['bookid'] = Variable<int>(bookid);
+    map['enabled'] = Variable<int>(enabled);
     map['title'] = Variable<String>(title);
     map['subtitle'] = Variable<String>(subtitle);
-    if (!nullToAbsent || songs != null) {
-      map['songs'] = Variable<int?>(songs);
-    }
-    if (!nullToAbsent || position != null) {
-      map['position'] = Variable<int?>(position);
-    }
+    map['songs'] = Variable<int>(songs);
+    map['position'] = Variable<int>(position);
     map['created_at'] = Variable<String>(createdAt);
     map['updated_at'] = Variable<String>(updatedAt);
     return map;
@@ -82,18 +74,12 @@ class DbBook extends DataClass implements Insertable<DbBook> {
     return DbBookTableCompanion(
       id: Value(id),
       objectId: Value(objectId),
-      bookid:
-          bookid == null && nullToAbsent ? const Value.absent() : Value(bookid),
-      enabled: enabled == null && nullToAbsent
-          ? const Value.absent()
-          : Value(enabled),
+      bookid: Value(bookid),
+      enabled: Value(enabled),
       title: Value(title),
       subtitle: Value(subtitle),
-      songs:
-          songs == null && nullToAbsent ? const Value.absent() : Value(songs),
-      position: position == null && nullToAbsent
-          ? const Value.absent()
-          : Value(position),
+      songs: Value(songs),
+      position: Value(position),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
     );
@@ -105,12 +91,12 @@ class DbBook extends DataClass implements Insertable<DbBook> {
     return DbBook(
       id: serializer.fromJson<int>(json['id']),
       objectId: serializer.fromJson<String>(json['objectId']),
-      bookid: serializer.fromJson<int?>(json['bookid']),
-      enabled: serializer.fromJson<int?>(json['enabled']),
+      bookid: serializer.fromJson<int>(json['bookid']),
+      enabled: serializer.fromJson<int>(json['enabled']),
       title: serializer.fromJson<String>(json['title']),
       subtitle: serializer.fromJson<String>(json['subtitle']),
-      songs: serializer.fromJson<int?>(json['songs']),
-      position: serializer.fromJson<int?>(json['position']),
+      songs: serializer.fromJson<int>(json['songs']),
+      position: serializer.fromJson<int>(json['position']),
       createdAt: serializer.fromJson<String>(json['createdAt']),
       updatedAt: serializer.fromJson<String>(json['updatedAt']),
     );
@@ -121,12 +107,12 @@ class DbBook extends DataClass implements Insertable<DbBook> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'objectId': serializer.toJson<String>(objectId),
-      'bookid': serializer.toJson<int?>(bookid),
-      'enabled': serializer.toJson<int?>(enabled),
+      'bookid': serializer.toJson<int>(bookid),
+      'enabled': serializer.toJson<int>(enabled),
       'title': serializer.toJson<String>(title),
       'subtitle': serializer.toJson<String>(subtitle),
-      'songs': serializer.toJson<int?>(songs),
-      'position': serializer.toJson<int?>(position),
+      'songs': serializer.toJson<int>(songs),
+      'position': serializer.toJson<int>(position),
       'createdAt': serializer.toJson<String>(createdAt),
       'updatedAt': serializer.toJson<String>(updatedAt),
     };
@@ -194,12 +180,12 @@ class DbBook extends DataClass implements Insertable<DbBook> {
 class DbBookTableCompanion extends UpdateCompanion<DbBook> {
   final Value<int> id;
   final Value<String> objectId;
-  final Value<int?> bookid;
-  final Value<int?> enabled;
+  final Value<int> bookid;
+  final Value<int> enabled;
   final Value<String> title;
   final Value<String> subtitle;
-  final Value<int?> songs;
-  final Value<int?> position;
+  final Value<int> songs;
+  final Value<int> position;
   final Value<String> createdAt;
   final Value<String> updatedAt;
   const DbBookTableCompanion({
@@ -223,22 +209,20 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
     required String subtitle,
     this.songs = const Value.absent(),
     this.position = const Value.absent(),
-    required String createdAt,
-    required String updatedAt,
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
   })  : objectId = Value(objectId),
         title = Value(title),
-        subtitle = Value(subtitle),
-        createdAt = Value(createdAt),
-        updatedAt = Value(updatedAt);
+        subtitle = Value(subtitle);
   static Insertable<DbBook> custom({
     Expression<int>? id,
     Expression<String>? objectId,
-    Expression<int?>? bookid,
-    Expression<int?>? enabled,
+    Expression<int>? bookid,
+    Expression<int>? enabled,
     Expression<String>? title,
     Expression<String>? subtitle,
-    Expression<int?>? songs,
-    Expression<int?>? position,
+    Expression<int>? songs,
+    Expression<int>? position,
     Expression<String>? createdAt,
     Expression<String>? updatedAt,
   }) {
@@ -259,12 +243,12 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
   DbBookTableCompanion copyWith(
       {Value<int>? id,
       Value<String>? objectId,
-      Value<int?>? bookid,
-      Value<int?>? enabled,
+      Value<int>? bookid,
+      Value<int>? enabled,
       Value<String>? title,
       Value<String>? subtitle,
-      Value<int?>? songs,
-      Value<int?>? position,
+      Value<int>? songs,
+      Value<int>? position,
       Value<String>? createdAt,
       Value<String>? updatedAt}) {
     return DbBookTableCompanion(
@@ -291,10 +275,10 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
       map['object_id'] = Variable<String>(objectId.value);
     }
     if (bookid.present) {
-      map['bookid'] = Variable<int?>(bookid.value);
+      map['bookid'] = Variable<int>(bookid.value);
     }
     if (enabled.present) {
-      map['enabled'] = Variable<int?>(enabled.value);
+      map['enabled'] = Variable<int>(enabled.value);
     }
     if (title.present) {
       map['title'] = Variable<String>(title.value);
@@ -303,10 +287,10 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
       map['subtitle'] = Variable<String>(subtitle.value);
     }
     if (songs.present) {
-      map['songs'] = Variable<int?>(songs.value);
+      map['songs'] = Variable<int>(songs.value);
     }
     if (position.present) {
-      map['position'] = Variable<int?>(position.value);
+      map['position'] = Variable<int>(position.value);
     }
     if (createdAt.present) {
       map['created_at'] = Variable<String>(createdAt.value);
@@ -353,25 +337,29 @@ class $DbBookTableTable extends DbBookTable
   late final GeneratedColumn<String?> objectId = GeneratedColumn<String?>(
       'object_id', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 100),
+          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 100),
       type: const StringType(),
       requiredDuringInsert: true);
   final VerificationMeta _bookidMeta = const VerificationMeta('bookid');
   @override
   late final GeneratedColumn<int?> bookid = GeneratedColumn<int?>(
-      'bookid', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+      'bookid', aliasedName, false,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
   final VerificationMeta _enabledMeta = const VerificationMeta('enabled');
   @override
   late final GeneratedColumn<int?> enabled = GeneratedColumn<int?>(
-      'enabled', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+      'enabled', aliasedName, false,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
   final VerificationMeta _titleMeta = const VerificationMeta('title');
   @override
   late final GeneratedColumn<String?> title = GeneratedColumn<String?>(
       'title', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 100),
+          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 100),
       type: const StringType(),
       requiredDuringInsert: true);
   final VerificationMeta _subtitleMeta = const VerificationMeta('subtitle');
@@ -379,35 +367,37 @@ class $DbBookTableTable extends DbBookTable
   late final GeneratedColumn<String?> subtitle = GeneratedColumn<String?>(
       'subtitle', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 100),
+          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 100),
       type: const StringType(),
       requiredDuringInsert: true);
   final VerificationMeta _songsMeta = const VerificationMeta('songs');
   @override
   late final GeneratedColumn<int?> songs = GeneratedColumn<int?>(
-      'songs', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+      'songs', aliasedName, false,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
   final VerificationMeta _positionMeta = const VerificationMeta('position');
   @override
   late final GeneratedColumn<int?> position = GeneratedColumn<int?>(
-      'position', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+      'position', aliasedName, false,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
   final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
   @override
   late final GeneratedColumn<String?> createdAt = GeneratedColumn<String?>(
       'created_at', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 30),
       type: const StringType(),
-      requiredDuringInsert: true);
+      requiredDuringInsert: false,
+      defaultValue: Constant(dateNow()));
   final VerificationMeta _updatedAtMeta = const VerificationMeta('updatedAt');
   @override
   late final GeneratedColumn<String?> updatedAt = GeneratedColumn<String?>(
       'updated_at', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 30),
       type: const StringType(),
-      requiredDuringInsert: true);
+      requiredDuringInsert: false,
+      defaultValue: Constant(dateNow()));
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -470,14 +460,10 @@ class $DbBookTableTable extends DbBookTable
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
           createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
-    } else if (isInserting) {
-      context.missing(_createdAtMeta);
     }
     if (data.containsKey('updated_at')) {
       context.handle(_updatedAtMeta,
           updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
-    } else if (isInserting) {
-      context.missing(_updatedAtMeta);
     }
     return context;
   }
@@ -499,29 +485,31 @@ class $DbBookTableTable extends DbBookTable
 class DbDraft extends DataClass implements Insertable<DbDraft> {
   final int id;
   final String objectId;
-  final int? book;
-  final int? songno;
+  final int book;
+  final int songno;
   final String title;
   final String alias;
   final String content;
   final String key;
   final String author;
-  final int? views;
+  final int views;
   final String createdAt;
   final String updatedAt;
+  final bool liked;
   DbDraft(
       {required this.id,
       required this.objectId,
-      this.book,
-      this.songno,
+      required this.book,
+      required this.songno,
       required this.title,
       required this.alias,
       required this.content,
       required this.key,
       required this.author,
-      this.views,
+      required this.views,
       required this.createdAt,
-      required this.updatedAt});
+      required this.updatedAt,
+      required this.liked});
   factory DbDraft.fromData(Map<String, dynamic> data, {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     return DbDraft(
@@ -530,9 +518,9 @@ class DbDraft extends DataClass implements Insertable<DbDraft> {
       objectId: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}object_id'])!,
       book: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}book']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}book'])!,
       songno: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}songno']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}songno'])!,
       title: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}title'])!,
       alias: const StringType()
@@ -544,11 +532,13 @@ class DbDraft extends DataClass implements Insertable<DbDraft> {
       author: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}author'])!,
       views: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}views']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}views'])!,
       createdAt: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}created_at'])!,
       updatedAt: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}updated_at'])!,
+      liked: const BoolType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}liked'])!,
     );
   }
   @override
@@ -556,22 +546,17 @@ class DbDraft extends DataClass implements Insertable<DbDraft> {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['object_id'] = Variable<String>(objectId);
-    if (!nullToAbsent || book != null) {
-      map['book'] = Variable<int?>(book);
-    }
-    if (!nullToAbsent || songno != null) {
-      map['songno'] = Variable<int?>(songno);
-    }
+    map['book'] = Variable<int>(book);
+    map['songno'] = Variable<int>(songno);
     map['title'] = Variable<String>(title);
     map['alias'] = Variable<String>(alias);
     map['body'] = Variable<String>(content);
     map['key'] = Variable<String>(key);
     map['author'] = Variable<String>(author);
-    if (!nullToAbsent || views != null) {
-      map['views'] = Variable<int?>(views);
-    }
+    map['views'] = Variable<int>(views);
     map['created_at'] = Variable<String>(createdAt);
     map['updated_at'] = Variable<String>(updatedAt);
+    map['liked'] = Variable<bool>(liked);
     return map;
   }
 
@@ -579,18 +564,17 @@ class DbDraft extends DataClass implements Insertable<DbDraft> {
     return DbDraftTableCompanion(
       id: Value(id),
       objectId: Value(objectId),
-      book: book == null && nullToAbsent ? const Value.absent() : Value(book),
-      songno:
-          songno == null && nullToAbsent ? const Value.absent() : Value(songno),
+      book: Value(book),
+      songno: Value(songno),
       title: Value(title),
       alias: Value(alias),
       content: Value(content),
       key: Value(key),
       author: Value(author),
-      views:
-          views == null && nullToAbsent ? const Value.absent() : Value(views),
+      views: Value(views),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
+      liked: Value(liked),
     );
   }
 
@@ -600,16 +584,17 @@ class DbDraft extends DataClass implements Insertable<DbDraft> {
     return DbDraft(
       id: serializer.fromJson<int>(json['id']),
       objectId: serializer.fromJson<String>(json['objectId']),
-      book: serializer.fromJson<int?>(json['book']),
-      songno: serializer.fromJson<int?>(json['songno']),
+      book: serializer.fromJson<int>(json['book']),
+      songno: serializer.fromJson<int>(json['songno']),
       title: serializer.fromJson<String>(json['title']),
       alias: serializer.fromJson<String>(json['alias']),
       content: serializer.fromJson<String>(json['content']),
       key: serializer.fromJson<String>(json['key']),
       author: serializer.fromJson<String>(json['author']),
-      views: serializer.fromJson<int?>(json['views']),
+      views: serializer.fromJson<int>(json['views']),
       createdAt: serializer.fromJson<String>(json['createdAt']),
       updatedAt: serializer.fromJson<String>(json['updatedAt']),
+      liked: serializer.fromJson<bool>(json['liked']),
     );
   }
   @override
@@ -618,16 +603,17 @@ class DbDraft extends DataClass implements Insertable<DbDraft> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'objectId': serializer.toJson<String>(objectId),
-      'book': serializer.toJson<int?>(book),
-      'songno': serializer.toJson<int?>(songno),
+      'book': serializer.toJson<int>(book),
+      'songno': serializer.toJson<int>(songno),
       'title': serializer.toJson<String>(title),
       'alias': serializer.toJson<String>(alias),
       'content': serializer.toJson<String>(content),
       'key': serializer.toJson<String>(key),
       'author': serializer.toJson<String>(author),
-      'views': serializer.toJson<int?>(views),
+      'views': serializer.toJson<int>(views),
       'createdAt': serializer.toJson<String>(createdAt),
       'updatedAt': serializer.toJson<String>(updatedAt),
+      'liked': serializer.toJson<bool>(liked),
     };
   }
 
@@ -643,7 +629,8 @@ class DbDraft extends DataClass implements Insertable<DbDraft> {
           String? author,
           int? views,
           String? createdAt,
-          String? updatedAt}) =>
+          String? updatedAt,
+          bool? liked}) =>
       DbDraft(
         id: id ?? this.id,
         objectId: objectId ?? this.objectId,
@@ -657,6 +644,7 @@ class DbDraft extends DataClass implements Insertable<DbDraft> {
         views: views ?? this.views,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
+        liked: liked ?? this.liked,
       );
   @override
   String toString() {
@@ -672,14 +660,15 @@ class DbDraft extends DataClass implements Insertable<DbDraft> {
           ..write('author: $author, ')
           ..write('views: $views, ')
           ..write('createdAt: $createdAt, ')
-          ..write('updatedAt: $updatedAt')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('liked: $liked')
           ..write(')'))
         .toString();
   }
 
   @override
   int get hashCode => Object.hash(id, objectId, book, songno, title, alias,
-      content, key, author, views, createdAt, updatedAt);
+      content, key, author, views, createdAt, updatedAt, liked);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -695,22 +684,24 @@ class DbDraft extends DataClass implements Insertable<DbDraft> {
           other.author == this.author &&
           other.views == this.views &&
           other.createdAt == this.createdAt &&
-          other.updatedAt == this.updatedAt);
+          other.updatedAt == this.updatedAt &&
+          other.liked == this.liked);
 }
 
 class DbDraftTableCompanion extends UpdateCompanion<DbDraft> {
   final Value<int> id;
   final Value<String> objectId;
-  final Value<int?> book;
-  final Value<int?> songno;
+  final Value<int> book;
+  final Value<int> songno;
   final Value<String> title;
   final Value<String> alias;
   final Value<String> content;
   final Value<String> key;
   final Value<String> author;
-  final Value<int?> views;
+  final Value<int> views;
   final Value<String> createdAt;
   final Value<String> updatedAt;
+  final Value<bool> liked;
   const DbDraftTableCompanion({
     this.id = const Value.absent(),
     this.objectId = const Value.absent(),
@@ -724,6 +715,7 @@ class DbDraftTableCompanion extends UpdateCompanion<DbDraft> {
     this.views = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
+    this.liked = const Value.absent(),
   });
   DbDraftTableCompanion.insert({
     this.id = const Value.absent(),
@@ -736,29 +728,29 @@ class DbDraftTableCompanion extends UpdateCompanion<DbDraft> {
     required String key,
     required String author,
     this.views = const Value.absent(),
-    required String createdAt,
-    required String updatedAt,
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.liked = const Value.absent(),
   })  : objectId = Value(objectId),
         title = Value(title),
         alias = Value(alias),
         content = Value(content),
         key = Value(key),
-        author = Value(author),
-        createdAt = Value(createdAt),
-        updatedAt = Value(updatedAt);
+        author = Value(author);
   static Insertable<DbDraft> custom({
     Expression<int>? id,
     Expression<String>? objectId,
-    Expression<int?>? book,
-    Expression<int?>? songno,
+    Expression<int>? book,
+    Expression<int>? songno,
     Expression<String>? title,
     Expression<String>? alias,
     Expression<String>? content,
     Expression<String>? key,
     Expression<String>? author,
-    Expression<int?>? views,
+    Expression<int>? views,
     Expression<String>? createdAt,
     Expression<String>? updatedAt,
+    Expression<bool>? liked,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -773,22 +765,24 @@ class DbDraftTableCompanion extends UpdateCompanion<DbDraft> {
       if (views != null) 'views': views,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
+      if (liked != null) 'liked': liked,
     });
   }
 
   DbDraftTableCompanion copyWith(
       {Value<int>? id,
       Value<String>? objectId,
-      Value<int?>? book,
-      Value<int?>? songno,
+      Value<int>? book,
+      Value<int>? songno,
       Value<String>? title,
       Value<String>? alias,
       Value<String>? content,
       Value<String>? key,
       Value<String>? author,
-      Value<int?>? views,
+      Value<int>? views,
       Value<String>? createdAt,
-      Value<String>? updatedAt}) {
+      Value<String>? updatedAt,
+      Value<bool>? liked}) {
     return DbDraftTableCompanion(
       id: id ?? this.id,
       objectId: objectId ?? this.objectId,
@@ -802,6 +796,7 @@ class DbDraftTableCompanion extends UpdateCompanion<DbDraft> {
       views: views ?? this.views,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      liked: liked ?? this.liked,
     );
   }
 
@@ -815,10 +810,10 @@ class DbDraftTableCompanion extends UpdateCompanion<DbDraft> {
       map['object_id'] = Variable<String>(objectId.value);
     }
     if (book.present) {
-      map['book'] = Variable<int?>(book.value);
+      map['book'] = Variable<int>(book.value);
     }
     if (songno.present) {
-      map['songno'] = Variable<int?>(songno.value);
+      map['songno'] = Variable<int>(songno.value);
     }
     if (title.present) {
       map['title'] = Variable<String>(title.value);
@@ -836,13 +831,16 @@ class DbDraftTableCompanion extends UpdateCompanion<DbDraft> {
       map['author'] = Variable<String>(author.value);
     }
     if (views.present) {
-      map['views'] = Variable<int?>(views.value);
+      map['views'] = Variable<int>(views.value);
     }
     if (createdAt.present) {
       map['created_at'] = Variable<String>(createdAt.value);
     }
     if (updatedAt.present) {
       map['updated_at'] = Variable<String>(updatedAt.value);
+    }
+    if (liked.present) {
+      map['liked'] = Variable<bool>(liked.value);
     }
     return map;
   }
@@ -861,7 +859,8 @@ class DbDraftTableCompanion extends UpdateCompanion<DbDraft> {
           ..write('author: $author, ')
           ..write('views: $views, ')
           ..write('createdAt: $createdAt, ')
-          ..write('updatedAt: $updatedAt')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('liked: $liked')
           ..write(')'))
         .toString();
   }
@@ -885,25 +884,29 @@ class $DbDraftTableTable extends DbDraftTable
   late final GeneratedColumn<String?> objectId = GeneratedColumn<String?>(
       'object_id', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 20),
+          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 20),
       type: const StringType(),
       requiredDuringInsert: true);
   final VerificationMeta _bookMeta = const VerificationMeta('book');
   @override
   late final GeneratedColumn<int?> book = GeneratedColumn<int?>(
-      'book', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+      'book', aliasedName, false,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
   final VerificationMeta _songnoMeta = const VerificationMeta('songno');
   @override
   late final GeneratedColumn<int?> songno = GeneratedColumn<int?>(
-      'songno', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+      'songno', aliasedName, false,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
   final VerificationMeta _titleMeta = const VerificationMeta('title');
   @override
   late final GeneratedColumn<String?> title = GeneratedColumn<String?>(
       'title', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 100),
+          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 100),
       type: const StringType(),
       requiredDuringInsert: true);
   final VerificationMeta _aliasMeta = const VerificationMeta('alias');
@@ -938,24 +941,32 @@ class $DbDraftTableTable extends DbDraftTable
   final VerificationMeta _viewsMeta = const VerificationMeta('views');
   @override
   late final GeneratedColumn<int?> views = GeneratedColumn<int?>(
-      'views', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+      'views', aliasedName, false,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
   final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
   @override
   late final GeneratedColumn<String?> createdAt = GeneratedColumn<String?>(
       'created_at', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 30),
       type: const StringType(),
-      requiredDuringInsert: true);
+      requiredDuringInsert: false,
+      defaultValue: Constant(dateNow()));
   final VerificationMeta _updatedAtMeta = const VerificationMeta('updatedAt');
   @override
   late final GeneratedColumn<String?> updatedAt = GeneratedColumn<String?>(
       'updated_at', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 30),
       type: const StringType(),
-      requiredDuringInsert: true);
+      requiredDuringInsert: false,
+      defaultValue: Constant(dateNow()));
+  final VerificationMeta _likedMeta = const VerificationMeta('liked');
+  @override
+  late final GeneratedColumn<bool?> liked = GeneratedColumn<bool?>(
+      'liked', aliasedName, false,
+      type: const BoolType(),
+      requiredDuringInsert: false,
+      defaultConstraints: 'CHECK (liked IN (0, 1))',
+      defaultValue: const Constant(false));
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -969,7 +980,8 @@ class $DbDraftTableTable extends DbDraftTable
         author,
         views,
         createdAt,
-        updatedAt
+        updatedAt,
+        liked
       ];
   @override
   String get aliasedName => _alias ?? 'db_draft_table';
@@ -1034,14 +1046,14 @@ class $DbDraftTableTable extends DbDraftTable
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
           createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
-    } else if (isInserting) {
-      context.missing(_createdAtMeta);
     }
     if (data.containsKey('updated_at')) {
       context.handle(_updatedAtMeta,
           updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
-    } else if (isInserting) {
-      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('liked')) {
+      context.handle(
+          _likedMeta, liked.isAcceptableOrUnknown(data['liked']!, _likedMeta));
     }
     return context;
   }
@@ -1063,12 +1075,12 @@ class $DbDraftTableTable extends DbDraftTable
 class DbHistory extends DataClass implements Insertable<DbHistory> {
   final int id;
   final String objectId;
-  final int? song;
+  final int song;
   final String createdAt;
   DbHistory(
       {required this.id,
       required this.objectId,
-      this.song,
+      required this.song,
       required this.createdAt});
   factory DbHistory.fromData(Map<String, dynamic> data, {String? prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -1078,7 +1090,7 @@ class DbHistory extends DataClass implements Insertable<DbHistory> {
       objectId: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}object_id'])!,
       song: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}song']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}song'])!,
       createdAt: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}created_at'])!,
     );
@@ -1088,9 +1100,7 @@ class DbHistory extends DataClass implements Insertable<DbHistory> {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['object_id'] = Variable<String>(objectId);
-    if (!nullToAbsent || song != null) {
-      map['song'] = Variable<int?>(song);
-    }
+    map['song'] = Variable<int>(song);
     map['created_at'] = Variable<String>(createdAt);
     return map;
   }
@@ -1099,7 +1109,7 @@ class DbHistory extends DataClass implements Insertable<DbHistory> {
     return DbHistoryTableCompanion(
       id: Value(id),
       objectId: Value(objectId),
-      song: song == null && nullToAbsent ? const Value.absent() : Value(song),
+      song: Value(song),
       createdAt: Value(createdAt),
     );
   }
@@ -1110,7 +1120,7 @@ class DbHistory extends DataClass implements Insertable<DbHistory> {
     return DbHistory(
       id: serializer.fromJson<int>(json['id']),
       objectId: serializer.fromJson<String>(json['objectId']),
-      song: serializer.fromJson<int?>(json['song']),
+      song: serializer.fromJson<int>(json['song']),
       createdAt: serializer.fromJson<String>(json['createdAt']),
     );
   }
@@ -1120,7 +1130,7 @@ class DbHistory extends DataClass implements Insertable<DbHistory> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'objectId': serializer.toJson<String>(objectId),
-      'song': serializer.toJson<int?>(song),
+      'song': serializer.toJson<int>(song),
       'createdAt': serializer.toJson<String>(createdAt),
     };
   }
@@ -1159,7 +1169,7 @@ class DbHistory extends DataClass implements Insertable<DbHistory> {
 class DbHistoryTableCompanion extends UpdateCompanion<DbHistory> {
   final Value<int> id;
   final Value<String> objectId;
-  final Value<int?> song;
+  final Value<int> song;
   final Value<String> createdAt;
   const DbHistoryTableCompanion({
     this.id = const Value.absent(),
@@ -1171,13 +1181,12 @@ class DbHistoryTableCompanion extends UpdateCompanion<DbHistory> {
     this.id = const Value.absent(),
     required String objectId,
     this.song = const Value.absent(),
-    required String createdAt,
-  })  : objectId = Value(objectId),
-        createdAt = Value(createdAt);
+    this.createdAt = const Value.absent(),
+  }) : objectId = Value(objectId);
   static Insertable<DbHistory> custom({
     Expression<int>? id,
     Expression<String>? objectId,
-    Expression<int?>? song,
+    Expression<int>? song,
     Expression<String>? createdAt,
   }) {
     return RawValuesInsertable({
@@ -1191,7 +1200,7 @@ class DbHistoryTableCompanion extends UpdateCompanion<DbHistory> {
   DbHistoryTableCompanion copyWith(
       {Value<int>? id,
       Value<String>? objectId,
-      Value<int?>? song,
+      Value<int>? song,
       Value<String>? createdAt}) {
     return DbHistoryTableCompanion(
       id: id ?? this.id,
@@ -1211,7 +1220,7 @@ class DbHistoryTableCompanion extends UpdateCompanion<DbHistory> {
       map['object_id'] = Variable<String>(objectId.value);
     }
     if (song.present) {
-      map['song'] = Variable<int?>(song.value);
+      map['song'] = Variable<int>(song.value);
     }
     if (createdAt.present) {
       map['created_at'] = Variable<String>(createdAt.value);
@@ -1249,22 +1258,23 @@ class $DbHistoryTableTable extends DbHistoryTable
   late final GeneratedColumn<String?> objectId = GeneratedColumn<String?>(
       'object_id', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 100),
+          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 100),
       type: const StringType(),
       requiredDuringInsert: true);
   final VerificationMeta _songMeta = const VerificationMeta('song');
   @override
   late final GeneratedColumn<int?> song = GeneratedColumn<int?>(
-      'song', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+      'song', aliasedName, false,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
   final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
   @override
   late final GeneratedColumn<String?> createdAt = GeneratedColumn<String?>(
       'created_at', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 30),
       type: const StringType(),
-      requiredDuringInsert: true);
+      requiredDuringInsert: false,
+      defaultValue: Constant(dateNow()));
   @override
   List<GeneratedColumn> get $columns => [id, objectId, song, createdAt];
   @override
@@ -1292,8 +1302,6 @@ class $DbHistoryTableTable extends DbHistoryTable
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
           createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
-    } else if (isInserting) {
-      context.missing(_createdAtMeta);
     }
     return context;
   }
@@ -1312,273 +1320,22 @@ class $DbHistoryTableTable extends DbHistoryTable
   }
 }
 
-class DbLike extends DataClass implements Insertable<DbLike> {
-  final int id;
-  final String objectId;
-  final int? song;
-  final String createdAt;
-  DbLike(
-      {required this.id,
-      required this.objectId,
-      this.song,
-      required this.createdAt});
-  factory DbLike.fromData(Map<String, dynamic> data, {String? prefix}) {
-    final effectivePrefix = prefix ?? '';
-    return DbLike(
-      id: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
-      objectId: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}object_id'])!,
-      song: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}song']),
-      createdAt: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}created_at'])!,
-    );
-  }
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['object_id'] = Variable<String>(objectId);
-    if (!nullToAbsent || song != null) {
-      map['song'] = Variable<int?>(song);
-    }
-    map['created_at'] = Variable<String>(createdAt);
-    return map;
-  }
-
-  DbLikeTableCompanion toCompanion(bool nullToAbsent) {
-    return DbLikeTableCompanion(
-      id: Value(id),
-      objectId: Value(objectId),
-      song: song == null && nullToAbsent ? const Value.absent() : Value(song),
-      createdAt: Value(createdAt),
-    );
-  }
-
-  factory DbLike.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return DbLike(
-      id: serializer.fromJson<int>(json['id']),
-      objectId: serializer.fromJson<String>(json['objectId']),
-      song: serializer.fromJson<int?>(json['song']),
-      createdAt: serializer.fromJson<String>(json['createdAt']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'objectId': serializer.toJson<String>(objectId),
-      'song': serializer.toJson<int?>(song),
-      'createdAt': serializer.toJson<String>(createdAt),
-    };
-  }
-
-  DbLike copyWith({int? id, String? objectId, int? song, String? createdAt}) =>
-      DbLike(
-        id: id ?? this.id,
-        objectId: objectId ?? this.objectId,
-        song: song ?? this.song,
-        createdAt: createdAt ?? this.createdAt,
-      );
-  @override
-  String toString() {
-    return (StringBuffer('DbLike(')
-          ..write('id: $id, ')
-          ..write('objectId: $objectId, ')
-          ..write('song: $song, ')
-          ..write('createdAt: $createdAt')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(id, objectId, song, createdAt);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is DbLike &&
-          other.id == this.id &&
-          other.objectId == this.objectId &&
-          other.song == this.song &&
-          other.createdAt == this.createdAt);
-}
-
-class DbLikeTableCompanion extends UpdateCompanion<DbLike> {
-  final Value<int> id;
-  final Value<String> objectId;
-  final Value<int?> song;
-  final Value<String> createdAt;
-  const DbLikeTableCompanion({
-    this.id = const Value.absent(),
-    this.objectId = const Value.absent(),
-    this.song = const Value.absent(),
-    this.createdAt = const Value.absent(),
-  });
-  DbLikeTableCompanion.insert({
-    this.id = const Value.absent(),
-    required String objectId,
-    this.song = const Value.absent(),
-    required String createdAt,
-  })  : objectId = Value(objectId),
-        createdAt = Value(createdAt);
-  static Insertable<DbLike> custom({
-    Expression<int>? id,
-    Expression<String>? objectId,
-    Expression<int?>? song,
-    Expression<String>? createdAt,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (objectId != null) 'object_id': objectId,
-      if (song != null) 'song': song,
-      if (createdAt != null) 'created_at': createdAt,
-    });
-  }
-
-  DbLikeTableCompanion copyWith(
-      {Value<int>? id,
-      Value<String>? objectId,
-      Value<int?>? song,
-      Value<String>? createdAt}) {
-    return DbLikeTableCompanion(
-      id: id ?? this.id,
-      objectId: objectId ?? this.objectId,
-      song: song ?? this.song,
-      createdAt: createdAt ?? this.createdAt,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (objectId.present) {
-      map['object_id'] = Variable<String>(objectId.value);
-    }
-    if (song.present) {
-      map['song'] = Variable<int?>(song.value);
-    }
-    if (createdAt.present) {
-      map['created_at'] = Variable<String>(createdAt.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('DbLikeTableCompanion(')
-          ..write('id: $id, ')
-          ..write('objectId: $objectId, ')
-          ..write('song: $song, ')
-          ..write('createdAt: $createdAt')
-          ..write(')'))
-        .toString();
-  }
-}
-
-class $DbLikeTableTable extends DbLikeTable
-    with TableInfo<$DbLikeTableTable, DbLike> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $DbLikeTableTable(this.attachedDatabase, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
-      'id', aliasedName, false,
-      type: const IntType(),
-      requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _objectIdMeta = const VerificationMeta('objectId');
-  @override
-  late final GeneratedColumn<String?> objectId = GeneratedColumn<String?>(
-      'object_id', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 100),
-      type: const StringType(),
-      requiredDuringInsert: true);
-  final VerificationMeta _songMeta = const VerificationMeta('song');
-  @override
-  late final GeneratedColumn<int?> song = GeneratedColumn<int?>(
-      'song', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
-  final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
-  @override
-  late final GeneratedColumn<String?> createdAt = GeneratedColumn<String?>(
-      'created_at', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 30),
-      type: const StringType(),
-      requiredDuringInsert: true);
-  @override
-  List<GeneratedColumn> get $columns => [id, objectId, song, createdAt];
-  @override
-  String get aliasedName => _alias ?? 'db_like_table';
-  @override
-  String get actualTableName => 'db_like_table';
-  @override
-  VerificationContext validateIntegrity(Insertable<DbLike> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('object_id')) {
-      context.handle(_objectIdMeta,
-          objectId.isAcceptableOrUnknown(data['object_id']!, _objectIdMeta));
-    } else if (isInserting) {
-      context.missing(_objectIdMeta);
-    }
-    if (data.containsKey('song')) {
-      context.handle(
-          _songMeta, song.isAcceptableOrUnknown(data['song']!, _songMeta));
-    }
-    if (data.containsKey('created_at')) {
-      context.handle(_createdAtMeta,
-          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
-    } else if (isInserting) {
-      context.missing(_createdAtMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  DbLike map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return DbLike.fromData(data,
-        prefix: tablePrefix != null ? '$tablePrefix.' : null);
-  }
-
-  @override
-  $DbLikeTableTable createAlias(String alias) {
-    return $DbLikeTableTable(attachedDatabase, alias);
-  }
-}
-
 class DbListed extends DataClass implements Insertable<DbListed> {
   final int id;
   final String objectId;
-  final int? parentid;
+  final int parentid;
   final String title;
   final String description;
-  final int? position;
+  final int position;
   final String createdAt;
   final String updatedAt;
   DbListed(
       {required this.id,
       required this.objectId,
-      this.parentid,
+      required this.parentid,
       required this.title,
       required this.description,
-      this.position,
+      required this.position,
       required this.createdAt,
       required this.updatedAt});
   factory DbListed.fromData(Map<String, dynamic> data, {String? prefix}) {
@@ -1589,13 +1346,13 @@ class DbListed extends DataClass implements Insertable<DbListed> {
       objectId: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}object_id'])!,
       parentid: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}parentid']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}parentid'])!,
       title: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}title'])!,
       description: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}description'])!,
       position: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}position']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}position'])!,
       createdAt: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}created_at'])!,
       updatedAt: const StringType()
@@ -1607,14 +1364,10 @@ class DbListed extends DataClass implements Insertable<DbListed> {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['object_id'] = Variable<String>(objectId);
-    if (!nullToAbsent || parentid != null) {
-      map['parentid'] = Variable<int?>(parentid);
-    }
+    map['parentid'] = Variable<int>(parentid);
     map['title'] = Variable<String>(title);
     map['description'] = Variable<String>(description);
-    if (!nullToAbsent || position != null) {
-      map['position'] = Variable<int?>(position);
-    }
+    map['position'] = Variable<int>(position);
     map['created_at'] = Variable<String>(createdAt);
     map['updated_at'] = Variable<String>(updatedAt);
     return map;
@@ -1624,14 +1377,10 @@ class DbListed extends DataClass implements Insertable<DbListed> {
     return DbListedTableCompanion(
       id: Value(id),
       objectId: Value(objectId),
-      parentid: parentid == null && nullToAbsent
-          ? const Value.absent()
-          : Value(parentid),
+      parentid: Value(parentid),
       title: Value(title),
       description: Value(description),
-      position: position == null && nullToAbsent
-          ? const Value.absent()
-          : Value(position),
+      position: Value(position),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
     );
@@ -1643,10 +1392,10 @@ class DbListed extends DataClass implements Insertable<DbListed> {
     return DbListed(
       id: serializer.fromJson<int>(json['id']),
       objectId: serializer.fromJson<String>(json['objectId']),
-      parentid: serializer.fromJson<int?>(json['parentid']),
+      parentid: serializer.fromJson<int>(json['parentid']),
       title: serializer.fromJson<String>(json['title']),
       description: serializer.fromJson<String>(json['description']),
-      position: serializer.fromJson<int?>(json['position']),
+      position: serializer.fromJson<int>(json['position']),
       createdAt: serializer.fromJson<String>(json['createdAt']),
       updatedAt: serializer.fromJson<String>(json['updatedAt']),
     );
@@ -1657,10 +1406,10 @@ class DbListed extends DataClass implements Insertable<DbListed> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'objectId': serializer.toJson<String>(objectId),
-      'parentid': serializer.toJson<int?>(parentid),
+      'parentid': serializer.toJson<int>(parentid),
       'title': serializer.toJson<String>(title),
       'description': serializer.toJson<String>(description),
-      'position': serializer.toJson<int?>(position),
+      'position': serializer.toJson<int>(position),
       'createdAt': serializer.toJson<String>(createdAt),
       'updatedAt': serializer.toJson<String>(updatedAt),
     };
@@ -1720,10 +1469,10 @@ class DbListed extends DataClass implements Insertable<DbListed> {
 class DbListedTableCompanion extends UpdateCompanion<DbListed> {
   final Value<int> id;
   final Value<String> objectId;
-  final Value<int?> parentid;
+  final Value<int> parentid;
   final Value<String> title;
   final Value<String> description;
-  final Value<int?> position;
+  final Value<int> position;
   final Value<String> createdAt;
   final Value<String> updatedAt;
   const DbListedTableCompanion({
@@ -1743,20 +1492,18 @@ class DbListedTableCompanion extends UpdateCompanion<DbListed> {
     required String title,
     required String description,
     this.position = const Value.absent(),
-    required String createdAt,
-    required String updatedAt,
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
   })  : objectId = Value(objectId),
         title = Value(title),
-        description = Value(description),
-        createdAt = Value(createdAt),
-        updatedAt = Value(updatedAt);
+        description = Value(description);
   static Insertable<DbListed> custom({
     Expression<int>? id,
     Expression<String>? objectId,
-    Expression<int?>? parentid,
+    Expression<int>? parentid,
     Expression<String>? title,
     Expression<String>? description,
-    Expression<int?>? position,
+    Expression<int>? position,
     Expression<String>? createdAt,
     Expression<String>? updatedAt,
   }) {
@@ -1775,10 +1522,10 @@ class DbListedTableCompanion extends UpdateCompanion<DbListed> {
   DbListedTableCompanion copyWith(
       {Value<int>? id,
       Value<String>? objectId,
-      Value<int?>? parentid,
+      Value<int>? parentid,
       Value<String>? title,
       Value<String>? description,
-      Value<int?>? position,
+      Value<int>? position,
       Value<String>? createdAt,
       Value<String>? updatedAt}) {
     return DbListedTableCompanion(
@@ -1803,7 +1550,7 @@ class DbListedTableCompanion extends UpdateCompanion<DbListed> {
       map['object_id'] = Variable<String>(objectId.value);
     }
     if (parentid.present) {
-      map['parentid'] = Variable<int?>(parentid.value);
+      map['parentid'] = Variable<int>(parentid.value);
     }
     if (title.present) {
       map['title'] = Variable<String>(title.value);
@@ -1812,7 +1559,7 @@ class DbListedTableCompanion extends UpdateCompanion<DbListed> {
       map['description'] = Variable<String>(description.value);
     }
     if (position.present) {
-      map['position'] = Variable<int?>(position.value);
+      map['position'] = Variable<int>(position.value);
     }
     if (createdAt.present) {
       map['created_at'] = Variable<String>(createdAt.value);
@@ -1857,20 +1604,22 @@ class $DbListedTableTable extends DbListedTable
   late final GeneratedColumn<String?> objectId = GeneratedColumn<String?>(
       'object_id', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 100),
+          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 100),
       type: const StringType(),
       requiredDuringInsert: true);
   final VerificationMeta _parentidMeta = const VerificationMeta('parentid');
   @override
   late final GeneratedColumn<int?> parentid = GeneratedColumn<int?>(
-      'parentid', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+      'parentid', aliasedName, false,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
   final VerificationMeta _titleMeta = const VerificationMeta('title');
   @override
   late final GeneratedColumn<String?> title = GeneratedColumn<String?>(
       'title', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 100),
+          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 100),
       type: const StringType(),
       requiredDuringInsert: true);
   final VerificationMeta _descriptionMeta =
@@ -1879,30 +1628,30 @@ class $DbListedTableTable extends DbListedTable
   late final GeneratedColumn<String?> description = GeneratedColumn<String?>(
       'description', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 200),
+          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 200),
       type: const StringType(),
       requiredDuringInsert: true);
   final VerificationMeta _positionMeta = const VerificationMeta('position');
   @override
   late final GeneratedColumn<int?> position = GeneratedColumn<int?>(
-      'position', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+      'position', aliasedName, false,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
   final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
   @override
   late final GeneratedColumn<String?> createdAt = GeneratedColumn<String?>(
       'created_at', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 30),
       type: const StringType(),
-      requiredDuringInsert: true);
+      requiredDuringInsert: false,
+      defaultValue: Constant(dateNow()));
   final VerificationMeta _updatedAtMeta = const VerificationMeta('updatedAt');
   @override
   late final GeneratedColumn<String?> updatedAt = GeneratedColumn<String?>(
       'updated_at', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 30),
       type: const StringType(),
-      requiredDuringInsert: true);
+      requiredDuringInsert: false,
+      defaultValue: Constant(dateNow()));
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -1957,14 +1706,10 @@ class $DbListedTableTable extends DbListedTable
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
           createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
-    } else if (isInserting) {
-      context.missing(_createdAtMeta);
     }
     if (data.containsKey('updated_at')) {
       context.handle(_updatedAtMeta,
           updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
-    } else if (isInserting) {
-      context.missing(_updatedAtMeta);
     }
     return context;
   }
@@ -2092,10 +1837,9 @@ class DbSearchTableCompanion extends UpdateCompanion<DbSearch> {
     this.id = const Value.absent(),
     required String objectId,
     required String title,
-    required String createdAt,
+    this.createdAt = const Value.absent(),
   })  : objectId = Value(objectId),
-        title = Value(title),
-        createdAt = Value(createdAt);
+        title = Value(title);
   static Insertable<DbSearch> custom({
     Expression<int>? id,
     Expression<String>? objectId,
@@ -2186,10 +1930,9 @@ class $DbSearchTableTable extends DbSearchTable
   @override
   late final GeneratedColumn<String?> createdAt = GeneratedColumn<String?>(
       'created_at', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 30),
       type: const StringType(),
-      requiredDuringInsert: true);
+      requiredDuringInsert: false,
+      defaultValue: Constant(dateNow()));
   @override
   List<GeneratedColumn> get $columns => [id, objectId, title, createdAt];
   @override
@@ -2219,8 +1962,6 @@ class $DbSearchTableTable extends DbSearchTable
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
           createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
-    } else if (isInserting) {
-      context.missing(_createdAtMeta);
     }
     return context;
   }
@@ -2242,29 +1983,31 @@ class $DbSearchTableTable extends DbSearchTable
 class DbSong extends DataClass implements Insertable<DbSong> {
   final int id;
   final String objectId;
-  final int? book;
-  final int? songno;
+  final int book;
+  final int songno;
   final String title;
   final String alias;
   final String content;
   final String key;
   final String author;
-  final int? views;
+  final int views;
   final String createdAt;
   final String updatedAt;
+  final bool liked;
   DbSong(
       {required this.id,
       required this.objectId,
-      this.book,
-      this.songno,
+      required this.book,
+      required this.songno,
       required this.title,
       required this.alias,
       required this.content,
       required this.key,
       required this.author,
-      this.views,
+      required this.views,
       required this.createdAt,
-      required this.updatedAt});
+      required this.updatedAt,
+      required this.liked});
   factory DbSong.fromData(Map<String, dynamic> data, {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     return DbSong(
@@ -2273,9 +2016,9 @@ class DbSong extends DataClass implements Insertable<DbSong> {
       objectId: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}object_id'])!,
       book: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}book']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}book'])!,
       songno: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}songno']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}songno'])!,
       title: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}title'])!,
       alias: const StringType()
@@ -2287,11 +2030,13 @@ class DbSong extends DataClass implements Insertable<DbSong> {
       author: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}author'])!,
       views: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}views']),
+          .mapFromDatabaseResponse(data['${effectivePrefix}views'])!,
       createdAt: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}created_at'])!,
       updatedAt: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}updated_at'])!,
+      liked: const BoolType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}liked'])!,
     );
   }
   @override
@@ -2299,22 +2044,17 @@ class DbSong extends DataClass implements Insertable<DbSong> {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['object_id'] = Variable<String>(objectId);
-    if (!nullToAbsent || book != null) {
-      map['book'] = Variable<int?>(book);
-    }
-    if (!nullToAbsent || songno != null) {
-      map['songno'] = Variable<int?>(songno);
-    }
+    map['book'] = Variable<int>(book);
+    map['songno'] = Variable<int>(songno);
     map['title'] = Variable<String>(title);
     map['alias'] = Variable<String>(alias);
     map['body'] = Variable<String>(content);
     map['key'] = Variable<String>(key);
     map['author'] = Variable<String>(author);
-    if (!nullToAbsent || views != null) {
-      map['views'] = Variable<int?>(views);
-    }
+    map['views'] = Variable<int>(views);
     map['created_at'] = Variable<String>(createdAt);
     map['updated_at'] = Variable<String>(updatedAt);
+    map['liked'] = Variable<bool>(liked);
     return map;
   }
 
@@ -2322,18 +2062,17 @@ class DbSong extends DataClass implements Insertable<DbSong> {
     return DbSongTableCompanion(
       id: Value(id),
       objectId: Value(objectId),
-      book: book == null && nullToAbsent ? const Value.absent() : Value(book),
-      songno:
-          songno == null && nullToAbsent ? const Value.absent() : Value(songno),
+      book: Value(book),
+      songno: Value(songno),
       title: Value(title),
       alias: Value(alias),
       content: Value(content),
       key: Value(key),
       author: Value(author),
-      views:
-          views == null && nullToAbsent ? const Value.absent() : Value(views),
+      views: Value(views),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
+      liked: Value(liked),
     );
   }
 
@@ -2343,16 +2082,17 @@ class DbSong extends DataClass implements Insertable<DbSong> {
     return DbSong(
       id: serializer.fromJson<int>(json['id']),
       objectId: serializer.fromJson<String>(json['objectId']),
-      book: serializer.fromJson<int?>(json['book']),
-      songno: serializer.fromJson<int?>(json['songno']),
+      book: serializer.fromJson<int>(json['book']),
+      songno: serializer.fromJson<int>(json['songno']),
       title: serializer.fromJson<String>(json['title']),
       alias: serializer.fromJson<String>(json['alias']),
       content: serializer.fromJson<String>(json['content']),
       key: serializer.fromJson<String>(json['key']),
       author: serializer.fromJson<String>(json['author']),
-      views: serializer.fromJson<int?>(json['views']),
+      views: serializer.fromJson<int>(json['views']),
       createdAt: serializer.fromJson<String>(json['createdAt']),
       updatedAt: serializer.fromJson<String>(json['updatedAt']),
+      liked: serializer.fromJson<bool>(json['liked']),
     );
   }
   @override
@@ -2361,16 +2101,17 @@ class DbSong extends DataClass implements Insertable<DbSong> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'objectId': serializer.toJson<String>(objectId),
-      'book': serializer.toJson<int?>(book),
-      'songno': serializer.toJson<int?>(songno),
+      'book': serializer.toJson<int>(book),
+      'songno': serializer.toJson<int>(songno),
       'title': serializer.toJson<String>(title),
       'alias': serializer.toJson<String>(alias),
       'content': serializer.toJson<String>(content),
       'key': serializer.toJson<String>(key),
       'author': serializer.toJson<String>(author),
-      'views': serializer.toJson<int?>(views),
+      'views': serializer.toJson<int>(views),
       'createdAt': serializer.toJson<String>(createdAt),
       'updatedAt': serializer.toJson<String>(updatedAt),
+      'liked': serializer.toJson<bool>(liked),
     };
   }
 
@@ -2386,7 +2127,8 @@ class DbSong extends DataClass implements Insertable<DbSong> {
           String? author,
           int? views,
           String? createdAt,
-          String? updatedAt}) =>
+          String? updatedAt,
+          bool? liked}) =>
       DbSong(
         id: id ?? this.id,
         objectId: objectId ?? this.objectId,
@@ -2400,6 +2142,7 @@ class DbSong extends DataClass implements Insertable<DbSong> {
         views: views ?? this.views,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
+        liked: liked ?? this.liked,
       );
   @override
   String toString() {
@@ -2415,14 +2158,15 @@ class DbSong extends DataClass implements Insertable<DbSong> {
           ..write('author: $author, ')
           ..write('views: $views, ')
           ..write('createdAt: $createdAt, ')
-          ..write('updatedAt: $updatedAt')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('liked: $liked')
           ..write(')'))
         .toString();
   }
 
   @override
   int get hashCode => Object.hash(id, objectId, book, songno, title, alias,
-      content, key, author, views, createdAt, updatedAt);
+      content, key, author, views, createdAt, updatedAt, liked);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -2438,22 +2182,24 @@ class DbSong extends DataClass implements Insertable<DbSong> {
           other.author == this.author &&
           other.views == this.views &&
           other.createdAt == this.createdAt &&
-          other.updatedAt == this.updatedAt);
+          other.updatedAt == this.updatedAt &&
+          other.liked == this.liked);
 }
 
 class DbSongTableCompanion extends UpdateCompanion<DbSong> {
   final Value<int> id;
   final Value<String> objectId;
-  final Value<int?> book;
-  final Value<int?> songno;
+  final Value<int> book;
+  final Value<int> songno;
   final Value<String> title;
   final Value<String> alias;
   final Value<String> content;
   final Value<String> key;
   final Value<String> author;
-  final Value<int?> views;
+  final Value<int> views;
   final Value<String> createdAt;
   final Value<String> updatedAt;
+  final Value<bool> liked;
   const DbSongTableCompanion({
     this.id = const Value.absent(),
     this.objectId = const Value.absent(),
@@ -2467,6 +2213,7 @@ class DbSongTableCompanion extends UpdateCompanion<DbSong> {
     this.views = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
+    this.liked = const Value.absent(),
   });
   DbSongTableCompanion.insert({
     this.id = const Value.absent(),
@@ -2479,29 +2226,29 @@ class DbSongTableCompanion extends UpdateCompanion<DbSong> {
     required String key,
     required String author,
     this.views = const Value.absent(),
-    required String createdAt,
-    required String updatedAt,
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.liked = const Value.absent(),
   })  : objectId = Value(objectId),
         title = Value(title),
         alias = Value(alias),
         content = Value(content),
         key = Value(key),
-        author = Value(author),
-        createdAt = Value(createdAt),
-        updatedAt = Value(updatedAt);
+        author = Value(author);
   static Insertable<DbSong> custom({
     Expression<int>? id,
     Expression<String>? objectId,
-    Expression<int?>? book,
-    Expression<int?>? songno,
+    Expression<int>? book,
+    Expression<int>? songno,
     Expression<String>? title,
     Expression<String>? alias,
     Expression<String>? content,
     Expression<String>? key,
     Expression<String>? author,
-    Expression<int?>? views,
+    Expression<int>? views,
     Expression<String>? createdAt,
     Expression<String>? updatedAt,
+    Expression<bool>? liked,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -2516,22 +2263,24 @@ class DbSongTableCompanion extends UpdateCompanion<DbSong> {
       if (views != null) 'views': views,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
+      if (liked != null) 'liked': liked,
     });
   }
 
   DbSongTableCompanion copyWith(
       {Value<int>? id,
       Value<String>? objectId,
-      Value<int?>? book,
-      Value<int?>? songno,
+      Value<int>? book,
+      Value<int>? songno,
       Value<String>? title,
       Value<String>? alias,
       Value<String>? content,
       Value<String>? key,
       Value<String>? author,
-      Value<int?>? views,
+      Value<int>? views,
       Value<String>? createdAt,
-      Value<String>? updatedAt}) {
+      Value<String>? updatedAt,
+      Value<bool>? liked}) {
     return DbSongTableCompanion(
       id: id ?? this.id,
       objectId: objectId ?? this.objectId,
@@ -2545,6 +2294,7 @@ class DbSongTableCompanion extends UpdateCompanion<DbSong> {
       views: views ?? this.views,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      liked: liked ?? this.liked,
     );
   }
 
@@ -2558,10 +2308,10 @@ class DbSongTableCompanion extends UpdateCompanion<DbSong> {
       map['object_id'] = Variable<String>(objectId.value);
     }
     if (book.present) {
-      map['book'] = Variable<int?>(book.value);
+      map['book'] = Variable<int>(book.value);
     }
     if (songno.present) {
-      map['songno'] = Variable<int?>(songno.value);
+      map['songno'] = Variable<int>(songno.value);
     }
     if (title.present) {
       map['title'] = Variable<String>(title.value);
@@ -2579,13 +2329,16 @@ class DbSongTableCompanion extends UpdateCompanion<DbSong> {
       map['author'] = Variable<String>(author.value);
     }
     if (views.present) {
-      map['views'] = Variable<int?>(views.value);
+      map['views'] = Variable<int>(views.value);
     }
     if (createdAt.present) {
       map['created_at'] = Variable<String>(createdAt.value);
     }
     if (updatedAt.present) {
       map['updated_at'] = Variable<String>(updatedAt.value);
+    }
+    if (liked.present) {
+      map['liked'] = Variable<bool>(liked.value);
     }
     return map;
   }
@@ -2604,7 +2357,8 @@ class DbSongTableCompanion extends UpdateCompanion<DbSong> {
           ..write('author: $author, ')
           ..write('views: $views, ')
           ..write('createdAt: $createdAt, ')
-          ..write('updatedAt: $updatedAt')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('liked: $liked')
           ..write(')'))
         .toString();
   }
@@ -2628,25 +2382,29 @@ class $DbSongTableTable extends DbSongTable
   late final GeneratedColumn<String?> objectId = GeneratedColumn<String?>(
       'object_id', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 20),
+          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 20),
       type: const StringType(),
       requiredDuringInsert: true);
   final VerificationMeta _bookMeta = const VerificationMeta('book');
   @override
   late final GeneratedColumn<int?> book = GeneratedColumn<int?>(
-      'book', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+      'book', aliasedName, false,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
   final VerificationMeta _songnoMeta = const VerificationMeta('songno');
   @override
   late final GeneratedColumn<int?> songno = GeneratedColumn<int?>(
-      'songno', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+      'songno', aliasedName, false,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
   final VerificationMeta _titleMeta = const VerificationMeta('title');
   @override
   late final GeneratedColumn<String?> title = GeneratedColumn<String?>(
       'title', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 100),
+          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 100),
       type: const StringType(),
       requiredDuringInsert: true);
   final VerificationMeta _aliasMeta = const VerificationMeta('alias');
@@ -2681,24 +2439,32 @@ class $DbSongTableTable extends DbSongTable
   final VerificationMeta _viewsMeta = const VerificationMeta('views');
   @override
   late final GeneratedColumn<int?> views = GeneratedColumn<int?>(
-      'views', aliasedName, true,
-      type: const IntType(), requiredDuringInsert: false);
+      'views', aliasedName, false,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
   final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
   @override
   late final GeneratedColumn<String?> createdAt = GeneratedColumn<String?>(
       'created_at', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 30),
       type: const StringType(),
-      requiredDuringInsert: true);
+      requiredDuringInsert: false,
+      defaultValue: Constant(dateNow()));
   final VerificationMeta _updatedAtMeta = const VerificationMeta('updatedAt');
   @override
   late final GeneratedColumn<String?> updatedAt = GeneratedColumn<String?>(
       'updated_at', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 3, maxTextLength: 30),
       type: const StringType(),
-      requiredDuringInsert: true);
+      requiredDuringInsert: false,
+      defaultValue: Constant(dateNow()));
+  final VerificationMeta _likedMeta = const VerificationMeta('liked');
+  @override
+  late final GeneratedColumn<bool?> liked = GeneratedColumn<bool?>(
+      'liked', aliasedName, false,
+      type: const BoolType(),
+      requiredDuringInsert: false,
+      defaultConstraints: 'CHECK (liked IN (0, 1))',
+      defaultValue: const Constant(false));
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -2712,7 +2478,8 @@ class $DbSongTableTable extends DbSongTable
         author,
         views,
         createdAt,
-        updatedAt
+        updatedAt,
+        liked
       ];
   @override
   String get aliasedName => _alias ?? 'db_song_table';
@@ -2777,14 +2544,14 @@ class $DbSongTableTable extends DbSongTable
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
           createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
-    } else if (isInserting) {
-      context.missing(_createdAtMeta);
     }
     if (data.containsKey('updated_at')) {
       context.handle(_updatedAtMeta,
           updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
-    } else if (isInserting) {
-      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('liked')) {
+      context.handle(
+          _likedMeta, liked.isAcceptableOrUnknown(data['liked']!, _likedMeta));
     }
     return context;
   }
@@ -2809,7 +2576,6 @@ abstract class _$MyDatabase extends GeneratedDatabase {
   late final $DbBookTableTable dbBookTable = $DbBookTableTable(this);
   late final $DbDraftTableTable dbDraftTable = $DbDraftTableTable(this);
   late final $DbHistoryTableTable dbHistoryTable = $DbHistoryTableTable(this);
-  late final $DbLikeTableTable dbLikeTable = $DbLikeTableTable(this);
   late final $DbListedTableTable dbListedTable = $DbListedTableTable(this);
   late final $DbSearchTableTable dbSearchTable = $DbSearchTableTable(this);
   late final $DbSongTableTable dbSongTable = $DbSongTableTable(this);
@@ -2820,7 +2586,6 @@ abstract class _$MyDatabase extends GeneratedDatabase {
         dbBookTable,
         dbDraftTable,
         dbHistoryTable,
-        dbLikeTable,
         dbListedTable,
         dbSearchTable,
         dbSongTable

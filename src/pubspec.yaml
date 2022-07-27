@@ -33,6 +33,9 @@ dependencies:
   get_storage: ^2.0.3
   # use fonts from fonts.google.com
   google_fonts: ^3.0.1
+  # internationalization and localization facilities, including message translation, 
+  # plurals and genders, date/number formatting and parsing, and bidirectional text
+  intl: ^0.17.0
   # Annotations for code generation via `json_serializable` pacakage
   json_annotation: ^4.5.0
   # comprehensive, cross-platform path manipulation library

@@ -55,20 +55,28 @@ class MockHomeController extends _i1.Mock implements _i5.HomeController {
       (super.noSuchMethod(Invocation.getter(#notesScroller),
           returnValue: _FakeScrollController_1()) as _i3.ScrollController);
   @override
-  bool get isBusy =>
-      (super.noSuchMethod(Invocation.getter(#isBusy), returnValue: false)
+  bool get isTab1Busy =>
+      (super.noSuchMethod(Invocation.getter(#isTab1Busy), returnValue: false)
           as bool);
   @override
-  set isBusy(bool? _isBusy) =>
-      super.noSuchMethod(Invocation.setter(#isBusy, _isBusy),
+  set isTab1Busy(bool? _isTab1Busy) =>
+      super.noSuchMethod(Invocation.setter(#isTab1Busy, _isTab1Busy),
           returnValueForMissingStub: null);
   @override
-  bool get isSearching =>
-      (super.noSuchMethod(Invocation.getter(#isSearching), returnValue: false)
+  bool get isTab2Busy =>
+      (super.noSuchMethod(Invocation.getter(#isTab2Busy), returnValue: false)
           as bool);
   @override
-  set isSearching(bool? _isSearching) =>
-      super.noSuchMethod(Invocation.setter(#isSearching, _isSearching),
+  set isTab2Busy(bool? _isTab2Busy) =>
+      super.noSuchMethod(Invocation.setter(#isTab2Busy, _isTab2Busy),
+          returnValueForMissingStub: null);
+  @override
+  bool get isTab3Busy =>
+      (super.noSuchMethod(Invocation.getter(#isTab3Busy), returnValue: false)
+          as bool);
+  @override
+  set isTab3Busy(bool? _isTab3Busy) =>
+      super.noSuchMethod(Invocation.setter(#isTab3Busy, _isTab3Busy),
           returnValueForMissingStub: null);
   @override
   String get selectedBooks =>
@@ -98,8 +106,8 @@ class MockHomeController extends _i1.Mock implements _i5.HomeController {
       super.noSuchMethod(Invocation.setter(#songs, _songs),
           returnValueForMissingStub: null);
   @override
-  set listedList(List<_i5.Listed>? _listedList) =>
-      super.noSuchMethod(Invocation.setter(#listedList, _listedList),
+  set listeds(List<_i5.Listed>? _listeds) =>
+      super.noSuchMethod(Invocation.setter(#listeds, _listeds),
           returnValueForMissingStub: null);
   @override
   set drafts(List<_i5.Draft>? _drafts) =>
@@ -108,6 +116,22 @@ class MockHomeController extends _i1.Mock implements _i5.HomeController {
   @override
   set bookDao(_i5.BookDaoStorage? _bookDao) =>
       super.noSuchMethod(Invocation.setter(#bookDao, _bookDao),
+          returnValueForMissingStub: null);
+  @override
+  set draftDao(_i5.DraftDaoStorage? _draftDao) =>
+      super.noSuchMethod(Invocation.setter(#draftDao, _draftDao),
+          returnValueForMissingStub: null);
+  @override
+  set historyDao(_i5.HistoryDaoStorage? _historyDao) =>
+      super.noSuchMethod(Invocation.setter(#historyDao, _historyDao),
+          returnValueForMissingStub: null);
+  @override
+  set listedDao(_i5.ListedDaoStorage? _listedDao) =>
+      super.noSuchMethod(Invocation.setter(#listedDao, _listedDao),
+          returnValueForMissingStub: null);
+  @override
+  set searchDao(_i5.SearchDaoStorage? _searchDao) =>
+      super.noSuchMethod(Invocation.setter(#searchDao, _searchDao),
           returnValueForMissingStub: null);
   @override
   set songDao(_i5.SongDaoStorage? _songDao) =>
@@ -149,8 +173,18 @@ class MockHomeController extends _i1.Mock implements _i5.HomeController {
   void onClose() => super.noSuchMethod(Invocation.method(#onClose, []),
       returnValueForMissingStub: null);
   @override
+  _i6.Future<void> fetchListData() =>
+      (super.noSuchMethod(Invocation.method(#fetchListData, []),
+          returnValue: Future<void>.value(),
+          returnValueForMissingStub: Future<void>.value()) as _i6.Future<void>);
+  @override
   _i6.Future<void> fetchSongData() =>
       (super.noSuchMethod(Invocation.method(#fetchSongData, []),
+          returnValue: Future<void>.value(),
+          returnValueForMissingStub: Future<void>.value()) as _i6.Future<void>);
+  @override
+  _i6.Future<void> fetchDraftsData() =>
+      (super.noSuchMethod(Invocation.method(#fetchDraftsData, []),
           returnValue: Future<void>.value(),
           returnValueForMissingStub: Future<void>.value()) as _i6.Future<void>);
   @override

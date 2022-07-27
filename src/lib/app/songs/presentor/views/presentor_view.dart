@@ -5,14 +5,14 @@ import 'package:get_storage/get_storage.dart';
 import '../../../../exports.dart';
 
 // ignore: must_be_immutable
-class SongView extends StatelessWidget {
-  final SongController controller = Get.put(SongController());
+class PresentorView extends StatelessWidget {
+  final PresentorController controller = Get.put(PresentorController());
   final GetStorage userData = GetStorage();
   final List<Book>? books;
   final Song? song;
   Size? size;
 
-  SongView({Key? key, required this.books, required this.song})
+  PresentorView({Key? key, required this.books, required this.song})
       : super(key: key);
 
   @override
@@ -22,47 +22,41 @@ class SongView extends StatelessWidget {
     controller.song = song;
     controller.loadViewer();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          songItemTitle(song!.songno!, song!.title),
-          style: titleTextStyle.copyWith(fontSize: 25),
-        ),
-        actions: <Widget>[
-          controller.isLiked
-              ? InkWell(
-                  child: const Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Icon(Icons.star),
-                  ),
-                  onTap: () => controller.likeSong,
-                )
-              : InkWell(
-                  child: const Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Icon(Icons.star_border),
-                  ),
-                  onTap: () => controller.likeSong,
-                ),
-          popupMenu(),
-        ],
-      ),
-      body: Container(
-        height: size!.height,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Colors.white,
-              Colors.orange,
-              AppColors.secondaryColor,
-              AppColors.primaryColor,
-              AppColors.black,
-            ],
+    return GetBuilder<PresentorController>(
+      builder: (controller) => Scaffold(
+        appBar: AppBar(
+          title: Text(
+            songItemTitle(song!.songno!, song!.title!),
+            style: normalTextStyle,
           ),
+          actions: <Widget>[
+            InkWell(
+              onTap: controller.likeSong,
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Icon(controller.likeIcon),
+              ),
+            ),
+            popupMenu(),
+          ],
         ),
-        child: mainContainer(context),
+        body: Container(
+          height: size!.height,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                Colors.white,
+                Colors.orange,
+                AppColors.secondaryColor,
+                AppColors.primaryColor,
+                AppColors.black,
+              ],
+            ),
+          ),
+          child: mainContainer(context),
+        ),
       ),
     );
   }

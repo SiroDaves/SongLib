@@ -91,7 +91,7 @@ class SearchTab extends StatelessWidget {
 
   Widget listContainer(BuildContext context) {
     return Container(
-      height: size!.height - 125,
+      height: size!.height * 0.7961,
       padding: const EdgeInsets.only(right: 2),
       child: Scrollbar(
         thickness: 10,
@@ -111,7 +111,7 @@ class SearchTab extends StatelessWidget {
                 SongItem(song: controller.songs![index], height: size!.height),
             onTap: () {
               Get.to(
-                () => SongView(
+                () => PresentorView(
                   books: controller.books!,
                   song: controller.songs![index],
                 ),

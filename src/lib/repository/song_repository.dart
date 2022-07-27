@@ -28,7 +28,7 @@ class _SongRepository implements SongRepository {
   Future<List<Song>> fetchSongs() async {
     final results = await _songService.getSongs();
     for (final song in results) {
-      await _songDao.createSongWithValue(song);
+      await _songDao.createSong(song);
     }
     return results;
   }

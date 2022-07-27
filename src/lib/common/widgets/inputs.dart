@@ -47,8 +47,8 @@ class FormInput extends StatelessWidget {
         keyboardType: iType,
         autovalidateMode: isMultiline! ? AutovalidateMode.disabled : AutovalidateMode.onUserInteraction,
         validator: iValidator,
-        minLines: isMultiline! ? 5 : 1,
-        maxLines: isMultiline! ? 10 : 1,
+        minLines: isMultiline! ? 10 : 1,
+        maxLines: isMultiline! ? 20 : 1,
         enabled: isEnabled,
         readOnly: iOptions!.isNotEmpty ? true : false,
         onTap: () {

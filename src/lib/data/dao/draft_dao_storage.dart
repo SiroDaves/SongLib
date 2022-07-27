@@ -13,8 +13,6 @@ abstract class DraftDaoStorage {
 
   Future<void> createDraft(Draft draft);
 
-  Future<void> createDraftWithValue(Draft draft);
-
   Future<void> updateDraft(Draft draft);
 }
 
@@ -58,35 +56,18 @@ class _DraftDaoStorage extends DatabaseAccessor<MyDatabase>
   @override
   Future<void> createDraft(Draft draft) => into(db.dbDraftTable).insert(
         DbDraftTableCompanion.insert(
-          objectId: draft.objectId,
-          book: Value(draft.book),
-          songno: Value(draft.songno),
-          title: draft.title,
-          alias: draft.alias,
-          content: draft.content,
-          key: draft.key,
-          author: draft.author,
-          views: Value(draft.views),
-          createdAt: draft.createdAt,
-          updatedAt: draft.updatedAt,
-        ),
-      );
-
-  @override
-  Future<void> createDraftWithValue(Draft draft) async =>
-      into(db.dbDraftTable).insert(
-        DbDraftTableCompanion.insert(
-          objectId: draft.objectId,
-          book: Value(draft.book),
-          songno: Value(draft.songno),
-          title: draft.title,
-          alias: draft.alias,
-          content: draft.content,
-          key: draft.key,
-          author: draft.author,
-          views: Value(draft.views),
-          createdAt: draft.createdAt,
-          updatedAt: draft.updatedAt,
+          objectId: draft.objectId!,
+          book: Value(draft.book!),
+          songno: Value(draft.songno!),
+          title: draft.title!,
+          alias: draft.alias!,
+          content: draft.content!,
+          key: draft.key!,
+          author: draft.author!,
+          views: Value(draft.views!),
+          createdAt: Value(draft.createdAt!),
+          updatedAt: Value(draft.updatedAt!),
+          liked: Value(draft.liked!),
         ),
       );
 
@@ -94,15 +75,16 @@ class _DraftDaoStorage extends DatabaseAccessor<MyDatabase>
   Future<void> updateDraft(Draft draft) =>
       (update(db.dbDraftTable)..where((row) => row.id.equals(draft.id))).write(
         DbDraftTableCompanion(
-          book: Value(draft.book),
-          songno: Value(draft.songno),
-          title: Value(draft.title),
-          alias: Value(draft.alias),
-          content: Value(draft.content),
-          key: Value(draft.key),
-          author: Value(draft.author),
-          views: Value(draft.views),
-          updatedAt: Value(draft.updatedAt),
+          book: Value(draft.book!),
+          songno: Value(draft.songno!),
+          title: Value(draft.title!),
+          alias: Value(draft.alias!),
+          content: Value(draft.content!),
+          key: Value(draft.key!),
+          author: Value(draft.author!),
+          views: Value(draft.views!),
+          updatedAt: Value(draft.updatedAt!),
+          liked: Value(draft.liked!),
         ),
       );
 }

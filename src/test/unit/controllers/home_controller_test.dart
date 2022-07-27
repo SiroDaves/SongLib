@@ -14,7 +14,7 @@ void main() {
       when(
         controller.fetchSongData(),
       ).thenAnswer(
-        (_) async => controller.booksList = [
+        (_) async => controller.books = [
           //Book(title: 'this book'),
         ],
       );

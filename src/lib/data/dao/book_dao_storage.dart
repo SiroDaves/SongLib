@@ -56,15 +56,15 @@ class _BookDaoStorage extends DatabaseAccessor<MyDatabase>
   @override
   Future<void> createBook(Book book) => into(db.dbBookTable).insert(
         DbBookTableCompanion.insert(
-          objectId: book.objectId,
-          bookid: Value(book.bookid),
-          enabled: Value(book.enabled),
-          title: book.title,
-          subtitle: book.subtitle,
-          songs: Value(book.songs),
-          position: Value(book.position),
-          createdAt: book.createdAt,
-          updatedAt: book.updatedAt,
+          objectId: book.objectId!,
+          bookid: Value(book.bookid!),
+          enabled: Value(book.enabled!),
+          title: book.title!,
+          subtitle: book.subtitle!,
+          songs: Value(book.songs!),
+          position: Value(book.position!),
+          createdAt: Value(book.createdAt!),
+          updatedAt: Value(book.updatedAt!),
         ),
       );
 
@@ -72,15 +72,15 @@ class _BookDaoStorage extends DatabaseAccessor<MyDatabase>
   Future<void> createBookWithValue(Book book) async =>
       into(db.dbBookTable).insert(
         DbBookTableCompanion.insert(
-          objectId: book.objectId,
-          bookid: Value(book.bookid),
-          enabled: Value(book.enabled),
-          title: book.title,
-          subtitle: book.subtitle,
-          songs: Value(book.songs),
-          position: Value(book.position),
-          createdAt: book.createdAt,
-          updatedAt: book.updatedAt,
+          objectId: book.objectId!,
+          bookid: Value(book.bookid!),
+          enabled: Value(book.enabled!),
+          title: book.title!,
+          subtitle: book.subtitle!,
+          songs: Value(book.songs!),
+          position: Value(book.position!),
+          createdAt: Value(book.createdAt!),
+          updatedAt: Value(book.updatedAt!),
         ),
       );
 
@@ -88,13 +88,13 @@ class _BookDaoStorage extends DatabaseAccessor<MyDatabase>
   Future<void> updateBook(Book book) =>
       (update(db.dbBookTable)..where((row) => row.id.equals(book.id))).write(
         DbBookTableCompanion(
-          bookid: Value(book.bookid),
-          enabled: Value(book.enabled),
-          title: Value(book.title),
-          subtitle: Value(book.subtitle),
-          songs: Value(book.songs),
-          position: Value(book.position),
-          updatedAt: Value(book.updatedAt),
+          bookid: Value(book.bookid!),
+          enabled: Value(book.enabled!),
+          title: Value(book.title!),
+          subtitle: Value(book.subtitle!),
+          songs: Value(book.songs!),
+          position: Value(book.position!),
+          updatedAt: Value(book.updatedAt!),
         ),
       );
 }

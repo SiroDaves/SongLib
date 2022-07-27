@@ -12,19 +12,15 @@ Search _$SearchFromJson(Map<String, dynamic> json) {
     requiredKeys: const ['objectId', 'title', 'createdAt'],
   );
   return Search(
-    objectId: json['objectId'] as String,
-    title: json['title'] as String,
-    createdAt: json['createdAt'] as String,
+    objectId: json['objectId'] as String?,
+    title: json['title'] as String?,
+    createdAt: json['createdAt'] as String?,
     id: json['id'] as int?,
   );
 }
 
 Map<String, dynamic> _$SearchToJson(Search instance) {
-  final val = <String, dynamic>{
-    'objectId': instance.objectId,
-    'title': instance.title,
-    'createdAt': instance.createdAt,
-  };
+  final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -32,6 +28,9 @@ Map<String, dynamic> _$SearchToJson(Search instance) {
     }
   }
 
+  writeNotNull('objectId', instance.objectId);
+  writeNotNull('title', instance.title);
+  writeNotNull('createdAt', instance.createdAt);
   writeNotNull('id', instance.id);
   return val;
 }

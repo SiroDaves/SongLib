@@ -8,7 +8,6 @@ part 'my_database.g.dart';
   DbBookTable,
   DbDraftTable,
   DbHistoryTable,
-  DbLikeTable,
   DbListedTable,
   DbSearchTable,
   DbSongTable,

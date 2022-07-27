@@ -19,7 +19,6 @@ void main() async {
   Get.lazyPut<BookDaoStorage>(() => BookDaoStorage(Get.find<MyDatabase>()));
   Get.lazyPut<DraftDaoStorage>(() => DraftDaoStorage(Get.find<MyDatabase>()));
   Get.lazyPut<HistoryDaoStorage>(() => HistoryDaoStorage(Get.find<MyDatabase>()));
-  Get.lazyPut<LikeDaoStorage>(() => LikeDaoStorage(Get.find<MyDatabase>()));
   Get.lazyPut<ListedDaoStorage>(() => ListedDaoStorage(Get.find<MyDatabase>()));
   Get.lazyPut<SearchDaoStorage>(() => SearchDaoStorage(Get.find<MyDatabase>()));
   Get.lazyPut<SongDaoStorage>(() => SongDaoStorage(Get.find<MyDatabase>()));

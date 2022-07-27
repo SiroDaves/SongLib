@@ -6,13 +6,13 @@ import '../../exports.dart';
 class DbSongTable extends Table {
   IntColumn get id => integer().autoIncrement()();
 
-  TextColumn get objectId => text().withLength(min: 3, max: 20)();
+  TextColumn get objectId => text().withLength(min: 0, max: 20)();
 
-  IntColumn get book => integer().nullable()();
+  IntColumn get book => integer().withDefault(const Constant(0))();
 
-  IntColumn get songno => integer().nullable()();
+  IntColumn get songno => integer().withDefault(const Constant(0))();
 
-  TextColumn get title => text().withLength(min: 3, max: 100)();
+  TextColumn get title => text().withLength(min: 0, max: 100)();
 
   TextColumn get alias => text().withLength(min: 0, max: 100)();
 
@@ -22,11 +22,13 @@ class DbSongTable extends Table {
 
   TextColumn get author => text().withLength(min: 0, max: 100)();
 
-  IntColumn get views => integer().nullable()();
+  IntColumn get views => integer().withDefault(const Constant(0))();
 
-  TextColumn get createdAt => text().withLength(min: 3, max: 30)();
+  TextColumn get createdAt => text().withDefault(Constant(dateNow()))();
 
-  TextColumn get updatedAt => text().withLength(min: 3, max: 30)();
+  TextColumn get updatedAt => text().withDefault(Constant(dateNow()))();
+
+  BoolColumn get liked => boolean().withDefault(const Constant(false))();
 }
 
 extension DbSongExtension on DbSong {
@@ -43,6 +45,7 @@ extension DbSongExtension on DbSong {
         views: views,
         createdAt: createdAt,
         updatedAt: updatedAt,
+        liked: liked,
       );
 }
 
@@ -51,16 +54,17 @@ extension SongExtension on Song {
     final id = this.id;
     return DbSongTableCompanion.insert(
       id: id == null ? const Value.absent() : Value(id),
-          objectId: objectId,
-          book: Value(book),
-          songno: Value(songno),
-          title: title,
-          alias: alias,
-          content: content,
-          author: author,
-          key: key,
-          createdAt: createdAt,
-          updatedAt: updatedAt,
+          objectId: objectId!,
+          book: Value(book!),
+          songno: Value(songno!),
+          title: title!,
+          alias: alias!,
+          content: content!,
+          author: author!,
+          key: key!,
+          createdAt: Value(createdAt!),
+          updatedAt: Value(updatedAt!),
+          liked: Value(liked!),
     );
   }
 }

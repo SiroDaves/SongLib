@@ -84,8 +84,9 @@ class SelectionController extends GetxController {
     update();
 
     songs = await getSongs(dioService, selectedBooks);
-
-    saveSongs();
+    if (songs!.isNotEmpty) {
+      saveSongs();
+    }
   }
 
   /// Proceed to a saving songs data

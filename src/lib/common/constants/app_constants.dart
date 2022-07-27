@@ -1,6 +1,7 @@
 class AppConstants {
   static const appTitle = "SongLib";
   static const listTitle = "Song Lists";
+  static const likesTitle = "Liked Songs";
   static const draftTitle = "Song Drafts";
   static const booksTitle = "Select Song Books";
   static const booksTitleLoading = "Loading data ...";
@@ -8,7 +9,10 @@ class AppConstants {
   static const appIconPath = "assets/app_icon.png";
 
   static const homeTitle = "Home";
-  static const todoTitle = "To Do";
+  static const listedTitle = "Adding a new list";
+  static const editorTitle = "Drafting a new song";
+  static const songTitle = "Your song in one line";
+  static const songText = "The rest of your song";
 
   static const hasChorus = "Has Chorus";
   static const noChorus = "No Chorus";
@@ -48,6 +52,8 @@ class AppConstants {
       "All caught here, please like a song, search or view a song or better still add a custom list to clear this emptiness here";
   static const itsEmptyHereBody2 =
       "All caught here, please add draft song to clear this emptiness here";
+  static const itsEmptyHereBody3 =
+      "All caught here, please like a song to clear this emptiness here";
 }
 
 class PrefKeys {

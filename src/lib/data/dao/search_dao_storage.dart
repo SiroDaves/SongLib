@@ -46,9 +46,9 @@ class _SearchDaoStorage extends DatabaseAccessor<MyDatabase>
   @override
   Future<void> createSearch(Search search) => into(db.dbSearchTable).insert(
         DbSearchTableCompanion.insert(
-          objectId: search.objectId,
-          title: search.title,
-          createdAt: search.createdAt,
+          objectId: search.objectId!,
+          title: search.title!,
+          createdAt: Value(search.createdAt!),
         ),
       );
 

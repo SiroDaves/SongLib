@@ -2,6 +2,11 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+String dateNow() {//2022-06-26T21:18:23.368Z
+  return DateFormat('yyyy-MM-ddTHH:mm.a').format(DateTime.now());
+}
 
 Future<bool> isKeyboardShowing() async {
   // ignore: unnecessary_null_comparison
