@@ -33,6 +33,12 @@ class ListsTab extends StatelessWidget {
           child: Column(
             children: [
               titleContainer(),
+              controller.listeds!.isNotEmpty
+                  ? Tab1Search(
+                      listeds: controller.listeds,
+                      height: size!.height,
+                    )
+                  : Container(),
               mainContainer(context),
             ],
           ),
@@ -64,20 +70,33 @@ class ListsTab extends StatelessWidget {
 
   Widget mainContainer(BuildContext context) {
     Widget dataWidget;
-    if (controller.listeds!.isNotEmpty) {
-      dataWidget = Column(
-        children: [
-          Tab1Search(
-            listeds: controller.listeds,
-            height: size!.height,
-          ),
-          listContainer(context),
-        ],
-      );
-    } else {
+    if (controller.likes!.isEmpty && controller.listeds!.isEmpty) {
       dataWidget = const NoDataToShow(
         title: AppConstants.itsEmptyHere,
         description: AppConstants.itsEmptyHereBody1,
+      );
+    } else {
+      dataWidget = Column(
+        children: [
+          SizedBox(
+            height: size!.height * 0.78125,
+            child: Scrollbar(
+              thickness: 10,
+              radius: const Radius.circular(20),
+              child: ListView(children: [
+                controller.likes!.isNotEmpty
+                    ? likesContainer(context)
+                    : Container(),
+                controller.listeds!.isNotEmpty
+                    ? listContainer(context)
+                    : const NoDataToShow(
+                        title: AppConstants.itsEmptyHere1,
+                        description: AppConstants.itsEmptyHereBody4,
+                      ),
+              ]),
+            ),
+          ),
+        ],
       );
     }
 
@@ -88,17 +107,71 @@ class ListsTab extends StatelessWidget {
     );
   }
 
+  Widget likesContainer(BuildContext context) {
+    return SizedBox(
+      height: size!.height * 0.125,
+      child: Column(
+        children: [
+          SizedBox(
+            height: size!.height * 0.03125,
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Text(
+                    'SONG LIKES',
+                    style: titleTextStyle.copyWith(
+                      color: AppColors.primaryColor,
+                    ),
+                  ),
+                ),
+                const Spacer(),
+                GestureDetector(
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Icon(Icons.arrow_forward,
+                        color: AppColors.primaryColor),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: size!.height * 0.0897,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.all(5),
+              itemBuilder: (context, index) => GestureDetector(
+                child: SongGrid(
+                  song: controller.likes![index],
+                  books: controller.books!,
+                  height: size!.height,
+                ),
+                onTap: () {
+                  Get.to(
+                    () => PresentorView(
+                      books: controller.books!,
+                      song: controller.likes![index],
+                    ),
+                    transition: Transition.rightToLeft,
+                  );
+                },
+              ),
+              itemCount: controller.likes!.length,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget listContainer(BuildContext context) {
     return SizedBox(
       height: size!.height * 0.78125,
       child: Scrollbar(
         thickness: 10,
-        trackVisibility: true,
-        thumbVisibility: true,
         radius: const Radius.circular(20),
-        controller: controller.listsScroller,
         child: ListView.builder(
-          controller: controller.listsScroller,
           padding: EdgeInsets.only(
             left: size!.height * 0.0082,
             right: size!.height * 0.0163,

@@ -48,12 +48,15 @@ class AppConstants {
       "If you have reliable internet connection, then our servers are down. It's one thing or the other, we can't tell which is which.";
 
   static const itsEmptyHere = "Wueh! It's empty here";
+  static const itsEmptyHere1 = "Wueh! No lists here yet";
   static const itsEmptyHereBody1 =
       "All caught here, please like a song, search or view a song or better still add a custom list to clear this emptiness here";
   static const itsEmptyHereBody2 =
       "All caught here, please add draft song to clear this emptiness here";
   static const itsEmptyHereBody3 =
       "All caught here, please like a song to clear this emptiness here";
+  static const itsEmptyHereBody4 =
+      "All caught here, you can add personal lists and add songs to them";
 }
 
 class PrefKeys {

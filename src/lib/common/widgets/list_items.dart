@@ -140,6 +140,56 @@ class ListedItem extends StatelessWidget {
   }
 }
 
+class SongGrid extends StatelessWidget {
+  final Song song;
+  final List<Book> books;
+  final double height;
+
+  const SongGrid(
+      {Key? key, required this.song, required this.books, required this.height})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    books.retainWhere((item) => item.bookid == song.book);
+    return Hero(
+      tag: 'SongGrid_${song.objectId}',
+      child: Card(
+        elevation: 2,
+        margin: EdgeInsets.only(right: 5, bottom: height * 0.0049),
+        child: Container(
+          width: height * 0.1958,
+          margin: const EdgeInsets.only(right: 10),
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                truncateString(19, songItemTitle(song.songno!, song.title!)),
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                style: normalTextStyle.copyWith(
+                  fontSize: height * 0.0228,
+                ),
+              ),
+              const SizedBox(height: 3),
+              Text(
+                truncateString(20, books[0].title!),
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                style: normalTextStyle.copyWith(
+                  fontSize: height * 0.0175,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class SongItem extends StatelessWidget {
   final Song song;
   final double height;

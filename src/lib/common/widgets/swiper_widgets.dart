@@ -119,7 +119,7 @@ class PageSwiperControl extends SwiperPlugin {
         buildButton(
           config: config,
           color: nextColor,
-          indicator: config.activeIndex == 3
+          indicator: config.activeIndex == (icons!.length - 1)
               ? Container()
               : icons![config.activeIndex + 1],
           quarterTurns: 0,

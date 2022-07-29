@@ -20,14 +20,13 @@ class HomeView extends StatelessWidget {
 
     final appPages = <Widget>[
       ListsTab(),
-      LikesTab(),
       SearchTab(),
       NotesTab(),
     ];
 
     return Scaffold(
       body: Swiper(
-        index: 0,
+        index: 1,
         itemBuilder: (context, index) {
           return appPages[index];
         },
@@ -42,7 +41,6 @@ class HomeView extends StatelessWidget {
             indicatorIcon1(),
             indicatorIcon2(),
             indicatorIcon3(),
-            indicatorIcon4(),
           ],
         ),
       ),
@@ -72,7 +70,7 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget indicatorIcon2() {
+  Widget indicatorIcon2x() {
     return Padding(
       padding: const EdgeInsets.all(5),
       child: Column(
@@ -95,7 +93,7 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget indicatorIcon3() {
+  Widget indicatorIcon2() {
     return Padding(
       padding: const EdgeInsets.all(5),
       child: Column(
@@ -118,7 +116,7 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget indicatorIcon4() {
+  Widget indicatorIcon3() {
     return Padding(
       padding: const EdgeInsets.all(5),
       child: Column(
