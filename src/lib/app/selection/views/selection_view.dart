@@ -79,12 +79,10 @@ class SelectionView extends StatelessWidget {
       child: ListView.builder(
         key: const ValueKey('${KeyConstants.booksScreen}listview'),
         padding: const EdgeInsets.all(5),
-        itemBuilder: (context, index) => GestureDetector(
+        itemBuilder: (context, index) => BookItem(
           key: ValueKey('${KeyConstants.booksScreen}book_item_$index'),
-          child: BookItem(
-            book: books![index],
-            selected: controller.listedBooks[index]!.isSelected,
-          ),
+          book: books![index],
+          selected: controller.listedBooks[index]!.isSelected,
           onTap: () => controller.onBookSelected(index),
         ),
         itemCount: books!.length,

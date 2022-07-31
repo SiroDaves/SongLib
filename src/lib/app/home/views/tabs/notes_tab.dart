@@ -72,7 +72,7 @@ class NotesTab extends StatelessWidget {
 
     return GetBuilder<HomeController>(
       builder: (controller) => SizedBox(
-        child: controller.isTab3Busy ? const ListLoading() : dataWidget,
+        child: controller.isBusy ? const ListLoading() : dataWidget,
       ),
     );
   }

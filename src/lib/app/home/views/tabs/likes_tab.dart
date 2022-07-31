@@ -79,7 +79,7 @@ class LikesTab extends StatelessWidget {
 
     return GetBuilder<HomeController>(
       builder: (controller) => SizedBox(
-        child: controller.isTab1Busy ? const ListLoading() : dataWidget,
+        child: controller.isBusy ? const ListLoading() : dataWidget,
       ),
     );
   }

@@ -29,8 +29,9 @@ class Tab2Search extends StatelessWidget {
             .toList();
       },
       popupListItemBuilder: (song) {
-        return GestureDetector(
-          child: SongItem(song: song, height: height!),
+        return SongItem(
+          song: song,
+          height: height!,
           onTap: () {
             Get.to(
               () => PresentorView(books: books, song: song),

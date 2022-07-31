@@ -4,7 +4,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-String dateNow() {//2022-06-26T21:18:23.368Z
+String dateNow() {
+  //2022-06-26T21:18:23.368Z
   return DateFormat('yyyy-MM-ddTHH:mm.a').format(DateTime.now());
 }
 
@@ -50,16 +51,22 @@ bool isNumeric(String s) {
 
 String truncateString(int cutoff, String myString) {
   var words = myString.split(' ');
-  if (myString.length > cutoff) {
-    if ((myString.length - words[words.length - 1].length) < cutoff) {
-      return myString.replaceAll(words[words.length - 1], '');
+  try {
+    if (myString.length > cutoff) {
+      if ((myString.length - words[words.length - 1].length) < cutoff) {
+        return myString.replaceAll(words[words.length - 1], '');
+      } else {
+        return (myString.length <= cutoff)
+            ? myString
+            : myString.substring(0, cutoff);
+      }
     } else {
-      return (myString.length <= cutoff)
-          ? myString
-          : myString.substring(0, cutoff);
+      return myString.trim();
     }
-  } else {
-    return myString;
+  } catch (e) {
+    // ignore: avoid_print
+    print(e);
+    return myString.trim();
   }
 }
 

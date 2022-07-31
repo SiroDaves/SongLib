@@ -38,7 +38,7 @@ class SearchTab extends StatelessWidget {
   Widget mainContainer(BuildContext context) {
     return GetBuilder<HomeController>(
       builder: (controller) => SizedBox(
-        child: controller.isTab2Busy
+        child: controller.isBusy
             ? const ListLoading()
             : Column(
                 children: [
@@ -77,8 +77,9 @@ class SearchTab extends StatelessWidget {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.all(5),
-        itemBuilder: (context, index) => GestureDetector(
-          child: SongBook(book: controller.books![index], height: size!.height),
+        itemBuilder: (context, index) => SongBook(
+          book: controller.books![index],
+          height: size!.height,
           onTap: () {
             controller.mainBook = controller.books![index].bookid!;
             controller.fetchSongData();
@@ -95,8 +96,6 @@ class SearchTab extends StatelessWidget {
       padding: const EdgeInsets.only(right: 2),
       child: Scrollbar(
         thickness: 10,
-        trackVisibility: true,
-        thumbVisibility: true,
         radius: const Radius.circular(20),
         controller: controller.songScroller,
         child: ListView.builder(
@@ -104,11 +103,11 @@ class SearchTab extends StatelessWidget {
           itemCount: controller.songs!.length,
           padding: EdgeInsets.only(
             left: size!.height * 0.0082,
-            right: size!.height * 0.0163,
+            right: size!.height * 0.0082,
           ),
-          itemBuilder: (context, index) => GestureDetector(
-            child:
-                SongItem(song: controller.songs![index], height: size!.height),
+          itemBuilder: (context, index) => SongItem(
+            song: controller.songs![index],
+            height: size!.height,
             onTap: () {
               Get.to(
                 () => PresentorView(

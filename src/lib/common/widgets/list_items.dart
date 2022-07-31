@@ -5,29 +5,34 @@ import '../../exports.dart';
 class BookItem extends StatelessWidget {
   final Book book;
   final bool selected;
+  final Function()? onTap;
 
   const BookItem({
     Key? key,
     required this.book,
     required this.selected,
+    this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: selected ? Colors.deepOrange : Colors.white,
-      elevation: 5,
-      child: Row(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Icon(
-              selected ? Icons.check_box : Icons.check_box_outline_blank,
-              color: selected ? Colors.white : Colors.black,
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        color: selected ? Colors.deepOrange : Colors.white,
+        elevation: 5,
+        child: Row(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Icon(
+                selected ? Icons.check_box : Icons.check_box_outline_blank,
+                color: selected ? Colors.white : Colors.black,
+              ),
             ),
-          ),
-          textContainer(),
-        ],
+            textContainer(),
+          ],
+        ),
       ),
     );
   }
@@ -63,32 +68,40 @@ class BookItem extends StatelessWidget {
 class SongBook extends StatelessWidget {
   final Book book;
   final double height;
+  final Function()? onTap;
 
-  const SongBook({Key? key, required this.book, required this.height})
-      : super(key: key);
+  const SongBook({
+    Key? key,
+    required this.book,
+    required this.height,
+    this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Hero(
       tag: 'BookIndex_${book.objectId}',
-      child: Container(
-        width: height * 0.1958,
-        margin: const EdgeInsets.only(right: 10),
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        decoration: BoxDecoration(
-          color: AppColors.primaryColor,
-          border: Border.all(color: AppColors.white),
-          boxShadow: const [BoxShadow(blurRadius: 3)],
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-        ),
-        child: Center(
-          child: Text(
-            '${truncateString(19, refineTitle(book.title!))} (${book.songs})',
-            textAlign: TextAlign.center,
-            maxLines: 3,
-            style: normalTextStyle.copyWith(
-              color: AppColors.white,
-              fontSize: height * 0.0228,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          width: height * 0.1958,
+          margin: const EdgeInsets.only(right: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          decoration: BoxDecoration(
+            color: AppColors.primaryColor,
+            border: Border.all(color: AppColors.white),
+            boxShadow: const [BoxShadow(blurRadius: 3)],
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+          ),
+          child: Center(
+            child: Text(
+              '${truncateString(19, refineTitle(book.title!))} (${book.songs})',
+              textAlign: TextAlign.center,
+              maxLines: 3,
+              style: normalTextStyle.copyWith(
+                color: AppColors.white,
+                fontSize: height * 0.0228,
+              ),
             ),
           ),
         ),
@@ -100,39 +113,47 @@ class SongBook extends StatelessWidget {
 class ListedItem extends StatelessWidget {
   final Listed listed;
   final double height;
+  final Function()? onTap;
 
-  const ListedItem({Key? key, required this.listed, required this.height})
-      : super(key: key);
+  const ListedItem({
+    Key? key,
+    required this.listed,
+    required this.height,
+    this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Hero(
       tag: 'ListedIndex_${listed.id}',
-      child: Card(
-        elevation: 2,
-        margin: EdgeInsets.only(right: 5, bottom: height * 0.0049),
-        child: Padding(
-          padding: EdgeInsets.all(height * 0.0049),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                listed.title!,
-                maxLines: 1,
-                style: titleTextStyle.copyWith(
-                  fontSize: height * 0.0261,
-                  fontWeight: FontWeight.bold,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Card(
+          elevation: 2,
+          margin: EdgeInsets.only(right: 5, bottom: height * 0.0049),
+          child: Padding(
+            padding: EdgeInsets.all(height * 0.0049),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  listed.title!,
+                  maxLines: 1,
+                  style: titleTextStyle.copyWith(
+                    fontSize: height * 0.0261,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              Divider(color: AppColors.activeColor, height: height * 0.0049),
-              Text(
-                listed.description!,
-                maxLines: 2,
-                style: normalTextStyle.copyWith(
-                  fontSize: height * 0.0228,
+                Divider(color: AppColors.activeColor, height: height * 0.0049),
+                Text(
+                  listed.description!,
+                  maxLines: 2,
+                  style: normalTextStyle.copyWith(
+                    fontSize: height * 0.0228,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -144,45 +165,51 @@ class SongGrid extends StatelessWidget {
   final Song song;
   final List<Book> books;
   final double height;
+  final Function()? onTap;
 
-  const SongGrid(
-      {Key? key, required this.song, required this.books, required this.height})
-      : super(key: key);
+  const SongGrid({
+    Key? key,
+    required this.song,
+    required this.books,
+    required this.height,
+    this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    books.retainWhere((item) => item.bookid == song.book);
+    Book book = books.firstWhere((item) => item.bookid == song.book);
     return Hero(
       tag: 'SongGrid_${song.objectId}',
-      child: Card(
-        elevation: 2,
-        margin: EdgeInsets.only(right: 5, bottom: height * 0.0049),
-        child: Container(
-          width: height * 0.1958,
-          margin: const EdgeInsets.only(right: 10),
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                truncateString(19, songItemTitle(song.songno!, song.title!)),
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                style: normalTextStyle.copyWith(
-                  fontSize: height * 0.0228,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Card(
+          elevation: 2,
+          margin: EdgeInsets.only(right: 5, bottom: height * 0.0049),
+          child: Container(
+            width: height * 0.1958,
+            margin: const EdgeInsets.only(right: 10),
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  truncateString(20, songItemTitle(song.book!, song.title!)),
+                  maxLines: 1,
+                  style: normalTextStyle.copyWith(
+                    fontSize: height * 0.0228,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 3),
-              Text(
-                truncateString(20, books[0].title!),
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                style: normalTextStyle.copyWith(
-                  fontSize: height * 0.0175,
+                const SizedBox(height: 3),
+                Text(
+                  book.title!.isNotEmpty ? truncateString(20, book.title!) : '',
+                  maxLines: 1,
+                  style: normalTextStyle.copyWith(
+                    fontSize: height * 0.0175,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -193,9 +220,14 @@ class SongGrid extends StatelessWidget {
 class SongItem extends StatelessWidget {
   final Song song;
   final double height;
+  final Function()? onTap;
 
-  const SongItem({Key? key, required this.song, required this.height})
-      : super(key: key);
+  const SongItem({
+    Key? key,
+    required this.song,
+    required this.height,
+    this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -212,39 +244,42 @@ class SongItem extends StatelessWidget {
 
     return Hero(
       tag: 'SongIndex_${song.id}',
-      child: Card(
-        elevation: 2,
-        margin: EdgeInsets.only(right: 5, bottom: height * 0.0049),
-        child: Padding(
-          padding: EdgeInsets.all(height * 0.0049),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                songItemTitle(song.songno!, song.title!),
-                maxLines: 1,
-                style: titleTextStyle.copyWith(
-                  fontSize: height * 0.0261,
-                  fontWeight: FontWeight.bold,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Card(
+          elevation: 2,
+          margin: EdgeInsets.only(right: 5, bottom: height * 0.0049),
+          child: Padding(
+            padding: EdgeInsets.all(height * 0.0049),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  songItemTitle(song.songno!, song.title!),
+                  maxLines: 1,
+                  style: titleTextStyle.copyWith(
+                    fontSize: height * 0.0261,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              Divider(color: AppColors.activeColor, height: height * 0.0049),
-              Text(
-                refineContent(verses[0]),
-                maxLines: 2,
-                style: normalTextStyle.copyWith(
-                  fontSize: height * 0.0228,
+                Divider(color: AppColors.activeColor, height: height * 0.0049),
+                Text(
+                  refineContent(verses[0]),
+                  maxLines: 2,
+                  style: normalTextStyle.copyWith(
+                    fontSize: height * 0.0228,
+                  ),
                 ),
-              ),
-              Row(
-                children: <Widget>[
-                  const Spacer(),
-                  //tagView(songBook),
-                  TagView(tagText: hasChorus, height: height),
-                  TagView(tagText: verseCount, height: height),
-                ],
-              ),
-            ],
+                Row(
+                  children: <Widget>[
+                    const Spacer(),
+                    //tagView(songBook),
+                    TagView(tagText: hasChorus, height: height),
+                    TagView(tagText: verseCount, height: height),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -255,9 +290,14 @@ class SongItem extends StatelessWidget {
 class DraftItem extends StatelessWidget {
   final Draft draft;
   final double height;
+  final Function()? onTap;
 
-  const DraftItem({Key? key, required this.draft, required this.height})
-      : super(key: key);
+  const DraftItem({
+    Key? key,
+    required this.draft,
+    required this.height,
+    this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -274,38 +314,41 @@ class DraftItem extends StatelessWidget {
 
     return Hero(
       tag: 'SongIndex_${draft.id}',
-      child: Card(
-        elevation: 2,
-        margin: EdgeInsets.only(right: 5, bottom: height * 0.0049),
-        child: Padding(
-          padding: EdgeInsets.all(height * 0.0049),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                songItemTitle(draft.songno!, draft.title!),
-                maxLines: 1,
-                style: titleTextStyle.copyWith(
-                  fontSize: height * 0.0261,
-                  fontWeight: FontWeight.bold,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Card(
+          elevation: 2,
+          margin: EdgeInsets.only(right: 5, bottom: height * 0.0049),
+          child: Padding(
+            padding: EdgeInsets.all(height * 0.0049),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  songItemTitle(draft.songno!, draft.title!),
+                  maxLines: 1,
+                  style: titleTextStyle.copyWith(
+                    fontSize: height * 0.0261,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              Divider(color: AppColors.activeColor, height: height * 0.0049),
-              Text(
-                refineContent(verses[0]),
-                maxLines: 2,
-                style: normalTextStyle.copyWith(
-                  fontSize: height * 0.0228,
+                Divider(color: AppColors.activeColor, height: height * 0.0049),
+                Text(
+                  refineContent(verses[0]),
+                  maxLines: 2,
+                  style: normalTextStyle.copyWith(
+                    fontSize: height * 0.0228,
+                  ),
                 ),
-              ),
-              Row(
-                children: <Widget>[
-                  const Spacer(),
-                  TagView(tagText: hasChorus, height: height),
-                  TagView(tagText: verseCount, height: height),
-                ],
-              ),
-            ],
+                Row(
+                  children: <Widget>[
+                    const Spacer(),
+                    TagView(tagText: hasChorus, height: height),
+                    TagView(tagText: verseCount, height: height),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

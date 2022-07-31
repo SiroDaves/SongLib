@@ -255,12 +255,13 @@ class MySingleChoiceSearchState<T> extends State<SearchWidget<T>> {
         return Stack(
           children: <Widget>[
             Positioned.fill(
-                child: GestureDetector(
-              onTap: dismissMenu,
-              child: Container(
-                color: Colors.transparent,
+              child: GestureDetector(
+                onTap: dismissMenu,
+                child: Container(
+                  color: Colors.transparent,
+                ),
               ),
-            )),
+            ),
             Positioned(
               left: position.left,
               width: width,
