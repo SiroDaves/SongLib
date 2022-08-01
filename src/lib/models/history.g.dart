@@ -9,7 +9,7 @@ part of 'history.dart';
 History _$HistoryFromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
-    requiredKeys: const ['objectId', 'song', 'createdAt'],
+    requiredKeys: const ['song'],
   );
   return History(
     objectId: json['objectId'] as String?,

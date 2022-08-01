@@ -13,7 +13,7 @@ Future<List<Book>?> getBooks(
   if (isConnected) {
     try {
       final result = await dioService.request(
-        url: '${ApiConstants.book}?where={"enabled":1}&order=bookid',
+        url: '${ApiConstants.book}??where={"enabled":true}&order=bookNo',
         method: Method.get,
       );
 

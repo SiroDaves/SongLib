@@ -6,7 +6,7 @@ import '../../exports.dart';
 class DbHistoryTable extends Table {
   IntColumn get id => integer().autoIncrement()();
 
-  TextColumn get objectId => text().withLength(min: 0, max: 100)();
+  TextColumn get objectId => text().withDefault(const Constant(''))();
 
   IntColumn get song => integer().withDefault(const Constant(0))();
 
@@ -27,7 +27,7 @@ extension HistoryExtension on History {
     final id = this.id;
     return DbHistoryTableCompanion.insert(
       id: id == null ? const Value.absent() : Value(id),
-      objectId: objectId!,
+      objectId: Value(objectId!),
       song: Value(song!),
       createdAt: Value(createdAt!),
     );

@@ -9,7 +9,7 @@ part of 'search.dart';
 Search _$SearchFromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
-    requiredKeys: const ['objectId', 'title', 'createdAt'],
+    requiredKeys: const ['title'],
   );
   return Search(
     objectId: json['objectId'] as String?,

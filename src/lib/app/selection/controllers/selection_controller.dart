@@ -63,7 +63,7 @@ class SelectionController extends GetxController {
   Future<void> saveBooks() async {
     for (int i = 0; i < selectables.length; i++) {
       Book book = selectables[i]!.data;
-      selectedBooks = "$selectedBooks${book.bookid},";
+      selectedBooks = "$selectedBooks${book.bookNo},";
       await bookDao!.createBook(book);
     }
 

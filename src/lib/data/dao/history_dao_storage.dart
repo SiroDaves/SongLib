@@ -46,7 +46,7 @@ class _HistoryDaoStorage extends DatabaseAccessor<MyDatabase>
   @override
   Future<void> createHistory(History history) => into(db.dbHistoryTable).insert(
         DbHistoryTableCompanion.insert(
-          objectId: history.objectId!,
+          objectId: Value(history.objectId!),
           song: Value(history.song!),
           createdAt: Value(history.createdAt!),
         ),

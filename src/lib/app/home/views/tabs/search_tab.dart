@@ -81,7 +81,7 @@ class SearchTab extends StatelessWidget {
           book: controller.books![index],
           height: size!.height,
           onTap: () {
-            controller.mainBook = controller.books![index].bookid!;
+            controller.mainBook = controller.books![index].bookNo!;
             controller.fetchSongData();
           },
         ),

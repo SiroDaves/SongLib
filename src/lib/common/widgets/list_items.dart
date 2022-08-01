@@ -53,7 +53,7 @@ class BookItem extends StatelessWidget {
           ),
           const SizedBox(height: 5),
           Text(
-            "${book.songs!} ${book.subtitle} songs",
+            "${book.songs!} ${book.subTitle} songs",
             style: TextStyle(
               fontSize: 16,
               color: selected ? Colors.white : Colors.black,
@@ -145,13 +145,24 @@ class ListedItem extends StatelessWidget {
                   ),
                 ),
                 Divider(color: AppColors.activeColor, height: height * 0.0049),
+                const SizedBox(height: 5),
+                listed.description!.isNotEmpty
+                    ? Text(
+                        listed.description!,
+                        maxLines: 1,
+                        style: normalTextStyle.copyWith(
+                          fontSize: height * 0.015,
+                        ),
+                      )
+                    : Container(),
                 Text(
-                  listed.description!,
-                  maxLines: 2,
+                  'Updated ${listed.updatedAt!}',
+                  maxLines: 1,
                   style: normalTextStyle.copyWith(
-                    fontSize: height * 0.0228,
+                    fontSize: height * 0.015,
                   ),
                 ),
+                const SizedBox(height: 5),
               ],
             ),
           ),
@@ -177,7 +188,7 @@ class SongGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Book book = books.firstWhere((item) => item.bookid == song.book);
+    Book book = books.firstWhere((item) => item.bookNo == song.book);
     return Hero(
       tag: 'SongGrid_${song.objectId}',
       child: GestureDetector(
@@ -188,7 +199,7 @@ class SongGrid extends StatelessWidget {
           child: Container(
             width: height * 0.1958,
             margin: const EdgeInsets.only(right: 10),
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(5),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -255,7 +266,7 @@ class SongItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  songItemTitle(song.songno!, song.title!),
+                  songItemTitle(song.songNo!, song.title!),
                   maxLines: 1,
                   style: titleTextStyle.copyWith(
                     fontSize: height * 0.0261,
@@ -325,7 +336,7 @@ class DraftItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  songItemTitle(draft.songno!, draft.title!),
+                  songItemTitle(draft.songNo!, draft.title!),
                   maxLines: 1,
                   style: titleTextStyle.copyWith(
                     fontSize: height * 0.0261,

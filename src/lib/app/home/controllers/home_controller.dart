@@ -54,8 +54,8 @@ class HomeController extends GetxController {
     contentController = TextEditingController();
 
     selectedBooks = userData.read(PrefKeys.selectedBooks);
-    var bookids = selectedBooks.split(",");
-    mainBook = int.parse(bookids[0]);
+    var bookNos = selectedBooks.split(",");
+    mainBook = int.parse(bookNos[0]);
   }
 
   @override
@@ -115,16 +115,13 @@ class HomeController extends GetxController {
           ),
           actions: <Widget>[
             TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                saveListed();
-              },
+              onPressed: () => saveListed(context),
               child: const Text("SAVE"),
             ),
             TextButton(
               onPressed: () {
+                clearForm();
                 Navigator.pop(context);
-                Get.back();
               },
               child: const Text("DON'T SAVE"),
             ),
@@ -141,7 +138,7 @@ class HomeController extends GetxController {
   }
 
   /// Save changes for a liste be it a new one or simply updating an old one
-  Future<bool?> saveListed() async {
+  Future<bool?> saveListed(BuildContext context) async {
     bool? success;
 
     if (validateInput()) {
@@ -155,11 +152,20 @@ class HomeController extends GetxController {
       );
       listedDao!.createListed(listed);
 
+      clearForm();
+      fetchSongData();
+      Navigator.pop(context);
       isBusy = false;
       update();
     }
 
     return success;
+  }
+
+  /// clear data from the form
+  Future<void> clearForm() async {
+    titleController!.clear();
+    contentController!.clear();
   }
 
   void newListForm(BuildContext context) {
@@ -176,6 +182,13 @@ class HomeController extends GetxController {
               InkWell(
                 child: const Padding(
                   padding: EdgeInsets.all(10),
+                  child: Icon(Icons.done),
+                ),
+                onTap: () =>  saveListed(context),
+              ),
+              InkWell(
+                child: const Padding(
+                  padding: EdgeInsets.all(10),
                   child: Icon(Icons.clear),
                 ),
                 onTap: () => confirmCancel(context),
@@ -185,7 +198,7 @@ class HomeController extends GetxController {
           body: Container(
             height: 250,
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-            child: Center(
+            child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
@@ -204,11 +217,7 @@ class HomeController extends GetxController {
                   ),
                   ElevatedButton(
                     child: const Text('Save New List'),
-                    onPressed: () {
-                      saveListed();
-                      fetchSongData();
-                      Navigator.pop(context);
-                    },
+                    onPressed: () => saveListed(context),
                   ),
                 ],
               ),

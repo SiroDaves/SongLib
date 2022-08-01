@@ -9,24 +9,14 @@ part of 'book.dart';
 Book _$BookFromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
-    requiredKeys: const [
-      'objectId',
-      'bookid',
-      'enabled',
-      'title',
-      'subtitle',
-      'songs',
-      'position',
-      'createdAt',
-      'updatedAt'
-    ],
+    requiredKeys: const ['title'],
   );
   return Book(
     objectId: json['objectId'] as String?,
-    bookid: json['bookid'] as int?,
-    enabled: json['enabled'] as int?,
+    enabled: json['enabled'] as bool?,
+    bookNo: json['bookNo'] as int?,
     title: json['title'] as String?,
-    subtitle: json['subtitle'] as String?,
+    subTitle: json['subTitle'] as String?,
     songs: json['songs'] as int?,
     position: json['position'] as int?,
     createdAt: json['createdAt'] as String?,
@@ -45,10 +35,10 @@ Map<String, dynamic> _$BookToJson(Book instance) {
   }
 
   writeNotNull('objectId', instance.objectId);
-  writeNotNull('bookid', instance.bookid);
   writeNotNull('enabled', instance.enabled);
+  writeNotNull('bookNo', instance.bookNo);
   writeNotNull('title', instance.title);
-  writeNotNull('subtitle', instance.subtitle);
+  writeNotNull('subTitle', instance.subTitle);
   writeNotNull('songs', instance.songs);
   writeNotNull('position', instance.position);
   writeNotNull('createdAt', instance.createdAt);

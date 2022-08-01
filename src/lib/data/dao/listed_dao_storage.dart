@@ -9,11 +9,11 @@ abstract class ListedDaoStorage {
 
   Stream<List<DbListed>> getAllListedsStream();
 
-  Future<List<Listed>> getAllListeds();
+  Future<List<Listed>> getAllListeds({int parentid});
 
   Future<void> createListed(Listed listed);
 
-  Future<void> createListedWithValue(Listed listed);
+  Future<void> createListedChild(Listed listed);
 
   Future<void> updateListed(Listed listed);
 }
@@ -27,9 +27,26 @@ class _ListedDaoStorage extends DatabaseAccessor<MyDatabase>
   _ListedDaoStorage(MyDatabase db) : super(db);
 
   @override
-  Future<List<Listed>> getAllListeds() async {
-    List<DbListed> dbListeds = await select(db.dbListedTable).get();
+  Future<List<Listed>> getAllListeds({int? parentid = 0}) async {
+    //List<DbListed> dbListeds = await select(db.dbListedTable).get();
+
+    Stream<List<DbListed>> streams = getAllListedsStream();
+    List<DbListed> dbListeds = await streams.first;
     List<Listed> listeds = [];
+
+    /*customSelect(
+      //'SELECT * FROM DbListed WHERE parentid=0;',
+      'SELECT * FROM ${db.dbListedTable};',
+      readsFrom: {db.dbListedTable},
+    ).watch().map(
+      (rows) {
+        dbListeds = rows
+            .map(
+              (row) => DbListed.fromData(row.data),
+            )
+            .toList();
+      },
+    );*/
 
     for (int i = 0; i < dbListeds.length; i++) {
       listeds.add(
@@ -49,38 +66,56 @@ class _ListedDaoStorage extends DatabaseAccessor<MyDatabase>
   }
 
   @override
-  Stream<List<DbListed>> getAllListedsStream() => select(db.dbListedTable).watch();
+  Stream<List<DbListed>> getAllListedsStream() {
+    /*customSelect(
+      //'SELECT * FROM DbListed WHERE parentid=0;',
+      'SELECT * FROM ${db.dbListedTable};',
+      readsFrom: {db.dbListedTable},
+    ).watch().map(
+      (rows) {
+        dbListeds = rows
+            .map(
+              (row) => DbListed.fromData(row.data),
+            )
+            .toList();
+      },
+    );*/
+
+    return customSelect(
+      'SELECT * FROM ${db.dbListedTable.actualTableName} '
+      'WHERE ${db.dbListedTable.parentid.name}=0;',
+      readsFrom: {db.dbListedTable},
+    ).watch().map(
+      (rows) {
+        return rows.map((row) => DbListed.fromData(row.data)).toList();
+      },
+    );
+  }
 
   @override
   Future<void> createListed(Listed listed) => into(db.dbListedTable).insert(
         DbListedTableCompanion.insert(
-          objectId: listed.objectId!,
-          parentid: Value(listed.parentid!),
-          title: listed.title!,
-          description: listed.description!,
-          position: Value(listed.position!),
-          createdAt: Value(listed.createdAt!),
-          updatedAt: Value(listed.updatedAt!),
+          objectId: Value(listed.objectId!),
+          title: Value(listed.title!),
+          description: Value(listed.description!),
         ),
       );
 
   @override
-  Future<void> createListedWithValue(Listed listed) async =>
+  Future<void> createListedChild(Listed listed) async =>
       into(db.dbListedTable).insert(
         DbListedTableCompanion.insert(
-          objectId: listed.objectId!,
+          objectId: Value(listed.objectId!),
           parentid: Value(listed.parentid!),
-          title: listed.title!,
-          description: listed.description!,
-          position: Value(listed.position!),
-          createdAt: Value(listed.createdAt!),
-          updatedAt: Value(listed.updatedAt!),
+          title: Value(listed.title!),
+          description: Value(listed.description!),
         ),
       );
 
   @override
   Future<void> updateListed(Listed listed) =>
-      (update(db.dbListedTable)..where((row) => row.id.equals(listed.id))).write(
+      (update(db.dbListedTable)..where((row) => row.id.equals(listed.id)))
+          .write(
         DbListedTableCompanion(
           parentid: Value(listed.parentid!),
           title: Value(listed.title!),

@@ -38,7 +38,7 @@ class _SongDaoStorage extends DatabaseAccessor<MyDatabase>
             id: dbsongs[i].id,
             objectId: dbsongs[i].objectId,
             book: dbsongs[i].book,
-            songno: dbsongs[i].songno,
+            songNo: dbsongs[i].songNo,
             title: dbsongs[i].title,
             alias: dbsongs[i].alias,
             content: dbsongs[i].content,
@@ -66,7 +66,7 @@ class _SongDaoStorage extends DatabaseAccessor<MyDatabase>
           id: dbsongs[i].id,
           objectId: dbsongs[i].objectId,
           book: dbsongs[i].book,
-          songno: dbsongs[i].songno,
+          songNo: dbsongs[i].songNo,
           title: dbsongs[i].title,
           alias: dbsongs[i].alias,
           content: dbsongs[i].content,
@@ -88,14 +88,14 @@ class _SongDaoStorage extends DatabaseAccessor<MyDatabase>
   @override
   Future<void> createSong(Song song) => into(db.dbSongTable).insert(
         DbSongTableCompanion.insert(
-          objectId: song.objectId!,
+          objectId: Value(song.objectId!),
           book: Value(song.book!),
-          songno: Value(song.songno!),
-          title: song.title!,
-          alias: song.alias!,
-          content: song.content!,
-          key: song.key!,
-          author: song.author!,
+          songNo: Value(song.songNo!),
+          title: Value(song.title!),
+          alias: Value(song.alias!),
+          content: Value(song.content!),
+          key: Value(song.key!),
+          author: Value(song.author!),
           views: Value(song.views!),
           createdAt: Value(song.createdAt!),
           updatedAt: Value(song.updatedAt!),
@@ -107,7 +107,7 @@ class _SongDaoStorage extends DatabaseAccessor<MyDatabase>
       (update(db.dbSongTable)..where((row) => row.id.equals(song.id))).write(
         DbSongTableCompanion(
           book: Value(song.book!),
-          songno: Value(song.songno!),
+          songNo: Value(song.songNo!),
           title: Value(song.title!),
           alias: Value(song.alias!),
           content: Value(song.content!),

@@ -8,15 +8,15 @@ class DbBookTable extends Table {
   String date = DateFormat.yMMMd().format(DateTime.now());
   IntColumn get id => integer().autoIncrement()();
 
-  TextColumn get objectId => text().withLength(min: 0, max: 100)();
+  TextColumn get objectId => text().withDefault(const Constant(''))();
 
-  IntColumn get bookid => integer().withDefault(const Constant(0))();
+  BoolColumn get enabled => boolean().withDefault(const Constant(false))();
 
-  IntColumn get enabled => integer().withDefault(const Constant(0))();
+  IntColumn get bookNo => integer().withDefault(const Constant(0))();
 
-  TextColumn get title => text().withLength(min: 0, max: 100)();
+  TextColumn get title => text().withDefault(const Constant(''))();
 
-  TextColumn get subtitle => text().withLength(min: 0, max: 100)();
+  TextColumn get subTitle => text().withDefault(const Constant(''))();
 
   IntColumn get songs => integer().withDefault(const Constant(0))();
 
@@ -31,10 +31,10 @@ extension DbBookExtension on DbBook {
   Book getModel() => Book(
         id: id,
         objectId: objectId,
-        bookid: bookid,
         enabled: enabled,
+        bookNo: bookNo,
         title: title,
-        subtitle: subtitle,
+        subTitle: subTitle,
         songs: songs,
         position: position,
         createdAt: createdAt,
@@ -47,11 +47,11 @@ extension BookExtension on Book {
     final id = this.id;
     return DbBookTableCompanion.insert(
       id: id == null ? const Value.absent() : Value(id),
-      objectId: objectId!,
-      bookid: Value(bookid!),
+      objectId: Value(objectId!),
       enabled: Value(enabled!),
-      title: title!,
-      subtitle: subtitle!,
+      bookNo: Value(bookNo!),
+      title: Value(title!),
+      subTitle: Value(subTitle!),
       songs: Value(songs!),
       position: Value(position!),
       createdAt: Value(createdAt!),

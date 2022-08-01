@@ -4,33 +4,33 @@ part 'book.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Book {
-  @JsonKey(name: 'objectId', required: true, includeIfNull: false)
+  @JsonKey(name: 'objectId', includeIfNull: false)
   String? objectId;
-  @JsonKey(name: 'bookid', required: true, includeIfNull: false)
-  int? bookid;
-  @JsonKey(name: 'enabled', required: true, includeIfNull: false)
-  int? enabled;
+  @JsonKey(name: 'enabled', includeIfNull: false)
+  bool? enabled;
+  @JsonKey(name: 'bookNo', includeIfNull: false)
+  int? bookNo;
   @JsonKey(name: 'title', required: true, includeIfNull: false)
   String? title;
-  @JsonKey(name: 'subtitle', required: true, includeIfNull: false)
-  String? subtitle;
-  @JsonKey(name: 'songs', required: true, includeIfNull: false)
+  @JsonKey(name: 'subTitle', includeIfNull: false)
+  String? subTitle;
+  @JsonKey(name: 'songs', includeIfNull: false)
   int? songs;
-  @JsonKey(name: 'position', required: true, includeIfNull: false)
+  @JsonKey(name: 'position', includeIfNull: false)
   int? position;
-  @JsonKey(name: 'createdAt', required: true, includeIfNull: false)
+  @JsonKey(name: 'createdAt', includeIfNull: false)
   String? createdAt;
-  @JsonKey(name: 'updatedAt', required: true, includeIfNull: false)
+  @JsonKey(name: 'updatedAt', includeIfNull: false)
   String? updatedAt;
   @JsonKey(name: 'id', includeIfNull: false)
   int? id;
 
    Book({
     this.objectId,
-    this.bookid,
     this.enabled,
+    this.bookNo,
     this.title,
-    this.subtitle,
+    this.subTitle,
     this.songs,
     this.position,
     this.createdAt,

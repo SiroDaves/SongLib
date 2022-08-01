@@ -35,7 +35,7 @@ class _DraftDaoStorage extends DatabaseAccessor<MyDatabase>
           id: dbdrafts[i].id,
           objectId: dbdrafts[i].objectId,
           book: dbdrafts[i].book,
-          songno: dbdrafts[i].songno,
+          songNo: dbdrafts[i].songNo,
           title: dbdrafts[i].title,
           alias: dbdrafts[i].alias,
           content: dbdrafts[i].content,
@@ -56,14 +56,14 @@ class _DraftDaoStorage extends DatabaseAccessor<MyDatabase>
   @override
   Future<void> createDraft(Draft draft) => into(db.dbDraftTable).insert(
         DbDraftTableCompanion.insert(
-          objectId: draft.objectId!,
+          objectId: Value(draft.objectId!),
           book: Value(draft.book!),
-          songno: Value(draft.songno!),
-          title: draft.title!,
-          alias: draft.alias!,
-          content: draft.content!,
-          key: draft.key!,
-          author: draft.author!,
+          songNo: Value(draft.songNo!),
+          title: Value(draft.title!),
+          alias: Value(draft.alias!),
+          content: Value(draft.content!),
+          key: Value(draft.key!),
+          author: Value(draft.author!),
           views: Value(draft.views!),
           createdAt: Value(draft.createdAt!),
           updatedAt: Value(draft.updatedAt!),
@@ -76,7 +76,7 @@ class _DraftDaoStorage extends DatabaseAccessor<MyDatabase>
       (update(db.dbDraftTable)..where((row) => row.id.equals(draft.id))).write(
         DbDraftTableCompanion(
           book: Value(draft.book!),
-          songno: Value(draft.songno!),
+          songNo: Value(draft.songNo!),
           title: Value(draft.title!),
           alias: Value(draft.alias!),
           content: Value(draft.content!),

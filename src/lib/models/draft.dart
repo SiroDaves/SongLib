@@ -4,27 +4,27 @@ part 'draft.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Draft {
-  @JsonKey(name: 'objectId', required: true, includeIfNull: false)
+  @JsonKey(name: 'objectId', includeIfNull: false)
   String? objectId;
-  @JsonKey(name: 'book', required: true, includeIfNull: false)
+  @JsonKey(name: 'book', includeIfNull: false)
   int? book;
-  @JsonKey(name: 'songno', required: true, includeIfNull: false)
-  int? songno;
-  @JsonKey(name: 'title', required: true, includeIfNull: false)
+  @JsonKey(name: 'songNo', includeIfNull: false)
+  int? songNo;
+  @JsonKey(name: 'title', includeIfNull: false)
   String? title;
-  @JsonKey(name: 'alias', required: true, includeIfNull: false)
+  @JsonKey(name: 'alias', includeIfNull: false)
   String? alias;
-  @JsonKey(name: 'content', required: true, includeIfNull: false)
+  @JsonKey(name: 'content', includeIfNull: false)
   String? content;
-  @JsonKey(name: 'key', required: true, includeIfNull: false)
+  @JsonKey(name: 'key', includeIfNull: false)
   String? key;
-  @JsonKey(name: 'author', required: true, includeIfNull: false)
+  @JsonKey(name: 'author', includeIfNull: false)
   String? author;
-  @JsonKey(name: 'views', required: true, includeIfNull: false)
+  @JsonKey(name: 'views', includeIfNull: false)
   int? views;
-  @JsonKey(name: 'createdAt', required: true, includeIfNull: false)
+  @JsonKey(name: 'createdAt', includeIfNull: false)
   String? createdAt;
-  @JsonKey(name: 'updatedAt', required: true, includeIfNull: false)
+  @JsonKey(name: 'updatedAt', includeIfNull: false)
   String? updatedAt;
   @JsonKey(name: 'liked', includeIfNull: false)
   bool? liked;
@@ -34,7 +34,7 @@ class Draft {
   Draft({
     this.objectId,
     this.book,
-    this.songno,
+    this.songNo,
     this.title,
     this.alias,
     this.content,

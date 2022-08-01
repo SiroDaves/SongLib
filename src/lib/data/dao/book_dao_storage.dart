@@ -36,10 +36,10 @@ class _BookDaoStorage extends DatabaseAccessor<MyDatabase>
         Book(
           id: dbBooks[i].id,
           objectId: dbBooks[i].objectId,
-          bookid: dbBooks[i].bookid,
+          bookNo: dbBooks[i].bookNo,
           enabled: dbBooks[i].enabled,
           title: dbBooks[i].title,
-          subtitle: dbBooks[i].subtitle,
+          subTitle: dbBooks[i].subTitle,
           songs: dbBooks[i].songs,
           position: dbBooks[i].position,
           createdAt: dbBooks[i].createdAt,
@@ -56,11 +56,11 @@ class _BookDaoStorage extends DatabaseAccessor<MyDatabase>
   @override
   Future<void> createBook(Book book) => into(db.dbBookTable).insert(
         DbBookTableCompanion.insert(
-          objectId: book.objectId!,
-          bookid: Value(book.bookid!),
+          objectId: Value(book.objectId!),
+          bookNo: Value(book.bookNo!),
           enabled: Value(book.enabled!),
-          title: book.title!,
-          subtitle: book.subtitle!,
+          title: Value(book.title!),
+          subTitle: Value(book.subTitle!),
           songs: Value(book.songs!),
           position: Value(book.position!),
           createdAt: Value(book.createdAt!),
@@ -72,11 +72,11 @@ class _BookDaoStorage extends DatabaseAccessor<MyDatabase>
   Future<void> createBookWithValue(Book book) async =>
       into(db.dbBookTable).insert(
         DbBookTableCompanion.insert(
-          objectId: book.objectId!,
-          bookid: Value(book.bookid!),
+          objectId: Value(book.objectId!),
+          bookNo: Value(book.bookNo!),
           enabled: Value(book.enabled!),
-          title: book.title!,
-          subtitle: book.subtitle!,
+          title: Value(book.title!),
+          subTitle: Value(book.subTitle!),
           songs: Value(book.songs!),
           position: Value(book.position!),
           createdAt: Value(book.createdAt!),
@@ -88,10 +88,10 @@ class _BookDaoStorage extends DatabaseAccessor<MyDatabase>
   Future<void> updateBook(Book book) =>
       (update(db.dbBookTable)..where((row) => row.id.equals(book.id))).write(
         DbBookTableCompanion(
-          bookid: Value(book.bookid!),
+          bookNo: Value(book.bookNo!),
           enabled: Value(book.enabled!),
           title: Value(book.title!),
-          subtitle: Value(book.subtitle!),
+          subTitle: Value(book.subTitle!),
           songs: Value(book.songs!),
           position: Value(book.position!),
           updatedAt: Value(book.updatedAt!),

@@ -6,9 +6,9 @@ import '../../exports.dart';
 class DbSearchTable extends Table {
   IntColumn get id => integer().autoIncrement()();
 
-  TextColumn get objectId => text().withLength(min: 3, max: 100)();
+  TextColumn get objectId => text().withDefault(const Constant(''))();
 
-  TextColumn get title => text().withLength(min: 3, max: 100)();
+  TextColumn get title => text().withDefault(const Constant(''))();
 
   TextColumn get createdAt => text().withDefault(Constant(dateNow()))();
 }
@@ -27,8 +27,8 @@ extension SearchExtension on Search {
     final id = this.id;
     return DbSearchTableCompanion.insert(
       id: id == null ? const Value.absent() : Value(id),
-      objectId: objectId!,
-      title: title!,
+      objectId: Value(objectId!),
+      title: Value(title!),
       createdAt: Value(createdAt!),
     );
   }

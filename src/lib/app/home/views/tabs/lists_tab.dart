@@ -59,7 +59,9 @@ class ListsTab extends StatelessWidget {
                           height: size!.height,
                         )
                       : Container(),
-                  likesContainer(context),
+                  controller.likes!.isNotEmpty
+                      ? likesContainer(context)
+                      : Container(),
                   controller.listeds!.isNotEmpty
                       ? listContainer(context)
                       : const NoDataToShow(
@@ -84,25 +86,6 @@ class ListsTab extends StatelessWidget {
             color: AppColors.primaryColor,
           ),
         ),
-      ),
-    );
-  }
-
-  Widget bookContainer(BuildContext context) {
-    return SizedBox(
-      height: size!.height * 0.0897,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.all(5),
-        itemBuilder: (context, index) => SongBook(
-          book: controller.books![index],
-          height: size!.height,
-          onTap: () {
-            controller.mainBook = controller.books![index].bookid!;
-            controller.fetchSongData();
-          },
-        ),
-        itemCount: controller.books!.length,
       ),
     );
   }
@@ -170,9 +153,9 @@ class ListsTab extends StatelessWidget {
       child: Scrollbar(
         thickness: 10,
         radius: const Radius.circular(20),
-        //controller: controller.songScroller,
+        //controller: controller.listsScroller,
         child: ListView.builder(
-          //controller: controller.songScroller,
+          //controller: controller.listsScroller,
           itemCount: controller.listeds!.length,
           padding: EdgeInsets.only(
             left: size!.height * 0.0082,

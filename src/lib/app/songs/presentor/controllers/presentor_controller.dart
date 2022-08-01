@@ -23,7 +23,6 @@ class PresentorController extends GetxController {
   int curStanza = 0, curSong = 0;
   List<String> songVerses = [], verseInfos = [], verseTexts = [];
 
-  BookDaoStorage? bookDao;
   HistoryDaoStorage? historyDao;
   ListedDaoStorage? listedDao;
   SearchDaoStorage? searchDao;
@@ -36,7 +35,6 @@ class PresentorController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    bookDao = Get.find<BookDaoStorage>();
     historyDao = Get.find<HistoryDaoStorage>();
     listedDao = Get.find<ListedDaoStorage>();
     searchDao = Get.find<SearchDaoStorage>();
@@ -52,7 +50,7 @@ class PresentorController extends GetxController {
   void onClose() {}
 
   Future<void> loadViewer() async {
-    books!.retainWhere((item) => item.bookid == song!.book);
+    books!.retainWhere((item) => item.bookNo == song!.book);
     book = books![0];
 
     isLiked = song!.liked!;
@@ -105,7 +103,7 @@ class PresentorController extends GetxController {
   Future<void> copySong() async {
     String songText = song!.content!.replaceAll("#", "\n");
     Clipboard.setData(ClipboardData(
-      text: '${songItemTitle(song!.songno!, song!.title!)}\n\n$songText',
+      text: '${songItemTitle(song!.songNo!, song!.title!)}\n\n$songText',
     ));
     showToast(
       text: '${song!.title} ${AppConstants.songCopied}',
@@ -116,7 +114,7 @@ class PresentorController extends GetxController {
   Future<void> shareSong() async {
     String songText = song!.content!.replaceAll("#", "\n");
     await Share.share(
-      '${songItemTitle(song!.songno!, song!.title!)}\n\n$songText',
+      '${songItemTitle(song!.songNo!, song!.title!)}\n\n$songText',
       subject: AppConstants.shareVerse,
     );
     showToast(
@@ -143,7 +141,7 @@ class PresentorController extends GetxController {
     Clipboard.setData(
       ClipboardData(
         text: '${lyrics.replaceAll("#", "\n")}\n\n'
-            '${songItemTitle(song!.songno!, song!.title!)},\n'
+            '${songItemTitle(song!.songNo!, song!.title!)},\n'
             '${book!.title}',
       ),
     );
@@ -156,7 +154,7 @@ class PresentorController extends GetxController {
   Future<void> shareVerse(String lyrics) async {
     await Share.share(
       '${lyrics.replaceAll("#", "\n")}\n\n'
-      '${songItemTitle(song!.songno!, song!.title!)},\n'
+      '${songItemTitle(song!.songNo!, song!.title!)},\n'
       '${book!.title}',
       subject: AppConstants.shareVerse,
     );
@@ -195,7 +193,7 @@ class PresentorController extends GetxController {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
               child: Text(
-                songItemTitle(song!.songno!, song!.title!),
+                songItemTitle(song!.songNo!, song!.title!),
                 style: titleTextStyle.copyWith(
                   fontSize: 22,
                 ),

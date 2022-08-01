@@ -16,7 +16,7 @@ Future<List<Song>?> getSongs(
     try {
       final result = await dioService.request(
         url:
-            '${ApiConstants.song}?where={"book":{"\$in":[$selectedBooks]}}&order=songno&limit=10000',
+            '${ApiConstants.song}?where={"book":{"\$in":[$selectedBooks]}}&order=songNo&limit=10000',
         method: Method.get,
       );
 

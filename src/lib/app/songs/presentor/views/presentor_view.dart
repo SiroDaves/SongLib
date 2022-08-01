@@ -26,7 +26,7 @@ class PresentorView extends StatelessWidget {
       builder: (controller) => Scaffold(
         appBar: AppBar(
           title: Text(
-            songItemTitle(song!.songno!, song!.title!),
+            songItemTitle(song!.songNo!, song!.title!),
             style: normalTextStyle,
           ),
           actions: <Widget>[

@@ -4,19 +4,19 @@ part 'listed.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Listed {
-  @JsonKey(name: 'objectId', required: true, includeIfNull: false)
+  @JsonKey(name: 'objectId', includeIfNull: false)
   String? objectId;
-  @JsonKey(name: 'parentid', required: true, includeIfNull: false)
+  @JsonKey(name: 'parentid', includeIfNull: false)
   int? parentid;
-  @JsonKey(name: 'title', required: true, includeIfNull: false)
+  @JsonKey(name: 'title', includeIfNull: false)
   String? title;
-  @JsonKey(name: 'description', required: true, includeIfNull: false)
+  @JsonKey(name: 'description', includeIfNull: false)
   String? description;
-  @JsonKey(name: 'position', required: true, includeIfNull: false)
+  @JsonKey(name: 'position', includeIfNull: false)
   int? position;
-  @JsonKey(name: 'createdAt', required: true, includeIfNull: false)
+  @JsonKey(name: 'createdAt', includeIfNull: false)
   String? createdAt;
-  @JsonKey(name: 'updatedAt', required: true, includeIfNull: false)
+  @JsonKey(name: 'updatedAt', includeIfNull: false)
   String? updatedAt;
   @JsonKey(name: 'id', includeIfNull: false)
   int? id;

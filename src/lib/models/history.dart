@@ -4,11 +4,11 @@ part 'history.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class History {
-  @JsonKey(name: 'objectId', required: true, includeIfNull: false)
+  @JsonKey(name: 'objectId', includeIfNull: false)
   String? objectId;
   @JsonKey(name: 'song', required: true, includeIfNull: false)
   int? song;
-  @JsonKey(name: 'createdAt', required: true, includeIfNull: false)
+  @JsonKey(name: 'createdAt', includeIfNull: false)
   String? createdAt;
   @JsonKey(name: 'id', includeIfNull: false)
   int? id;

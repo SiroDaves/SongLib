@@ -6,21 +6,21 @@ import '../../exports.dart';
 class DbDraftTable extends Table {
   IntColumn get id => integer().autoIncrement()();
 
-  TextColumn get objectId => text().withLength(min: 0, max: 20)();
+  TextColumn get objectId => text().withDefault(const Constant(''))();
 
   IntColumn get book => integer().withDefault(const Constant(0))();
 
-  IntColumn get songno => integer().withDefault(const Constant(0))();
+  IntColumn get songNo => integer().withDefault(const Constant(0))();
 
-  TextColumn get title => text().withLength(min: 0, max: 100)();
+  TextColumn get title => text().withDefault(const Constant(''))();
 
-  TextColumn get alias => text().withLength(min: 0, max: 100)();
+  TextColumn get alias => text().withDefault(const Constant(''))();
 
-  TextColumn get content => text().named('body')();
+  TextColumn get content => text().withDefault(const Constant(''))();
 
-  TextColumn get key => text().withLength(min: 0, max: 20)();
+  TextColumn get key => text().withDefault(const Constant(''))();
 
-  TextColumn get author => text().withLength(min: 0, max: 100)();
+  TextColumn get author => text().withDefault(const Constant(''))();
 
   IntColumn get views => integer().withDefault(const Constant(0))();
 
@@ -36,7 +36,7 @@ extension DbDraftExtension on DbDraft {
         id: id,
         objectId: objectId,
         book: book,
-        songno: songno,
+        songNo: songNo,
         title: title,
         alias: alias,
         content: content,
@@ -54,14 +54,14 @@ extension DraftExtension on Draft {
     final id = this.id;
     return DbDraftTableCompanion.insert(
       id: id == null ? const Value.absent() : Value(id),
-          objectId: objectId!,
+          objectId: Value(objectId!),
           book: Value(book!),
-          songno: Value(songno!),
-          title: title!,
-          alias: alias!,
-          content: content!,
-          author: author!,
-          key: key!,
+          songNo: Value(songNo!),
+          title: Value(title!),
+          alias: Value(alias!),
+          content: Value(content!),
+          author: Value(author!),
+          key: Value(key!),
           createdAt: Value(createdAt!),
           updatedAt: Value(updatedAt!),
           liked: Value(liked!),

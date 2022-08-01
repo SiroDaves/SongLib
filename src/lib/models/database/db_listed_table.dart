@@ -6,13 +6,13 @@ import '../../exports.dart';
 class DbListedTable extends Table {
   IntColumn get id => integer().autoIncrement()();
 
-  TextColumn get objectId => text().withLength(min: 0, max: 100)();
+  TextColumn get objectId => text().withDefault(const Constant(''))();
 
   IntColumn get parentid => integer().withDefault(const Constant(0))();
 
-  TextColumn get title => text().withLength(min: 0, max: 100)();
+  TextColumn get title => text().withDefault(const Constant(''))();
 
-  TextColumn get description => text().withLength(min: 0, max: 200)();
+  TextColumn get description => text().withDefault(const Constant(''))();
 
   IntColumn get position => integer().withDefault(const Constant(0))();
 
@@ -39,10 +39,10 @@ extension ListedExtension on Listed {
     final id = this.id;
     return DbListedTableCompanion.insert(
       id: id == null ? const Value.absent() : Value(id),
-      objectId: objectId!,
+      objectId: Value(objectId!),
       parentid: Value(parentid!),
-      title: title!,
-      description: description!,
+      title: Value(title!),
+      description: Value(description!),
       position: Value(position!),
       createdAt: Value(createdAt!),
       updatedAt: Value(updatedAt!),

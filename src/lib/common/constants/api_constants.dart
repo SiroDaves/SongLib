@@ -3,8 +3,8 @@ class ApiConstants {
   static const parseAppID = "vuzJgKGqPqx7HUhx2dgjokgZinPUppmygSOfYBSg";
   static const parseApiKey = "9s9zQYmaNMGf9BXWRfuWmgpIJAGxdVqqdSk67Vao";
 
-  static const book = "book";
-  static const song = "song";
+  static const book = "Book";
+  static const song = "Song";
 }
 
 class EventConstants {
