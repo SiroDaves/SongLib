@@ -1,53 +1,67 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:songlib/navigator/main_navigator.dart';
+import 'package:songlib/styles/theme_data.dart';
+import 'package:songlib/util/env/flavor_config.dart';
+import 'package:songlib/util/locale/localization_delegate.dart';
+import 'package:songlib/util/locale/localization_fallback_cupertino_delegate.dart';
+import 'package:songlib/viewmodel/global/global_viewmodel.dart';
+import 'package:songlib/widget/provider/provider_widget.dart';
+import 'package:get_it/get_it.dart';
 
-import 'exports.dart';
-
-// ignore: must_be_immutable
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: AppConstants.appTitle,
-      theme: asLightTheme,
-      //darkTheme: asDarkTheme,
-      //themeMode: themeController.theme,
-      initialRoute: Routes.splash,
-      getPages: [
-        GetPage(
-          name: Paths.splash,
-          page: () => SplashView(),
-          binding: SplashBinding(),
-        ),
-        GetPage(
-          name: Paths.selection,
-          page: () => SelectionView(),
-          binding: SelectionBinding(),
-        ),
-        GetPage(
-          name: Paths.home,
-          page: () => HomeView(),
-          binding: HomeBinding(),
-        ),
-        GetPage(
-          name: Paths.listeds,
-          page: () => ListedsView(listed: null),
-          binding: ListedsBinding(),
-        ),
-        GetPage(
-          name: Paths.songsPresentor,
-          page: () => PresentorView(books: null, song: null),
-          binding: PresentorBinding(),
-        ),
-        GetPage(
-          name: Paths.songsEditor,
-          page: () => EditorView(song: null),
-          binding: EditorBinding(),
-        ),
-      ],
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.transparent,
+    ));
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    return const SongLibApp();
+  }
+}
+
+class SongLibApp extends StatelessWidget {
+  final Widget? home;
+
+  const SongLibApp({Key? key})
+      : home = null,
+        super(key: key);
+
+  @visibleForTesting
+  const SongLibApp.test({required this.home, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ProviderWidget<GlobalViewModel>(
+      lazy: FlavorConfig.isInTest(),
+      consumer: (context, viewModel, consumerChild) => MaterialApp(
+        debugShowCheckedModeBanner: !FlavorConfig.isInTest(),
+        localizationsDelegates: [
+          viewModel.localeDelegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          FallbackCupertinoLocalisationsDelegate.delegate,
+        ],
+        locale: viewModel.locale,
+        supportedLocales: LocalizationDelegate.supportedLocales,
+        themeMode: viewModel.themeMode,
+        theme: MyappThemeData.lightTheme(viewModel.targetPlatform),
+        darkTheme: MyappThemeData.darkTheme(viewModel.targetPlatform),
+        navigatorKey: MainNavigatorWidgetState.navigationKey,
+        initialRoute: home == null ? MainNavigatorWidgetState.initialRoute : null,
+        onGenerateRoute: MainNavigatorWidgetState.onGenerateRoute,
+        navigatorObservers: MainNavigatorWidgetState.navigatorObservers,
+        builder: home == null ? (context, child) => MainNavigatorWidget(child: child) : null,
+        home: home,
+      ),
+      create: () => GetIt.I()..init(),
     );
   }
 }

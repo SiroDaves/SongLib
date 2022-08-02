@@ -1,27 +1,33 @@
-import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:songlib/app.dart';
+import 'package:songlib/di/environments.dart';
+import 'package:songlib/di/injectable.dart';
+import 'package:songlib/main_common.dart';
+import 'package:songlib/util/env/flavor_config.dart';
+import 'package:songlib/util/inspector/database_inspector.dart';
+import 'package:songlib/util/inspector/local_storage_inspector.dart';
+import 'package:songlib/util/inspector/niddler.dart';
 
-import 'exports.dart';
+Future<void> main() async {
+  await wrapMain(() async {
+    await initNiddler();
+    const values = FlavorValues(
+      baseUrl: 'https://jsonplaceholder.typicode.com/',
+      logNetworkInfo: true,
+      showFullErrorMessages: true,
+    );
+    FlavorConfig(
+      flavor: Flavor.dev,
+      name: 'DEV',
+      color: Colors.red,
+      values: values,
+    );
+    // ignore: avoid_print
+    print('Starting app from main.dart');
+    await configureDependencies(Environments.dev);
+    await addDatabaseInspector();
+    await initAllStorageInspectors();
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await GetStorage.init();
-
-  DatabaseConnection connection = DatabaseConnection.delayed(() async {
-    final isolate = await createDriftIsolate();
-    return await isolate.connect();
-  }());
-
-  Get.put(MyDatabase.connect(connection));
-
-  Get.lazyPut<BookDaoStorage>(() => BookDaoStorage(Get.find<MyDatabase>()));
-  Get.lazyPut<DraftDaoStorage>(() => DraftDaoStorage(Get.find<MyDatabase>()));
-  Get.lazyPut<HistoryDaoStorage>(() => HistoryDaoStorage(Get.find<MyDatabase>()));
-  Get.lazyPut<ListedDaoStorage>(() => ListedDaoStorage(Get.find<MyDatabase>()));
-  Get.lazyPut<SearchDaoStorage>(() => SearchDaoStorage(Get.find<MyDatabase>()));
-  Get.lazyPut<SongDaoStorage>(() => SongDaoStorage(Get.find<MyDatabase>()));
-
-  runApp(const MyApp());
+    runApp(const MyApp());
+  });
 }
