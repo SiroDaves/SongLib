@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:songlib/styles/theme_dimens.dart';
 import 'package:songlib/widget/general/svg_icon.dart';
 import 'package:songlib/widget/provider/data_provider_widget.dart';
+import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 
 class ActionItem extends StatelessWidget {
@@ -28,6 +28,7 @@ class ActionItem extends StatelessWidget {
             width: ThemeDimens.padding48,
             child: TouchFeedBack(
               borderRadius: BorderRadius.circular(ThemeDimens.padding48),
+              onClick: onClick,
               child: Center(
                 child: SvgIcon(
                   svgAsset: svgAsset,
@@ -35,7 +36,6 @@ class ActionItem extends StatelessWidget {
                   color: color ?? theme.colorsTheme.icon,
                 ),
               ),
-              onClick: onClick,
             ),
           ),
         ),

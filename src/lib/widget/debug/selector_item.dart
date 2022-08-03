@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:songlib/styles/theme_assets.dart';
 import 'package:songlib/styles/theme_dimens.dart';
-import 'package:songlib/widget/general/svg_icon.dart';
 import 'package:songlib/widget/provider/data_provider_widget.dart';
+import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 
 class SelectorItem extends StatelessWidget {
@@ -21,6 +19,7 @@ class SelectorItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return DataProviderWidget(
       childBuilderTheme: (context, theme) => TouchFeedBack(
+        onClick: onClick,
         child: Padding(
           padding: const EdgeInsets.all(ThemeDimens.padding16),
           child: Row(
@@ -30,15 +29,14 @@ class SelectorItem extends StatelessWidget {
               ),
               Opacity(
                 opacity: selected ? 1 : 0,
-                child: SvgIcon(
-                  svgAsset: ThemeAssets.doneIcon(context),
-                  color: theme.colorsTheme.accent,
-                ),
+                // child: SvgIcon(
+                // svgAsset: ThemeAssets.doneIcon(context),
+                // color: theme.colorsTheme.accent,
+                // ),
               ),
             ],
           ),
         ),
-        onClick: onClick,
       ),
     );
   }

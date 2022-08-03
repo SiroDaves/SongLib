@@ -2,24 +2,25 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:songlib/database/myapp_database.dart';
-import 'package:songlib/di/db/setup_drift_none.dart'
-    if (dart.library.io) 'package:songlib/di/db/setup_drift_io.dart'
-    if (dart.library.js) 'package:songlib/di/db/setup_drift_web.dart';
-import 'package:songlib/di/injectable.config.dart';
-import 'package:songlib/repository/secure_storage/secure_storage.dart';
-import 'package:songlib/util/env/flavor_config.dart';
-import 'package:songlib/util/interceptor/network_auth_interceptor.dart';
-import 'package:songlib/util/interceptor/network_error_interceptor.dart';
-import 'package:songlib/util/interceptor/network_log_interceptor.dart';
-import 'package:songlib/util/interceptor/network_refresh_interceptor.dart';
 import 'package:get_it/get_it.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../database/songlib_database.dart';
+import '../repository/secure_storage/secure_storage.dart';
+import '../util/api/api_constants.dart';
+import '../util/env/flavor_config.dart';
+import '../util/interceptor/network_auth_interceptor.dart';
+import '../util/interceptor/network_error_interceptor.dart';
+import '../util/interceptor/network_log_interceptor.dart';
+import '../util/interceptor/network_refresh_interceptor.dart';
+import 'db/setup_drift_none.dart'
+    if (dart.library.io) 'db/setup_drift_io.dart'
+    if (dart.library.js) 'db/setup_drift_web.dart';
+import 'injectable.config.dart';
 
 final getIt = GetIt.instance;
 
@@ -56,11 +57,8 @@ abstract class RegisterModule {
   @singleton
   @preResolve
   Future<DatabaseConnection> provideDatabaseConnection() {
-    return createDriftDatabaseConnection('db');
+    return createDriftDatabaseConnection('songlibDB');
   }
-
-  @lazySingleton
-  FirebaseAnalytics provideFirebaseAnalytics() => FirebaseAnalytics.instance;
 
   @lazySingleton
   FlutterSecureStorage storage() => const FlutterSecureStorage();
@@ -88,7 +86,14 @@ abstract class RegisterModule {
   @lazySingleton
   Dio provideDio(CombiningSmartInterceptor interceptor) {
     final dio = Dio(
-      BaseOptions(baseUrl: FlavorConfig.instance.values.baseUrl),
+      BaseOptions(
+        baseUrl: ApiConstants.parseUrl,
+        headers: <String, dynamic>{
+          'X-Parse-Application-Id': ApiConstants.parseAppID,
+          'X-Parse-REST-API-Key': ApiConstants.parseApiKey,
+          'Content-Type': 'application/json',
+        },
+      ),
     );
     (dio.transformer as DefaultTransformer).jsonDecodeCallback = parseJson;
     dio.interceptors.add(interceptor);
@@ -96,9 +101,9 @@ abstract class RegisterModule {
   }
 
   @lazySingleton
-  MyappDatabase provideMyappDatabase(
+  SongLibDatabase provideSongLibDatabase(
           DatabaseConnection databaseConnection) =>
-      MyappDatabase.connect(databaseConnection);
+      SongLibDatabase.connect(databaseConnection);
 }
 
 dynamic _parseAndDecode(String response) => jsonDecode(response);

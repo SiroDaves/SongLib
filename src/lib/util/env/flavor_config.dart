@@ -11,12 +11,10 @@ enum Flavor {
 }
 
 class FlavorValues {
-  final String baseUrl;
   final bool logNetworkInfo;
   final bool showFullErrorMessages;
 
   const FlavorValues({
-    required this.baseUrl,
     required this.logNetworkInfo,
     required this.showFullErrorMessages,
   });

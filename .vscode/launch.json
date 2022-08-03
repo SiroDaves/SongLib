@@ -5,25 +5,54 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "songlib",
-            "cwd": "src",
+            "name": "dev",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "debug"
+            "cwd": "src",
+            "program": "lib/main.dart",
+            "args": [
+                "--flavor=dev"
+            ]
         },
         {
-            "name": "src (profile mode)",
-            "cwd": "src",
+            "name": "alpha",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "cwd": "src",
+            "program": "lib/main_alpha.dart",
+            "args": [
+                "--flavor=alpha"
+            ]
         },
         {
-            "name": "src (release mode)",
-            "cwd": "src",
+            "name": "beta",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release"
+            "cwd": "src",
+            "program": "lib/main_beta.dart",
+            "args": [
+                "--flavor=beta"
+            ]
+        },
+        {
+            "name": "dummy",
+            "request": "launch",
+            "type": "dart",
+            "cwd": "src",
+            "program": "lib/main_dummy.dart",
+            "args": [
+                "--flavor=dev"
+            ]
+        },
+        {
+            "name": "prod",
+            "request": "launch",
+            "type": "dart",
+            "cwd": "src",
+            "program": "lib/main_prod.dart",
+            "args": [
+                "--flavor=prod"
+            ]
         }
     ]
 }

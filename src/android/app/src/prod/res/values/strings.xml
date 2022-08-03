@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="myapp_name">Flutter Template</string>
+    <string name="app_name">SongLib</string>
 </resources>

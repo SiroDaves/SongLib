@@ -1,14 +1,12 @@
+import 'package:songlib/widget_game/data/play_settings.dart';
+import 'package:songlib/widget_game/positions/sprint.dart';
 import 'package:drift/drift.dart';
 import 'package:flutter/material.dart';
 
 abstract class MainNavigation {
   void goToSplash();
 
-  void goToLogin();
-
   void goToHome();
-
-  void goToAddTodo();
 
   void goToDebugPlatformSelector();
 
@@ -23,6 +21,42 @@ abstract class MainNavigation {
   void goToDatabase(GeneratedDatabase db);
 
   void goBack<T>({T? result});
+
+  void goToSelection();
+
+  void goToInformation();
+
+  void goToCareerFinish();
+
+  void goToCareerReset();
+
+  void goToCareerSelectRiders();
+
+  void goToCareerCalendar();
+
+  void goToCareerStandings();
+
+  Future<void> goToCareerOverview();
+
+  Future<void> goToTourInProgress();
+
+  void goToActiveTour();
+
+  Future<void> goToTourSelect();
+
+  void goToChangeCyclistNames();
+
+  void goToCredits();
+
+  void goToSettings();
+
+  void goToResults(List<Sprint> sprints, bool isTour, bool isCareer);
+
+  Future<void> goToGame(PlaySettings playSettings);
+
+  Future<void> goToSingleRaceMenu();
+
+  Future<String?> showEditNameDialog(String value);
 
   void showCustomDialog<T>({required WidgetBuilder builder});
 }

@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
 import 'package:songlib/util/locale/localization.dart';
 import 'package:songlib/util/locale/localization_overrides.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 
 //============================================================//
 //THIS FILE IS AUTO GENERATED. DO NOT EDIT//
@@ -13,11 +13,13 @@ typedef LocaleFilter = bool Function(String languageCode);
 
 class LocalizationDelegate extends LocalizationsDelegate<Localization> {
   static LocaleFilter? localeFilter;
-  static const defaultLocale = Locale.fromSubtags(languageCode: 'nl', scriptCode: null, countryCode: null);
+  static const defaultLocale = Locale.fromSubtags(languageCode: 'en', scriptCode: null, countryCode: null);
 
   static const _supportedLocales = [
-    Locale.fromSubtags(languageCode: 'nl', scriptCode: null, countryCode: null),
     Locale.fromSubtags(languageCode: 'en', scriptCode: null, countryCode: null),
+    Locale.fromSubtags(languageCode: 'nl', scriptCode: null, countryCode: null),
+    Locale.fromSubtags(languageCode: 'fr', scriptCode: null, countryCode: null),
+    Locale.fromSubtags(languageCode: 'es', scriptCode: null, countryCode: null),
   ];
 
   static List<String> get supportedLanguages {

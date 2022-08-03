@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:songlib/viewmodel/global/global_viewmodel.dart';
+import 'package:songlib/vm/global/global_vm.dart';
 import 'package:songlib/widget/debug/selector_item.dart';
 import 'package:songlib/widget/provider/data_provider_widget.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SelectLanguageDialog extends StatelessWidget {
@@ -14,10 +14,10 @@ class SelectLanguageDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final globalViewModel = Provider.of<GlobalViewModel>(context);
+    final globalVm = Provider.of<GlobalVm>(context);
     return DataProviderWidget(
       childBuilderLocalization: (context, localization) => AlertDialog(
-        title: Text(localization.debugLocaleSelector),
+        title: const Text('localization.debugLocaleSelector'),
         content: SizedBox(
           height: 150,
           width: MediaQuery.of(context).size.width / 1.2,
@@ -25,26 +25,42 @@ class SelectLanguageDialog extends StatelessWidget {
             shrinkWrap: true,
             children: [
               SelectorItem(
-                title: localization.generalLabelSystemDefault,
-                selected: globalViewModel.isLanguageSelected(null),
+                title: 'localization.generalLabelSystemDefault',
+                selected: globalVm.isLanguageSelected(null),
                 onClick: () {
-                  globalViewModel.onSwitchToSystemLanguage();
+                  globalVm.onUpdateLocaleClicked(null);
                   goBack();
                 },
               ),
               SelectorItem(
                 title: 'English',
-                selected: globalViewModel.isLanguageSelected('en'),
+                selected: globalVm.isLanguageSelected('en'),
                 onClick: () {
-                  globalViewModel.onSwitchToEnglish();
+                  globalVm.onUpdateLocaleClicked(const Locale('en'));
                   goBack();
                 },
               ),
               SelectorItem(
                 title: 'Nederlands',
-                selected: globalViewModel.isLanguageSelected('nl'),
+                selected: globalVm.isLanguageSelected('nl'),
                 onClick: () {
-                  globalViewModel.onSwitchToDutch();
+                  globalVm.onUpdateLocaleClicked(const Locale('nl'));
+                  goBack();
+                },
+              ),
+              SelectorItem(
+                title: 'Français',
+                selected: globalVm.isLanguageSelected('fr'),
+                onClick: () {
+                  globalVm.onUpdateLocaleClicked(const Locale('fr'));
+                  goBack();
+                },
+              ),
+              SelectorItem(
+                title: 'Español',
+                selected: globalVm.isLanguageSelected('es'),
+                onClick: () {
+                  globalVm.onUpdateLocaleClicked(const Locale('es'));
                   goBack();
                 },
               ),

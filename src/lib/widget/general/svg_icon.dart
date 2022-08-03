@@ -1,7 +1,7 @@
+import 'package:songlib/util/env/flavor_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:songlib/util/env/flavor_config.dart';
 
 class SvgIcon extends StatelessWidget {
   final String svgAsset;

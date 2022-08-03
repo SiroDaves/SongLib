@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:songlib/styles/theme_dimens.dart';
 import 'package:songlib/widget/provider/data_provider_widget.dart';
+import 'package:flutter/material.dart';
 
 class DebugRowTitle extends StatelessWidget {
   final String title;

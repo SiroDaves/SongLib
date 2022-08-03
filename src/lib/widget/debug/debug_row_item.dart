@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:songlib/styles/theme_dimens.dart';
+import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 
 class DebugRowItem extends StatelessWidget {

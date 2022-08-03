@@ -1,11 +1,11 @@
 import UIKit
 import Flutter
 
-@UIMyapplicationMain
-@objc class MyappDelegate: FlutterMyappDelegate {
+@UIApplicationMain
+@objc class AppDelegate: FlutterAppDelegate {
   override func application(
-    _ application: UIMyapplication,
-    didFinishLaunchingWithOptions launchOptions: [UIMyapplicationLaunchOptionsKey: Any]?
+    _ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?
   ) -> Bool {
     GeneratedPluginRegistrant.register(with: self)
     

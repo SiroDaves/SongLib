@@ -1,7 +1,6 @@
+import 'package:songlib/repository/secure_storage/auth/auth_storage.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:songlib/model/exceptions/un_authorized_error.dart';
-import 'package:songlib/repository/secure_storage/auth/auth_storage.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:synchronized/synchronized.dart' as synchronized;
@@ -43,7 +42,7 @@ class _RefreshRepository implements RefreshRepository {
         return;
       }
       if (_failure) {
-        throw UnAuthorizedError(err);
+        throw Exception(err);
       }
       try {
         await _authStorage.getRefreshToken();

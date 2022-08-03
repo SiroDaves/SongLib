@@ -1,5 +1,5 @@
 //============================================================//
-//THIS FILE IS AUTO GENERATED. DO NOT EDIT//
+//THIS FILE IS auto GENERATED. DO NOT EDIT//
 //============================================================//
 
 class License {
@@ -893,7 +893,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       "Work" shall mean the work of authorship, whether in Source or
       Object form, made available under the License, as indicated by a
       copyright notice that is included in or attached to the work
-      (an example is provided in the Myappendix below).
+      (an example is provided in the Appendix below).
 
       "Derivative Works" shall mean any work, whether in Source or Object
       form, that is based on (or derived from) the Work and for which the

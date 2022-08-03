@@ -1,24 +1,23 @@
 import 'dart:io';
 import 'dart:isolate';
 
+import 'package:songlib/util/env/flavor_config.dart';
 import 'package:drift/drift.dart';
 import 'package:drift/isolate.dart';
 import 'package:drift/native.dart';
-import 'package:songlib/util/env/flavor_config.dart';
-import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
-Future<DatabaseConnection> createDriftDatabaseConnectionx(String name) async {
+Future<DatabaseConnection> createDriftDatabaseConnection(String name) async {
   if (FlavorConfig.isInTest()) {
     return DatabaseConnection.fromExecutor(NativeDatabase.memory());
   }
   final dbFolder = await getApplicationDocumentsDirectory();
   final file = File(join(dbFolder.path, '$name.sqlite'));
-  if ((FlavorConfig.isDev() || FlavorConfig.isDummy()) && file.existsSync()) {
-    file.deleteSync();
-    staticLogger.debug('Databasefile `db.sqlite` is deleted');
-  }
+  // if ((FlavorConfig.isDev() || FlavorConfig.isDummy()) && file.existsSync()) {
+  //   file.deleteSync();
+  //   staticLogger.debug('Databasefile `db.sqlite` is deleted');
+  // }
   final receivePort = ReceivePort();
 
   await Isolate.spawn(

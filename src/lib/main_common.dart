@@ -3,9 +3,10 @@ import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/widgets.dart';
-import 'package:songlib/architecture.dart';
-import 'package:songlib/util/web/myapp_configurator.dart' if (dart.library.html) 'package:songlib/util/web/myapp_configurator_web.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
+
+import 'architecture.dart';
+import 'util/web/app_configurator.dart' if (dart.library.html) 'util/web/app_configurator_web.dart';
 
 Future<void> _setupCrashLogging() async {
   await Firebase.initializeApp();
@@ -22,7 +23,7 @@ Future<void> _setupCrashLogging() async {
 FutureOr<R>? wrapMain<R>(FutureOr<R> Function() appCode) {
   return runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
-    configureWebMyapp();
+    configureWebApp();
     await _setupCrashLogging();
     await initArchitecture();
 
@@ -41,8 +42,10 @@ FutureOr<R>? wrapMain<R>(FutureOr<R> Function() appCode) {
       print(trace);
     }
 
-    if (FirebaseCrashlytics.instance.isCrashlyticsCollectionEnabled) {
-      FirebaseCrashlytics.instance.recordError(object, trace);
-    }
+    try {
+      if (FirebaseCrashlytics.instance.isCrashlyticsCollectionEnabled) {
+        FirebaseCrashlytics.instance.recordError(object, trace);
+      }
+    } catch (_) {}
   });
 }

@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:songlib/styles/theme_dimens.dart';
-import 'package:songlib/widget/general/styled/myapp_switch.dart';
+import 'package:songlib/widget/general/styled/songlib_switch.dart';
+import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 
 class DebugRowSwitchItem extends StatelessWidget {
@@ -42,7 +42,7 @@ class DebugRowSwitchItem extends StatelessWidget {
                 ],
               ),
             ),
-            MyappSwitch(
+            SongLibSwitch(
               value: value,
               onChanged: onChanged,
             )

@@ -137,8 +137,8 @@ void _replaceHomeScreenLine() {
 
 void _replaceDatabaseTests() {
   _replaceInFile(
-    'test/database/myapp_database_test.dart',
-    '''  test('MyappDatabase should delete all tables', () async {
+    'test/database/songlib_database_test.dart',
+    '''  test('SongLibDatabase should delete all tables', () async {
     final resultTodos1 = await sut.select(sut.dbTodoTable).get();
     expect(resultTodos1.isEmpty, true);
 
@@ -155,7 +155,7 @@ void _replaceDatabaseTests() {
     final resultTodos3 = await sut.select(sut.dbTodoTable).get();
     expect(resultTodos3.isEmpty, true);
   });''',
-    '''  test('MyappDatabase should delete all tables', () async {
+    '''  test('SongLibDatabase should delete all tables', () async {
     //Check if table is empty
     //Add 3 records
     //Check if the table contains 3 recods
@@ -197,7 +197,7 @@ final removeCodeLines = [
   "import 'package:songlib/model/database/todo/db_todo_table.dart';",
   "import 'package:songlib/screen/todo/todo_list/todo_list_screen.dart';",
   "import 'package:songlib/model/webservice/todo/todo.dart';",
-  "import '../mocks/database/todo/mock_todo_dao_storage.dart';",
+  "import 'package:songlib/mocks/database/todo/mock_todo_dao_storage.dart';",
   '  DbTodoTable,',
   '      case TodoAddScreen.routeName:',
   '        return MaterialPageRoute<void>(builder: (context) => const FlavorBanner(child: TodoAddScreen()), settings: settings);',
@@ -237,8 +237,8 @@ final removeCodeLines = [
   r'''  @singleton
   TodoListViewModel get getTodoListViewModel => _initVM(MockTodoListViewModel());
 ''',
-  "import '../mocks/database/todo/mock_todo_dao_storing.dart';",
-  "import '../todo/todo_list/todo_list_screen_test.dart';",
+  "import 'package:songlib/mocks/database/todo/mock_todo_dao_storing.dart';",
+  "import 'package:songlib/todo/todo_list/todo_list_screen_test.dart';",
   '    verifyTodoListViewModel();',
   r'''
 void seedTodoListViewModel() {

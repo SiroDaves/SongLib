@@ -91,7 +91,7 @@ const excludedFiles = [
   'main_beta.dart',
   'main_dummy.dart',
   'main_prod.dart',
-  // Myapp
+  // App
   'app.dart',
   // Navigation
   'navigator/main_navigation.dart',
@@ -99,7 +99,7 @@ const excludedFiles = [
   'niddler.dart',
   'di/injector.dart',
   //Util
-  'util/myapp_constants.dart',
+  'util/app_constants.dart',
   'util/keys.dart',
   'util/license.dart',
   'util/route/fade_in_route.dart',

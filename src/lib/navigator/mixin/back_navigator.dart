@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:songlib/navigator/main_navigator.dart';
+import 'package:flutter/material.dart';
 
 // ignore: one_member_abstracts
 abstract class BackNavigator {

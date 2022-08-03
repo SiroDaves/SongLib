@@ -1,0 +1,37 @@
+import 'package:drift/drift.dart';
+
+import '../../database/songlib_database.dart';
+import '../../util/utilities.dart';
+import '../base/search.dart';
+
+@DataClassName('DbSearch')
+class DbSearchTable extends Table {
+  IntColumn get id => integer().autoIncrement()();
+
+  TextColumn get objectId => text().withDefault(const Constant(''))();
+
+  TextColumn get title => text().withDefault(const Constant(''))();
+
+  TextColumn get createdAt => text().withDefault(Constant(dateNow()))();
+}
+
+extension DbSearchExtension on DbSearch {
+  Search getModel() => Search(
+        id: id,
+        objectId: objectId,
+        title: title,
+        createdAt: createdAt,
+      );
+}
+
+extension SearchExtension on Search {
+  DbSearchTableCompanion getDbModel() {
+    final id = this.id;
+    return DbSearchTableCompanion.insert(
+      id: id == null ? const Value.absent() : Value(id),
+      objectId: Value(objectId!),
+      title: Value(title!),
+      createdAt: Value(createdAt!),
+    );
+  }
+}

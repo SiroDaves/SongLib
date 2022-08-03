@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:songlib/model/exceptions/general_error.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 
@@ -21,8 +20,6 @@ class NetworkLogInterceptor extends SimpleInterceptor {
   Future<Object?> onError(DioError error) async {
     if (error is NetworkError) {
       logger.logNetworkError(error);
-    } else {
-      logger.logNetworkError(GeneralNetworkError(error));
     }
     return super.onError(error);
   }

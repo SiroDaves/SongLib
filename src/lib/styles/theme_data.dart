@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:songlib/styles/theme_colors.dart';
-import 'package:songlib/styles/theme_fonts.dart';
-import 'package:songlib/util/env/flavor_config.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 
-class MyappThemeData {
-  MyappThemeData._();
+import '../util/env/flavor_config.dart';
+import 'theme_colors.dart';
+import 'theme_fonts.dart';
 
-  static final _darkThemeData = ThemeData(
+class SongLibThemeData {
+  SongLibThemeData._();
+
+  static final darkThemeData = ThemeData(
     fontFamily: ThemeFonts.body,
     primaryColor: ThemeColors.primary,
     colorScheme: const ColorScheme(
@@ -33,23 +34,25 @@ class MyappThemeData {
     pageTransitionsTheme: PageTransitionsTheme(
       builders: {
         TargetPlatform.iOS: const CupertinoPageTransitionsBuilder(),
-        TargetPlatform.android: isInTest ? const FadeUpwardsPageTransitionsBuilder() : BaseThemeData.getCorrectPageTransitionBuilder(OsInfo.instance),
+        TargetPlatform.android: isInTest
+            ? const FadeUpwardsPageTransitionsBuilder()
+            : BaseThemeData.getCorrectPageTransitionBuilder(OsInfo.instance),
       },
     ),
   );
 
-  static final _lightThemeData = _darkThemeData.copyWith();
+  static final lightThemeData = darkThemeData.copyWith();
 
   static ThemeData darkTheme(TargetPlatform? targetPlatform) {
-    return _darkThemeData.copyWith(platform: targetPlatform);
+    return darkThemeData.copyWith(platform: targetPlatform);
   }
 
   static ThemeData lightTheme(TargetPlatform? targetPlatform) {
-    return _lightThemeData.copyWith(platform: targetPlatform);
+    return lightThemeData.copyWith(platform: targetPlatform);
   }
 }
 
-class MyappTextTheme {
+class SongLibTextTheme {
   final TextStyle titleHuge;
   final TextStyle titleBig;
   final TextStyle titleNormal;
@@ -68,7 +71,7 @@ class MyappTextTheme {
   final TextStyle infoBodySubHeader;
   final TextStyle bodyBig;
 
-  const MyappTextTheme({
+  const SongLibTextTheme({
     required this.titleHuge,
     required this.titleBig,
     required this.titleNormal,
@@ -86,11 +89,11 @@ class MyappTextTheme {
   });
 }
 
-class MyappTextThemeExceptions {
-  const MyappTextThemeExceptions();
+class SongLibTextThemeExceptions {
+  const SongLibTextThemeExceptions();
 }
 
-class MyappColorsTheme {
+class SongLibColorsTheme {
   final Color text;
   final Color inverseText;
   final Color disabledButtonText;
@@ -106,7 +109,7 @@ class MyappColorsTheme {
   final Color inverseProgressIndicator;
   final Color progressIndicator;
 
-  const MyappColorsTheme({
+  const SongLibColorsTheme({
     required this.text,
     required this.inverseText,
     required this.disabledButtonText,
@@ -124,15 +127,15 @@ class MyappColorsTheme {
   });
 }
 
-class MyappTheme {
-  final MyappTextTheme coreTextTheme;
-  final MyappTextTheme inverseCoreTextTheme;
-  final MyappTextTheme accentTextTheme;
-  final MyappTextThemeExceptions exceptionsTextTheme;
-  final MyappColorsTheme colorsTheme;
+class SongLibTheme {
+  final SongLibTextTheme coreTextTheme;
+  final SongLibTextTheme inverseCoreTextTheme;
+  final SongLibTextTheme accentTextTheme;
+  final SongLibTextThemeExceptions exceptionsTextTheme;
+  final SongLibColorsTheme colorsTheme;
 
-  static final _instanceDark = _fromColorTheme(
-    colorTheme: const MyappColorsTheme(
+  static final instanceDark = fromColorTheme(
+    colorTheme: const SongLibColorsTheme(
       text: ThemeColors.white,
       inverseText: ThemeColors.black,
       disabledButtonText: ThemeColors.lightGrey,
@@ -150,79 +153,214 @@ class MyappTheme {
     ),
   );
 
-  static final _instanceLight = _fromColorTheme(
-    colorTheme: const MyappColorsTheme(
-      text: ThemeColors.black,
-      inverseText: ThemeColors.white,
-      disabledButtonText: ThemeColors.lightGrey,
-      primary: ThemeColors.primary,
-      accent: ThemeColors.accent,
-      secondary: ThemeColors.black,
-      background: ThemeColors.white,
-      inverseBackground: ThemeColors.white,
-      inputFieldFill: ThemeColors.white,
-      disabled: ThemeColors.disabledGrey,
-      icon: ThemeColors.white,
-      inverseIcon: ThemeColors.black,
-      progressIndicator: ThemeColors.primary,
-      inverseProgressIndicator: ThemeColors.white,
-    ),
-  );
+  static final instanceLight = instanceDark;
 
-  static MyappTheme _fromColorTheme({required MyappColorsTheme colorTheme}) => MyappTheme._(
+  static SongLibTheme fromColorTheme(
+          {required SongLibColorsTheme colorTheme}) =>
+      SongLibTheme._(
         colorsTheme: colorTheme,
-        coreTextTheme: MyappTextTheme(
-          titleHuge: TextStyle(fontSize: 40, color: colorTheme.text, fontFamily: ThemeFonts.title, height: 1.2),
-          titleBig: TextStyle(fontSize: 30, color: colorTheme.text, fontFamily: ThemeFonts.title, height: 1.2),
-          titleNormal: TextStyle(fontSize: 24, color: colorTheme.text, fontFamily: ThemeFonts.title),
-          titleSmall: TextStyle(fontSize: 18, color: colorTheme.text, fontFamily: ThemeFonts.title),
-          titleListItem: TextStyle(fontSize: 18, color: colorTheme.text, fontFamily: ThemeFonts.title, fontWeight: FontWeight.bold),
-          labelButtonBig: TextStyle(fontSize: 16, color: colorTheme.text, fontFamily: ThemeFonts.button, fontWeight: FontWeight.bold),
-          labelButtonBigDisabled: TextStyle(fontSize: 16, color: colorTheme.disabledButtonText, fontFamily: ThemeFonts.button, fontWeight: FontWeight.bold),
-          labelButtonSmall: TextStyle(fontSize: 14, color: colorTheme.text, fontFamily: ThemeFonts.button, fontWeight: FontWeight.bold),
-          labelButtonSmallDisabled: TextStyle(fontSize: 14, color: colorTheme.disabledButtonText, fontFamily: ThemeFonts.button, fontWeight: FontWeight.bold),
-          bodyBig: TextStyle(fontSize: 18, color: colorTheme.text, fontFamily: ThemeFonts.body),
-          bodyNormal: TextStyle(fontSize: 16, color: colorTheme.text, fontFamily: ThemeFonts.body),
-          bodySmall: TextStyle(fontSize: 14, color: colorTheme.text, fontFamily: ThemeFonts.body),
-          bodyUltraSmall: TextStyle(fontSize: 12, color: colorTheme.text, fontFamily: ThemeFonts.body),
-          infoBodySubHeader: TextStyle(fontSize: 14, color: colorTheme.text, fontFamily: ThemeFonts.body, fontWeight: FontWeight.w600),
+        coreTextTheme: SongLibTextTheme(
+          titleHuge: TextStyle(
+              fontSize: 40,
+              color: colorTheme.text,
+              fontFamily: ThemeFonts.title,
+              height: 1.2),
+          titleBig: TextStyle(
+              fontSize: 30,
+              color: colorTheme.text,
+              fontFamily: ThemeFonts.title,
+              height: 1.2),
+          titleNormal: TextStyle(
+              fontSize: 24,
+              color: colorTheme.text,
+              fontFamily: ThemeFonts.title),
+          titleSmall: TextStyle(
+              fontSize: 18,
+              color: colorTheme.text,
+              fontFamily: ThemeFonts.title),
+          titleListItem: TextStyle(
+              fontSize: 18,
+              color: colorTheme.text,
+              fontFamily: ThemeFonts.title,
+              fontWeight: FontWeight.bold),
+          labelButtonBig: TextStyle(
+              fontSize: 16,
+              color: colorTheme.text,
+              fontFamily: ThemeFonts.button,
+              fontWeight: FontWeight.bold),
+          labelButtonBigDisabled: TextStyle(
+              fontSize: 16,
+              color: colorTheme.disabledButtonText,
+              fontFamily: ThemeFonts.button,
+              fontWeight: FontWeight.bold),
+          labelButtonSmall: TextStyle(
+              fontSize: 14,
+              color: colorTheme.text,
+              fontFamily: ThemeFonts.button,
+              fontWeight: FontWeight.bold),
+          labelButtonSmallDisabled: TextStyle(
+              fontSize: 14,
+              color: colorTheme.disabledButtonText,
+              fontFamily: ThemeFonts.button,
+              fontWeight: FontWeight.bold),
+          bodyBig: TextStyle(
+              fontSize: 18,
+              color: colorTheme.text,
+              fontFamily: ThemeFonts.body),
+          bodyNormal: TextStyle(
+              fontSize: 16,
+              color: colorTheme.text,
+              fontFamily: ThemeFonts.body),
+          bodySmall: TextStyle(
+              fontSize: 14,
+              color: colorTheme.text,
+              fontFamily: ThemeFonts.body),
+          bodyUltraSmall: TextStyle(
+              fontSize: 12,
+              color: colorTheme.text,
+              fontFamily: ThemeFonts.body),
+          infoBodySubHeader: TextStyle(
+              fontSize: 14,
+              color: colorTheme.text,
+              fontFamily: ThemeFonts.body,
+              fontWeight: FontWeight.w600),
         ),
-        inverseCoreTextTheme: MyappTextTheme(
-          titleHuge: TextStyle(fontSize: 40, color: colorTheme.inverseText, fontFamily: ThemeFonts.title, height: 1.2),
-          titleBig: TextStyle(fontSize: 30, color: colorTheme.inverseText, fontFamily: ThemeFonts.title, height: 1.2),
-          titleNormal: TextStyle(fontSize: 24, color: colorTheme.inverseText, fontFamily: ThemeFonts.title),
-          titleSmall: TextStyle(fontSize: 18, color: colorTheme.inverseText, fontFamily: ThemeFonts.title),
-          titleListItem: TextStyle(fontSize: 18, color: colorTheme.inverseText, fontFamily: ThemeFonts.title, fontWeight: FontWeight.bold),
-          labelButtonBig: TextStyle(fontSize: 16, color: colorTheme.inverseText, fontFamily: ThemeFonts.button, fontWeight: FontWeight.bold),
-          labelButtonBigDisabled: TextStyle(fontSize: 16, color: colorTheme.disabledButtonText, fontFamily: ThemeFonts.button, fontWeight: FontWeight.bold),
-          labelButtonSmall: TextStyle(fontSize: 14, color: colorTheme.inverseText, fontFamily: ThemeFonts.button, fontWeight: FontWeight.bold),
-          labelButtonSmallDisabled: TextStyle(fontSize: 14, color: colorTheme.disabledButtonText, fontFamily: ThemeFonts.button, fontWeight: FontWeight.bold),
-          bodyBig: TextStyle(fontSize: 18, color: colorTheme.inverseText, fontFamily: ThemeFonts.body),
-          bodyNormal: TextStyle(fontSize: 16, color: colorTheme.inverseText, fontFamily: ThemeFonts.body),
-          bodySmall: TextStyle(fontSize: 14, color: colorTheme.inverseText, fontFamily: ThemeFonts.body),
-          bodyUltraSmall: TextStyle(fontSize: 12, color: colorTheme.inverseText, fontFamily: ThemeFonts.body),
-          infoBodySubHeader: TextStyle(fontSize: 14, color: colorTheme.inverseText, fontFamily: ThemeFonts.body, fontWeight: FontWeight.w600),
+        inverseCoreTextTheme: SongLibTextTheme(
+          titleHuge: TextStyle(
+              fontSize: 40,
+              color: colorTheme.inverseText,
+              fontFamily: ThemeFonts.title,
+              height: 1.2),
+          titleBig: TextStyle(
+              fontSize: 30,
+              color: colorTheme.inverseText,
+              fontFamily: ThemeFonts.title,
+              height: 1.2),
+          titleNormal: TextStyle(
+              fontSize: 24,
+              color: colorTheme.inverseText,
+              fontFamily: ThemeFonts.title),
+          titleSmall: TextStyle(
+              fontSize: 18,
+              color: colorTheme.inverseText,
+              fontFamily: ThemeFonts.title),
+          titleListItem: TextStyle(
+              fontSize: 18,
+              color: colorTheme.inverseText,
+              fontFamily: ThemeFonts.title,
+              fontWeight: FontWeight.bold),
+          labelButtonBig: TextStyle(
+              fontSize: 16,
+              color: colorTheme.inverseText,
+              fontFamily: ThemeFonts.button,
+              fontWeight: FontWeight.bold),
+          labelButtonBigDisabled: TextStyle(
+              fontSize: 16,
+              color: colorTheme.disabledButtonText,
+              fontFamily: ThemeFonts.button,
+              fontWeight: FontWeight.bold),
+          labelButtonSmall: TextStyle(
+              fontSize: 14,
+              color: colorTheme.inverseText,
+              fontFamily: ThemeFonts.button,
+              fontWeight: FontWeight.bold),
+          labelButtonSmallDisabled: TextStyle(
+              fontSize: 14,
+              color: colorTheme.disabledButtonText,
+              fontFamily: ThemeFonts.button,
+              fontWeight: FontWeight.bold),
+          bodyBig: TextStyle(
+              fontSize: 18,
+              color: colorTheme.inverseText,
+              fontFamily: ThemeFonts.body),
+          bodyNormal: TextStyle(
+              fontSize: 16,
+              color: colorTheme.inverseText,
+              fontFamily: ThemeFonts.body),
+          bodySmall: TextStyle(
+              fontSize: 14,
+              color: colorTheme.inverseText,
+              fontFamily: ThemeFonts.body),
+          bodyUltraSmall: TextStyle(
+              fontSize: 12,
+              color: colorTheme.inverseText,
+              fontFamily: ThemeFonts.body),
+          infoBodySubHeader: TextStyle(
+              fontSize: 14,
+              color: colorTheme.inverseText,
+              fontFamily: ThemeFonts.body,
+              fontWeight: FontWeight.w600),
         ),
-        accentTextTheme: MyappTextTheme(
-          titleHuge: TextStyle(fontSize: 40, color: colorTheme.accent, fontFamily: ThemeFonts.title, height: 1.2),
-          titleBig: TextStyle(fontSize: 30, color: colorTheme.accent, fontFamily: ThemeFonts.title, height: 1.2),
-          titleNormal: TextStyle(fontSize: 24, color: colorTheme.accent, fontFamily: ThemeFonts.title),
-          titleSmall: TextStyle(fontSize: 18, color: colorTheme.accent, fontFamily: ThemeFonts.title),
-          titleListItem: TextStyle(fontSize: 18, color: colorTheme.accent, fontFamily: ThemeFonts.title, fontWeight: FontWeight.bold),
-          labelButtonBig: TextStyle(fontSize: 16, color: colorTheme.accent, fontFamily: ThemeFonts.button, fontWeight: FontWeight.bold),
-          labelButtonBigDisabled: TextStyle(fontSize: 16, color: colorTheme.disabledButtonText, fontFamily: ThemeFonts.button, fontWeight: FontWeight.bold),
-          labelButtonSmall: TextStyle(fontSize: 14, color: colorTheme.accent, fontFamily: ThemeFonts.button, fontWeight: FontWeight.bold),
-          labelButtonSmallDisabled: TextStyle(fontSize: 14, color: colorTheme.disabledButtonText, fontFamily: ThemeFonts.button, fontWeight: FontWeight.bold),
-          bodyBig: TextStyle(fontSize: 18, color: colorTheme.accent, fontFamily: ThemeFonts.body),
-          bodyNormal: TextStyle(fontSize: 16, color: colorTheme.accent, fontFamily: ThemeFonts.body),
-          bodySmall: TextStyle(fontSize: 14, color: colorTheme.accent, fontFamily: ThemeFonts.body),
-          bodyUltraSmall: TextStyle(fontSize: 12, color: colorTheme.accent, fontFamily: ThemeFonts.body),
-          infoBodySubHeader: TextStyle(fontSize: 14, color: colorTheme.accent, fontFamily: ThemeFonts.body, fontWeight: FontWeight.w600),
+        accentTextTheme: SongLibTextTheme(
+          titleHuge: TextStyle(
+              fontSize: 40,
+              color: colorTheme.accent,
+              fontFamily: ThemeFonts.title,
+              height: 1.2),
+          titleBig: TextStyle(
+              fontSize: 30,
+              color: colorTheme.accent,
+              fontFamily: ThemeFonts.title,
+              height: 1.2),
+          titleNormal: TextStyle(
+              fontSize: 24,
+              color: colorTheme.accent,
+              fontFamily: ThemeFonts.title),
+          titleSmall: TextStyle(
+              fontSize: 18,
+              color: colorTheme.accent,
+              fontFamily: ThemeFonts.title),
+          titleListItem: TextStyle(
+              fontSize: 18,
+              color: colorTheme.accent,
+              fontFamily: ThemeFonts.title,
+              fontWeight: FontWeight.bold),
+          labelButtonBig: TextStyle(
+              fontSize: 16,
+              color: colorTheme.accent,
+              fontFamily: ThemeFonts.button,
+              fontWeight: FontWeight.bold),
+          labelButtonBigDisabled: TextStyle(
+              fontSize: 16,
+              color: colorTheme.disabledButtonText,
+              fontFamily: ThemeFonts.button,
+              fontWeight: FontWeight.bold),
+          labelButtonSmall: TextStyle(
+              fontSize: 14,
+              color: colorTheme.accent,
+              fontFamily: ThemeFonts.button,
+              fontWeight: FontWeight.bold),
+          labelButtonSmallDisabled: TextStyle(
+              fontSize: 14,
+              color: colorTheme.disabledButtonText,
+              fontFamily: ThemeFonts.button,
+              fontWeight: FontWeight.bold),
+          bodyBig: TextStyle(
+              fontSize: 18,
+              color: colorTheme.accent,
+              fontFamily: ThemeFonts.body),
+          bodyNormal: TextStyle(
+              fontSize: 16,
+              color: colorTheme.accent,
+              fontFamily: ThemeFonts.body),
+          bodySmall: TextStyle(
+              fontSize: 14,
+              color: colorTheme.accent,
+              fontFamily: ThemeFonts.body),
+          bodyUltraSmall: TextStyle(
+              fontSize: 12,
+              color: colorTheme.accent,
+              fontFamily: ThemeFonts.body),
+          infoBodySubHeader: TextStyle(
+              fontSize: 14,
+              color: colorTheme.accent,
+              fontFamily: ThemeFonts.body,
+              fontWeight: FontWeight.w600),
         ),
-        exceptionsTextTheme: const MyappTextThemeExceptions(),
+        exceptionsTextTheme: const SongLibTextThemeExceptions(),
       );
 
-  const MyappTheme._({
+  const SongLibTheme._({
     required this.coreTextTheme,
     required this.inverseCoreTextTheme,
     required this.accentTextTheme,
@@ -230,20 +368,21 @@ class MyappTheme {
     required this.colorsTheme,
   });
 
-  static MyappTheme of(BuildContext context, {bool forceDark = false, bool forceLight = false}) {
-    if (forceDark) return _instanceDark;
-    if (forceLight) return _instanceLight;
+  static SongLibTheme of(BuildContext context,
+      {bool forceDark = false, bool forceLight = false}) {
+    if (forceDark) return instanceDark;
+    if (forceLight) return instanceLight;
 
     final theme = FlavorConfig.instance.themeMode;
     if (theme == ThemeMode.dark) {
-      return _instanceDark;
+      return instanceDark;
     } else if (theme == ThemeMode.light) {
-      return _instanceLight;
+      return instanceLight;
     }
     final brightness = MediaQuery.of(context).platformBrightness;
 
-    if (brightness == Brightness.dark) return _instanceDark;
+    if (brightness == Brightness.dark) return instanceDark;
 
-    return _instanceLight;
+    return instanceLight;
   }
 }

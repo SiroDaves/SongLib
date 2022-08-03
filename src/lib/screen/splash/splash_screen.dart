@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:songlib/navigator/main_navigator.dart';
-import 'package:songlib/navigator/route_names.dart';
-import 'package:songlib/viewmodel/splash/splash_viewmodel.dart';
-import 'package:songlib/widget/general/status_bar.dart';
-import 'package:songlib/widget/general/styled/myapp_progress_indicator.dart';
-import 'package:songlib/widget/provider/provider_widget.dart';
 import 'package:get_it/get_it.dart';
+
+import '../../navigator/main_navigator.dart';
+import '../../navigator/route_names.dart';
+import '../../styles/theme_assets.dart';
+import '../../styles/theme_colors.dart';
+import '../../styles/theme_fonts.dart';
+import '../../util/app_constants.dart';
+import '../../vm/splash/splash_vm.dart';
+import '../../widget/provider/provider_widget.dart';
 
 class SplashScreen extends StatefulWidget {
   static const String routeName = RouteNames.splashScreen;
@@ -22,13 +25,30 @@ class SplashScreen extends StatefulWidget {
 class SplashScreenState extends State<SplashScreen> implements SplashNavigator {
   @override
   Widget build(BuildContext context) {
-    return ProviderWidget<SplashViewModel>(
+    return ProviderWidget<SplashVm>(
       create: () => GetIt.I()..init(this),
-      consumerWithThemeAndLocalization: (context, viewModel, child, theme, localization) => StatusBar.light(
-        child: Scaffold(
-          backgroundColor: theme.colorsTheme.primary,
-          body: const Center(
-            child: MyappProgressIndicator.light(),
+      consumerWithThemeAndLocalization:
+          (context, viewModel, child, theme, localization) => Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Image.asset(
+                ThemeAssets.appIcon,
+                height: 200,
+                width: 200,
+              ),
+              const SizedBox(
+                height: 35,
+              ),
+              Text(
+                AppConstants.appTitle,
+                style: titleTextStyle.copyWith(
+                  fontSize: 40,
+                  color: ThemeColors.primary,
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -39,5 +59,5 @@ class SplashScreenState extends State<SplashScreen> implements SplashNavigator {
   void goToHome() => MainNavigatorWidget.of(context).goToHome();
 
   @override
-  void goToLogin() => MainNavigatorWidget.of(context).goToLogin();
+  void goToSelection() => MainNavigatorWidget.of(context).goToSelection();
 }

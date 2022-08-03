@@ -1,6 +1,6 @@
-import 'package:dio/dio.dart';
 import 'package:songlib/repository/secure_storage/auth/auth_storage.dart';
-import 'package:songlib/util/myapp_constants.dart';
+import 'package:songlib/util/app_constants.dart';
+import 'package:dio/dio.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 
@@ -18,8 +18,8 @@ class NetworkAuthInterceptor extends SimpleInterceptor {
     if (_excludedPaths.contains(options.path)) {
       return super.onRequest(options);
     }
-    final authorizationHeader = '${MyappConstants.protectedAuthenticationHeaderPrefix} ${await _storage.getAccessToken()}';
-    options.headers[MyappConstants.authorizationHeader] = authorizationHeader;
+    final authorizationHeader = '${AppConstants.protectedAuthenticationHeaderPrefix} ${await _storage.getAccessToken()}';
+    options.headers[AppConstants.authorizationHeader] = authorizationHeader;
     return options;
   }
 }

@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:songlib/styles/theme_dimens.dart';
 import 'package:songlib/styles/theme_durations.dart';
 import 'package:songlib/widget/provider/data_provider_widget.dart';
+import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 
 class TextActionItem extends StatelessWidget {
@@ -24,15 +24,15 @@ class TextActionItem extends StatelessWidget {
       childBuilderTheme: (context, theme) => Center(
         child: TouchFeedBack(
           borderRadius: BorderRadius.circular(ThemeDimens.padding4),
+          onClick: enabled ? onClick : null,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: ThemeDimens.padding16, vertical: ThemeDimens.padding8),
             child: AnimatedDefaultTextStyle(
               style: style ?? theme.inverseCoreTextTheme.labelButtonSmall,
+              duration: ThemeDurations.shortAnimationDuration,
               child: Text(text),
-              duration: ThemeDurations.shortAnimationDuration(),
             ),
           ),
-          onClick: enabled ? onClick : null,
         ),
       ),
     );
