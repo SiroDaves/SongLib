@@ -1,4 +1,4 @@
-import 'package:songlib/repository/secure_storage/auth/auth_storage.dart';
+import 'package:songlib/repository/secure_storage/auth_storage.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';

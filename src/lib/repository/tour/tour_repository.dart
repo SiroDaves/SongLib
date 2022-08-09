@@ -1,6 +1,6 @@
 import 'package:songlib/database/tour_results/tour_results_dao_storage.dart';
 import 'package:songlib/model/data/enums.dart';
-import 'package:songlib/repository/shared_prefs/local/local_storage.dart';
+import 'package:songlib/repository/shared_prefs/local_storage.dart';
 import 'package:songlib/widget_game/data/play_settings.dart';
 import 'package:songlib/widget_game/data/results.dart';
 import 'package:injectable/injectable.dart';

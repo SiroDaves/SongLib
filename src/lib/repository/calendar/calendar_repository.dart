@@ -1,7 +1,7 @@
 import 'package:songlib/database/career/career_calendar_dao_storage.dart';
 import 'package:songlib/model/data/calendar_event.dart';
 import 'package:songlib/model/data/enums.dart';
-import 'package:songlib/repository/shared_prefs/local/local_storage.dart';
+import 'package:songlib/repository/shared_prefs/local_storage.dart';
 import 'package:songlib/widget_game/data/play_settings.dart';
 import 'package:injectable/injectable.dart';
 

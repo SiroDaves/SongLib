@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:songlib/model/data/enums.dart';
 import 'package:songlib/navigator/mixin/back_navigator.dart';
-import 'package:songlib/repository/shared_prefs/local/local_storage.dart';
+import 'package:songlib/repository/shared_prefs/local_storage.dart';
 import 'package:songlib/util/locale/localization_delegate.dart';
 import 'package:songlib/vm/global/global_vm.dart';
 import 'package:get_it/get_it.dart';

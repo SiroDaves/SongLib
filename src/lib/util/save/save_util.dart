@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:songlib/model/data/enums.dart';
-import 'package:songlib/repository/shared_prefs/local/local_storage.dart';
+import 'package:songlib/repository/shared_prefs/local_storage.dart';
 import 'package:songlib/screen_game/cycling_view.dart';
 import 'package:songlib/util/locale/localization.dart';
 import 'package:songlib/widget_game/data/sprite_manager.dart';

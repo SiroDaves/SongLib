@@ -106,7 +106,7 @@ class SongBook extends StatelessWidget {
               '${truncateString(19, refineTitle(book.title!))} (${book.songs})',
               textAlign: TextAlign.center,
               maxLines: 3,
-              style: normalTextStyle.copyWith(
+              style: TextStyle(
                 color: Colors.white,
                 fontSize: height * 0.0228,
               ),
@@ -147,7 +147,7 @@ class ListedItem extends StatelessWidget {
                 Text(
                   listed.title!,
                   maxLines: 1,
-                  style: titleTextStyle.copyWith(
+                  style: TextStyle(
                     fontSize: height * 0.0261,
                     fontWeight: FontWeight.bold,
                   ),
@@ -158,7 +158,7 @@ class ListedItem extends StatelessWidget {
                     ? Text(
                         listed.description!,
                         maxLines: 1,
-                        style: normalTextStyle.copyWith(
+                        style: TextStyle(
                           fontSize: height * 0.015,
                         ),
                       )
@@ -166,7 +166,7 @@ class ListedItem extends StatelessWidget {
                 Text(
                   'Updated ${listed.updatedAt!}',
                   maxLines: 1,
-                  style: normalTextStyle.copyWith(
+                  style: TextStyle(
                     fontSize: height * 0.015,
                   ),
                 ),
@@ -215,7 +215,7 @@ class SongGrid extends StatelessWidget {
                 Text(
                   truncateString(20, songItemTitle(song.book!, song.title!)),
                   maxLines: 1,
-                  style: normalTextStyle.copyWith(
+                  style: TextStyle(
                     fontSize: height * 0.0228,
                   ),
                 ),
@@ -223,7 +223,7 @@ class SongGrid extends StatelessWidget {
                 Text(
                   book.title!.isNotEmpty ? truncateString(20, book.title!) : '',
                   maxLines: 1,
-                  style: normalTextStyle.copyWith(
+                  style: TextStyle(
                     fontSize: height * 0.0175,
                   ),
                 ),
@@ -276,7 +276,7 @@ class SongItem extends StatelessWidget {
                 Text(
                   songItemTitle(song.songNo!, song.title!),
                   maxLines: 1,
-                  style: titleTextStyle.copyWith(
+                  style: TextStyle(
                     fontSize: height * 0.0261,
                     fontWeight: FontWeight.bold,
                   ),
@@ -285,7 +285,7 @@ class SongItem extends StatelessWidget {
                 Text(
                   refineContent(verses[0]),
                   maxLines: 2,
-                  style: normalTextStyle.copyWith(
+                  style: TextStyle(
                     fontSize: height * 0.0228,
                   ),
                 ),
@@ -346,7 +346,7 @@ class DraftItem extends StatelessWidget {
                 Text(
                   songItemTitle(draft.songNo!, draft.title!),
                   maxLines: 1,
-                  style: titleTextStyle.copyWith(
+                  style: TextStyle(
                     fontSize: height * 0.0261,
                     fontWeight: FontWeight.bold,
                   ),
@@ -355,7 +355,7 @@ class DraftItem extends StatelessWidget {
                 Text(
                   refineContent(verses[0]),
                   maxLines: 2,
-                  style: normalTextStyle.copyWith(
+                  style: TextStyle(
                     fontSize: height * 0.0228,
                   ),
                 ),

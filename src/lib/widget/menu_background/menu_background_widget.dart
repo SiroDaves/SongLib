@@ -1,5 +1,5 @@
 import 'package:songlib/styles/theme_assets.dart';
-import 'package:songlib/vm/menu_background/menu_background_vm.dart';
+import 'package:songlib/vm/main_menu/menu_background_vm.dart';
 import 'package:songlib/widget/provider/provider_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';

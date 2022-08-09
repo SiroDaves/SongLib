@@ -16,19 +16,19 @@ class _BookWebService implements BookWebService {
   String? baseUrl;
 
   @override
-  Future<List<Book>> getBooks() async {
+  Future<BooksResponse> getBooksResponse() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<List<dynamic>>(_setStreamType<List<Book>>(
-        Options(method: 'GET', headers: _headers, extra: _extra)
-            .compose(_dio.options, 'Book?where={"enabled":true}&order=position',
-                queryParameters: queryParameters, data: _data)
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    var value = _result.data!
-        .map((dynamic i) => Book.fromJson(i as Map<String, dynamic>))
-        .toList();
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<BooksResponse>(
+            Options(method: 'GET', headers: _headers, extra: _extra)
+                .compose(
+                    _dio.options, 'Book?where={"enabled":true}&order=position',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = BooksResponse.fromJson(_result.data!);
     return value;
   }
 

@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:collection/collection.dart';
 import 'package:songlib/model/data/enums.dart';
-import 'package:songlib/repository/shared_prefs/local/local_storage.dart';
+import 'package:songlib/repository/shared_prefs/local_storage.dart';
 import 'package:songlib/screen_game/base_view.dart';
 import 'package:songlib/screen_game/cycling_view_ui.dart';
 import 'package:songlib/util/locale/localization.dart';

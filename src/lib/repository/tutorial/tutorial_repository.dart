@@ -1,5 +1,5 @@
 import 'package:songlib/model/data/enums.dart';
-import 'package:songlib/repository/shared_prefs/local/local_storage.dart';
+import 'package:songlib/repository/shared_prefs/local_storage.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton

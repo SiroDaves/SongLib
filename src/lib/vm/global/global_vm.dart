@@ -7,7 +7,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../repository/debug/debug_repository.dart';
 import '../../repository/locale/locale_repository.dart';
-import '../../repository/shared_prefs/local/local_storage.dart';
+import '../../repository/shared_prefs/local_storage.dart';
 import '../../styles/theme_assets.dart';
 import '../../util/env/flavor_config.dart';
 import '../../util/locale/localization.dart';

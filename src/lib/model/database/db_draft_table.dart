@@ -26,9 +26,9 @@ class DbDraftTable extends Table {
 
   IntColumn get views => integer().withDefault(const Constant(0))();
 
-  TextColumn get createdAt => text().withDefault(Constant(dateNow()))();
+  TextColumn get createdAt => text().withDefault(const Constant(''))();
 
-  TextColumn get updatedAt => text().withDefault(Constant(dateNow()))();
+  TextColumn get updatedAt => text().withDefault(const Constant(''))();
 
   BoolColumn get liked => boolean().withDefault(const Constant(false))();
 }

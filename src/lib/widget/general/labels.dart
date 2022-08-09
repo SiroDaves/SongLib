@@ -88,7 +88,7 @@ class NoDataToShow extends StatelessWidget {
             child: Column(children: [
               Text(
                 title!,
-                style: titleTextStyle.copyWith(
+                style: const TextStyle(
                   fontSize: 20,
                   color: ThemeColors.primary,
                 ),
@@ -131,7 +131,7 @@ class TagView extends StatelessWidget {
           ),
           child: Text(
             tagText,
-            style: normalTextStyle.copyWith(
+            style: TextStyle(
               fontSize: height * 0.0195,
               color: Colors.white,
             ),

@@ -12,7 +12,7 @@ class DbHistoryTable extends Table {
 
   IntColumn get song => integer().withDefault(const Constant(0))();
 
-  TextColumn get createdAt => text().withDefault(Constant(dateNow()))();
+  TextColumn get createdAt => text().withDefault(const Constant(''))();
 }
 
 extension DbHistoryExtension on DbHistory {

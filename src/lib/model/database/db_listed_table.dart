@@ -18,9 +18,9 @@ class DbListedTable extends Table {
 
   IntColumn get position => integer().withDefault(const Constant(0))();
 
-  TextColumn get createdAt => text().withDefault(Constant(dateNow()))();
+  TextColumn get createdAt => text().withDefault(const Constant(''))();
 
-  TextColumn get updatedAt => text().withDefault(Constant(dateNow()))();
+  TextColumn get updatedAt => text().withDefault(const Constant(''))();
 }
 
 extension DbListedExtension on DbListed {

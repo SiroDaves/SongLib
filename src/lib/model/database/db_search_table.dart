@@ -12,7 +12,7 @@ class DbSearchTable extends Table {
 
   TextColumn get title => text().withDefault(const Constant(''))();
 
-  TextColumn get createdAt => text().withDefault(Constant(dateNow()))();
+  TextColumn get createdAt => text().withDefault(const Constant(''))();
 }
 
 extension DbSearchExtension on DbSearch {

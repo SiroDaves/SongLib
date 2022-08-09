@@ -6,7 +6,7 @@ part of 'songlib_database.dart';
 // MoorGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps, unnecessary_this
+// ignore_for_file: type=lint
 class DbTourResults extends DataClass implements Insertable<DbTourResults> {
   final int number;
   final int time;
@@ -287,9 +287,10 @@ class DbTourResultsTableCompanion extends UpdateCompanion<DbTourResults> {
 
 class $DbTourResultsTableTable extends DbTourResultsTable
     with TableInfo<$DbTourResultsTableTable, DbTourResults> {
-  final GeneratedDatabase _db;
+  @override
+  final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $DbTourResultsTableTable(this._db, [this._alias]);
+  $DbTourResultsTableTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _numberMeta = const VerificationMeta('number');
   @override
   late final GeneratedColumn<int?> number = GeneratedColumn<int?>(
@@ -411,7 +412,7 @@ class $DbTourResultsTableTable extends DbTourResultsTable
 
   @override
   $DbTourResultsTableTable createAlias(String alias) {
-    return $DbTourResultsTableTable(_db, alias);
+    return $DbTourResultsTableTable(attachedDatabase, alias);
   }
 }
 
@@ -544,9 +545,10 @@ class $DbCareerCalendarEventWinnersTableTable
     with
         TableInfo<$DbCareerCalendarEventWinnersTableTable,
             DbCareerCalendarEventWinners> {
-  final GeneratedDatabase _db;
+  @override
+  final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $DbCareerCalendarEventWinnersTableTable(this._db, [this._alias]);
+  $DbCareerCalendarEventWinnersTableTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _resultIdMeta = const VerificationMeta('resultId');
   @override
   late final GeneratedColumn<int?> resultId = GeneratedColumn<int?>(
@@ -595,7 +597,7 @@ class $DbCareerCalendarEventWinnersTableTable
 
   @override
   $DbCareerCalendarEventWinnersTableTable createAlias(String alias) {
-    return $DbCareerCalendarEventWinnersTableTable(_db, alias);
+    return $DbCareerCalendarEventWinnersTableTable(attachedDatabase, alias);
   }
 }
 
@@ -827,9 +829,10 @@ class DbCareerResultsTableCompanion extends UpdateCompanion<DbCareerResults> {
 
 class $DbCareerResultsTableTable extends DbCareerResultsTable
     with TableInfo<$DbCareerResultsTableTable, DbCareerResults> {
-  final GeneratedDatabase _db;
+  @override
+  final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $DbCareerResultsTableTable(this._db, [this._alias]);
+  $DbCareerResultsTableTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _numberMeta = const VerificationMeta('number');
   @override
   late final GeneratedColumn<int?> number = GeneratedColumn<int?>(
@@ -925,7 +928,7 @@ class $DbCareerResultsTableTable extends DbCareerResultsTable
 
   @override
   $DbCareerResultsTableTable createAlias(String alias) {
-    return $DbCareerResultsTableTable(_db, alias);
+    return $DbCareerResultsTableTable(attachedDatabase, alias);
   }
 }
 
@@ -1241,9 +1244,10 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
 
 class $DbBookTableTable extends DbBookTable
     with TableInfo<$DbBookTableTable, DbBook> {
-  final GeneratedDatabase _db;
+  @override
+  final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $DbBookTableTable(this._db, [this._alias]);
+  $DbBookTableTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
@@ -1307,14 +1311,14 @@ class $DbBookTableTable extends DbBookTable
       'created_at', aliasedName, false,
       type: const StringType(),
       requiredDuringInsert: false,
-      defaultValue: Constant(dateNow()));
+      defaultValue: const Constant(''));
   final VerificationMeta _updatedAtMeta = const VerificationMeta('updatedAt');
   @override
   late final GeneratedColumn<String?> updatedAt = GeneratedColumn<String?>(
       'updated_at', aliasedName, false,
       type: const StringType(),
       requiredDuringInsert: false,
-      defaultValue: Constant(dateNow()));
+      defaultValue: const Constant(''));
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -1389,7 +1393,7 @@ class $DbBookTableTable extends DbBookTable
 
   @override
   $DbBookTableTable createAlias(String alias) {
-    return $DbBookTableTable(_db, alias);
+    return $DbBookTableTable(attachedDatabase, alias);
   }
 }
 
@@ -1774,9 +1778,10 @@ class DbDraftTableCompanion extends UpdateCompanion<DbDraft> {
 
 class $DbDraftTableTable extends DbDraftTable
     with TableInfo<$DbDraftTableTable, DbDraft> {
-  final GeneratedDatabase _db;
+  @override
+  final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $DbDraftTableTable(this._db, [this._alias]);
+  $DbDraftTableTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
@@ -1853,14 +1858,14 @@ class $DbDraftTableTable extends DbDraftTable
       'created_at', aliasedName, false,
       type: const StringType(),
       requiredDuringInsert: false,
-      defaultValue: Constant(dateNow()));
+      defaultValue: const Constant(''));
   final VerificationMeta _updatedAtMeta = const VerificationMeta('updatedAt');
   @override
   late final GeneratedColumn<String?> updatedAt = GeneratedColumn<String?>(
       'updated_at', aliasedName, false,
       type: const StringType(),
       requiredDuringInsert: false,
-      defaultValue: Constant(dateNow()));
+      defaultValue: const Constant(''));
   final VerificationMeta _likedMeta = const VerificationMeta('liked');
   @override
   late final GeneratedColumn<bool?> liked = GeneratedColumn<bool?>(
@@ -1958,7 +1963,7 @@ class $DbDraftTableTable extends DbDraftTable
 
   @override
   $DbDraftTableTable createAlias(String alias) {
-    return $DbDraftTableTable(_db, alias);
+    return $DbDraftTableTable(attachedDatabase, alias);
   }
 }
 
@@ -2132,9 +2137,10 @@ class DbHistoryTableCompanion extends UpdateCompanion<DbHistory> {
 
 class $DbHistoryTableTable extends DbHistoryTable
     with TableInfo<$DbHistoryTableTable, DbHistory> {
-  final GeneratedDatabase _db;
+  @override
+  final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $DbHistoryTableTable(this._db, [this._alias]);
+  $DbHistoryTableTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
@@ -2162,7 +2168,7 @@ class $DbHistoryTableTable extends DbHistoryTable
       'created_at', aliasedName, false,
       type: const StringType(),
       requiredDuringInsert: false,
-      defaultValue: Constant(dateNow()));
+      defaultValue: const Constant(''));
   @override
   List<GeneratedColumn> get $columns => [id, objectId, song, createdAt];
   @override
@@ -2202,7 +2208,7 @@ class $DbHistoryTableTable extends DbHistoryTable
 
   @override
   $DbHistoryTableTable createAlias(String alias) {
-    return $DbHistoryTableTable(_db, alias);
+    return $DbHistoryTableTable(attachedDatabase, alias);
   }
 }
 
@@ -2472,9 +2478,10 @@ class DbListedTableCompanion extends UpdateCompanion<DbListed> {
 
 class $DbListedTableTable extends DbListedTable
     with TableInfo<$DbListedTableTable, DbListed> {
-  final GeneratedDatabase _db;
+  @override
+  final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $DbListedTableTable(this._db, [this._alias]);
+  $DbListedTableTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
@@ -2524,14 +2531,14 @@ class $DbListedTableTable extends DbListedTable
       'created_at', aliasedName, false,
       type: const StringType(),
       requiredDuringInsert: false,
-      defaultValue: Constant(dateNow()));
+      defaultValue: const Constant(''));
   final VerificationMeta _updatedAtMeta = const VerificationMeta('updatedAt');
   @override
   late final GeneratedColumn<String?> updatedAt = GeneratedColumn<String?>(
       'updated_at', aliasedName, false,
       type: const StringType(),
       requiredDuringInsert: false,
-      defaultValue: Constant(dateNow()));
+      defaultValue: const Constant(''));
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -2598,7 +2605,7 @@ class $DbListedTableTable extends DbListedTable
 
   @override
   $DbListedTableTable createAlias(String alias) {
-    return $DbListedTableTable(_db, alias);
+    return $DbListedTableTable(attachedDatabase, alias);
   }
 }
 
@@ -2772,9 +2779,10 @@ class DbSearchTableCompanion extends UpdateCompanion<DbSearch> {
 
 class $DbSearchTableTable extends DbSearchTable
     with TableInfo<$DbSearchTableTable, DbSearch> {
-  final GeneratedDatabase _db;
+  @override
+  final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $DbSearchTableTable(this._db, [this._alias]);
+  $DbSearchTableTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
@@ -2802,7 +2810,7 @@ class $DbSearchTableTable extends DbSearchTable
       'created_at', aliasedName, false,
       type: const StringType(),
       requiredDuringInsert: false,
-      defaultValue: Constant(dateNow()));
+      defaultValue: const Constant(''));
   @override
   List<GeneratedColumn> get $columns => [id, objectId, title, createdAt];
   @override
@@ -2842,7 +2850,7 @@ class $DbSearchTableTable extends DbSearchTable
 
   @override
   $DbSearchTableTable createAlias(String alias) {
-    return $DbSearchTableTable(_db, alias);
+    return $DbSearchTableTable(attachedDatabase, alias);
   }
 }
 
@@ -3250,9 +3258,10 @@ class DbSongTableCompanion extends UpdateCompanion<DbSong> {
 
 class $DbSongTableTable extends DbSongTable
     with TableInfo<$DbSongTableTable, DbSong> {
-  final GeneratedDatabase _db;
+  @override
+  final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $DbSongTableTable(this._db, [this._alias]);
+  $DbSongTableTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
@@ -3336,14 +3345,14 @@ class $DbSongTableTable extends DbSongTable
       'created_at', aliasedName, false,
       type: const StringType(),
       requiredDuringInsert: false,
-      defaultValue: Constant(dateNow()));
+      defaultValue: const Constant(''));
   final VerificationMeta _updatedAtMeta = const VerificationMeta('updatedAt');
   @override
   late final GeneratedColumn<String?> updatedAt = GeneratedColumn<String?>(
       'updated_at', aliasedName, false,
       type: const StringType(),
       requiredDuringInsert: false,
-      defaultValue: Constant(dateNow()));
+      defaultValue: const Constant(''));
   final VerificationMeta _likedMeta = const VerificationMeta('liked');
   @override
   late final GeneratedColumn<bool?> liked = GeneratedColumn<bool?>(
@@ -3446,7 +3455,7 @@ class $DbSongTableTable extends DbSongTable
 
   @override
   $DbSongTableTable createAlias(String alias) {
-    return $DbSongTableTable(_db, alias);
+    return $DbSongTableTable(attachedDatabase, alias);
   }
 }
 
