@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../repository/debug/debug_repository.dart';
-import '../../repository/locale/locale_repository.dart';
+import '../../repository/debug_repository.dart';
+import '../../repository/locale_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
 import '../../styles/theme_assets.dart';
 import '../../util/env/flavor_config.dart';

@@ -1,8 +1,8 @@
 import 'package:injectable/injectable.dart';
 
-import '../../database/dao/book_dao_storage.dart';
-import '../../model/base/book.dart';
-import '../../webservice/book/book_service.dart';
+import '../database/dao/book_dao_storage.dart';
+import '../model/base/book.dart';
+import '../webservice/book/book_service.dart';
 
 @lazySingleton
 abstract class BookRepository {

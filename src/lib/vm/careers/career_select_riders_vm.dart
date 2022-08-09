@@ -1,7 +1,7 @@
 import 'package:songlib/model/data/calendar_event.dart';
 import 'package:songlib/navigator/mixin/back_navigator.dart';
-import 'package:songlib/repository/calendar/calendar_repository.dart';
-import 'package:songlib/repository/tour/tour_repository.dart';
+import 'package:songlib/repository/calendar_repository.dart';
+import 'package:songlib/repository/tour_repository.dart';
 import 'package:songlib/widget_game/data/play_settings.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';

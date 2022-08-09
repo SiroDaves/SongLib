@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:app_review/app_review.dart';
 import 'package:songlib/model/data/enums.dart';
 import 'package:songlib/repository/shared_prefs/local_storage.dart';
-import 'package:songlib/repository/tutorial/tutorial_repository.dart';
+import 'package:songlib/repository/tutorial_repository.dart';
 import 'package:songlib/screen_game/game_manager.dart';
 import 'package:songlib/util/locale/localization.dart';
 import 'package:songlib/widget_game/data/play_settings.dart';

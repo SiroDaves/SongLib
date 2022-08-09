@@ -1,4 +1,4 @@
-import 'package:songlib/repository/refresh/refresh_repository.dart';
+import 'package:songlib/repository/refresh_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';

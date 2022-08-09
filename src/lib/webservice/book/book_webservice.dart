@@ -17,6 +17,9 @@ abstract class BookWebService extends BookService {
   factory BookWebService(Dio dio) = _BookWebService;
 
   @override
-  @GET('${ApiConstants.book}?where={"enabled":true}&order=position')
-  Future<BooksResponse> getBooksResponse();
+  @GET(ApiConstants.book)
+  Future<BooksResponse> getBooksResponse({
+    @Query('where') String where = '{"enabled":true}',
+    @Query('order') String order = 'position',
+  });
 }

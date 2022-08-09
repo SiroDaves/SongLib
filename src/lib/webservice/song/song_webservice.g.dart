@@ -16,19 +16,23 @@ class _SongWebService implements SongWebService {
   String? baseUrl;
 
   @override
-  Future<List<Song>> getSongs() async {
+  Future<SongsResponse> getSongsResponse(where,
+      {order = 'songNo', limit = 10000}) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'where': where,
+      r'order': order,
+      r'limit': limit
+    };
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio.fetch<List<dynamic>>(_setStreamType<List<Song>>(
-        Options(method: 'GET', headers: _headers, extra: _extra)
-            .compose(_dio.options, '/Song',
-                queryParameters: queryParameters, data: _data)
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    var value = _result.data!
-        .map((dynamic i) => Song.fromJson(i as Map<String, dynamic>))
-        .toList();
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<SongsResponse>(
+            Options(method: 'GET', headers: _headers, extra: _extra)
+                .compose(_dio.options, 'Song',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = SongsResponse.fromJson(_result.data!);
     return value;
   }
 

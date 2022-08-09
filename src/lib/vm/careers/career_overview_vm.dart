@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
-import 'package:songlib/repository/calendar/calendar_repository.dart';
-import 'package:songlib/repository/career/career_repository.dart';
-import 'package:songlib/repository/name/name_repository.dart';
+import 'package:songlib/repository/calendar_repository.dart';
+import 'package:songlib/repository/career_repository.dart';
+import 'package:songlib/repository/name_repository.dart';
 import 'package:songlib/widget_game/data/result_data.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';

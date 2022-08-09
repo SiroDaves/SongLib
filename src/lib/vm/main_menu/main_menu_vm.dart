@@ -1,4 +1,4 @@
-import 'package:songlib/repository/tour/tour_repository.dart';
+import 'package:songlib/repository/tour_repository.dart';
 import 'package:songlib/util/save/save_util.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';

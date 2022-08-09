@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:songlib/model/data/enums.dart';
-import 'package:songlib/repository/name/name_repository.dart';
-import 'package:songlib/repository/tour/tour_repository.dart';
+import 'package:songlib/repository/name_repository.dart';
+import 'package:songlib/repository/tour_repository.dart';
 import 'package:songlib/widget_game/data/play_settings.dart';
 import 'package:songlib/widget_game/data/result_data.dart';
 import 'package:songlib/widget_game/data/results.dart';

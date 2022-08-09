@@ -1,5 +1,5 @@
 import 'package:songlib/model/data/enums.dart';
-import 'package:songlib/repository/tour/tour_repository.dart';
+import 'package:songlib/repository/tour_repository.dart';
 import 'package:songlib/widget_game/data/play_settings.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';

@@ -1,5 +1,5 @@
 import 'package:songlib/navigator/mixin/back_navigator.dart';
-import 'package:songlib/repository/career/career_repository.dart';
+import 'package:songlib/repository/career_repository.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 

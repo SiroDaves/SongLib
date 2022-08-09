@@ -29,6 +29,8 @@ abstract class LocalStorage {
 
   bool get autofollowThresholdAboveAsk;
 
+  String get selectedBooks;
+
   CyclistMovementType get cyclistMovement;
 
   CameraMovementType get cameraMovement;
@@ -79,6 +81,10 @@ abstract class LocalStorage {
 
   void clearTour();
 
+  void setPreferenceBool(String settingsKey, bool settingsValue);
+  void setPreferenceInt(String settingsKey, int settingsValue);
+  void setPreferenceString(String settingsKey, String settingsValue);
+
   void setPlaySettings(PlaySettings? playSettings);
 
   int get eventsCompleted;
@@ -89,6 +95,7 @@ abstract class LocalStorage {
 class AppLocalStorage implements LocalStorage {
   static const uninstallCheckKey = 'uninstallCheck';
   static const dataLoadedCheckKey = 'dataLoadedCheck';
+  static const selectedBooksKey = 'selectedBooksKey';
   static const appearanceThemeKey = 'appearanceTheme';
   static const autofollowThresholdKey = 'autofollowThreshold';
   static const autofollowThresholdBelowAskKey = 'autofollowThresholdBelowAsk';
@@ -115,6 +122,9 @@ class AppLocalStorage implements LocalStorage {
   @override
   int get completedRaces => sharedPreferences.getInt(completedRacesKey) ?? 0;
 
+  @override
+  String get selectedBooks => sharedPreferences.getString(selectedBooksKey) ?? '';
+  
   @override
   bool get autofollowThresholdBelowAsk => sharedPreferences.getBoolean(autofollowThresholdBelowAskKey) ?? true;
 
@@ -254,6 +264,33 @@ class AppLocalStorage implements LocalStorage {
     sharedPreferences.removeValue(key: tourResultsKey);
     sharedPreferences.removeValue(key: playSettingsKey);
     sharedPreferences.removeValue(key: completedRacesKey);
+  }
+
+  @override
+  void setPreferenceBool(String settingsKey, bool settingsValue) {
+    if (!settingsValue) {
+      sharedPreferences.deleteKey(settingsKey);
+      return;
+    }
+    sharedPreferences.saveBoolean(key: settingsKey, value: settingsValue);
+  }
+
+  @override
+  void setPreferenceInt(String settingsKey, int settingsValue) {
+    if (settingsValue.isNegative) {
+      sharedPreferences.deleteKey(settingsKey);
+      return;
+    }
+    sharedPreferences.saveInt(key: settingsKey, value: settingsValue);
+  }
+
+  @override
+  void setPreferenceString(String settingsKey, String settingsValue) {
+    if (settingsValue.isEmpty) {
+      sharedPreferences.deleteKey(settingsKey);
+      return;
+    }
+    sharedPreferences.saveString(key: settingsKey, value: settingsValue);
   }
 
   @override

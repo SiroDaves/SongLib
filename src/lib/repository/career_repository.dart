@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:collection/collection.dart';
 import 'package:songlib/database/career/calendar_results_dao_storage.dart';
 import 'package:songlib/model/data/enums.dart';
-import 'package:songlib/repository/calendar/calendar_repository.dart';
+import 'package:songlib/repository/calendar_repository.dart';
 import 'package:songlib/widget_game/data/result_data.dart';
 import 'package:songlib/widget_game/data/results.dart';
 import 'package:injectable/injectable.dart';

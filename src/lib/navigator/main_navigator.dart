@@ -24,7 +24,7 @@ import '../screen/settings/settings_screen.dart';
 import '../screen/menu/single_race_menu_screen.dart';
 import '../screen/splash_screen.dart';
 import '../screen/settings/theme_mode_selector.dart';
-import '../screen/tour_in_progress/tour_in_progress_screen.dart';
+import '../screen/tours/tour_in_progress_screen.dart';
 import '../screen/tours/tour_select_screen.dart';
 import '../util/env/flavor_config.dart';
 import '../vm/results_vm.dart';

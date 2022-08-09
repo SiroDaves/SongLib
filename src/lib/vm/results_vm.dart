@@ -1,7 +1,7 @@
 import 'package:songlib/model/data/enums.dart';
-import 'package:songlib/repository/career/career_repository.dart';
-import 'package:songlib/repository/name/name_repository.dart';
-import 'package:songlib/repository/tour/tour_repository.dart';
+import 'package:songlib/repository/career_repository.dart';
+import 'package:songlib/repository/name_repository.dart';
+import 'package:songlib/repository/tour_repository.dart';
 import 'package:songlib/util/extension/list_sprint_extensions.dart';
 import 'package:songlib/widget_game/data/results.dart';
 import 'package:songlib/widget_game/positions/sprint.dart';
