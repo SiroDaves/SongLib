@@ -48,7 +48,7 @@ class SelectionScreenState extends State<SelectionScreen>
             ? Container()
             : FloatingActionButton(
                 backgroundColor: ThemeColors.primary,
-                onPressed: () => areYouDoneDialog(context),
+                onPressed: () => areYouDoneDialog(context, viewModel),
                 child: const Icon(Icons.check, color: Colors.white),
               ),
       ),
@@ -95,7 +95,12 @@ class SelectionScreenState extends State<SelectionScreen>
     );
   }
 
-  Future<void> areYouDoneDialog(BuildContext context) async {}
+  Future<void> areYouDoneDialog(BuildContext context, SelectionVm viewModel) async {
+    if (viewModel.selectables.isNotEmpty) {
+
+    }
+  }
+  
   @override
   void goToHome() => MainNavigatorWidget.of(context).goToHome();
 }

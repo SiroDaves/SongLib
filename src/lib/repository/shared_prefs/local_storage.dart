@@ -6,6 +6,7 @@ import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../model/data/enums.dart';
+import '../../util/constants/pref_constants.dart';
 import '../../widget_game/data/play_settings.dart';
 import '../../widget_game/data/results.dart';
 import '../secure_storage/auth_storage.dart';
@@ -20,6 +21,8 @@ abstract class LocalStorage {
   int get toursFinished;
 
   int get completedRaces;
+
+  bool get isDataLoaded;
 
   bool get autofollowThresholdBelowAsk;
 
@@ -69,7 +72,7 @@ abstract class LocalStorage {
 
   Future<bool> checkForNewInstallation();
 
-  Future<bool> isDataLoaded();
+  Future<bool> checkIfDataIsLoaded();
 
   ThemeMode getThemeMode();
 
@@ -93,71 +96,55 @@ abstract class LocalStorage {
 }
 
 class AppLocalStorage implements LocalStorage {
-  static const uninstallCheckKey = 'uninstallCheck';
-  static const dataLoadedCheckKey = 'dataLoadedCheck';
-  static const selectedBooksKey = 'selectedBooksKey';
-  static const appearanceThemeKey = 'appearanceTheme';
-  static const autofollowThresholdKey = 'autofollowThreshold';
-  static const autofollowThresholdBelowAskKey = 'autofollowThresholdBelowAsk';
-  static const autofollowThresholdAboveAskKey = 'autofollowThresholdAboveAsk';
-  static const cyclistNamesKey = 'cyclistNames';
-  static const cyclistMovementKey = 'cyclistMovement';
-  static const cameraMovementKey = 'cameraMovement';
-  static const difficultyKey = 'difficulty';
-  static const toursFinishedKey = 'toursFinished';
-  static const typesViewedKey = 'typesViewed';
-  static const tourResultsKey = 'tourResults';
-  static const playSettingsKey = 'playSettings';
-  static const eventsCompletedKey = 'eventsCompleted';
-  static const completedRacesKey = 'completedRaces';
-  static const isCurrentGameTourKey = 'isCurrentGameTour';
-  static const isCurrentGameCareerKey = 'isCurrentGameCareer';
 
   final AuthStorage authStorage;
   final SharedPreferenceStorage sharedPreferences;
 
   @override
-  int get autofollowThreshold => sharedPreferences.getInt(autofollowThresholdKey) ?? 7;
+  int get autofollowThreshold => sharedPreferences.getInt(PrefConstants.autofollowThresholdKey) ?? 7;
 
   @override
-  int get completedRaces => sharedPreferences.getInt(completedRacesKey) ?? 0;
+  int get completedRaces => sharedPreferences.getInt(PrefConstants.completedRacesKey) ?? 0;
 
   @override
-  String get selectedBooks => sharedPreferences.getString(selectedBooksKey) ?? '';
+  String get selectedBooks => sharedPreferences.getString(PrefConstants.selectedBooksKey) ?? '';
   
   @override
-  bool get autofollowThresholdBelowAsk => sharedPreferences.getBoolean(autofollowThresholdBelowAskKey) ?? true;
+  bool get isDataLoaded => sharedPreferences.getBoolean(PrefConstants.dataLoadedCheckKey) ?? false;
 
   @override
-  bool get isCurrentGameTour => sharedPreferences.getBoolean(isCurrentGameTourKey) ?? false;
+  bool get autofollowThresholdBelowAsk => sharedPreferences.getBoolean(PrefConstants.autofollowThresholdBelowAskKey) ?? true;
 
   @override
-  bool get isCurrentGameCareer => sharedPreferences.getBoolean(isCurrentGameCareerKey) ?? false;
+  bool get isCurrentGameTour => sharedPreferences.getBoolean(PrefConstants.isCurrentGameTourKey) ?? false;
 
   @override
-  bool get autofollowThresholdAboveAsk => sharedPreferences.getBoolean(autofollowThresholdAboveAskKey) ?? true;
+  bool get isCurrentGameCareer => sharedPreferences.getBoolean(PrefConstants.isCurrentGameCareerKey) ?? false;
+
+  @override
+  bool get autofollowThresholdAboveAsk => sharedPreferences.getBoolean(PrefConstants.autofollowThresholdAboveAskKey) ?? true;
 
   @override
   CyclistMovementType get cyclistMovement {
-    final value = sharedPreferences.getString(cyclistMovementKey) ?? '';
+    final value = sharedPreferences.getString(PrefConstants.cyclistMovementKey) ?? '';
     return CyclistMovementType.values.firstWhereOrNull((element) => element.toString() == value) ?? CyclistMovementType.normal;
   }
 
   @override
   CameraMovementType get cameraMovement {
-    final value = sharedPreferences.getString(cameraMovementKey) ?? '';
+    final value = sharedPreferences.getString(PrefConstants.cameraMovementKey) ?? '';
     return CameraMovementType.values.firstWhereOrNull((element) => element.toString() == value) ?? CameraMovementType.auto;
   }
 
   @override
   DifficultyType get difficulty {
-    final value = sharedPreferences.getString(difficultyKey) ?? '';
+    final value = sharedPreferences.getString(PrefConstants.difficultyKey) ?? '';
     return DifficultyType.values.firstWhereOrNull((element) => element.toString() == value) ?? DifficultyType.normal;
   }
 
   @override
   Results? get tourResults {
-    final value = sharedPreferences.getString(tourResultsKey);
+    final value = sharedPreferences.getString(PrefConstants.tourResultsKey);
     if (value == null) return null;
     final jerseys = value.split(',');
     return Results(ResultsType.combined, null, int.tryParse(jerseys[0]), int.tryParse(jerseys[1]), int.tryParse(jerseys[2]));
@@ -165,7 +152,7 @@ class AppLocalStorage implements LocalStorage {
 
   @override
   Map<int, String> get cyclistNames =>
-      sharedPreferences.getString(cyclistNamesKey)?.split(',').asMap().map((key, value) {
+      sharedPreferences.getString(PrefConstants.cyclistNamesKey)?.split(',').asMap().map((key, value) {
         final element = value.split('.');
         return MapEntry(int.parse(element[0]), utf8.decode(base64Decode(element[1])));
       }) ??
@@ -173,7 +160,7 @@ class AppLocalStorage implements LocalStorage {
 
   @override
   PlaySettings? get playSettings {
-    final settings = sharedPreferences.getString(playSettingsKey);
+    final settings = sharedPreferences.getString(PrefConstants.playSettingsKey);
     if (settings == null) return null;
     return PlaySettings.fromJson(settings);
   }
@@ -182,88 +169,88 @@ class AppLocalStorage implements LocalStorage {
 
   @override
   Future<bool> checkForNewInstallation() async {
-    final result = sharedPreferences.getBoolean(uninstallCheckKey);
+    final result = sharedPreferences.getBoolean(PrefConstants.uninstallCheckKey);
     if (result != null) return false;
-    await sharedPreferences.saveBoolean(key: uninstallCheckKey, value: true);
+    await sharedPreferences.saveBoolean(key: PrefConstants.uninstallCheckKey, value: true);
     await authStorage.clear();
     return true;
   }
 
   @override
-  Future<bool> isDataLoaded() async {
-    final result = sharedPreferences.getBoolean(dataLoadedCheckKey);
+  Future<bool> checkIfDataIsLoaded() async {
+    final result = sharedPreferences.getBoolean(PrefConstants.dataLoadedCheckKey);
     if (result != null) return false;
     return true;
   }
 
   @override
   Future<void> updateThemeMode(ThemeMode themeMode) async {
-    await sharedPreferences.saveString(key: appearanceThemeKey, value: themeMode.toString());
+    await sharedPreferences.saveString(key: PrefConstants.appearanceThemeKey, value: themeMode.toString());
   }
 
   @override
   ThemeMode getThemeMode() {
-    final themeString = sharedPreferences.getString(appearanceThemeKey);
+    final themeString = sharedPreferences.getString(PrefConstants.appearanceThemeKey);
     final theme = ThemeMode.values.find((element) => element.toString() == themeString);
     return theme ?? ThemeMode.system;
   }
 
   @override
-  set autofollowThreshold(int value) => sharedPreferences.saveInt(key: autofollowThresholdKey, value: value);
+  set autofollowThreshold(int value) => sharedPreferences.saveInt(key: PrefConstants.autofollowThresholdKey, value: value);
 
   @override
-  set completedRaces(int value) => sharedPreferences.saveInt(key: completedRacesKey, value: value);
+  set completedRaces(int value) => sharedPreferences.saveInt(key: PrefConstants.completedRacesKey, value: value);
 
   @override
-  set autofollowThresholdBelowAsk(bool value) => sharedPreferences.saveBoolean(key: autofollowThresholdBelowAskKey, value: value);
+  set autofollowThresholdBelowAsk(bool value) => sharedPreferences.saveBoolean(key: PrefConstants.autofollowThresholdBelowAskKey, value: value);
 
   @override
-  set isCurrentGameTour(bool value) => sharedPreferences.saveBoolean(key: isCurrentGameTourKey, value: value);
+  set isCurrentGameTour(bool value) => sharedPreferences.saveBoolean(key: PrefConstants.isCurrentGameTourKey, value: value);
 
   @override
-  set isCurrentGameCareer(bool value) => sharedPreferences.saveBoolean(key: isCurrentGameCareerKey, value: value);
+  set isCurrentGameCareer(bool value) => sharedPreferences.saveBoolean(key: PrefConstants.isCurrentGameCareerKey, value: value);
 
   @override
-  set autofollowThresholdAboveAsk(bool value) => sharedPreferences.saveBoolean(key: autofollowThresholdAboveAskKey, value: value);
+  set autofollowThresholdAboveAsk(bool value) => sharedPreferences.saveBoolean(key: PrefConstants.autofollowThresholdAboveAskKey, value: value);
 
   @override
-  set cyclistMovement(CyclistMovementType value) => sharedPreferences.saveString(key: cyclistMovementKey, value: value.toString());
+  set cyclistMovement(CyclistMovementType value) => sharedPreferences.saveString(key: PrefConstants.cyclistMovementKey, value: value.toString());
 
   @override
-  set cameraMovement(CameraMovementType value) => sharedPreferences.saveString(key: cameraMovementKey, value: value.toString());
+  set cameraMovement(CameraMovementType value) => sharedPreferences.saveString(key: PrefConstants.cameraMovementKey, value: value.toString());
 
   @override
-  set difficulty(DifficultyType value) => sharedPreferences.saveString(key: difficultyKey, value: value.toString());
+  set difficulty(DifficultyType value) => sharedPreferences.saveString(key: PrefConstants.difficultyKey, value: value.toString());
 
   @override
-  int get toursFinished => sharedPreferences.getInt(toursFinishedKey) ?? 0;
+  int get toursFinished => sharedPreferences.getInt(PrefConstants.toursFinishedKey) ?? 0;
 
   @override
   Set<TutorialType> get typesViewed =>
-      sharedPreferences.getString(typesViewedKey)?.split(',').map((e) => TutorialType.values.firstWhere((element) => element.toString() == e)).toSet() ?? <TutorialType>{};
+      sharedPreferences.getString(PrefConstants.typesViewedKey)?.split(',').map((e) => TutorialType.values.firstWhere((element) => element.toString() == e)).toSet() ?? <TutorialType>{};
 
   @override
-  set toursFinished(int value) => sharedPreferences.saveInt(key: toursFinishedKey, value: value);
+  set toursFinished(int value) => sharedPreferences.saveInt(key: PrefConstants.toursFinishedKey, value: value);
 
   @override
-  set typesViewed(Set<TutorialType> value) => sharedPreferences.saveString(key: typesViewedKey, value: value.map((e) => e.toString()).join(','));
+  set typesViewed(Set<TutorialType> value) => sharedPreferences.saveString(key: PrefConstants.typesViewedKey, value: value.map((e) => e.toString()).join(','));
 
   @override
   void setCyclistNames(Map<int, String> names) {
     final encodedNames = names.entries.map((e) => '${e.key}.${base64Encode(utf8.encode(e.value))}').join(',');
-    sharedPreferences.saveString(key: cyclistNamesKey, value: encodedNames);
+    sharedPreferences.saveString(key: PrefConstants.cyclistNamesKey, value: encodedNames);
   }
 
   @override
   void setTourResults(Results results) {
-    sharedPreferences.saveString(key: tourResultsKey, value: '${results.whiteJersey},${results.greenJersey},${results.bouledJersey}');
+    sharedPreferences.saveString(key: PrefConstants.tourResultsKey, value: '${results.whiteJersey},${results.greenJersey},${results.bouledJersey}');
   }
 
   @override
   void clearTour() {
-    sharedPreferences.removeValue(key: tourResultsKey);
-    sharedPreferences.removeValue(key: playSettingsKey);
-    sharedPreferences.removeValue(key: completedRacesKey);
+    sharedPreferences.removeValue(key: PrefConstants.tourResultsKey);
+    sharedPreferences.removeValue(key: PrefConstants.playSettingsKey);
+    sharedPreferences.removeValue(key: PrefConstants.completedRacesKey);
   }
 
   @override
@@ -296,16 +283,16 @@ class AppLocalStorage implements LocalStorage {
   @override
   void setPlaySettings(PlaySettings? settings) {
     if (settings == null) {
-      sharedPreferences.deleteKey(playSettingsKey);
+      sharedPreferences.deleteKey(PrefConstants.playSettingsKey);
       return;
     }
-    sharedPreferences.saveString(key: playSettingsKey, value: settings.toJson());
+    sharedPreferences.saveString(key: PrefConstants.playSettingsKey, value: settings.toJson());
   }
 
   @override
-  int get eventsCompleted => sharedPreferences.getInt(eventsCompletedKey) ?? 0;
+  int get eventsCompleted => sharedPreferences.getInt(PrefConstants.eventsCompletedKey) ?? 0;
 
   @override
-  set eventsCompleted(int value) => sharedPreferences.saveInt(key: eventsCompletedKey, value: value);
+  set eventsCompleted(int value) => sharedPreferences.saveInt(key: PrefConstants.eventsCompletedKey, value: value);
   
 }

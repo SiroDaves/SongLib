@@ -5,7 +5,6 @@ import 'architecture.dart';
 import 'di/environments.dart';
 import 'di/injectable.dart';
 import 'main_common.dart';
-import 'util/api/api_constants.dart';
 import 'util/env/flavor_config.dart';
 
 Future<void> main() async {

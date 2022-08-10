@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../../model/webservice/books_response.dart';
-import '../../util/api/api_constants.dart';
+import '../../util/constants/api_constants.dart';
 import 'book_service.dart';
 
 part 'book_webservice.g.dart';

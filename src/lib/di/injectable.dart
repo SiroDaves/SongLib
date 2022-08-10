@@ -11,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../database/songlib_database.dart';
 import '../repository/secure_storage/secure_storage.dart';
-import '../util/api/api_constants.dart';
+import '../util/constants/api_constants.dart';
 import '../util/env/flavor_config.dart';
 import '../util/interceptor/network_auth_interceptor.dart';
 import '../util/interceptor/network_error_interceptor.dart';

@@ -7,6 +7,7 @@ import '../model/base/selectable.dart';
 import '../model/base/song.dart';
 import '../repository/selection_repository.dart';
 import '../repository/shared_prefs/local_storage.dart';
+import '../util/constants/pref_constants.dart';
 
 @injectable
 class SelectionVm with ChangeNotifierEx {
@@ -61,17 +62,33 @@ class SelectionVm with ChangeNotifierEx {
     // ignore: avoid_print
     print('Selected books: $selectedBooks');
 
-    localStorage.setPreferenceString(localStorage.selectedBooks, selectedBooks);
-    //fetchSongs();
+    localStorage.setPreferenceString(PrefConstants.selectedBooksKey, selectedBooks);
+    await fetchSongs();
   }
 
   /// Get the list of songs
   Future<List<Song>?> fetchSongs() async {
+    isBusy = true;
+    notifyListeners();
+
     songs = await selectionRepo.fetchSongs(selectedBooks);
     return songs;
   }
+
+  /// Proceed to a saving songs data
+  Future<void> saveSongs() async {
+    for (int i = 0; i < songs!.length; i++) {
+      await selectionRepo.saveSong(songs![i]);
+    }
+
+    isBusy = false;
+    notifyListeners();
+
+    localStorage.setPreferenceBool(PrefConstants.dataLoadedCheckKey, true);
+    selectionNavigator.goToHome();
+  }
 }
 
-mixin SelectionNavigator {
+abstract class SelectionNavigator {
   void goToHome();
 }

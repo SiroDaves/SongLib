@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../../model/webservice/songs_response.dart';
-import '../../util/api/api_constants.dart';
+import '../../util/constants/api_constants.dart';
 import 'song_service.dart';
 
 part 'song_webservice.g.dart';

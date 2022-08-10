@@ -45,8 +45,8 @@ android {
 
     defaultConfig {
         applicationId "com.songlib"
-        minSdkVersion 18
-        targetSdkVersion 31
+        minSdkVersion 21
+        targetSdkVersion 33
         multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
