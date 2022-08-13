@@ -58,7 +58,7 @@ class SelectionScreenState extends State<SelectionScreen>
       builder: (BuildContext context, AsyncSnapshot<List<Book>?> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data!.isNotEmpty) {
-            return listContainer(snapshot.data!, viewModel);
+            return listContainer(viewModel);
           } else {
             return const NoDataToShow(
               title: AppConstants.errorOccurred,
@@ -77,16 +77,16 @@ class SelectionScreenState extends State<SelectionScreen>
     );
   }
 
-  Widget listContainer(List<Book>? books, SelectionVm viewModel) {
+  Widget listContainer(SelectionVm viewModel) {
     return Scrollbar(
       child: ListView.builder(
         padding: const EdgeInsets.all(5),
+        itemCount: viewModel.books!.length,
         itemBuilder: (context, index) => BookItem(
-          book: books![index],
-          selected: viewModel.listedBooks[index]!.isSelected,
+          book: viewModel.books![index],
+          //selected: viewModel.listedBooks[index]!.isSelected,
           onTap: () => viewModel.onBookSelected(index),
         ),
-        itemCount: books!.length,
         controller: viewModel.listScrollController,
       ),
     );

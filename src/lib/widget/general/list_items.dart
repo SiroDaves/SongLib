@@ -17,7 +17,7 @@ class BookItem extends StatelessWidget {
   const BookItem({
     Key? key,
     required this.book,
-    required this.selected,
+    this.selected = false,
     this.onTap,
   }) : super(key: key);
 

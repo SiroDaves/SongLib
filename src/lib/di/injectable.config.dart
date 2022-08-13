@@ -19,13 +19,13 @@ import '../db/dao/listed_dao_storage.dart' as _i16;
 import '../db/dao/search_dao_storage.dart' as _i17;
 import '../db/dao/song_dao_storage.dart' as _i18;
 import '../db/songlib_db.dart' as _i12;
-import '../repository/book_repository.dart' as _i41;
+import '../repository/book_repository.dart' as _i37;
 import '../repository/debug_repository.dart' as _i20;
 import '../repository/locale_repository.dart' as _i22;
 import '../repository/refresh_repository.dart' as _i24;
 import '../repository/secure_storage/auth_storage.dart' as _i19;
 import '../repository/secure_storage/secure_storage.dart' as _i10;
-import '../repository/selection_repository.dart' as _i39;
+import '../repository/selection_repository.dart' as _i38;
 import '../repository/shared_prefs/local_storage.dart' as _i21;
 import '../util/cache/cache_controller.dart' as _i4;
 import '../util/cache/cache_controlling.dart' as _i3;
@@ -37,16 +37,14 @@ import '../vm/global_vm.dart' as _i29;
 import '../vm/home/history_vm.dart' as _i30;
 import '../vm/home/home_vm.dart' as _i31;
 import '../vm/home/lists_vm.dart' as _i32;
-import '../vm/manage/selection_vm.dart' as _i40;
+import '../vm/manage/selection_vm.dart' as _i39;
 import '../vm/manage/settings_vm.dart' as _i25;
 import '../vm/songs/editor_vm.dart' as _i28;
 import '../vm/songs/viewer_vm.dart' as _i27;
 import '../vm/splash_vm.dart' as _i26;
-import '../webservice/book/book_service.dart' as _i37;
-import '../webservice/book/book_webservice.dart' as _i38;
-import '../webservice/song/song_service.dart' as _i35;
-import '../webservice/song/song_webservice.dart' as _i36;
-import 'injectable.dart' as _i42;
+import '../webservice/api_client.dart' as _i36;
+import '../webservice/web_service.dart' as _i35;
+import 'injectable.dart' as _i40;
 
 const String _dev = 'dev';
 const String _prod = 'prod';
@@ -120,20 +118,17 @@ Future<_i1.GetIt> $initGetIt(_i1.GetIt get,
           get<_i33.NetworkRefreshInterceptor>()));
   gh.lazySingleton<_i34.Dio>(
       () => registerModule.provideDio(get<_i5.CombiningSmartInterceptor>()));
-  gh.singleton<_i35.SongService>(_i36.SongWebService(get<_i34.Dio>()),
+  gh.singleton<_i35.WebService>(_i36.ApiClient(get<_i34.Dio>()),
       registerFor: {_dev, _prod});
-  gh.singleton<_i37.BookService>(_i38.BookWebService(get<_i34.Dio>()),
-      registerFor: {_dev, _prod});
-  gh.lazySingleton<_i39.SelectionRepository>(() => _i39.SelectionRepository(
-      get<_i37.BookService>(),
+  gh.lazySingleton<_i37.BookRepository>(() =>
+      _i37.BookRepository(get<_i13.BookDaoStorage>(), get<_i35.WebService>()));
+  gh.lazySingleton<_i38.SelectionRepository>(() => _i38.SelectionRepository(
       get<_i13.BookDaoStorage>(),
-      get<_i35.SongService>(),
-      get<_i18.SongDaoStorage>()));
-  gh.factory<_i40.SelectionVm>(() => _i40.SelectionVm(
-      get<_i39.SelectionRepository>(), get<_i21.LocalStorage>()));
-  gh.lazySingleton<_i41.BookRepository>(() =>
-      _i41.BookRepository(get<_i37.BookService>(), get<_i13.BookDaoStorage>()));
+      get<_i18.SongDaoStorage>(),
+      get<_i35.WebService>()));
+  gh.factory<_i39.SelectionVm>(() => _i39.SelectionVm(
+      get<_i38.SelectionRepository>(), get<_i21.LocalStorage>()));
   return get;
 }
 
-class _$RegisterModule extends _i42.RegisterModule {}
+class _$RegisterModule extends _i40.RegisterModule {}

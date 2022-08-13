@@ -1,19 +1,36 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'song_webservice.dart';
+part of 'api_client.dart';
 
 // **************************************************************************
 // RetrofitGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _SongWebService implements SongWebService {
-  _SongWebService(this._dio, {this.baseUrl});
+class _ApiClient implements ApiClient {
+  _ApiClient(this._dio, {this.baseUrl});
 
   final Dio _dio;
 
   String? baseUrl;
+
+  @override
+  Future<BooksResponse> getBooksResponse(
+      {where = '{"enabled":true}', order = 'position'}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'where': where, r'order': order};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<BooksResponse>(
+            Options(method: 'GET', headers: _headers, extra: _extra)
+                .compose(_dio.options, 'Book',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = BooksResponse.fromJson(_result.data!);
+    return value;
+  }
 
   @override
   Future<SongsResponse> getSongsResponse(where,

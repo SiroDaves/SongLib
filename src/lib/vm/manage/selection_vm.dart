@@ -9,7 +9,6 @@ import '../../repository/selection_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
 import '../../util/constants/pref_constants.dart';
 
-
 @injectable
 class SelectionVm with ChangeNotifierEx {
   late final SelectionNavigator selectionNavigator;
@@ -45,7 +44,10 @@ class SelectionVm with ChangeNotifierEx {
   /// Get the list of books
   Future<List<Book>?> fetchBooks() async {
     books = await selectionRepo.fetchBooks();
-    return books;
+    if (books!.isNotEmpty) {
+      return books;
+    }
+    return null;
   }
 
   /// Proceed to a saving books data
@@ -63,7 +65,8 @@ class SelectionVm with ChangeNotifierEx {
     // ignore: avoid_print
     print('Selected books: $selectedBooks');
 
-    localStorage.setPreferenceString(PrefConstants.selectedBooksKey, selectedBooks);
+    localStorage.setPreferenceString(
+        PrefConstants.selectedBooksKey, selectedBooks);
     await fetchSongs();
   }
 

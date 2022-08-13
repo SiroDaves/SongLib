@@ -2,14 +2,14 @@ import 'package:injectable/injectable.dart';
 
 import '../db/dao/book_dao_storage.dart';
 import '../model/base/book.dart';
-import '../webservice/book/book_service.dart';
+import '../webservice/web_service.dart';
 
 @lazySingleton
 abstract class BookRepository {
   @factoryMethod
   factory BookRepository(
-    BookService service,
     BookDaoStorage storage,
+    WebService service,
   ) = BookRepo;
 
   Future<List<Book>> fetchBooks();
@@ -19,14 +19,14 @@ abstract class BookRepository {
 
 class BookRepo implements BookRepository {
   final BookDaoStorage bookDao;
-  final BookService bookService;
+  final WebService webService;
 
-  BookRepo(this.bookService, this.bookDao);
+  BookRepo(this.bookDao, this.webService);
 
   @override
   Future<List<Book>> fetchBooks() async {
     List<Book> books = [];
-    final response = await bookService.getBooksResponse();
+    final response = await webService.getBooksResponse();
     /*for (final book in results!) {
       await bookDao.createBook(book);
     }*/

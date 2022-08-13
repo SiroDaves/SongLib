@@ -4,17 +4,15 @@ import '../db/dao/book_dao_storage.dart';
 import '../db/dao/song_dao_storage.dart';
 import '../model/base/book.dart';
 import '../model/base/song.dart';
-import '../webservice/book/book_service.dart';
-import '../webservice/song/song_service.dart';
+import '../webservice/web_service.dart';
 
 @lazySingleton
 abstract class SelectionRepository {
   @factoryMethod
   factory SelectionRepository(
-    BookService bookService,
     BookDaoStorage bookStorage,
-    SongService songService,
     SongDaoStorage songStorage,
+    WebService webService,
   ) = SelectionRepo;
 
   Future<List<Book>> fetchBooks();
@@ -28,20 +26,15 @@ abstract class SelectionRepository {
 
 class SelectionRepo implements SelectionRepository {
   final BookDaoStorage bookDao;
-  final BookService bookService;
   final SongDaoStorage songDao;
-  final SongService songService;
+  final WebService webService;
 
-  SelectionRepo(this.bookService, this.bookDao, this.songService, this.songDao);
+  SelectionRepo(this.bookDao, this.songDao, this.webService);
 
   @override
   Future<List<Book>> fetchBooks() async {
-    List<Book> books = [];
-    final response = await bookService.getBooksResponse();
-    if (response != null) {
-      books = response.results!;
-    }
-    return books;
+    final response = await webService.getBooksResponse();
+    return response!.results!;
   }
 
   @override
@@ -52,7 +45,7 @@ class SelectionRepo implements SelectionRepository {
   @override
   Future<List<Song>> fetchSongs(String selectedBooks) async {
     List<Song> songs = [];
-    final response = await songService.getSongsResponse(
+    final response = await webService.getSongsResponse(
       '{"book":{"\$in":[$selectedBooks]}}',
     );
     if (response != null) {
