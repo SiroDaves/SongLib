@@ -89,7 +89,7 @@ flutter:
 
 locale_gen:
   default_language: 'en'
-  languages: ['en', 'nl', 'fr', 'es']
+  languages: ['en', 'fr', 'es']
   locale_assets_path: 'assets/locale/'
   assets_path: 'assets/locale/'
   output_path: 'lib/util/locale/'
