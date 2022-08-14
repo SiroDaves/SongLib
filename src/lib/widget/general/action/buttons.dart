@@ -2,9 +2,59 @@ import 'package:flutter/material.dart';
 
 import '../../../theme/theme_colors.dart';
 
+class SimpleButton extends StatelessWidget {
+  final String? title;
+  final Function()? onPressed;
+  final Color? txColor;
+  final Color? bgColor;
+  final double ftSize;
+  final double bdRadius;
+  final EdgeInsetsGeometry cPadding;
+
+  const SimpleButton({
+    Key? key,
+    required this.title,
+    required this.onPressed,
+    this.txColor = Colors.white,
+    this.bgColor = ThemeColors.primary,
+    this.ftSize = 20,
+    this.bdRadius = 5,
+    this.cPadding = const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: onPressed,
+      child: Container(
+        padding: cPadding,
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: BorderRadius.all(
+            Radius.circular(bdRadius),
+          ),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.grey,
+              spreadRadius: 1,
+              blurRadius: 1,
+              offset: Offset(0, 1),
+            ),
+          ],
+        ),
+        child: Text(
+          title!,
+          style: TextStyle(fontSize: ftSize, color: txColor),
+          maxLines: 2,
+        ),
+      ),
+    );
+  }
+}
+
 class SubmitButton extends StatelessWidget {
   final String? title;
-  final Function()? onTap;
+  final Function()? onPressed;
   final Icon? icon;
   final Color? txColor;
   final Color? bgColor;
@@ -18,10 +68,10 @@ class SubmitButton extends StatelessWidget {
   const SubmitButton({
     Key? key,
     required this.title,
-    required this.onTap,
+    required this.onPressed,
     this.icon,
     this.txColor = Colors.white,
-    this.bgColor = ThemeColors.accent,
+    this.bgColor = ThemeColors.primary,
     this.bdColor = Colors.white,
     this.isActive = true,
     this.ftSize = 16,
@@ -36,7 +86,7 @@ class SubmitButton extends StatelessWidget {
       margin: cMargin,
       //padding: cMargin,
       child: InkWell(
-        onTap: isActive! ? onTap : null,
+        onTap: isActive! ? onPressed : null,
         child: Container(
           decoration: BoxDecoration(
             color: bgColor,

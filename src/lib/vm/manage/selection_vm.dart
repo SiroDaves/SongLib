@@ -45,6 +45,9 @@ class SelectionVm with ChangeNotifierEx {
   Future<List<Book>?> fetchBooks() async {
     books = await selectionRepo.fetchBooks();
     if (books!.isNotEmpty) {
+      for (int i = 0; i < books!.length; i++) {
+        listedBooks.add(Selectable<Book>(books![i]));
+      }
       return books;
     }
     return null;
@@ -65,30 +68,26 @@ class SelectionVm with ChangeNotifierEx {
     // ignore: avoid_print
     print('Selected books: $selectedBooks');
 
-    localStorage.setPreferenceString(
-        PrefConstants.selectedBooksKey, selectedBooks);
-    await fetchSongs();
+    localStorage.setPrefString(PrefConstants.selectedBooksKey, selectedBooks);
+    await fetchSaveSongs();
   }
 
-  /// Get the list of songs
-  Future<List<Song>?> fetchSongs() async {
+  /// Get the list of songs and save theme
+  Future<void> fetchSaveSongs() async {
     isBusy = true;
     notifyListeners();
 
     songs = await selectionRepo.fetchSongs(selectedBooks);
-    return songs;
-  }
-
-  /// Proceed to a saving songs data
-  Future<void> saveSongs() async {
-    for (int i = 0; i < songs!.length; i++) {
-      await selectionRepo.saveSong(songs![i]);
+    if (songs!.isNotEmpty) {
+      for (int i = 0; i < songs!.length; i++) {
+        await selectionRepo.saveSong(songs![i]);
+      }
     }
 
     isBusy = false;
     notifyListeners();
 
-    localStorage.setPreferenceBool(PrefConstants.dataLoadedCheckKey, true);
+    localStorage.setPrefBool(PrefConstants.dataLoadedCheckKey, true);
     selectionNavigator.goToHome();
   }
 }

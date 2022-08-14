@@ -4,12 +4,12 @@ import 'package:injectable/injectable.dart';
 import '../../repository/shared_prefs/local_storage.dart';
 
 @injectable
-class ViewerVm with ChangeNotifierEx {
+class PresentorVm with ChangeNotifierEx {
   final LocalStorage localStorage;
 
-  ViewerVm(this.localStorage);
+  PresentorVm(this.localStorage);
 
-  Future<void> init(ViewerNavigator navigator) async {
+  Future<void> init(PresentorNavigator navigator) async {
     final isLoaded = await localStorage.checkIfDataIsLoaded();
     await Future.delayed(const Duration(seconds: 3), () {});
     if (isLoaded) return navigator.goToSelection();
@@ -17,7 +17,7 @@ class ViewerVm with ChangeNotifierEx {
   }
 }
 
-abstract class ViewerNavigator {
+abstract class PresentorNavigator {
   void goToHome();
 
   void goToSelection();

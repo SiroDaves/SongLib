@@ -13,9 +13,9 @@ abstract class SearchDaoStorage {
   @factoryMethod
   factory SearchDaoStorage(SongLibDb db) = _SearchDaoStorage;
 
-  Stream<List<DbSearch>> getAllSearchsStream();
+  Stream<List<DbSearch>> getAllSearchesStream();
 
-  Future<List<Search>> getAllSearchs();
+  Future<List<Search>> getAllSearches();
 
   Future<void> createSearch(Search search);
 }
@@ -29,7 +29,7 @@ class _SearchDaoStorage extends DatabaseAccessor<SongLibDb>
   _SearchDaoStorage(SongLibDb db) : super(db);
 
   @override
-  Future<List<Search>> getAllSearchs() async {
+  Future<List<Search>> getAllSearches() async {
     List<DbSearch> dbSearchs = await select(db.dbSearchTable).get();
     List<Search> searchs = [];
 
@@ -47,7 +47,7 @@ class _SearchDaoStorage extends DatabaseAccessor<SongLibDb>
   }
 
   @override
-  Stream<List<DbSearch>> getAllSearchsStream() => select(db.dbSearchTable).watch();
+  Stream<List<DbSearch>> getAllSearchesStream() => select(db.dbSearchTable).watch();
 
   @override
   Future<void> createSearch(Search search) => into(db.dbSearchTable).insert(

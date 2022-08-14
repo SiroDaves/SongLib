@@ -6,6 +6,7 @@ import '../../navigator/main_navigator.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
 import '../../vm/manage/selection_vm.dart';
+import '../../widget/general/action/buttons.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
 import '../../widget/general/loaders/circular_progress.dart';
@@ -84,7 +85,7 @@ class SelectionScreenState extends State<SelectionScreen>
         itemCount: viewModel.books!.length,
         itemBuilder: (context, index) => BookItem(
           book: viewModel.books![index],
-          //selected: viewModel.listedBooks[index]!.isSelected,
+          selected: viewModel.listedBooks[index]!.isSelected,
           onTap: () => viewModel.onBookSelected(index),
         ),
         controller: viewModel.listScrollController,
@@ -94,7 +95,62 @@ class SelectionScreenState extends State<SelectionScreen>
 
   Future<void> areYouDoneDialog(
       BuildContext context, SelectionVm viewModel) async {
-    if (viewModel.selectables.isNotEmpty) {}
+    if (viewModel.selectables.isNotEmpty) {
+      return showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text(
+            AppConstants.doneSelecting,
+            style: TextStyle(
+              fontSize: 22,
+              color: ThemeColors.primaryDark,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: const Text(
+            AppConstants.doneSelectingBody,
+            style: TextStyle(fontSize: 18),
+          ),
+          actions: <Widget>[
+            SimpleButton(
+              title: AppConstants.cancel,
+              onPressed: () => Navigator.pop(context),
+            ),
+            SimpleButton(
+              title: AppConstants.proceed,
+              onPressed: () {
+                Navigator.pop(context);
+                viewModel.saveBooks();
+              },
+            ),
+          ],
+        ),
+      );
+    } else {
+      return showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text(
+            AppConstants.noSelection,
+            style: TextStyle(
+              fontSize: 22,
+              color: ThemeColors.primaryDark,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: const Text(
+            AppConstants.noSelectionBody,
+            style: TextStyle(fontSize: 18),
+          ),
+          actions: <Widget>[
+            SimpleButton(
+              title: AppConstants.okay,
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   @override

@@ -43,7 +43,7 @@ class AppConstants {
   static const justAMinute = "Just a minute!";
   static const doneSelecting = "Done with selecting?";
   static const doneSelectingBody =
-      "If you are done selecting please proceed ahead. We can always bring you back to reselect.";
+      "If you are done selecting please proceed ahead. We can always bring you back here to reselect afresh.";
   static const noSelection = "Oops! No selection found";
   static const noSelectionBody =
       "Please select at least 1 book to proceed to the next step.";

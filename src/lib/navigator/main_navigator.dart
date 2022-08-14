@@ -13,10 +13,7 @@ import 'main_navigation.dart';
 class MainNavigatorWidget extends StatefulWidget {
   final Widget? child;
 
-  const MainNavigatorWidget({
-    this.child,
-    Key? key,
-  }) : super(key: key);
+  const MainNavigatorWidget({this.child, Key? key}) : super(key: key);
 
   @override
   MainNavigatorWidgetState createState() => MainNavigatorWidgetState();
@@ -52,7 +49,7 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
 
   static List<NavigatorObserver> get navigatorObservers => _navigatorObservers;
 
-  NavigatorState get _navigator => _navigationKey.currentState!;
+  NavigatorState get navigator => _navigationKey.currentState!;
 
   @override
   Widget build(BuildContext context) {
@@ -92,27 +89,27 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
   }
 
   @override
-  void goToSplash() => _navigator.pushReplacementNamed(SplashScreen.routeName);
+  void goToSplash() => navigator.pushReplacementNamed(SplashScreen.routeName);
 
   @override
-  void goToHome() => _navigator.pushNamedAndRemoveUntil(
+  void goToSelection() => navigator.pushReplacementNamed(SelectionScreen.routeName);
+
+  @override
+  void goToHome() => navigator.pushNamedAndRemoveUntil(
         HomeScreen.routeName,
         (route) => false,
       );
 
   @override
-  void closeDialog() => _navigator.pop();
+  void closeDialog() => navigator.pop();
 
   @override
-  void goToSelection() => _navigator.pushNamed(SelectionScreen.routeName);
-
-  @override
-  void goToDatabase(GeneratedDatabase db) => _navigator.push<MaterialPageRoute>(
+  void goToDatabase(GeneratedDatabase db) => navigator.push<MaterialPageRoute>(
         MaterialPageRoute(builder: (context) => DriftDbViewer(db)),
       );
 
   @override
-  void goBack<T>({T? result}) => _navigator.pop(result);
+  void goBack<T>({T? result}) => navigator.pop(result);
 
   @override
   Future<T?> showCustomDialog<T>({required WidgetBuilder builder}) =>

@@ -12,26 +12,6 @@ abstract class LocalStorage {
           AuthStorage storage, SharedPreferenceStorage preferences) =
       AppLocalStorage;
 
-  int get autofollowThreshold;
-
-  bool get isDataLoaded;
-
-  bool get autofollowThresholdBelowAsk;
-
-  bool get autofollowThresholdAboveAsk;
-
-  String get selectedBooks;
-
-  set autofollowThreshold(int value);
-
-  set autofollowThresholdBelowAsk(bool value);
-
-  set isCurrentGameTour(bool value);
-
-  set isCurrentGameCareer(bool value);
-
-  set autofollowThresholdAboveAsk(bool value);
-
   Future<bool> checkForNewInstallation();
 
   Future<bool> checkIfDataIsLoaded();
@@ -40,55 +20,20 @@ abstract class LocalStorage {
 
   Future<void> updateThemeMode(ThemeMode themeMode);
 
-  void setPreferenceBool(String settingsKey, bool settingsValue);
-  void setPreferenceInt(String settingsKey, int settingsValue);
-  void setPreferenceString(String settingsKey, String settingsValue);
+  bool getPrefBool(String settingsKey);
+  int getPrefInt(String settingsKey);
+  String getPrefString(String settingsKey);
 
-  int get eventsCompleted;
+  void setPrefBool(String settingsKey, bool settingsValue);
+  void setPrefInt(String settingsKey, int settingsValue);
+  void setPrefString(String settingsKey, String settingsValue);
+
   void clearData();
-  set eventsCompleted(int value);
 }
 
 class AppLocalStorage implements LocalStorage {
   final AuthStorage authStorage;
   final SharedPreferenceStorage sharedPreferences;
-
-  @override
-  int get autofollowThreshold =>
-      sharedPreferences.getInt(PrefConstants.autofollowThresholdKey) ?? 7;
-
-  @override
-  int get completedRaces =>
-      sharedPreferences.getInt(PrefConstants.completedRacesKey) ?? 0;
-
-  @override
-  String get selectedBooks =>
-      sharedPreferences.getString(PrefConstants.selectedBooksKey) ?? '';
-
-  @override
-  bool get isDataLoaded =>
-      sharedPreferences.getBoolean(PrefConstants.dataLoadedCheckKey) ?? false;
-
-  @override
-  bool get autofollowThresholdBelowAsk =>
-      sharedPreferences
-          .getBoolean(PrefConstants.autofollowThresholdBelowAskKey) ??
-      true;
-
-  @override
-  bool get isCurrentGameTour =>
-      sharedPreferences.getBoolean(PrefConstants.isCurrentGameTourKey) ?? false;
-
-  @override
-  bool get isCurrentGameCareer =>
-      sharedPreferences.getBoolean(PrefConstants.isCurrentGameCareerKey) ??
-      false;
-
-  @override
-  bool get autofollowThresholdAboveAsk =>
-      sharedPreferences
-          .getBoolean(PrefConstants.autofollowThresholdAboveAskKey) ??
-      true;
 
   AppLocalStorage(this.authStorage, this.sharedPreferences);
 
@@ -127,30 +72,6 @@ class AppLocalStorage implements LocalStorage {
   }
 
   @override
-  set autofollowThreshold(int value) => sharedPreferences.saveInt(
-      key: PrefConstants.autofollowThresholdKey, value: value);
-
-  @override
-  set completedRaces(int value) => sharedPreferences.saveInt(
-      key: PrefConstants.completedRacesKey, value: value);
-
-  @override
-  set autofollowThresholdBelowAsk(bool value) => sharedPreferences.saveBoolean(
-      key: PrefConstants.autofollowThresholdBelowAskKey, value: value);
-
-  @override
-  set isCurrentGameTour(bool value) => sharedPreferences.saveBoolean(
-      key: PrefConstants.isCurrentGameTourKey, value: value);
-
-  @override
-  set isCurrentGameCareer(bool value) => sharedPreferences.saveBoolean(
-      key: PrefConstants.isCurrentGameCareerKey, value: value);
-
-  @override
-  set autofollowThresholdAboveAsk(bool value) => sharedPreferences.saveBoolean(
-      key: PrefConstants.autofollowThresholdAboveAskKey, value: value);
-
-  @override
   void clearData() {
     sharedPreferences.removeValue(key: PrefConstants.tourResultsKey);
     sharedPreferences.removeValue(key: PrefConstants.playSettingsKey);
@@ -158,7 +79,22 @@ class AppLocalStorage implements LocalStorage {
   }
 
   @override
-  void setPreferenceBool(String settingsKey, bool settingsValue) {
+  bool getPrefBool(String settingsKey) {
+    return sharedPreferences.getBoolean(settingsKey) ?? false;
+  }
+
+  @override
+  int getPrefInt(String settingsKey) {
+    return sharedPreferences.getInt(settingsKey) ?? 0;
+  }
+
+  @override
+  String getPrefString(String settingsKey) {
+    return sharedPreferences.getString(settingsKey) ?? '';
+  }
+
+  @override
+  void setPrefBool(String settingsKey, bool settingsValue) {
     if (!settingsValue) {
       sharedPreferences.deleteKey(settingsKey);
       return;
@@ -167,7 +103,7 @@ class AppLocalStorage implements LocalStorage {
   }
 
   @override
-  void setPreferenceInt(String settingsKey, int settingsValue) {
+  void setPrefInt(String settingsKey, int settingsValue) {
     if (settingsValue.isNegative) {
       sharedPreferences.deleteKey(settingsKey);
       return;
@@ -176,7 +112,7 @@ class AppLocalStorage implements LocalStorage {
   }
 
   @override
-  void setPreferenceString(String settingsKey, String settingsValue) {
+  void setPrefString(String settingsKey, String settingsValue) {
     if (settingsValue.isEmpty) {
       sharedPreferences.deleteKey(settingsKey);
       return;
@@ -184,11 +120,4 @@ class AppLocalStorage implements LocalStorage {
     sharedPreferences.saveString(key: settingsKey, value: settingsValue);
   }
 
-  @override
-  int get eventsCompleted =>
-      sharedPreferences.getInt(PrefConstants.eventsCompletedKey) ?? 0;
-
-  @override
-  set eventsCompleted(int value) => sharedPreferences.saveInt(
-      key: PrefConstants.eventsCompletedKey, value: value);
 }

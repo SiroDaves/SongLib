@@ -44,14 +44,10 @@ class SelectionRepo implements SelectionRepository {
 
   @override
   Future<List<Song>> fetchSongs(String selectedBooks) async {
-    List<Song> songs = [];
     final response = await webService.getSongsResponse(
-      '{"book":{"\$in":[$selectedBooks]}}',
+      '{"book":{"\$in":[$selectedBooks]}}'
     );
-    if (response != null) {
-      songs = response.results!;
-    }
-    return songs;
+    return response!.results!;
   }
 
   @override

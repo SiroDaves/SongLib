@@ -6,25 +6,25 @@ import '../../navigator/route_names.dart';
 import '../../theme/theme_assets.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
-import '../../vm/songs/viewer_vm.dart';
+import '../../vm/songs/presentor_vm.dart';
 import '../../widget/provider/provider_widget.dart';
 
-class ViewerScreen extends StatefulWidget {
+class PresentorScreen extends StatefulWidget {
   static const String routeName = RouteNames.viewerScreen;
 
-  const ViewerScreen({
+  const PresentorScreen({
     Key? key,
   }) : super(key: key);
 
   @override
-  ViewerScreenState createState() => ViewerScreenState();
+  PresentorScreenState createState() => PresentorScreenState();
 }
 
 @visibleForTesting
-class ViewerScreenState extends State<ViewerScreen> implements ViewerNavigator {
+class PresentorScreenState extends State<PresentorScreen> implements PresentorNavigator {
   @override
   Widget build(BuildContext context) {
-    return ProviderWidget<ViewerVm>(
+    return ProviderWidget<PresentorVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) => Scaffold(
