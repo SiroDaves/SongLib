@@ -15,9 +15,7 @@ import 'tabs/search_tab.dart';
 class HomeScreen extends StatefulWidget {
   static const String routeName = RouteNames.homeScreen;
 
-  const HomeScreen({
-    Key? key,
-  }) : super(key: key);
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   HomeScreenState createState() => HomeScreenState();
@@ -38,7 +36,7 @@ class HomeScreenState extends State<HomeScreen> implements HomeNavigator {
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) => Scaffold(
         body: Swiper(
-          index: 0,
+          index: 1,
           itemBuilder: (context, index) {
             return appPages[index];
           },

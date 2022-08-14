@@ -4,7 +4,7 @@ import '../../../model/base/book.dart';
 import '../../../model/base/song.dart';
 import '../../../theme/theme_colors.dart';
 import '../../../widget/general/list_items.dart';
-import '../../../widget/general/search/search_widget.dart';
+import '../../../widget/search/search_widget.dart';
 
 class Tab2Search extends StatelessWidget {
   final List<Book>? books;

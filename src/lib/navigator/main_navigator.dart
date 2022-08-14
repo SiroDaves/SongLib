@@ -1,5 +1,3 @@
-import 'package:drift/drift.dart';
-import 'package:drift_db_viewer/drift_db_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 
@@ -92,7 +90,8 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
   void goToSplash() => navigator.pushReplacementNamed(SplashScreen.routeName);
 
   @override
-  void goToSelection() => navigator.pushReplacementNamed(SelectionScreen.routeName);
+  void goToSelection() =>
+      navigator.pushReplacementNamed(SelectionScreen.routeName);
 
   @override
   void goToHome() => navigator.pushNamedAndRemoveUntil(
@@ -102,11 +101,6 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
 
   @override
   void closeDialog() => navigator.pop();
-
-  @override
-  void goToDatabase(GeneratedDatabase db) => navigator.push<MaterialPageRoute>(
-        MaterialPageRoute(builder: (context) => DriftDbViewer(db)),
-      );
 
   @override
   void goBack<T>({T? result}) => navigator.pop(result);

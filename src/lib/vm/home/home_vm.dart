@@ -6,20 +6,19 @@ import '../../model/base/book.dart';
 import '../../model/base/draft.dart';
 import '../../model/base/listed.dart';
 import '../../model/base/song.dart';
-import '../../repository/home_repository.dart';
+import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
 import '../../util/constants/pref_constants.dart';
-import '../../widget/general/action/buttons.dart';
 import '../../widget/general/inputs.dart';
 
 @injectable
 class HomeVm with ChangeNotifierEx {
-  final HomeRepository homeRepo;
+  final DbRepository db;
   final LocalStorage localStorage;
 
-  HomeVm(this.homeRepo, this.localStorage);
+  HomeVm(this.db, this.localStorage);
 
   final ScrollController listsScroller =
       ScrollController(initialScrollOffset: 0);
@@ -53,6 +52,7 @@ class HomeVm with ChangeNotifierEx {
     selectedBooks = localStorage.getPrefString(PrefConstants.selectedBooksKey);
     var bookNos = selectedBooks.split(",");
     mainBook = int.parse(bookNos[0]);
+    await fetchSongData();
   }
 
   /// Get the songs data
@@ -60,11 +60,11 @@ class HomeVm with ChangeNotifierEx {
     isBusy = true;
     notifyListeners();
 
-    books = await homeRepo.fetchBooks();
-    //likes = await songDao!.getLikedSongs();
-    drafts = await homeRepo.fetchDrafts();
-    listeds = await homeRepo.fetchListeds();
-    songs = searches = await homeRepo.fetchSongs();
+    books = await db.fetchBooks();
+    likes = await db.fetchLikedSongs();
+    drafts = await db.fetchDrafts();
+    listeds = await db.fetchListeds();
+    songs = searches = await db.fetchSongs();
 
     songs!.removeWhere((ik) => ik.book != mainBook);
 
@@ -140,7 +140,7 @@ class HomeVm with ChangeNotifierEx {
         title: titleController!.text,
         description: contentController!.text,
       );
-      await homeRepo.createListed(listed);
+      await db.saveListed(listed);
 
       await clearForm();
       await fetchSongData();

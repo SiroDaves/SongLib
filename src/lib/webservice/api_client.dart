@@ -15,7 +15,7 @@ part 'api_client.g.dart';
 @RestApi()
 abstract class ApiClient extends WebService {
   @factoryMethod
-  factory ApiClient(Dio dio, {String? baseUrl}) = _ApiClient;
+  factory ApiClient(Dio dio) = _ApiClient;
 
   @override
   @GET(ApiConstants.book)

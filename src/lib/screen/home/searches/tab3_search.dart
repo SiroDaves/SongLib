@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../model/base/draft.dart';
 import '../../../theme/theme_colors.dart';
 import '../../../widget/general/list_items.dart';
-import '../../../widget/general/search/search_widget.dart';
+import '../../../widget/search/search_widget.dart';
 
 class Tab3Search extends StatelessWidget {
   final List<Draft>? drafts;

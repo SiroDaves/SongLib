@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../navigator/main_navigator.dart';
+import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_assets.dart';
 import '../../theme/theme_colors.dart';
@@ -21,7 +22,7 @@ class SettingsScreen extends StatefulWidget {
 }
 
 @visibleForTesting
-class SettingsScreenState extends State<SettingsScreen> implements SettingsNavigator {
+class SettingsScreenState extends State<SettingsScreen> with BackNavigatorMixin implements SettingsNavigator {
   @override
   Widget build(BuildContext context) {
     return ProviderWidget<SettingsVm>(

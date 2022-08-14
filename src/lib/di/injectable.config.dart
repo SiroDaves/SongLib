@@ -4,7 +4,7 @@
 // InjectableConfigGenerator
 // **************************************************************************
 
-import 'package:dio/dio.dart' as _i34;
+import 'package:dio/dio.dart' as _i35;
 import 'package:drift/drift.dart' as _i6;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i7;
 import 'package:get_it/get_it.dart' as _i1;
@@ -19,31 +19,31 @@ import '../db/dao/listed_dao_storage.dart' as _i16;
 import '../db/dao/search_dao_storage.dart' as _i17;
 import '../db/dao/song_dao_storage.dart' as _i18;
 import '../db/songlib_db.dart' as _i12;
-import '../repository/book_repository.dart' as _i37;
-import '../repository/debug_repository.dart' as _i20;
-import '../repository/locale_repository.dart' as _i22;
-import '../repository/refresh_repository.dart' as _i24;
+import '../repository/db_repository.dart' as _i20;
+import '../repository/debug_repository.dart' as _i21;
+import '../repository/locale_repository.dart' as _i23;
+import '../repository/refresh_repository.dart' as _i26;
 import '../repository/secure_storage/auth_storage.dart' as _i19;
 import '../repository/secure_storage/secure_storage.dart' as _i10;
-import '../repository/selection_repository.dart' as _i38;
-import '../repository/shared_prefs/local_storage.dart' as _i21;
+import '../repository/shared_prefs/local_storage.dart' as _i22;
+import '../repository/web_repository.dart' as _i38;
 import '../util/cache/cache_controller.dart' as _i4;
 import '../util/cache/cache_controlling.dart' as _i3;
-import '../util/interceptor/network_auth_interceptor.dart' as _i23;
+import '../util/interceptor/network_auth_interceptor.dart' as _i24;
 import '../util/interceptor/network_error_interceptor.dart' as _i8;
 import '../util/interceptor/network_log_interceptor.dart' as _i9;
-import '../util/interceptor/network_refresh_interceptor.dart' as _i33;
-import '../vm/global_vm.dart' as _i29;
-import '../vm/home/history_vm.dart' as _i30;
-import '../vm/home/home_vm.dart' as _i31;
-import '../vm/home/lists_vm.dart' as _i32;
+import '../util/interceptor/network_refresh_interceptor.dart' as _i34;
+import '../vm/global_vm.dart' as _i30;
+import '../vm/home/history_vm.dart' as _i31;
+import '../vm/home/home_vm.dart' as _i32;
+import '../vm/home/lists_vm.dart' as _i33;
 import '../vm/manage/selection_vm.dart' as _i39;
-import '../vm/manage/settings_vm.dart' as _i25;
-import '../vm/songs/editor_vm.dart' as _i28;
-import '../vm/songs/viewer_vm.dart' as _i27;
-import '../vm/splash_vm.dart' as _i26;
-import '../webservice/api_client.dart' as _i36;
-import '../webservice/web_service.dart' as _i35;
+import '../vm/manage/settings_vm.dart' as _i27;
+import '../vm/songs/editor_vm.dart' as _i29;
+import '../vm/songs/presentor_vm.dart' as _i25;
+import '../vm/splash_vm.dart' as _i28;
+import '../webservice/api_client.dart' as _i37;
+import '../webservice/web_service.dart' as _i36;
 import 'injectable.dart' as _i40;
 
 const String _dev = 'dev';
@@ -89,45 +89,54 @@ Future<_i1.GetIt> $initGetIt(_i1.GetIt get,
       () => _i18.SongDaoStorage(get<_i12.SongLibDb>()));
   gh.lazySingleton<_i19.AuthStorage>(
       () => _i19.AuthStorage(get<_i5.SimpleKeyValueStorage>()));
-  gh.lazySingleton<_i20.DebugRepository>(
-      () => _i20.DebugRepository(get<_i5.SharedPreferenceStorage>()));
-  gh.lazySingleton<_i21.LocalStorage>(() => _i21.LocalStorage(
+  gh.lazySingleton<_i20.DbRepository>(() => _i20.DbRepository(
+      get<_i13.BookDaoStorage>(),
+      get<_i14.DraftDaoStorage>(),
+      get<_i15.HistoryDaoStorage>(),
+      get<_i16.ListedDaoStorage>(),
+      get<_i17.SearchDaoStorage>(),
+      get<_i18.SongDaoStorage>()));
+  gh.lazySingleton<_i21.DebugRepository>(
+      () => _i21.DebugRepository(get<_i5.SharedPreferenceStorage>()));
+  gh.lazySingleton<_i22.LocalStorage>(() => _i22.LocalStorage(
       get<_i19.AuthStorage>(), get<_i5.SharedPreferenceStorage>()));
-  gh.lazySingleton<_i22.LocaleRepository>(
-      () => _i22.LocaleRepository(get<_i5.SharedPreferenceStorage>()));
-  gh.singleton<_i23.NetworkAuthInterceptor>(
-      _i23.NetworkAuthInterceptor(get<_i19.AuthStorage>()));
-  gh.lazySingleton<_i24.RefreshRepository>(
-      () => _i24.RefreshRepository(get<_i19.AuthStorage>()));
-  gh.factory<_i25.SettingsVm>(() => _i25.SettingsVm(get<_i21.LocalStorage>()));
-  gh.factory<_i26.SplashVm>(() => _i26.SplashVm(get<_i21.LocalStorage>()));
-  gh.factory<_i27.ViewerVm>(() => _i27.ViewerVm(get<_i21.LocalStorage>()));
-  gh.factory<_i28.EditorVm>(() => _i28.EditorVm(get<_i21.LocalStorage>()));
-  gh.singleton<_i29.GlobalVm>(_i29.GlobalVm(get<_i22.LocaleRepository>(),
-      get<_i20.DebugRepository>(), get<_i21.LocalStorage>()));
-  gh.factory<_i30.HistoryVm>(() => _i30.HistoryVm(get<_i21.LocalStorage>()));
-  gh.factory<_i31.HomeVm>(() => _i31.HomeVm(get<_i21.LocalStorage>()));
-  gh.factory<_i32.ListsVm>(() => _i32.ListsVm(get<_i21.LocalStorage>()));
-  gh.singleton<_i33.NetworkRefreshInterceptor>(
-      _i33.NetworkRefreshInterceptor(get<_i24.RefreshRepository>()));
+  gh.lazySingleton<_i23.LocaleRepository>(
+      () => _i23.LocaleRepository(get<_i5.SharedPreferenceStorage>()));
+  gh.singleton<_i24.NetworkAuthInterceptor>(
+      _i24.NetworkAuthInterceptor(get<_i19.AuthStorage>()));
+  gh.factory<_i25.PresentorVm>(() =>
+      _i25.PresentorVm(get<_i20.DbRepository>(), get<_i22.LocalStorage>()));
+  gh.lazySingleton<_i26.RefreshRepository>(
+      () => _i26.RefreshRepository(get<_i19.AuthStorage>()));
+  gh.factory<_i27.SettingsVm>(() =>
+      _i27.SettingsVm(get<_i20.DbRepository>(), get<_i22.LocalStorage>()));
+  gh.factory<_i28.SplashVm>(() => _i28.SplashVm(get<_i22.LocalStorage>()));
+  gh.factory<_i29.EditorVm>(
+      () => _i29.EditorVm(get<_i20.DbRepository>(), get<_i22.LocalStorage>()));
+  gh.singleton<_i30.GlobalVm>(_i30.GlobalVm(get<_i23.LocaleRepository>(),
+      get<_i21.DebugRepository>(), get<_i22.LocalStorage>()));
+  gh.factory<_i31.HistoryVm>(
+      () => _i31.HistoryVm(get<_i20.DbRepository>(), get<_i22.LocalStorage>()));
+  gh.factory<_i32.HomeVm>(
+      () => _i32.HomeVm(get<_i20.DbRepository>(), get<_i22.LocalStorage>()));
+  gh.factory<_i33.ListsVm>(
+      () => _i33.ListsVm(get<_i20.DbRepository>(), get<_i22.LocalStorage>()));
+  gh.singleton<_i34.NetworkRefreshInterceptor>(
+      _i34.NetworkRefreshInterceptor(get<_i26.RefreshRepository>()));
   gh.lazySingleton<_i5.CombiningSmartInterceptor>(() =>
       registerModule.provideCombiningSmartInterceptor(
           get<_i9.NetworkLogInterceptor>(),
-          get<_i23.NetworkAuthInterceptor>(),
+          get<_i24.NetworkAuthInterceptor>(),
           get<_i8.NetworkErrorInterceptor>(),
-          get<_i33.NetworkRefreshInterceptor>()));
-  gh.lazySingleton<_i34.Dio>(
+          get<_i34.NetworkRefreshInterceptor>()));
+  gh.lazySingleton<_i35.Dio>(
       () => registerModule.provideDio(get<_i5.CombiningSmartInterceptor>()));
-  gh.singleton<_i35.WebService>(_i36.ApiClient(get<_i34.Dio>()),
+  gh.singleton<_i36.WebService>(_i37.ApiClient(get<_i35.Dio>()),
       registerFor: {_dev, _prod});
-  gh.lazySingleton<_i37.BookRepository>(() =>
-      _i37.BookRepository(get<_i13.BookDaoStorage>(), get<_i35.WebService>()));
-  gh.lazySingleton<_i38.SelectionRepository>(() => _i38.SelectionRepository(
-      get<_i13.BookDaoStorage>(),
-      get<_i18.SongDaoStorage>(),
-      get<_i35.WebService>()));
-  gh.factory<_i39.SelectionVm>(() => _i39.SelectionVm(
-      get<_i38.SelectionRepository>(), get<_i21.LocalStorage>()));
+  gh.lazySingleton<_i38.WebRepository>(
+      () => _i38.WebRepository(get<_i36.WebService>()));
+  gh.factory<_i39.SelectionVm>(() => _i39.SelectionVm(get<_i38.WebRepository>(),
+      get<_i20.DbRepository>(), get<_i22.LocalStorage>()));
   return get;
 }
 

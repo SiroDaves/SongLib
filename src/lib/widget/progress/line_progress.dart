@@ -3,8 +3,6 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:skeleton_loader/skeleton_loader.dart';
 
 import '../../../theme/theme_colors.dart';
-import '../../../theme/theme_fonts.dart';
-
 
 class LineProgress extends StatelessWidget {
   /// height or width of the linear percentindicator

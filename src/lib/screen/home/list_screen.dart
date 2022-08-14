@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../navigator/main_navigator.dart';
+import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_assets.dart';
 import '../../theme/theme_colors.dart';
@@ -21,7 +22,7 @@ class ListsScreen extends StatefulWidget {
 }
 
 @visibleForTesting
-class ListsScreenState extends State<ListsScreen> implements ListsNavigator {
+class ListsScreenState extends State<ListsScreen> with BackNavigatorMixin implements ListsNavigator {
   @override
   Widget build(BuildContext context) {
     return ProviderWidget<ListsVm>(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../navigator/main_navigator.dart';
+import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_assets.dart';
 import '../../theme/theme_colors.dart';
@@ -21,7 +22,7 @@ class EditorScreen extends StatefulWidget {
 }
 
 @visibleForTesting
-class EditorScreenState extends State<EditorScreen> implements EditorNavigator {
+class EditorScreenState extends State<EditorScreen> with BackNavigatorMixin implements EditorNavigator {
   @override
   Widget build(BuildContext context) {
     return ProviderWidget<EditorVm>(

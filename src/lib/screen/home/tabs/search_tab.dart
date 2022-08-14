@@ -6,8 +6,9 @@ import '../../../navigator/route_names.dart';
 import '../../../theme/theme_colors.dart';
 import '../../../util/constants/app_constants.dart';
 import '../../../vm/home/home_vm.dart';
+import '../../../widget/general/labels.dart';
 import '../../../widget/general/list_items.dart';
-import '../../../widget/general/loaders/progress.dart';
+import '../../../widget/progress/line_progress.dart';
 import '../../../widget/provider/provider_widget.dart';
 import '../searches/tab2_search.dart';
 
@@ -60,13 +61,22 @@ class SearchTabState extends State<SearchTab> implements HomeNavigator {
           ? const ListLoading()
           : Column(
               children: [
-                Tab2Search(
-                  books: viewModel.books,
-                  songs: viewModel.searches,
-                  height: size!.height,
-                ),
-                bookContainer(context, viewModel),
-                listContainer(context, viewModel),
+                viewModel.searches!.isNotEmpty
+                    ? Tab2Search(
+                        books: viewModel.books,
+                        songs: viewModel.searches,
+                        height: size!.height,
+                      )
+                    : Container(),
+                viewModel.books!.isNotEmpty
+                    ? bookContainer(context, viewModel)
+                    : Container(),
+                viewModel.songs!.isNotEmpty
+                    ? listContainer(context, viewModel)
+                    : const NoDataToShow(
+                        title: AppConstants.itsEmptyHere,
+                        description: AppConstants.itsEmptyHereBody,
+                      ),
               ],
             ),
     );
@@ -109,7 +119,7 @@ class SearchTabState extends State<SearchTab> implements HomeNavigator {
 
   Widget listContainer(BuildContext context, HomeVm viewModel) {
     return Container(
-      height: size!.height * 0.7961,
+      height: size!.height * 0.7,
       padding: const EdgeInsets.only(right: 2),
       child: Scrollbar(
         thickness: 10,

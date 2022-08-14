@@ -5,17 +5,19 @@ import 'package:injectable/injectable.dart';
 import '../../model/base/book.dart';
 import '../../model/base/selectable.dart';
 import '../../model/base/song.dart';
-import '../../repository/selection_repository.dart';
+import '../../repository/db_repository.dart';
+import '../../repository/web_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
 import '../../util/constants/pref_constants.dart';
 
 @injectable
 class SelectionVm with ChangeNotifierEx {
   late final SelectionNavigator selectionNavigator;
-  final SelectionRepository selectionRepo;
+  final WebRepository web;
+  final DbRepository db;
   final LocalStorage localStorage;
 
-  SelectionVm(this.selectionRepo, this.localStorage);
+  SelectionVm(this.web, this.db, this.localStorage);
 
   final ScrollController listScrollController = ScrollController();
 
@@ -43,7 +45,7 @@ class SelectionVm with ChangeNotifierEx {
 
   /// Get the list of books
   Future<List<Book>?> fetchBooks() async {
-    books = await selectionRepo.fetchBooks();
+    books = await web.fetchBooks();
     if (books!.isNotEmpty) {
       for (int i = 0; i < books!.length; i++) {
         listedBooks.add(Selectable<Book>(books![i]));
@@ -58,7 +60,7 @@ class SelectionVm with ChangeNotifierEx {
     for (int i = 0; i < selectables.length; i++) {
       final Book book = selectables[i]!.data;
       selectedBooks = "$selectedBooks${book.bookNo},";
-      await selectionRepo.saveBook(book);
+      await db.saveBook(book);
     }
 
     try {
@@ -77,10 +79,10 @@ class SelectionVm with ChangeNotifierEx {
     isBusy = true;
     notifyListeners();
 
-    songs = await selectionRepo.fetchSongs(selectedBooks);
+    songs = await web.fetchSongs(selectedBooks);
     if (songs!.isNotEmpty) {
       for (int i = 0; i < songs!.length; i++) {
-        await selectionRepo.saveSong(songs![i]);
+        await db.saveSong(songs![i]);
       }
     }
 

@@ -8,7 +8,7 @@ import '../../../util/constants/app_constants.dart';
 import '../../../vm/home/home_vm.dart';
 import '../../../widget/general/labels.dart';
 import '../../../widget/general/list_items.dart';
-import '../../../widget/general/loaders/progress.dart';
+import '../../../widget/progress/line_progress.dart';
 import '../../../widget/provider/provider_widget.dart';
 import '../searches/tab3_search.dart';
 

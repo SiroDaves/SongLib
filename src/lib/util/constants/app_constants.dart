@@ -4,7 +4,7 @@ class AppConstants {
   static const basicAuthPrefixHeader = 'Basic';
   static const protectedAuthenticationHeaderPrefix = 'Bearer';
   static const authorizationHeader = 'Authorization';
-  
+
   static const appTitle = "SongLib";
   static const listTitle = "Song Lists";
   static const likesTitle = "Liked Songs";
@@ -55,6 +55,8 @@ class AppConstants {
 
   static const itsEmptyHere = "Wueh! It's empty here";
   static const itsEmptyHere1 = "Wueh! No lists here yet";
+  static const itsEmptyHereBody =
+      "All caught here, do a selection of songs once again";
   static const itsEmptyHereBody1 =
       "All caught here, please like a song, search or view a song or better still add a custom list to clear this emptiness here";
   static const itsEmptyHereBody2 =

@@ -8,7 +8,7 @@ import '../../../util/constants/app_constants.dart';
 import '../../../vm/home/home_vm.dart';
 import '../../../widget/general/labels.dart';
 import '../../../widget/general/list_items.dart';
-import '../../../widget/general/loaders/progress.dart';
+import '../../../widget/progress/line_progress.dart';
 import '../../../widget/provider/provider_widget.dart';
 import '../searches/tab1_search.dart';
 
@@ -152,7 +152,7 @@ class ListedsTabState extends State<ListedsTab> implements HomeNavigator {
 
   Widget listContainer(BuildContext context, HomeVm viewModel) {
     return Container(
-      height: size!.height * 0.7961,
+      height: size!.height * 0.7,
       padding: const EdgeInsets.only(right: 2),
       child: Scrollbar(
         thickness: 10,

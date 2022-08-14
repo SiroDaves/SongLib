@@ -6,10 +6,11 @@ import '../../navigator/main_navigator.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
 import '../../vm/manage/selection_vm.dart';
-import '../../widget/general/action/buttons.dart';
+import '../../widget/action/buttons.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
-import '../../widget/general/loaders/circular_progress.dart';
+import '../../widget/progress/advanced/advanced_progress.dart';
+import '../../widget/progress/circular_progress.dart';
 import '../../widget/provider/provider_widget.dart';
 
 class SelectionScreen extends StatefulWidget {
@@ -39,7 +40,7 @@ class SelectionScreenState extends State<SelectionScreen>
         ),
         body: SizedBox(
           child: viewModel.isBusy
-              ? const CircularProgress()
+              ? progressWidget(viewModel)
               : mainContainer(context, viewModel),
         ),
         floatingActionButton: viewModel.isBusy
@@ -151,6 +152,96 @@ class SelectionScreenState extends State<SelectionScreen>
         ),
       );
     }
+  }
+
+  Widget progressWidget(SelectionVm viewModel) {
+    return AdvancedProgress(
+      radius: 120,
+      levelAmount: 76,
+      levelLowHeight: 16,
+      levelHighHeight: 20,
+      division: 15,
+      secondaryWidth: 8,
+      progressGap: 12,
+      primaryValue: 0.50,
+      secondaryValue: 0.75,
+      primaryColor: Colors.yellow,
+      secondaryColor: Colors.red,
+      tertiaryColor: Colors.black12,
+      child: Container(
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            const Spacer(),
+            const Padding(
+              padding: EdgeInsets.only(
+                top: 16.0,
+              ),
+              child: Text(
+                ' 240°',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  letterSpacing: 1.5,
+                  fontFamily: 'Barlow',
+                  fontWeight: FontWeight.w400,
+                  fontSize: 50,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(
+                top: 16.0,
+              ),
+              child: Text(
+                'PREHEATING',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  letterSpacing: 3.0,
+                  fontFamily: 'Barlow',
+                  fontWeight: FontWeight.w800,
+                  fontSize: 8,
+                  color: Colors.deepOrange,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 16.0,
+                bottom: 16.0,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  Text(
+                    '35:00',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Barlow',
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                      color: Colors.white24,
+                    ),
+                  ),
+                  Text(
+                    'Time left',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      height: 1.5,
+                      fontFamily: 'Barlow',
+                      fontWeight: FontWeight.w700,
+                      fontSize: 12,
+                      color: Colors.white24,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override

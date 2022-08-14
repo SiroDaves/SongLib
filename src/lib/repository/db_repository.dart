@@ -12,30 +12,37 @@ import '../model/base/history.dart';
 import '../model/base/listed.dart';
 import '../model/base/search.dart';
 import '../model/base/song.dart';
-import '../webservice/web_service.dart';
 
 @lazySingleton
-abstract class HomeRepository {
+abstract class DbRepository {
   @factoryMethod
-  factory HomeRepository(
+  factory DbRepository(
     BookDaoStorage bookDao,
     DraftDaoStorage draftDao,
     HistoryDaoStorage historyDao,
     ListedDaoStorage listedDao,
     SearchDaoStorage searchDao,
     SongDaoStorage songDao,
-  ) = HomeRepo;
+  ) = DbRepo;
 
   Future<List<Book>> fetchBooks();
   Future<List<Draft>> fetchDrafts();
   Future<List<History>> fetchHistories();
   Future<List<Listed>> fetchListeds();
-  Future<void> createListed(Listed listed);
   Future<List<Search>> fetchSearches();
   Future<List<Song>> fetchSongs();
+  Future<List<Song>> fetchLikedSongs();
+
+  Future<void> saveBook(Book book);
+  Future<void> saveSong(Song song);
+  Future<void> saveDraft(Draft draft);
+  Future<void> saveListed(Listed listed);
+  Future<void> saveHistory(History history);
+
+  Future<void> editSong(Song song);
 }
 
-class HomeRepo implements HomeRepository {
+class DbRepo implements DbRepository {
   final BookDaoStorage bookDao;
   final DraftDaoStorage draftDao;
   final HistoryDaoStorage historyDao;
@@ -43,7 +50,7 @@ class HomeRepo implements HomeRepository {
   final SearchDaoStorage searchDao;
   final SongDaoStorage songDao;
 
-  HomeRepo(
+  DbRepo(
     this.bookDao,
     this.draftDao,
     this.historyDao,
@@ -73,11 +80,6 @@ class HomeRepo implements HomeRepository {
   }
 
   @override
-  Future<void> createListed(Listed listed) async {
-    return await listedDao.createListed(listed);
-  }
-
-  @override
   Future<List<Search>> fetchSearches() async {
     return await searchDao.getAllSearches();
   }
@@ -85,5 +87,40 @@ class HomeRepo implements HomeRepository {
   @override
   Future<List<Song>> fetchSongs() async {
     return await songDao.getAllSongs();
+  }
+
+  @override
+  Future<List<Song>> fetchLikedSongs() async {
+    return await songDao.getLikedSongs();
+  }
+
+  @override
+  Future<void> saveBook(Book book) async {
+    await bookDao.createBook(book);
+  }
+
+  @override
+  Future<void> saveSong(Song song) async {
+    await songDao.createSong(song);
+  }
+
+  @override
+  Future<void> saveDraft(Draft draft) async {
+    await draftDao.createDraft(draft);
+  }
+
+  @override
+  Future<void> saveListed(Listed listed) async {
+    return await listedDao.createListed(listed);
+  }
+
+  @override
+  Future<void> saveHistory(History history) async {
+    return await historyDao.createHistory(history);
+  }
+
+  @override
+  Future<void> editSong(Song song) async {
+    await songDao.updateSong(song);
   }
 }
