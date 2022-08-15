@@ -218,7 +218,10 @@ class HomeVm with ChangeNotifierEx {
 }
 
 abstract class HomeNavigator {
-  void goToHome();
+  void goToPresentor(Song song);
+  void goToEditor(Song song);
 
-  void goToSelection();
+  void goToSettings();
+  void goToHistory();
+  void goToLists();
 }

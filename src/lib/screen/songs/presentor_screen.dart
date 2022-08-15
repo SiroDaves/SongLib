@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
 
 import '../../model/base/book.dart';
 import '../../model/base/song.dart';
@@ -36,6 +37,16 @@ class PresentorScreenState extends State<PresentorScreen>
   List<Book>? books;
   Song? song;
   Size? size;
+
+  late PresentorVm viewModel;
+
+  @override
+  void initState() {
+    viewModel = GetIt.instance.get<PresentorVm>();
+    viewModel.books = books;
+    viewModel.song = song;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,10 +113,10 @@ class PresentorScreenState extends State<PresentorScreen>
   }
 
   Widget mainContainer(BuildContext context, PresentorVm viewModel) {
-    viewModel.books = books;
-    viewModel.song = song;
-    viewModel.loadViewer();
-    
+    //viewModel.books = books;
+    //viewModel.song = song;
+    //viewModel.loadViewer();
+
     final List<Tab> viewerTabs = List<Tab>.generate(
       viewModel.verseInfos.length,
       (int index) {

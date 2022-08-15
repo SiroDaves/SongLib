@@ -1,66 +1,44 @@
-import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
+part of '../home_screen.dart';
 
-import '../../../navigator/main_navigator.dart';
-import '../../../navigator/route_names.dart';
-import '../../../theme/theme_colors.dart';
-import '../../../util/constants/app_constants.dart';
-import '../../../vm/home/home_vm.dart';
-import '../../../widget/general/labels.dart';
-import '../../../widget/general/list_items.dart';
-import '../../../widget/progress/line_progress.dart';
-import '../../../widget/provider/provider_widget.dart';
-import '../searches/tab1_search.dart';
+// ignore: must_be_immutable
+class ListedsTab extends StatelessWidget {
+  final HomeVm viewModel;
+  ListedsTab({Key? key, required this.viewModel}) : super(key: key);
 
-class ListedsTab extends StatefulWidget {
-  static const String routeName = RouteNames.homeScreen;
-
-  const ListedsTab({Key? key}) : super(key: key);
-
-  @override
-  ListedsTabState createState() => ListedsTabState();
-}
-
-@visibleForTesting
-class ListedsTabState extends State<ListedsTab> implements HomeNavigator {
   Size? size;
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    return ProviderWidget<HomeVm>(
-      create: () => GetIt.I()..init(this),
-      consumerWithThemeAndLocalization:
-          (context, viewModel, child, theme, localization) => Scaffold(
-        body: Container(
-          height: size!.height,
-          padding: const EdgeInsets.only(top: 40),
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [Colors.white, ThemeColors.accent, Colors.black],
-            ),
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                titleContainer(),
-                mainContainer(context, viewModel),
-              ],
-            ),
+    // TODO: implement build
+    return Scaffold(
+      body: Container(
+        height: size!.height,
+        padding: const EdgeInsets.only(top: 40),
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [Colors.white, ThemeColors.accent, Colors.black],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: ThemeColors.primary,
-          onPressed: () => viewModel.newListForm(context),
-          child: const Icon(Icons.add, color: Colors.white),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              titleContainer(),
+              mainContainer(context),
+            ],
+          ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: ThemeColors.primary,
+        onPressed: () => viewModel.newListForm(context),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }
-
-  Widget mainContainer(BuildContext context, HomeVm viewModel) {
+  Widget mainContainer(BuildContext context) {
     return SizedBox(
       child: viewModel.isBusy
           ? const ListLoading()
@@ -174,10 +152,4 @@ class ListedsTabState extends State<ListedsTab> implements HomeNavigator {
       ),
     );
   }
-
-  @override
-  void goToHome() => MainNavigatorWidget.of(context).goToHome();
-
-  @override
-  void goToSelection() => MainNavigatorWidget.of(context).goToSelection();
 }

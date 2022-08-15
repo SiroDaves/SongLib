@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 
+import '../model/base/song.dart';
+import '../screen/home/history_screen.dart';
 import '../screen/home/home_screen.dart';
+import '../screen/home/list_screen.dart';
 import '../screen/manage/selection_screen.dart';
+import '../screen/manage/settings_screen.dart';
+import '../screen/songs/editor_screen.dart';
+import '../screen/songs/presentor_screen.dart';
 import '../screen/splash_screen.dart';
 import '../util/env/flavor_config.dart';
 import '../widget/general/text_scale_factor.dart';
@@ -72,7 +78,7 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
         );
       case HomeScreen.routeName:
         return FadeInRoute<void>(
-          child: const HomeScreen(),
+          child: HomeScreen(),
           settings: settings,
         );
       case 'test_route':
@@ -96,6 +102,36 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
   @override
   void goToHome() => navigator.pushNamedAndRemoveUntil(
         HomeScreen.routeName,
+        (route) => false,
+      );
+
+  @override
+  void goToPresentor(Song song) => navigator.pushNamedAndRemoveUntil(
+        PresentorScreen.routeName,
+        (route) => false,
+      );
+
+  @override
+  void goToEditor(Song song) => navigator.pushNamedAndRemoveUntil(
+        EditorScreen.routeName,
+        (route) => false,
+      );
+
+  @override
+  void goToLists() => navigator.pushNamedAndRemoveUntil(
+        ListsScreen.routeName,
+        (route) => false,
+      );
+
+  @override
+  void goToHistory() => navigator.pushNamedAndRemoveUntil(
+        HistoryScreen.routeName,
+        (route) => false,
+      );
+
+  @override
+  void goToSettings() => navigator.pushNamedAndRemoveUntil(
+        SettingsScreen.routeName,
         (route) => false,
       );
 

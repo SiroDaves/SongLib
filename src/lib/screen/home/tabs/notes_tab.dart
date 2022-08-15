@@ -1,37 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
+part of '../home_screen.dart';
 
-import '../../../navigator/main_navigator.dart';
-import '../../../navigator/route_names.dart';
-import '../../../theme/theme_colors.dart';
-import '../../../util/constants/app_constants.dart';
-import '../../../vm/home/home_vm.dart';
-import '../../../widget/general/labels.dart';
-import '../../../widget/general/list_items.dart';
-import '../../../widget/progress/line_progress.dart';
-import '../../../widget/provider/provider_widget.dart';
-import '../searches/tab3_search.dart';
+// ignore: must_be_immutable
+class NotesTab extends StatelessWidget {
+  final HomeVm viewModel;
+  NotesTab({Key? key, required this.viewModel}) : super(key: key);
 
-class NotesTab extends StatefulWidget {
-  static const String routeName = RouteNames.homeScreen;
-
-  const NotesTab({Key? key}) : super(key: key);
-
-  @override
-  NotesTabState createState() => NotesTabState();
-}
-
-@visibleForTesting
-class NotesTabState extends State<NotesTab> implements HomeNavigator {
   Size? size;
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    return ProviderWidget<HomeVm>(
-      create: () => GetIt.I()..init(this),
-      consumerWithThemeAndLocalization:
-          (context, viewModel, child, theme, localization) => Scaffold(
+    return Scaffold(
         body: Container(
           height: size!.height,
           padding: const EdgeInsets.only(top: 40),
@@ -46,7 +25,7 @@ class NotesTabState extends State<NotesTab> implements HomeNavigator {
             child: Column(
               children: [
                 titleContainer(),
-                mainContainer(context, viewModel),
+                mainContainer(context),
               ],
             ),
           ),
@@ -56,11 +35,10 @@ class NotesTabState extends State<NotesTab> implements HomeNavigator {
           onPressed: () {},
           child: const Icon(Icons.add, color: Colors.white),
         ),
-      ),
     );
   }
 
-  Widget mainContainer(BuildContext context, HomeVm viewModel) {
+  Widget mainContainer(BuildContext context) {
     Widget dataWidget;
     if (viewModel.listeds!.isNotEmpty) {
       dataWidget = Column(
@@ -126,9 +104,4 @@ class NotesTabState extends State<NotesTab> implements HomeNavigator {
     );
   }
 
-  @override
-  void goToHome() => MainNavigatorWidget.of(context).goToHome();
-
-  @override
-  void goToSelection() => MainNavigatorWidget.of(context).goToSelection();
 }

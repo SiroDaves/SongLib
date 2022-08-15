@@ -37,6 +37,7 @@ class PresentorVm with ChangeNotifierEx {
 
   Future<void> init(PresentorNavigator screenNavigator) async {
     navigator = screenNavigator;
+    await loadViewer();
   }
 
   Future<void> loadViewer() async {
@@ -46,7 +47,7 @@ class PresentorVm with ChangeNotifierEx {
     isLiked = song!.liked!;
     likeIcon = isLiked ? Icons.favorite : Icons.favorite_border;
     songVerses = song!.content!.split("##");
-    int verseCount = songVerses.length;
+    final int verseCount = songVerses.length;
 
     if (song!.content!.contains("CHORUS")) {
       hasChorus = true;
@@ -55,7 +56,7 @@ class PresentorVm with ChangeNotifierEx {
     }
 
     if (hasChorus) {
-      String chorus = songVerses[1].toString().replaceAll("CHORUS#", "");
+      final String chorus = songVerses[1].toString().replaceAll("CHORUS#", "");
 
       verseInfos.add("1");
       verseInfos.add("C");
@@ -91,7 +92,7 @@ class PresentorVm with ChangeNotifierEx {
   }
 
   Future<void> copySong() async {
-    String songText = song!.content!.replaceAll("#", "\n");
+    final String songText = song!.content!.replaceAll("#", "\n");
     await Clipboard.setData(ClipboardData(
       text: '${songItemTitle(song!.songNo!, song!.title!)}\n\n$songText',
     ));
@@ -102,7 +103,7 @@ class PresentorVm with ChangeNotifierEx {
   }
 
   Future<void> shareSong() async {
-    String songText = song!.content!.replaceAll("#", "\n");
+    final String songText = song!.content!.replaceAll("#", "\n");
     await Share.share(
       '${songItemTitle(song!.songNo!, song!.title!)}\n\n$songText',
       subject: AppConstants.shareVerse,

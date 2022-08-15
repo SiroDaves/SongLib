@@ -1,37 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
+part of '../home_screen.dart';
 
-import '../../../navigator/main_navigator.dart';
-import '../../../navigator/route_names.dart';
-import '../../../theme/theme_colors.dart';
-import '../../../util/constants/app_constants.dart';
-import '../../../vm/home/home_vm.dart';
-import '../../../widget/general/labels.dart';
-import '../../../widget/general/list_items.dart';
-import '../../../widget/progress/line_progress.dart';
-import '../../../widget/provider/provider_widget.dart';
-import '../searches/tab2_search.dart';
+// ignore: must_be_immutable
+class SearchTab extends StatelessWidget {
+  final HomeVm viewModel;
+  SearchTab({Key? key, required this.viewModel}) : super(key: key);
 
-class SearchTab extends StatefulWidget {
-  static const String routeName = RouteNames.homeScreen;
-
-  const SearchTab({Key? key}) : super(key: key);
-
-  @override
-  SearchTabState createState() => SearchTabState();
-}
-
-@visibleForTesting
-class SearchTabState extends State<SearchTab> implements HomeNavigator {
   Size? size;
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    return ProviderWidget<HomeVm>(
-      create: () => GetIt.I()..init(this),
-      consumerWithThemeAndLocalization:
-          (context, viewModel, child, theme, localization) => Scaffold(
+    return Scaffold(
         body: Container(
           height: size!.height,
           padding: const EdgeInsets.only(top: 40),
@@ -51,7 +30,6 @@ class SearchTabState extends State<SearchTab> implements HomeNavigator {
             ),
           ),
         ),
-      ),
     );
   }
 
@@ -69,10 +47,10 @@ class SearchTabState extends State<SearchTab> implements HomeNavigator {
                       )
                     : Container(),
                 viewModel.books!.isNotEmpty
-                    ? bookContainer(context, viewModel)
+                    ? bookContainer(context)
                     : Container(),
                 viewModel.songs!.isNotEmpty
-                    ? listContainer(context, viewModel)
+                    ? listContainer(context)
                     : const NoDataToShow(
                         title: AppConstants.itsEmptyHere,
                         description: AppConstants.itsEmptyHereBody,
@@ -98,7 +76,7 @@ class SearchTabState extends State<SearchTab> implements HomeNavigator {
     );
   }
 
-  Widget bookContainer(BuildContext context, HomeVm viewModel) {
+  Widget bookContainer(BuildContext context) {
     return SizedBox(
       height: size!.height * 0.0897,
       child: ListView.builder(
@@ -117,7 +95,7 @@ class SearchTabState extends State<SearchTab> implements HomeNavigator {
     );
   }
 
-  Widget listContainer(BuildContext context, HomeVm viewModel) {
+  Widget listContainer(BuildContext context) {
     return Container(
       height: size!.height * 0.7,
       padding: const EdgeInsets.only(right: 2),
@@ -142,9 +120,4 @@ class SearchTabState extends State<SearchTab> implements HomeNavigator {
     );
   }
 
-  @override
-  void goToHome() => MainNavigatorWidget.of(context).goToHome();
-
-  @override
-  void goToSelection() => MainNavigatorWidget.of(context).goToSelection();
 }

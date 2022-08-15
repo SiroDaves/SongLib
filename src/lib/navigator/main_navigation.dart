@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../model/base/song.dart';
+
 abstract class MainNavigation {
   void goToSplash();
 
@@ -10,6 +12,16 @@ abstract class MainNavigation {
   void goBack<T>({T? result});
 
   void closeDialog();
+
+  void goToPresentor(Song song);
+
+  void goToEditor(Song song);
+
+  void goToLists();
+
+  void goToHistory();
+
+  void goToSettings();
 
   void showCustomDialog<T>({required WidgetBuilder builder});
 }

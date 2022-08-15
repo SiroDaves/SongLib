@@ -2,15 +2,24 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../model/base/song.dart';
 import '../../navigator/main_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
+import '../../util/constants/app_constants.dart';
 import '../../vm/home/home_vm.dart';
+import '../../widget/general/labels.dart';
+import '../../widget/general/list_items.dart';
 import '../../widget/general/swiper_widgets.dart';
+import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
-import 'tabs/listeds_tab.dart';
-import 'tabs/notes_tab.dart';
-import 'tabs/search_tab.dart';
+import 'searches/tab1_search.dart';
+import 'searches/tab2_search.dart';
+import 'searches/tab3_search.dart';
+
+part 'tabs/listeds_tab.dart';
+part 'tabs/notes_tab.dart';
+part 'tabs/search_tab.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = RouteNames.homeScreen;
@@ -23,11 +32,7 @@ class HomeScreen extends StatefulWidget {
 
 @visibleForTesting
 class HomeScreenState extends State<HomeScreen> implements HomeNavigator {
-  final appPages = <Widget>[
-    const ListedsTab(),
-    const SearchTab(),
-    const NotesTab(),
-  ];
+  late HomeVm homeVm;
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +43,16 @@ class HomeScreenState extends State<HomeScreen> implements HomeNavigator {
         body: Swiper(
           index: 1,
           itemBuilder: (context, index) {
+            final appPages = <Widget>[
+              ListedsTab(viewModel: viewModel),
+              SearchTab(viewModel: viewModel),
+              NotesTab(viewModel: viewModel),
+            ];
             return appPages[index];
           },
           indicatorLayout: PageIndicatorLayout.COLOR,
           autoplay: false,
-          itemCount: appPages.length,
+          itemCount: 3,
           pagination: const PageSwiper(
             margin: EdgeInsets.only(top: 35),
           ),
@@ -128,8 +138,21 @@ class HomeScreenState extends State<HomeScreen> implements HomeNavigator {
   }
 
   @override
-  void goToHome() => MainNavigatorWidget.of(context).goToHome();
+  void goToLists() => MainNavigatorWidget.of(context).goToLists();
 
   @override
-  void goToSelection() => MainNavigatorWidget.of(context).goToSelection();
+  void goToHistory() => MainNavigatorWidget.of(context).goToHistory();
+
+  @override
+  void goToSettings() => MainNavigatorWidget.of(context).goToSettings();
+
+  @override
+  void goToPresentor(Song song) {
+    MainNavigatorWidget.of(context).goToPresentor(song);
+  }
+
+  @override
+  void goToEditor(Song song) {
+    MainNavigatorWidget.of(context).goToEditor(song);
+  }
 }
