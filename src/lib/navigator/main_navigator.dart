@@ -5,11 +5,13 @@ import '../model/base/song.dart';
 import '../screen/home/history_screen.dart';
 import '../screen/home/home_screen.dart';
 import '../screen/home/list_screen.dart';
+import '../screen/home/search_screen.dart';
 import '../screen/manage/selection_screen.dart';
 import '../screen/manage/settings_screen.dart';
 import '../screen/songs/editor_screen.dart';
 import '../screen/songs/presentor_screen.dart';
 import '../screen/splash_screen.dart';
+import '../screen/uitest_screen.dart';
 import '../util/env/flavor_config.dart';
 import '../widget/general/text_scale_factor.dart';
 import 'main_navigation.dart';
@@ -71,6 +73,11 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
           builder: (context) => const SplashScreen(),
           settings: settings,
         );
+      case UiTestScreen.routeName:
+        return MaterialPageRoute<void>(
+          builder: (context) => const UiTestScreen(),
+          settings: settings,
+        );
       case SelectionScreen.routeName:
         return MaterialPageRoute<void>(
           builder: (context) => const SelectionScreen(),
@@ -79,6 +86,11 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
       case HomeScreen.routeName:
         return FadeInRoute<void>(
           child: HomeScreen(),
+          settings: settings,
+        );
+      case SearchScreen.routeName:
+        return FadeInRoute<void>(
+          child: SearchScreen(),
           settings: settings,
         );
       case 'test_route':
@@ -100,40 +112,38 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
       navigator.pushReplacementNamed(SelectionScreen.routeName);
 
   @override
+  void goToUiTest() => navigator.pushNamedAndRemoveUntil(
+        UiTestScreen.routeName,
+        (route) => false,
+      );
+
+  @override
   void goToHome() => navigator.pushNamedAndRemoveUntil(
         HomeScreen.routeName,
         (route) => false,
       );
 
   @override
-  void goToPresentor(Song song) => navigator.pushNamedAndRemoveUntil(
-        PresentorScreen.routeName,
+  void goToSearch() => navigator.pushNamedAndRemoveUntil(
+        SearchScreen.routeName,
         (route) => false,
       );
 
   @override
-  void goToEditor(Song song) => navigator.pushNamedAndRemoveUntil(
-        EditorScreen.routeName,
-        (route) => false,
-      );
+  void goToPresentor(Song song) =>
+      navigator.pushNamed(PresentorScreen.routeName);
 
   @override
-  void goToLists() => navigator.pushNamedAndRemoveUntil(
-        ListsScreen.routeName,
-        (route) => false,
-      );
+  void goToEditor(Song song) => navigator.pushNamed(EditorScreen.routeName);
 
   @override
-  void goToHistory() => navigator.pushNamedAndRemoveUntil(
-        HistoryScreen.routeName,
-        (route) => false,
-      );
+  void goToLists() => navigator.pushNamed(ListsScreen.routeName);
 
   @override
-  void goToSettings() => navigator.pushNamedAndRemoveUntil(
-        SettingsScreen.routeName,
-        (route) => false,
-      );
+  void goToHistory() => navigator.pushNamed(HistoryScreen.routeName);
+
+  @override
+  void goToSettings() => navigator.pushNamed(SettingsScreen.routeName);
 
   @override
   void closeDialog() => navigator.pop();

@@ -7,7 +7,11 @@ abstract class MainNavigation {
 
   void goToSelection();
 
+  void goToUiTest();
+
   void goToHome();
+
+  void goToSearch();
 
   void goBack<T>({T? result});
 

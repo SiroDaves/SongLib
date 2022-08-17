@@ -17,6 +17,10 @@ class SelectionVm with ChangeNotifierEx {
   final DbRepository db;
   final LocalStorage localStorage;
 
+  int progress = 0;
+  String state = '';
+  String time = '00:00';
+
   SelectionVm(this.web, this.db, this.localStorage);
 
   final ScrollController listScrollController = ScrollController();
@@ -33,14 +37,16 @@ class SelectionVm with ChangeNotifierEx {
   }
 
   void onBookSelected(int index) {
-    listedBooks[index]!.isSelected = !listedBooks[index]!.isSelected;
-    notifyListeners();
+    try {
+      listedBooks[index]!.isSelected = !listedBooks[index]!.isSelected;
+      notifyListeners();
 
-    if (listedBooks[index]!.isSelected) {
-      selectables.add(listedBooks[index]);
-    } else {
-      selectables.remove(listedBooks[index]);
-    }
+      if (listedBooks[index]!.isSelected) {
+        selectables.add(listedBooks[index]);
+      } else {
+        selectables.remove(listedBooks[index]);
+      }
+    } catch (_) {}
   }
 
   /// Get the list of books
@@ -48,7 +54,9 @@ class SelectionVm with ChangeNotifierEx {
     books = await web.fetchBooks();
     if (books!.isNotEmpty) {
       for (int i = 0; i < books!.length; i++) {
-        listedBooks.add(Selectable<Book>(books![i]));
+        try {
+          listedBooks.add(Selectable<Book>(books![i]));
+        } catch (_) {}
       }
       return books;
     }
@@ -58,15 +66,16 @@ class SelectionVm with ChangeNotifierEx {
   /// Proceed to a saving books data
   Future<void> saveBooks() async {
     for (int i = 0; i < selectables.length; i++) {
-      final Book book = selectables[i]!.data;
-      selectedBooks = "$selectedBooks${book.bookNo},";
-      await db.saveBook(book);
+      try {
+        final Book book = selectables[i]!.data;
+        selectedBooks = "$selectedBooks${book.bookNo},";
+        await db.saveBook(book);
+      } catch (_) {}
     }
 
     try {
       selectedBooks = selectedBooks.substring(0, selectedBooks.length - 1);
-      // ignore: empty_catches
-    } on Exception {}
+    } catch (_) {}
     // ignore: avoid_print
     print('Selected books: $selectedBooks');
 
@@ -82,7 +91,39 @@ class SelectionVm with ChangeNotifierEx {
     songs = await web.fetchSongs(selectedBooks);
     if (songs!.isNotEmpty) {
       for (int i = 0; i < songs!.length; i++) {
-        await db.saveSong(songs![i]);
+        try {
+          progress = (i / songs!.length * 100).toInt();
+
+          switch (progress) {
+            case 1:
+              state = "On your marks ...";
+              break;
+            case 5:
+              state = "Set, Ready ...";
+              break;
+            case 10:
+              state = "Loading songs ...";
+              break;
+            case 20:
+              state = "Patience pays ...";
+              break;
+            case 40:
+              state = "Loading songs ...";
+              break;
+            case 75:
+              state = "Thanks for your patience!";
+              break;
+            case 85:
+              state = "Finishing up";
+              break;
+            case 95:
+              state = "Almost done";
+              break;
+          }
+          notifyListeners();
+
+          await db.saveSong(songs![i]);
+        } catch (_) {}
       }
     }
 

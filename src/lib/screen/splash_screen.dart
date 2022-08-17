@@ -55,7 +55,13 @@ class SplashScreenState extends State<SplashScreen> implements SplashNavigator {
   }
 
   @override
+  void goToUiTest() => MainNavigatorWidget.of(context).goToUiTest();
+
+  @override
   void goToHome() => MainNavigatorWidget.of(context).goToHome();
+
+  @override
+  void goToSearch() => MainNavigatorWidget.of(context).goToSearch();
 
   @override
   void goToSelection() => MainNavigatorWidget.of(context).goToSelection();

@@ -38,6 +38,7 @@ class ListedsTab extends StatelessWidget {
       ),
     );
   }
+
   Widget mainContainer(BuildContext context) {
     return SizedBox(
       child: viewModel.isBusy
@@ -52,6 +53,9 @@ class ListedsTab extends StatelessWidget {
                     : Container(),
                 viewModel.likes!.isNotEmpty
                     ? likesContainer(context, viewModel)
+                    : Container(),
+                viewModel.histories!.isNotEmpty
+                    ? historiesContainer(context, viewModel)
                     : Container(),
                 viewModel.listeds!.isNotEmpty
                     ? listContainer(context, viewModel)
@@ -121,6 +125,55 @@ class ListedsTab extends StatelessWidget {
                 onTap: () {},
               ),
               itemCount: viewModel.likes!.length,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget historiesContainer(BuildContext context, HomeVm viewModel) {
+    return SizedBox(
+      height: size!.height * 0.125,
+      child: Column(
+        children: [
+          SizedBox(
+            height: size!.height * 0.03125,
+            child: Row(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Text(
+                    'SONG HISTORY',
+                    style: TextStyle(
+                      color: ThemeColors.primary,
+                    ),
+                  ),
+                ),
+                const Spacer(),
+                GestureDetector(
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child:
+                        Icon(Icons.arrow_forward, color: ThemeColors.primary),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: size!.height * 0.0897,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.all(5),
+              itemBuilder: (context, index) => HistoryGrid(
+                history: viewModel.histories![index],
+                songs: viewModel.searches!,
+                books: viewModel.books!,
+                height: size!.height,
+                onTap: () {},
+              ),
+              itemCount: viewModel.histories!.length,
             ),
           ),
         ],

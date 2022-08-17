@@ -40,20 +40,6 @@ class _ListedDaoStorage extends DatabaseAccessor<SongLibDb>
     List<DbListed> dbListeds = await streams.first;
     List<Listed> listeds = [];
 
-    /*customSelect(
-      //'SELECT * FROM DbListed WHERE parentid=0;',
-      'SELECT * FROM ${db.dbListedTable};',
-      readsFrom: {db.dbListedTable},
-    ).watch().map(
-      (rows) {
-        dbListeds = rows
-            .map(
-              (row) => DbListed.fromData(row.data),
-            )
-            .toList();
-      },
-    );*/
-
     for (int i = 0; i < dbListeds.length; i++) {
       listeds.add(
         Listed(
@@ -73,20 +59,6 @@ class _ListedDaoStorage extends DatabaseAccessor<SongLibDb>
 
   @override
   Stream<List<DbListed>> getAllListedsStream() {
-    /*customSelect(
-      //'SELECT * FROM DbListed WHERE parentid=0;',
-      'SELECT * FROM ${db.dbListedTable};',
-      readsFrom: {db.dbListedTable},
-    ).watch().map(
-      (rows) {
-        dbListeds = rows
-            .map(
-              (row) => DbListed.fromData(row.data),
-            )
-            .toList();
-      },
-    );*/
-
     return customSelect(
       'SELECT * FROM ${db.dbListedTable.actualTableName} '
       'WHERE ${db.dbListedTable.parentid.name}=0;',

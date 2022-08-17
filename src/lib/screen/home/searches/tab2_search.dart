@@ -5,6 +5,7 @@ import '../../../model/base/song.dart';
 import '../../../theme/theme_colors.dart';
 import '../../../widget/general/list_items.dart';
 import '../../../widget/search/search_widget.dart';
+import '../../songs/presentor_screen.dart';
 
 class Tab2Search extends StatelessWidget {
   final List<Book>? books;
@@ -35,11 +36,19 @@ class Tab2Search extends StatelessWidget {
         return SongItem(
           song: song,
           height: height!,
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return PresentorScreen(books: books, song: song);
+                },
+              ),
+            );
+          },
         );
       },
       selectedItemBuilder: (selectedSong, deleteSelectedSong) {
-        //return selectedSongWidget(selectedSong, deleteSelectedSong);
         return Container();
       },
       noItemsFoundWidget: noSongsFound(),

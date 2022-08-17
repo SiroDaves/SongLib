@@ -12,6 +12,7 @@ import '../../widget/general/list_items.dart';
 import '../../widget/progress/advanced/advanced_progress.dart';
 import '../../widget/progress/circular_progress.dart';
 import '../../widget/provider/provider_widget.dart';
+import 'selection_progress.dart';
 
 class SelectionScreen extends StatefulWidget {
   static const String routeName = 'selection';
@@ -24,13 +25,17 @@ class SelectionScreen extends StatefulWidget {
 
 class SelectionScreenState extends State<SelectionScreen>
     implements SelectionNavigator {
+  Size? size;
+
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
+
     return ProviderWidget<SelectionVm>(
       create: () => GetIt.I()..init(this),
       childBuilderWithViewModel: (context, viewModel, theme, localization) =>
           Scaffold(
-        backgroundColor: Colors.grey,
+        backgroundColor: Colors.black,
         appBar: AppBar(
           title: Text(
             viewModel.isBusy
@@ -40,7 +45,14 @@ class SelectionScreenState extends State<SelectionScreen>
         ),
         body: SizedBox(
           child: viewModel.isBusy
-              ? progressWidget(viewModel)
+              ? Stack(
+                  children: [
+                    SelectionBackgroundProgress(
+                        viewModel: viewModel, size: size!),
+                    SelectionAdvancedProgress(
+                        viewModel: viewModel, size: size!),
+                  ],
+                )
               : mainContainer(context, viewModel),
         ),
         floatingActionButton: viewModel.isBusy

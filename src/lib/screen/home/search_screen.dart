@@ -1,39 +1,61 @@
-part of '../home_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
-// ignore: must_be_immutable
-class SearchTab extends StatelessWidget {
-  final HomeVm viewModel;
-  SearchTab({Key? key, required this.viewModel}) : super(key: key);
+import '../../navigator/route_names.dart';
+import '../../theme/theme_colors.dart';
+import '../../util/constants/app_constants.dart';
+import '../../vm/home/home_vm.dart';
+import '../../widget/general/labels.dart';
+import '../../widget/general/list_items.dart';
+import '../../widget/progress/line_progress.dart';
+import '../../widget/provider/provider_widget.dart';
+import '../songs/presentor_screen.dart';
+import 'searches/tab2_search.dart';
 
+class SearchScreen extends StatefulWidget {
+  static const String routeName = RouteNames.searchScreen;
+
+  const SearchScreen({Key? key}) : super(key: key);
+
+  @override
+  SearchScreenState createState() => SearchScreenState();
+}
+
+@visibleForTesting
+class SearchScreenState extends State<SearchScreen> implements HomeNavigator {
   Size? size;
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Container(
-        height: size!.height,
-        padding: const EdgeInsets.only(top: 40),
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.white, ThemeColors.accent, Colors.black],
+    return ProviderWidget<HomeVm>(
+      create: () => GetIt.I()..init(this),
+      consumerWithThemeAndLocalization:
+          (context, viewModel, child, theme, localization) => Scaffold(
+        body: Container(
+          height: size!.height,
+          padding: const EdgeInsets.only(top: 40),
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Colors.white, ThemeColors.accent, Colors.black],
+            ),
           ),
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              titleContainer(),
-              mainContainer(context),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                titleContainer(),
+                mainContainer(context, viewModel),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget mainContainer(BuildContext context) {
+  Widget mainContainer(BuildContext context, HomeVm viewModel) {
     return SizedBox(
       child: viewModel.isBusy
           ? const ListLoading()
@@ -47,10 +69,10 @@ class SearchTab extends StatelessWidget {
                       )
                     : Container(),
                 viewModel.books!.isNotEmpty
-                    ? bookContainer(context)
+                    ? bookContainer(context, viewModel)
                     : Container(),
                 viewModel.songs!.isNotEmpty
-                    ? listContainer(context)
+                    ? listContainer(context, viewModel)
                     : const NoDataToShow(
                         title: AppConstants.itsEmptyHere,
                         description: AppConstants.itsEmptyHereBody,
@@ -76,7 +98,7 @@ class SearchTab extends StatelessWidget {
     );
   }
 
-  Widget bookContainer(BuildContext context) {
+  Widget bookContainer(BuildContext context, HomeVm viewModel) {
     return SizedBox(
       height: size!.height * 0.0897,
       child: ListView.builder(
@@ -95,7 +117,7 @@ class SearchTab extends StatelessWidget {
     );
   }
 
-  Widget listContainer(BuildContext context) {
+  Widget listContainer(BuildContext context, HomeVm viewModel) {
     return Container(
       height: size!.height * 0.7,
       padding: const EdgeInsets.only(right: 2),

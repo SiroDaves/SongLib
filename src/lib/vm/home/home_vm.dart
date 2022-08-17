@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../model/base/book.dart';
 import '../../model/base/draft.dart';
+import '../../model/base/history.dart';
 import '../../model/base/listed.dart';
 import '../../model/base/song.dart';
 import '../../repository/db_repository.dart';
@@ -39,6 +41,7 @@ class HomeVm with ChangeNotifierEx {
   List<Book>? books = [];
   List<Song>? searches = [], songs = [], likes = [];
 
+  List<History>? histories = [];
   List<Listed>? listeds = [];
   List<Draft>? drafts = [];
 
@@ -60,13 +63,21 @@ class HomeVm with ChangeNotifierEx {
     isBusy = true;
     notifyListeners();
 
-    books = await db.fetchBooks();
-    likes = await db.fetchLikedSongs();
-    drafts = await db.fetchDrafts();
-    listeds = await db.fetchListeds();
-    songs = searches = await db.fetchSongs();
+    try {
+      books = await db.fetchBooks();
+      likes = await db.fetchLikedSongs();
+      histories = await db.fetchHistories();
+      drafts = await db.fetchDrafts();
+      listeds = await db.fetchListeds();
+      songs = searches = await db.fetchSongs();
 
-    songs!.removeWhere((ik) => ik.book != mainBook);
+      songs!.retainWhere((song) => song.book == mainBook);
+    } catch (exception, stackTrace) {
+      await Sentry.captureException(
+        exception,
+        stackTrace: stackTrace,
+      );
+    }
 
     isBusy = false;
     notifyListeners();
@@ -75,13 +86,20 @@ class HomeVm with ChangeNotifierEx {
   // function to validate creds
   bool validateInput() {
     bool validated = false;
-    if (titleController!.text.isNotEmpty) {
-      title = titleController!.text;
-      content = contentController!.text;
+    try {
+      if (titleController!.text.isNotEmpty) {
+        title = titleController!.text;
+        content = contentController!.text;
 
-      validated = true;
-    } else {
-      validated = false;
+        validated = true;
+      } else {
+        validated = false;
+      }
+    } catch (exception, stackTrace) {
+      Sentry.captureException(
+        exception,
+        stackTrace: stackTrace,
+      );
     }
     return validated;
   }
@@ -135,15 +153,17 @@ class HomeVm with ChangeNotifierEx {
       isBusy = true;
       notifyListeners();
 
-      final Listed listed = Listed(
-        objectId: '',
-        title: titleController!.text,
-        description: contentController!.text,
-      );
-      await db.saveListed(listed);
+      try {
+        final Listed listed = Listed(
+          objectId: '',
+          title: titleController!.text,
+          description: contentController!.text,
+        );
+        await db.saveListed(listed);
 
-      await clearForm();
-      await fetchSongData();
+        await clearForm();
+        await fetchSongData();
+      } catch (_) {}
       // ignore: use_build_context_synchronously
       Navigator.pop(context);
       isBusy = false;
@@ -155,8 +175,15 @@ class HomeVm with ChangeNotifierEx {
 
   /// clear data from the form
   Future<void> clearForm() async {
-    titleController!.clear();
-    contentController!.clear();
+    try {
+      titleController!.clear();
+      contentController!.clear();
+    } catch (exception, stackTrace) {
+      await Sentry.captureException(
+        exception,
+        stackTrace: stackTrace,
+      );
+    }
   }
 
   void newListForm(BuildContext context) {
@@ -217,11 +244,4 @@ class HomeVm with ChangeNotifierEx {
   }
 }
 
-abstract class HomeNavigator {
-  void goToPresentor(Song song);
-  void goToEditor(Song song);
-
-  void goToSettings();
-  void goToHistory();
-  void goToLists();
-}
+abstract class HomeNavigator {}

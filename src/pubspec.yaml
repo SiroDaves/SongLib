@@ -44,6 +44,7 @@ dependencies:
   retrofit: ^3.0.1+1
   screenshot: ^1.2.3
   scroll_when_needed: ^2.0.0
+  sentry_flutter: ^6.9.1
   share_plus: ^4.0.10
   shared_preferences: ^2.0.11
   skeleton_loader: ^2.0.0+4

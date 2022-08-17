@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../model/base/book.dart';
 import '../../model/base/draft.dart';
+import '../../model/base/history.dart';
 import '../../model/base/listed.dart';
 import '../../model/base/song.dart';
 import '../../theme/theme_colors.dart';
@@ -198,6 +199,65 @@ class SongGrid extends StatelessWidget {
     Book book = books.firstWhere((item) => item.bookNo == song.book);
     return Hero(
       tag: 'SongGrid_${song.objectId}',
+      child: GestureDetector(
+        onTap: onTap,
+        child: Card(
+          elevation: 2,
+          margin: EdgeInsets.only(right: 5, bottom: height * 0.0049),
+          child: Container(
+            width: height * 0.1958,
+            margin: const EdgeInsets.only(right: 10),
+            padding: const EdgeInsets.all(5),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  truncateString(20, songItemTitle(song.book!, song.title!)),
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontSize: height * 0.0228,
+                  ),
+                ),
+                const SizedBox(height: 3),
+                Text(
+                  book.title!.isNotEmpty ? truncateString(20, book.title!) : '',
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontSize: height * 0.0175,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class HistoryGrid extends StatelessWidget {
+  final History history;
+  final List<Song> songs;
+  final List<Book> books;
+  final double height;
+  final Function()? onTap;
+
+  const HistoryGrid({
+    Key? key,
+    required this.history,
+    required this.songs,
+    required this.books,
+    required this.height,
+    this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final Song song = songs.firstWhere((item) => item.id == history.song);
+    final Book book = books.firstWhere((item) => item.bookNo == song.book);
+    return Hero(
+      tag: 'HistoryGrid_${history.id}',
       child: GestureDetector(
         onTap: onTap,
         child: Card(

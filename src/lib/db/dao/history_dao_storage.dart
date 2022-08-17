@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
+import 'package:songlib/util/constants/utilities.dart';
 
 import '../../model/base/history.dart';
 import '../../model/tables/db_history_table.dart';
@@ -46,15 +47,14 @@ class _HistoryDaoStorage extends DatabaseAccessor<SongLibDb>
   }
 
   @override
-  Stream<List<DbHistory>> getAllHistoriesStream() => select(db.dbHistoryTable).watch();
+  Stream<List<DbHistory>> getAllHistoriesStream() =>
+      select(db.dbHistoryTable).watch();
 
   @override
   Future<void> createHistory(History history) => into(db.dbHistoryTable).insert(
         DbHistoryTableCompanion.insert(
-          objectId: Value(history.objectId!),
           song: Value(history.song!),
-          createdAt: Value(history.createdAt!),
+          createdAt: Value(dateNow()),
         ),
       );
-
 }

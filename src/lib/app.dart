@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'navigator/main_navigator.dart';
 import 'theme/theme_data.dart';
@@ -11,7 +12,14 @@ import 'vm/global_vm.dart';
 import 'widget/provider/provider_widget.dart';
 
 void startApp() async {
-  runApp(const MyApp());
+  await SentryFlutter.init(
+    (options) {
+      options.dsn =
+          'https://704a7eba4e654566beb30a98e786da51@o1365314.ingest.sentry.io/6660908';
+      options.tracesSampleRate = 1.0;
+    },
+    appRunner: () => runApp(const MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:provider/provider.dart';
 
 import '../../model/base/book.dart';
 import '../../model/base/song.dart';
@@ -15,7 +14,7 @@ import '../../widget/general/vertical_tabs.dart';
 import '../../widget/provider/provider_widget.dart';
 
 class PresentorScreen extends StatefulWidget {
-  static const String routeName = RouteNames.viewerScreen;
+  static const String routeName = RouteNames.presentorScreen;
 
   final List<Book>? books;
   final Song? song;
@@ -37,56 +36,63 @@ class PresentorScreenState extends State<PresentorScreen>
   List<Book>? books;
   Song? song;
   Size? size;
-
-  late PresentorVm viewModel;
-
-  @override
-  void initState() {
-    viewModel = GetIt.instance.get<PresentorVm>();
-    viewModel.books = books;
-    viewModel.song = song;
-    super.initState();
-  }
+  
+  List<Tab>? viewerTabs;
+  List<Widget>? viewerWidgets;
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return ProviderWidget<PresentorVm>(
       create: () => GetIt.I()..init(this),
-      consumerWithThemeAndLocalization:
-          (context, viewModel, child, theme, localization) => Scaffold(
-        appBar: AppBar(
-          title: Text(
-            songItemTitle(song!.songNo!, song!.title!),
-          ),
-          actions: <Widget>[
-            InkWell(
-              onTap: viewModel.likeSong,
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Icon(viewModel.likeIcon),
-              ),
-            ),
-            popupMenu(viewModel),
-          ],
+      consumerWithThemeAndLocalization: (
+        context,
+        viewModel,
+        child,
+        theme,
+        localization,
+      ) =>
+          screenWidget(viewModel),
+    );
+  }
+
+  Widget screenWidget(PresentorVm viewModel) {
+    viewModel.books = books;
+    viewModel.song = song;
+    viewModel.loadViewer();
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          songItemTitle(song!.songNo!, song!.title!),
         ),
-        body: Container(
-          height: size!.height,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-                Colors.white,
-                Colors.orange,
-                ThemeColors.accent,
-                ThemeColors.primary,
-                Colors.black,
-              ],
+        actions: <Widget>[
+          InkWell(
+            onTap: viewModel.likeSong,
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Icon(viewModel.likeIcon),
             ),
           ),
-          child: mainContainer(context, viewModel),
+          popupMenu(viewModel),
+        ],
+      ),
+      body: Container(
+        height: size!.height,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              Colors.white,
+              Colors.orange,
+              ThemeColors.accent,
+              ThemeColors.primary,
+              Colors.black,
+            ],
+          ),
         ),
+        child: mainContainer(context, viewModel),
       ),
     );
   }
@@ -113,11 +119,7 @@ class PresentorScreenState extends State<PresentorScreen>
   }
 
   Widget mainContainer(BuildContext context, PresentorVm viewModel) {
-    //viewModel.books = books;
-    //viewModel.song = song;
-    //viewModel.loadViewer();
-
-    final List<Tab> viewerTabs = List<Tab>.generate(
+    viewerTabs = List<Tab>.generate(
       viewModel.verseInfos.length,
       (int index) {
         return Tab(
@@ -133,23 +135,20 @@ class PresentorScreenState extends State<PresentorScreen>
         );
       },
     );
-    final List<Widget> viewerWidgets = List<Widget>.generate(
+    viewerWidgets = List<Widget>.generate(
       viewModel.verseInfos.length,
       (int index) {
         return Column(
           children: <Widget>[
             verseText(viewModel.verseTexts[index]),
-            Container(
-              margin: const EdgeInsets.only(top: 10, left: 15),
-              child: Row(
-                children: [
-                  const Spacer(),
-                  copyVerse(index, viewModel.verseTexts[index], viewModel),
-                  shareVerse(index, viewModel.verseTexts[index], viewModel),
-                  //screenshotVerse(index, viewModel.verseTexts[index], context, viewModel),
-                  const Spacer(),
-                ],
-              ),
+            Row(
+              children: [
+                const Spacer(),
+                copyVerse(index, viewModel.verseTexts[index], viewModel),
+                shareVerse(index, viewModel.verseTexts[index], viewModel),
+                //screenshotVerse(index, viewModel.verseTexts[index], context, viewModel),
+                const Spacer(),
+              ],
             ),
           ],
         );
@@ -168,7 +167,7 @@ class PresentorScreenState extends State<PresentorScreen>
   }
 
   Widget verseText(String lyrics) {
-    double nfontsize = getFontSize(
+    final double nfontsize = getFontSize(
       lyrics.length + 20,
       size!.height - 200,
       size!.width - 100,
@@ -196,10 +195,11 @@ class PresentorScreenState extends State<PresentorScreen>
 
   Widget copyVerse(int index, String lyrics, PresentorVm viewModel) {
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(5),
       child: FloatingActionButton(
         heroTag: "CopyVerse_$index",
         tooltip: AppConstants.copyVerse,
+        backgroundColor: ThemeColors.primary,
         onPressed: () => viewModel.copyVerse(lyrics),
         child: const Icon(Icons.content_copy),
       ),
@@ -208,10 +208,11 @@ class PresentorScreenState extends State<PresentorScreen>
 
   Widget shareVerse(int index, String lyrics, PresentorVm viewModel) {
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(5),
       child: FloatingActionButton(
         heroTag: "ShareVerse_$index",
         tooltip: AppConstants.shareVerse,
+        backgroundColor: ThemeColors.primary,
         onPressed: () => viewModel.shareVerse(lyrics),
         child: const Icon(Icons.share),
       ),
@@ -225,6 +226,7 @@ class PresentorScreenState extends State<PresentorScreen>
       child: FloatingActionButton(
         heroTag: "ScreenshotVerse_$index",
         tooltip: AppConstants.shareVerse,
+        backgroundColor: ThemeColors.primary,
         onPressed:
             () {}, //=> viewModel.screenshotVerse(context, size!, lyrics),
         child: const Icon(Icons.screenshot),

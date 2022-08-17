@@ -8,7 +8,7 @@ analyzer:
     sdk_version_async_exported_from_core: ignore
   strong-mode:
     implicit-casts: false
-    implicit-dynamic: false
+    #implicit-dynamic: false
   exclude:
     - '**.g.dart'
     - '**.config.dart'

@@ -1,6 +1,3 @@
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
@@ -8,6 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../model/base/book.dart';
+import '../../model/base/history.dart';
 import '../../model/base/song.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../repository/db_repository.dart';
@@ -37,44 +35,54 @@ class PresentorVm with ChangeNotifierEx {
 
   Future<void> init(PresentorNavigator screenNavigator) async {
     navigator = screenNavigator;
-    await loadViewer();
   }
 
   Future<void> loadViewer() async {
-    books!.retainWhere((item) => item.bookNo == song!.book);
-    book = books![0];
+    try {
+      if (song != null) {
+        verseInfos.clear();
+        verseTexts.clear();
 
-    isLiked = song!.liked!;
-    likeIcon = isLiked ? Icons.favorite : Icons.favorite_border;
-    songVerses = song!.content!.split("##");
-    final int verseCount = songVerses.length;
+        books!.retainWhere((item) => item.bookNo == song!.book);
+        book = books![0];
 
-    if (song!.content!.contains("CHORUS")) {
-      hasChorus = true;
-    } else {
-      hasChorus = false;
-    }
+        isLiked = song!.liked!;
+        likeIcon = isLiked ? Icons.favorite : Icons.favorite_border;
+        songVerses = song!.content!.split("##");
+        final int verseCount = songVerses.length;
 
-    if (hasChorus) {
-      final String chorus = songVerses[1].toString().replaceAll("CHORUS#", "");
+        if (song!.content!.contains("CHORUS")) {
+          hasChorus = true;
+        } else {
+          hasChorus = false;
+        }
 
-      verseInfos.add("1");
-      verseInfos.add("C");
-      verseTexts.add(songVerses[0]);
-      verseTexts.add(chorus);
+        if (hasChorus) {
+          final String chorus =
+              songVerses[1].toString().replaceAll("CHORUS#", "");
 
-      for (int i = 2; i < verseCount; i++) {
-        verseInfos.add(i.toString());
-        verseInfos.add("C");
-        verseTexts.add(songVerses[i]);
-        verseTexts.add(chorus);
+          verseInfos.add("1");
+          verseInfos.add("C");
+          verseTexts.add(songVerses[0]);
+          verseTexts.add(chorus);
+
+          for (int i = 2; i < verseCount; i++) {
+            verseInfos.add(i.toString());
+            verseInfos.add("C");
+            verseTexts.add(songVerses[i]);
+            verseTexts.add(chorus);
+          }
+        } else {
+          for (int i = 0; i < verseCount; i++) {
+            verseInfos.add((i + 1).toString());
+            verseTexts.add(songVerses[i]);
+          }
+        }
       }
-    } else {
-      for (int i = 0; i < verseCount; i++) {
-        verseInfos.add((i + 1).toString());
-        verseTexts.add(songVerses[i]);
-      }
-    }
+    } catch (_) {}
+    try {
+      await db.saveHistory(History(song: song!.id));
+    } catch (_) {}
   }
 
   Future<void> popupActions(int value) async {
@@ -92,67 +100,77 @@ class PresentorVm with ChangeNotifierEx {
   }
 
   Future<void> copySong() async {
-    final String songText = song!.content!.replaceAll("#", "\n");
-    await Clipboard.setData(ClipboardData(
-      text: '${songItemTitle(song!.songNo!, song!.title!)}\n\n$songText',
-    ));
-    showToast(
-      text: '${song!.title} ${AppConstants.songCopied}',
-      state: ToastStates.success,
-    );
+    try {
+      final String songText = song!.content!.replaceAll("#", "\n");
+      await Clipboard.setData(ClipboardData(
+        text: '${songItemTitle(song!.songNo!, song!.title!)}\n\n$songText',
+      ));
+      showToast(
+        text: '${song!.title} ${AppConstants.songCopied}',
+        state: ToastStates.success,
+      );
+    } catch (_) {}
   }
 
   Future<void> shareSong() async {
-    final String songText = song!.content!.replaceAll("#", "\n");
-    await Share.share(
-      '${songItemTitle(song!.songNo!, song!.title!)}\n\n$songText',
-      subject: AppConstants.shareVerse,
-    );
-    showToast(
-      text: AppConstants.verseReadyShare,
-      state: ToastStates.success,
-    );
+    try {
+      final String songText = song!.content!.replaceAll("#", "\n");
+      await Share.share(
+        '${songItemTitle(song!.songNo!, song!.title!)}\n\n$songText',
+        subject: AppConstants.shareVerse,
+      );
+      showToast(
+        text: AppConstants.verseReadyShare,
+        state: ToastStates.success,
+      );
+    } catch (_) {}
   }
 
   Future<void> likeSong() async {
-    isLiked = !isLiked;
-    song!.liked = isLiked;
-    await db.editSong(song!);
-    likeIcon = isLiked ? Icons.favorite : Icons.favorite_border;
-    if (isLiked) {
-      showToast(
-        text: '${song!.title} ${AppConstants.songLiked}',
-        state: ToastStates.success,
-      );
-    }
-    notifyListeners();
+    try {
+      isLiked = !isLiked;
+      song!.liked = isLiked;
+      await db.editSong(song!);
+      likeIcon = isLiked ? Icons.favorite : Icons.favorite_border;
+      if (isLiked) {
+        showToast(
+          text: '${song!.title} ${AppConstants.songLiked}',
+          state: ToastStates.success,
+        );
+      }
+      notifyListeners();
+    } catch (_) {}
   }
 
   Future<void> copyVerse(String lyrics) async {
-    await Clipboard.setData(
-      ClipboardData(
-        text: '${lyrics.replaceAll("#", "\n")}\n\n'
-            '${songItemTitle(song!.songNo!, song!.title!)},\n'
-            '${book!.title}',
-      ),
-    );
-    showToast(
-      text: AppConstants.verseCopied,
-      state: ToastStates.success,
-    );
+    try {
+      await Clipboard.setData(
+        ClipboardData(
+          text: '${lyrics.replaceAll("#", "\n")}\n\n'
+              '${songItemTitle(song!.songNo!, song!.title!)},\n'
+              '${book!.title}',
+        ),
+      );
+      showToast(
+        text: AppConstants.verseCopied,
+        state: ToastStates.success,
+      );
+    } catch (_) {}
   }
 
   Future<void> shareVerse(String lyrics) async {
-    await Share.share(
-      '${lyrics.replaceAll("#", "\n")}\n\n'
-      '${songItemTitle(song!.songNo!, song!.title!)},\n'
-      '${book!.title}',
-      subject: AppConstants.shareVerse,
-    );
-    showToast(
-      text: AppConstants.verseReadyShare,
-      state: ToastStates.success,
-    );
+    try {
+      await Share.share(
+        '${lyrics.replaceAll("#", "\n")}\n\n'
+        '${songItemTitle(song!.songNo!, song!.title!)},\n'
+        '${book!.title}',
+        subject: AppConstants.shareVerse,
+      );
+      showToast(
+        text: AppConstants.verseReadyShare,
+        state: ToastStates.success,
+      );
+    } catch (_) {}
   }
 
   void onBackPressed() => navigator.goBack<void>();
