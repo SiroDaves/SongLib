@@ -131,10 +131,11 @@ class SelectionVm with ChangeNotifierEx {
     notifyListeners();
 
     localStorage.setPrefBool(PrefConstants.dataLoadedCheckKey, true);
-    selectionNavigator.goToHome();
+    selectionNavigator.goToSearch();
   }
 }
 
 abstract class SelectionNavigator {
   void goToHome();
+  void goToSearch();
 }

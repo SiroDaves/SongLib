@@ -46,7 +46,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:517036698108:android:eaae8e3996b520b7a26a79",
         "android_client_info": {
-          "package_name": "com.songlib.debug"
+          "package_name": "com.songlib.alpha"
         }
       },
       "oauth_client": [
@@ -54,7 +54,7 @@
           "client_id": "517036698108-6ct8oe0sapkg04mo59n9g9rk3t5umb60.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.songlib.debug",
+            "package_name": "com.songlib.alpha",
             "certificate_hash": "d712e92703a9e27254f378f31e4f22013c8b3432"
           }
         },

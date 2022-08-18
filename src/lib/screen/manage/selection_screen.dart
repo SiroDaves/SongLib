@@ -43,18 +43,18 @@ class SelectionScreenState extends State<SelectionScreen>
                 : AppConstants.booksTitle,
           ),
         ),
-        body: SizedBox(
-          child: viewModel.isBusy
-              ? Stack(
-                  children: [
-                    SelectionBackgroundProgress(
-                        viewModel: viewModel, size: size!),
-                    SelectionAdvancedProgress(
-                        viewModel: viewModel, size: size!),
-                  ],
-                )
-              : mainContainer(context, viewModel),
-        ),
+        body: viewModel.isBusy
+            ? Stack(
+                children: [
+                  SelectionBackgroundProgress(
+                      viewModel: viewModel, size: size!),
+                  SelectionAdvancedProgress(viewModel: viewModel, size: size!),
+                ],
+              )
+            : Container(
+                color: Colors.white,
+                child: mainContainer(context, viewModel),
+              ),
         floatingActionButton: viewModel.isBusy
             ? Container()
             : FloatingActionButton(
@@ -258,4 +258,7 @@ class SelectionScreenState extends State<SelectionScreen>
 
   @override
   void goToHome() => MainNavigatorWidget.of(context).goToHome();
+  
+  @override
+  void goToSearch() => MainNavigatorWidget.of(context).goToSearch();
 }
