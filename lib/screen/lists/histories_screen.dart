@@ -1,0 +1,108 @@
+import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+
+import '../../navigator/mixin/back_navigator.dart';
+import '../../navigator/route_names.dart';
+import '../../theme/theme_colors.dart';
+import '../../util/constants/app_constants.dart';
+import '../../vm/lists/histories_vm.dart';
+import '../../widget/general/labels.dart';
+import '../../widget/general/list_items.dart';
+import '../../widget/progress/line_progress.dart';
+import '../../widget/provider/provider_widget.dart';
+import '../songs/presentor_screen.dart';
+
+class HistoriesScreen extends StatefulWidget {
+  static const String routeName = RouteNames.historiesScreen;
+
+  const HistoriesScreen({Key? key}) : super(key: key);
+
+  @override
+  HistoriesScreenState createState() => HistoriesScreenState();
+}
+
+@visibleForTesting
+class HistoriesScreenState extends State<HistoriesScreen>
+    with BackNavigatorMixin
+    implements HistoriesNavigator {
+  Size? size;
+
+  @override
+  Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
+
+    return ProviderWidget<HistoriesVm>(
+      create: () => GetIt.I()..init(this),
+      consumerWithThemeAndLocalization:
+          (context, viewModel, child, theme, localization) =>
+              DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text(AppConstants.historiesTitle),
+            bottom: const TabBar(
+              tabs: [
+                Tab(text: 'Songs'),
+                Tab(text: 'Searches'),
+              ],
+            ),
+          ),
+          body: TabBarView(
+            children: [
+              mainContainer(context, viewModel),
+              mainContainer(context, viewModel),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget mainContainer(BuildContext context, HistoriesVm viewModel) {
+    return SizedBox(
+      child: viewModel.isBusy
+          ? const ListLoading()
+          : viewModel.histories!.isNotEmpty
+              ? listContainer(context, viewModel)
+              : const NoDataToShow(
+                  title: AppConstants.itsEmptyHere1,
+                  description: AppConstants.itsEmptyHereBody4,
+                ),
+    );
+  }
+
+  Widget listContainer(BuildContext context, HistoriesVm viewModel) {
+    return Container(
+      height: size!.height * 0.7,
+      padding: const EdgeInsets.only(right: 2),
+      child: Scrollbar(
+        thickness: 10,
+        radius: const Radius.circular(20),
+        child: ListView.builder(
+          itemCount: viewModel.songs!.length,
+          padding: EdgeInsets.only(
+            left: size!.height * 0.0082,
+            right: size!.height * 0.0082,
+          ),
+          itemBuilder: (context, index) => SongItem(
+            song: viewModel.songs![index],
+            height: size!.height,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return PresentorScreen(
+                      books: viewModel.books,
+                      song: viewModel.songs![index],
+                    );
+                  },
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -10,7 +10,6 @@ class ListedsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    // TODO: implement build
     return Scaffold(
       body: Container(
         height: size!.height,
@@ -50,12 +49,6 @@ class ListedsTab extends StatelessWidget {
                         listeds: viewModel.listeds,
                         height: size!.height,
                       )
-                    : Container(),
-                viewModel.likes!.isNotEmpty
-                    ? likesContainer(context, viewModel)
-                    : Container(),
-                viewModel.histories!.isNotEmpty
-                    ? historiesContainer(context, viewModel)
                     : Container(),
                 viewModel.listeds!.isNotEmpty
                     ? listContainer(context, viewModel)

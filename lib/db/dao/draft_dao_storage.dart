@@ -31,8 +31,8 @@ class _DraftDaoStorage extends DatabaseAccessor<SongLibDb>
 
   @override
   Future<List<Draft>> getAllDrafts() async {
-    List<DbDraft> dbdrafts = await select(db.dbDraftTable).get();
-    List<Draft> drafts = [];
+    final List<DbDraft> dbdrafts = await select(db.dbDraftTable).get();
+    final List<Draft> drafts = [];
 
     for (int i = 0; i < dbdrafts.length; i++) {
       drafts.add(

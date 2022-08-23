@@ -4,6 +4,7 @@ import '../../../model/base/listed.dart';
 import '../../../theme/theme_colors.dart';
 import '../../../widget/general/list_items.dart';
 import '../../../widget/search/search_widget.dart';
+import '../../lists/list_screen.dart';
 
 class Tab1Search extends StatelessWidget {
   final List<Listed>? listeds;
@@ -24,12 +25,26 @@ class Tab1Search extends StatelessWidget {
       queryBuilder: (query, list) {
         return list
             .where(
-              (listed) => listed.title!.toLowerCase().contains(query.toLowerCase()),
+              (listed) =>
+                  listed.title!.toLowerCase().contains(query.toLowerCase()),
             )
             .toList();
       },
       popupListItemBuilder: (listed) {
-        return ListedItem(listed: listed, height: height!);
+        return ListedItem(
+          listed: listed,
+          height: height!,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return ListScreen(listed: listed);
+                },
+              ),
+            );
+          },
+        );
       },
       selectedItemBuilder: (selectedListed, deleteSelectedListed) {
         return selectedListedWidget(selectedListed, deleteSelectedListed);
@@ -131,7 +146,7 @@ class Tab1Search extends StatelessWidget {
         ),
         const SizedBox(width: 10),
         Text(
-          "No Listeds Found",
+          "No Lists Found",
           style: TextStyle(
             fontSize: 16,
             color: Colors.grey[900]!.withOpacity(0.7),

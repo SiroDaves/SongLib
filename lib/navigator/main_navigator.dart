@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 
-import '../model/base/song.dart';
-import '../screen/home/history_screen.dart';
 import '../screen/home/home_screen.dart';
-import '../screen/home/list_screen.dart';
 import '../screen/home/search_screen.dart';
+import '../screen/lists/histories_screen.dart';
+import '../screen/lists/likes_screen.dart';
 import '../screen/manage/selection_screen.dart';
 import '../screen/manage/settings_screen.dart';
-import '../screen/songs/editor_screen.dart';
-import '../screen/songs/presentor_screen.dart';
 import '../screen/splash_screen.dart';
 import '../screen/uitest_screen.dart';
 import '../util/env/flavor_config.dart';
@@ -85,12 +82,27 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
         );
       case HomeScreen.routeName:
         return FadeInRoute<void>(
-          child: HomeScreen(),
+          child: const HomeScreen(),
           settings: settings,
         );
       case SearchScreen.routeName:
         return FadeInRoute<void>(
-          child: SearchScreen(),
+          child: const SearchScreen(),
+          settings: settings,
+        );
+      case LikesScreen.routeName:
+        return FadeInRoute<void>(
+          child: const LikesScreen(),
+          settings: settings,
+        );
+      case HistoriesScreen.routeName:
+        return FadeInRoute<void>(
+          child: const HistoriesScreen(),
+          settings: settings,
+        );
+      case SettingsScreen.routeName:
+        return FadeInRoute<void>(
+          child: const SettingsScreen(),
           settings: settings,
         );
       case 'test_route':
@@ -113,34 +125,21 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
 
   @override
   void goToUiTest() => navigator.pushNamedAndRemoveUntil(
-        UiTestScreen.routeName,
-        (route) => false,
-      );
+      UiTestScreen.routeName, (route) => false);
 
   @override
-  void goToHome() => navigator.pushNamedAndRemoveUntil(
-        HomeScreen.routeName,
-        (route) => false,
-      );
+  void goToHome() =>
+      navigator.pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
 
   @override
   void goToSearch() => navigator.pushNamedAndRemoveUntil(
-        SearchScreen.routeName,
-        (route) => false,
-      );
+      SearchScreen.routeName, (route) => false);
 
   @override
-  void goToPresentor(Song song) =>
-      navigator.pushNamed(PresentorScreen.routeName);
+  void goToLikes() => navigator.pushNamed(LikesScreen.routeName);
 
   @override
-  void goToEditor(Song song) => navigator.pushNamed(EditorScreen.routeName);
-
-  @override
-  void goToLists() => navigator.pushNamed(ListsScreen.routeName);
-
-  @override
-  void goToHistory() => navigator.pushNamed(HistoryScreen.routeName);
+  void goToHistories() => navigator.pushNamed(HistoriesScreen.routeName);
 
   @override
   void goToSettings() => navigator.pushNamed(SettingsScreen.routeName);

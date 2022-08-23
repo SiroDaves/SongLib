@@ -5,7 +5,6 @@ import '../../model/base/song.dart';
 import '../../model/tables/db_song_table.dart';
 import '../songlib_db.dart';
 
-
 part 'song_dao_storage.g.dart';
 
 @lazySingleton
@@ -34,37 +33,45 @@ class _SongDaoStorage extends DatabaseAccessor<SongLibDb>
 
   @override
   Future<List<Song>> getLikedSongs() async {
-    List<DbSong> dbsongs = await select(db.dbSongTable).get();
-    List<Song> songs = [];
+    final Stream<List<DbSong>> streams = customSelect(
+      'SELECT * FROM ${db.dbSongTable.actualTableName} '
+      'WHERE ${db.dbSongTable.liked.name}=true;',
+      readsFrom: {db.dbSongTable},
+    ).watch().map(
+      (rows) {
+        return rows.map((row) => DbSong.fromData(row.data)).toList();
+      },
+    );
+
+    final List<DbSong> dbsongs = await streams.first;
+    final List<Song> songs = [];
 
     for (int i = 0; i < dbsongs.length; i++) {
-      if (dbsongs[i].liked) {
-        songs.add(
-          Song(
-            id: dbsongs[i].id,
-            objectId: dbsongs[i].objectId,
-            book: dbsongs[i].book,
-            songNo: dbsongs[i].songNo,
-            title: dbsongs[i].title,
-            alias: dbsongs[i].alias,
-            content: dbsongs[i].content,
-            author: dbsongs[i].author,
-            key: dbsongs[i].key,
-            views: dbsongs[i].views,
-            createdAt: dbsongs[i].createdAt,
-            updatedAt: dbsongs[i].updatedAt,
-            liked: dbsongs[i].liked,
-          ),
-        );
-      }
+      songs.add(
+        Song(
+          id: dbsongs[i].id,
+          objectId: dbsongs[i].objectId,
+          book: dbsongs[i].book,
+          songNo: dbsongs[i].songNo,
+          title: dbsongs[i].title,
+          alias: dbsongs[i].alias,
+          content: dbsongs[i].content,
+          author: dbsongs[i].author,
+          key: dbsongs[i].key,
+          views: dbsongs[i].views,
+          createdAt: dbsongs[i].createdAt,
+          updatedAt: dbsongs[i].updatedAt,
+          liked: dbsongs[i].liked,
+        ),
+      );
     }
     return songs;
   }
 
   @override
   Future<List<Song>> getAllSongs() async {
-    List<DbSong> dbsongs = await select(db.dbSongTable).get();
-    List<Song> songs = [];
+    final List<DbSong> dbsongs = await select(db.dbSongTable).get();
+    final List<Song> songs = [];
 
     for (int i = 0; i < dbsongs.length; i++) {
       songs.add(

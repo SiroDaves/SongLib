@@ -8,7 +8,9 @@ class AppConstants {
   static const appTitle = "SongLib";
   static const listTitle = "Song Lists";
   static const likesTitle = "Liked Songs";
+  static const historiesTitle = "Histories";
   static const draftTitle = "Song Drafts";
+  static const settingsTitle = "App Settings";
   static const booksTitle = "Select Song Books";
   static const booksTitleLoading = "Loading data ...";
 
@@ -20,9 +22,8 @@ class AppConstants {
   static const songTitle = "Your song in one line";
   static const songText = "The rest of your song";
 
-  static const hasChorus = "Has Chorus";
-  static const noChorus = "No Chorus";
-  static const verses = " verse";
+  static const hasChorus = "With a Chorus";
+  static const verses = "Verse";
 
   static const editSong = "Edit song";
   static const copySong = "Copy song";

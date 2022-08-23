@@ -122,7 +122,7 @@ class TagView extends StatelessWidget {
         return Container(
           padding:
               EdgeInsets.symmetric(horizontal: 10, vertical: height * 0.0049),
-          margin: EdgeInsets.only(top: 2, left: height * 0.0049),
+          margin: EdgeInsets.only(top: 2, right: height * 0.008),
           decoration: BoxDecoration(
             color: ThemeColors.primary,
             border: Border.all(color: Colors.white),

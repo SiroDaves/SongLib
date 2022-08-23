@@ -11,7 +11,8 @@ class RouteNames {
   static const searchScreen = 'search';
   static const presentorScreen = 'presentor';
   static const editorScreen = 'editor';
-  static const listsScreen = 'lists';
-  static const historyScreen = 'history';
+  static const listScreen = 'list';
+  static const likesScreen = 'likes';
+  static const historiesScreen = 'histories';
   static const settingsScreen = 'settings';
 }

@@ -30,20 +30,20 @@ class _HistoryDaoStorage extends DatabaseAccessor<SongLibDb>
 
   @override
   Future<List<History>> getAllHistories() async {
-    List<DbHistory> dbHistorys = await select(db.dbHistoryTable).get();
-    List<History> historys = [];
+    final List<DbHistory> dbHistoryies = await select(db.dbHistoryTable).get();
+    final List<History> historyies = [];
 
-    for (int i = 0; i < dbHistorys.length; i++) {
-      historys.add(
+    for (int i = 0; i < dbHistoryies.length; i++) {
+      historyies.add(
         History(
-          id: dbHistorys[i].id,
-          objectId: dbHistorys[i].objectId,
-          song: dbHistorys[i].song,
-          createdAt: dbHistorys[i].createdAt,
+          id: dbHistoryies[i].id,
+          objectId: dbHistoryies[i].objectId,
+          song: dbHistoryies[i].song,
+          createdAt: dbHistoryies[i].createdAt,
         ),
       );
     }
-    return historys;
+    return historyies;
   }
 
   @override

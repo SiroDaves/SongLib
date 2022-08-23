@@ -96,22 +96,22 @@ class SelectionVm with ChangeNotifierEx {
 
           switch (progress) {
             case 1:
-              state = "On your marks ...";
+              state = "On your\nmarks ...";
               break;
             case 5:
-              state = "Set, Ready ...";
+              state = "Set,\nReady ...";
               break;
             case 10:
-              state = "Loading songs ...";
+              state = "Loading\nsongs ...";
               break;
             case 20:
-              state = "Patience pays ...";
+              state = "Patience\npays ...";
               break;
             case 40:
-              state = "Loading songs ...";
+              state = "Loading\nsongs ...";
               break;
             case 75:
-              state = "Thanks for your patience!";
+              state = "Thanks for\nyour patience!";
               break;
             case 85:
               state = "Finishing up";
@@ -131,7 +131,7 @@ class SelectionVm with ChangeNotifierEx {
     notifyListeners();
 
     localStorage.setPrefBool(PrefConstants.dataLoadedCheckKey, true);
-    selectionNavigator.goToSearch();
+    selectionNavigator.goToHome();
   }
 }
 

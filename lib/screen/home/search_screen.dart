@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../navigator/main_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
@@ -109,7 +110,7 @@ class SearchScreenState extends State<SearchScreen> implements HomeNavigator {
           height: size!.height,
           onTap: () {
             viewModel.mainBook = viewModel.books![index].bookNo!;
-            viewModel.fetchSongData();
+            viewModel.fetchData();
           },
         ),
         itemCount: viewModel.books!.length,
@@ -124,9 +125,7 @@ class SearchScreenState extends State<SearchScreen> implements HomeNavigator {
       child: Scrollbar(
         thickness: 10,
         radius: const Radius.circular(20),
-        controller: viewModel.songScroller,
         child: ListView.builder(
-          controller: viewModel.songScroller,
           itemCount: viewModel.songs!.length,
           padding: EdgeInsets.only(
             left: size!.height * 0.0082,
@@ -153,4 +152,13 @@ class SearchScreenState extends State<SearchScreen> implements HomeNavigator {
       ),
     );
   }
+  
+  @override
+  void goToLikes() => MainNavigatorWidget.of(context).goToLikes();
+
+  @override
+  void goToHistories() => MainNavigatorWidget.of(context).goToHistories();
+
+  @override
+  void goToSettings() => MainNavigatorWidget.of(context).goToSettings();
 }

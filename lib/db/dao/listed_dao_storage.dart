@@ -36,9 +36,9 @@ class _ListedDaoStorage extends DatabaseAccessor<SongLibDb>
   Future<List<Listed>> getAllListeds({int? parentid = 0}) async {
     //List<DbListed> dbListeds = await select(db.dbListedTable).get();
 
-    Stream<List<DbListed>> streams = getAllListedsStream();
-    List<DbListed> dbListeds = await streams.first;
-    List<Listed> listeds = [];
+    final Stream<List<DbListed>> streams = getAllListedsStream();
+    final List<DbListed> dbListeds = await streams.first;
+    final List<Listed> listeds = [];
 
     for (int i = 0; i < dbListeds.length; i++) {
       listeds.add(

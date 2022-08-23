@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:songlib/util/constants/utilities.dart';
 
 import '../../../model/base/book.dart';
 import '../../../model/base/song.dart';
@@ -26,11 +27,22 @@ class Tab2Search extends StatelessWidget {
       hideSearchBoxWhenItemSelected: false,
       listContainerHeight: height! - 125,
       queryBuilder: (query, list) {
-        return list
-            .where(
-              (song) => song.title!.toLowerCase().contains(query.toLowerCase()),
-            )
-            .toList();
+        final List<Song> filtered = [];
+        for (int i = 0; i < list.length; i++) {
+          final Song song = list[i];
+          if (isNumeric(query)) {
+            if (song.songNo! == int.parse(query)) {
+              filtered.add(song);
+            }
+          } else {
+            if (song.title!.toLowerCase().contains(query.toLowerCase()) ||
+                song.alias!.toLowerCase().contains(query.toLowerCase()) ||
+                song.content!.toLowerCase().contains(query.toLowerCase())) {
+              filtered.add(song);
+            }
+          }
+        }
+        return filtered;
       },
       popupListItemBuilder: (song) {
         return SongItem(

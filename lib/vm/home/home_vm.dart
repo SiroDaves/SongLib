@@ -22,18 +22,6 @@ class HomeVm with ChangeNotifierEx {
 
   HomeVm(this.db, this.localStorage);
 
-  final ScrollController listsScroller =
-      ScrollController(initialScrollOffset: 0);
-
-  final ScrollController likesScroller =
-      ScrollController(initialScrollOffset: 0);
-
-  final ScrollController songScroller =
-      ScrollController(initialScrollOffset: 0);
-
-  final ScrollController notesScroller =
-      ScrollController(initialScrollOffset: 0);
-
   bool isBusy = false;
   String selectedBooks = "";
   int mainBook = 0;
@@ -53,13 +41,13 @@ class HomeVm with ChangeNotifierEx {
     contentController = TextEditingController();
 
     selectedBooks = localStorage.getPrefString(PrefConstants.selectedBooksKey);
-    var bookNos = selectedBooks.split(",");
+    final List<String> bookNos = selectedBooks.split(",");
     mainBook = int.parse(bookNos[0]);
-    await fetchSongData();
+    await fetchData();
   }
 
-  /// Get the songs data
-  Future<void> fetchSongData() async {
+  /// Get the data from the DB
+  Future<void> fetchData() async {
     isBusy = true;
     notifyListeners();
 
@@ -162,7 +150,7 @@ class HomeVm with ChangeNotifierEx {
         await db.saveListed(listed);
 
         await clearForm();
-        await fetchSongData();
+        await fetchData();
       } catch (_) {}
       // ignore: use_build_context_synchronously
       Navigator.pop(context);
@@ -244,4 +232,8 @@ class HomeVm with ChangeNotifierEx {
   }
 }
 
-abstract class HomeNavigator {}
+abstract class HomeNavigator {
+  void goToLikes();
+  void goToHistories();
+  void goToSettings();
+}

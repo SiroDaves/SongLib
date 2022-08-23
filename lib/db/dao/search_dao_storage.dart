@@ -30,20 +30,20 @@ class _SearchDaoStorage extends DatabaseAccessor<SongLibDb>
 
   @override
   Future<List<Search>> getAllSearches() async {
-    List<DbSearch> dbSearchs = await select(db.dbSearchTable).get();
-    List<Search> searchs = [];
+    final List<DbSearch> dbSearches = await select(db.dbSearchTable).get();
+    final List<Search> searches = [];
 
-    for (int i = 0; i < dbSearchs.length; i++) {
-      searchs.add(
+    for (int i = 0; i < dbSearches.length; i++) {
+      searches.add(
         Search(
-          id: dbSearchs[i].id,
-          objectId: dbSearchs[i].objectId,
-          title: dbSearchs[i].title,
-          createdAt: dbSearchs[i].createdAt,
+          id: dbSearches[i].id,
+          objectId: dbSearches[i].objectId,
+          title: dbSearches[i].title,
+          createdAt: dbSearches[i].createdAt,
         ),
       );
     }
-    return searchs;
+    return searches;
   }
 
   @override

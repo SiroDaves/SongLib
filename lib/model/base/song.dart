@@ -54,3 +54,36 @@ class Song {
 
   Map<String, dynamic> toJson() => _$SongToJson(this);
 }
+
+class SongExt {
+  int? book;
+  int? songNo;
+  String? title;
+  String? alias;
+  String? content;
+  String? key;
+  String? author;
+  int? views;
+  int? likes;
+  String? createdAt;
+  String? updatedAt;
+  bool? liked;
+  int? id;
+
+   SongExt({
+    this.book,
+    this.songNo,
+    this.title,
+    this.alias,
+    this.content,
+    this.key,
+    this.author,
+    this.views,
+    this.likes,
+    this.createdAt,
+    this.updatedAt,
+    this.liked,
+    this.id,
+  });
+
+}

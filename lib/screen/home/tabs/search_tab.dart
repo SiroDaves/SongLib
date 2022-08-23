@@ -87,7 +87,7 @@ class SearchTab extends StatelessWidget {
           height: size!.height,
           onTap: () {
             viewModel.mainBook = viewModel.books![index].bookNo!;
-            viewModel.fetchSongData();
+            viewModel.fetchData();
           },
         ),
         itemCount: viewModel.books!.length,
@@ -102,9 +102,9 @@ class SearchTab extends StatelessWidget {
       child: Scrollbar(
         thickness: 10,
         radius: const Radius.circular(20),
-        controller: viewModel.songScroller,
+        //controller: viewModel.songScroller,
         child: ListView.builder(
-          controller: viewModel.songScroller,
+          //controller: viewModel.songScroller,
           itemCount: viewModel.songs!.length,
           padding: EdgeInsets.only(
             left: size!.height * 0.0082,

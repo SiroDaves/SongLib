@@ -11,30 +11,30 @@ class NotesTab extends StatelessWidget {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return Scaffold(
-        body: Container(
-          height: size!.height,
-          padding: const EdgeInsets.only(top: 40),
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [Colors.white, ThemeColors.accent, Colors.black],
-            ),
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                titleContainer(),
-                mainContainer(context),
-              ],
-            ),
+      body: Container(
+        height: size!.height,
+        padding: const EdgeInsets.only(top: 40),
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Colors.white, ThemeColors.accent, Colors.black],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: ThemeColors.primary,
-          onPressed: () {},
-          child: const Icon(Icons.add, color: Colors.white),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              titleContainer(),
+              mainContainer(context),
+            ],
+          ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: ThemeColors.primary,
+        onPressed: () {},
+        child: const Icon(Icons.add, color: Colors.white),
+      ),
     );
   }
 
@@ -86,9 +86,7 @@ class NotesTab extends StatelessWidget {
         trackVisibility: true,
         thumbVisibility: true,
         radius: const Radius.circular(20),
-        controller: viewModel.notesScroller,
         child: ListView.builder(
-          controller: viewModel.notesScroller,
           padding: EdgeInsets.only(
             left: size!.height * 0.0082,
             right: size!.height * 0.0163,
@@ -103,5 +101,4 @@ class NotesTab extends StatelessWidget {
       ),
     );
   }
-
 }

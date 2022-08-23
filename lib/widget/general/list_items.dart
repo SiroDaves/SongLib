@@ -295,30 +295,94 @@ class HistoryGrid extends StatelessWidget {
   }
 }
 
-class SongItem extends StatelessWidget {
-  final Song song;
+class HistoryItem extends StatelessWidget {
+  final History history;
+  final List<Song> songs;
+  final List<Book> books;
   final double height;
   final Function()? onTap;
 
-  const SongItem({
+  const HistoryItem({
     Key? key,
-    required this.song,
+    required this.history,
+    required this.songs,
+    required this.books,
     required this.height,
     this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String hasChorus = '', verseCount = '';
-    var verses = song.content!.split("##");
+    final Song song = songs.firstWhere((item) => item.id == history.song);
+    final Book book = books.firstWhere((item) => item.bookNo == song.book);
+    return Hero(
+      tag: 'HistoryItem_${history.id}',
+      child: GestureDetector(
+        onTap: onTap,
+        child: Card(
+          elevation: 2,
+          margin: EdgeInsets.only(right: 5, bottom: height * 0.0049),
+          child: Container(
+            width: height * 0.1958,
+            margin: const EdgeInsets.only(right: 10),
+            padding: const EdgeInsets.all(5),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  truncateString(20, songItemTitle(song.book!, song.title!)),
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontSize: height * 0.0228,
+                  ),
+                ),
+                const SizedBox(height: 3),
+                Text(
+                  book.title!.isNotEmpty ? truncateString(20, book.title!) : '',
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontSize: height * 0.0175,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ignore: must_be_immutable
+class SongItem extends StatelessWidget {
+  final Song song;
+  final double height;
+  final Function()? onTap;
+
+  SongItem({
+    Key? key,
+    required this.song,
+    required this.height,
+    this.onTap,
+  }) : super(key: key);
+
+  bool hasChorus = false;
+  String chorusText = '', versesText = '';
+
+  @override
+  Widget build(BuildContext context) {
+    final verses = song.content!.split("##");
 
     if (song.content!.contains("CHORUS")) {
-      hasChorus = AppConstants.hasChorus;
-      verseCount = '${verses.length} Vs';
+      hasChorus = true;
+      chorusText = AppConstants.hasChorus;
+      versesText = '${verses.length - 1} ${AppConstants.verses}';
     } else {
-      hasChorus = AppConstants.noChorus;
-      verseCount = '${verses.length} Vs';
+      versesText = '${verses.length} ${AppConstants.verses}';
     }
+
+    versesText = verses.length == 1 ? versesText : '${versesText}s';
 
     return Hero(
       tag: 'SongIndex_${song.id}',
@@ -326,7 +390,7 @@ class SongItem extends StatelessWidget {
         onTap: onTap,
         child: Card(
           elevation: 2,
-          margin: EdgeInsets.only(right: 5, bottom: height * 0.0049),
+          margin: EdgeInsets.only(bottom: height * 0.0049),
           child: Padding(
             padding: EdgeInsets.all(height * 0.0049),
             child: Column(
@@ -352,8 +416,10 @@ class SongItem extends StatelessWidget {
                   children: <Widget>[
                     const Spacer(),
                     //tagView(songBook),
-                    TagView(tagText: hasChorus, height: height),
-                    TagView(tagText: verseCount, height: height),
+                    TagView(tagText: versesText, height: height),
+                    hasChorus
+                        ? TagView(tagText: chorusText, height: height)
+                        : Container(),
                   ],
                 ),
               ],
@@ -370,33 +436,37 @@ class DraftItem extends StatelessWidget {
   final double height;
   final Function()? onTap;
 
-  const DraftItem({
+  DraftItem({
     Key? key,
     required this.draft,
     required this.height,
     this.onTap,
   }) : super(key: key);
 
+  bool hasChorus = false;
+  String chorusText = '', versesText = '';
+
   @override
   Widget build(BuildContext context) {
-    String hasChorus = '', verseCount = '';
-    var verses = draft.content!.split("##");
+    final verses = draft.content!.split("##");
 
     if (draft.content!.contains("CHORUS")) {
-      hasChorus = AppConstants.hasChorus;
-      verseCount = '${verses.length} Vs';
+      hasChorus = true;
+      chorusText = AppConstants.hasChorus;
+      versesText = '${verses.length - 1} ${AppConstants.verses}';
     } else {
-      hasChorus = AppConstants.noChorus;
-      verseCount = '${verses.length} Vs';
+      versesText = '${verses.length} ${AppConstants.verses}';
     }
 
+    versesText = verses.length == 1 ? versesText : '${versesText}s';
+
     return Hero(
-      tag: 'SongIndex_${draft.id}',
+      tag: 'DraftIndex_${draft.id}',
       child: GestureDetector(
         onTap: onTap,
         child: Card(
           elevation: 2,
-          margin: EdgeInsets.only(right: 5, bottom: height * 0.0049),
+          margin: EdgeInsets.only(bottom: height * 0.0049),
           child: Padding(
             padding: EdgeInsets.all(height * 0.0049),
             child: Column(
@@ -421,8 +491,11 @@ class DraftItem extends StatelessWidget {
                 Row(
                   children: <Widget>[
                     const Spacer(),
-                    TagView(tagText: hasChorus, height: height),
-                    TagView(tagText: verseCount, height: height),
+                    //tagView(songBook),
+                    TagView(tagText: versesText, height: height),
+                    hasChorus
+                        ? TagView(tagText: chorusText, height: height)
+                        : Container(),
                   ],
                 ),
               ],

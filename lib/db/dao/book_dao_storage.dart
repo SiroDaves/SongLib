@@ -31,8 +31,8 @@ class _BookDaoStorage extends DatabaseAccessor<SongLibDb>
 
   @override
   Future<List<Book>> getAllBooks() async {
-    List<DbBook> dbBooks = await select(db.dbBookTable).get();
-    List<Book> books = [];
+    final List<DbBook> dbBooks = await select(db.dbBookTable).get();
+    final List<Book> books = [];
 
     for (int i = 0; i < dbBooks.length; i++) {
       books.add(
