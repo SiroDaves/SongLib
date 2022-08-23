@@ -4,7 +4,7 @@ import '../../../model/base/listed.dart';
 import '../../../theme/theme_colors.dart';
 import '../../../widget/general/list_items.dart';
 import '../../../widget/search/search_widget.dart';
-import '../../lists/list_screen.dart';
+import '../../lists/list_view_screen.dart';
 
 class Tab1Search extends StatelessWidget {
   final List<Listed>? listeds;
@@ -39,7 +39,7 @@ class Tab1Search extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return ListScreen(listed: listed);
+                  return ListViewScreen(listed: listed);
                 },
               ),
             );

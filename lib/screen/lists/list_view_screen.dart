@@ -15,21 +15,21 @@ import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
 import '../songs/presentor_screen.dart';
 
-class ListScreen extends StatefulWidget {
+class ListViewScreen extends StatefulWidget {
   static const String routeName = RouteNames.listScreen;
   final Listed? listed;
 
-  const ListScreen({
+  const ListViewScreen({
     Key? key,
     required this.listed,
   }) : super(key: key);
 
   @override
-  ListScreenState createState() => ListScreenState();
+  ListViewScreenState createState() => ListViewScreenState();
 }
 
 @visibleForTesting
-class ListScreenState extends State<ListScreen>
+class ListViewScreenState extends State<ListViewScreen>
     with BackNavigatorMixin
     implements ListNavigator {
   Listed? listed;

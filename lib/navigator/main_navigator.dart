@@ -3,8 +3,8 @@ import 'package:icapps_architecture/icapps_architecture.dart';
 
 import '../screen/home/home_screen.dart';
 import '../screen/home/search_screen.dart';
-import '../screen/lists/histories_screen.dart';
-import '../screen/lists/likes_screen.dart';
+import '../screen/home/histories_screen.dart';
+import '../screen/home/likes_screen.dart';
 import '../screen/manage/selection_screen.dart';
 import '../screen/manage/settings_screen.dart';
 import '../screen/splash_screen.dart';

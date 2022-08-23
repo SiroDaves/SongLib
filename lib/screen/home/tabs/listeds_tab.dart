@@ -32,7 +32,16 @@ class ListedsTab extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: ThemeColors.primary,
-        onPressed: () => viewModel.newListForm(context),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return const ListEditScreen();
+              },
+            ),
+          );
+        },
         child: const Icon(Icons.add, color: Colors.white),
       ),
     );
@@ -100,7 +109,7 @@ class ListedsTab extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return ListScreen(listed: listed);
+                      return ListViewScreen(listed: listed);
                     },
                   ),
                 );

@@ -1,44 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../model/base/draft.dart';
-import '../../model/base/songext.dart';
+import '../../model/base/listed.dart';
 import '../../navigator/main_navigator.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
-import '../../util/constants/app_constants.dart';
-import '../../vm/songs/editor_vm.dart';
+import '../../vm/lists/list_vm.dart';
 import '../../widget/general/inputs.dart';
 import '../../widget/provider/provider_widget.dart';
 
-class EditorScreen extends StatefulWidget {
+class ListEditScreen extends StatefulWidget {
   static const String routeName = RouteNames.editorScreen;
 
-  final SongExt? song;
-  final Draft? draft;
-  const EditorScreen({Key? key, this.draft, this.song}) : super(key: key);
+  final Listed? listed;
+  const ListEditScreen({Key? key, this.listed}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
     // ignore: no_logic_in_create_state
-    return EditorScreenState(draft, song);
+    return ListEditScreenState(listed);
   }
 }
 
 @visibleForTesting
-class EditorScreenState extends State<EditorScreen>
+class ListEditScreenState extends State<ListEditScreen>
     with BackNavigatorMixin
-    implements EditorNavigator {
-  EditorScreenState(this.draft, this.song);
-  SongExt? song;
-  Draft? draft;
+    implements ListNavigator {
+  ListEditScreenState(this.listed);
+  Listed? listed;
   Size? size;
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    return ProviderWidget<EditorVm>(
+    return ProviderWidget<ListVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization: (
         context,
@@ -51,16 +47,15 @@ class EditorScreenState extends State<EditorScreen>
     );
   }
 
-  Widget screenWidget(EditorVm viewModel) {
-    if (draft != null) viewModel.draft = draft!;
-    if (song != null) viewModel.song = song!;
+  Widget screenWidget(ListVm viewModel) {
+    if (listed != null) viewModel.listed = listed!;
 
     viewModel.loadEditor();
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          viewModel.isNewContent ? 'Draft a New Song' : 'Edit Your Song',
+          listed != null ? 'Draft a New List' : 'Edit Your List',
         ),
         actions: <Widget>[
           InkWell(
@@ -99,36 +94,22 @@ class EditorScreenState extends State<EditorScreen>
     );
   }
 
-  Widget mainContainer(BuildContext context, EditorVm viewModel) {
+  Widget mainContainer(BuildContext context, ListVm viewModel) {
     return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           FormInput(
-            iLabel: 'Song Title',
+            iLabel: 'Title',
             iController: viewModel.titleController!,
             prefix: const Icon(Icons.text_fields),
             iOptions: const <String>[],
           ),
           FormInput(
-            iLabel: 'Song Content',
+            iLabel: 'Description (Optional)',
             iController: viewModel.contentController!,
             prefix: const Icon(Icons.text_format),
-            isMultiline: true,
-            iType: TextInputType.multiline,
-            iOptions: const <String>[],
-          ),
-          FormInput(
-            iLabel: 'Song Alias (Optional)',
-            iController: viewModel.aliasController!,
-            prefix: const Icon(Icons.text_fields),
-            iOptions: const <String>[],
-          ),
-          FormInput(
-            iLabel: 'Song Key Optional',
-            iController: viewModel.keyController!,
-            prefix: const Icon(Icons.text_fields),
             iOptions: const <String>[],
           ),
         ],
