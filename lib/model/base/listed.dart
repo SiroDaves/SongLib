@@ -20,6 +20,8 @@ class Listed {
   String? updatedAt;
   @JsonKey(name: 'id', includeIfNull: false)
   int? id;
+  @JsonKey(name: 'song', includeIfNull: false)
+  int? song;
 
   Listed({
     this.objectId,
@@ -30,6 +32,7 @@ class Listed {
     this.createdAt,
     this.updatedAt,
     this.id,
+    this.song,
   });
 
   factory Listed.fromJson(Map<String, dynamic> json) => _$ListedFromJson(json);

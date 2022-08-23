@@ -15,6 +15,7 @@ Listed _$ListedFromJson(Map<String, dynamic> json) => Listed(
       createdAt: json['createdAt'] as String?,
       updatedAt: json['updatedAt'] as String?,
       id: json['id'] as int?,
+      song: json['song'] as int?,
     );
 
 Map<String, dynamic> _$ListedToJson(Listed instance) {
@@ -34,5 +35,6 @@ Map<String, dynamic> _$ListedToJson(Listed instance) {
   writeNotNull('createdAt', instance.createdAt);
   writeNotNull('updatedAt', instance.updatedAt);
   writeNotNull('id', instance.id);
+  writeNotNull('song', instance.song);
   return val;
 }

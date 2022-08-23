@@ -1291,6 +1291,7 @@ class DbListed extends DataClass implements Insertable<DbListed> {
   final int id;
   final String objectId;
   final int parentid;
+  final int song;
   final String title;
   final String description;
   final int position;
@@ -1300,6 +1301,7 @@ class DbListed extends DataClass implements Insertable<DbListed> {
       {required this.id,
       required this.objectId,
       required this.parentid,
+      required this.song,
       required this.title,
       required this.description,
       required this.position,
@@ -1314,6 +1316,8 @@ class DbListed extends DataClass implements Insertable<DbListed> {
           .mapFromDatabaseResponse(data['${effectivePrefix}object_id'])!,
       parentid: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}parentid'])!,
+      song: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}song'])!,
       title: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}title'])!,
       description: const StringType()
@@ -1332,6 +1336,7 @@ class DbListed extends DataClass implements Insertable<DbListed> {
     map['id'] = Variable<int>(id);
     map['object_id'] = Variable<String>(objectId);
     map['parentid'] = Variable<int>(parentid);
+    map['song'] = Variable<int>(song);
     map['title'] = Variable<String>(title);
     map['description'] = Variable<String>(description);
     map['position'] = Variable<int>(position);
@@ -1345,6 +1350,7 @@ class DbListed extends DataClass implements Insertable<DbListed> {
       id: Value(id),
       objectId: Value(objectId),
       parentid: Value(parentid),
+      song: Value(song),
       title: Value(title),
       description: Value(description),
       position: Value(position),
@@ -1360,6 +1366,7 @@ class DbListed extends DataClass implements Insertable<DbListed> {
       id: serializer.fromJson<int>(json['id']),
       objectId: serializer.fromJson<String>(json['objectId']),
       parentid: serializer.fromJson<int>(json['parentid']),
+      song: serializer.fromJson<int>(json['song']),
       title: serializer.fromJson<String>(json['title']),
       description: serializer.fromJson<String>(json['description']),
       position: serializer.fromJson<int>(json['position']),
@@ -1374,6 +1381,7 @@ class DbListed extends DataClass implements Insertable<DbListed> {
       'id': serializer.toJson<int>(id),
       'objectId': serializer.toJson<String>(objectId),
       'parentid': serializer.toJson<int>(parentid),
+      'song': serializer.toJson<int>(song),
       'title': serializer.toJson<String>(title),
       'description': serializer.toJson<String>(description),
       'position': serializer.toJson<int>(position),
@@ -1386,6 +1394,7 @@ class DbListed extends DataClass implements Insertable<DbListed> {
           {int? id,
           String? objectId,
           int? parentid,
+          int? song,
           String? title,
           String? description,
           int? position,
@@ -1395,6 +1404,7 @@ class DbListed extends DataClass implements Insertable<DbListed> {
         id: id ?? this.id,
         objectId: objectId ?? this.objectId,
         parentid: parentid ?? this.parentid,
+        song: song ?? this.song,
         title: title ?? this.title,
         description: description ?? this.description,
         position: position ?? this.position,
@@ -1407,6 +1417,7 @@ class DbListed extends DataClass implements Insertable<DbListed> {
           ..write('id: $id, ')
           ..write('objectId: $objectId, ')
           ..write('parentid: $parentid, ')
+          ..write('song: $song, ')
           ..write('title: $title, ')
           ..write('description: $description, ')
           ..write('position: $position, ')
@@ -1417,8 +1428,8 @@ class DbListed extends DataClass implements Insertable<DbListed> {
   }
 
   @override
-  int get hashCode => Object.hash(id, objectId, parentid, title, description,
-      position, createdAt, updatedAt);
+  int get hashCode => Object.hash(id, objectId, parentid, song, title,
+      description, position, createdAt, updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1426,6 +1437,7 @@ class DbListed extends DataClass implements Insertable<DbListed> {
           other.id == this.id &&
           other.objectId == this.objectId &&
           other.parentid == this.parentid &&
+          other.song == this.song &&
           other.title == this.title &&
           other.description == this.description &&
           other.position == this.position &&
@@ -1437,6 +1449,7 @@ class DbListedTableCompanion extends UpdateCompanion<DbListed> {
   final Value<int> id;
   final Value<String> objectId;
   final Value<int> parentid;
+  final Value<int> song;
   final Value<String> title;
   final Value<String> description;
   final Value<int> position;
@@ -1446,6 +1459,7 @@ class DbListedTableCompanion extends UpdateCompanion<DbListed> {
     this.id = const Value.absent(),
     this.objectId = const Value.absent(),
     this.parentid = const Value.absent(),
+    this.song = const Value.absent(),
     this.title = const Value.absent(),
     this.description = const Value.absent(),
     this.position = const Value.absent(),
@@ -1456,6 +1470,7 @@ class DbListedTableCompanion extends UpdateCompanion<DbListed> {
     this.id = const Value.absent(),
     this.objectId = const Value.absent(),
     this.parentid = const Value.absent(),
+    this.song = const Value.absent(),
     this.title = const Value.absent(),
     this.description = const Value.absent(),
     this.position = const Value.absent(),
@@ -1466,6 +1481,7 @@ class DbListedTableCompanion extends UpdateCompanion<DbListed> {
     Expression<int>? id,
     Expression<String>? objectId,
     Expression<int>? parentid,
+    Expression<int>? song,
     Expression<String>? title,
     Expression<String>? description,
     Expression<int>? position,
@@ -1476,6 +1492,7 @@ class DbListedTableCompanion extends UpdateCompanion<DbListed> {
       if (id != null) 'id': id,
       if (objectId != null) 'object_id': objectId,
       if (parentid != null) 'parentid': parentid,
+      if (song != null) 'song': song,
       if (title != null) 'title': title,
       if (description != null) 'description': description,
       if (position != null) 'position': position,
@@ -1488,6 +1505,7 @@ class DbListedTableCompanion extends UpdateCompanion<DbListed> {
       {Value<int>? id,
       Value<String>? objectId,
       Value<int>? parentid,
+      Value<int>? song,
       Value<String>? title,
       Value<String>? description,
       Value<int>? position,
@@ -1497,6 +1515,7 @@ class DbListedTableCompanion extends UpdateCompanion<DbListed> {
       id: id ?? this.id,
       objectId: objectId ?? this.objectId,
       parentid: parentid ?? this.parentid,
+      song: song ?? this.song,
       title: title ?? this.title,
       description: description ?? this.description,
       position: position ?? this.position,
@@ -1516,6 +1535,9 @@ class DbListedTableCompanion extends UpdateCompanion<DbListed> {
     }
     if (parentid.present) {
       map['parentid'] = Variable<int>(parentid.value);
+    }
+    if (song.present) {
+      map['song'] = Variable<int>(song.value);
     }
     if (title.present) {
       map['title'] = Variable<String>(title.value);
@@ -1541,6 +1563,7 @@ class DbListedTableCompanion extends UpdateCompanion<DbListed> {
           ..write('id: $id, ')
           ..write('objectId: $objectId, ')
           ..write('parentid: $parentid, ')
+          ..write('song: $song, ')
           ..write('title: $title, ')
           ..write('description: $description, ')
           ..write('position: $position, ')
@@ -1575,6 +1598,13 @@ class $DbListedTableTable extends DbListedTable
   @override
   late final GeneratedColumn<int?> parentid = GeneratedColumn<int?>(
       'parentid', aliasedName, false,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
+  final VerificationMeta _songMeta = const VerificationMeta('song');
+  @override
+  late final GeneratedColumn<int?> song = GeneratedColumn<int?>(
+      'song', aliasedName, false,
       type: const IntType(),
       requiredDuringInsert: false,
       defaultValue: const Constant(0));
@@ -1619,6 +1649,7 @@ class $DbListedTableTable extends DbListedTable
         id,
         objectId,
         parentid,
+        song,
         title,
         description,
         position,
@@ -1644,6 +1675,10 @@ class $DbListedTableTable extends DbListedTable
     if (data.containsKey('parentid')) {
       context.handle(_parentidMeta,
           parentid.isAcceptableOrUnknown(data['parentid']!, _parentidMeta));
+    }
+    if (data.containsKey('song')) {
+      context.handle(
+          _songMeta, song.isAcceptableOrUnknown(data['song']!, _songMeta));
     }
     if (data.containsKey('title')) {
       context.handle(

@@ -4,6 +4,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../model/base/book.dart';
 import '../../model/base/listed.dart';
+import '../../model/base/listedext.dart';
 import '../../model/base/song.dart';
 import '../../model/base/songext.dart';
 import '../../navigator/mixin/back_navigator.dart';
@@ -20,7 +21,7 @@ class ListVm with ChangeNotifierEx {
   ListVm(this.db, this.localStorage);
   
   Listed? listed;
-  List<SongExt>? songs = [];
+  List<ListedExt>? songs = [];
 
   Future<void> init(ListNavigator screenNavigator) async {
     navigator = screenNavigator;
@@ -32,7 +33,7 @@ class ListVm with ChangeNotifierEx {
     notifyListeners();
 
     try {
-      songs = await db.fetchSongs();
+      songs = await db.fetchListedSongs(listed!.song!);
 
     } catch (exception, stackTrace) {
       await Sentry.captureException(

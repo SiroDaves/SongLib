@@ -11,6 +11,8 @@ class DbListedTable extends Table {
 
   IntColumn get parentid => integer().withDefault(const Constant(0))();
 
+  IntColumn get song => integer().withDefault(const Constant(0))();
+
   TextColumn get title => text().withDefault(const Constant(''))();
 
   TextColumn get description => text().withDefault(const Constant(''))();
@@ -25,6 +27,7 @@ class DbListedTable extends Table {
 extension DbListedExtension on DbListed {
   Listed getModel() => Listed(
         id: id,
+        song: song,
         objectId: objectId,
         parentid: parentid,
         title: title,
@@ -41,6 +44,7 @@ extension ListedExtension on Listed {
     return DbListedTableCompanion.insert(
       id: id == null ? const Value.absent() : Value(id),
       objectId: Value(objectId!),
+      song: Value(song!),
       parentid: Value(parentid!),
       title: Value(title!),
       description: Value(description!),

@@ -11,6 +11,7 @@ import '../model/base/draft.dart';
 import '../model/base/history.dart';
 import '../model/base/historyext.dart';
 import '../model/base/listed.dart';
+import '../model/base/listedext.dart';
 import '../model/base/search.dart';
 import '../model/base/song.dart';
 import '../model/base/songext.dart';
@@ -31,6 +32,7 @@ abstract class DbRepository {
   Future<List<Draft>> fetchDrafts();
   Future<List<HistoryExt>> fetchHistories();
   Future<List<Listed>> fetchListeds();
+  Future<List<ListedExt>> fetchListedSongs(int song);
   Future<List<Search>> fetchSearches();
   Future<List<SongExt>> fetchSongs();
   Future<List<SongExt>> fetchLikedSongs();
@@ -79,6 +81,11 @@ class DbRepo implements DbRepository {
   @override
   Future<List<Listed>> fetchListeds() async {
     return await listedDao.getAllListeds();
+  }
+
+  @override
+  Future<List<ListedExt>> fetchListedSongs(int parentid) async {
+    return await listedDao.getListedSongs(parentid);
   }
 
   @override
