@@ -3,7 +3,7 @@ import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../model/base/draft.dart';
-import '../../model/base/song.dart';
+import '../../model/base/songext.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
@@ -15,7 +15,7 @@ class EditorVm with ChangeNotifierEx {
   final DbRepository db;
 
   EditorVm(this.db, this.localStorage);
-  Song? song;
+  SongExt? song;
   Draft? draft;
 
   bool isBusy = false;

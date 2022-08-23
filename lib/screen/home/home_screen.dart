@@ -12,7 +12,6 @@ import '../../widget/general/list_items.dart';
 import '../../widget/general/swiper_widgets.dart';
 import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
-import '../lists/list_screen.dart';
 import '../manage/settings_screen.dart';
 import '../songs/presentor_screen.dart';
 import 'searches/tab1_search.dart';
@@ -41,9 +40,9 @@ class HomeScreenState extends State<HomeScreen> implements HomeNavigator {
       case 0:
         return goToLikes();
       case 1:
-        return goToHistories();
+        return goToLikes();
       case 2:
-        return goToSettings();
+        return goToLikes();
     }
   }
 

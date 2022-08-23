@@ -64,7 +64,6 @@ class SearchScreenState extends State<SearchScreen> implements HomeNavigator {
               children: [
                 viewModel.searches!.isNotEmpty
                     ? Tab2Search(
-                        books: viewModel.books,
                         songs: viewModel.searches,
                         height: size!.height,
                       )
@@ -139,10 +138,7 @@ class SearchScreenState extends State<SearchScreen> implements HomeNavigator {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return PresentorScreen(
-                      books: viewModel.books,
-                      song: viewModel.songs![index],
-                    );
+                    return PresentorScreen(song: viewModel.songs![index]);
                   },
                 ),
               );
@@ -152,7 +148,7 @@ class SearchScreenState extends State<SearchScreen> implements HomeNavigator {
       ),
     );
   }
-  
+
   @override
   void goToLikes() => MainNavigatorWidget.of(context).goToLikes();
 

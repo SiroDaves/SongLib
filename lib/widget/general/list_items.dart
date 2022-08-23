@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../model/base/book.dart';
 import '../../model/base/draft.dart';
-import '../../model/base/history.dart';
 import '../../model/base/listed.dart';
-import '../../model/base/song.dart';
+import '../../model/base/songext.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
 import '../../util/constants/utilities.dart';
@@ -24,22 +23,25 @@ class BookItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Card(
-        color: selected ? Colors.deepOrange : Colors.white,
-        elevation: 5,
-        child: Row(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Icon(
-                selected ? Icons.check_box : Icons.check_box_outline_blank,
-                color: selected ? Colors.white : Colors.black,
+    return Hero(
+      tag: 'BookItem_${book.objectId}',
+      child: GestureDetector(
+        onTap: onTap,
+        child: Card(
+          color: selected ? Colors.deepOrange : Colors.white,
+          elevation: 5,
+          child: Row(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Icon(
+                  selected ? Icons.check_box : Icons.check_box_outline_blank,
+                  color: selected ? Colors.white : Colors.black,
+                ),
               ),
-            ),
-            textContainer(),
-          ],
+              textContainer(),
+            ],
+          ),
         ),
       ),
     );
@@ -180,183 +182,9 @@ class ListedItem extends StatelessWidget {
   }
 }
 
-class SongGrid extends StatelessWidget {
-  final Song song;
-  final List<Book> books;
-  final double height;
-  final Function()? onTap;
-
-  const SongGrid({
-    Key? key,
-    required this.song,
-    required this.books,
-    required this.height,
-    this.onTap,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    Book book = books.firstWhere((item) => item.bookNo == song.book);
-    return Hero(
-      tag: 'SongGrid_${song.objectId}',
-      child: GestureDetector(
-        onTap: onTap,
-        child: Card(
-          elevation: 2,
-          margin: EdgeInsets.only(right: 5, bottom: height * 0.0049),
-          child: Container(
-            width: height * 0.1958,
-            margin: const EdgeInsets.only(right: 10),
-            padding: const EdgeInsets.all(5),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  truncateString(20, songItemTitle(song.book!, song.title!)),
-                  maxLines: 1,
-                  style: TextStyle(
-                    fontSize: height * 0.0228,
-                  ),
-                ),
-                const SizedBox(height: 3),
-                Text(
-                  book.title!.isNotEmpty ? truncateString(20, book.title!) : '',
-                  maxLines: 1,
-                  style: TextStyle(
-                    fontSize: height * 0.0175,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class HistoryGrid extends StatelessWidget {
-  final History history;
-  final List<Song> songs;
-  final List<Book> books;
-  final double height;
-  final Function()? onTap;
-
-  const HistoryGrid({
-    Key? key,
-    required this.history,
-    required this.songs,
-    required this.books,
-    required this.height,
-    this.onTap,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final Song song = songs.firstWhere((item) => item.id == history.song);
-    final Book book = books.firstWhere((item) => item.bookNo == song.book);
-    return Hero(
-      tag: 'HistoryGrid_${history.id}',
-      child: GestureDetector(
-        onTap: onTap,
-        child: Card(
-          elevation: 2,
-          margin: EdgeInsets.only(right: 5, bottom: height * 0.0049),
-          child: Container(
-            width: height * 0.1958,
-            margin: const EdgeInsets.only(right: 10),
-            padding: const EdgeInsets.all(5),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  truncateString(20, songItemTitle(song.book!, song.title!)),
-                  maxLines: 1,
-                  style: TextStyle(
-                    fontSize: height * 0.0228,
-                  ),
-                ),
-                const SizedBox(height: 3),
-                Text(
-                  book.title!.isNotEmpty ? truncateString(20, book.title!) : '',
-                  maxLines: 1,
-                  style: TextStyle(
-                    fontSize: height * 0.0175,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class HistoryItem extends StatelessWidget {
-  final History history;
-  final List<Song> songs;
-  final List<Book> books;
-  final double height;
-  final Function()? onTap;
-
-  const HistoryItem({
-    Key? key,
-    required this.history,
-    required this.songs,
-    required this.books,
-    required this.height,
-    this.onTap,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final Song song = songs.firstWhere((item) => item.id == history.song);
-    final Book book = books.firstWhere((item) => item.bookNo == song.book);
-    return Hero(
-      tag: 'HistoryItem_${history.id}',
-      child: GestureDetector(
-        onTap: onTap,
-        child: Card(
-          elevation: 2,
-          margin: EdgeInsets.only(right: 5, bottom: height * 0.0049),
-          child: Container(
-            width: height * 0.1958,
-            margin: const EdgeInsets.only(right: 10),
-            padding: const EdgeInsets.all(5),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  truncateString(20, songItemTitle(song.book!, song.title!)),
-                  maxLines: 1,
-                  style: TextStyle(
-                    fontSize: height * 0.0228,
-                  ),
-                ),
-                const SizedBox(height: 3),
-                Text(
-                  book.title!.isNotEmpty ? truncateString(20, book.title!) : '',
-                  maxLines: 1,
-                  style: TextStyle(
-                    fontSize: height * 0.0175,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 // ignore: must_be_immutable
 class SongItem extends StatelessWidget {
-  final Song song;
+  final SongExt song;
   final double height;
   final Function()? onTap;
 
@@ -431,6 +259,7 @@ class SongItem extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class DraftItem extends StatelessWidget {
   final Draft draft;
   final double height;
@@ -491,7 +320,6 @@ class DraftItem extends StatelessWidget {
                 Row(
                   children: <Widget>[
                     const Spacer(),
-                    //tagView(songBook),
                     TagView(tagText: versesText, height: height),
                     hasChorus
                         ? TagView(tagText: chorusText, height: height)

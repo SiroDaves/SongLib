@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 
 import '../../model/base/book.dart';
 import '../../model/base/song.dart';
+import '../../model/base/songext.dart';
 import '../../navigator/main_navigator.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
@@ -16,15 +17,14 @@ import '../../widget/provider/provider_widget.dart';
 class PresentorScreen extends StatefulWidget {
   static const String routeName = RouteNames.presentorScreen;
 
-  final List<Book>? books;
-  final Song? song;
+  final SongExt song;
 
-  const PresentorScreen({Key? key, this.books, this.song}) : super(key: key);
+  const PresentorScreen({Key? key, required this.song}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
     // ignore: no_logic_in_create_state
-    return PresentorScreenState(books, song);
+    return PresentorScreenState(song);
   }
 }
 
@@ -32,9 +32,8 @@ class PresentorScreen extends StatefulWidget {
 class PresentorScreenState extends State<PresentorScreen>
     with BackNavigatorMixin
     implements PresentorNavigator {
-  PresentorScreenState(this.books, this.song);
-  List<Book>? books;
-  Song? song;
+  PresentorScreenState(this.song);
+  SongExt? song;
   Size? size;
   
   List<Tab>? viewerTabs;
@@ -57,7 +56,6 @@ class PresentorScreenState extends State<PresentorScreen>
   }
 
   Widget screenWidget(PresentorVm viewModel) {
-    viewModel.books = books;
     viewModel.song = song;
     viewModel.loadViewer();
 

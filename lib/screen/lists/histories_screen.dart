@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../model/base/historyext.dart';
+import '../../model/base/songext.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
-import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
 import '../../vm/lists/histories_vm.dart';
 import '../../widget/general/labels.dart';
@@ -42,8 +43,8 @@ class HistoriesScreenState extends State<HistoriesScreen>
             title: const Text(AppConstants.historiesTitle),
             bottom: const TabBar(
               tabs: [
-                Tab(text: 'Songs'),
-                Tab(text: 'Searches'),
+                Tab(text: 'SONGS'),
+                Tab(text: 'SEARCHES'),
               ],
             ),
           ),
@@ -79,30 +80,46 @@ class HistoriesScreenState extends State<HistoriesScreen>
         thickness: 10,
         radius: const Radius.circular(20),
         child: ListView.builder(
-          itemCount: viewModel.songs!.length,
+          itemCount: viewModel.histories!.length,
           padding: EdgeInsets.only(
             left: size!.height * 0.0082,
             right: size!.height * 0.0082,
           ),
-          itemBuilder: (context, index) => SongItem(
-            song: viewModel.songs![index],
-            height: size!.height,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return PresentorScreen(
-                      books: viewModel.books,
-                      song: viewModel.songs![index],
-                    );
-                  },
-                ),
-              );
-            },
-          ),
+          itemBuilder: (context, index) =>
+              songItemWidget(viewModel.histories![index]),
         ),
       ),
+    );
+  }
+
+  Widget songItemWidget(HistoryExt history) {
+    final SongExt song = SongExt(
+      songbook: history.songbook,
+      songNo: history.songNo,
+      book: history.book,
+      title: history.title,
+      alias: history.alias,
+      content: history.content,
+      views: history.views,
+      likes: history.likes,
+      author: history.author,
+      key: history.key,
+      id: history.songId,
+    );
+
+    return SongItem(
+      song: song,
+      height: size!.height,
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return PresentorScreen(song: song);
+            },
+          ),
+        );
+      },
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../model/base/book.dart';
 import '../../model/base/song.dart';
+import '../../model/base/songext.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
@@ -21,8 +22,7 @@ class LikesVm with ChangeNotifierEx {
       ScrollController(initialScrollOffset: 0);
 
   bool isBusy = false;
-  List<Book>? books = [];
-  List<Song>? likes = [];
+  List<SongExt>? likes = [];
 
   Future<void> init(LikesNavigator screenNavigator) async {
     navigator = screenNavigator;

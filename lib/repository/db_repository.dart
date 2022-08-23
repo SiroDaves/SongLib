@@ -9,9 +9,11 @@ import '../db/dao/song_dao_storage.dart';
 import '../model/base/book.dart';
 import '../model/base/draft.dart';
 import '../model/base/history.dart';
+import '../model/base/historyext.dart';
 import '../model/base/listed.dart';
 import '../model/base/search.dart';
 import '../model/base/song.dart';
+import '../model/base/songext.dart';
 
 @lazySingleton
 abstract class DbRepository {
@@ -27,11 +29,11 @@ abstract class DbRepository {
 
   Future<List<Book>> fetchBooks();
   Future<List<Draft>> fetchDrafts();
-  Future<List<History>> fetchHistories();
+  Future<List<HistoryExt>> fetchHistories();
   Future<List<Listed>> fetchListeds();
   Future<List<Search>> fetchSearches();
-  Future<List<Song>> fetchSongs();
-  Future<List<Song>> fetchLikedSongs();
+  Future<List<SongExt>> fetchSongs();
+  Future<List<SongExt>> fetchLikedSongs();
 
   Future<void> saveBook(Book book);
   Future<void> saveSong(Song song);
@@ -39,7 +41,7 @@ abstract class DbRepository {
   Future<void> saveListed(Listed listed);
   Future<void> saveHistory(History history);
 
-  Future<void> editSong(Song song);
+  Future<void> editSong(SongExt song);
 }
 
 class DbRepo implements DbRepository {
@@ -70,7 +72,7 @@ class DbRepo implements DbRepository {
   }
 
   @override
-  Future<List<History>> fetchHistories() async {
+  Future<List<HistoryExt>> fetchHistories() async {
     return await historyDao.getAllHistories();
   }
 
@@ -85,12 +87,12 @@ class DbRepo implements DbRepository {
   }
 
   @override
-  Future<List<Song>> fetchSongs() async {
+  Future<List<SongExt>> fetchSongs() async {
     return await songDao.getAllSongs();
   }
 
   @override
-  Future<List<Song>> fetchLikedSongs() async {
+  Future<List<SongExt>> fetchLikedSongs() async {
     return await songDao.getLikedSongs();
   }
 
@@ -120,7 +122,7 @@ class DbRepo implements DbRepository {
   }
 
   @override
-  Future<void> editSong(Song song) async {
+  Future<void> editSong(SongExt song) async {
     await songDao.updateSong(song);
   }
 }

@@ -64,9 +64,7 @@ class LikesScreenState extends State<LikesScreen>
     return Scrollbar(
       thickness: 10,
       radius: const Radius.circular(20),
-      //controller: viewModel.songScroller,
       child: ListView.builder(
-        //controller: viewModel.songScroller,
         itemCount: viewModel.likes!.length,
         padding: EdgeInsets.all(
           size!.height * 0.0082,
@@ -79,10 +77,7 @@ class LikesScreenState extends State<LikesScreen>
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return PresentorScreen(
-                    books: viewModel.books,
-                    song: viewModel.likes![index],
-                  );
+                  return PresentorScreen(song: viewModel.likes![index]);
                 },
               ),
             );

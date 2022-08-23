@@ -4,9 +4,9 @@ import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../model/base/book.dart';
 import '../../model/base/history.dart';
-import '../../model/base/song.dart';
+import '../../model/base/historyext.dart';
+import '../../model/base/songext.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
@@ -22,9 +22,9 @@ class PresentorVm with ChangeNotifierEx {
 
   PresentorVm(this.db, this.localStorage);
 
-  List<Book>? books;
-  Book? book;
-  Song? song;
+  SongExt? song;
+  HistoryExt? history;
+
   bool isBusy = false, isLiked = true, hasChorus = false;
 
   String songContent = '';
@@ -42,9 +42,6 @@ class PresentorVm with ChangeNotifierEx {
       if (song != null) {
         verseInfos.clear();
         verseTexts.clear();
-
-        books!.retainWhere((item) => item.bookNo == song!.book);
-        book = books![0];
 
         isLiked = song!.liked!;
         likeIcon = isLiked ? Icons.favorite : Icons.favorite_border;
@@ -148,7 +145,7 @@ class PresentorVm with ChangeNotifierEx {
         ClipboardData(
           text: '${lyrics.replaceAll("#", "\n")}\n\n'
               '${songItemTitle(song!.songNo!, song!.title!)},\n'
-              '${book!.title}',
+              '${song!.songbook}',
         ),
       );
       showToast(
@@ -163,7 +160,7 @@ class PresentorVm with ChangeNotifierEx {
       await Share.share(
         '${lyrics.replaceAll("#", "\n")}\n\n'
         '${songItemTitle(song!.songNo!, song!.title!)},\n'
-        '${book!.title}',
+        '${song!.songbook}',
         subject: AppConstants.shareVerse,
       );
       showToast(

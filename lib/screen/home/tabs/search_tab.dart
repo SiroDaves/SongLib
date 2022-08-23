@@ -41,7 +41,6 @@ class SearchTab extends StatelessWidget {
               children: [
                 viewModel.searches!.isNotEmpty
                     ? Tab2Search(
-                        books: viewModel.books,
                         songs: viewModel.searches,
                         height: size!.height,
                       )
@@ -102,9 +101,7 @@ class SearchTab extends StatelessWidget {
       child: Scrollbar(
         thickness: 10,
         radius: const Radius.circular(20),
-        //controller: viewModel.songScroller,
         child: ListView.builder(
-          //controller: viewModel.songScroller,
           itemCount: viewModel.songs!.length,
           padding: EdgeInsets.only(
             left: size!.height * 0.0082,
@@ -118,10 +115,7 @@ class SearchTab extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return PresentorScreen(
-                      books: viewModel.books,
-                      song: viewModel.songs![index],
-                    );
+                    return PresentorScreen(song: viewModel.songs![index]);
                   },
                 ),
               );

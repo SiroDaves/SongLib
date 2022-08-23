@@ -3,33 +3,32 @@ import 'package:songlib/util/constants/utilities.dart';
 
 import '../../../model/base/book.dart';
 import '../../../model/base/song.dart';
+import '../../../model/base/songext.dart';
 import '../../../theme/theme_colors.dart';
 import '../../../widget/general/list_items.dart';
 import '../../../widget/search/search_widget.dart';
 import '../../songs/presentor_screen.dart';
 
 class Tab2Search extends StatelessWidget {
-  final List<Book>? books;
-  final List<Song>? songs;
+  final List<SongExt>? songs;
   final double? height;
 
   const Tab2Search({
     Key? key,
-    required this.books,
     required this.songs,
     required this.height,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SearchWidget<Song>(
+    return SearchWidget<SongExt>(
       dataList: songs!,
       hideSearchBoxWhenItemSelected: false,
       listContainerHeight: height! - 125,
       queryBuilder: (query, list) {
-        final List<Song> filtered = [];
+        final List<SongExt> filtered = [];
         for (int i = 0; i < list.length; i++) {
-          final Song song = list[i];
+          final SongExt song = list[i];
           if (isNumeric(query)) {
             if (song.songNo! == int.parse(query)) {
               filtered.add(song);
@@ -53,7 +52,7 @@ class Tab2Search extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return PresentorScreen(books: books, song: song);
+                  return PresentorScreen(song: song);
                 },
               ),
             );
