@@ -39,9 +39,9 @@ class SearchTab extends StatelessWidget {
           ? const ListLoading()
           : Column(
               children: [
-                viewModel.searches!.isNotEmpty
+                viewModel.songs!.isNotEmpty
                     ? Tab2Search(
-                        songs: viewModel.searches,
+                        songs: viewModel.songs,
                         height: size!.height,
                       )
                     : Container(),
@@ -81,14 +81,14 @@ class SearchTab extends StatelessWidget {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.all(5),
-        itemBuilder: (context, index) => SongBook(
-          book: viewModel.books![index],
-          height: size!.height,
-          onTap: () {
-            viewModel.mainBook = viewModel.books![index].bookNo!;
-            viewModel.fetchData();
-          },
-        ),
+        itemBuilder: (context, index) {
+          final Book book = viewModel.books![index];
+          return SongBook(
+            book: book,
+            height: size!.height,
+            onTap: () => viewModel.selectSongbook(book.bookNo!),
+          );
+        },
         itemCount: viewModel.books!.length,
       ),
     );
@@ -107,20 +107,23 @@ class SearchTab extends StatelessWidget {
             left: size!.height * 0.0082,
             right: size!.height * 0.0082,
           ),
-          itemBuilder: (context, index) => SongItem(
-            song: viewModel.songs![index],
-            height: size!.height,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return PresentorScreen(song: viewModel.songs![index]);
-                  },
-                ),
-              );
-            },
-          ),
+          itemBuilder: (context, index) {
+            final SongExt song = viewModel.songs![index];
+            return SongItem(
+              song: song,
+              height: size!.height,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return PresentorScreen(song: song);
+                    },
+                  ),
+                );
+              },
+            );
+          },
         ),
       ),
     );

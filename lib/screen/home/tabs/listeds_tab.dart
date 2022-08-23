@@ -84,19 +84,19 @@ class ListedsTab extends StatelessWidget {
       child: Scrollbar(
         thickness: 10,
         radius: const Radius.circular(20),
-        //controller: viewModel.listsScroller,
         child: ListView.builder(
-          //controller: viewModel.listsScroller,
           itemCount: viewModel.listeds!.length,
           padding: EdgeInsets.only(
             left: size!.height * 0.0082,
             right: size!.height * 0.0082,
           ),
-          itemBuilder: (context, index) => ListedItem(
-            listed: viewModel.listeds![index],
-            height: size!.height,
-            onTap: () {},
-          ),
+          itemBuilder: (context, index) {
+            return ListedItem(
+              listed: viewModel.listeds![index],
+              height: size!.height,
+              onTap: () {},
+            );
+          },
         ),
       ),
     );

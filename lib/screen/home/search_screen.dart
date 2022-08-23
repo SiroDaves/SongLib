@@ -62,9 +62,9 @@ class SearchScreenState extends State<SearchScreen> implements HomeNavigator {
           ? const ListLoading()
           : Column(
               children: [
-                viewModel.searches!.isNotEmpty
+                viewModel.songs!.isNotEmpty
                     ? Tab2Search(
-                        songs: viewModel.searches,
+                        songs: viewModel.songs,
                         height: size!.height,
                       )
                     : Container(),

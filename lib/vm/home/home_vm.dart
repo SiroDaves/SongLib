@@ -28,7 +28,7 @@ class HomeVm with ChangeNotifierEx {
   int mainBook = 0;
 
   List<Book>? books = [];
-  List<SongExt>? searches = [], songs = [], likes = [];
+  List<SongExt>? filtered = [], songs = [], likes = [];
 
   List<HistoryExt>? histories = [];
   List<Listed>? listeds = [];
@@ -58,9 +58,32 @@ class HomeVm with ChangeNotifierEx {
       histories = await db.fetchHistories();
       drafts = await db.fetchDrafts();
       listeds = await db.fetchListeds();
-      songs = searches = await db.fetchSongs();
+      songs = await db.fetchSongs();
+      await selectSongbook(mainBook);
+    } catch (exception, stackTrace) {
+      await Sentry.captureException(
+        exception,
+        stackTrace: stackTrace,
+      );
+    }
 
-      songs!.retainWhere((song) => song.book == mainBook);
+    isBusy = false;
+    notifyListeners();
+  }
+
+  /// Set songbook
+  Future<void> selectSongbook(int book) async {
+    isBusy = true;
+    notifyListeners();
+    mainBook = book;
+
+    try {
+      filtered!.clear();
+      for (int i = 0; i < songs!.length; i++) {
+        if (songs![i].book == book) {
+          filtered!.add(songs![i]);
+        }
+      }
     } catch (exception, stackTrace) {
       await Sentry.captureException(
         exception,

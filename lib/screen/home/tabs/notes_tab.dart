@@ -91,11 +91,15 @@ class NotesTab extends StatelessWidget {
             left: size!.height * 0.0082,
             right: size!.height * 0.0163,
           ),
-          itemBuilder: (context, index) => GestureDetector(
-            child: DraftItem(
-                draft: viewModel.drafts![index], height: size!.height),
-            onTap: () {},
-          ),
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              child: DraftItem(
+                draft: viewModel.drafts![index],
+                height: size!.height,
+              ),
+              onTap: () {},
+            );
+          },
           itemCount: viewModel.drafts!.length,
         ),
       ),

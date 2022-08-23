@@ -2,6 +2,9 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../model/base/book.dart';
+import '../../model/base/song.dart';
+import '../../model/base/songext.dart';
 import '../../navigator/main_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
@@ -12,7 +15,6 @@ import '../../widget/general/list_items.dart';
 import '../../widget/general/swiper_widgets.dart';
 import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
-import '../manage/settings_screen.dart';
 import '../songs/presentor_screen.dart';
 import 'searches/tab1_search.dart';
 import 'searches/tab2_search.dart';
