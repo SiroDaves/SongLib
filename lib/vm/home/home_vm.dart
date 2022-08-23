@@ -25,7 +25,7 @@ class HomeVm with ChangeNotifierEx {
 
   bool isBusy = false;
   String selectedBooks = "";
-  int mainBook = 0;
+  int mainBook = 0, currentPage = 1;
 
   List<Book>? books = [];
   List<SongExt>? filtered = [], songs = [], likes = [];
@@ -157,7 +157,7 @@ class HomeVm with ChangeNotifierEx {
     }
   }
 
-  /// Save changes for a liste be it a new one or simply updating an old one
+  /// Save changes for a listed be it a new one or simply updating an old one
   Future<bool?> saveListed(BuildContext context) async {
     bool? success;
 

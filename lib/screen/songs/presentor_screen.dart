@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../model/base/book.dart';
-import '../../model/base/song.dart';
 import '../../model/base/songext.dart';
 import '../../navigator/main_navigator.dart';
 import '../../navigator/mixin/back_navigator.dart';
@@ -57,7 +55,7 @@ class PresentorScreenState extends State<PresentorScreen>
 
   Widget screenWidget(PresentorVm viewModel) {
     viewModel.song = song;
-    viewModel.loadViewer();
+    viewModel.loadPresentor();
 
     return Scaffold(
       appBar: AppBar(

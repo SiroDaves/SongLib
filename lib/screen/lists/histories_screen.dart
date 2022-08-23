@@ -51,7 +51,7 @@ class HistoriesScreenState extends State<HistoriesScreen>
           body: TabBarView(
             children: [
               mainContainer(context, viewModel),
-              mainContainer(context, viewModel),
+              Container(),
             ],
           ),
         ),

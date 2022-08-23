@@ -39,7 +39,6 @@ class LikesScreenState extends State<LikesScreen>
           title: const Text(AppConstants.likesTitle),
         ),
         body: Container(
-          height: size!.height,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -47,41 +46,50 @@ class LikesScreenState extends State<LikesScreen>
               colors: [Colors.white, ThemeColors.accent, Colors.black],
             ),
           ),
-          child: viewModel.isBusy
-              ? const ListLoading()
-              : viewModel.likes!.isNotEmpty
-                  ? listContainer(context, viewModel)
-                  : const NoDataToShow(
-                      title: AppConstants.itsEmptyHere1,
-                      description: AppConstants.itsEmptyHereBody4,
-                    ),
+          child: mainContainer(context, viewModel),
         ),
       ),
     );
   }
 
+  Widget mainContainer(BuildContext context, LikesVm viewModel) {
+    return SingleChildScrollView(
+      child: viewModel.isBusy
+          ? const ListLoading()
+          : viewModel.likes!.isNotEmpty
+              ? listContainer(context, viewModel)
+              : const NoDataToShow(
+                  title: AppConstants.itsEmptyHere,
+                  description: AppConstants.itsEmptyHereBody,
+                ),
+    );
+  }
+
   Widget listContainer(BuildContext context, LikesVm viewModel) {
-    return Scrollbar(
-      thickness: 10,
-      radius: const Radius.circular(20),
-      child: ListView.builder(
-        itemCount: viewModel.likes!.length,
-        padding: EdgeInsets.all(
-          size!.height * 0.0082,
-        ),
-        itemBuilder: (context, index) => SongItem(
-          song: viewModel.likes![index],
-          height: size!.height,
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return PresentorScreen(song: viewModel.likes![index]);
-                },
-              ),
-            );
-          },
+    return SizedBox(
+      height: size!.height,
+      child: Scrollbar(
+        thickness: 10,
+        radius: const Radius.circular(20),
+        child: ListView.builder(
+          itemCount: viewModel.likes!.length,
+          padding: EdgeInsets.all(
+            size!.height * 0.0082,
+          ),
+          itemBuilder: (context, index) => SongItem(
+            song: viewModel.likes![index],
+            height: size!.height,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return PresentorScreen(song: viewModel.likes![index]);
+                  },
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

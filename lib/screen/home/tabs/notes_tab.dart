@@ -32,7 +32,16 @@ class NotesTab extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: ThemeColors.primary,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return const EditorScreen();
+              },
+            ),
+          );
+        },
         child: const Icon(Icons.add, color: Colors.white),
       ),
     );
@@ -92,12 +101,22 @@ class NotesTab extends StatelessWidget {
             right: size!.height * 0.0163,
           ),
           itemBuilder: (context, index) {
+            final Draft draft = viewModel.drafts![index];
             return GestureDetector(
               child: DraftItem(
-                draft: viewModel.drafts![index],
+                draft: draft,
                 height: size!.height,
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return EditorScreen(draft: draft);
+                    },
+                  ),
+                );
+              },
             );
           },
           itemCount: viewModel.drafts!.length,

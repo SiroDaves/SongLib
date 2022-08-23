@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../model/base/book.dart';
-import '../../model/base/song.dart';
+import '../../model/base/draft.dart';
+import '../../model/base/listed.dart';
 import '../../model/base/songext.dart';
 import '../../navigator/main_navigator.dart';
 import '../../navigator/route_names.dart';
@@ -15,6 +16,8 @@ import '../../widget/general/list_items.dart';
 import '../../widget/general/swiper_widgets.dart';
 import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
+import '../lists/list_screen.dart';
+import '../songs/editor_screen.dart';
 import '../songs/presentor_screen.dart';
 import 'searches/tab1_search.dart';
 import 'searches/tab2_search.dart';
@@ -42,9 +45,9 @@ class HomeScreenState extends State<HomeScreen> implements HomeNavigator {
       case 0:
         return goToLikes();
       case 1:
-        return goToLikes();
+        return goToSettings();
       case 2:
-        return goToLikes();
+        return goToSettings();
     }
   }
 
@@ -55,7 +58,7 @@ class HomeScreenState extends State<HomeScreen> implements HomeNavigator {
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) => Scaffold(
         body: Swiper(
-          index: 1,
+          index: viewModel.currentPage,
           itemBuilder: (context, index) {
             final appPages = <Widget>[
               ListedsTab(viewModel: viewModel),
@@ -65,12 +68,14 @@ class HomeScreenState extends State<HomeScreen> implements HomeNavigator {
             return appPages[index];
           },
           indicatorLayout: PageIndicatorLayout.COLOR,
+          loop: false,
           autoplay: false,
           itemCount: 3,
           pagination: const PageSwiper(
             margin: EdgeInsets.only(top: 35),
           ),
           control: PageSwiperControl(
+            currentPage: viewModel.currentPage,
             icons: [
               indicatorIcon1(),
               indicatorIcon2(),
@@ -90,10 +95,10 @@ class HomeScreenState extends State<HomeScreen> implements HomeNavigator {
           icon: Icon(Icons.favorite),
           label: '',
         ),
-        BottomNavigationBarItem(
+        /*BottomNavigationBarItem(
           icon: Icon(Icons.history),
           label: '',
-        ),
+        ),*/
         BottomNavigationBarItem(
           icon: Icon(Icons.settings),
           label: '',

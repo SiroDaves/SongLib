@@ -15,10 +15,11 @@ class EditorVm with ChangeNotifierEx {
   final DbRepository db;
 
   EditorVm(this.db, this.localStorage);
+
   SongExt? song;
   Draft? draft;
 
-  bool isBusy = false;
+  bool isBusy = false, isNewContent = false;
   String? title, content, alias, key;
   TextEditingController? titleController, contentController;
   TextEditingController? aliasController, keyController;
@@ -31,11 +32,20 @@ class EditorVm with ChangeNotifierEx {
     keyController = TextEditingController();
   }
 
-  Future<void> showCurrentSong() async {
-    titleController!.text = song!.title!;
-    titleController!.text = song!.title!;
-    aliasController!.text = song!.alias!;
-    keyController!.text = song!.key!;
+  Future<void> loadEditor() async {
+    if (draft != null) {
+      titleController!.text = draft!.title!;
+      aliasController!.text = draft!.alias!;
+      keyController!.text = draft!.key!;
+      contentController!.text = draft!.content!;
+    } else if (song != null) {
+      titleController!.text = song!.title!;
+      aliasController!.text = song!.alias!;
+      keyController!.text = song!.key!;
+      contentController!.text = song!.content!;
+    } else {
+      isNewContent = true;
+    }
   }
 
   // function to validate creds
@@ -55,7 +65,7 @@ class EditorVm with ChangeNotifierEx {
   }
 
   /// Save changes for a song be it a new one or simply updating an old one
-  Future<bool?> saveSong() async {
+  Future<bool?> saveChanges() async {
     bool? success;
 
     if (validateInput()) {
@@ -68,6 +78,12 @@ class EditorVm with ChangeNotifierEx {
         song!.alias = aliasController!.text;
         song!.key = keyController!.text;
         await db.editSong(song!);
+      } else if (draft != null) {
+        draft!.title = titleController!.text;
+        draft!.content = contentController!.text;
+        draft!.alias = aliasController!.text;
+        draft!.key = keyController!.text;
+        await db.editDraft(draft!);
       } else {
         draft = Draft(
           title: titleController!.text,
@@ -118,7 +134,7 @@ class EditorVm with ChangeNotifierEx {
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
-                saveSong();
+                saveChanges();
               },
               child: const Text("SAVE"),
             ),

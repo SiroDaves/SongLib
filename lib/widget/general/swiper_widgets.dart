@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../../theme/theme_colors.dart';
 
-
 class PageSwiper extends SwiperPlugin {
   /// Distance between pagination and the container
   final EdgeInsetsGeometry margin;
@@ -40,6 +39,8 @@ class PageSwiper extends SwiperPlugin {
 }
 
 class PageSwiperControl extends SwiperPlugin {
+  int currentPage;
+
   ///list of widgets for icons
   final List<Widget>? icons;
 
@@ -57,7 +58,8 @@ class PageSwiperControl extends SwiperPlugin {
 
   final Key? key;
 
-  const PageSwiperControl({
+  PageSwiperControl({
+    this.currentPage = 1,
     this.icons,
     this.color,
     this.disableColor,
@@ -104,7 +106,7 @@ class PageSwiperControl extends SwiperPlugin {
       nextColor = next ? color : disableColor;
     }
 
-    Widget child = Row(
+    final Widget child = Row(
       key: key,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[

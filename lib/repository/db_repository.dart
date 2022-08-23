@@ -44,6 +44,7 @@ abstract class DbRepository {
   Future<void> saveHistory(History history);
 
   Future<void> editSong(SongExt song);
+  Future<void> editDraft(Draft draft);
 }
 
 class DbRepo implements DbRepository {
@@ -131,5 +132,9 @@ class DbRepo implements DbRepository {
   @override
   Future<void> editSong(SongExt song) async {
     await songDao.updateSong(song);
+  }
+  @override
+  Future<void> editDraft(Draft draft) async {
+    await draftDao.updateDraft(draft);
   }
 }

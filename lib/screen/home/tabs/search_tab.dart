@@ -102,13 +102,13 @@ class SearchTab extends StatelessWidget {
         thickness: 10,
         radius: const Radius.circular(20),
         child: ListView.builder(
-          itemCount: viewModel.songs!.length,
+          itemCount: viewModel.filtered!.length,
           padding: EdgeInsets.only(
             left: size!.height * 0.0082,
             right: size!.height * 0.0082,
           ),
           itemBuilder: (context, index) {
-            final SongExt song = viewModel.songs![index];
+            final SongExt song = viewModel.filtered![index];
             return SongItem(
               song: song,
               height: size!.height,

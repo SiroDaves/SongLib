@@ -37,7 +37,7 @@ class PresentorVm with ChangeNotifierEx {
     navigator = screenNavigator;
   }
 
-  Future<void> loadViewer() async {
+  Future<void> loadPresentor() async {
     try {
       if (song != null) {
         verseInfos.clear();

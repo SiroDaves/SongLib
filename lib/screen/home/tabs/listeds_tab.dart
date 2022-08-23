@@ -91,10 +91,20 @@ class ListedsTab extends StatelessWidget {
             right: size!.height * 0.0082,
           ),
           itemBuilder: (context, index) {
+            final Listed listed = viewModel.listeds![index];
             return ListedItem(
-              listed: viewModel.listeds![index],
+              listed: listed,
               height: size!.height,
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return ListScreen(listed: listed);
+                    },
+                  ),
+                );
+              },
             );
           },
         ),
