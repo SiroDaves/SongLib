@@ -243,7 +243,7 @@ class SongItem extends StatelessWidget {
                 Row(
                   children: <Widget>[
                     const Spacer(),
-                    //tagView(songBook),
+                    TagView(tagText: refineTitle(song.songbook!), height: height),
                     TagView(tagText: versesText, height: height),
                     hasChorus
                         ? TagView(tagText: chorusText, height: height)
@@ -302,7 +302,7 @@ class DraftItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  songItemTitle(draft.songNo!, draft.title!),
+                  draft.title!,
                   maxLines: 1,
                   style: TextStyle(
                     fontSize: height * 0.0261,

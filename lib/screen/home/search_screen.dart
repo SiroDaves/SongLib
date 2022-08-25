@@ -64,6 +64,7 @@ class SearchScreenState extends State<SearchScreen> implements HomeNavigator {
               children: [
                 viewModel.songs!.isNotEmpty
                     ? Tab2Search(
+                        homeVm: viewModel,
                         songs: viewModel.songs,
                         height: size!.height,
                       )
@@ -138,7 +139,10 @@ class SearchScreenState extends State<SearchScreen> implements HomeNavigator {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return PresentorScreen(song: viewModel.songs![index]);
+                    return PresentorScreen(
+                      homeVm: viewModel,
+                      song: viewModel.songs![index],
+                    );
                   },
                 ),
               );

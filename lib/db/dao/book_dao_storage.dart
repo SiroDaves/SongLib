@@ -12,8 +12,6 @@ abstract class BookDaoStorage {
   @factoryMethod
   factory BookDaoStorage(SongLibDb db) = _BookDaoStorage;
 
-  Stream<List<DbBook>> getAllBooksStream();
-
   Future<List<Book>> getAllBooks();
 
   Future<void> createBook(Book book);
@@ -31,30 +29,43 @@ class _BookDaoStorage extends DatabaseAccessor<SongLibDb>
 
   @override
   Future<List<Book>> getAllBooks() async {
-    final List<DbBook> dbBooks = await select(db.dbBookTable).get();
-    final List<Book> books = [];
-
-    for (int i = 0; i < dbBooks.length; i++) {
-      books.add(
-        Book(
-          id: dbBooks[i].id,
-          objectId: dbBooks[i].objectId,
-          bookNo: dbBooks[i].bookNo,
-          enabled: dbBooks[i].enabled,
-          title: dbBooks[i].title,
-          subTitle: dbBooks[i].subTitle,
-          songs: dbBooks[i].songs,
-          position: dbBooks[i].position,
-          createdAt: dbBooks[i].createdAt,
-          updatedAt: dbBooks[i].updatedAt,
-        ),
-      );
-    }
-    return books;
+    final Stream<List<Book>> streams = customSelect(
+      'SELECT * FROM ${db.dbBookTable.actualTableName} '
+      'ORDER BY ${db.dbBookTable.position.name} ASC;',
+      readsFrom: {db.dbBookTable},
+    ).watch().map(
+      (rows) {
+        final List<Book> drafts = [];
+        for (int i = 0; i < rows.length; i++) {
+          drafts.add(
+            Book(
+              id: const IntType().mapFromDatabaseResponse(rows[i].data['id'])!,
+              objectId: const StringType()
+                  .mapFromDatabaseResponse(rows[i].data['object_id'])!,
+              enabled: const BoolType()
+                  .mapFromDatabaseResponse(rows[i].data['enabled'])!,
+              bookNo: const IntType()
+                  .mapFromDatabaseResponse(rows[i].data['book_no'])!,
+              title: const StringType()
+                  .mapFromDatabaseResponse(rows[i].data['title'])!,
+              subTitle: const StringType()
+                  .mapFromDatabaseResponse(rows[i].data['sub_title'])!,
+              songs: const IntType()
+                  .mapFromDatabaseResponse(rows[i].data['songs'])!,
+              position: const IntType()
+                  .mapFromDatabaseResponse(rows[i].data['position'])!,
+              createdAt: const StringType()
+                  .mapFromDatabaseResponse(rows[i].data['created_at'])!,
+              updatedAt: const StringType()
+                  .mapFromDatabaseResponse(rows[i].data['updated_at'])!,
+            ),
+          );
+        }
+        return drafts;
+      },
+    );
+    return await streams.first;
   }
-
-  @override
-  Stream<List<DbBook>> getAllBooksStream() => select(db.dbBookTable).watch();
 
   @override
   Future<void> createBook(Book book) => into(db.dbBookTable).insert(

@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:songlib/util/constants/utilities.dart';
 
-import '../../../model/base/book.dart';
 import '../../../model/base/song.dart';
 import '../../../model/base/songext.dart';
 import '../../../theme/theme_colors.dart';
+import '../../../util/constants/utilities.dart';
+import '../../../vm/home/home_vm.dart';
 import '../../../widget/general/list_items.dart';
 import '../../../widget/search/search_widget.dart';
 import '../../songs/presentor_screen.dart';
 
 class Tab2Search extends StatelessWidget {
+  final HomeVm homeVm;
   final List<SongExt>? songs;
   final double? height;
 
   const Tab2Search({
     Key? key,
+    required this.homeVm,
     required this.songs,
     required this.height,
   }) : super(key: key);
@@ -52,7 +54,7 @@ class Tab2Search extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return PresentorScreen(song: song);
+                  return PresentorScreen(homeVm: homeVm, song: song);
                 },
               ),
             );

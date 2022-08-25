@@ -37,7 +37,7 @@ class ListedsTab extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) {
-                return const ListEditScreen();
+                return ListEditScreen(homeVm: viewModel);
               },
             ),
           );
@@ -55,12 +55,13 @@ class ListedsTab extends StatelessWidget {
               children: [
                 viewModel.listeds!.isNotEmpty
                     ? Tab1Search(
+                        homeVm: viewModel,
                         listeds: viewModel.listeds,
                         height: size!.height,
                       )
                     : Container(),
                 viewModel.listeds!.isNotEmpty
-                    ? listContainer(context, viewModel)
+                    ? listContainer(context)
                     : const NoDataToShow(
                         title: AppConstants.itsEmptyHere1,
                         description: AppConstants.itsEmptyHereBody4,
@@ -86,7 +87,7 @@ class ListedsTab extends StatelessWidget {
     );
   }
 
-  Widget listContainer(BuildContext context, HomeVm viewModel) {
+  Widget listContainer(BuildContext context) {
     return Container(
       height: size!.height * 0.7,
       padding: const EdgeInsets.only(right: 2),
@@ -109,7 +110,7 @@ class ListedsTab extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return ListViewScreen(listed: listed);
+                      return ListViewScreen(homeVm: viewModel, listed: listed);
                     },
                   ),
                 );

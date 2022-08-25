@@ -24,9 +24,7 @@ class HomeVm with ChangeNotifierEx {
   int mainBook = 0, currentPage = 1;
 
   List<Book>? books = [];
-  List<SongExt>? filtered = [], songs = [], likes = [];
-
-  List<HistoryExt>? histories = [];
+  List<SongExt>? filtered = [], songs = [];
   List<Listed>? listeds = [];
   List<Draft>? drafts = [];
 
@@ -48,12 +46,34 @@ class HomeVm with ChangeNotifierEx {
     isBusy = true;
     notifyListeners();
 
+    await fetchListedData();
+    await fetchSearchData();
+    await fetchDraftsData();
+
+    isBusy = false;
+    notifyListeners();
+  }
+
+  /// Get the listed data from the DB
+  Future<void> fetchListedData() async {
+    notifyListeners();
+    try {
+      listeds = await db.fetchListeds();
+      await selectSongbook(mainBook);
+    } catch (exception, stackTrace) {
+      await Sentry.captureException(
+        exception,
+        stackTrace: stackTrace,
+      );
+    }
+    notifyListeners();
+  }
+
+  /// Get the song data from the DB
+  Future<void> fetchSearchData() async {
+    notifyListeners();
     try {
       books = await db.fetchBooks();
-      likes = await db.fetchLikedSongs();
-      histories = await db.fetchHistories();
-      drafts = await db.fetchDrafts();
-      listeds = await db.fetchListeds();
       songs = await db.fetchSongs();
       await selectSongbook(mainBook);
     } catch (exception, stackTrace) {
@@ -62,8 +82,20 @@ class HomeVm with ChangeNotifierEx {
         stackTrace: stackTrace,
       );
     }
+    notifyListeners();
+  }
 
-    isBusy = false;
+  /// Get the notes data from the DB
+  Future<void> fetchDraftsData() async {
+    notifyListeners();
+    try {
+      drafts = await db.fetchDrafts();
+    } catch (exception, stackTrace) {
+      await Sentry.captureException(
+        exception,
+        stackTrace: stackTrace,
+      );
+    }
     notifyListeners();
   }
 
@@ -90,7 +122,6 @@ class HomeVm with ChangeNotifierEx {
     isBusy = false;
     notifyListeners();
   }
-
 }
 
 abstract class HomeNavigator {

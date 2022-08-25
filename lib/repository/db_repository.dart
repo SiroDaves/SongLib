@@ -116,7 +116,7 @@ class DbRepo implements DbRepository {
 
   @override
   Future<void> saveDraft(Draft draft) async {
-    await draftDao.createDraft(draft);
+    await draftDao.createDraft(draft: draft, isSimple: true);
   }
 
   @override
@@ -133,6 +133,7 @@ class DbRepo implements DbRepository {
   Future<void> editSong(SongExt song) async {
     await songDao.updateSong(song);
   }
+
   @override
   Future<void> editDraft(Draft draft) async {
     await draftDao.updateDraft(draft);

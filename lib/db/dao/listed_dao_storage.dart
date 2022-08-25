@@ -36,7 +36,8 @@ class _ListedDaoStorage extends DatabaseAccessor<SongLibDb>
   Future<List<Listed>> getAllListeds() async {
     final Stream<List<Listed>> streams = customSelect(
       'SELECT * FROM ${db.dbListedTable.actualTableName} '
-      'WHERE ${db.dbListedTable.parentid.name}=0;',
+      'WHERE ${db.dbListedTable.parentid.name}=0 '
+      'ORDER BY ${db.dbListedTable.id.name} DESC;',
       readsFrom: {db.dbListedTable},
     ).watch().map(
       (rows) {
@@ -86,7 +87,8 @@ class _ListedDaoStorage extends DatabaseAccessor<SongLibDb>
       'ON listeds.${db.dbListedTable.song.name}=songs.${db.dbSongTable.id.name} '
       'LEFT JOIN ${db.dbBookTable.actualTableName} AS books '
       'ON songs.${db.dbSongTable.book.name}=books.${db.dbBookTable.bookNo.name};'
-      'WHERE ${db.dbListedTable.parentid.name}=$parentid;',
+      'WHERE ${db.dbListedTable.parentid.name}=$parentid '
+      'ORDER BY ${db.dbListedTable.id.name} DESC;',
       readsFrom: {db.dbListedTable},
     ).watch().map(
       (rows) {

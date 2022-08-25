@@ -41,6 +41,7 @@ class SearchTab extends StatelessWidget {
               children: [
                 viewModel.songs!.isNotEmpty
                     ? Tab2Search(
+                        homeVm: viewModel,
                         songs: viewModel.songs,
                         height: size!.height,
                       )
@@ -117,7 +118,7 @@ class SearchTab extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return PresentorScreen(song: song);
+                      return PresentorScreen(homeVm: viewModel, song: song);
                     },
                   ),
                 );

@@ -5,15 +5,12 @@ import '../../model/base/search.dart';
 import '../../model/tables/db_search_table.dart';
 import '../songlib_db.dart';
 
-
 part 'search_dao_storage.g.dart';
 
 @lazySingleton
 abstract class SearchDaoStorage {
   @factoryMethod
   factory SearchDaoStorage(SongLibDb db) = _SearchDaoStorage;
-
-  Stream<List<DbSearch>> getAllSearchesStream();
 
   Future<List<Search>> getAllSearches();
 
@@ -30,24 +27,31 @@ class _SearchDaoStorage extends DatabaseAccessor<SongLibDb>
 
   @override
   Future<List<Search>> getAllSearches() async {
-    final List<DbSearch> dbSearches = await select(db.dbSearchTable).get();
-    final List<Search> searches = [];
-
-    for (int i = 0; i < dbSearches.length; i++) {
-      searches.add(
-        Search(
-          id: dbSearches[i].id,
-          objectId: dbSearches[i].objectId,
-          title: dbSearches[i].title,
-          createdAt: dbSearches[i].createdAt,
-        ),
-      );
-    }
-    return searches;
+    final Stream<List<Search>> streams = customSelect(
+      'SELECT * FROM ${db.dbSearchTable.actualTableName} '
+      'ORDER BY ${db.dbSearchTable.id.name} DESC;',
+      readsFrom: {db.dbSearchTable},
+    ).watch().map(
+      (rows) {
+        final List<Search> drafts = [];
+        for (int i = 0; i < rows.length; i++) {
+          drafts.add(
+            Search(
+              id: const IntType().mapFromDatabaseResponse(rows[i].data['id'])!,
+              objectId: const StringType()
+                  .mapFromDatabaseResponse(rows[i].data['object_id'])!,
+              title: const StringType()
+                  .mapFromDatabaseResponse(rows[i].data['title'])!,
+              createdAt: const StringType()
+                  .mapFromDatabaseResponse(rows[i].data['created_at'])!,
+            ),
+          );
+        }
+        return drafts;
+      },
+    );
+    return await streams.first;
   }
-
-  @override
-  Stream<List<DbSearch>> getAllSearchesStream() => select(db.dbSearchTable).watch();
 
   @override
   Future<void> createSearch(Search search) => into(db.dbSearchTable).insert(
@@ -57,5 +61,4 @@ class _SearchDaoStorage extends DatabaseAccessor<SongLibDb>
           createdAt: Value(search.createdAt!),
         ),
       );
-
 }

@@ -6,6 +6,7 @@ import '../../navigator/main_navigator.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
+import '../../vm/home/home_vm.dart';
 import '../../vm/lists/list_vm.dart';
 import '../../widget/general/inputs.dart';
 import '../../widget/provider/provider_widget.dart';
@@ -13,13 +14,15 @@ import '../../widget/provider/provider_widget.dart';
 class ListEditScreen extends StatefulWidget {
   static const String routeName = RouteNames.editorScreen;
 
+  final HomeVm? homeVm;
   final Listed? listed;
-  const ListEditScreen({Key? key, this.listed}) : super(key: key);
+  const ListEditScreen({Key? key, required this.homeVm, this.listed})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
     // ignore: no_logic_in_create_state
-    return ListEditScreenState(listed);
+    return ListEditScreenState(homeVm, listed);
   }
 }
 
@@ -27,7 +30,8 @@ class ListEditScreen extends StatefulWidget {
 class ListEditScreenState extends State<ListEditScreen>
     with BackNavigatorMixin
     implements ListNavigator {
-  ListEditScreenState(this.listed);
+  ListEditScreenState(this.homeVm, this.listed);
+  HomeVm? homeVm;
   Listed? listed;
   Size? size;
 

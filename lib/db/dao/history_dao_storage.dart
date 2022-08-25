@@ -40,7 +40,8 @@ class _HistoryDaoStorage extends DatabaseAccessor<SongLibDb>
       'LEFT JOIN ${db.dbSongTable.actualTableName} AS songs '
       'ON histories.${db.dbHistoryTable.song.name}=songs.${db.dbSongTable.id.name} '
       'LEFT JOIN ${db.dbBookTable.actualTableName} AS books '
-      'ON songs.${db.dbSongTable.book.name}=books.${db.dbBookTable.bookNo.name};',
+      'ON songs.${db.dbSongTable.book.name}=books.${db.dbBookTable.bookNo.name} '
+      'ORDER BY ${db.dbSongTable.id.name} DESC;',
       readsFrom: {db.dbSongTable},
     ).watch().map(
       (rows) {

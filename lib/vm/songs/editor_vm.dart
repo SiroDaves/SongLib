@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../model/base/draft.dart';
 import '../../model/base/songext.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
+import '../home/home_vm.dart';
 
 @injectable
 class EditorVm with ChangeNotifierEx {
@@ -16,6 +18,7 @@ class EditorVm with ChangeNotifierEx {
 
   EditorVm(this.db, this.localStorage);
 
+  HomeVm? homeVm;
   SongExt? song;
   Draft? draft;
 
@@ -53,7 +56,7 @@ class EditorVm with ChangeNotifierEx {
     bool validated = false;
     if (titleController!.text.isNotEmpty) {
       title = titleController!.text;
-      content = contentController!.text;
+      content = contentController!.text.replaceAll("\n", "#");
       alias = aliasController!.text;
       key = keyController!.text;
 
@@ -65,40 +68,44 @@ class EditorVm with ChangeNotifierEx {
   }
 
   /// Save changes for a song be it a new one or simply updating an old one
-  Future<bool?> saveChanges() async {
-    bool? success;
-
+  Future<void> saveChanges() async {
     if (validateInput()) {
       isBusy = true;
       notifyListeners();
 
-      if (song != null) {
-        song!.title = titleController!.text;
-        song!.content = contentController!.text;
-        song!.alias = aliasController!.text;
-        song!.key = keyController!.text;
-        await db.editSong(song!);
-      } else if (draft != null) {
-        draft!.title = titleController!.text;
-        draft!.content = contentController!.text;
-        draft!.alias = aliasController!.text;
-        draft!.key = keyController!.text;
-        await db.editDraft(draft!);
-      } else {
-        draft = Draft(
-          title: titleController!.text,
-          content: contentController!.text,
-          alias: aliasController!.text,
-          key: keyController!.text,
+      try {
+        if (song != null) {
+          song!.title = titleController!.text;
+          song!.content = contentController!.text;
+          song!.alias = aliasController!.text;
+          song!.key = keyController!.text;
+          await db.editSong(song!);
+        } else if (draft != null) {
+          draft!.title = titleController!.text;
+          draft!.content = contentController!.text;
+          draft!.alias = aliasController!.text;
+          draft!.key = keyController!.text;
+          await db.editDraft(draft!);
+        } else {
+          draft = Draft(
+            title: titleController!.text,
+            content: contentController!.text,
+            alias: aliasController!.text,
+            key: keyController!.text,
+          );
+          await db.saveDraft(draft!);
+        }
+      } catch (exception, stackTrace) {
+        await Sentry.captureException(
+          exception,
+          stackTrace: stackTrace,
         );
-        await db.saveDraft(draft!);
       }
 
+      await onBackPressed();
       isBusy = false;
       notifyListeners();
     }
-
-    return success;
   }
 
   /// Remove a song from the records
@@ -153,7 +160,7 @@ class EditorVm with ChangeNotifierEx {
         ),
       );
     } else {
-      onBackPressed();
+      await onBackPressed();
     }
   }
 
@@ -186,15 +193,14 @@ class EditorVm with ChangeNotifierEx {
         ),
       );
     } else {
-      onBackPressed();
+      await onBackPressed();
     }
   }
 
-  void onBackPressed() => navigator.goBack<void>();
+  Future<void> onBackPressed() async {
+    await homeVm!.fetchDraftsData();
+    navigator.goBack<void>();
+  }
 }
 
-abstract class EditorNavigator implements BackNavigator {
-  void goToHome();
-
-  void goToSelection();
-}
+abstract class EditorNavigator implements BackNavigator {}

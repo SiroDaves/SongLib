@@ -5,6 +5,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../model/base/listed.dart';
 import '../../model/base/listedext.dart';
+import '../../model/base/songext.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
@@ -20,7 +21,8 @@ class ListVm with ChangeNotifierEx {
   ListVm(this.db, this.localStorage);
 
   Listed? listed;
-  List<ListedExt>? songs = [];
+  List<SongExt>? songs = [];
+  List<ListedExt>? listeds = [];
 
   String? title, content;
   TextEditingController? titleController, contentController;
@@ -29,6 +31,20 @@ class ListVm with ChangeNotifierEx {
     navigator = screenNavigator;
     titleController = TextEditingController();
     contentController = TextEditingController();
+
+    isBusy = true;
+    notifyListeners();
+    try {
+      songs = await db.fetchSongs();
+    } catch (exception, stackTrace) {
+      await Sentry.captureException(
+        exception,
+        stackTrace: stackTrace,
+      );
+    }
+
+    isBusy = false;
+    notifyListeners();
   }
 
   Future<void> loadEditor() async {
@@ -44,7 +60,7 @@ class ListVm with ChangeNotifierEx {
     notifyListeners();
 
     try {
-      songs = await db.fetchListedSongs(listed!.song!);
+      listeds = await db.fetchListedSongs(listed!.song!);
     } catch (exception, stackTrace) {
       await Sentry.captureException(
         exception,

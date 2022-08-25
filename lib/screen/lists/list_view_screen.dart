@@ -8,6 +8,7 @@ import '../../navigator/main_navigator.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../util/constants/app_constants.dart';
+import '../../vm/home/home_vm.dart';
 import '../../vm/lists/list_vm.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
@@ -17,21 +18,26 @@ import '../songs/presentor_screen.dart';
 
 class ListViewScreen extends StatefulWidget {
   static const String routeName = RouteNames.listScreen;
+
+  final HomeVm? homeVm;
   final Listed? listed;
 
-  const ListViewScreen({
-    Key? key,
-    required this.listed,
-  }) : super(key: key);
+  const ListViewScreen({Key? key, required this.homeVm, required this.listed})
+      : super(key: key);
 
   @override
-  ListViewScreenState createState() => ListViewScreenState();
+  State<StatefulWidget> createState() {
+    // ignore: no_logic_in_create_state
+    return ListViewScreenState(homeVm, listed);
+  }
 }
 
 @visibleForTesting
 class ListViewScreenState extends State<ListViewScreen>
     with BackNavigatorMixin
     implements ListNavigator {
+  ListViewScreenState(this.homeVm, this.listed);
+  HomeVm? homeVm;
   Listed? listed;
   Size? size;
 
@@ -76,7 +82,7 @@ class ListViewScreenState extends State<ListViewScreen>
       ),
       body: viewModel.isBusy
           ? const ListLoading()
-          : viewModel.songs!.isNotEmpty
+          : viewModel.listeds!.isNotEmpty
               ? listContainer(context, viewModel)
               : const NoDataToShow(
                   title: AppConstants.itsEmptyHere,
@@ -93,13 +99,13 @@ class ListViewScreenState extends State<ListViewScreen>
         thickness: 10,
         radius: const Radius.circular(20),
         child: ListView.builder(
-          itemCount: viewModel.songs!.length,
+          itemCount: viewModel.listeds!.length,
           padding: EdgeInsets.only(
             left: size!.height * 0.0082,
             right: size!.height * 0.0082,
           ),
           itemBuilder: (context, index) => songItemWidget(
-            viewModel.songs![index],
+            viewModel.listeds![index],
           ),
         ),
       ),
@@ -129,7 +135,7 @@ class ListViewScreenState extends State<ListViewScreen>
           context,
           MaterialPageRoute(
             builder: (context) {
-              return PresentorScreen(song: song);
+              return PresentorScreen(homeVm: homeVm, song: song);
             },
           ),
         );

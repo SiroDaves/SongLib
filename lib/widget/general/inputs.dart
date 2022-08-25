@@ -41,14 +41,14 @@ class FormInput extends StatelessWidget {
     Color foreColor = isLight! ? Colors.white : ThemeColors.primary;
 
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 15),
+      margin: const EdgeInsets.all(10),
       child: TextFormField(
         controller: iController,
         keyboardType: iType,
         autovalidateMode: isMultiline! ? AutovalidateMode.disabled : AutovalidateMode.onUserInteraction,
         validator: iValidator,
-        minLines: isMultiline! ? 10 : 1,
-        maxLines: isMultiline! ? 20 : 1,
+        minLines: isMultiline! ? 15 : 1,
+        maxLines: isMultiline! ? 30 : 1,
         enabled: isEnabled,
         readOnly: iOptions!.isNotEmpty ? true : false,
         onTap: () {

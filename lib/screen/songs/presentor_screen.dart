@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../model/base/draft.dart';
 import '../../model/base/songext.dart';
 import '../../navigator/main_navigator.dart';
 import '../../navigator/mixin/back_navigator.dart';
@@ -8,21 +9,25 @@ import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
 import '../../util/constants/utilities.dart';
+import '../../vm/home/home_vm.dart';
 import '../../vm/songs/presentor_vm.dart';
 import '../../widget/general/vertical_tabs.dart';
 import '../../widget/provider/provider_widget.dart';
+import 'editor_screen.dart';
 
 class PresentorScreen extends StatefulWidget {
   static const String routeName = RouteNames.presentorScreen;
 
-  final SongExt song;
-
-  const PresentorScreen({Key? key, required this.song}) : super(key: key);
+  final HomeVm? homeVm;
+  final SongExt? song;
+  final Draft? draft;
+  const PresentorScreen({Key? key, this.homeVm, this.song, this.draft})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
     // ignore: no_logic_in_create_state
-    return PresentorScreenState(song);
+    return PresentorScreenState(homeVm, song, draft);
   }
 }
 
@@ -30,10 +35,12 @@ class PresentorScreen extends StatefulWidget {
 class PresentorScreenState extends State<PresentorScreen>
     with BackNavigatorMixin
     implements PresentorNavigator {
-  PresentorScreenState(this.song);
+  PresentorScreenState(this.homeVm, this.song, this.draft);
+  HomeVm? homeVm;
   SongExt? song;
+  Draft? draft;
   Size? size;
-  
+
   List<Tab>? viewerTabs;
   List<Widget>? viewerWidgets;
 
@@ -49,12 +56,30 @@ class PresentorScreenState extends State<PresentorScreen>
         theme,
         localization,
       ) =>
-          screenWidget(viewModel),
+          screenWidget(context, viewModel),
     );
   }
 
-  Widget screenWidget(PresentorVm viewModel) {
-    viewModel.song = song;
+  Future<void> editSong(BuildContext context) async {
+    try {
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return EditorScreen(homeVm: homeVm, draft: draft);
+          },
+        ),
+      );
+    } catch (_) {}
+  }
+
+  Widget screenWidget(BuildContext context, PresentorVm viewModel) {
+    if (song != null) {
+      viewModel.song = song;
+    } else if (draft != null) {
+      viewModel.draft = draft;
+      viewModel.isDraft = true;
+    }
     viewModel.loadPresentor();
 
     return Scaffold(
@@ -63,13 +88,21 @@ class PresentorScreenState extends State<PresentorScreen>
           songItemTitle(song!.songNo!, song!.title!),
         ),
         actions: <Widget>[
-          InkWell(
-            onTap: viewModel.likeSong,
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Icon(viewModel.likeIcon),
-            ),
-          ),
+          viewModel.isDraft
+              ? InkWell(
+                  onTap: () => editSong(context),
+                  child: const Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Icon(Icons.edit),
+                  ),
+                )
+              : InkWell(
+                  onTap: viewModel.likeSong,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Icon(viewModel.likeIcon),
+                  ),
+                ),
           popupMenu(viewModel),
         ],
       ),
@@ -230,9 +263,4 @@ class PresentorScreenState extends State<PresentorScreen>
     );
   }
 
-  @override
-  void goToHome() => MainNavigatorWidget.of(context).goToHome();
-
-  @override
-  void goToSelection() => MainNavigatorWidget.of(context).goToSelection();
 }

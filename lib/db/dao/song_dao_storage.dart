@@ -42,7 +42,8 @@ class _SongDaoStorage extends DatabaseAccessor<SongLibDb>
       'FROM ${db.dbSongTable.actualTableName} AS songs '
       'LEFT JOIN ${db.dbBookTable.actualTableName} AS books '
       'ON songs.${db.dbSongTable.book.name}=books.${db.dbBookTable.bookNo.name} '
-      'WHERE songs.${db.dbSongTable.liked.name}=true;',
+      'WHERE songs.${db.dbSongTable.liked.name}=true '
+      'ORDER BY ${db.dbSongTable.updatedAt.name} DESC;',
       readsFrom: {db.dbSongTable},
     ).watch().map(
       (rows) {
@@ -63,7 +64,8 @@ class _SongDaoStorage extends DatabaseAccessor<SongLibDb>
       'books.${db.dbBookTable.title.name} AS songbook '
       'FROM ${db.dbSongTable.actualTableName} AS songs '
       'LEFT JOIN ${db.dbBookTable.actualTableName} AS books '
-      'ON songs.${db.dbSongTable.book.name}=books.${db.dbBookTable.bookNo.name};',
+      'ON songs.${db.dbSongTable.book.name}=books.${db.dbBookTable.bookNo.name} '
+      'ORDER BY ${db.dbSongTable.songNo.name} ASC;',
       readsFrom: {db.dbSongTable},
     ).watch().map(
       (rows) {

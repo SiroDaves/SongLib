@@ -56,36 +56,45 @@ class HomeScreenState extends State<HomeScreen> implements HomeNavigator {
   Widget build(BuildContext context) {
     return ProviderWidget<HomeVm>(
       create: () => GetIt.I()..init(this),
-      consumerWithThemeAndLocalization:
-          (context, viewModel, child, theme, localization) => Scaffold(
-        body: Swiper(
-          index: viewModel.currentPage,
-          itemBuilder: (context, index) {
-            final appPages = <Widget>[
-              ListedsTab(viewModel: viewModel),
-              SearchTab(viewModel: viewModel),
-              NotesTab(viewModel: viewModel),
-            ];
-            return appPages[index];
-          },
-          indicatorLayout: PageIndicatorLayout.COLOR,
-          loop: false,
-          autoplay: false,
-          itemCount: 3,
-          pagination: const PageSwiper(
-            margin: EdgeInsets.only(top: 35),
-          ),
-          control: PageSwiperControl(
-            currentPage: viewModel.currentPage,
-            icons: [
-              indicatorIcon1(),
-              indicatorIcon2(),
-              indicatorIcon3(),
-            ],
-          ),
+      consumerWithThemeAndLocalization: (
+        context,
+        viewModel,
+        child,
+        theme,
+        localization,
+      ) =>
+          screenWidget(viewModel),
+    );
+  }
+
+  Widget screenWidget(HomeVm viewModel) {
+    return Scaffold(
+      body: Swiper(
+        index: 2,
+        itemBuilder: (context, index) {
+          final appPages = <Widget>[
+            ListedsTab(viewModel: viewModel),
+            SearchTab(viewModel: viewModel),
+            NotesTab(viewModel: viewModel),
+          ];
+          return appPages[index];
+        },
+        indicatorLayout: PageIndicatorLayout.COLOR,
+        loop: false,
+        autoplay: false,
+        itemCount: 3,
+        pagination: const PageSwiper(
+          margin: EdgeInsets.only(top: 35),
         ),
-        bottomNavigationBar: extraActions(viewModel),
+        control: PageSwiperControl(
+          icons: [
+            indicatorIcon1(),
+            indicatorIcon2(),
+            indicatorIcon3(),
+          ],
+        ),
       ),
+      bottomNavigationBar: extraActions(viewModel),
     );
   }
 

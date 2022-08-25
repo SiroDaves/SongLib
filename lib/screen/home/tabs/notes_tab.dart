@@ -37,7 +37,7 @@ class NotesTab extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) {
-                return const EditorScreen();
+                return EditorScreen(homeVm: viewModel);
               },
             ),
           );
@@ -48,26 +48,25 @@ class NotesTab extends StatelessWidget {
   }
 
   Widget mainContainer(BuildContext context) {
-    Widget dataWidget;
-    if (viewModel.listeds!.isNotEmpty) {
-      dataWidget = Column(
-        children: [
-          Tab3Search(
-            drafts: viewModel.drafts,
-            height: size!.height,
-          ),
-          listContainer(context, viewModel),
-        ],
-      );
-    } else {
-      dataWidget = const NoDataToShow(
-        title: AppConstants.itsEmptyHere,
-        description: AppConstants.itsEmptyHereBody2,
-      );
-    }
-
     return SizedBox(
-      child: viewModel.isBusy ? const ListLoading() : dataWidget,
+      child: viewModel.isBusy
+          ? const ListLoading()
+          : Column(
+              children: [
+                viewModel.drafts!.isNotEmpty
+                    ? Tab3Search(
+                        drafts: viewModel.drafts,
+                        height: size!.height,
+                      )
+                    : Container(),
+                viewModel.drafts!.isNotEmpty
+                    ? listContainer(context)
+                    : const NoDataToShow(
+                        title: AppConstants.itsEmptyHere,
+                        description: AppConstants.itsEmptyHereBody2,
+                      ),
+              ],
+            ),
     );
   }
 
@@ -87,13 +86,11 @@ class NotesTab extends StatelessWidget {
     );
   }
 
-  Widget listContainer(BuildContext context, HomeVm viewModel) {
+  Widget listContainer(BuildContext context) {
     return SizedBox(
       height: size!.height * 0.78125,
       child: Scrollbar(
         thickness: 10,
-        trackVisibility: true,
-        thumbVisibility: true,
         radius: const Radius.circular(20),
         child: ListView.builder(
           padding: EdgeInsets.only(
@@ -112,7 +109,8 @@ class NotesTab extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return EditorScreen(draft: draft);
+                      return EditorScreen(homeVm: viewModel, draft: draft);
+                      return PresentorScreen(homeVm: viewModel, draft: draft);
                     },
                   ),
                 );

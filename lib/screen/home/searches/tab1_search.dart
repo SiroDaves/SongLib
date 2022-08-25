@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 
 import '../../../model/base/listed.dart';
 import '../../../theme/theme_colors.dart';
+import '../../../vm/home/home_vm.dart';
 import '../../../widget/general/list_items.dart';
 import '../../../widget/search/search_widget.dart';
 import '../../lists/list_view_screen.dart';
 
 class Tab1Search extends StatelessWidget {
+  final HomeVm homeVm;
   final List<Listed>? listeds;
   final double? height;
 
   const Tab1Search({
     Key? key,
+    required this.homeVm,
     required this.listeds,
     required this.height,
   }) : super(key: key);
@@ -39,7 +42,7 @@ class Tab1Search extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return ListViewScreen(listed: listed);
+                  return ListViewScreen(homeVm: homeVm, listed: listed);
                 },
               ),
             );

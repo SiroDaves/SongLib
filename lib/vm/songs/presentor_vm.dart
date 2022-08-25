@@ -4,8 +4,8 @@ import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../model/base/draft.dart';
 import '../../model/base/history.dart';
-import '../../model/base/historyext.dart';
 import '../../model/base/songext.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../repository/db_repository.dart';
@@ -23,9 +23,9 @@ class PresentorVm with ChangeNotifierEx {
   PresentorVm(this.db, this.localStorage);
 
   SongExt? song;
-  HistoryExt? history;
+  Draft? draft;
 
-  bool isBusy = false, isLiked = true, hasChorus = false;
+  bool isBusy = false, isLiked = true, hasChorus = false, isDraft = false;
 
   String songContent = '';
   int curStanza = 0, curSong = 0;
@@ -173,8 +173,4 @@ class PresentorVm with ChangeNotifierEx {
   void onBackPressed() => navigator.goBack<void>();
 }
 
-abstract class PresentorNavigator implements BackNavigator {
-  void goToHome();
-
-  void goToSelection();
-}
+abstract class PresentorNavigator implements BackNavigator {}
