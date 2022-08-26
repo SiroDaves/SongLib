@@ -39,27 +39,14 @@ class PageSwiper extends SwiperPlugin {
 }
 
 class PageSwiperControl extends SwiperPlugin {
-  int currentPage;
-
-  ///list of widgets for icons
   final List<Widget>? icons;
-
-  ///icon size
   final double size;
-
-  ///Icon normal color, The theme's [ThemeData.primaryColor] by default.
   final Color? color;
-
-  ///if set loop=false on Swiper, this color will be used when swiper goto the last slide.
-  ///The theme's [ThemeData.disabledColor] by default.
   final Color? disableColor;
-
   final EdgeInsetsGeometry padding;
-
   final Key? key;
 
   PageSwiperControl({
-    this.currentPage = 1,
     this.icons,
     this.color,
     this.disableColor,

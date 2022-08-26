@@ -137,9 +137,11 @@ class PresentorScreenState extends State<PresentorScreen>
           value: 1,
           child: Text(AppConstants.shareSong),
         ),
-        const PopupMenuItem<int>(
+        PopupMenuItem<int>(
           value: 2,
-          child: Text(AppConstants.editSong),
+          child: Text(viewModel.isDraft
+              ? AppConstants.deleteSong
+              : AppConstants.editSong),
         ),
       ];
     }, onSelected: (int value) {
@@ -262,5 +264,4 @@ class PresentorScreenState extends State<PresentorScreen>
       ),
     );
   }
-
 }

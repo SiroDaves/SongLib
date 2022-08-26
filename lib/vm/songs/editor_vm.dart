@@ -8,6 +8,7 @@ import '../../model/base/songext.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
+import '../../widget/general/toast.dart';
 import '../home/home_vm.dart';
 
 @injectable
@@ -56,7 +57,7 @@ class EditorVm with ChangeNotifierEx {
     bool validated = false;
     if (titleController!.text.isNotEmpty) {
       title = titleController!.text;
-      content = contentController!.text.replaceAll("\n", "#");
+      content = contentController!.text.replaceAll(RegExp(r'[\n]'), '#');
       alias = aliasController!.text;
       key = keyController!.text;
 
@@ -75,23 +76,23 @@ class EditorVm with ChangeNotifierEx {
 
       try {
         if (song != null) {
-          song!.title = titleController!.text;
-          song!.content = contentController!.text;
-          song!.alias = aliasController!.text;
-          song!.key = keyController!.text;
+          song!.title = title;
+          song!.content = content;
+          song!.alias = alias;
+          song!.key = key;
           await db.editSong(song!);
         } else if (draft != null) {
-          draft!.title = titleController!.text;
-          draft!.content = contentController!.text;
-          draft!.alias = aliasController!.text;
-          draft!.key = keyController!.text;
+          draft!.title = title;
+          draft!.content = content;
+          draft!.alias = alias;
+          draft!.key = key;
           await db.editDraft(draft!);
         } else {
           draft = Draft(
-            title: titleController!.text,
-            content: contentController!.text,
-            alias: aliasController!.text,
-            key: keyController!.text,
+            title: title,
+            content: content,
+            alias: alias,
+            key: key,
           );
           await db.saveDraft(draft!);
         }

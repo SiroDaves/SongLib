@@ -26,6 +26,7 @@ class AppConstants {
   static const verses = "Verse";
 
   static const editSong = "Edit song";
+  static const deleteSong = "Delete song";
   static const copySong = "Copy song";
   static const shareSong = "Share song";
   static const songCopied = "song copied!";

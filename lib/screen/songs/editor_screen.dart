@@ -3,7 +3,6 @@ import 'package:get_it/get_it.dart';
 
 import '../../model/base/draft.dart';
 import '../../model/base/songext.dart';
-import '../../navigator/main_navigator.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';

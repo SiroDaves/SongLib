@@ -1,3 +1,4 @@
+// ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
@@ -5,7 +6,6 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../model/base/book.dart';
 import '../../model/base/draft.dart';
-import '../../model/base/historyext.dart';
 import '../../model/base/listed.dart';
 import '../../model/base/songext.dart';
 import '../../repository/db_repository.dart';
@@ -46,9 +46,11 @@ class HomeVm with ChangeNotifierEx {
     isBusy = true;
     notifyListeners();
 
-    await fetchListedData();
-    await fetchSearchData();
-    await fetchDraftsData();
+    listeds = await db.fetchListeds();
+    books = await db.fetchBooks();
+    songs = await db.fetchSongs();
+    await selectSongbook(mainBook);
+    drafts = await db.fetchDrafts();
 
     isBusy = false;
     notifyListeners();
@@ -59,7 +61,6 @@ class HomeVm with ChangeNotifierEx {
     notifyListeners();
     try {
       listeds = await db.fetchListeds();
-      await selectSongbook(mainBook);
     } catch (exception, stackTrace) {
       await Sentry.captureException(
         exception,

@@ -1,4 +1,3 @@
-import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -13,7 +12,6 @@ import '../../util/constants/app_constants.dart';
 import '../../vm/home/home_vm.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
-import '../../widget/general/swiper_widgets.dart';
 import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
 import '../lists/list_edit_screen.dart';
@@ -38,8 +36,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 @visibleForTesting
-class HomeScreenState extends State<HomeScreen> implements HomeNavigator {
+class HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin
+    implements HomeNavigator {
   Size? size;
+  TabController? pages;
+  int activeIndex = 1;
 
   void onItemTapped(int index) {
     switch (index) {
@@ -53,48 +55,71 @@ class HomeScreenState extends State<HomeScreen> implements HomeNavigator {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return ProviderWidget<HomeVm>(
-      create: () => GetIt.I()..init(this),
-      consumerWithThemeAndLocalization: (
-        context,
-        viewModel,
-        child,
-        theme,
-        localization,
-      ) =>
-          screenWidget(viewModel),
+  void initState() {
+    super.initState();
+    pages = TabController(
+      length: 3,
+      vsync: this,
+      initialIndex: activeIndex,
     );
   }
 
-  Widget screenWidget(HomeVm viewModel) {
-    return Scaffold(
-      body: Swiper(
-        index: 2,
-        itemBuilder: (context, index) {
-          final appPages = <Widget>[
-            ListedsTab(viewModel: viewModel),
-            SearchTab(viewModel: viewModel),
-            NotesTab(viewModel: viewModel),
-          ];
-          return appPages[index];
-        },
-        indicatorLayout: PageIndicatorLayout.COLOR,
-        loop: false,
-        autoplay: false,
-        itemCount: 3,
-        pagination: const PageSwiper(
-          margin: EdgeInsets.only(top: 35),
-        ),
-        control: PageSwiperControl(
-          icons: [
-            indicatorIcon1(),
-            indicatorIcon2(),
-            indicatorIcon3(),
+  @override
+  void dispose() {
+    super.dispose();
+    pages!.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    pages!.addListener(() {
+      if (pages!.indexIsChanging) {
+        setState(() {
+          activeIndex = pages!.index;
+          print("activeIndex is $activeIndex");
+        });
+      }
+    });
+
+    return ProviderWidget<HomeVm>(
+      create: () => GetIt.I()..init(this),
+      consumerWithThemeAndLocalization:
+          (context, viewModel, child, theme, localization) => Scaffold(
+        body: Stack(
+          children: [
+            TabBarView(
+              controller: pages,
+              children: [
+                ListedsTab(viewModel: viewModel),
+                SearchTab(viewModel: viewModel),
+                NotesTab(viewModel: viewModel),
+              ],
+            ),
+            indicatorWidget(),
           ],
         ),
+        bottomNavigationBar: extraActions(viewModel),
       ),
-      bottomNavigationBar: extraActions(viewModel),
+    );
+  }
+
+  Widget indicatorWidget() {
+    final List<Widget> icons = [
+      indicatorIcon('Lists', Icons.list_alt),
+      indicatorIcon('Search', Icons.search),
+      indicatorIcon('Notes', Icons.edit),
+    ];
+    return Container(
+      margin: const EdgeInsets.only(top: 30),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          activeIndex == 0 ? Container() : icons[activeIndex - 1],
+          activeIndex == (icons.length - 1)
+              ? Container()
+              : icons[activeIndex + 1],
+        ],
+      ),
     );
   }
 
@@ -118,71 +143,26 @@ class HomeScreenState extends State<HomeScreen> implements HomeNavigator {
       onTap: onItemTapped,
       showSelectedLabels: false,
       showUnselectedLabels: false,
-      selectedItemColor: Colors.white,
-      unselectedItemColor: Colors.white,
+      selectedItemColor: viewModel.isBusy ? ThemeColors.primary : Colors.white,
+      unselectedItemColor:
+          viewModel.isBusy ? ThemeColors.primary : Colors.white,
       backgroundColor: ThemeColors.primary,
     );
   }
 
-  Widget indicatorIcon1() {
+  Widget indicatorIcon(String title, IconData iconData) {
     return Padding(
       padding: const EdgeInsets.all(5),
       child: Column(
-        children: const [
+        children: [
           Icon(
-            Icons.list_alt,
+            iconData,
             color: ThemeColors.primary,
             size: 20,
           ),
           Text(
-            'Lists',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: ThemeColors.primary,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget indicatorIcon2() {
-    return Padding(
-      padding: const EdgeInsets.all(5),
-      child: Column(
-        children: const [
-          Icon(
-            Icons.search,
-            color: ThemeColors.primary,
-            size: 20,
-          ),
-          Text(
-            'Search',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: ThemeColors.primary,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget indicatorIcon3() {
-    return Padding(
-      padding: const EdgeInsets.all(5),
-      child: Column(
-        children: const [
-          Icon(
-            Icons.edit,
-            color: ThemeColors.primary,
-            size: 20,
-          ),
-          Text(
-            'Notes',
-            style: TextStyle(
+            title,
+            style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
               color: ThemeColors.primary,

@@ -34,26 +34,35 @@ class HistoriesScreenState extends State<HistoriesScreen>
 
     return ProviderWidget<HistoriesVm>(
       create: () => GetIt.I()..init(this),
-      consumerWithThemeAndLocalization:
-          (context, viewModel, child, theme, localization) =>
-              DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text(AppConstants.historiesTitle),
-            bottom: const TabBar(
-              tabs: [
-                Tab(text: 'SONGS'),
-                Tab(text: 'SEARCHES'),
-              ],
-            ),
-          ),
-          body: TabBarView(
-            children: [
-              mainContainer(context, viewModel),
-              Container(),
+      consumerWithThemeAndLocalization: (
+        context,
+        viewModel,
+        child,
+        theme,
+        localization,
+      ) =>
+          screenWidget(viewModel),
+    );
+  }
+
+  Widget screenWidget(HistoriesVm viewModel) {
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(AppConstants.historiesTitle),
+          bottom: const TabBar(
+            tabs: [
+              Tab(text: 'SONGS'),
+              Tab(text: 'SEARCHES'),
             ],
           ),
+        ),
+        body: TabBarView(
+          children: [
+            mainContainer(context, viewModel),
+            Container(),
+          ],
         ),
       ),
     );
@@ -85,8 +94,9 @@ class HistoriesScreenState extends State<HistoriesScreen>
             left: size!.height * 0.0082,
             right: size!.height * 0.0082,
           ),
-          itemBuilder: (context, index) =>
-              songItemWidget(viewModel.histories![index]),
+          itemBuilder: (context, index) {
+            return songItemWidget(viewModel.histories![index]);
+          },
         ),
       ),
     );
