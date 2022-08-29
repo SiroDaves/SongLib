@@ -38,15 +38,16 @@ import '../vm/home/histories_vm.dart' as _i32;
 import '../vm/home/home_vm.dart' as _i33;
 import '../vm/home/likes_vm.dart' as _i34;
 import '../vm/lists/list_vm.dart' as _i35;
-import '../vm/manage/selection_vm.dart' as _i41;
 import '../vm/manage/settings_vm.dart' as _i28;
+import '../vm/selection/progress_vm.dart' as _i41;
+import '../vm/selection/selection_vm.dart' as _i42;
 import '../vm/songs/editor_vm.dart' as _i30;
 import '../vm/songs/presentor_vm.dart' as _i26;
 import '../vm/splash_vm.dart' as _i29;
 import '../vm/uitest_vm.dart' as _i13;
 import '../webservice/api_client.dart' as _i39;
 import '../webservice/web_service.dart' as _i38;
-import 'injectable.dart' as _i42;
+import 'injectable.dart' as _i43;
 
 const String _dev = 'dev';
 const String _prod = 'prod';
@@ -140,9 +141,11 @@ Future<_i1.GetIt> $initGetIt(_i1.GetIt get,
       registerFor: {_dev, _prod});
   gh.lazySingleton<_i40.WebRepository>(
       () => _i40.WebRepository(get<_i38.WebService>()));
-  gh.factory<_i41.SelectionVm>(() => _i41.SelectionVm(get<_i40.WebRepository>(),
+  gh.factory<_i41.ProgressVm>(() => _i41.ProgressVm(get<_i40.WebRepository>(),
+      get<_i21.DbRepository>(), get<_i23.LocalStorage>()));
+  gh.factory<_i42.SelectionVm>(() => _i42.SelectionVm(get<_i40.WebRepository>(),
       get<_i21.DbRepository>(), get<_i23.LocalStorage>()));
   return get;
 }
 
-class _$RegisterModule extends _i42.RegisterModule {}
+class _$RegisterModule extends _i43.RegisterModule {}

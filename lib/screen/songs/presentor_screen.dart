@@ -74,6 +74,8 @@ class PresentorScreenState extends State<PresentorScreen>
   }
 
   Widget screenWidget(BuildContext context, PresentorVm viewModel) {
+    viewModel.homeVm = homeVm;
+    
     if (song != null) {
       viewModel.song = song;
     } else if (draft != null) {
@@ -84,9 +86,7 @@ class PresentorScreenState extends State<PresentorScreen>
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          songItemTitle(song!.songNo!, song!.title!),
-        ),
+        title: Text(viewModel.songTitle),
         actions: <Widget>[
           viewModel.isDraft
               ? InkWell(
@@ -123,6 +123,13 @@ class PresentorScreenState extends State<PresentorScreen>
         ),
         child: mainContainer(context, viewModel),
       ),
+      floatingActionButton: viewModel.isDraft
+          ? FloatingActionButton(
+              backgroundColor: ThemeColors.primary,
+              onPressed: () => viewModel.confirmDelete(context),
+              child: const Icon(Icons.delete, color: Colors.white),
+            )
+          : Container(),
     );
   }
 

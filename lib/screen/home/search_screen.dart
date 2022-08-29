@@ -11,7 +11,7 @@ import '../../widget/general/list_items.dart';
 import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
 import '../songs/presentor_screen.dart';
-import 'searches/tab2_search.dart';
+import 'widgets/tab2_search.dart';
 
 class SearchScreen extends StatefulWidget {
   static const String routeName = RouteNames.searchScreen;

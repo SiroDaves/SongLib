@@ -18,9 +18,10 @@ import '../lists/list_edit_screen.dart';
 import '../lists/list_view_screen.dart';
 import '../songs/editor_screen.dart';
 import '../songs/presentor_screen.dart';
-import 'searches/tab1_search.dart';
-import 'searches/tab2_search.dart';
-import 'searches/tab3_search.dart';
+import 'widgets/tab1_search.dart';
+import 'widgets/tab2_search.dart';
+import 'widgets/tab3_search.dart';
+import 'widgets/tabs_indicator.dart';
 
 part 'tabs/listeds_tab.dart';
 part 'tabs/notes_tab.dart';
@@ -57,11 +58,12 @@ class HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     super.initState();
-    pages = TabController(
-      length: 3,
-      vsync: this,
-      initialIndex: activeIndex,
-    );
+    pages = TabController(vsync: this, length: 3, initialIndex: activeIndex)
+      ..addListener(() {
+        setState(() {
+          activeIndex = pages!.index;
+        });
+      });
   }
 
   @override
@@ -72,15 +74,6 @@ class HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    pages!.addListener(() {
-      if (pages!.indexIsChanging) {
-        setState(() {
-          activeIndex = pages!.index;
-          print("activeIndex is $activeIndex");
-        });
-      }
-    });
-
     return ProviderWidget<HomeVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
@@ -95,30 +88,11 @@ class HomeScreenState extends State<HomeScreen>
                 NotesTab(viewModel: viewModel),
               ],
             ),
-            indicatorWidget(),
+            TabsIndicator(controller: pages!),
+            TabsIcons(controller: pages!),
           ],
         ),
         bottomNavigationBar: extraActions(viewModel),
-      ),
-    );
-  }
-
-  Widget indicatorWidget() {
-    final List<Widget> icons = [
-      indicatorIcon('Lists', Icons.list_alt),
-      indicatorIcon('Search', Icons.search),
-      indicatorIcon('Notes', Icons.edit),
-    ];
-    return Container(
-      margin: const EdgeInsets.only(top: 30),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          activeIndex == 0 ? Container() : icons[activeIndex - 1],
-          activeIndex == (icons.length - 1)
-              ? Container()
-              : icons[activeIndex + 1],
-        ],
       ),
     );
   }
@@ -147,29 +121,6 @@ class HomeScreenState extends State<HomeScreen>
       unselectedItemColor:
           viewModel.isBusy ? ThemeColors.primary : Colors.white,
       backgroundColor: ThemeColors.primary,
-    );
-  }
-
-  Widget indicatorIcon(String title, IconData iconData) {
-    return Padding(
-      padding: const EdgeInsets.all(5),
-      child: Column(
-        children: [
-          Icon(
-            iconData,
-            color: ThemeColors.primary,
-            size: 20,
-          ),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: ThemeColors.primary,
-            ),
-          ),
-        ],
-      ),
     );
   }
 

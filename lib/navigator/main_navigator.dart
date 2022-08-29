@@ -5,8 +5,9 @@ import '../screen/home/home_screen.dart';
 import '../screen/home/search_screen.dart';
 import '../screen/home/histories_screen.dart';
 import '../screen/home/likes_screen.dart';
-import '../screen/manage/selection_screen.dart';
 import '../screen/manage/settings_screen.dart';
+import '../screen/selection/progress_screen.dart';
+import '../screen/selection/selection_screen.dart';
 import '../screen/splash_screen.dart';
 import '../screen/uitest_screen.dart';
 import '../util/env/flavor_config.dart';
@@ -80,6 +81,11 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
           builder: (context) => const SelectionScreen(),
           settings: settings,
         );
+      case ProgressScreen.routeName:
+        return MaterialPageRoute<void>(
+          builder: (context) => const ProgressScreen(),
+          settings: settings,
+        );
       case HomeScreen.routeName:
         return FadeInRoute<void>(
           child: const HomeScreen(),
@@ -122,6 +128,10 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
   @override
   void goToSelection() =>
       navigator.pushReplacementNamed(SelectionScreen.routeName);
+
+  @override
+  void goToProgress() =>
+      navigator.pushReplacementNamed(ProgressScreen.routeName);
 
   @override
   void goToUiTest() => navigator.pushNamedAndRemoveUntil(

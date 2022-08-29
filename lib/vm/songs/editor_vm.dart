@@ -117,7 +117,7 @@ class EditorVm with ChangeNotifierEx {
       isBusy = true;
       notifyListeners();
 
-      await db.saveDraft(draft!);
+      //await db.d(draft!);
 
       isBusy = true;
       notifyListeners();

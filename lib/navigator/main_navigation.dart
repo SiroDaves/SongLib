@@ -5,6 +5,8 @@ abstract class MainNavigation {
 
   void goToSelection();
 
+  void goToProgress();
+
   void goToUiTest();
 
   void goToHome();

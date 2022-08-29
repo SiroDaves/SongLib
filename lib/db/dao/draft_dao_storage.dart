@@ -18,6 +18,8 @@ abstract class DraftDaoStorage {
   Future<void> createDraft({required Draft draft, bool isSimple = true});
 
   Future<void> updateDraft(Draft draft);
+
+  Future<void> deleteDraft(Draft draft);
 }
 
 @DriftAccessor(tables: [
@@ -109,4 +111,8 @@ class _DraftDaoStorage extends DatabaseAccessor<SongLibDb>
           liked: Value(draft.liked!),
         ),
       );
+
+  @override
+  Future<void> deleteDraft(Draft draft) =>
+      (delete(db.dbDraftTable)..where((row) => row.id.equals(draft.id))).go();
 }

@@ -1,10 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../model/base/book.dart';
 import '../../model/base/selectable.dart';
-import '../../model/base/song.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/web_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
@@ -17,23 +15,22 @@ class SelectionVm with ChangeNotifierEx {
   final DbRepository db;
   final LocalStorage localStorage;
 
-  int progress = 0;
-  String state = '';
-  String time = '00:00';
-
   SelectionVm(this.web, this.db, this.localStorage);
-
-  final ScrollController listScrollController = ScrollController();
 
   bool isBusy = false;
   List<Selectable<Book>?> selectables = [];
   List<Selectable<Book>?> listedBooks = [];
   List<Book>? books = [];
-  List<Song>? songs = [];
   String selectedBooks = "";
+  List<String> bookNos = [];
 
   Future<void> init(SelectionNavigator navigator) async {
     selectionNavigator = navigator;
+    selectedBooks = localStorage.getPrefString(PrefConstants.selectedBooksKey);
+    if (selectedBooks.isNotEmpty) {
+      bookNos = selectedBooks.split(",");
+    }
+    await fetchBooks();
   }
 
   void onBookSelected(int index) {
@@ -51,91 +48,56 @@ class SelectionVm with ChangeNotifierEx {
 
   /// Get the list of books
   Future<List<Book>?> fetchBooks() async {
+    isBusy = true;
+    notifyListeners();
+
     books = await web.fetchBooks();
     if (books!.isNotEmpty) {
       for (int i = 0; i < books!.length; i++) {
         try {
-          listedBooks.add(Selectable<Book>(books![i]));
+          bool predistinated = false;
+          for (final item in bookNos) {
+            if (item.contains(books![i].bookNo.toString())) {
+              predistinated = true;
+            }
+          }
+          listedBooks.add(Selectable<Book>(books![i], predistinated));
         } catch (_) {}
       }
       return books;
     }
+
+    isBusy = true;
+    notifyListeners();
+
     return null;
   }
 
   /// Proceed to a saving books data
   Future<void> saveBooks() async {
-    for (int i = 0; i < selectables.length; i++) {
-      try {
+    try {
+      if (selectedBooks.isNotEmpty) {
+        await db.deleteBooks();
+        localStorage.setPrefString(
+            PrefConstants.predistinatedBooksKey, selectedBooks);
+        selectedBooks = "";
+      }
+      for (int i = 0; i < selectables.length; i++) {
         final Book book = selectables[i]!.data;
         selectedBooks = "$selectedBooks${book.bookNo},";
         await db.saveBook(book);
-      } catch (_) {}
-    }
+      }
+    } catch (_) {}
 
     try {
       selectedBooks = selectedBooks.substring(0, selectedBooks.length - 1);
     } catch (_) {}
-    // ignore: avoid_print
-    print('Selected books: $selectedBooks');
 
     localStorage.setPrefString(PrefConstants.selectedBooksKey, selectedBooks);
-    await fetchSaveSongs();
-  }
-
-  /// Get the list of songs and save theme
-  Future<void> fetchSaveSongs() async {
-    isBusy = true;
-    notifyListeners();
-
-    songs = await web.fetchSongs(selectedBooks);
-    if (songs!.isNotEmpty) {
-      for (int i = 0; i < songs!.length; i++) {
-        try {
-          progress = (i / songs!.length * 100).toInt();
-
-          switch (progress) {
-            case 1:
-              state = "On your\nmarks ...";
-              break;
-            case 5:
-              state = "Set,\nReady ...";
-              break;
-            case 10:
-              state = "Loading\nsongs ...";
-              break;
-            case 20:
-              state = "Patience\npays ...";
-              break;
-            case 40:
-              state = "Loading\nsongs ...";
-              break;
-            case 75:
-              state = "Thanks for\nyour patience!";
-              break;
-            case 85:
-              state = "Finishing up";
-              break;
-            case 95:
-              state = "Almost done";
-              break;
-          }
-          notifyListeners();
-
-          await db.saveSong(songs![i]);
-        } catch (_) {}
-      }
-    }
-
-    isBusy = false;
-    notifyListeners();
-
-    localStorage.setPrefBool(PrefConstants.dataLoadedCheckKey, true);
-    selectionNavigator.goToHome();
+    selectionNavigator.goToProgress();
   }
 }
 
 abstract class SelectionNavigator {
-  void goToHome();
-  void goToSearch();
+  void goToProgress();
 }

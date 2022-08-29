@@ -21,6 +21,7 @@ class HomeVm with ChangeNotifierEx {
 
   bool isBusy = false;
   String selectedBooks = "";
+  List<String> bookNos = [];
   int mainBook = 0, currentPage = 1;
 
   List<Book>? books = [];
@@ -36,7 +37,7 @@ class HomeVm with ChangeNotifierEx {
     contentController = TextEditingController();
 
     selectedBooks = localStorage.getPrefString(PrefConstants.selectedBooksKey);
-    final List<String> bookNos = selectedBooks.split(",");
+    bookNos = selectedBooks.split(",");
     mainBook = int.parse(bookNos[0]);
     await fetchData();
   }

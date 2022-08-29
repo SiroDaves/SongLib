@@ -39,6 +39,11 @@ class AppConstants {
   static const screenshotVerse = "Screenshot verse";
   static const screenshoted = "We have your screenshot!";
 
+  static const chooseTheme = "Choose Theme";
+  static const themeDefault = "System Default";
+  static const themeLight = "Light";
+  static const themeDark = "Dark";
+
   static const okay = "OKAY";
   static const cancel = "CANCEL";
   static const proceed = "PROCEED";

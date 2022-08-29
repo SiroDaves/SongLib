@@ -2,6 +2,7 @@ class PrefConstants {
   static const uninstallCheckKey = 'uninstallCheck';
   static const dataLoadedCheckKey = 'dataLoadedCheck';
   static const selectedBooksKey = 'selectedBooksKey';
+  static const predistinatedBooksKey = 'predistinatedBooksKey';
   static const appearanceThemeKey = 'appearanceTheme';
   static const autofollowThresholdKey = 'autofollowThreshold';
   static const autofollowThresholdBelowAskKey = 'autofollowThresholdBelowAsk';

@@ -109,7 +109,6 @@ class NotesTab extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      //return EditorScreen(homeVm: viewModel, draft: draft);
                       return PresentorScreen(homeVm: viewModel, draft: draft);
                     },
                   ),

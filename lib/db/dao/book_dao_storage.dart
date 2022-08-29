@@ -17,6 +17,8 @@ abstract class BookDaoStorage {
   Future<void> createBook(Book book);
 
   Future<void> updateBook(Book book);
+
+  Future<void> deleteBooks();
 }
 
 @DriftAccessor(tables: [
@@ -95,4 +97,7 @@ class _BookDaoStorage extends DatabaseAccessor<SongLibDb>
           updatedAt: Value(book.updatedAt!),
         ),
       );
+
+  @override
+  Future<void> deleteBooks() => (delete(db.dbBookTable)).go();
 }

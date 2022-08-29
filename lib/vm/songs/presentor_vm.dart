@@ -13,6 +13,7 @@ import '../../repository/shared_prefs/local_storage.dart';
 import '../../util/constants/app_constants.dart';
 import '../../util/constants/utilities.dart';
 import '../../widget/general/toast.dart';
+import '../home/home_vm.dart';
 
 @injectable
 class PresentorVm with ChangeNotifierEx {
@@ -22,12 +23,13 @@ class PresentorVm with ChangeNotifierEx {
 
   PresentorVm(this.db, this.localStorage);
 
+  HomeVm? homeVm;
   SongExt? song;
   Draft? draft;
 
   bool isBusy = false, isLiked = true, hasChorus = false, isDraft = false;
 
-  String songContent = '';
+  String songTitle = '', songContent = '';
   int curStanza = 0, curSong = 0;
   List<String> songVerses = [], verseInfos = [], verseTexts = [];
 
@@ -39,9 +41,10 @@ class PresentorVm with ChangeNotifierEx {
 
   Future<void> loadPresentor() async {
     try {
+      verseInfos.clear();
+      verseTexts.clear();
       if (song != null) {
-        verseInfos.clear();
-        verseTexts.clear();
+        songTitle = songItemTitle(song!.songNo!, song!.title!);
 
         isLiked = song!.liked!;
         likeIcon = isLiked ? Icons.favorite : Icons.favorite_border;
@@ -49,6 +52,38 @@ class PresentorVm with ChangeNotifierEx {
         final int verseCount = songVerses.length;
 
         if (song!.content!.contains("CHORUS")) {
+          hasChorus = true;
+        } else {
+          hasChorus = false;
+        }
+
+        if (hasChorus) {
+          final String chorus =
+              songVerses[1].toString().replaceAll("CHORUS#", "");
+
+          verseInfos.add("1");
+          verseInfos.add("C");
+          verseTexts.add(songVerses[0]);
+          verseTexts.add(chorus);
+
+          for (int i = 2; i < verseCount; i++) {
+            verseInfos.add(i.toString());
+            verseInfos.add("C");
+            verseTexts.add(songVerses[i]);
+            verseTexts.add(chorus);
+          }
+        } else {
+          for (int i = 0; i < verseCount; i++) {
+            verseInfos.add((i + 1).toString());
+            verseTexts.add(songVerses[i]);
+          }
+        }
+      } else if (draft != null) {
+        songTitle = draft!.title!;
+        songVerses = draft!.content!.split("##");
+        final int verseCount = songVerses.length;
+
+        if (draft!.content!.contains("CHORUS")) {
           hasChorus = true;
         } else {
           hasChorus = false;
@@ -170,7 +205,55 @@ class PresentorVm with ChangeNotifierEx {
     } catch (_) {}
   }
 
-  void onBackPressed() => navigator.goBack<void>();
+  Future<void> confirmDelete(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text(
+          'Just a Minute',
+          style: TextStyle(fontSize: 18),
+        ),
+        content: Text(
+          'Are you sure you want to delete the song: $songTitle?',
+          style: const TextStyle(fontSize: 14),
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              deleteSong();
+              onBackPressed();
+            },
+            child: const Text("DELETE"),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("CANCEL"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Remove a song from the records
+  Future<bool?> deleteSong() async {
+    bool? success;
+
+    isBusy = true;
+    notifyListeners();
+
+    await db.deleteDraft(draft!);
+
+    isBusy = true;
+    notifyListeners();
+
+    return success;
+  }
+
+  Future<void> onBackPressed() async {
+    await homeVm!.fetchDraftsData();
+    navigator.goBack<void>();
+  }
 }
 
 abstract class PresentorNavigator implements BackNavigator {}
