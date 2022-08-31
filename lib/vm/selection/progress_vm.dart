@@ -23,12 +23,21 @@ class ProgressVm with ChangeNotifierEx {
 
   bool isBusy = false;
   List<Song>? songs = [];
-  String selectedBooks = "";
-  List<String> bookNos = [];
+  String selectedBooks = "", predistinatedBooks = "";
+  List<String> newBooks = [], oldBooks = [], predistinated = [];
 
   Future<void> init(ProgressNavigator navigator) async {
     progressNavigator = navigator;
     selectedBooks = localStorage.getPrefString(PrefConstants.selectedBooksKey);
+    predistinatedBooks =
+        localStorage.getPrefString(PrefConstants.predistinatedBooksKey);
+
+    if (predistinatedBooks.isNotEmpty) {
+      isBusy = true;
+      notifyListeners();
+      await db.majorCleanUp(selectedBooks);
+    }
+
     await fetchSongs();
   }
 

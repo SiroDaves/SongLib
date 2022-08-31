@@ -22,6 +22,8 @@ abstract class ListedDaoStorage {
   Future<void> createListedChild(Listed listed);
 
   Future<void> updateListed(Listed listed);
+
+  Future<void> deleteListed(Listed listed);
 }
 
 @DriftAccessor(tables: [
@@ -130,4 +132,8 @@ class _ListedDaoStorage extends DatabaseAccessor<SongLibDb>
           updatedAt: Value(listed.updatedAt!),
         ),
       );
+
+  @override
+  Future<void> deleteListed(Listed listed) =>
+      (delete(db.dbListedTable)..where((row) => row.id.equals(listed.id))).go();
 }

@@ -17,6 +17,8 @@ abstract class HistoryDaoStorage {
   Future<List<HistoryExt>> getAllHistories();
 
   Future<void> createHistory(History history);
+
+  Future<void> deleteHistory(History history);
 }
 
 @DriftAccessor(tables: [
@@ -58,4 +60,8 @@ class _HistoryDaoStorage extends DatabaseAccessor<SongLibDb>
           createdAt: Value(dateNow()),
         ),
       );
+
+  @override
+  Future<void> deleteHistory(History history) =>
+      (delete(db.dbHistoryTable)..where((row) => row.id.equals(history.id))).go();
 }

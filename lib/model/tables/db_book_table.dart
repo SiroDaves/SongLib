@@ -10,7 +10,7 @@ class DbBookTable extends Table {
   String date = DateFormat.yMMMd().format(DateTime.now());
   IntColumn get id => integer().autoIncrement()();
 
-  TextColumn get objectId => text().withDefault(const Constant(''))();
+  TextColumn get objectId => text().unique()();
 
   BoolColumn get enabled => boolean().withDefault(const Constant(false))();
 

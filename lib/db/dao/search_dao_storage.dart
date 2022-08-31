@@ -15,6 +15,8 @@ abstract class SearchDaoStorage {
   Future<List<Search>> getAllSearches();
 
   Future<void> createSearch(Search search);
+
+  Future<void> deleteSearch(Search search);
 }
 
 @DriftAccessor(tables: [
@@ -61,4 +63,8 @@ class _SearchDaoStorage extends DatabaseAccessor<SongLibDb>
           createdAt: Value(search.createdAt!),
         ),
       );
+
+  @override
+  Future<void> deleteSearch(Search search) =>
+      (delete(db.dbSearchTable)..where((row) => row.id.equals(search.id))).go();
 }

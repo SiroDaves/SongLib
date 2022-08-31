@@ -48,6 +48,7 @@ abstract class DbRepository {
 
   Future<void> deleteBooks();
   Future<void> deleteDraft(Draft draft);
+  Future<void> majorCleanUp(String selectedBooks);
 }
 
 class DbRepo implements DbRepository {
@@ -150,5 +151,11 @@ class DbRepo implements DbRepository {
   @override
   Future<void> deleteDraft(Draft draft) async {
     await draftDao.deleteDraft(draft);
+  }
+
+  @override
+  Future<void> majorCleanUp(String selectedBooks) async {
+    List<String> books = selectedBooks.split(",");
+    
   }
 }

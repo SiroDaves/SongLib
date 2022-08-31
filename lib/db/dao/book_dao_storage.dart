@@ -18,6 +18,8 @@ abstract class BookDaoStorage {
 
   Future<void> updateBook(Book book);
 
+  Future<void> deleteBook(Book book);
+
   Future<void> deleteBooks();
 }
 
@@ -98,6 +100,10 @@ class _BookDaoStorage extends DatabaseAccessor<SongLibDb>
         ),
       );
 
+  @override
+  Future<void> deleteBook(Book book) =>
+      (delete(db.dbBookTable)..where((row) => row.id.equals(book.id))).go();
+      
   @override
   Future<void> deleteBooks() => (delete(db.dbBookTable)).go();
 }

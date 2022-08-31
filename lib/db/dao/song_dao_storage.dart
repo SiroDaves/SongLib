@@ -20,6 +20,8 @@ abstract class SongDaoStorage {
   Future<void> createSong(Song song);
 
   Future<void> updateSong(SongExt song);
+
+  Future<void> deleteSong(SongExt song);
 }
 
 @DriftAccessor(tables: [
@@ -108,4 +110,8 @@ class _SongDaoStorage extends DatabaseAccessor<SongLibDb>
           liked: Value(song.liked!),
         ),
       );
+
+  @override
+  Future<void> deleteSong(SongExt song) =>
+      (delete(db.dbSongTable)..where((row) => row.id.equals(song.id))).go();
 }

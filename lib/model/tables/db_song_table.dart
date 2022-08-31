@@ -7,7 +7,7 @@ import '../base/song.dart';
 class DbSongTable extends Table {
   IntColumn get id => integer().autoIncrement()();
 
-  TextColumn get objectId => text().withDefault(const Constant(''))();
+  TextColumn get objectId => text().unique()();
 
   IntColumn get book => integer().withDefault(const Constant(0))();
 
