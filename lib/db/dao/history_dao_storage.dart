@@ -14,6 +14,8 @@ abstract class HistoryDaoStorage {
   @factoryMethod
   factory HistoryDaoStorage(SongLibDb db) = _HistoryDaoStorage;
 
+  Future<List<History>> getHistories();
+
   Future<List<HistoryExt>> getAllHistories();
 
   Future<void> createHistory(History history);
@@ -28,6 +30,25 @@ class _HistoryDaoStorage extends DatabaseAccessor<SongLibDb>
     with _$_HistoryDaoStorageMixin
     implements HistoryDaoStorage {
   _HistoryDaoStorage(SongLibDb db) : super(db);
+
+  @override
+  Future<List<History>> getHistories() async {
+    final List<DbHistory> results = await select(db.dbHistoryTable).get();
+    final List<History> histories = [];
+    for (final result in results) {
+      histories.add(
+        History(
+          id: const IntType().mapFromDatabaseResponse(result.id)!,
+          song: const IntType().mapFromDatabaseResponse(result.song)!,
+          objectId:
+              const StringType().mapFromDatabaseResponse(result.objectId)!,
+          createdAt:
+              const StringType().mapFromDatabaseResponse(result.createdAt)!,
+        ),
+      );
+    }
+    return histories;
+  }
 
   @override
   Future<List<HistoryExt>> getAllHistories() async {
@@ -63,5 +84,6 @@ class _HistoryDaoStorage extends DatabaseAccessor<SongLibDb>
 
   @override
   Future<void> deleteHistory(History history) =>
-      (delete(db.dbHistoryTable)..where((row) => row.id.equals(history.id))).go();
+      (delete(db.dbHistoryTable)..where((row) => row.id.equals(history.id)))
+          .go();
 }

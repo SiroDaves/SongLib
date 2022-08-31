@@ -39,34 +39,32 @@ class _DraftDaoStorage extends DatabaseAccessor<SongLibDb>
     ).watch().map(
       (rows) {
         final List<Draft> drafts = [];
-        for (int i = 0; i < rows.length; i++) {
+        for (final row in rows) {
           drafts.add(
             Draft(
-              id: const IntType().mapFromDatabaseResponse(rows[i].data['id'])!,
+              id: const IntType().mapFromDatabaseResponse(row.data['id'])!,
               objectId: const StringType()
-                  .mapFromDatabaseResponse(rows[i].data['object_id'])!,
-              book: const IntType()
-                  .mapFromDatabaseResponse(rows[i].data['book'])!,
-              songNo: const IntType()
-                  .mapFromDatabaseResponse(rows[i].data['song_no'])!,
+                  .mapFromDatabaseResponse(row.data['object_id'])!,
+              book: const IntType().mapFromDatabaseResponse(row.data['book'])!,
+              songNo:
+                  const IntType().mapFromDatabaseResponse(row.data['song_no'])!,
               title: const StringType()
-                  .mapFromDatabaseResponse(rows[i].data['title'])!,
+                  .mapFromDatabaseResponse(row.data['title'])!,
               alias: const StringType()
-                  .mapFromDatabaseResponse(rows[i].data['alias'])!,
+                  .mapFromDatabaseResponse(row.data['alias'])!,
               content: const StringType()
-                  .mapFromDatabaseResponse(rows[i].data['content'])!,
-              key: const StringType()
-                  .mapFromDatabaseResponse(rows[i].data['key'])!,
+                  .mapFromDatabaseResponse(row.data['content'])!,
+              key: const StringType().mapFromDatabaseResponse(row.data['key'])!,
               author: const StringType()
-                  .mapFromDatabaseResponse(rows[i].data['author'])!,
-              views: const IntType()
-                  .mapFromDatabaseResponse(rows[i].data['views'])!,
+                  .mapFromDatabaseResponse(row.data['author'])!,
+              views:
+                  const IntType().mapFromDatabaseResponse(row.data['views'])!,
               createdAt: const StringType()
-                  .mapFromDatabaseResponse(rows[i].data['created_at'])!,
+                  .mapFromDatabaseResponse(row.data['created_at'])!,
               updatedAt: const StringType()
-                  .mapFromDatabaseResponse(rows[i].data['updated_at'])!,
-              liked: const BoolType()
-                  .mapFromDatabaseResponse(rows[i].data['liked'])!,
+                  .mapFromDatabaseResponse(row.data['updated_at'])!,
+              liked:
+                  const BoolType().mapFromDatabaseResponse(row.data['liked'])!,
             ),
           );
         }

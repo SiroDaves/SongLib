@@ -40,28 +40,28 @@ class _BookDaoStorage extends DatabaseAccessor<SongLibDb>
     ).watch().map(
       (rows) {
         final List<Book> drafts = [];
-        for (int i = 0; i < rows.length; i++) {
+        for (final row in rows) {
           drafts.add(
             Book(
-              id: const IntType().mapFromDatabaseResponse(rows[i].data['id'])!,
+              id: const IntType().mapFromDatabaseResponse(row.data['id'])!,
               objectId: const StringType()
-                  .mapFromDatabaseResponse(rows[i].data['object_id'])!,
+                  .mapFromDatabaseResponse(row.data['object_id'])!,
               enabled: const BoolType()
-                  .mapFromDatabaseResponse(rows[i].data['enabled'])!,
-              bookNo: const IntType()
-                  .mapFromDatabaseResponse(rows[i].data['book_no'])!,
+                  .mapFromDatabaseResponse(row.data['enabled'])!,
+              bookNo:
+                  const IntType().mapFromDatabaseResponse(row.data['book_no'])!,
               title: const StringType()
-                  .mapFromDatabaseResponse(rows[i].data['title'])!,
+                  .mapFromDatabaseResponse(row.data['title'])!,
               subTitle: const StringType()
-                  .mapFromDatabaseResponse(rows[i].data['sub_title'])!,
-              songs: const IntType()
-                  .mapFromDatabaseResponse(rows[i].data['songs'])!,
+                  .mapFromDatabaseResponse(row.data['sub_title'])!,
+              songs:
+                  const IntType().mapFromDatabaseResponse(row.data['songs'])!,
               position: const IntType()
-                  .mapFromDatabaseResponse(rows[i].data['position'])!,
+                  .mapFromDatabaseResponse(row.data['position'])!,
               createdAt: const StringType()
-                  .mapFromDatabaseResponse(rows[i].data['created_at'])!,
+                  .mapFromDatabaseResponse(row.data['created_at'])!,
               updatedAt: const StringType()
-                  .mapFromDatabaseResponse(rows[i].data['updated_at'])!,
+                  .mapFromDatabaseResponse(row.data['updated_at'])!,
             ),
           );
         }
@@ -103,7 +103,7 @@ class _BookDaoStorage extends DatabaseAccessor<SongLibDb>
   @override
   Future<void> deleteBook(Book book) =>
       (delete(db.dbBookTable)..where((row) => row.id.equals(book.id))).go();
-      
+
   @override
   Future<void> deleteBooks() => (delete(db.dbBookTable)).go();
 }

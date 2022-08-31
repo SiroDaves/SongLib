@@ -155,7 +155,20 @@ class DbRepo implements DbRepository {
 
   @override
   Future<void> majorCleanUp(String selectedBooks) async {
-    List<String> books = selectedBooks.split(",");
-    
+    final List<String> books = selectedBooks.split(",");
+    final List<SongExt> songs = await songDao.getAllSongs();
+    final List<History> histories = await historyDao.getHistories();
+    final List<Listed> listeds = await listedDao.getAllListeds();
+    for (final song in songs) {
+      if (!books.contains(song.book.toString())) {
+        for (final history in histories) {
+          if (history.song == song.id) await historyDao.deleteHistory(history);
+        }
+        for (final listed in listeds) {
+          if (listed.song == song.id) await listedDao.deleteListed(listed);
+        }
+        await songDao.deleteSong(song);
+      }
+    }
   }
 }

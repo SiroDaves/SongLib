@@ -20,6 +20,7 @@ dependencies:
   firebase_core: ^1.10.5
   firebase_crashlytics: ^2.4.3
   flame: ^1.2.0
+  flutter_floating_bottom_bar: ^1.1.0
   flutter:
     sdk: flutter
   flutter_cache_manager: ^3.3.0

@@ -36,16 +36,16 @@ class _SearchDaoStorage extends DatabaseAccessor<SongLibDb>
     ).watch().map(
       (rows) {
         final List<Search> drafts = [];
-        for (int i = 0; i < rows.length; i++) {
+        for (final row in rows) {
           drafts.add(
             Search(
-              id: const IntType().mapFromDatabaseResponse(rows[i].data['id'])!,
+              id: const IntType().mapFromDatabaseResponse(row.data['id'])!,
               objectId: const StringType()
-                  .mapFromDatabaseResponse(rows[i].data['object_id'])!,
+                  .mapFromDatabaseResponse(row.data['object_id'])!,
               title: const StringType()
-                  .mapFromDatabaseResponse(rows[i].data['title'])!,
+                  .mapFromDatabaseResponse(row.data['title'])!,
               createdAt: const StringType()
-                  .mapFromDatabaseResponse(rows[i].data['created_at'])!,
+                  .mapFromDatabaseResponse(row.data['created_at'])!,
             ),
           );
         }
