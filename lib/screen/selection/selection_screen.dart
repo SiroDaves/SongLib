@@ -10,7 +10,6 @@ import '../../widget/action/buttons.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
 import '../../widget/progress/circular_progress.dart';
-import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
 
 class SelectionScreen extends StatefulWidget {
@@ -37,7 +36,9 @@ class SelectionScreenState extends State<SelectionScreen>
         appBar: AppBar(
           title: const Text(AppConstants.booksTitle),
         ),
-        body: listContainer(viewModel),
+        body: viewModel.isBusy
+            ? const CircularProgress()
+            : mainContainer(viewModel),
         floatingActionButton: viewModel.isBusy
             ? Container()
             : FloatingActionButton(
@@ -49,7 +50,7 @@ class SelectionScreenState extends State<SelectionScreen>
     );
   }
 
-  Widget listContainer(SelectionVm viewModel) {
+  Widget mainContainer(SelectionVm viewModel) {
     return FutureBuilder<List<Book>?>(
       future: viewModel.fetchBooks(),
       builder: (BuildContext context, AsyncSnapshot<List<Book>?> snapshot) {

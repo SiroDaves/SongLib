@@ -49,7 +49,7 @@ extension BookExtension on Book {
     final id = this.id;
     return DbBookTableCompanion.insert(
       id: id == null ? const Value.absent() : Value(id),
-      objectId: Value(objectId!),
+      objectId: objectId!,
       enabled: Value(enabled!),
       bookNo: Value(bookNo!),
       title: Value(title!),

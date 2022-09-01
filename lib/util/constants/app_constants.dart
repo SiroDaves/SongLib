@@ -5,12 +5,15 @@ class AppConstants {
   static const protectedAuthenticationHeaderPrefix = 'Bearer';
   static const authorizationHeader = 'Authorization';
 
+  static const playstoreLink = "https://play.google.com/store/apps/details?id=com.songlib";
+
   static const appTitle = "SongLib";
   static const listTitle = "Song Lists";
   static const likesTitle = "Liked Songs";
   static const historiesTitle = "Histories";
   static const draftTitle = "Song Drafts";
   static const settingsTitle = "App Settings";
+  static const helpdeskTitle = "Help Desk";
   static const booksTitle = "Select Song Books";
   static const booksTitleLoading = "Loading data ...";
 
@@ -32,7 +35,7 @@ class AppConstants {
   static const songCopied = "song copied!";
 
   static const copyVerse = "Copy verse";
-  static const verseCopied = "verse copied!";
+  static const textCopied = " copied!";
   static const shareVerse = "Share verse";
   static const songLiked = "song liked!";
   static const verseReadyShare = "Verse is ready for sharing";

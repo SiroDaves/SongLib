@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_floating_bottom_bar/flutter_floating_bottom_bar.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../model/base/book.dart';
@@ -10,6 +11,7 @@ import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
 import '../../vm/home/home_vm.dart';
+import '../../widget/action/buttons.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
 import '../../widget/progress/line_progress.dart';
@@ -44,32 +46,21 @@ class HomeScreenState extends State<HomeScreen>
   TabController? pages;
   int activeIndex = 1;
 
-  void onItemTapped(int index) {
-    switch (index) {
-      case 0:
-        return goToLikes();
-      case 1:
-        return goToSettings();
-      case 2:
-        return goToSettings();
-    }
-  }
-
   @override
   void initState() {
-    super.initState();
     pages = TabController(vsync: this, length: 3, initialIndex: activeIndex)
       ..addListener(() {
         setState(() {
           activeIndex = pages!.index;
         });
       });
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
     pages!.dispose();
+    super.dispose();
   }
 
   @override
@@ -78,49 +69,54 @@ class HomeScreenState extends State<HomeScreen>
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) => Scaffold(
-        body: Stack(
-          children: [
-            TabBarView(
-              controller: pages,
-              children: [
-                ListedsTab(viewModel: viewModel),
-                SearchTab(viewModel: viewModel),
-                NotesTab(viewModel: viewModel),
-              ],
-            ),
-            TabsIndicator(controller: pages!),
-            TabsIcons(controller: pages!),
-          ],
+        body: BottomBar(
+          body: (context, controller) => mainWidget(viewModel),
+          borderRadius: BorderRadius.circular(500),
+          curve: Curves.decelerate,
+          barColor: ThemeColors.primaryDark,
+          child: bottomWiget(viewModel),
         ),
-        bottomNavigationBar: extraActions(viewModel),
       ),
     );
   }
 
-  Widget extraActions(HomeVm viewModel) {
-    return BottomNavigationBar(
-      items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.favorite),
-          label: '',
+  Widget mainWidget(HomeVm viewModel) {
+    return Stack(
+      children: [
+        TabBarView(
+          controller: pages,
+          children: [
+            ListedsTab(viewModel: viewModel),
+            SearchTab(viewModel: viewModel),
+            NotesTab(viewModel: viewModel),
+          ],
         ),
-        /*BottomNavigationBarItem(
-          icon: Icon(Icons.history),
-          label: '',
-        ),*/
-        BottomNavigationBarItem(
-          icon: Icon(Icons.settings),
-          label: '',
-        ),
+        TabsIndicator(controller: pages!),
+        TabsIcons(controller: pages!),
       ],
-      currentIndex: 0,
-      onTap: onItemTapped,
-      showSelectedLabels: false,
-      showUnselectedLabels: false,
-      selectedItemColor: viewModel.isBusy ? ThemeColors.primary : Colors.white,
-      unselectedItemColor:
-          viewModel.isBusy ? ThemeColors.primary : Colors.white,
-      backgroundColor: ThemeColors.primary,
+    );
+  }
+
+  Widget bottomWiget(HomeVm viewModel) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          RoundButton(
+            icon: Icons.favorite,
+            onPressed: () => goToLikes(),
+          ),
+          RoundButton(
+            icon: Icons.help,
+            onPressed: () => goToHelpDesk(),
+          ),
+          RoundButton(
+            icon: Icons.settings,
+            onPressed: () => goToSettings(),
+          ),
+        ],
+      ),
     );
   }
 
@@ -129,6 +125,9 @@ class HomeScreenState extends State<HomeScreen>
 
   @override
   void goToHistories() => MainNavigatorWidget.of(context).goToHistories();
+
+  @override
+  void goToHelpDesk() => MainNavigatorWidget.of(context).goToHelpDesk();
 
   @override
   void goToSettings() => MainNavigatorWidget.of(context).goToSettings();

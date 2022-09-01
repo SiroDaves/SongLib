@@ -160,5 +160,8 @@ class SearchScreenState extends State<SearchScreen> implements HomeNavigator {
   void goToHistories() => MainNavigatorWidget.of(context).goToHistories();
 
   @override
+  void goToHelpDesk() => MainNavigatorWidget.of(context).goToHelpDesk();
+
+  @override
   void goToSettings() => MainNavigatorWidget.of(context).goToSettings();
 }

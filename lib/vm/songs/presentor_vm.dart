@@ -184,7 +184,7 @@ class PresentorVm with ChangeNotifierEx {
         ),
       );
       showToast(
-        text: AppConstants.verseCopied,
+        text: 'Verse ${AppConstants.textCopied}',
         state: ToastStates.success,
       );
     } catch (_) {}

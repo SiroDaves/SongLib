@@ -5,6 +5,7 @@ import '../screen/home/home_screen.dart';
 import '../screen/home/search_screen.dart';
 import '../screen/home/histories_screen.dart';
 import '../screen/home/likes_screen.dart';
+import '../screen/info/helpdesk.dart';
 import '../screen/manage/settings_screen.dart';
 import '../screen/selection/progress_screen.dart';
 import '../screen/selection/selection_screen.dart';
@@ -111,6 +112,11 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
           child: const SettingsScreen(),
           settings: settings,
         );
+      case HelpDeskScreen.routeName:
+        return FadeInRoute<void>(
+          child: const HelpDeskScreen(),
+          settings: settings,
+        );
       case 'test_route':
         if (!FlavorConfig.isInTest()) return null;
         return MaterialPageRoute<void>(
@@ -153,6 +159,10 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
 
   @override
   void goToSettings() => navigator.pushNamed(SettingsScreen.routeName);
+
+  @override
+  void goToHelpDesk() =>
+      navigator.pushReplacementNamed(HelpDeskScreen.routeName);
 
   @override
   void closeDialog() => navigator.pop();

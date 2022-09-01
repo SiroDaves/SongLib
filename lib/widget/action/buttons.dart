@@ -52,6 +52,49 @@ class SimpleButton extends StatelessWidget {
   }
 }
 
+class RoundButton extends StatelessWidget {
+  final Function()? onPressed;
+  final Color? inColor;
+  final Color? bgColor;
+  final double size;
+  final IconData icon;
+
+  const RoundButton({
+    Key? key,
+    required this.onPressed,
+    required this.icon,
+    this.inColor = Colors.white,
+    this.bgColor = ThemeColors.primary,
+    this.size = 50,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: onPressed,
+      child: Container(
+        height: size,
+        width: size,
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: BorderRadius.all(
+            Radius.circular(size),
+          ),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.grey,
+              spreadRadius: 1,
+              blurRadius: 1,
+              offset: Offset(0, 1),
+            ),
+          ],
+        ),
+        child: Icon(icon, color: inColor),
+      ),
+    );
+  }
+}
+
 class SubmitButton extends StatelessWidget {
   final String? title;
   final Function()? onPressed;

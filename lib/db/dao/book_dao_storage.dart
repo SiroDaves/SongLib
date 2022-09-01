@@ -74,7 +74,7 @@ class _BookDaoStorage extends DatabaseAccessor<SongLibDb>
   @override
   Future<void> createBook(Book book) => into(db.dbBookTable).insert(
         DbBookTableCompanion.insert(
-          objectId: Value(book.objectId!),
+          objectId: book.objectId!,
           bookNo: Value(book.bookNo!),
           enabled: Value(book.enabled!),
           title: Value(book.title!),

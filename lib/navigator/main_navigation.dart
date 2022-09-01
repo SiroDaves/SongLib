@@ -23,6 +23,8 @@ abstract class MainNavigation {
 
   void goToSettings();
 
+  void goToHelpDesk();
+
   void showCustomDialog<T>({required WidgetBuilder builder});
 }
 

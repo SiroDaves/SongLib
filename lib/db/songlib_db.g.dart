@@ -202,7 +202,7 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
   });
   DbBookTableCompanion.insert({
     this.id = const Value.absent(),
-    this.objectId = const Value.absent(),
+    required String objectId,
     this.enabled = const Value.absent(),
     this.bookNo = const Value.absent(),
     this.title = const Value.absent(),
@@ -211,7 +211,7 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
     this.position = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
-  });
+  }) : objectId = Value(objectId);
   static Insertable<DbBook> custom({
     Expression<int>? id,
     Expression<String>? objectId,
@@ -335,8 +335,8 @@ class $DbBookTableTable extends DbBookTable
   late final GeneratedColumn<String?> objectId = GeneratedColumn<String?>(
       'object_id', aliasedName, false,
       type: const StringType(),
-      requiredDuringInsert: false,
-      defaultValue: const Constant(''));
+      requiredDuringInsert: true,
+      defaultConstraints: 'UNIQUE');
   final VerificationMeta _enabledMeta = const VerificationMeta('enabled');
   @override
   late final GeneratedColumn<bool?> enabled = GeneratedColumn<bool?>(
@@ -422,6 +422,8 @@ class $DbBookTableTable extends DbBookTable
     if (data.containsKey('object_id')) {
       context.handle(_objectIdMeta,
           objectId.isAcceptableOrUnknown(data['object_id']!, _objectIdMeta));
+    } else if (isInserting) {
+      context.missing(_objectIdMeta);
     }
     if (data.containsKey('enabled')) {
       context.handle(_enabledMeta,
@@ -2215,7 +2217,7 @@ class DbSongTableCompanion extends UpdateCompanion<DbSong> {
   });
   DbSongTableCompanion.insert({
     this.id = const Value.absent(),
-    this.objectId = const Value.absent(),
+    required String objectId,
     this.book = const Value.absent(),
     this.songNo = const Value.absent(),
     this.title = const Value.absent(),
@@ -2228,7 +2230,7 @@ class DbSongTableCompanion extends UpdateCompanion<DbSong> {
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.liked = const Value.absent(),
-  });
+  }) : objectId = Value(objectId);
   static Insertable<DbSong> custom({
     Expression<int>? id,
     Expression<String>? objectId,
@@ -2384,8 +2386,8 @@ class $DbSongTableTable extends DbSongTable
   late final GeneratedColumn<String?> objectId = GeneratedColumn<String?>(
       'object_id', aliasedName, false,
       type: const StringType(),
-      requiredDuringInsert: false,
-      defaultValue: const Constant(''));
+      requiredDuringInsert: true,
+      defaultConstraints: 'UNIQUE');
   final VerificationMeta _bookMeta = const VerificationMeta('book');
   @override
   late final GeneratedColumn<int?> book = GeneratedColumn<int?>(
@@ -2503,6 +2505,8 @@ class $DbSongTableTable extends DbSongTable
     if (data.containsKey('object_id')) {
       context.handle(_objectIdMeta,
           objectId.isAcceptableOrUnknown(data['object_id']!, _objectIdMeta));
+    } else if (isInserting) {
+      context.missing(_objectIdMeta);
     }
     if (data.containsKey('book')) {
       context.handle(

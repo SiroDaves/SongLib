@@ -58,7 +58,7 @@ extension SongExtension on Song {
     final id = this.id;
     return DbSongTableCompanion.insert(
       id: id == null ? const Value.absent() : Value(id),
-          objectId: Value(objectId!),
+          objectId: objectId!,
           book: Value(book!),
           songNo: Value(songNo!),
           title: Value(title!),

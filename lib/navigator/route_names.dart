@@ -16,4 +16,5 @@ class RouteNames {
   static const likesScreen = 'likes';
   static const historiesScreen = 'histories';
   static const settingsScreen = 'settings';
+  static const helpdeskScreen = 'helpdesk';
 }

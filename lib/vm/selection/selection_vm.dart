@@ -50,40 +50,19 @@ class SelectionVm with ChangeNotifierEx {
     books = await web.fetchBooks();
     if (books!.isNotEmpty) {
       for (final book in books!) {
-        listedBooks.add(Selectable<Book>(book, true));
+        bool predistinated = false;
+        if (bookNos.contains(book.bookNo.toString())) predistinated = true;
+        listedBooks.add(Selectable<Book>(book, predistinated));
       }
     }
-    return books;
-  }
-
-  /// Get the list of books
-  Future<List<Book>?> fetchBooksx() async {
-    isBusy = true;
-    notifyListeners();
-
-    books = await web.fetchBooks();
-    if (books!.isNotEmpty) {
-      for (int i = 0; i < books!.length; i++) {
-        try {
-          bool predistinated = false;
-          for (final item in bookNos) {
-            if (item.contains(books![i].bookNo.toString())) {
-              predistinated = true;
-            }
-            listedBooks.add(Selectable<Book>(books![i], predistinated));
-          }
-        } catch (_) {}
-      }
-    }
-
-    isBusy = false;
-    notifyListeners();
-
     return books;
   }
 
   /// Proceed to a saving books data
   Future<void> saveBooks() async {
+    isBusy = true;
+    notifyListeners();
+
     try {
       if (selectedBooks.isNotEmpty) {
         await db.deleteBooks();
@@ -101,6 +80,9 @@ class SelectionVm with ChangeNotifierEx {
     try {
       selectedBooks = selectedBooks.substring(0, selectedBooks.length - 1);
     } catch (_) {}
+
+    isBusy = false;
+    notifyListeners();
 
     localStorage.setPrefString(PrefConstants.selectedBooksKey, selectedBooks);
     selectionNavigator.goToProgress();

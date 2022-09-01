@@ -48,7 +48,7 @@ class ProgressVm with ChangeNotifierEx {
 
     songs = await web.fetchSongs(selectedBooks);
 
-    isBusy = true;
+    isBusy = false;
     notifyListeners();
 
     await saveSongs();

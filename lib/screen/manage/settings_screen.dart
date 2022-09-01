@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
-import 'package:songlib/theme/theme_colors.dart';
 
 import '../../navigator/main_navigator.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
+import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
 import '../../vm/global_vm.dart';
 import '../../vm/manage/settings_vm.dart';

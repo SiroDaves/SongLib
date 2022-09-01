@@ -129,5 +129,6 @@ class HomeVm with ChangeNotifierEx {
 abstract class HomeNavigator {
   void goToLikes();
   void goToHistories();
+  void goToHelpDesk();
   void goToSettings();
 }
