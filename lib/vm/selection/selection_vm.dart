@@ -30,7 +30,6 @@ class SelectionVm with ChangeNotifierEx {
     if (selectedBooks.isNotEmpty) {
       bookNos = selectedBooks.split(",");
     }
-    await fetchBooks();
   }
 
   void onBookSelected(int index) {
@@ -48,6 +47,17 @@ class SelectionVm with ChangeNotifierEx {
 
   /// Get the list of books
   Future<List<Book>?> fetchBooks() async {
+    books = await web.fetchBooks();
+    if (books!.isNotEmpty) {
+      for (final book in books!) {
+        listedBooks.add(Selectable<Book>(book, true));
+      }
+    }
+    return books;
+  }
+
+  /// Get the list of books
+  Future<List<Book>?> fetchBooksx() async {
     isBusy = true;
     notifyListeners();
 
@@ -64,13 +74,12 @@ class SelectionVm with ChangeNotifierEx {
           }
         } catch (_) {}
       }
-      return books;
     }
 
     isBusy = false;
     notifyListeners();
 
-    return null;
+    return books;
   }
 
   /// Proceed to a saving books data

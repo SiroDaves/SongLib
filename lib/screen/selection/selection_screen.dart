@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../model/base/book.dart';
 import '../../navigator/main_navigator.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
@@ -8,6 +9,7 @@ import '../../vm/selection/selection_vm.dart';
 import '../../widget/action/buttons.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
+import '../../widget/progress/circular_progress.dart';
 import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
 
@@ -47,30 +49,36 @@ class SelectionScreenState extends State<SelectionScreen>
     );
   }
 
-  Widget mainContainer(SelectionVm viewModel) {
-    return SingleChildScrollView(
-      child: viewModel.isBusy
-          ? const ListLoading()
-          : viewModel.books!.isNotEmpty
-              ? listContainer(viewModel)
-              : const NoDataToShow(
-                  title: AppConstants.errorOccurred,
-                  description: AppConstants.noConnectionBody,
-                ),
-    );
-  }
-
   Widget listContainer(SelectionVm viewModel) {
-    return Scrollbar(
-      child: ListView.builder(
-        padding: const EdgeInsets.all(5),
-        itemCount: viewModel.books!.length,
-        itemBuilder: (context, index) => BookItem(
-          book: viewModel.books![index],
-          selected: viewModel.listedBooks[index]!.isSelected,
-          onTap: () => viewModel.onBookSelected(index),
-        ),
-      ),
+    return FutureBuilder<List<Book>?>(
+      future: viewModel.fetchBooks(),
+      builder: (BuildContext context, AsyncSnapshot<List<Book>?> snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data!.isNotEmpty) {
+            return ListView.builder(
+              padding: const EdgeInsets.all(5),
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) => BookItem(
+                book: snapshot.data![index],
+                selected: viewModel.listedBooks[index]!.isSelected,
+                onTap: () => viewModel.onBookSelected(index),
+              ),
+            );
+          } else {
+            return const NoDataToShow(
+              title: AppConstants.errorOccurred,
+              description: AppConstants.errorOccurredBody,
+            );
+          }
+        } else if (snapshot.hasError) {
+          return const NoDataToShow(
+            title: AppConstants.errorOccurred,
+            description: AppConstants.noConnectionBody,
+          );
+        } else {
+          return const CircularProgress();
+        }
+      },
     );
   }
 
