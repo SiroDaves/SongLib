@@ -46,18 +46,18 @@ class LikesScreenState extends State<LikesScreen>
               colors: [Colors.white, ThemeColors.accent, Colors.black],
             ),
           ),
-          child: mainContainer(context, viewModel),
+          child: mainContainer(viewModel),
         ),
       ),
     );
   }
 
-  Widget mainContainer(BuildContext context, LikesVm viewModel) {
+  Widget mainContainer(LikesVm viewModel) {
     return SingleChildScrollView(
       child: viewModel.isBusy
           ? const ListLoading()
           : viewModel.likes!.isNotEmpty
-              ? listContainer(context, viewModel)
+              ? listContainer(viewModel)
               : const NoDataToShow(
                   title: AppConstants.itsEmptyHere,
                   description: AppConstants.itsEmptyHereBody,
@@ -65,7 +65,7 @@ class LikesScreenState extends State<LikesScreen>
     );
   }
 
-  Widget listContainer(BuildContext context, LikesVm viewModel) {
+  Widget listContainer(LikesVm viewModel) {
     return SizedBox(
       height: size!.height,
       child: Scrollbar(

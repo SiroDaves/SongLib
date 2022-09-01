@@ -32,11 +32,10 @@ class SelectionScreenState extends State<SelectionScreen>
       create: () => GetIt.I()..init(this),
       childBuilderWithViewModel: (context, viewModel, theme, localization) =>
           Scaffold(
-        backgroundColor: Colors.black,
         appBar: AppBar(
           title: const Text(AppConstants.booksTitle),
         ),
-        body: mainContainer(viewModel),
+        body: listContainer(viewModel),
         floatingActionButton: viewModel.isBusy
             ? Container()
             : FloatingActionButton(
@@ -49,7 +48,7 @@ class SelectionScreenState extends State<SelectionScreen>
   }
 
   Widget mainContainer(SelectionVm viewModel) {
-    return SizedBox(
+    return SingleChildScrollView(
       child: viewModel.isBusy
           ? const ListLoading()
           : viewModel.books!.isNotEmpty
@@ -137,5 +136,4 @@ class SelectionScreenState extends State<SelectionScreen>
 
   @override
   void goToProgress() => MainNavigatorWidget.of(context).goToProgress();
-
 }

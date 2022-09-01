@@ -60,7 +60,7 @@ class HistoriesScreenState extends State<HistoriesScreen>
         ),
         body: TabBarView(
           children: [
-            mainContainer(context, viewModel),
+            mainContainer(viewModel),
             Container(),
           ],
         ),
@@ -68,12 +68,12 @@ class HistoriesScreenState extends State<HistoriesScreen>
     );
   }
 
-  Widget mainContainer(BuildContext context, HistoriesVm viewModel) {
+  Widget mainContainer(HistoriesVm viewModel) {
     return SizedBox(
       child: viewModel.isBusy
           ? const ListLoading()
           : viewModel.histories!.isNotEmpty
-              ? listContainer(context, viewModel)
+              ? listContainer(viewModel)
               : const NoDataToShow(
                   title: AppConstants.itsEmptyHere1,
                   description: AppConstants.itsEmptyHereBody4,
@@ -81,7 +81,7 @@ class HistoriesScreenState extends State<HistoriesScreen>
     );
   }
 
-  Widget listContainer(BuildContext context, HistoriesVm viewModel) {
+  Widget listContainer(HistoriesVm viewModel) {
     return Container(
       height: size!.height * 0.7,
       padding: const EdgeInsets.only(right: 2),

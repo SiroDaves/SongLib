@@ -60,14 +60,14 @@ class SelectionVm with ChangeNotifierEx {
             if (item.contains(books![i].bookNo.toString())) {
               predistinated = true;
             }
+            listedBooks.add(Selectable<Book>(books![i], predistinated));
           }
-          listedBooks.add(Selectable<Book>(books![i], predistinated));
         } catch (_) {}
       }
       return books;
     }
 
-    isBusy = true;
+    isBusy = false;
     notifyListeners();
 
     return null;

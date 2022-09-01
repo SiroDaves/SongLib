@@ -80,10 +80,16 @@ class ListViewScreenState extends State<ListViewScreen>
           ),
         ],
       ),
-      body: viewModel.isBusy
+      body: mainContainer(viewModel),
+    );
+  }
+
+  Widget mainContainer(ListVm viewModel) {
+    return SingleChildScrollView(
+      child: viewModel.isBusy
           ? const ListLoading()
           : viewModel.listeds!.isNotEmpty
-              ? listContainer(context, viewModel)
+              ? listContainer(viewModel)
               : const NoDataToShow(
                   title: AppConstants.itsEmptyHere,
                   description: AppConstants.itsEmptyHereBody,
@@ -91,7 +97,7 @@ class ListViewScreenState extends State<ListViewScreen>
     );
   }
 
-  Widget listContainer(BuildContext context, ListVm viewModel) {
+  Widget listContainer(ListVm viewModel) {
     return Container(
       height: size!.height * 0.7,
       padding: const EdgeInsets.only(right: 2),
