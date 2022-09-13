@@ -6,24 +6,18 @@ part of 'book.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Book _$BookFromJson(Map<String, dynamic> json) {
-  $checkKeys(
-    json,
-    requiredKeys: const ['title'],
-  );
-  return Book(
-    objectId: json['objectId'] as String?,
-    enabled: json['enabled'] as bool?,
-    bookNo: json['bookNo'] as int?,
-    title: json['title'] as String?,
-    subTitle: json['subTitle'] as String?,
-    songs: json['songs'] as int?,
-    position: json['position'] as int?,
-    createdAt: json['createdAt'] as String?,
-    updatedAt: json['updatedAt'] as String?,
-    id: json['id'] as int?,
-  );
-}
+Book _$BookFromJson(Map<String, dynamic> json) => Book(
+      objectId: json['objectId'] as String?,
+      enabled: json['enabled'] as bool?,
+      bookNo: json['bookNo'] as int?,
+      title: json['title'] as String?,
+      subTitle: json['subTitle'] as String?,
+      songs: json['songs'] as int?,
+      position: json['position'] as int?,
+      createdAt: json['createdAt'] as String?,
+      updatedAt: json['updatedAt'] as String?,
+      id: json['id'] as int?,
+    );
 
 Map<String, dynamic> _$BookToJson(Book instance) {
   final val = <String, dynamic>{};

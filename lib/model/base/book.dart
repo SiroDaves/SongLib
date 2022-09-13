@@ -10,7 +10,7 @@ class Book {
   bool? enabled;
   @JsonKey(name: 'bookNo', includeIfNull: false)
   int? bookNo;
-  @JsonKey(name: 'title', required: true, includeIfNull: false)
+  @JsonKey(name: 'title', includeIfNull: false)
   String? title;
   @JsonKey(name: 'subTitle', includeIfNull: false)
   String? subTitle;

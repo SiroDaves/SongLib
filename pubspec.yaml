@@ -9,18 +9,15 @@ environment:
 dependencies:
   analyzer: ^4.6.0
   app_review: ^2.1.1+1
-  auto_orientation: ^2.2.1
   card_swiper: ^2.0.4
   collection: ^1.15.0
   device_info_plus: ^4.0.2
   dio: ^4.0.6
   drift: ^1.7.1
-  drift_db_viewer: ^1.0.3
   drift_inspector: ^1.0.1
   firebase_core: ^1.10.5
   firebase_crashlytics: ^2.4.3
   flame: ^1.2.0
-  flutter_floating_bottom_bar: ^1.1.0
   flutter:
     sdk: flutter
   flutter_cache_manager: ^3.3.0
@@ -28,7 +25,6 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_secure_storage: ^5.0.2
-  flutter_svg: ^1.0.0
   fluttertoast: ^8.0.9
   get_it: ^7.2.0
   icapps_architecture: ^0.7.2
@@ -67,10 +63,10 @@ dev_dependencies:
   icapps_license: ^2.0.0
   injectable_generator: ^1.5.4
   json_serializable: ^6.3.1
+  locale_gen: ^4.1.2
   mockito: ^5.0.15
   model_generator: ^5.8.1
   retrofit_generator: ^4.0.3+1
-  locale_gen: ^4.1.2
 
 flutter:
   uses-material-design: true
@@ -79,9 +75,6 @@ flutter:
     - assets/icon/
     - assets/locale/
   fonts:
-    - family: SaranaiGame
-      fonts:
-        - asset: assets/fonts/SaranaiGame-Bold.ttf
     - family: TrebuchetMS
       fonts:
         - asset: assets/fonts/Trebuchet-MS.ttf

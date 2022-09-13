@@ -6,11 +6,11 @@ part 'song.g.dart';
 class Song {
   @JsonKey(name: 'objectId', includeIfNull: false)
   String? objectId;
-  @JsonKey(name: 'book', required: true, includeIfNull: false)
+  @JsonKey(name: 'book', includeIfNull: false)
   int? book;
   @JsonKey(name: 'songNo', includeIfNull: false)
   int? songNo;
-  @JsonKey(name: 'title', required: true, includeIfNull: false)
+  @JsonKey(name: 'title', includeIfNull: false)
   String? title;
   @JsonKey(name: 'alias', includeIfNull: false)
   String? alias;

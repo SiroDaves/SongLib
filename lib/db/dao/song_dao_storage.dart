@@ -45,7 +45,7 @@ class _SongDaoStorage extends DatabaseAccessor<SongLibDb>
       'LEFT JOIN ${db.dbBookTable.actualTableName} AS books '
       'ON songs.${db.dbSongTable.book.name}=books.${db.dbBookTable.bookNo.name} '
       'WHERE songs.${db.dbSongTable.liked.name}=true '
-      'ORDER BY ${db.dbSongTable.updatedAt.name} DESC;',
+      'ORDER BY songs.${db.dbSongTable.updatedAt.name} DESC;',
       readsFrom: {db.dbSongTable},
     ).watch().map(
       (rows) {

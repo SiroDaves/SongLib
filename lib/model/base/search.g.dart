@@ -6,18 +6,12 @@ part of 'search.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Search _$SearchFromJson(Map<String, dynamic> json) {
-  $checkKeys(
-    json,
-    requiredKeys: const ['title'],
-  );
-  return Search(
-    objectId: json['objectId'] as String?,
-    title: json['title'] as String?,
-    createdAt: json['createdAt'] as String?,
-    id: json['id'] as int?,
-  );
-}
+Search _$SearchFromJson(Map<String, dynamic> json) => Search(
+      objectId: json['objectId'] as String?,
+      title: json['title'] as String?,
+      createdAt: json['createdAt'] as String?,
+      id: json['id'] as int?,
+    );
 
 Map<String, dynamic> _$SearchToJson(Search instance) {
   final val = <String, dynamic>{};

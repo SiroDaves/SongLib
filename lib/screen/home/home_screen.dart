@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_floating_bottom_bar/flutter_floating_bottom_bar.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../model/base/book.dart';
@@ -11,7 +10,6 @@ import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
 import '../../vm/home/home_vm.dart';
-import '../../widget/action/buttons.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
 import '../../widget/progress/line_progress.dart';
@@ -63,19 +61,25 @@ class HomeScreenState extends State<HomeScreen>
     super.dispose();
   }
 
+  void onItemTapped(int index) {
+    switch (index) {
+      case 0:
+        return goToLikes();
+      case 1:
+        return goToHelpDesk();
+      case 2:
+        return goToSettings();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ProviderWidget<HomeVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) => Scaffold(
-        body: BottomBar(
-          body: (context, controller) => mainWidget(viewModel),
-          borderRadius: BorderRadius.circular(500),
-          curve: Curves.decelerate,
-          barColor: ThemeColors.primaryDark,
-          child: bottomWiget(viewModel),
-        ),
+        body: mainWidget(viewModel),
+        bottomNavigationBar: extraActions(viewModel),
       ),
     );
   }
@@ -97,26 +101,38 @@ class HomeScreenState extends State<HomeScreen>
     );
   }
 
-  Widget bottomWiget(HomeVm viewModel) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          RoundButton(
-            icon: Icons.favorite,
-            onPressed: () => goToLikes(),
+  Widget extraActions(HomeVm viewModel) {
+    return BottomNavigationBar(
+      items: [
+        BottomNavigationBarItem(
+          icon: Icon(
+            Icons.favorite,
+            color: viewModel.isBusy ? ThemeColors.primary : Colors.white,
           ),
-          RoundButton(
-            icon: Icons.help,
-            onPressed: () => goToHelpDesk(),
+          label: '',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(
+            Icons.help,
+            color: viewModel.isBusy ? ThemeColors.primary : Colors.white,
           ),
-          RoundButton(
-            icon: Icons.settings,
-            onPressed: () => goToSettings(),
+          label: '',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(
+            Icons.settings,
+            color: viewModel.isBusy ? ThemeColors.primary : Colors.white,
           ),
-        ],
-      ),
+          label: '',
+        ),
+      ],
+      currentIndex: 0,
+      onTap: onItemTapped,
+      showSelectedLabels: false,
+      showUnselectedLabels: false,
+      selectedItemColor: Colors.white,
+      unselectedItemColor: Colors.white,
+      backgroundColor: ThemeColors.primary,
     );
   }
 

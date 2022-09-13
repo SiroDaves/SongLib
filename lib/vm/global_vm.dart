@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:auto_orientation/auto_orientation.dart';
 import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
@@ -44,7 +43,6 @@ class GlobalVm with ChangeNotifierEx {
     initTargetPlatform();
     getThemeMode();
     preloadImages(context);
-    AutoOrientation.portraitAutoMode();
   }
 
   void initTargetPlatform() {

@@ -6,28 +6,22 @@ part of 'song.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Song _$SongFromJson(Map<String, dynamic> json) {
-  $checkKeys(
-    json,
-    requiredKeys: const ['book', 'title'],
-  );
-  return Song(
-    objectId: json['objectId'] as String?,
-    book: json['book'] as int?,
-    songNo: json['songNo'] as int?,
-    title: json['title'] as String?,
-    alias: json['alias'] as String?,
-    content: json['content'] as String?,
-    key: json['key'] as String?,
-    author: json['author'] as String?,
-    views: json['views'] as int?,
-    likes: json['likes'] as int?,
-    createdAt: json['createdAt'] as String?,
-    updatedAt: json['updatedAt'] as String?,
-    liked: json['liked'] as bool?,
-    id: json['id'] as int?,
-  );
-}
+Song _$SongFromJson(Map<String, dynamic> json) => Song(
+      objectId: json['objectId'] as String?,
+      book: json['book'] as int?,
+      songNo: json['songNo'] as int?,
+      title: json['title'] as String?,
+      alias: json['alias'] as String?,
+      content: json['content'] as String?,
+      key: json['key'] as String?,
+      author: json['author'] as String?,
+      views: json['views'] as int?,
+      likes: json['likes'] as int?,
+      createdAt: json['createdAt'] as String?,
+      updatedAt: json['updatedAt'] as String?,
+      liked: json['liked'] as bool?,
+      id: json['id'] as int?,
+    );
 
 Map<String, dynamic> _$SongToJson(Song instance) {
   final val = <String, dynamic>{};

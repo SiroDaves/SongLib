@@ -6,7 +6,7 @@ part 'search.g.dart';
 class Search {
   @JsonKey(name: 'objectId', includeIfNull: false)
   String? objectId;
-  @JsonKey(name: 'title', required: true, includeIfNull: false)
+  @JsonKey(name: 'title', includeIfNull: false)
   String? title;
   @JsonKey(name: 'createdAt', includeIfNull: false)
   String? createdAt;
