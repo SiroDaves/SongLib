@@ -95,6 +95,8 @@ class ProgressVm with ChangeNotifierEx {
     }
 
     localStorage.setPrefBool(PrefConstants.dataLoadedCheckKey, true);
+    localStorage.setPrefBool(PrefConstants.wakeLockCheckKey, true);
+
     progressNavigator.goToHome();
   }
 }

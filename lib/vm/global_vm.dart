@@ -11,6 +11,7 @@ import '../../theme/theme_assets.dart';
 import '../../util/env/flavor_config.dart';
 import '../../util/locale/localization.dart';
 import '../../util/locale/localization_delegate.dart';
+import '../util/constants/pref_constants.dart';
 
 @singleton
 class GlobalVm with ChangeNotifierEx {
@@ -38,11 +39,14 @@ class GlobalVm with ChangeNotifierEx {
 
   bool get showsTranslationKeys => showTranslationKeys;
 
+  bool wakeLockStatus = false;
+
   Future<void> init(BuildContext context) async {
     initLocale();
     initTargetPlatform();
     getThemeMode();
     preloadImages(context);
+    wakeLockStatus = localStorage.getPrefBool(PrefConstants.wakeLockCheckKey);
   }
 
   void initTargetPlatform() {
@@ -95,6 +99,12 @@ class GlobalVm with ChangeNotifierEx {
     await localStorage.updateThemeMode(themeMode);
   }
 
+  Future<void> updateWakeLockStatus(bool wakeLock) async {
+    wakeLockStatus = wakeLock;
+    notifyListeners();
+    localStorage.setPrefBool(PrefConstants.wakeLockCheckKey, wakeLock);
+  }
+
   String getCurrentPlatform() {
     if (targetPlatform == TargetPlatform.android) {
       return 'Android';
@@ -124,13 +134,16 @@ class GlobalVm with ChangeNotifierEx {
   }
 
   bool isLanguageSelected(String? languageCode) {
-    if (localeDelegate.activeLocale == null && languageCode == null) return true;
+    if (localeDelegate.activeLocale == null && languageCode == null)
+      return true;
     return localeDelegate.activeLocale?.languageCode == languageCode;
   }
 
   void toggleTranslationKeys() {
     showTranslationKeys = !showsTranslationKeys;
-    localizationDelegate = LocalizationDelegate(newLocale: localeDelegate.activeLocale, showLocalizationKeys: showsTranslationKeys);
+    localizationDelegate = LocalizationDelegate(
+        newLocale: localeDelegate.activeLocale,
+        showLocalizationKeys: showsTranslationKeys);
     notifyListeners();
   }
 }

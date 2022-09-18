@@ -13,9 +13,7 @@ abstract class SearchDaoStorage {
   factory SearchDaoStorage(SongLibDb db) = _SearchDaoStorage;
 
   Future<List<Search>> getAllSearches();
-
   Future<void> createSearch(Search search);
-
   Future<void> deleteSearch(Search search);
 }
 

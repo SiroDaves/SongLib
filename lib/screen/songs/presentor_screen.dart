@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:wakelock/wakelock.dart';
 
 import '../../model/base/draft.dart';
 import '../../model/base/songext.dart';
-import '../../navigator/main_navigator.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
@@ -75,7 +75,8 @@ class PresentorScreenState extends State<PresentorScreen>
 
   Widget screenWidget(BuildContext context, PresentorVm viewModel) {
     viewModel.homeVm = homeVm;
-    
+    if (viewModel.enableWakeLock) Wakelock.enable();
+
     if (song != null) {
       viewModel.song = song;
     } else if (draft != null) {

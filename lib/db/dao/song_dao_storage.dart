@@ -14,13 +14,9 @@ abstract class SongDaoStorage {
   factory SongDaoStorage(SongLibDb db) = _SongDaoStorage;
 
   Future<List<SongExt>> getLikedSongs();
-
   Future<List<SongExt>> getAllSongs();
-
   Future<void> createSong(Song song);
-
   Future<void> updateSong(SongExt song);
-
   Future<void> deleteSong(SongExt song);
 }
 

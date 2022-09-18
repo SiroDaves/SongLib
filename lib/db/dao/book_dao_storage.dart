@@ -13,13 +13,9 @@ abstract class BookDaoStorage {
   factory BookDaoStorage(SongLibDb db) = _BookDaoStorage;
 
   Future<List<Book>> getAllBooks();
-
   Future<void> createBook(Book book);
-
   Future<void> updateBook(Book book);
-
   Future<void> deleteBook(Book book);
-
   Future<void> deleteBooks();
 }
 

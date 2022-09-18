@@ -14,11 +14,8 @@ abstract class DraftDaoStorage {
   factory DraftDaoStorage(SongLibDb db) = _DraftDaoStorage;
 
   Future<List<Draft>> getAllDrafts();
-
   Future<void> createDraft({required Draft draft, bool isSimple = true});
-
   Future<void> updateDraft(Draft draft);
-
   Future<void> deleteDraft(Draft draft);
 }
 

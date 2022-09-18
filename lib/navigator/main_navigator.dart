@@ -161,8 +161,7 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
   void goToSettings() => navigator.pushNamed(SettingsScreen.routeName);
 
   @override
-  void goToHelpDesk() =>
-      navigator.pushReplacementNamed(HelpDeskScreen.routeName);
+  void goToHelpDesk() => navigator.pushNamed(HelpDeskScreen.routeName);
 
   @override
   void closeDialog() => navigator.pop();

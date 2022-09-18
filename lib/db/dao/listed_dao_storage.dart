@@ -14,17 +14,11 @@ abstract class ListedDaoStorage {
   factory ListedDaoStorage(SongLibDb db) = _ListedDaoStorage;
 
   Future<List<Listed>> getAllListeds();
-
   Future<List<Listed>> getAllListedSongs();
-
   Future<List<ListedExt>> getListedSongs(int parentid);
-
   Future<void> createListed(Listed listed);
-
   Future<void> createListedChild(Listed listed);
-
   Future<void> updateListed(Listed listed);
-
   Future<void> deleteListed(Listed listed);
 }
 

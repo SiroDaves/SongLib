@@ -73,9 +73,8 @@ class AppLocalStorage implements LocalStorage {
 
   @override
   void clearData() {
-    sharedPreferences.removeValue(key: PrefConstants.tourResultsKey);
-    sharedPreferences.removeValue(key: PrefConstants.playSettingsKey);
-    sharedPreferences.removeValue(key: PrefConstants.completedRacesKey);
+    sharedPreferences.removeValue(key: PrefConstants.selectedBooksKey);
+    sharedPreferences.removeValue(key: PrefConstants.predistinatedBooksKey);
   }
 
   @override

@@ -11,6 +11,7 @@ import '../../navigator/mixin/back_navigator.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
 import '../../util/constants/app_constants.dart';
+import '../../util/constants/pref_constants.dart';
 import '../../util/constants/utilities.dart';
 import '../../widget/general/toast.dart';
 import '../home/home_vm.dart';
@@ -27,7 +28,8 @@ class PresentorVm with ChangeNotifierEx {
   SongExt? song;
   Draft? draft;
 
-  bool isBusy = false, isLiked = true, hasChorus = false, isDraft = false;
+  bool isBusy = false, enableWakeLock = false;
+  bool isLiked = true, hasChorus = false, isDraft = false;
 
   String songTitle = '', songContent = '';
   int curStanza = 0, curSong = 0;
@@ -37,6 +39,7 @@ class PresentorVm with ChangeNotifierEx {
 
   Future<void> init(PresentorNavigator screenNavigator) async {
     navigator = screenNavigator;
+    enableWakeLock = localStorage.getPrefBool(PrefConstants.wakeLockCheckKey);
   }
 
   Future<void> loadPresentor() async {

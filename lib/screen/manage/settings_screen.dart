@@ -27,7 +27,8 @@ class SettingsScreen extends StatefulWidget {
 class SettingsScreenState extends State<SettingsScreen>
     with BackNavigatorMixin
     implements SettingsNavigator {
-  String theme = AppConstants.themeDefault;
+  String theme = AppConstants.themeDefault, wakeLock = 'Disabled';
+  bool wakeLockValue = false;
 
   @override
   Widget build(BuildContext context) {
@@ -38,57 +39,89 @@ class SettingsScreenState extends State<SettingsScreen>
           title: const Text(AppConstants.settingsTitle),
         ),
         body: Consumer<GlobalVm>(
-          builder: (context, viewModel, child) =>
-              mainContainer(context, viewModel),
+          builder: (context, viewModel, child) => ListView(
+            padding: const EdgeInsets.all(5),
+            children: [
+              songbookManagement(),
+              wakeLockManagement(viewModel),
+              //themeManagement(viewModel),
+            ],
+          ),
         ),
       ),
       create: () => GetIt.I()..init(this),
     );
   }
 
-  Widget mainContainer(BuildContext context, GlobalVm viewModel) {
+  Widget songbookManagement() {
+    return Card(
+      child: ListTile(
+        leading: const Icon(Icons.sort),
+        title: const Text('Songbooks Management'),
+        subtitle: const Text('Reselect your songbooks afresh'),
+        onTap: () => goToSelection(),
+      ),
+    );
+  }
+
+  Widget wakeLockManagement(GlobalVm viewModel) {
+    if (viewModel.wakeLockStatus) {
+      wakeLock = 'Enabled';
+    } else {
+      wakeLock = 'Disabled';
+    }
+
+    return Card(
+      child: ExpansionTile(
+        leading: const Icon(Icons.display_settings),
+        title: const Text('Keep Screen Active in Song View'),
+        subtitle: Text('Screen Active: $wakeLock'),
+        children: [
+          SelectorItem(
+            title: 'Enable',
+            onClick: () => viewModel.updateWakeLockStatus(true),
+            selected: viewModel.wakeLockStatus == true,
+          ),
+          SelectorItem(
+            title: 'Disable',
+            onClick: () => viewModel.updateWakeLockStatus(false),
+            selected: viewModel.wakeLockStatus == false,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget themeManagement(GlobalVm viewModel) {
     if (viewModel.themeMode == ThemeMode.light) {
       theme = AppConstants.themeLight;
     } else if (viewModel.themeMode == ThemeMode.dark) {
       theme = AppConstants.themeDark;
     }
 
-    return ListView(
-      padding: const EdgeInsets.all(5),
-      children: [
-        Card(
-          child: ListTile(
-            leading: const Icon(Icons.sort),
-            title: const Text('Songbooks Management'),
-            subtitle: const Text('Reselect your songbooks afresh'),
-            onTap: () => goToSelection(),
+    return Card(
+      child: ExpansionTile(
+        leading: const Icon(Icons.display_settings),
+        title: const Text('Theme Mode'),
+        subtitle: Text('Theme: $theme'),
+        children: [
+          SelectorItem(
+            title: 'Default',
+            onClick: () => viewModel.updateThemeMode(ThemeMode.system),
+            selected: viewModel.themeMode == ThemeMode.system,
           ),
-        ),
-        Card(
-          child: ExpansionTile(
-            leading: const Icon(Icons.display_settings),
-            title: const Text('Theme Mode'),
-            subtitle: Text('Theme: $theme'),
-            children: [
-              SelectorItem(
-                title: 'Default',
-                onClick: () => viewModel.updateThemeMode(ThemeMode.system),
-                selected: viewModel.themeMode == ThemeMode.system,
-              ),
-              SelectorItem(
-                title: 'Light',
-                onClick: () => viewModel.updateThemeMode(ThemeMode.light),
-                selected: viewModel.themeMode == ThemeMode.light,
-              ),
-              SelectorItem(
-                title: 'Dark',
-                onClick: () => viewModel.updateThemeMode(ThemeMode.dark),
-                selected: viewModel.themeMode == ThemeMode.dark,
-              ),
-            ],
+          SelectorItem(
+            title: 'Light',
+            onClick: () => viewModel.updateThemeMode(ThemeMode.light),
+            selected: viewModel.themeMode == ThemeMode.light,
           ),
-        ),
-      ],
+          SelectorItem(
+            title: 'Dark',
+            onClick: () => viewModel.updateThemeMode(ThemeMode.dark),
+            selected: viewModel.themeMode == ThemeMode.dark,
+          ),
+        ],
+      ),
     );
   }
 

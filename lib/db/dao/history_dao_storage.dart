@@ -15,11 +15,8 @@ abstract class HistoryDaoStorage {
   factory HistoryDaoStorage(SongLibDb db) = _HistoryDaoStorage;
 
   Future<List<History>> getHistories();
-
   Future<List<HistoryExt>> getAllHistories();
-
   Future<void> createHistory(History history);
-
   Future<void> deleteHistory(History history);
 }
 
