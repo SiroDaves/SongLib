@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:wakelock/wakelock.dart';
 
 import '../../model/base/draft.dart';
 import '../../model/base/history.dart';
@@ -10,6 +11,7 @@ import '../../model/base/songext.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
+import '../../screen/songs/editor_screen.dart';
 import '../../util/constants/app_constants.dart';
 import '../../util/constants/pref_constants.dart';
 import '../../util/constants/utilities.dart';
@@ -27,6 +29,7 @@ class PresentorVm with ChangeNotifierEx {
   HomeVm? homeVm;
   SongExt? song;
   Draft? draft;
+  BuildContext? context;
 
   bool isBusy = false, enableWakeLock = false;
   bool isLiked = true, hasChorus = false, isDraft = false;
@@ -40,8 +43,10 @@ class PresentorVm with ChangeNotifierEx {
   Future<void> init(PresentorNavigator screenNavigator) async {
     navigator = screenNavigator;
     enableWakeLock = localStorage.getPrefBool(PrefConstants.wakeLockCheckKey);
+    if (enableWakeLock) await Wakelock.enable();
   }
 
+  /// Prepare song lyrics to be shown in slide format
   Future<void> loadPresentor() async {
     try {
       verseInfos.clear();
@@ -121,44 +126,22 @@ class PresentorVm with ChangeNotifierEx {
   }
 
   Future<void> popupActions(int value) async {
+    final String songText = song!.content!.replaceAll("#", "\n");
     switch (value) {
       case 0:
         await copySong();
         break;
 
       case 1:
-        await copySong();
+        await shareSong();
         break;
       case 2:
+        await editSong();
+        break;
+      case 3:
+        await confirmDelete(context!);
         break;
     }
-  }
-
-  Future<void> copySong() async {
-    try {
-      final String songText = song!.content!.replaceAll("#", "\n");
-      await Clipboard.setData(ClipboardData(
-        text: '${songItemTitle(song!.songNo!, song!.title!)}\n\n$songText',
-      ));
-      showToast(
-        text: '${song!.title} ${AppConstants.songCopied}',
-        state: ToastStates.success,
-      );
-    } catch (_) {}
-  }
-
-  Future<void> shareSong() async {
-    try {
-      final String songText = song!.content!.replaceAll("#", "\n");
-      await Share.share(
-        '${songItemTitle(song!.songNo!, song!.title!)}\n\n$songText',
-        subject: AppConstants.shareVerse,
-      );
-      showToast(
-        text: AppConstants.verseReadyShare,
-        state: ToastStates.success,
-      );
-    } catch (_) {}
   }
 
   Future<void> likeSong() async {
@@ -174,6 +157,46 @@ class PresentorVm with ChangeNotifierEx {
         );
       }
       notifyListeners();
+    } catch (_) {}
+  }
+
+  Future<void> copySong() async {
+    final String songText = song!.content!.replaceAll("#", "\n");
+    try {
+      await Clipboard.setData(ClipboardData(
+        text: '${songItemTitle(song!.songNo!, song!.title!)}\n\n$songText',
+      ));
+      showToast(
+        text: '${song!.title} ${AppConstants.songCopied}',
+        state: ToastStates.success,
+      );
+    } catch (_) {}
+  }
+
+  Future<void> shareSong() async {
+    final String songText = song!.content!.replaceAll("#", "\n");
+    try {
+      await Share.share(
+        '${songItemTitle(song!.songNo!, song!.title!)}\n\n$songText',
+        subject: AppConstants.shareVerse,
+      );
+      showToast(
+        text: AppConstants.verseReadyShare,
+        state: ToastStates.success,
+      );
+    } catch (_) {}
+  }
+
+  Future<void> editSong() async {
+    try {
+      await Navigator.push(
+        context!,
+        MaterialPageRoute(
+          builder: (context) {
+            return EditorScreen(homeVm: homeVm, draft: draft, song: song);
+          },
+        ),
+      );
     } catch (_) {}
   }
 
@@ -256,6 +279,7 @@ class PresentorVm with ChangeNotifierEx {
   Future<void> onBackPressed() async {
     await homeVm!.fetchDraftsData();
     navigator.goBack<void>();
+    await Wakelock.disable();
   }
 }
 

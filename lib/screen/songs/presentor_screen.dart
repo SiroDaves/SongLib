@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:wakelock/wakelock.dart';
 
 import '../../model/base/draft.dart';
 import '../../model/base/songext.dart';
@@ -60,22 +59,9 @@ class PresentorScreenState extends State<PresentorScreen>
     );
   }
 
-  Future<void> editSong(BuildContext context) async {
-    try {
-      await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return EditorScreen(homeVm: homeVm, draft: draft);
-          },
-        ),
-      );
-    } catch (_) {}
-  }
-
   Widget screenWidget(BuildContext context, PresentorVm viewModel) {
     viewModel.homeVm = homeVm;
-    if (viewModel.enableWakeLock) Wakelock.enable();
+    viewModel.context = context;
 
     if (song != null) {
       viewModel.song = song;
@@ -87,23 +73,25 @@ class PresentorScreenState extends State<PresentorScreen>
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(viewModel.songTitle),
+        title: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(viewModel.songTitle),
+            Text(
+              refineTitle(song!.songbook!),
+              style: const TextStyle(fontSize: 16),
+            ),
+          ],
+        ),
         actions: <Widget>[
-          viewModel.isDraft
-              ? InkWell(
-                  onTap: () => editSong(context),
-                  child: const Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Icon(Icons.edit),
-                  ),
-                )
-              : InkWell(
-                  onTap: viewModel.likeSong,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Icon(viewModel.likeIcon),
-                  ),
-                ),
+          InkWell(
+            onTap: viewModel.likeSong,
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Icon(viewModel.likeIcon),
+            ),
+          ),
           popupMenu(viewModel),
         ],
       ),
@@ -124,37 +112,50 @@ class PresentorScreenState extends State<PresentorScreen>
         ),
         child: mainContainer(context, viewModel),
       ),
-      floatingActionButton: viewModel.isDraft
-          ? FloatingActionButton(
-              backgroundColor: ThemeColors.primary,
-              onPressed: () => viewModel.confirmDelete(context),
-              child: const Icon(Icons.delete, color: Colors.white),
-            )
-          : Container(),
     );
   }
 
   Widget popupMenu(PresentorVm viewModel) {
-    return PopupMenuButton(itemBuilder: (context) {
-      return [
-        const PopupMenuItem<int>(
-          value: 0,
-          child: Text(AppConstants.copySong),
-        ),
-        const PopupMenuItem<int>(
-          value: 1,
-          child: Text(AppConstants.shareSong),
-        ),
-        PopupMenuItem<int>(
-          value: 2,
-          child: Text(viewModel.isDraft
-              ? AppConstants.deleteSong
-              : AppConstants.editSong),
-        ),
-      ];
-    }, onSelected: (int value) {
-      viewModel.popupActions(value);
-    });
+    return PopupMenuButton(
+      itemBuilder: (context) {
+        return viewModel.isDraft
+            ? [
+                const PopupMenuItem<int>(
+                  value: 0,
+                  child: Text(AppConstants.copySong),
+                ),
+                const PopupMenuItem<int>(
+                  value: 1,
+                  child: Text(AppConstants.shareSong),
+                ),
+                const PopupMenuItem<int>(
+                  value: 2,
+                  child: Text(AppConstants.editSong),
+                ),
+                const PopupMenuItem<int>(
+                  value: 3,
+                  child: Text(AppConstants.deleteSong),
+                ),
+              ]
+            : [
+                const PopupMenuItem<int>(
+                  value: 0,
+                  child: Text(AppConstants.copySong),
+                ),
+                const PopupMenuItem<int>(
+                  value: 1,
+                  child: Text(AppConstants.shareSong),
+                ),
+                const PopupMenuItem<int>(
+                  value: 2,
+                  child: Text(AppConstants.editSong),
+                ),
+              ];
+      },
+      onSelected: (int value) {
+        viewModel.popupActions(value);
+      },
+    );
   }
 
   Widget mainContainer(BuildContext context, PresentorVm viewModel) {

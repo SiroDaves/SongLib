@@ -79,18 +79,26 @@ class SearchTab extends StatelessWidget {
   Widget bookContainer(BuildContext context) {
     return SizedBox(
       height: size!.height * 0.0897,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.all(5),
-        itemBuilder: (context, index) {
-          final Book book = viewModel.books![index];
-          return SongBook(
-            book: book,
-            height: size!.height,
-            onTap: () => viewModel.selectSongbook(book.bookNo!),
-          );
-        },
-        itemCount: viewModel.books!.length,
+      child: ContextMenuOverlay(
+        buttonStyle: ContextMenuButtonStyle(
+          fgColor: Colors.green,
+          bgColor: Colors.green.shade100,
+          hoverFgColor: Colors.green,
+          hoverBgColor: Colors.green.shade200,
+        ),
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          padding: const EdgeInsets.all(5),
+          itemBuilder: (context, index) {
+            final Book book = viewModel.books![index];
+            return SongBook(
+              book: book,
+              height: size!.height,
+              onTap: () => viewModel.selectSongbook(book.bookNo!),
+            );
+          },
+          itemCount: viewModel.books!.length,
+        ),
       ),
     );
   }
@@ -110,19 +118,45 @@ class SearchTab extends StatelessWidget {
           ),
           itemBuilder: (context, index) {
             final SongExt song = viewModel.filtered![index];
-            return SongItem(
-              song: song,
-              height: size!.height,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return PresentorScreen(homeVm: viewModel, song: song);
-                    },
+            return ContextMenuRegion(
+              contextMenu: GenericContextMenu(
+                buttonConfigs: [
+                  ContextMenuButtonConfig(
+                    AppConstants.likeSong,
+                    onPressed: () => viewModel.likeSong(song),
                   ),
-                );
-              },
+                  ContextMenuButtonConfig(
+                    AppConstants.addSongtoList,
+                    onPressed: () => {},
+                  ),
+                  ContextMenuButtonConfig(
+                    AppConstants.copySong,
+                    onPressed: () => viewModel.copySong(song),
+                  ),
+                  ContextMenuButtonConfig(
+                    AppConstants.shareSong,
+                    onPressed: () => viewModel.shareSong(song),
+                  ),
+                  ContextMenuButtonConfig(
+                    AppConstants.editSong,
+                    onPressed: () => viewModel.editSong(context, song),
+                  ),
+                ],
+              ),
+              child: SongItem(
+                song: song,
+                height: size!.height,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return PresentorScreen(homeVm: viewModel, song: song);
+                      },
+                    ),
+                  );
+                },
+              ),
             );
           },
         ),
