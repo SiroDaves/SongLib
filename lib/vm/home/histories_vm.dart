@@ -12,9 +12,9 @@ import '../../repository/shared_prefs/local_storage.dart';
 class HistoriesVm with ChangeNotifierEx {
   late final HistoriesNavigator navigator;
   final LocalStorage localStorage;
-  final DbRepository db;
+  final DbRepository dbRepo;
 
-  HistoriesVm(this.db, this.localStorage);
+  HistoriesVm(this.dbRepo, this.localStorage);
 
   final ScrollController listsScroller =
       ScrollController(initialScrollOffset: 0);
@@ -33,7 +33,7 @@ class HistoriesVm with ChangeNotifierEx {
     notifyListeners();
 
     try {
-      histories = await db.fetchHistories();
+      histories = await dbRepo.fetchHistories();
     } catch (exception, stackTrace) {
       await Sentry.captureException(
         exception,

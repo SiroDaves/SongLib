@@ -9,9 +9,9 @@ import '../../repository/shared_prefs/local_storage.dart';
 class SettingsVm with ChangeNotifierEx {
   late final SettingsNavigator navigator;
   final LocalStorage localStorage;
-  final DbRepository db;
+  final DbRepository dbRepo;
 
-  SettingsVm(this.db, this.localStorage);
+  SettingsVm(this.dbRepo, this.localStorage);
 
   Future<void> init(SettingsNavigator screenNavigator) async {
     navigator = screenNavigator;

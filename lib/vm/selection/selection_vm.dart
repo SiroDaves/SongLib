@@ -12,10 +12,10 @@ import '../../util/constants/pref_constants.dart';
 class SelectionVm with ChangeNotifierEx {
   late final SelectionNavigator selectionNavigator;
   final WebRepository web;
-  final DbRepository db;
+  final DbRepository dbRepo;
   final LocalStorage localStorage;
 
-  SelectionVm(this.web, this.db, this.localStorage);
+  SelectionVm(this.web, this.dbRepo, this.localStorage);
 
   bool isBusy = false;
   List<Selectable<Book>?> selectables = [];
@@ -65,7 +65,7 @@ class SelectionVm with ChangeNotifierEx {
 
     try {
       if (selectedBooks.isNotEmpty) {
-        await db.deleteBooks();
+        await dbRepo.deleteBooks();
         localStorage.setPrefString(
             PrefConstants.predistinatedBooksKey, selectedBooks);
         selectedBooks = "";
@@ -73,7 +73,7 @@ class SelectionVm with ChangeNotifierEx {
       for (int i = 0; i < selectables.length; i++) {
         final Book book = selectables[i]!.data;
         selectedBooks = "$selectedBooks${book.bookNo},";
-        await db.saveBook(book);
+        await dbRepo.saveBook(book);
       }
     } catch (_) {}
 

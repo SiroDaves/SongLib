@@ -15,9 +15,9 @@ import '../home/home_vm.dart';
 class EditorVm with ChangeNotifierEx {
   late final EditorNavigator navigator;
   final LocalStorage localStorage;
-  final DbRepository db;
+  final DbRepository dbRepo;
 
-  EditorVm(this.db, this.localStorage);
+  EditorVm(this.dbRepo, this.localStorage);
 
   HomeVm? homeVm;
   SongExt? song;
@@ -80,13 +80,13 @@ class EditorVm with ChangeNotifierEx {
           song!.content = content;
           song!.alias = alias;
           song!.key = key;
-          await db.editSong(song!);
+          await dbRepo.editSong(song!);
         } else if (draft != null) {
           draft!.title = title;
           draft!.content = content;
           draft!.alias = alias;
           draft!.key = key;
-          await db.editDraft(draft!);
+          await dbRepo.editDraft(draft!);
         } else {
           draft = Draft(
             title: title,
@@ -94,7 +94,7 @@ class EditorVm with ChangeNotifierEx {
             alias: alias,
             key: key,
           );
-          await db.saveDraft(draft!);
+          await dbRepo.saveDraft(draft!);
         }
       } catch (exception, stackTrace) {
         await Sentry.captureException(
@@ -117,7 +117,7 @@ class EditorVm with ChangeNotifierEx {
       isBusy = true;
       notifyListeners();
 
-      //await db.d(draft!);
+      //await dbRepo.d(draft!);
 
       isBusy = true;
       notifyListeners();

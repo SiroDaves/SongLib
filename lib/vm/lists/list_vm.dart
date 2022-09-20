@@ -15,9 +15,9 @@ import '../home/home_vm.dart';
 class ListVm with ChangeNotifierEx {
   late final ListNavigator navigator;
   final LocalStorage localStorage;
-  final DbRepository db;
+  final DbRepository dbRepo;
 
-  ListVm(this.db, this.localStorage);
+  ListVm(this.dbRepo, this.localStorage);
 
   HomeVm? homeVm;
   Listed? listed;
@@ -25,12 +25,11 @@ class ListVm with ChangeNotifierEx {
   List<ListedExt>? listeds = [];
 
   bool isBusy = false;
-  List<SongExt>? likes = [];
 
   Future<void> init(ListNavigator screenNavigator) async {
     navigator = screenNavigator;
     homeVm = GetIt.instance<HomeVm>();
-    listed = homeVm!.listed;
+    listed = localStorage.listed;
     await fetchData();
   }
 
@@ -40,8 +39,8 @@ class ListVm with ChangeNotifierEx {
     notifyListeners();
 
     try {
-      likes = await db.fetchLikedSongs();
-      //listeds = await db.fetchListedSongs(listed!.id!);
+      songs = await dbRepo.fetchSongs();
+      listeds = await dbRepo.fetchListedSongs(listed!.id!);
     } catch (exception, stackTrace) {
       await Sentry.captureException(
         exception,

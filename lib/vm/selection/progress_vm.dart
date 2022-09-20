@@ -12,14 +12,14 @@ import '../../util/constants/pref_constants.dart';
 class ProgressVm with ChangeNotifierEx {
   late final ProgressNavigator progressNavigator;
   final WebRepository web;
-  final DbRepository db;
+  final DbRepository dbRepo;
   final LocalStorage localStorage;
 
   int progress = 0;
   String state = '';
   String time = '00:00';
 
-  ProgressVm(this.web, this.db, this.localStorage);
+  ProgressVm(this.web, this.dbRepo, this.localStorage);
 
   bool isBusy = false;
   List<Song>? songs = [];
@@ -35,7 +35,7 @@ class ProgressVm with ChangeNotifierEx {
     if (predistinatedBooks.isNotEmpty) {
       isBusy = true;
       notifyListeners();
-      await db.majorCleanUp(selectedBooks);
+      await dbRepo.majorCleanUp(selectedBooks);
     }
 
     await fetchSongs();
@@ -89,7 +89,7 @@ class ProgressVm with ChangeNotifierEx {
           }
           notifyListeners();
 
-          await db.saveSong(songs![i]);
+          await dbRepo.saveSong(songs![i]);
         } catch (_) {}
       }
     }

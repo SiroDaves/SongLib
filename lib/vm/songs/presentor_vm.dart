@@ -22,9 +22,9 @@ import '../home/home_vm.dart';
 class PresentorVm with ChangeNotifierEx {
   late final PresentorNavigator navigator;
   final LocalStorage localStorage;
-  final DbRepository db;
+  final DbRepository dbRepo;
 
-  PresentorVm(this.db, this.localStorage);
+  PresentorVm(this.dbRepo, this.localStorage);
 
   HomeVm? homeVm;
   SongExt? song;
@@ -121,7 +121,7 @@ class PresentorVm with ChangeNotifierEx {
       }
     } catch (_) {}
     try {
-      await db.saveHistory(History(song: song!.id));
+      await dbRepo.saveHistory(History(song: song!.id));
     } catch (_) {}
   }
 
@@ -148,7 +148,7 @@ class PresentorVm with ChangeNotifierEx {
     try {
       isLiked = !isLiked;
       song!.liked = isLiked;
-      await db.editSong(song!);
+      await dbRepo.editSong(song!);
       likeIcon = isLiked ? Icons.favorite : Icons.favorite_border;
       if (isLiked) {
         showToast(
@@ -268,7 +268,7 @@ class PresentorVm with ChangeNotifierEx {
     isBusy = true;
     notifyListeners();
 
-    await db.deleteDraft(draft!);
+    await dbRepo.deleteDraft(draft!);
 
     isBusy = true;
     notifyListeners();

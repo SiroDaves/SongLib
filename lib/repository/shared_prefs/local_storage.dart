@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../model/base/book.dart';
+import '../../model/base/draft.dart';
+import '../../model/base/listed.dart';
+import '../../model/base/songext.dart';
 import '../../util/constants/pref_constants.dart';
 import '../secure_storage/auth_storage.dart';
 
@@ -9,14 +13,20 @@ import '../secure_storage/auth_storage.dart';
 abstract class LocalStorage {
   @factoryMethod
   factory LocalStorage(
-          AuthStorage storage, SharedPreferenceStorage preferences) =
-      AppLocalStorage;
+    AuthStorage storage,
+    SharedPreferenceStorage preferences,
+  ) = AppLocalStorage;
 
   Future<bool> checkForNewInstallation();
 
   Future<bool> checkIfDataIsLoaded();
 
   ThemeMode getThemeMode();
+
+  Listed? listed;
+  SongExt? song;
+  Draft? draft;
+  Book? book;
 
   Future<void> updateThemeMode(ThemeMode themeMode);
 
@@ -118,5 +128,16 @@ class AppLocalStorage implements LocalStorage {
     }
     sharedPreferences.saveString(key: settingsKey, value: settingsValue);
   }
-
+  
+  @override
+  Listed? listed;
+  
+  @override
+  Book? book;
+  
+  @override
+  Draft? draft;
+  
+  @override
+  SongExt? song;
 }

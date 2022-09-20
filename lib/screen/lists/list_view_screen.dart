@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../model/base/listedext.dart';
+import '../../model/base/songext.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
@@ -10,7 +12,6 @@ import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
 import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
-import '../songs/presentor_screen.dart';
 
 class ListViewScreen extends StatefulWidget {
   static const String routeName = RouteNames.listScreen;
@@ -47,7 +48,6 @@ class ListViewScreenState extends State<ListViewScreen>
   Widget screenWidget(BuildContext context, ListVm viewModel) {
     return Scaffold(
       appBar: AppBar(
-        //title: Text('aaaa'),
         title: Text(viewModel.listed!.title!),
         actions: <Widget>[
           InkWell(
@@ -83,7 +83,7 @@ class ListViewScreenState extends State<ListViewScreen>
       child: SingleChildScrollView(
         child: viewModel.isBusy
             ? const ListLoading()
-            : viewModel.likes!.isNotEmpty
+            : viewModel.listeds!.isNotEmpty
                 ? listContainer(viewModel)
                 : const NoDataToShow(
                     title: AppConstants.itsEmptyHere,
@@ -100,17 +100,36 @@ class ListViewScreenState extends State<ListViewScreen>
         thickness: 10,
         radius: const Radius.circular(20),
         child: ListView.builder(
-          itemCount: viewModel.likes!.length,
+          itemCount: viewModel.listeds!.length,
           padding: EdgeInsets.all(
             size!.height * 0.0082,
           ),
-          itemBuilder: (context, index) => SongItem(
-            song: viewModel.likes![index],
-            height: size!.height,
-            onTap: () => {},
-          ),
+          itemBuilder: (context, index) =>
+              songItemWidget(viewModel.listeds![index]),
         ),
       ),
+    );
+  }
+
+  Widget songItemWidget(ListedExt listed) {
+    final SongExt song = SongExt(
+      songbook: listed.songbook,
+      songNo: listed.songNo,
+      book: listed.book,
+      title: listed.title,
+      alias: listed.alias,
+      content: listed.content,
+      views: listed.views,
+      likes: listed.likes,
+      author: listed.author,
+      key: listed.key,
+      id: listed.songId,
+    );
+
+    return SongItem(
+      song: song,
+      height: size!.height,
+      onTap: () {},
     );
   }
 }

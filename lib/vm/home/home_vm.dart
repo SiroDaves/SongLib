@@ -23,10 +23,10 @@ import '../lists/list_vm.dart';
 @injectable
 class HomeVm with ChangeNotifierEx {
   late final HomeNavigator homeNavigator;
-  final DbRepository db;
+  final DbRepository dbRepo;
   final LocalStorage localStorage;
 
-  HomeVm(this.db, this.localStorage);
+  HomeVm(this.dbRepo, this.localStorage);
 
   bool isBusy = false;
   String selectedBooks = "";
@@ -37,7 +37,6 @@ class HomeVm with ChangeNotifierEx {
   List<SongExt>? filtered = [], songs = [];
   List<Listed>? listeds = [];
   List<Draft>? drafts = [];
-  Listed? listed;
 
   String? title, content;
   TextEditingController? titleController, contentController;
@@ -58,11 +57,11 @@ class HomeVm with ChangeNotifierEx {
     isBusy = true;
     notifyListeners();
 
-    listeds = await db.fetchListeds();
-    books = await db.fetchBooks();
-    songs = await db.fetchSongs();
+    listeds = await dbRepo.fetchListeds();
+    books = await dbRepo.fetchBooks();
+    songs = await dbRepo.fetchSongs();
     await selectSongbook(mainBook);
-    drafts = await db.fetchDrafts();
+    drafts = await dbRepo.fetchDrafts();
 
     isBusy = false;
     notifyListeners();
@@ -72,7 +71,7 @@ class HomeVm with ChangeNotifierEx {
   Future<void> fetchListedData() async {
     notifyListeners();
     try {
-      listeds = await db.fetchListeds();
+      listeds = await dbRepo.fetchListeds();
     } catch (exception, stackTrace) {
       await Sentry.captureException(
         exception,
@@ -86,8 +85,8 @@ class HomeVm with ChangeNotifierEx {
   Future<void> fetchSearchData() async {
     notifyListeners();
     try {
-      books = await db.fetchBooks();
-      songs = await db.fetchSongs();
+      books = await dbRepo.fetchBooks();
+      songs = await dbRepo.fetchSongs();
       await selectSongbook(mainBook);
     } catch (exception, stackTrace) {
       await Sentry.captureException(
@@ -102,7 +101,7 @@ class HomeVm with ChangeNotifierEx {
   Future<void> fetchDraftsData() async {
     notifyListeners();
     try {
-      drafts = await db.fetchDrafts();
+      drafts = await dbRepo.fetchDrafts();
     } catch (exception, stackTrace) {
       await Sentry.captureException(
         exception,
@@ -138,7 +137,7 @@ class HomeVm with ChangeNotifierEx {
 
   Future<void> likeSong(SongExt song) async {
     try {
-      await db.editSong(song);
+      await dbRepo.editSong(song);
       if (!song.liked!) {
         showToast(
           text: '${song.title} ${AppConstants.songLiked}',
@@ -217,19 +216,19 @@ class HomeVm with ChangeNotifierEx {
       notifyListeners();
 
       try {
-        listed = Listed(
+        final Listed listed = Listed(
           objectId: '',
           title: titleController!.text,
           description: contentController!.text,
         );
-        await db.saveListed(listed!);
+        await dbRepo.saveListed(listed!);
         await fetchListedData();
         showToast(
           text: '${listed!.title} ${AppConstants.listCreated}',
           state: ToastStates.success,
         );
 
-        GetIt.I<ListVm>().listed = listed;
+        localStorage.listed = listed;
         homeNavigator.goToListView();
       } catch (_) {}
       isBusy = false;
@@ -237,11 +236,8 @@ class HomeVm with ChangeNotifierEx {
     }
   }
 
-  void openListView(Listed selected) {
-    //final ListVm listVm = GetIt.instance<ListVm>();
-    //listVm.listed = listed;
-
-    listed = selected;
+  void openListView(Listed listed) {
+    localStorage.listed = listed;
     homeNavigator.goToListView();
   }
 }

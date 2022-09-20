@@ -12,9 +12,9 @@ import '../../repository/shared_prefs/local_storage.dart';
 class LikesVm with ChangeNotifierEx {
   late final LikesNavigator navigator;
   final LocalStorage localStorage;
-  final DbRepository db;
+  final DbRepository dbRepo;
 
-  LikesVm(this.db, this.localStorage);
+  LikesVm(this.dbRepo, this.localStorage);
 
   final ScrollController listsScroller =
       ScrollController(initialScrollOffset: 0);
@@ -33,7 +33,7 @@ class LikesVm with ChangeNotifierEx {
     notifyListeners();
 
     try {
-      likes = await db.fetchLikedSongs();
+      likes = await dbRepo.fetchLikedSongs();
     } catch (exception, stackTrace) {
       await Sentry.captureException(
         exception,
