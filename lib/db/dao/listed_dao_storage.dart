@@ -72,20 +72,20 @@ class _ListedDaoStorage extends DatabaseAccessor<SongLibDb>
   @override
   Future<List<ListedExt>> getListedSongs(int? parentid) async {
     final Stream<List<ListedExt>> streams = customSelect(
-      'SELECT listeds.${db.dbListedTable.parentid.name}, listeds.${db.dbListedTable.position.name}, listeds.${db.dbListedTable.id.name}, '
-      'listeds.${db.dbListedTable.createdAt.name}, listeds.${db.dbListedTable.updatedAt.name}, listeds.${db.dbListedTable.song.name}, '
-      'songs.${db.dbSongTable.book.name}, songs.${db.dbSongTable.songNo.name}, songs.${db.dbSongTable.title.name}, '
-      'songs.${db.dbSongTable.alias.name}, songs.${db.dbSongTable.content.name}, songs.${db.dbSongTable.key.name}, '
-      'songs.${db.dbSongTable.author.name}, songs.${db.dbSongTable.views.name}, songs.${db.dbSongTable.likes.name}, '
-      'songs.${db.dbSongTable.liked.name}, songs.${db.dbSongTable.id.name} AS songId, '
+      'SELECT listeds.${db.dbListedTable.parentid.name}, listeds.${db.dbListedTable.id.name}, listeds.${db.dbListedTable.position.name}, '
+      'listeds.${db.dbListedTable.id.name}, listeds.${db.dbListedTable.createdAt.name}, listeds.${db.dbListedTable.updatedAt.name}, '
+      'listeds.${db.dbListedTable.song.name}, songs.${db.dbSongTable.book.name}, songs.${db.dbSongTable.songNo.name}, '
+      'songs.${db.dbSongTable.title.name}, songs.${db.dbSongTable.alias.name}, songs.${db.dbSongTable.content.name}, '
+      'songs.${db.dbSongTable.key.name}, songs.${db.dbSongTable.author.name}, songs.${db.dbSongTable.views.name}, '
+      'songs.${db.dbSongTable.likes.name}, songs.${db.dbSongTable.liked.name}, songs.${db.dbSongTable.id.name} AS songId, '
       'books.${db.dbBookTable.title.name} AS songbook '
       'FROM ${db.dbListedTable.actualTableName} AS listeds '
       'LEFT JOIN ${db.dbSongTable.actualTableName} AS songs '
       'ON listeds.${db.dbListedTable.song.name}=songs.${db.dbSongTable.id.name} '
       'LEFT JOIN ${db.dbBookTable.actualTableName} AS books '
       'ON songs.${db.dbSongTable.book.name}=books.${db.dbBookTable.bookNo.name} '
-      'WHERE ${db.dbListedTable.parentid.name}=$parentid '
-      'ORDER BY ${db.dbListedTable.id.name} DESC;',
+      'WHERE listeds.${db.dbListedTable.parentid.name}=$parentid '
+      'ORDER BY listeds.${db.dbListedTable.id.name} DESC;',
       readsFrom: {db.dbListedTable},
     ).watch().map(
       (rows) {

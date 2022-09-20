@@ -32,16 +32,7 @@ class ListedsTab extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: ThemeColors.primary,
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) {
-                return ListEditScreen(homeVm: viewModel);
-              },
-            ),
-          );
-        },
+        onPressed: () => newListForm(context, viewModel),
         child: const Icon(Icons.add, color: Colors.white),
       ),
     );
@@ -105,19 +96,60 @@ class ListedsTab extends StatelessWidget {
             return ListedItem(
               listed: listed,
               height: size!.height,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return ListViewScreen(homeVm: viewModel, listed: listed);
-                    },
-                  ),
-                );
-              },
+              onTap: () => viewModel.openListView(listed),
             );
           },
         ),
+      ),
+    );
+  }
+
+  Future<void> newListForm(BuildContext context, HomeVm viewModel) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text(
+          'Draft a New List',
+          style: TextStyle(
+            fontSize: 22,
+            color: ThemeColors.primaryDark,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: SizedBox(
+          height: 150,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              FormInput(
+                iLabel: 'Title',
+                iController: viewModel.titleController!,
+                iOptions: const <String>[],
+              ),
+              FormInput(
+                iLabel: 'Description (Optional)',
+                iController: viewModel.contentController!,
+                iOptions: const <String>[],
+              ),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              viewModel.titleController!.clear();
+              viewModel.contentController!.clear();
+              viewModel.saveNewList();
+            },
+            child: const Text("SAVE LIST"),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("CANCEL"),
+          ),
+        ],
       ),
     );
   }

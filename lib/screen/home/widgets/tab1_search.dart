@@ -5,7 +5,6 @@ import '../../../theme/theme_colors.dart';
 import '../../../vm/home/home_vm.dart';
 import '../../../widget/general/list_items.dart';
 import '../../../widget/search/search_widget.dart';
-import '../../lists/list_view_screen.dart';
 
 class Tab1Search extends StatelessWidget {
   final HomeVm homeVm;
@@ -28,8 +27,9 @@ class Tab1Search extends StatelessWidget {
       queryBuilder: (query, list) {
         return list
             .where(
-              (listed) =>
-                  listed.title!.toLowerCase().contains(query.toLowerCase()),
+              (listed) => listed.title!.toLowerCase().contains(
+                    query.toLowerCase(),
+                  ),
             )
             .toList();
       },
@@ -37,16 +37,7 @@ class Tab1Search extends StatelessWidget {
         return ListedItem(
           listed: listed,
           height: height!,
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return ListViewScreen(homeVm: homeVm, listed: listed);
-                },
-              ),
-            );
-          },
+          onTap: () => homeVm.openListView(listed),
         );
       },
       selectedItemBuilder: (selectedListed, deleteSelectedListed) {
@@ -56,9 +47,7 @@ class Tab1Search extends StatelessWidget {
       textFieldBuilder: (controller, focusNode) {
         return searchField(controller, focusNode);
       },
-      onItemSelected: (listed) {
-        //_selectedItem = item;
-      },
+      onItemSelected: (listed) {},
     );
   }
 

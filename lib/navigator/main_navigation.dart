@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 abstract class MainNavigation {
+  void goBack<T>({T? result});
+
   void goToSplash();
 
   void goToSelection();
@@ -11,13 +13,15 @@ abstract class MainNavigation {
 
   void goToHome();
 
-  void goToSearch();
-
-  void goBack<T>({T? result});
+  void goToEditor();
+  
+  void goToPresentor();
 
   void closeDialog();
 
   void goToLikes();
+
+  void goToListView();
 
   void goToHistories();
 

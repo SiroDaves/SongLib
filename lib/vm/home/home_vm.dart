@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_it/get_it.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -17,9 +18,11 @@ import '../../util/constants/app_constants.dart';
 import '../../util/constants/pref_constants.dart';
 import '../../util/constants/utilities.dart';
 import '../../widget/general/toast.dart';
+import '../lists/list_vm.dart';
 
 @injectable
 class HomeVm with ChangeNotifierEx {
+  late final HomeNavigator homeNavigator;
   final DbRepository db;
   final LocalStorage localStorage;
 
@@ -34,11 +37,13 @@ class HomeVm with ChangeNotifierEx {
   List<SongExt>? filtered = [], songs = [];
   List<Listed>? listeds = [];
   List<Draft>? drafts = [];
+  Listed? listed;
 
   String? title, content;
   TextEditingController? titleController, contentController;
 
   Future<void> init(HomeNavigator navigator) async {
+    homeNavigator = navigator;
     titleController = TextEditingController();
     contentController = TextEditingController();
 
@@ -183,10 +188,67 @@ class HomeVm with ChangeNotifierEx {
       );
     } catch (_) {}
   }
+
+  // function to validate creds
+  bool validateInput() {
+    bool validated = false;
+    try {
+      if (titleController!.text.isNotEmpty) {
+        title = titleController!.text;
+        content = contentController!.text;
+
+        validated = true;
+      } else {
+        validated = false;
+      }
+    } catch (exception, stackTrace) {
+      Sentry.captureException(
+        exception,
+        stackTrace: stackTrace,
+      );
+    }
+    return validated;
+  }
+
+  /// Save changes for a listed be it a new one or simply updating an old one
+  Future<void> saveNewList() async {
+    if (validateInput()) {
+      isBusy = true;
+      notifyListeners();
+
+      try {
+        listed = Listed(
+          objectId: '',
+          title: titleController!.text,
+          description: contentController!.text,
+        );
+        await db.saveListed(listed!);
+        await fetchListedData();
+        showToast(
+          text: '${listed!.title} ${AppConstants.listCreated}',
+          state: ToastStates.success,
+        );
+
+        GetIt.I<ListVm>().listed = listed;
+        homeNavigator.goToListView();
+      } catch (_) {}
+      isBusy = false;
+      notifyListeners();
+    }
+  }
+
+  void openListView(Listed selected) {
+    //final ListVm listVm = GetIt.instance<ListVm>();
+    //listVm.listed = listed;
+
+    listed = selected;
+    homeNavigator.goToListView();
+  }
 }
 
 abstract class HomeNavigator {
   void goToLikes();
+  void goToListView();
   void goToHistories();
   void goToHelpDesk();
   void goToSettings();

@@ -20,6 +20,5 @@ class SplashVm with ChangeNotifierEx {
 abstract class SplashNavigator {
   void goToUiTest();  
   void goToHome();
-  void goToSearch();
   void goToSelection();
 }

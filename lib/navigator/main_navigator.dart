@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 
 import '../screen/home/home_screen.dart';
-import '../screen/home/search_screen.dart';
 import '../screen/home/histories_screen.dart';
 import '../screen/home/likes_screen.dart';
 import '../screen/info/helpdesk.dart';
+import '../screen/lists/list_view_screen.dart';
 import '../screen/manage/settings_screen.dart';
 import '../screen/selection/progress_screen.dart';
 import '../screen/selection/selection_screen.dart';
+import '../screen/songs/editor_screen.dart';
+import '../screen/songs/presentor_screen.dart';
 import '../screen/splash_screen.dart';
 import '../screen/uitest_screen.dart';
 import '../util/env/flavor_config.dart';
@@ -92,14 +94,25 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
           child: const HomeScreen(),
           settings: settings,
         );
-      case SearchScreen.routeName:
+     
+      case PresentorScreen.routeName:
         return FadeInRoute<void>(
-          child: const SearchScreen(),
+          child: const PresentorScreen(),
           settings: settings,
         );
+      /*case EditorScreen.routeName:
+        return FadeInRoute<void>(
+          child: const EditorScreen(),
+          settings: settings,
+        );*/
       case LikesScreen.routeName:
         return FadeInRoute<void>(
           child: const LikesScreen(),
+          settings: settings,
+        );
+      case ListViewScreen.routeName:
+        return FadeInRoute<void>(
+          child: const ListViewScreen(),
           settings: settings,
         );
       case HistoriesScreen.routeName:
@@ -148,11 +161,16 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
       navigator.pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
 
   @override
-  void goToSearch() => navigator.pushNamedAndRemoveUntil(
-      SearchScreen.routeName, (route) => false);
+  void goToPresentor() => navigator.pushNamed(LikesScreen.routeName);
+
+  @override
+  void goToEditor() => navigator.pushNamed(LikesScreen.routeName);
 
   @override
   void goToLikes() => navigator.pushNamed(LikesScreen.routeName);
+
+  @override
+  void goToListView() => navigator.pushNamed(ListViewScreen.routeName);
 
   @override
   void goToHistories() => navigator.pushNamed(HistoriesScreen.routeName);

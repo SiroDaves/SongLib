@@ -11,22 +11,32 @@ class SearchTab extends StatelessWidget {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Container(
-        height: size!.height,
-        padding: const EdgeInsets.only(top: 40),
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.white, ThemeColors.accent, Colors.black],
+      body: ContextMenuOverlay(
+        cardBuilder: (_, children) => Container(
+          decoration: const BoxDecoration(
+            color: ThemeColors.accent,
+            boxShadow: [BoxShadow(blurRadius: 5)],
+            borderRadius: BorderRadius.all(Radius.circular(5)),
           ),
+          child: Column(children: children),
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              titleContainer(),
-              mainContainer(context),
-            ],
+        child: Container(
+          height: size!.height,
+          padding: const EdgeInsets.only(top: 40),
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Colors.white, ThemeColors.accent, Colors.black],
+            ),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                titleContainer(),
+                mainContainer(context),
+              ],
+            ),
           ),
         ),
       ),
@@ -79,26 +89,18 @@ class SearchTab extends StatelessWidget {
   Widget bookContainer(BuildContext context) {
     return SizedBox(
       height: size!.height * 0.0897,
-      child: ContextMenuOverlay(
-        buttonStyle: ContextMenuButtonStyle(
-          fgColor: Colors.green,
-          bgColor: Colors.green.shade100,
-          hoverFgColor: Colors.green,
-          hoverBgColor: Colors.green.shade200,
-        ),
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.all(5),
-          itemBuilder: (context, index) {
-            final Book book = viewModel.books![index];
-            return SongBook(
-              book: book,
-              height: size!.height,
-              onTap: () => viewModel.selectSongbook(book.bookNo!),
-            );
-          },
-          itemCount: viewModel.books!.length,
-        ),
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.all(5),
+        itemBuilder: (context, index) {
+          final Book book = viewModel.books![index];
+          return SongBook(
+            book: book,
+            height: size!.height,
+            onTap: () => viewModel.selectSongbook(book.bookNo!),
+          );
+        },
+        itemCount: viewModel.books!.length,
       ),
     );
   }
@@ -123,22 +125,30 @@ class SearchTab extends StatelessWidget {
                 buttonConfigs: [
                   ContextMenuButtonConfig(
                     AppConstants.likeSong,
+                    icon: Icon(
+                      song.liked! ? Icons.favorite : Icons.favorite_border,
+                      size: 20,
+                    ),
                     onPressed: () => viewModel.likeSong(song),
                   ),
                   ContextMenuButtonConfig(
                     AppConstants.addSongtoList,
+                    icon: const Icon(Icons.add, size: 20),
                     onPressed: () => {},
                   ),
                   ContextMenuButtonConfig(
                     AppConstants.copySong,
+                    icon: const Icon(Icons.copy, size: 20),
                     onPressed: () => viewModel.copySong(song),
                   ),
                   ContextMenuButtonConfig(
                     AppConstants.shareSong,
+                    icon: const Icon(Icons.share, size: 20),
                     onPressed: () => viewModel.shareSong(song),
                   ),
                   ContextMenuButtonConfig(
                     AppConstants.editSong,
+                    icon: const Icon(Icons.edit, size: 20),
                     onPressed: () => viewModel.editSong(context, song),
                   ),
                 ],

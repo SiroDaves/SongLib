@@ -11,11 +11,13 @@ import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
 import '../../vm/home/home_vm.dart';
+import '../../vm/lists/list_vm.dart';
+import '../../widget/general/inputs.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
+import '../../widget/general/toast.dart';
 import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
-import '../lists/list_edit_screen.dart';
 import '../lists/list_view_screen.dart';
 import '../songs/editor_screen.dart';
 import '../songs/presentor_screen.dart';
@@ -139,6 +141,9 @@ class HomeScreenState extends State<HomeScreen>
 
   @override
   void goToLikes() => MainNavigatorWidget.of(context).goToLikes();
+
+  @override
+  void goToListView() => MainNavigatorWidget.of(context).goToListView();
 
   @override
   void goToHistories() => MainNavigatorWidget.of(context).goToHistories();
