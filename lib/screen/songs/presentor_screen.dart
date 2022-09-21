@@ -5,9 +5,8 @@ import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
-import '../../util/constants/utilities.dart';
 import '../../vm/songs/presentor_vm.dart';
-import '../../widget/general/vertical_tabs.dart';
+import '../../widget/progress/circular_progress.dart';
 import '../../widget/provider/provider_widget.dart';
 
 /// Screen to present a song in slide format
@@ -27,8 +26,22 @@ class PresentorScreenState extends State<PresentorScreen>
   PresentorVm? vm;
   Size? size;
 
-  List<Tab>? viewerTabs;
-  List<Widget>? viewerWidgets;
+  Future<void> popupActions(int value) async {
+    switch (value) {
+      case 0:
+        await vm!.copySong();
+        break;
+      case 1:
+        await vm!.shareSong();
+        break;
+      case 2:
+        await vm!.editSong();
+        break;
+      case 3:
+        await vm!.confirmDelete(context!);
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +51,8 @@ class PresentorScreenState extends State<PresentorScreen>
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) {
         vm = viewModel;
+        vm!.size = size;
+        vm!.context = context;
         return screenWidget(context);
       },
     );
@@ -52,7 +67,7 @@ class PresentorScreenState extends State<PresentorScreen>
           children: [
             Text(vm!.songTitle),
             Text(
-              vm!.songTitle,
+              vm!.songBook,
               style: const TextStyle(fontSize: 16),
             ),
           ],
@@ -68,23 +83,7 @@ class PresentorScreenState extends State<PresentorScreen>
           popupMenu(),
         ],
       ),
-      body: Container(
-        height: size!.height,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Colors.white,
-              Colors.orange,
-              ThemeColors.accent,
-              ThemeColors.primary,
-              Colors.black,
-            ],
-          ),
-        ),
-        child: mainContainer(context),
-      ),
+      body: mainContainer(),
     );
   }
 
@@ -126,107 +125,29 @@ class PresentorScreenState extends State<PresentorScreen>
               ];
       },
       onSelected: (int value) {
-        vm!.popupActions(value);
+        popupActions(value);
       },
     );
   }
 
-  Widget mainContainer(BuildContext context) {
-    viewerTabs = List<Tab>.generate(
-      vm!.verseInfos.length,
-      (int index) {
-        return Tab(
-          child: Center(
-            child: Text(
-              vm!.verseInfos[index],
-              style: TextStyle(
-                fontSize: size!.height * 0.0489,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        );
-      },
-    );
-    viewerWidgets = List<Widget>.generate(
-      vm!.verseInfos.length,
-      (int index) {
-        return Column(
-          children: <Widget>[
-            verseText(vm!.verseTexts[index]),
-            Row(
-              children: [
-                const Spacer(),
-                copyVerse(index, vm!.verseTexts[index]),
-                shareVerse(index, vm!.verseTexts[index]),
-                const Spacer(),
-              ],
-            ),
-          ],
-        );
-      },
-    );
-
-    return VerticalTabs(
-      tabsWidth: size!.height * 0.08156,
-      tabsElevation: 5,
-      indicatorWidth: size!.height * 0.08156,
-      tabs: viewerTabs,
-      contents: viewerWidgets,
-      contentScrollAxis: Axis.vertical,
-      indicatorColor: ThemeColors.accent,
-    );
-  }
-
-  Widget verseText(String lyrics) {
-    final double nfontsize = getFontSize(
-      lyrics.length + 20,
-      size!.height - 200,
-      size!.width - 100,
-    );
+  Widget mainContainer() {
     return Container(
-      height: size!.height * 0.755,
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-      child: Card(
-        elevation: 5,
-        child: Center(
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Text(
-              lyrics.replaceAll("#", "\n"),
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: nfontsize,
-              ),
-            ),
-          ),
+      height: size!.height,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            Colors.white,
+            Colors.orange,
+            ThemeColors.accent,
+            ThemeColors.primary,
+            Colors.black,
+          ],
         ),
       ),
-    );
-  }
-
-  Widget copyVerse(int index, String lyrics) {
-    return Padding(
-      padding: const EdgeInsets.all(5),
-      child: FloatingActionButton(
-        heroTag: "CopyVerse_$index",
-        tooltip: AppConstants.copyVerse,
-        backgroundColor: ThemeColors.primary,
-        onPressed: () => vm!.copyVerse(lyrics),
-        child: const Icon(Icons.content_copy),
-      ),
-    );
-  }
-
-  Widget shareVerse(int index, String lyrics) {
-    return Padding(
-      padding: const EdgeInsets.all(5),
-      child: FloatingActionButton(
-        heroTag: "ShareVerse_$index",
-        tooltip: AppConstants.shareVerse,
-        backgroundColor: ThemeColors.primary,
-        onPressed: () => vm!.shareVerse(lyrics),
-        child: const Icon(Icons.share),
+      child: SizedBox(
+        child: vm!.isBusy ? const CircularProgress() : vm!.slides,
       ),
     );
   }

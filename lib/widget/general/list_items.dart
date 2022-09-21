@@ -142,7 +142,7 @@ class ListedItem extends StatelessWidget {
           elevation: 2,
           margin: EdgeInsets.only(right: 5, bottom: height * 0.0049),
           child: Padding(
-            padding: EdgeInsets.all(height * 0.0049),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -243,7 +243,8 @@ class SongItem extends StatelessWidget {
                 Row(
                   children: <Widget>[
                     const Spacer(),
-                    TagView(tagText: refineTitle(song.songbook!), height: height),
+                    TagView(
+                        tagText: refineTitle(song.songbook!), height: height),
                     TagView(tagText: versesText, height: height),
                     hasChorus
                         ? TagView(tagText: chorusText, height: height)

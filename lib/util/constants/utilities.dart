@@ -85,7 +85,11 @@ String refineContent(String contentText) {
 }
 
 String songItemTitle(int number, String title) {
-  return "$number. ${refineTitle(title)}";
+  if (number != 0) {
+    return "$number. ${refineTitle(title)}";
+  } else {
+    return refineTitle(title);
+  }
 }
 
 String songCopyString(String title, String content) {

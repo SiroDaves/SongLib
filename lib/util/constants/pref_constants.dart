@@ -3,6 +3,7 @@ class PrefConstants {
   static const dataLoadedCheckKey = 'dataLoadedCheck';
   static const predistinatedBooksKey = 'predestinatedBooks';
   static const selectedBooksKey = 'selectedBooks';
+  static const slideHorizontalKey = 'slideHorizontal';
   static const uninstallCheckKey = 'uninstallCheck';
   static const wakeLockCheckKey = 'wakeLockCheck';
 }

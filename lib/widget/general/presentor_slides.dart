@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 enum IndicatorSide { start, end }
 
 /// A vertical tab widget for flutter
-class VerticalTabs extends StatefulWidget {
+class PresentorSlides extends StatefulWidget {
   final Key? key;
   final int? initialIndex;
   final double? tabsWidth;
@@ -26,7 +26,7 @@ class VerticalTabs extends StatefulWidget {
   final Function(int? tabIndex)? onSelect;
   final Color? backgroundColor;
 
-  const VerticalTabs(
+  const PresentorSlides(
       {this.key,
       required this.tabs,
       required this.contents,
@@ -53,10 +53,10 @@ class VerticalTabs extends StatefulWidget {
         super(key: key);
 
   @override
-  VerticalTabsState createState() => VerticalTabsState();
+  PresentorSlidesState createState() => PresentorSlidesState();
 }
 
-class VerticalTabsState extends State<VerticalTabs>
+class PresentorSlidesState extends State<PresentorSlides>
     with TickerProviderStateMixin {
   int? selectedIndex;
   bool? changePageByTapView;
@@ -261,7 +261,7 @@ class VerticalTabsState extends State<VerticalTabs>
 
   void selectTab(int index) {
     selectedIndex = index;
-    for (var animationController in animationControllers!) {
+    for (final AnimationController? animationController in animationControllers!) {
       animationController!.reset();
     }
     animationControllers![index]!.forward();

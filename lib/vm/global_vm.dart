@@ -40,6 +40,7 @@ class GlobalVm with ChangeNotifierEx {
   bool get showsTranslationKeys => showTranslationKeys;
 
   bool wakeLockStatus = false;
+  bool slideHorizontal = false;
 
   Future<void> init(BuildContext context) async {
     initLocale();
@@ -103,6 +104,12 @@ class GlobalVm with ChangeNotifierEx {
     wakeLockStatus = wakeLock;
     notifyListeners();
     localStorage.setPrefBool(PrefConstants.wakeLockCheckKey, wakeLock);
+  }
+
+  Future<void> updateSlideHorizontal(bool slideDirection) async {
+    slideHorizontal = slideDirection;
+    notifyListeners();
+    localStorage.setPrefBool(PrefConstants.slideHorizontalKey, slideDirection);
   }
 
   String getCurrentPlatform() {

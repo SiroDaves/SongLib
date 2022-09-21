@@ -119,6 +119,11 @@ class SearchTab extends StatelessWidget {
           ),
           itemBuilder: (context, index) {
             final SongExt song = homeVm.filtered![index];
+            return SongItem(
+              song: song,
+              height: size!.height,
+              onTap: () => homeVm.openPresentor(song: song),
+            );
             return ContextMenuRegion(
               contextMenu: GenericContextMenu(
                 buttonConfigs: [

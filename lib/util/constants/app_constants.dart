@@ -61,6 +61,8 @@ class AppConstants {
   static const noSelectionBody =
       "Please select at least 1 book to proceed to the next step.";
   static const errorOccurred = "Wueh! You weren't supposed to see this!";
+  static const errorOccurredBody1 =
+      "An unexpected error occurred while trying to present the song to you. Please try again later or contact support";
   static const errorOccurredBody =
       "An unexpected error occurred while trying to fetch data from the server. Please try again later or contact support";
   static const noConnectionBody =

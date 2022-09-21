@@ -28,8 +28,8 @@ class SettingsScreen extends StatefulWidget {
 class SettingsScreenState extends State<SettingsScreen>
     with BackNavigatorMixin
     implements SettingsNavigator {
-  String theme = AppConstants.themeDefault, wakeLock = 'Disabled';
-  bool wakeLockValue = false;
+  String theme = AppConstants.themeDefault;
+  String wakeLock = 'Disabled', slideDirection = 'Vertical (Up, Down)';
   GlobalVm? vm;
 
   @override
@@ -49,6 +49,7 @@ class SettingsScreenState extends State<SettingsScreen>
               children: [
                 songbookManagement(),
                 wakeLockManagement(),
+                slideDirectionManagement(),
                 //themeManagement(),
               ],
             );
@@ -79,8 +80,8 @@ class SettingsScreenState extends State<SettingsScreen>
     return Card(
       child: ExpansionTile(
         leading: const Icon(Icons.display_settings),
-        title: const Text('Keep Screen Active in Song View'),
-        subtitle: Text('Screen Active: $wakeLock'),
+        title: const Text('Keep Screen On in Song View'),
+        subtitle: Text('Status: $wakeLock'),
         children: [
           SelectorItem(
             title: 'Enable',
@@ -91,6 +92,34 @@ class SettingsScreenState extends State<SettingsScreen>
             title: 'Disable',
             onClick: () => vm!.updateWakeLockStatus(false),
             selected: vm!.wakeLockStatus == false,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget slideDirectionManagement() {
+    if (vm!.slideHorizontal) {
+      slideDirection = 'Horizontal (Left, Right)';
+    } else {
+      slideDirection = 'Vertical (Up, Down)';
+    }
+
+    return Card(
+      child: ExpansionTile(
+        leading: const Icon(Icons.display_settings),
+        title: const Text('Song Slides Direction'),
+        subtitle: Text('Direction: $slideDirection'),
+        children: [
+          SelectorItem(
+            title: 'Vertical (Up, Down)',
+            onClick: () => vm!.updateSlideHorizontal(true),
+            selected: vm!.slideHorizontal == true,
+          ),
+          SelectorItem(
+            title: 'Horizontal (Left, Right)',
+            onClick: () => vm!.updateSlideHorizontal(false),
+            selected: vm!.slideHorizontal == false,
           ),
         ],
       ),

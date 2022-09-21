@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../theme/theme_colors.dart';
-import '../../theme/theme_fonts.dart';
-
+import '../../util/constants/utilities.dart';
 
 class TextLabel extends StatelessWidget {
   final String? label;
@@ -143,5 +142,75 @@ class TagView extends StatelessWidget {
     } on Exception {
       return Container();
     }
+  }
+}
+
+class PresentorInfo extends StatelessWidget {
+  final String info;
+  final double fontSize;
+
+  const PresentorInfo({Key? key, required this.info, required this.fontSize})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Tab(
+      child: Center(
+        child: Text(
+          info,
+          style: TextStyle(
+            fontSize: fontSize,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class PresentorText extends StatelessWidget {
+  final String lyrics;
+  final Size size;
+  final Function()? onDoubleTap;
+  final Function()? onLongPress;
+
+  const PresentorText({
+    Key? key,
+    required this.lyrics,
+    required this.size,
+    this.onDoubleTap,
+    this.onLongPress,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final double nfontsize = getFontSize(
+      lyrics.length + 20,
+      size.height - 200,
+      size.width - 100,
+    );
+    return GestureDetector(
+      onDoubleTap: onDoubleTap,
+      onLongPress: onLongPress,
+      child: Container(
+        height: size.height * 0.755,
+        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+        child: Card(
+          elevation: 5,
+          child: Center(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: Text(
+                lyrics.replaceAll("#", "\n"),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: nfontsize,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
