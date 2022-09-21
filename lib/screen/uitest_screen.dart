@@ -19,6 +19,7 @@ class UiTestScreen extends StatefulWidget {
 }
 
 class UiTestScreenState extends State<UiTestScreen> implements UiTestNavigator {
+  UiTestVm? viewModel;
   Size? size;
 
   @override
@@ -27,30 +28,36 @@ class UiTestScreenState extends State<UiTestScreen> implements UiTestNavigator {
 
     return ProviderWidget<UiTestVm>(
       create: () => GetIt.I()..init(this),
-      childBuilderWithViewModel: (context, viewModel, theme, localization) =>
-          Scaffold(
-        backgroundColor: Colors.black,
-        appBar: AppBar(
-          title: const Text(AppConstants.booksTitleLoading),
-        ),
-        body: Stack(
-          children: [
-            backgroundWidget(viewModel),
-            progressWidget(viewModel),
-          ],
-        ),
+      childBuilderWithViewModel: (context, viewModel, theme, localization) {
+        viewModel = viewModel;
+        return screenWidget(context);
+      },
+    );
+  }
+
+  Widget screenWidget(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        title: const Text(AppConstants.booksTitleLoading),
+      ),
+      body: Stack(
+        children: [
+          backgroundWidget(),
+          progressWidget(),
+        ],
       ),
     );
   }
 
-  Widget backgroundWidget(UiTestVm viewModel) {
+  Widget backgroundWidget() {
     return RotatedBox(
       quarterTurns: 7,
       child: SizedBox(
         height: size!.width,
         child: LinearPercentIndicator(
           percent: double.parse(
-            (viewModel.progress / 100).toStringAsFixed(1),
+            (viewModel!.progress / 100).toStringAsFixed(1),
           ),
           lineHeight: size!.width,
           backgroundColor: Colors.black,
@@ -60,7 +67,7 @@ class UiTestScreenState extends State<UiTestScreen> implements UiTestNavigator {
     );
   }
 
-  Widget progressWidget(UiTestVm viewModel) {
+  Widget progressWidget() {
     return Center(
       child: AdvancedProgress(
         radius: size!.width / 2.5,
@@ -70,8 +77,8 @@ class UiTestScreenState extends State<UiTestScreen> implements UiTestNavigator {
         division: 10,
         secondaryWidth: 10,
         progressGap: 10,
-        primaryValue: viewModel.progress / 100,
-        secondaryValue: viewModel.progress / 100,
+        primaryValue: viewModel!.progress / 100,
+        secondaryValue: viewModel!.progress / 100,
         primaryColor: Colors.yellow,
         secondaryColor: Colors.red,
         tertiaryColor: Colors.white24,
@@ -86,7 +93,7 @@ class UiTestScreenState extends State<UiTestScreen> implements UiTestNavigator {
               Padding(
                 padding: const EdgeInsets.only(top: 16),
                 child: Text(
-                  '${viewModel.progress} %',
+                  '${viewModel!.progress} %',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     letterSpacing: 1.5,
@@ -100,7 +107,7 @@ class UiTestScreenState extends State<UiTestScreen> implements UiTestNavigator {
                 height: size!.width / 6,
                 child: Center(
                   child: Text(
-                    viewModel.state,
+                    viewModel!.state,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       letterSpacing: 1.5,
@@ -128,7 +135,7 @@ class UiTestScreenState extends State<UiTestScreen> implements UiTestNavigator {
                       ),
                     ),
                     Text(
-                      viewModel.time,
+                      viewModel!.time,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontWeight: FontWeight.w700,

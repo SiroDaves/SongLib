@@ -7,13 +7,13 @@ import '../../../widget/general/list_items.dart';
 import '../../../widget/search/search_widget.dart';
 
 class Tab1Search extends StatelessWidget {
-  final HomeVm homeVm;
+  final HomeVm viewModel;
   final List<Listed>? listeds;
   final double? height;
 
   const Tab1Search({
     Key? key,
-    required this.homeVm,
+    required this.viewModel,
     required this.listeds,
     required this.height,
   }) : super(key: key);
@@ -37,7 +37,7 @@ class Tab1Search extends StatelessWidget {
         return ListedItem(
           listed: listed,
           height: height!,
-          onTap: () => homeVm.openListView(listed),
+          onTap: () => viewModel.openListView(listed),
         );
       },
       selectedItemBuilder: (selectedListed, deleteSelectedListed) {

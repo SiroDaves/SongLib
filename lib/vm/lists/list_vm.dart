@@ -3,6 +3,7 @@ import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
+import '../../model/base/draft.dart';
 import '../../model/base/listed.dart';
 import '../../model/base/listedext.dart';
 import '../../model/base/songext.dart';
@@ -26,8 +27,8 @@ class ListVm with ChangeNotifierEx {
 
   bool isBusy = false;
 
-  Future<void> init(ListNavigator screenNavigator) async {
-    navigator = screenNavigator;
+  Future<void> init(ListNavigator navigator) async {
+    navigator = navigator;
     homeVm = GetIt.instance<HomeVm>();
     listed = localStorage.listed;
     await fetchData();
@@ -53,6 +54,20 @@ class ListVm with ChangeNotifierEx {
   }
 
   void onBackPressed() => navigator.goBack<void>();
+
+  void openPresentor({SongExt? song, Draft? draft}) async {
+    if (song != null) {
+      localStorage.song = song;
+      localStorage.draft = null;
+    } else if (draft != null) {
+      localStorage.song = null;
+      localStorage.draft = draft;
+    }
+    navigator.goToPresentor();
+  }
+
 }
 
-abstract class ListNavigator implements BackNavigator {}
+abstract class ListNavigator implements BackNavigator {
+  void goToPresentor();
+}

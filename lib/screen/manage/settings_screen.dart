@@ -29,27 +29,31 @@ class SettingsScreenState extends State<SettingsScreen>
     implements SettingsNavigator {
   String theme = AppConstants.themeDefault, wakeLock = 'Disabled';
   bool wakeLockValue = false;
+  GlobalVm? viewModel;
 
   @override
   Widget build(BuildContext context) {
     return ProviderWidget<SettingsVm>(
-      childBuilderWithViewModel: (context, value, _, localization) => Scaffold(
-        backgroundColor: ThemeColors.accent,
-        appBar: AppBar(
-          title: const Text(AppConstants.settingsTitle),
-        ),
-        body: Consumer<GlobalVm>(
-          builder: (context, viewModel, child) => ListView(
-            padding: const EdgeInsets.all(5),
-            children: [
-              songbookManagement(),
-              wakeLockManagement(viewModel),
-              //themeManagement(viewModel),
-            ],
-          ),
-        ),
-      ),
       create: () => GetIt.I()..init(this),
+      childBuilderWithViewModel: (context, value, _, localization) {
+        return Scaffold(
+          backgroundColor: ThemeColors.accent,
+          appBar: AppBar(
+            title: const Text(AppConstants.settingsTitle),
+          ),
+          body: Consumer<GlobalVm>(builder: (context, viewModel, child) {
+            viewModel = viewModel;
+            return ListView(
+              padding: const EdgeInsets.all(5),
+              children: [
+                songbookManagement(),
+                wakeLockManagement(),
+                //themeManagement(),
+              ],
+            );
+          }),
+        );
+      },
     );
   }
 
@@ -64,8 +68,8 @@ class SettingsScreenState extends State<SettingsScreen>
     );
   }
 
-  Widget wakeLockManagement(GlobalVm viewModel) {
-    if (viewModel.wakeLockStatus) {
+  Widget wakeLockManagement() {
+    if (viewModel!.wakeLockStatus) {
       wakeLock = 'Enabled';
     } else {
       wakeLock = 'Disabled';
@@ -79,23 +83,23 @@ class SettingsScreenState extends State<SettingsScreen>
         children: [
           SelectorItem(
             title: 'Enable',
-            onClick: () => viewModel.updateWakeLockStatus(true),
-            selected: viewModel.wakeLockStatus == true,
+            onClick: () => viewModel!.updateWakeLockStatus(true),
+            selected: viewModel!.wakeLockStatus == true,
           ),
           SelectorItem(
             title: 'Disable',
-            onClick: () => viewModel.updateWakeLockStatus(false),
-            selected: viewModel.wakeLockStatus == false,
+            onClick: () => viewModel!.updateWakeLockStatus(false),
+            selected: viewModel!.wakeLockStatus == false,
           ),
         ],
       ),
     );
   }
 
-  Widget themeManagement(GlobalVm viewModel) {
-    if (viewModel.themeMode == ThemeMode.light) {
+  Widget themeManagement() {
+    if (viewModel!.themeMode == ThemeMode.light) {
       theme = AppConstants.themeLight;
-    } else if (viewModel.themeMode == ThemeMode.dark) {
+    } else if (viewModel!.themeMode == ThemeMode.dark) {
       theme = AppConstants.themeDark;
     }
 
@@ -107,18 +111,18 @@ class SettingsScreenState extends State<SettingsScreen>
         children: [
           SelectorItem(
             title: 'Default',
-            onClick: () => viewModel.updateThemeMode(ThemeMode.system),
-            selected: viewModel.themeMode == ThemeMode.system,
+            onClick: () => viewModel!.updateThemeMode(ThemeMode.system),
+            selected: viewModel!.themeMode == ThemeMode.system,
           ),
           SelectorItem(
             title: 'Light',
-            onClick: () => viewModel.updateThemeMode(ThemeMode.light),
-            selected: viewModel.themeMode == ThemeMode.light,
+            onClick: () => viewModel!.updateThemeMode(ThemeMode.light),
+            selected: viewModel!.themeMode == ThemeMode.light,
           ),
           SelectorItem(
             title: 'Dark',
-            onClick: () => viewModel.updateThemeMode(ThemeMode.dark),
-            selected: viewModel.themeMode == ThemeMode.dark,
+            onClick: () => viewModel!.updateThemeMode(ThemeMode.dark),
+            selected: viewModel!.themeMode == ThemeMode.dark,
           ),
         ],
       ),

@@ -100,11 +100,11 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
           child: const PresentorScreen(),
           settings: settings,
         );
-      /*case EditorScreen.routeName:
+      case EditorScreen.routeName:
         return FadeInRoute<void>(
           child: const EditorScreen(),
           settings: settings,
-        );*/
+        );
       case LikesScreen.routeName:
         return FadeInRoute<void>(
           child: const LikesScreen(),
@@ -161,10 +161,10 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
       navigator.pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
 
   @override
-  void goToPresentor() => navigator.pushNamed(LikesScreen.routeName);
+  void goToPresentor() => navigator.pushNamed(PresentorScreen.routeName);
 
   @override
-  void goToEditor() => navigator.pushNamed(LikesScreen.routeName);
+  void goToEditor() => navigator.pushNamed(EditorScreen.routeName);
 
   @override
   void goToLikes() => navigator.pushNamed(LikesScreen.routeName);

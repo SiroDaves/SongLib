@@ -51,7 +51,7 @@ class SearchTab extends StatelessWidget {
               children: [
                 viewModel.songs!.isNotEmpty
                     ? Tab2Search(
-                        homeVm: viewModel,
+                        viewModel: viewModel,
                         songs: viewModel.songs,
                         height: size!.height,
                       )
@@ -149,23 +149,14 @@ class SearchTab extends StatelessWidget {
                   ContextMenuButtonConfig(
                     AppConstants.editSong,
                     icon: const Icon(Icons.edit, size: 20),
-                    onPressed: () => viewModel.editSong(context, song),
+                    onPressed: () => viewModel.openEditor(song: song),
                   ),
                 ],
               ),
               child: SongItem(
                 song: song,
                 height: size!.height,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return PresentorScreen(homeVm: viewModel, song: song);
-                      },
-                    ),
-                  );
-                },
+                onTap: () => viewModel.openPresentor(song: song),
               ),
             );
           },

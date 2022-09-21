@@ -11,16 +11,11 @@ import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
 import '../../vm/home/home_vm.dart';
-import '../../vm/lists/list_vm.dart';
 import '../../widget/general/inputs.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
-import '../../widget/general/toast.dart';
 import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
-import '../lists/list_view_screen.dart';
-import '../songs/editor_screen.dart';
-import '../songs/presentor_screen.dart';
 import 'widgets/tab1_search.dart';
 import 'widgets/tab2_search.dart';
 import 'widgets/tab3_search.dart';
@@ -43,6 +38,7 @@ class HomeScreen extends StatefulWidget {
 class HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin
     implements HomeNavigator {
+  HomeVm? viewModel;
   Size? size;
   TabController? pages;
   int activeIndex = 1;
@@ -80,22 +76,25 @@ class HomeScreenState extends State<HomeScreen>
     return ProviderWidget<HomeVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
-          (context, viewModel, child, theme, localization) => Scaffold(
-        body: mainWidget(viewModel),
-        bottomNavigationBar: extraActions(viewModel),
-      ),
+          (context, viewModel, child, theme, localization) {
+        viewModel = viewModel;
+        return Scaffold(
+          body: mainWidget(),
+          bottomNavigationBar: extraActions(),
+        );
+      },
     );
   }
 
-  Widget mainWidget(HomeVm viewModel) {
+  Widget mainWidget() {
     return Stack(
       children: [
         TabBarView(
           controller: pages,
           children: [
-            ListedsTab(viewModel: viewModel),
-            SearchTab(viewModel: viewModel),
-            NotesTab(viewModel: viewModel),
+            ListedsTab(viewModel: viewModel!),
+            SearchTab(viewModel: viewModel!),
+            NotesTab(viewModel: viewModel!),
           ],
         ),
         TabsIndicator(controller: pages!),
@@ -104,27 +103,27 @@ class HomeScreenState extends State<HomeScreen>
     );
   }
 
-  Widget extraActions(HomeVm viewModel) {
+  Widget extraActions() {
     return BottomNavigationBar(
       items: [
         BottomNavigationBarItem(
           icon: Icon(
             Icons.favorite,
-            color: viewModel.isBusy ? ThemeColors.primary : Colors.white,
+            color: viewModel!.isBusy ? ThemeColors.primary : Colors.white,
           ),
           label: '',
         ),
         BottomNavigationBarItem(
           icon: Icon(
             Icons.help,
-            color: viewModel.isBusy ? ThemeColors.primary : Colors.white,
+            color: viewModel!.isBusy ? ThemeColors.primary : Colors.white,
           ),
           label: '',
         ),
         BottomNavigationBarItem(
           icon: Icon(
             Icons.settings,
-            color: viewModel.isBusy ? ThemeColors.primary : Colors.white,
+            color: viewModel!.isBusy ? ThemeColors.primary : Colors.white,
           ),
           label: '',
         ),
@@ -138,6 +137,12 @@ class HomeScreenState extends State<HomeScreen>
       backgroundColor: ThemeColors.primary,
     );
   }
+
+  @override
+  void goToPresentor() => MainNavigatorWidget.of(context).goToPresentor();
+
+  @override
+  void goToEditor() => MainNavigatorWidget.of(context).goToEditor();
 
   @override
   void goToLikes() => MainNavigatorWidget.of(context).goToLikes();

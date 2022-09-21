@@ -3,6 +3,7 @@ import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
+import '../../model/base/draft.dart';
 import '../../model/base/songext.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../repository/db_repository.dart';
@@ -16,14 +17,11 @@ class LikesVm with ChangeNotifierEx {
 
   LikesVm(this.dbRepo, this.localStorage);
 
-  final ScrollController listsScroller =
-      ScrollController(initialScrollOffset: 0);
-
   bool isBusy = false;
   List<SongExt>? likes = [];
 
-  Future<void> init(LikesNavigator screenNavigator) async {
-    navigator = screenNavigator;
+  Future<void> init(LikesNavigator navigator) async {
+    navigator = navigator;
     await fetchData();
   }
 
@@ -46,6 +44,19 @@ class LikesVm with ChangeNotifierEx {
   }
 
   void onBackPressed() => navigator.goBack<void>();
+  
+  void openPresentor({SongExt? song, Draft? draft}) async {
+    if (song != null) {
+      localStorage.song = song;
+      localStorage.draft = null;
+    } else if (draft != null) {
+      localStorage.song = null;
+      localStorage.draft = draft;
+    }
+    navigator.goToPresentor();
+  }
 }
 
-abstract class LikesNavigator implements BackNavigator {}
+abstract class LikesNavigator implements BackNavigator {
+  void goToPresentor();
+}

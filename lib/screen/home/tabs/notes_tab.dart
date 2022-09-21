@@ -32,16 +32,7 @@ class NotesTab extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: ThemeColors.primary,
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) {
-                return EditorScreen(homeVm: viewModel);
-              },
-            ),
-          );
-        },
+        onPressed: () {},
         child: const Icon(Icons.add, color: Colors.white),
       ),
     );
@@ -55,6 +46,7 @@ class NotesTab extends StatelessWidget {
               children: [
                 viewModel.drafts!.isNotEmpty
                     ? Tab3Search(
+                        viewModel: viewModel,
                         drafts: viewModel.drafts,
                         height: size!.height,
                       )
@@ -99,21 +91,10 @@ class NotesTab extends StatelessWidget {
           ),
           itemBuilder: (context, index) {
             final Draft draft = viewModel.drafts![index];
-            return GestureDetector(
-              child: DraftItem(
-                draft: draft,
-                height: size!.height,
-              ),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return PresentorScreen(homeVm: viewModel, draft: draft);
-                    },
-                  ),
-                );
-              },
+            return DraftItem(
+              draft: draft,
+              height: size!.height,
+              onTap: () => viewModel.openPresentor(draft: draft),
             );
           },
           itemCount: viewModel.drafts!.length,

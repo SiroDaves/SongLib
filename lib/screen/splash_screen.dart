@@ -22,33 +22,42 @@ class SplashScreen extends StatefulWidget {
 
 @visibleForTesting
 class SplashScreenState extends State<SplashScreen> implements SplashNavigator {
+  SplashVm? viewModel;
+  
   @override
   Widget build(BuildContext context) {
     return ProviderWidget<SplashVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
-          (context, viewModel, child, theme, localization) => Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Image.asset(
-                ThemeAssets.appIcon,
-                height: 200,
-                width: 200,
+          (context, viewModel, child, theme, localization) {
+        viewModel = viewModel;
+        return screenWidget(context);
+      },
+    );
+  }
+
+  Widget screenWidget(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Image.asset(
+              ThemeAssets.appIcon,
+              height: 200,
+              width: 200,
+            ),
+            const SizedBox(
+              height: 35,
+            ),
+            const Text(
+              AppConstants.appTitle,
+              style: TextStyle(
+                fontSize: 40,
+                color: ThemeColors.primary,
               ),
-              const SizedBox(
-                height: 35,
-              ),
-              const Text(
-                AppConstants.appTitle,
-                style: TextStyle(
-                  fontSize: 40,
-                  color: ThemeColors.primary,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

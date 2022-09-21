@@ -11,7 +11,6 @@ import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
 import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
-import '../songs/presentor_screen.dart';
 
 class HistoriesScreen extends StatefulWidget {
   static const String routeName = RouteNames.historiesScreen;
@@ -26,6 +25,7 @@ class HistoriesScreen extends StatefulWidget {
 class HistoriesScreenState extends State<HistoriesScreen>
     with BackNavigatorMixin
     implements HistoriesNavigator {
+  HistoriesVm? viewModel;
   Size? size;
 
   @override
@@ -34,18 +34,15 @@ class HistoriesScreenState extends State<HistoriesScreen>
 
     return ProviderWidget<HistoriesVm>(
       create: () => GetIt.I()..init(this),
-      consumerWithThemeAndLocalization: (
-        context,
-        viewModel,
-        child,
-        theme,
-        localization,
-      ) =>
-          screenWidget(viewModel),
+      consumerWithThemeAndLocalization:
+          (context, viewModel, child, theme, localization) {
+        viewModel = viewModel;
+        return screenWidget();
+      },
     );
   }
 
-  Widget screenWidget(HistoriesVm viewModel) {
+  Widget screenWidget() {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -60,7 +57,7 @@ class HistoriesScreenState extends State<HistoriesScreen>
         ),
         body: TabBarView(
           children: [
-            mainContainer(viewModel),
+            mainContainer(),
             Container(),
           ],
         ),
@@ -68,12 +65,12 @@ class HistoriesScreenState extends State<HistoriesScreen>
     );
   }
 
-  Widget mainContainer(HistoriesVm viewModel) {
+  Widget mainContainer() {
     return SizedBox(
-      child: viewModel.isBusy
+      child: viewModel!.isBusy
           ? const ListLoading()
-          : viewModel.histories!.isNotEmpty
-              ? listContainer(viewModel)
+          : viewModel!.histories!.isNotEmpty
+              ? listContainer()
               : const NoDataToShow(
                   title: AppConstants.itsEmptyHere1,
                   description: AppConstants.itsEmptyHereBody4,
@@ -81,7 +78,7 @@ class HistoriesScreenState extends State<HistoriesScreen>
     );
   }
 
-  Widget listContainer(HistoriesVm viewModel) {
+  Widget listContainer() {
     return Container(
       height: size!.height * 0.7,
       padding: const EdgeInsets.only(right: 2),
@@ -89,13 +86,13 @@ class HistoriesScreenState extends State<HistoriesScreen>
         thickness: 10,
         radius: const Radius.circular(20),
         child: ListView.builder(
-          itemCount: viewModel.histories!.length,
+          itemCount: viewModel!.histories!.length,
           padding: EdgeInsets.only(
             left: size!.height * 0.0082,
             right: size!.height * 0.0082,
           ),
           itemBuilder: (context, index) {
-            return songItemWidget(viewModel.histories![index]);
+            return songItemWidget(viewModel!.histories![index]);
           },
         ),
       ),
@@ -120,16 +117,7 @@ class HistoriesScreenState extends State<HistoriesScreen>
     return SongItem(
       song: song,
       height: size!.height,
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return PresentorScreen(song: song);
-            },
-          ),
-        );
-      },
+      onTap: () {},
     );
   }
 }

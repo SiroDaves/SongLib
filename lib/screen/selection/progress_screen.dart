@@ -20,6 +20,7 @@ class ProgressScreen extends StatefulWidget {
 
 class ProgressScreenState extends State<ProgressScreen>
     implements ProgressNavigator {
+  ProgressVm? viewModel;
   Size? size;
 
   @override
@@ -28,29 +29,35 @@ class ProgressScreenState extends State<ProgressScreen>
 
     return ProviderWidget<ProgressVm>(
       create: () => GetIt.I()..init(this),
-      childBuilderWithViewModel: (context, viewModel, theme, localization) =>
-          Scaffold(
-        backgroundColor: Colors.black,
-        body: viewModel.isBusy
-            ? const CircularProgress()
-            : Stack(
-                children: [
-                  backgroundProgress(viewModel),
-                  foregroundProgress(viewModel),
-                ],
-              ),
-      ),
+      childBuilderWithViewModel: (context, viewModel, theme, localization) {
+        viewModel = viewModel;
+        return screenWidget(context);
+      },
     );
   }
 
-  Widget backgroundProgress(ProgressVm viewModel) {
+  Widget screenWidget(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: viewModel!.isBusy
+          ? const CircularProgress()
+          : Stack(
+              children: [
+                backgroundProgress(),
+                foregroundProgress(),
+              ],
+            ),
+    );
+  }
+
+  Widget backgroundProgress() {
     return RotatedBox(
       quarterTurns: 7,
       child: SizedBox(
         height: size!.width,
         child: LinearPercentIndicator(
           percent: double.parse(
-            (viewModel.progress / 100).toStringAsFixed(1),
+            (viewModel!.progress / 100).toStringAsFixed(1),
           ),
           lineHeight: size!.width,
           backgroundColor: Colors.black,
@@ -60,7 +67,7 @@ class ProgressScreenState extends State<ProgressScreen>
     );
   }
 
-  Widget foregroundProgress(ProgressVm viewModel) {
+  Widget foregroundProgress() {
     return Center(
       child: AdvancedProgress(
         radius: size!.width / 2.5,
@@ -70,8 +77,8 @@ class ProgressScreenState extends State<ProgressScreen>
         division: 10,
         secondaryWidth: 10,
         progressGap: 10,
-        primaryValue: viewModel.progress / 100,
-        secondaryValue: viewModel.progress / 100,
+        primaryValue: viewModel!.progress / 100,
+        secondaryValue: viewModel!.progress / 100,
         primaryColor: Colors.yellow,
         secondaryColor: Colors.red,
         tertiaryColor: Colors.white24,
@@ -86,7 +93,7 @@ class ProgressScreenState extends State<ProgressScreen>
               Padding(
                 padding: const EdgeInsets.only(top: 16),
                 child: Text(
-                  '${viewModel.progress} %',
+                  '${viewModel!.progress} %',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     letterSpacing: 1.5,
@@ -100,7 +107,7 @@ class ProgressScreenState extends State<ProgressScreen>
                 height: size!.width / 6,
                 child: Center(
                   child: Text(
-                    viewModel.state.toUpperCase(),
+                    viewModel!.state.toUpperCase(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       letterSpacing: 1.5,
@@ -128,7 +135,7 @@ class ProgressScreenState extends State<ProgressScreen>
                       ),
                     ),
                     Text(
-                      viewModel.time,
+                      viewModel!.time,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontWeight: FontWeight.w700,

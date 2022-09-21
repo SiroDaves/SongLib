@@ -1,43 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../model/base/draft.dart';
-import '../../model/base/songext.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
 import '../../util/constants/utilities.dart';
-import '../../vm/home/home_vm.dart';
 import '../../vm/songs/presentor_vm.dart';
 import '../../widget/general/vertical_tabs.dart';
 import '../../widget/provider/provider_widget.dart';
-import 'editor_screen.dart';
 
 class PresentorScreen extends StatefulWidget {
   static const String routeName = RouteNames.presentorScreen;
 
-  final HomeVm? homeVm;
-  final SongExt? song;
-  final Draft? draft;
-  const PresentorScreen({Key? key, this.homeVm, this.song, this.draft})
-      : super(key: key);
+  const PresentorScreen({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    // ignore: no_logic_in_create_state
-    return PresentorScreenState(homeVm, song, draft);
-  }
+  PresentorScreenState createState() => PresentorScreenState();
 }
 
 @visibleForTesting
 class PresentorScreenState extends State<PresentorScreen>
     with BackNavigatorMixin
     implements PresentorNavigator {
-  PresentorScreenState(this.homeVm, this.song, this.draft);
-  HomeVm? homeVm;
-  SongExt? song;
-  Draft? draft;
+  PresentorVm? viewModel;
   Size? size;
 
   List<Tab>? viewerTabs;
@@ -48,51 +34,37 @@ class PresentorScreenState extends State<PresentorScreen>
     size = MediaQuery.of(context).size;
     return ProviderWidget<PresentorVm>(
       create: () => GetIt.I()..init(this),
-      consumerWithThemeAndLocalization: (
-        context,
-        viewModel,
-        child,
-        theme,
-        localization,
-      ) =>
-          screenWidget(context, viewModel),
+      consumerWithThemeAndLocalization:
+          (context, viewModel, child, theme, localization) {
+        viewModel = viewModel;
+        return screenWidget(context);
+      },
     );
   }
 
-  Widget screenWidget(BuildContext context, PresentorVm viewModel) {
-    viewModel.homeVm = homeVm;
-    viewModel.context = context;
-
-    if (song != null) {
-      viewModel.song = song;
-    } else if (draft != null) {
-      viewModel.draft = draft;
-      viewModel.isDraft = true;
-    }
-    viewModel.loadPresentor();
-
+  Widget screenWidget(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(viewModel.songTitle),
+            Text(viewModel!.songTitle),
             Text(
-              refineTitle(song!.songbook!),
+              viewModel!.songTitle,
               style: const TextStyle(fontSize: 16),
             ),
           ],
         ),
         actions: <Widget>[
           InkWell(
-            onTap: viewModel.likeSong,
+            onTap: viewModel!.likeSong,
             child: Padding(
               padding: const EdgeInsets.all(10),
-              child: Icon(viewModel.likeIcon),
+              child: Icon(viewModel!.likeIcon),
             ),
           ),
-          popupMenu(viewModel),
+          popupMenu(),
         ],
       ),
       body: Container(
@@ -110,15 +82,15 @@ class PresentorScreenState extends State<PresentorScreen>
             ],
           ),
         ),
-        child: mainContainer(context, viewModel),
+        child: mainContainer(context),
       ),
     );
   }
 
-  Widget popupMenu(PresentorVm viewModel) {
+  Widget popupMenu() {
     return PopupMenuButton(
       itemBuilder: (context) {
-        return viewModel.isDraft
+        return viewModel!.isDraft
             ? [
                 const PopupMenuItem<int>(
                   value: 0,
@@ -153,19 +125,19 @@ class PresentorScreenState extends State<PresentorScreen>
               ];
       },
       onSelected: (int value) {
-        viewModel.popupActions(value);
+        viewModel!.popupActions(value);
       },
     );
   }
 
-  Widget mainContainer(BuildContext context, PresentorVm viewModel) {
+  Widget mainContainer(BuildContext context) {
     viewerTabs = List<Tab>.generate(
-      viewModel.verseInfos.length,
+      viewModel!.verseInfos.length,
       (int index) {
         return Tab(
           child: Center(
             child: Text(
-              viewModel.verseInfos[index],
+              viewModel!.verseInfos[index],
               style: TextStyle(
                 fontSize: size!.height * 0.0489,
                 fontWeight: FontWeight.bold,
@@ -176,17 +148,16 @@ class PresentorScreenState extends State<PresentorScreen>
       },
     );
     viewerWidgets = List<Widget>.generate(
-      viewModel.verseInfos.length,
+      viewModel!.verseInfos.length,
       (int index) {
         return Column(
           children: <Widget>[
-            verseText(viewModel.verseTexts[index]),
+            verseText(viewModel!.verseTexts[index]),
             Row(
               children: [
                 const Spacer(),
-                copyVerse(index, viewModel.verseTexts[index], viewModel),
-                shareVerse(index, viewModel.verseTexts[index], viewModel),
-                //screenshotVerse(index, viewModel.verseTexts[index], context, viewModel),
+                copyVerse(index, viewModel!.verseTexts[index]),
+                shareVerse(index, viewModel!.verseTexts[index]),
                 const Spacer(),
               ],
             ),
@@ -233,43 +204,28 @@ class PresentorScreenState extends State<PresentorScreen>
     );
   }
 
-  Widget copyVerse(int index, String lyrics, PresentorVm viewModel) {
+  Widget copyVerse(int index, String lyrics) {
     return Padding(
       padding: const EdgeInsets.all(5),
       child: FloatingActionButton(
         heroTag: "CopyVerse_$index",
         tooltip: AppConstants.copyVerse,
         backgroundColor: ThemeColors.primary,
-        onPressed: () => viewModel.copyVerse(lyrics),
+        onPressed: () => viewModel!.copyVerse(lyrics),
         child: const Icon(Icons.content_copy),
       ),
     );
   }
 
-  Widget shareVerse(int index, String lyrics, PresentorVm viewModel) {
+  Widget shareVerse(int index, String lyrics) {
     return Padding(
       padding: const EdgeInsets.all(5),
       child: FloatingActionButton(
         heroTag: "ShareVerse_$index",
         tooltip: AppConstants.shareVerse,
         backgroundColor: ThemeColors.primary,
-        onPressed: () => viewModel.shareVerse(lyrics),
+        onPressed: () => viewModel!.shareVerse(lyrics),
         child: const Icon(Icons.share),
-      ),
-    );
-  }
-
-  Widget screenshotVerse(
-      int index, String lyrics, BuildContext context, PresentorVm viewModel) {
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: FloatingActionButton(
-        heroTag: "ScreenshotVerse_$index",
-        tooltip: AppConstants.shareVerse,
-        backgroundColor: ThemeColors.primary,
-        onPressed:
-            () {}, //=> viewModel.screenshotVerse(context, size!, lyrics),
-        child: const Icon(Icons.screenshot),
       ),
     );
   }

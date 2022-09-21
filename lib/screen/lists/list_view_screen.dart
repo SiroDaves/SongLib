@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 
 import '../../model/base/listedext.dart';
 import '../../model/base/songext.dart';
+import '../../navigator/main_navigator.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
@@ -26,6 +27,7 @@ class ListViewScreen extends StatefulWidget {
 class ListViewScreenState extends State<ListViewScreen>
     with BackNavigatorMixin
     implements ListNavigator {
+  ListVm? viewModel;
   Size? size;
 
   @override
@@ -34,21 +36,18 @@ class ListViewScreenState extends State<ListViewScreen>
 
     return ProviderWidget<ListVm>(
       create: () => GetIt.I()..init(this),
-      consumerWithThemeAndLocalization: (
-        context,
-        viewModel,
-        child,
-        theme,
-        localization,
-      ) =>
-          screenWidget(context, viewModel),
+      consumerWithThemeAndLocalization:
+          (context, viewModel, child, theme, localization) {
+        viewModel = viewModel;
+        return screenWidget(context);
+      },
     );
   }
 
-  Widget screenWidget(BuildContext context, ListVm viewModel) {
+  Widget screenWidget(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(viewModel.listed!.title!),
+        title: Text(viewModel!.listed!.title!),
         actions: <Widget>[
           InkWell(
             onTap: () => {},
@@ -66,11 +65,11 @@ class ListViewScreenState extends State<ListViewScreen>
           ),
         ],
       ),
-      body: mainContainer(viewModel),
+      body: mainContainer(),
     );
   }
 
-  Widget mainContainer(ListVm viewModel) {
+  Widget mainContainer() {
     return Container(
       height: size!.height,
       decoration: const BoxDecoration(
@@ -81,10 +80,10 @@ class ListViewScreenState extends State<ListViewScreen>
         ),
       ),
       child: SingleChildScrollView(
-        child: viewModel.isBusy
+        child: viewModel!.isBusy
             ? const ListLoading()
-            : viewModel.listeds!.isNotEmpty
-                ? listContainer(viewModel)
+            : viewModel!.listeds!.isNotEmpty
+                ? listContainer()
                 : const NoDataToShow(
                     title: AppConstants.itsEmptyHere,
                     description: AppConstants.itsEmptyHereBody,
@@ -93,19 +92,19 @@ class ListViewScreenState extends State<ListViewScreen>
     );
   }
 
-  Widget listContainer(ListVm viewModel) {
+  Widget listContainer() {
     return SizedBox(
       height: size!.height,
       child: Scrollbar(
         thickness: 10,
         radius: const Radius.circular(20),
         child: ListView.builder(
-          itemCount: viewModel.listeds!.length,
+          itemCount: viewModel!.listeds!.length,
           padding: EdgeInsets.all(
             size!.height * 0.0082,
           ),
           itemBuilder: (context, index) =>
-              songItemWidget(viewModel.listeds![index]),
+              songItemWidget(viewModel!.listeds![index]),
         ),
       ),
     );
@@ -129,7 +128,10 @@ class ListViewScreenState extends State<ListViewScreen>
     return SongItem(
       song: song,
       height: size!.height,
-      onTap: () {},
+      onTap: () => viewModel!.openPresentor(song: song),
     );
   }
+
+  @override
+  void goToPresentor() => MainNavigatorWidget.of(context).goToPresentor();
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_it/get_it.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:share_plus/share_plus.dart';
@@ -11,7 +12,6 @@ import '../../model/base/songext.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
-import '../../screen/songs/editor_screen.dart';
 import '../../util/constants/app_constants.dart';
 import '../../util/constants/pref_constants.dart';
 import '../../util/constants/utilities.dart';
@@ -40,10 +40,20 @@ class PresentorVm with ChangeNotifierEx {
 
   IconData likeIcon = Icons.favorite_border;
 
-  Future<void> init(PresentorNavigator screenNavigator) async {
-    navigator = screenNavigator;
+  Future<void> init(PresentorNavigator navigator) async {
     enableWakeLock = localStorage.getPrefBool(PrefConstants.wakeLockCheckKey);
     if (enableWakeLock) await Wakelock.enable();
+
+    navigator = navigator;
+    homeVm = GetIt.instance<HomeVm>();
+    if (localStorage.draft != null) {
+      isDraft = true;
+      draft = localStorage.draft;
+    } else if (localStorage.song != null) {
+      isDraft = false;
+      song = localStorage.song;
+    }
+    await loadPresentor();
   }
 
   /// Prepare song lyrics to be shown in slide format
@@ -51,15 +61,13 @@ class PresentorVm with ChangeNotifierEx {
     try {
       verseInfos.clear();
       verseTexts.clear();
-      if (song != null) {
-        songTitle = songItemTitle(song!.songNo!, song!.title!);
 
-        isLiked = song!.liked!;
-        likeIcon = isLiked ? Icons.favorite : Icons.favorite_border;
-        songVerses = song!.content!.split("##");
+      if (isDraft) {
+        songTitle = draft!.title!;
+        songVerses = draft!.content!.split("##");
         final int verseCount = songVerses.length;
 
-        if (song!.content!.contains("CHORUS")) {
+        if (draft!.content!.contains("CHORUS")) {
           hasChorus = true;
         } else {
           hasChorus = false;
@@ -86,12 +94,15 @@ class PresentorVm with ChangeNotifierEx {
             verseTexts.add(songVerses[i]);
           }
         }
-      } else if (draft != null) {
-        songTitle = draft!.title!;
-        songVerses = draft!.content!.split("##");
+      } else {
+        songTitle = songItemTitle(song!.songNo!, refineTitle(song!.title!));
+
+        isLiked = song!.liked!;
+        likeIcon = isLiked ? Icons.favorite : Icons.favorite_border;
+        songVerses = song!.content!.split("##");
         final int verseCount = songVerses.length;
 
-        if (draft!.content!.contains("CHORUS")) {
+        if (song!.content!.contains("CHORUS")) {
           hasChorus = true;
         } else {
           hasChorus = false;
@@ -126,7 +137,6 @@ class PresentorVm with ChangeNotifierEx {
   }
 
   Future<void> popupActions(int value) async {
-    final String songText = song!.content!.replaceAll("#", "\n");
     switch (value) {
       case 0:
         await copySong();
@@ -183,19 +193,6 @@ class PresentorVm with ChangeNotifierEx {
       showToast(
         text: AppConstants.verseReadyShare,
         state: ToastStates.success,
-      );
-    } catch (_) {}
-  }
-
-  Future<void> editSong() async {
-    try {
-      await Navigator.push(
-        context!,
-        MaterialPageRoute(
-          builder: (context) {
-            return EditorScreen(homeVm: homeVm, draft: draft, song: song);
-          },
-        ),
       );
     } catch (_) {}
   }
@@ -280,6 +277,10 @@ class PresentorVm with ChangeNotifierEx {
     await homeVm!.fetchDraftsData();
     navigator.goBack<void>();
     await Wakelock.disable();
+  }
+
+  Future<void> editSong() async {
+    try {} catch (_) {}
   }
 }
 

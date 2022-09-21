@@ -7,16 +7,15 @@ import '../../../util/constants/utilities.dart';
 import '../../../vm/home/home_vm.dart';
 import '../../../widget/general/list_items.dart';
 import '../../../widget/search/search_widget.dart';
-import '../../songs/presentor_screen.dart';
 
 class Tab2Search extends StatelessWidget {
-  final HomeVm homeVm;
+  final HomeVm viewModel;
   final List<SongExt>? songs;
   final double? height;
 
   const Tab2Search({
     Key? key,
-    required this.homeVm,
+    required this.viewModel,
     required this.songs,
     required this.height,
   }) : super(key: key);
@@ -49,16 +48,7 @@ class Tab2Search extends StatelessWidget {
         return SongItem(
           song: song,
           height: height!,
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return PresentorScreen(homeVm: homeVm, song: song);
-                },
-              ),
-            );
-          },
+          onTap: () => viewModel.openPresentor(song: song),
         );
       },
       selectedItemBuilder: (selectedSong, deleteSelectedSong) {
@@ -68,9 +58,7 @@ class Tab2Search extends StatelessWidget {
       textFieldBuilder: (controller, focusNode) {
         return searchField(controller, focusNode);
       },
-      onItemSelected: (song) {
-        //_selectedItem = item;
-      },
+      onItemSelected: (song) {},
     );
   }
 

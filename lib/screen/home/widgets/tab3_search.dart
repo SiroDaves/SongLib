@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 
 import '../../../model/base/draft.dart';
 import '../../../theme/theme_colors.dart';
+import '../../../vm/home/home_vm.dart';
 import '../../../widget/general/list_items.dart';
 import '../../../widget/search/search_widget.dart';
 
 class Tab3Search extends StatelessWidget {
+  final HomeVm viewModel;
   final List<Draft>? drafts;
   final double? height;
 
   const Tab3Search({
     Key? key,
+    required this.viewModel,
     required this.drafts,
     required this.height,
   }) : super(key: key);
@@ -24,12 +27,18 @@ class Tab3Search extends StatelessWidget {
       queryBuilder: (query, list) {
         return list
             .where(
-              (draft) => draft.title!.toLowerCase().contains(query.toLowerCase()),
+              (draft) => draft.title!.toLowerCase().contains(
+                    query.toLowerCase(),
+                  ),
             )
             .toList();
       },
       popupListItemBuilder: (draft) {
-        return DraftItem(draft: draft, height: height!);
+        return DraftItem(
+          draft: draft,
+          height: height!,
+          onTap: () => viewModel.openPresentor(draft: draft),
+        );
       },
       selectedItemBuilder: (selectedDraft, deleteSelectedDraft) {
         return selectedDraftWidget(selectedDraft, deleteSelectedDraft);
@@ -38,9 +47,7 @@ class Tab3Search extends StatelessWidget {
       textFieldBuilder: (controller, focusNode) {
         return searchField(controller, focusNode);
       },
-      onItemSelected: (draft) {
-        //_selectedItem = item;
-      },
+      onItemSelected: (draft) {},
     );
   }
 

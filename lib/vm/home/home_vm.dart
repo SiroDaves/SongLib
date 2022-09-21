@@ -1,7 +1,5 @@
-// ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get_it/get_it.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -13,16 +11,14 @@ import '../../model/base/listed.dart';
 import '../../model/base/songext.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
-import '../../screen/songs/editor_screen.dart';
 import '../../util/constants/app_constants.dart';
 import '../../util/constants/pref_constants.dart';
 import '../../util/constants/utilities.dart';
 import '../../widget/general/toast.dart';
-import '../lists/list_vm.dart';
 
 @injectable
 class HomeVm with ChangeNotifierEx {
-  late final HomeNavigator homeNavigator;
+  late final HomeNavigator navigator;
   final DbRepository dbRepo;
   final LocalStorage localStorage;
 
@@ -42,7 +38,7 @@ class HomeVm with ChangeNotifierEx {
   TextEditingController? titleController, contentController;
 
   Future<void> init(HomeNavigator navigator) async {
-    homeNavigator = navigator;
+    navigator = navigator;
     titleController = TextEditingController();
     contentController = TextEditingController();
 
@@ -175,19 +171,6 @@ class HomeVm with ChangeNotifierEx {
     } catch (_) {}
   }
 
-  Future<void> editSong(BuildContext context, SongExt song) async {
-    try {
-      await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return EditorScreen(homeVm: this, song: song);
-          },
-        ),
-      );
-    } catch (_) {}
-  }
-
   // function to validate creds
   bool validateInput() {
     bool validated = false;
@@ -221,28 +204,50 @@ class HomeVm with ChangeNotifierEx {
           title: titleController!.text,
           description: contentController!.text,
         );
-        await dbRepo.saveListed(listed!);
+        await dbRepo.saveListed(listed);
         await fetchListedData();
         showToast(
-          text: '${listed!.title} ${AppConstants.listCreated}',
+          text: '${listed.title} ${AppConstants.listCreated}',
           state: ToastStates.success,
         );
 
         localStorage.listed = listed;
-        homeNavigator.goToListView();
+        navigator.goToListView();
       } catch (_) {}
       isBusy = false;
       notifyListeners();
     }
   }
 
+  void openPresentor({SongExt? song, Draft? draft}) async {
+    if (song != null) {
+      localStorage.song = song;
+    } else if (draft != null) {
+      localStorage.draft = draft;
+    }
+    navigator.goToPresentor();
+  }
+
+  void openEditor({SongExt? song, Draft? draft}) async {
+    if (song != null) {
+      localStorage.song = song;
+      localStorage.draft = null;
+    } else if (draft != null) {
+      localStorage.song = null;
+      localStorage.draft = draft;
+    }
+    navigator.goToEditor();
+  }
+
   void openListView(Listed listed) {
     localStorage.listed = listed;
-    homeNavigator.goToListView();
+    navigator.goToListView();
   }
 }
 
 abstract class HomeNavigator {
+  void goToPresentor();
+  void goToEditor();
   void goToLikes();
   void goToListView();
   void goToHistories();

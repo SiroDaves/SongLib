@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -22,18 +23,31 @@ class EditorVm with ChangeNotifierEx {
   HomeVm? homeVm;
   SongExt? song;
   Draft? draft;
+  bool? isDraft;
 
   bool isBusy = false, isNewContent = false;
   String? title, content, alias, key;
   TextEditingController? titleController, contentController;
   TextEditingController? aliasController, keyController;
 
-  Future<void> init(EditorNavigator screenNavigator) async {
-    navigator = screenNavigator;
+  Future<void> init(EditorNavigator navigator) async {
+    navigator = navigator;
     titleController = TextEditingController();
     contentController = TextEditingController();
     aliasController = TextEditingController();
     keyController = TextEditingController();
+
+    navigator = navigator;
+    homeVm = GetIt.instance<HomeVm>();
+    
+    if (localStorage.draft != null) {
+      isDraft = true;
+      draft = localStorage.draft;
+    } else if (localStorage.song != null) {
+      isDraft = false;
+      song = localStorage.song;
+    }
+    await loadEditor();
   }
 
   Future<void> loadEditor() async {

@@ -23,6 +23,7 @@ class SelectionScreen extends StatefulWidget {
 
 class SelectionScreenState extends State<SelectionScreen>
     implements SelectionNavigator {
+  SelectionVm? viewModel;
   Size? size;
 
   @override
@@ -31,28 +32,32 @@ class SelectionScreenState extends State<SelectionScreen>
 
     return ProviderWidget<SelectionVm>(
       create: () => GetIt.I()..init(this),
-      childBuilderWithViewModel: (context, viewModel, theme, localization) =>
-          Scaffold(
-        appBar: AppBar(
-          title: const Text(AppConstants.booksTitle),
-        ),
-        body: viewModel.isBusy
-            ? const CircularProgress()
-            : mainContainer(viewModel),
-        floatingActionButton: viewModel.isBusy
-            ? Container()
-            : FloatingActionButton(
-                backgroundColor: ThemeColors.primary,
-                onPressed: () => areYouDoneDialog(context, viewModel),
-                child: const Icon(Icons.check, color: Colors.white),
-              ),
-      ),
+      childBuilderWithViewModel: (context, viewModel, theme, localization) {
+        viewModel = viewModel;
+        return screenWidget(context);
+      },
     );
   }
 
-  Widget mainContainer(SelectionVm viewModel) {
+  Widget screenWidget(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(AppConstants.booksTitle),
+      ),
+      body: viewModel!.isBusy ? const CircularProgress() : mainContainer(),
+      floatingActionButton: viewModel!.isBusy
+          ? Container()
+          : FloatingActionButton(
+              backgroundColor: ThemeColors.primary,
+              onPressed: () => areYouDoneDialog(context),
+              child: const Icon(Icons.check, color: Colors.white),
+            ),
+    );
+  }
+
+  Widget mainContainer() {
     return FutureBuilder<List<Book>?>(
-      future: viewModel.fetchBooks(),
+      future: viewModel!.fetchBooks(),
       builder: (BuildContext context, AsyncSnapshot<List<Book>?> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data!.isNotEmpty) {
@@ -61,8 +66,8 @@ class SelectionScreenState extends State<SelectionScreen>
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) => BookItem(
                 book: snapshot.data![index],
-                selected: viewModel.listedBooks[index]!.isSelected,
-                onTap: () => viewModel.onBookSelected(index),
+                selected: viewModel!.listedBooks[index]!.isSelected,
+                onTap: () => viewModel!.onBookSelected(index),
               ),
             );
           } else {
@@ -83,9 +88,8 @@ class SelectionScreenState extends State<SelectionScreen>
     );
   }
 
-  Future<void> areYouDoneDialog(
-      BuildContext context, SelectionVm viewModel) async {
-    if (viewModel.selectables.isNotEmpty) {
+  Future<void> areYouDoneDialog(BuildContext context) async {
+    if (viewModel!.selectables.isNotEmpty) {
       return showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
@@ -110,7 +114,7 @@ class SelectionScreenState extends State<SelectionScreen>
               title: AppConstants.proceed,
               onPressed: () {
                 Navigator.pop(context);
-                viewModel.saveBooks();
+                viewModel!.saveBooks();
               },
             ),
           ],

@@ -4,7 +4,6 @@ part of '../home_screen.dart';
 class ListedsTab extends StatelessWidget {
   final HomeVm viewModel;
   ListedsTab({Key? key, required this.viewModel}) : super(key: key);
-
   Size? size;
 
   @override
@@ -46,7 +45,7 @@ class ListedsTab extends StatelessWidget {
               children: [
                 viewModel.listeds!.isNotEmpty
                     ? Tab1Search(
-                        homeVm: viewModel,
+                        viewModel: viewModel,
                         listeds: viewModel.listeds,
                         height: size!.height,
                       )
