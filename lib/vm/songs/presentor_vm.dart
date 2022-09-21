@@ -3,11 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:wakelock/wakelock.dart';
 
 import '../../model/base/draft.dart';
 import '../../model/base/history.dart';
+import '../../model/base/listed.dart';
 import '../../model/base/songext.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../repository/db_repository.dart';
@@ -32,7 +34,6 @@ class PresentorVm with ChangeNotifierEx {
   HomeVm? homeVm;
   SongExt? song;
   Draft? draft;
-  BuildContext? context;
 
   bool isBusy = false, enableWakeLock = false, slideHorizontal = false;
   bool isLiked = true, hasChorus = false, isDraft = false;
@@ -157,6 +158,20 @@ class PresentorVm with ChangeNotifierEx {
     );
   }
 
+  /// Get the listed data from the DB
+  Future<List<Listed>?> fetchListedData() async {
+    List<Listed>? listeds = [];
+    try {
+      listeds = await dbRepo.fetchListeds();
+    } catch (exception, stackTrace) {
+      await Sentry.captureException(
+        exception,
+        stackTrace: stackTrace,
+      );
+    }
+    return listeds;
+  }
+
   /// Add a song to liked songs
   Future<void> likeSong() async {
     try {
@@ -174,40 +189,11 @@ class PresentorVm with ChangeNotifierEx {
     } catch (_) {}
   }
 
-  Future<void> copySong() async {
-    final String songText = song!.content!.replaceAll("#", "\n");
-    try {
-      await Clipboard.setData(ClipboardData(
-        text: '${songItemTitle(song!.songNo!, song!.title!)}\n\n$songText',
-      ));
-      showToast(
-        text: '${song!.title} ${AppConstants.songCopied}',
-        state: ToastStates.success,
-      );
-    } catch (_) {}
-  }
-
-  Future<void> shareSong() async {
-    final String songText = song!.content!.replaceAll("#", "\n");
-    try {
-      await Share.share(
-        '${songItemTitle(song!.songNo!, song!.title!)}\n\n$songText',
-        subject: AppConstants.shareVerse,
-      );
-      showToast(
-        text: AppConstants.verseReadyShare,
-        state: ToastStates.success,
-      );
-    } catch (_) {}
-  }
-
   Future<void> copyVerse(String lyrics) async {
     try {
       await Clipboard.setData(
         ClipboardData(
-          text: '${lyrics.replaceAll("#", "\n")}\n\n'
-              '${songItemTitle(song!.songNo!, song!.title!)},\n'
-              '${song!.songbook}',
+          text: '${lyrics.replaceAll("#", "\n")}\n\n$songTitle,\n$songBook',
         ),
       );
       showToast(
@@ -220,13 +206,11 @@ class PresentorVm with ChangeNotifierEx {
   Future<void> shareVerse(String lyrics) async {
     try {
       await Share.share(
-        '${lyrics.replaceAll("#", "\n")}\n\n'
-        '${songItemTitle(song!.songNo!, song!.title!)},\n'
-        '${song!.songbook}',
+        '${lyrics.replaceAll("#", "\n")}\n\n$songTitle,\n$songBook',
         subject: AppConstants.shareVerse,
       );
       showToast(
-        text: AppConstants.verseReadyShare,
+        text: AppConstants.readyShare,
         state: ToastStates.success,
       );
     } catch (_) {}
@@ -248,7 +232,7 @@ class PresentorVm with ChangeNotifierEx {
           TextButton(
             onPressed: () {
               Navigator.pop(context);
-              deleteSong();
+              dbRepo.deleteDraft(draft!);
               onBackPressed();
             },
             child: const Text("DELETE"),
@@ -260,21 +244,6 @@ class PresentorVm with ChangeNotifierEx {
         ],
       ),
     );
-  }
-
-  /// Remove a song from the records
-  Future<bool?> deleteSong() async {
-    bool? success;
-
-    isBusy = true;
-    notifyListeners();
-
-    await dbRepo.deleteDraft(draft!);
-
-    isBusy = true;
-    notifyListeners();
-
-    return success;
   }
 
   Future<void> onBackPressed() async {

@@ -194,7 +194,7 @@ class PresentorText extends StatelessWidget {
       onLongPress: onLongPress,
       child: Container(
         height: size.height * 0.755,
-        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+        padding: const EdgeInsets.all(10),
         child: Card(
           elevation: 5,
           child: Center(

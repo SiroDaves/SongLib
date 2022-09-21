@@ -65,6 +65,7 @@ class HomeVm with ChangeNotifierEx {
 
   /// Get the listed data from the DB
   Future<void> fetchListedData() async {
+    isBusy = true;
     notifyListeners();
     try {
       listeds = await dbRepo.fetchListeds();
@@ -74,11 +75,13 @@ class HomeVm with ChangeNotifierEx {
         stackTrace: stackTrace,
       );
     }
+    isBusy = false;
     notifyListeners();
   }
 
   /// Get the song data from the DB
   Future<void> fetchSearchData() async {
+    isBusy = true;
     notifyListeners();
     try {
       books = await dbRepo.fetchBooks();
@@ -90,11 +93,13 @@ class HomeVm with ChangeNotifierEx {
         stackTrace: stackTrace,
       );
     }
+    isBusy = false;
     notifyListeners();
   }
 
   /// Get the notes data from the DB
   Future<void> fetchDraftsData() async {
+    isBusy = true;
     notifyListeners();
     try {
       drafts = await dbRepo.fetchDrafts();
@@ -104,6 +109,7 @@ class HomeVm with ChangeNotifierEx {
         stackTrace: stackTrace,
       );
     }
+    isBusy = false;
     notifyListeners();
   }
 
@@ -165,7 +171,7 @@ class HomeVm with ChangeNotifierEx {
         subject: AppConstants.shareVerse,
       );
       showToast(
-        text: AppConstants.verseReadyShare,
+        text: AppConstants.readyShare,
         state: ToastStates.success,
       );
     } catch (_) {}
@@ -235,6 +241,9 @@ class HomeVm with ChangeNotifierEx {
     } else if (draft != null) {
       localStorage.song = null;
       localStorage.draft = draft;
+    } else {
+      localStorage.song = null;
+      localStorage.draft = null;
     }
     navigator.goToEditor();
   }

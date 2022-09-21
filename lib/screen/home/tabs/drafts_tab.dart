@@ -33,7 +33,7 @@ class DraftsTab extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: ThemeColors.primary,
-        onPressed: () {},
+        onPressed: () => homeVm.openEditor(),
         child: const Icon(Icons.add, color: Colors.white),
       ),
     );

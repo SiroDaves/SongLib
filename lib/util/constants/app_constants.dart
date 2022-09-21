@@ -41,7 +41,7 @@ class AppConstants {
   static const shareVerse = "Share verse";
   static const songLiked = "song liked!";
   static const listCreated = "song list created!";
-  static const verseReadyShare = "Verse is ready for sharing";
+  static const readyShare = "Ready for sharing";
   static const screenshotVerse = "Screenshot verse";
   static const screenshoted = "We have your screenshot!";
 
