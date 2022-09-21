@@ -37,8 +37,8 @@ class HomeVm with ChangeNotifierEx {
   String? title, content;
   TextEditingController? titleController, contentController;
 
-  Future<void> init(HomeNavigator navigator) async {
-    navigator = navigator;
+  Future<void> init(HomeNavigator screenNavigator) async {
+    navigator = screenNavigator;
     titleController = TextEditingController();
     contentController = TextEditingController();
 

@@ -9,11 +9,11 @@ class SplashVm with ChangeNotifierEx {
 
   SplashVm(this.localStorage);
 
-  Future<void> init(SplashNavigator navigator) async {
+  Future<void> init(SplashNavigator screenNavigator) async {
     final isLoaded = await localStorage.checkIfDataIsLoaded();
     await Future.delayed(const Duration(seconds: 3), () {});
-    if (isLoaded) return navigator.goToSelection();
-    navigator.goToHome();
+    if (isLoaded) return screenNavigator.goToSelection();
+    screenNavigator.goToHome();
   }
 }
 

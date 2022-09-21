@@ -30,8 +30,8 @@ class EditorVm with ChangeNotifierEx {
   TextEditingController? titleController, contentController;
   TextEditingController? aliasController, keyController;
 
-  Future<void> init(EditorNavigator navigator) async {
-    navigator = navigator;
+  Future<void> init(EditorNavigator screenNavigator) async {
+    navigator = screenNavigator;
     titleController = TextEditingController();
     contentController = TextEditingController();
     aliasController = TextEditingController();

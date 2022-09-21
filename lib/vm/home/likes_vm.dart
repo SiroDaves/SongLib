@@ -20,8 +20,8 @@ class LikesVm with ChangeNotifierEx {
   bool isBusy = false;
   List<SongExt>? likes = [];
 
-  Future<void> init(LikesNavigator navigator) async {
-    navigator = navigator;
+  Future<void> init(LikesNavigator screenNavigator) async {
+    navigator = screenNavigator;
     await fetchData();
   }
 

@@ -10,7 +10,7 @@ import '../../util/constants/pref_constants.dart';
 
 @injectable
 class ProgressVm with ChangeNotifierEx {
-  late final ProgressNavigator progressNavigator;
+  late final ProgressNavigator navigator;
   final WebRepository web;
   final DbRepository dbRepo;
   final LocalStorage localStorage;
@@ -26,8 +26,8 @@ class ProgressVm with ChangeNotifierEx {
   String selectedBooks = "", predistinatedBooks = "";
   List<String> newBooks = [], oldBooks = [], predistinated = [];
 
-  Future<void> init(ProgressNavigator navigator) async {
-    progressNavigator = navigator;
+  Future<void> init(ProgressNavigator screenNavigator) async {
+    navigator = screenNavigator;
     selectedBooks = localStorage.getPrefString(PrefConstants.selectedBooksKey);
     predistinatedBooks =
         localStorage.getPrefString(PrefConstants.predistinatedBooksKey);
@@ -97,7 +97,7 @@ class ProgressVm with ChangeNotifierEx {
     localStorage.setPrefBool(PrefConstants.dataLoadedCheckKey, true);
     localStorage.setPrefBool(PrefConstants.wakeLockCheckKey, true);
 
-    progressNavigator.goToHome();
+    navigator.goToHome();
   }
 }
 

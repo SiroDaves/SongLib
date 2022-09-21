@@ -10,7 +10,7 @@ import '../../util/constants/pref_constants.dart';
 
 @injectable
 class SelectionVm with ChangeNotifierEx {
-  late final SelectionNavigator selectionNavigator;
+  late final SelectionNavigator navigator;
   final WebRepository web;
   final DbRepository dbRepo;
   final LocalStorage localStorage;
@@ -24,8 +24,8 @@ class SelectionVm with ChangeNotifierEx {
   String selectedBooks = "";
   List<String> bookNos = [];
 
-  Future<void> init(SelectionNavigator navigator) async {
-    selectionNavigator = navigator;
+  Future<void> init(SelectionNavigator screenNavigator) async {
+    navigator = screenNavigator;
     selectedBooks = localStorage.getPrefString(PrefConstants.selectedBooksKey);
     if (selectedBooks.isNotEmpty) {
       bookNos = selectedBooks.split(",");
@@ -85,7 +85,7 @@ class SelectionVm with ChangeNotifierEx {
     notifyListeners();
 
     localStorage.setPrefString(PrefConstants.selectedBooksKey, selectedBooks);
-    selectionNavigator.goToProgress();
+    navigator.goToProgress();
   }
 }
 

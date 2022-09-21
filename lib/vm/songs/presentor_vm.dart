@@ -40,11 +40,11 @@ class PresentorVm with ChangeNotifierEx {
 
   IconData likeIcon = Icons.favorite_border;
 
-  Future<void> init(PresentorNavigator navigator) async {
+  Future<void> init(PresentorNavigator screenNavigator) async {
     enableWakeLock = localStorage.getPrefBool(PrefConstants.wakeLockCheckKey);
     if (enableWakeLock) await Wakelock.enable();
 
-    navigator = navigator;
+    navigator = screenNavigator;
     homeVm = GetIt.instance<HomeVm>();
     if (localStorage.draft != null) {
       isDraft = true;

@@ -6,7 +6,7 @@ class UiTestVm with ChangeNotifierEx {
   String state = 'LOADING';
   int progress = 22;
   String time = '00:25';
-  Future<void> init(UiTestNavigator navigator) async {}
+  Future<void> init(UiTestNavigator screenNavigator) async {}
 }
 
 abstract class UiTestNavigator {

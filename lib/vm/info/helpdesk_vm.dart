@@ -10,10 +10,13 @@ import '../../widget/general/toast.dart';
 @injectable
 class HelpDeskVm with ChangeNotifierEx {
   final LocalStorage localStorage;
+  late final HelpDeskNavigator navigator;
 
   HelpDeskVm(this.localStorage);
 
-  Future<void> init(HelpDeskNavigator navigator) async {}
+  Future<void> init(HelpDeskNavigator screenNavigator) async {
+    navigator = screenNavigator;
+  }
 
   Future<void> goToPlayStore() async {
     final Uri url = Uri.parse(AppConstants.playstoreLink);

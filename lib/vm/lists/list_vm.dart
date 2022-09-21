@@ -27,8 +27,8 @@ class ListVm with ChangeNotifierEx {
 
   bool isBusy = false;
 
-  Future<void> init(ListNavigator navigator) async {
-    navigator = navigator;
+  Future<void> init(ListNavigator screenNavigator) async {
+    navigator = screenNavigator;
     homeVm = GetIt.instance<HomeVm>();
     listed = localStorage.listed;
     await fetchData();
