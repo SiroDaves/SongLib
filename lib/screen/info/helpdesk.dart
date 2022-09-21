@@ -9,6 +9,7 @@ import '../../util/constants/app_constants.dart';
 import '../../vm/info/helpdesk_vm.dart';
 import '../../widget/provider/provider_widget.dart';
 
+/// Help desk screen
 class HelpDeskScreen extends StatefulWidget {
   static const String routeName = RouteNames.helpdeskScreen;
 
@@ -24,7 +25,7 @@ class HelpDeskScreen extends StatefulWidget {
 class HelpDeskScreenState extends State<HelpDeskScreen>
     with BackNavigatorMixin
     implements HelpDeskNavigator {
-  HelpDeskVm? viewModel;
+  HelpDeskVm? vm;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) {
-        viewModel = viewModel;
+        vm = viewModel;
         return Scaffold(
           backgroundColor: ThemeColors.accent,
           appBar: AppBar(
@@ -53,8 +54,8 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
             leading: const Icon(Icons.link),
             title: const Text('This app on Google PlayStore'),
             subtitle: const Text('Go to Play Store or Long Press to copy link'),
-            onTap: () => viewModel!.goToPlayStore(),
-            onLongPress: () => viewModel!.copyText(0),
+            onTap: () => vm!.goToPlayStore(),
+            onLongPress: () => vm!.copyText(0),
           ),
         ),
         Card(
@@ -62,8 +63,8 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
             leading: const Icon(Icons.email),
             title: const Text('Email Address'),
             subtitle: const Text('songlibke(at)gmail.com'),
-            onTap: () => viewModel!.goToEmail(),
-            onLongPress: () => viewModel!.copyText(1),
+            onTap: () => vm!.goToEmail(),
+            onLongPress: () => vm!.copyText(1),
           ),
         ),
         Card(
@@ -75,23 +76,23 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
               ListTile(
                 leading: const Icon(Icons.call),
                 title: const Text('Call'),
-                onTap: () => viewModel!.goToCalling(),
-                onLongPress: () => viewModel!.copyText(2),
+                onTap: () => vm!.goToCalling(),
+                onLongPress: () => vm!.copyText(2),
               ),
               ListTile(
                 leading: const Icon(Icons.sms),
                 title: const Text('SMS'),
-                onTap: () => viewModel!.goToSms(),
+                onTap: () => vm!.goToSms(),
               ),
               ListTile(
                 leading: const Icon(Icons.whatsapp),
                 title: const Text('WhatsApp'),
-                onTap: () => viewModel!.goToWhatsapp(),
+                onTap: () => vm!.goToWhatsapp(),
               ),
               ListTile(
                 leading: const Icon(Icons.telegram),
                 title: const Text('TeleGram'),
-                onTap: () => viewModel!.goToTelegram(),
+                onTap: () => vm!.goToTelegram(),
               ),
             ],
           ),

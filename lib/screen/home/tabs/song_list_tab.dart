@@ -1,9 +1,10 @@
 part of '../home_screen.dart';
 
+/// Tab screen with list of song lists
 // ignore: must_be_immutable
-class ListedsTab extends StatelessWidget {
-  final HomeVm viewModel;
-  ListedsTab({Key? key, required this.viewModel}) : super(key: key);
+class SongListTab extends StatelessWidget {
+  final HomeVm homeVm;
+  SongListTab({Key? key, required this.homeVm}) : super(key: key);
   Size? size;
 
   @override
@@ -31,7 +32,7 @@ class ListedsTab extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: ThemeColors.primary,
-        onPressed: () => newListForm(context, viewModel),
+        onPressed: () => newListForm(context, homeVm),
         child: const Icon(Icons.add, color: Colors.white),
       ),
     );
@@ -39,18 +40,18 @@ class ListedsTab extends StatelessWidget {
 
   Widget mainContainer(BuildContext context) {
     return SizedBox(
-      child: viewModel.isBusy
+      child: homeVm.isBusy
           ? const ListLoading()
           : Column(
               children: [
-                viewModel.listeds!.isNotEmpty
-                    ? Tab1Search(
-                        viewModel: viewModel,
-                        listeds: viewModel.listeds,
+                homeVm.listeds!.isNotEmpty
+                    ? SongListSearch(
+                        viewModel: homeVm,
+                        listeds: homeVm.listeds,
                         height: size!.height,
                       )
                     : Container(),
-                viewModel.listeds!.isNotEmpty
+                homeVm.listeds!.isNotEmpty
                     ? listContainer(context)
                     : const NoDataToShow(
                         title: AppConstants.itsEmptyHere1,
@@ -85,17 +86,17 @@ class ListedsTab extends StatelessWidget {
         thickness: 10,
         radius: const Radius.circular(20),
         child: ListView.builder(
-          itemCount: viewModel.listeds!.length,
+          itemCount: homeVm.listeds!.length,
           padding: EdgeInsets.only(
             left: size!.height * 0.0082,
             right: size!.height * 0.0082,
           ),
           itemBuilder: (context, index) {
-            final Listed listed = viewModel.listeds![index];
+            final Listed listed = homeVm.listeds![index];
             return ListedItem(
               listed: listed,
               height: size!.height,
-              onTap: () => viewModel.openListView(listed),
+              onTap: () => homeVm.openListView(listed),
             );
           },
         ),
@@ -103,7 +104,7 @@ class ListedsTab extends StatelessWidget {
     );
   }
 
-  Future<void> newListForm(BuildContext context, HomeVm viewModel) async {
+  Future<void> newListForm(BuildContext context, HomeVm homeVm) async {
     return showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -123,12 +124,12 @@ class ListedsTab extends StatelessWidget {
             children: <Widget>[
               FormInput(
                 iLabel: 'Title',
-                iController: viewModel.titleController!,
+                iController: homeVm.titleController!,
                 iOptions: const <String>[],
               ),
               FormInput(
                 iLabel: 'Description (Optional)',
-                iController: viewModel.contentController!,
+                iController: homeVm.contentController!,
                 iOptions: const <String>[],
               ),
             ],
@@ -138,9 +139,9 @@ class ListedsTab extends StatelessWidget {
           TextButton(
             onPressed: () {
               Navigator.pop(context);
-              viewModel.titleController!.clear();
-              viewModel.contentController!.clear();
-              viewModel.saveNewList();
+              homeVm.titleController!.clear();
+              homeVm.contentController!.clear();
+              homeVm.saveNewList();
             },
             child: const Text("SAVE LIST"),
           ),

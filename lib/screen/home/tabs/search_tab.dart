@@ -1,9 +1,10 @@
 part of '../home_screen.dart';
 
+/// Tab screen for searches
 // ignore: must_be_immutable
 class SearchTab extends StatelessWidget {
-  final HomeVm viewModel;
-  SearchTab({Key? key, required this.viewModel}) : super(key: key);
+  final HomeVm homeVm;
+  SearchTab({Key? key, required this.homeVm}) : super(key: key);
 
   Size? size;
 
@@ -45,21 +46,19 @@ class SearchTab extends StatelessWidget {
 
   Widget mainContainer(BuildContext context) {
     return SizedBox(
-      child: viewModel.isBusy
+      child: homeVm.isBusy
           ? const ListLoading()
           : Column(
               children: [
-                viewModel.songs!.isNotEmpty
-                    ? Tab2Search(
-                        viewModel: viewModel,
-                        songs: viewModel.songs,
+                homeVm.songs!.isNotEmpty
+                    ? SearchTabSearch(
+                        viewModel: homeVm,
+                        songs: homeVm.songs,
                         height: size!.height,
                       )
                     : Container(),
-                viewModel.books!.isNotEmpty
-                    ? bookContainer(context)
-                    : Container(),
-                viewModel.songs!.isNotEmpty
+                homeVm.books!.isNotEmpty ? bookContainer(context) : Container(),
+                homeVm.songs!.isNotEmpty
                     ? listContainer(context)
                     : const NoDataToShow(
                         title: AppConstants.itsEmptyHere,
@@ -93,14 +92,14 @@ class SearchTab extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.all(5),
         itemBuilder: (context, index) {
-          final Book book = viewModel.books![index];
+          final Book book = homeVm.books![index];
           return SongBook(
             book: book,
             height: size!.height,
-            onTap: () => viewModel.selectSongbook(book.bookNo!),
+            onTap: () => homeVm.selectSongbook(book.bookNo!),
           );
         },
-        itemCount: viewModel.books!.length,
+        itemCount: homeVm.books!.length,
       ),
     );
   }
@@ -113,13 +112,13 @@ class SearchTab extends StatelessWidget {
         thickness: 10,
         radius: const Radius.circular(20),
         child: ListView.builder(
-          itemCount: viewModel.filtered!.length,
+          itemCount: homeVm.filtered!.length,
           padding: EdgeInsets.only(
             left: size!.height * 0.0082,
             right: size!.height * 0.0082,
           ),
           itemBuilder: (context, index) {
-            final SongExt song = viewModel.filtered![index];
+            final SongExt song = homeVm.filtered![index];
             return ContextMenuRegion(
               contextMenu: GenericContextMenu(
                 buttonConfigs: [
@@ -129,7 +128,7 @@ class SearchTab extends StatelessWidget {
                       song.liked! ? Icons.favorite : Icons.favorite_border,
                       size: 20,
                     ),
-                    onPressed: () => viewModel.likeSong(song),
+                    onPressed: () => homeVm.likeSong(song),
                   ),
                   ContextMenuButtonConfig(
                     AppConstants.addSongtoList,
@@ -139,24 +138,24 @@ class SearchTab extends StatelessWidget {
                   ContextMenuButtonConfig(
                     AppConstants.copySong,
                     icon: const Icon(Icons.copy, size: 20),
-                    onPressed: () => viewModel.copySong(song),
+                    onPressed: () => homeVm.copySong(song),
                   ),
                   ContextMenuButtonConfig(
                     AppConstants.shareSong,
                     icon: const Icon(Icons.share, size: 20),
-                    onPressed: () => viewModel.shareSong(song),
+                    onPressed: () => homeVm.shareSong(song),
                   ),
                   ContextMenuButtonConfig(
                     AppConstants.editSong,
                     icon: const Icon(Icons.edit, size: 20),
-                    onPressed: () => viewModel.openEditor(song: song),
+                    onPressed: () => homeVm.openEditor(song: song),
                   ),
                 ],
               ),
               child: SongItem(
                 song: song,
                 height: size!.height,
-                onTap: () => viewModel.openPresentor(song: song),
+                onTap: () => homeVm.openPresentor(song: song),
               ),
             );
           },

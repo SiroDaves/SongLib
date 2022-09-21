@@ -8,12 +8,13 @@ import '../../../vm/home/home_vm.dart';
 import '../../../widget/general/list_items.dart';
 import '../../../widget/search/search_widget.dart';
 
-class Tab2Search extends StatelessWidget {
+/// Search widget for search tab
+class SearchTabSearch extends StatelessWidget {
   final HomeVm viewModel;
   final List<SongExt>? songs;
   final double? height;
 
-  const Tab2Search({
+  const SearchTabSearch({
     Key? key,
     required this.viewModel,
     required this.songs,

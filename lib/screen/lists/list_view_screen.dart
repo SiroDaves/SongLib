@@ -14,6 +14,7 @@ import '../../widget/general/list_items.dart';
 import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
 
+/// Screen for viewing a song list
 class ListViewScreen extends StatefulWidget {
   static const String routeName = RouteNames.listScreen;
 
@@ -27,7 +28,7 @@ class ListViewScreen extends StatefulWidget {
 class ListViewScreenState extends State<ListViewScreen>
     with BackNavigatorMixin
     implements ListNavigator {
-  ListVm? viewModel;
+  ListVm? vm;
   Size? size;
 
   @override
@@ -38,7 +39,7 @@ class ListViewScreenState extends State<ListViewScreen>
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) {
-        viewModel = viewModel;
+        vm = viewModel;
         return screenWidget(context);
       },
     );
@@ -47,7 +48,7 @@ class ListViewScreenState extends State<ListViewScreen>
   Widget screenWidget(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(viewModel!.listed!.title!),
+        title: Text(vm!.listed!.title!),
         actions: <Widget>[
           InkWell(
             onTap: () => {},
@@ -80,9 +81,9 @@ class ListViewScreenState extends State<ListViewScreen>
         ),
       ),
       child: SingleChildScrollView(
-        child: viewModel!.isBusy
+        child: vm!.isBusy
             ? const ListLoading()
-            : viewModel!.listeds!.isNotEmpty
+            : vm!.listeds!.isNotEmpty
                 ? listContainer()
                 : const NoDataToShow(
                     title: AppConstants.itsEmptyHere,
@@ -99,12 +100,11 @@ class ListViewScreenState extends State<ListViewScreen>
         thickness: 10,
         radius: const Radius.circular(20),
         child: ListView.builder(
-          itemCount: viewModel!.listeds!.length,
+          itemCount: vm!.listeds!.length,
           padding: EdgeInsets.all(
             size!.height * 0.0082,
           ),
-          itemBuilder: (context, index) =>
-              songItemWidget(viewModel!.listeds![index]),
+          itemBuilder: (context, index) => songItemWidget(vm!.listeds![index]),
         ),
       ),
     );
@@ -128,7 +128,7 @@ class ListViewScreenState extends State<ListViewScreen>
     return SongItem(
       song: song,
       height: size!.height,
-      onTap: () => viewModel!.openPresentor(song: song),
+      onTap: () => vm!.openPresentor(song: song),
     );
   }
 

@@ -12,9 +12,9 @@ import '../../widget/general/list_items.dart';
 import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
 
+/// Screen with list of song view history
 class HistoriesScreen extends StatefulWidget {
   static const String routeName = RouteNames.historiesScreen;
-
   const HistoriesScreen({Key? key}) : super(key: key);
 
   @override
@@ -25,7 +25,7 @@ class HistoriesScreen extends StatefulWidget {
 class HistoriesScreenState extends State<HistoriesScreen>
     with BackNavigatorMixin
     implements HistoriesNavigator {
-  HistoriesVm? viewModel;
+  HistoriesVm? vm;
   Size? size;
 
   @override
@@ -36,7 +36,7 @@ class HistoriesScreenState extends State<HistoriesScreen>
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) {
-        viewModel = viewModel;
+        vm = viewModel;
         return screenWidget();
       },
     );
@@ -67,9 +67,9 @@ class HistoriesScreenState extends State<HistoriesScreen>
 
   Widget mainContainer() {
     return SizedBox(
-      child: viewModel!.isBusy
+      child: vm!.isBusy
           ? const ListLoading()
-          : viewModel!.histories!.isNotEmpty
+          : vm!.histories!.isNotEmpty
               ? listContainer()
               : const NoDataToShow(
                   title: AppConstants.itsEmptyHere1,
@@ -86,13 +86,13 @@ class HistoriesScreenState extends State<HistoriesScreen>
         thickness: 10,
         radius: const Radius.circular(20),
         child: ListView.builder(
-          itemCount: viewModel!.histories!.length,
+          itemCount: vm!.histories!.length,
           padding: EdgeInsets.only(
             left: size!.height * 0.0082,
             right: size!.height * 0.0082,
           ),
           itemBuilder: (context, index) {
-            return songItemWidget(viewModel!.histories![index]);
+            return songItemWidget(vm!.histories![index]);
           },
         ),
       ),

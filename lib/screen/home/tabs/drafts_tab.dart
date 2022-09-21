@@ -1,9 +1,10 @@
 part of '../home_screen.dart';
 
+/// Tab screen with list of song drafts
 // ignore: must_be_immutable
-class NotesTab extends StatelessWidget {
-  final HomeVm viewModel;
-  NotesTab({Key? key, required this.viewModel}) : super(key: key);
+class DraftsTab extends StatelessWidget {
+  final HomeVm homeVm;
+  DraftsTab({Key? key, required this.homeVm}) : super(key: key);
 
   Size? size;
 
@@ -40,18 +41,18 @@ class NotesTab extends StatelessWidget {
 
   Widget mainContainer(BuildContext context) {
     return SizedBox(
-      child: viewModel.isBusy
+      child: homeVm.isBusy
           ? const ListLoading()
           : Column(
               children: [
-                viewModel.drafts!.isNotEmpty
-                    ? Tab3Search(
-                        viewModel: viewModel,
-                        drafts: viewModel.drafts,
+                homeVm.drafts!.isNotEmpty
+                    ? DraftsTabSearch(
+                        viewModel: homeVm,
+                        drafts: homeVm.drafts,
                         height: size!.height,
                       )
                     : Container(),
-                viewModel.drafts!.isNotEmpty
+                homeVm.drafts!.isNotEmpty
                     ? listContainer(context)
                     : const NoDataToShow(
                         title: AppConstants.itsEmptyHere,
@@ -90,14 +91,14 @@ class NotesTab extends StatelessWidget {
             right: size!.height * 0.0163,
           ),
           itemBuilder: (context, index) {
-            final Draft draft = viewModel.drafts![index];
+            final Draft draft = homeVm.drafts![index];
             return DraftItem(
               draft: draft,
               height: size!.height,
-              onTap: () => viewModel.openPresentor(draft: draft),
+              onTap: () => homeVm.openPresentor(draft: draft),
             );
           },
-          itemCount: viewModel.drafts!.length,
+          itemCount: homeVm.drafts!.length,
         ),
       ),
     );

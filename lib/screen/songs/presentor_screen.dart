@@ -10,6 +10,7 @@ import '../../vm/songs/presentor_vm.dart';
 import '../../widget/general/vertical_tabs.dart';
 import '../../widget/provider/provider_widget.dart';
 
+/// Screen to present a song in slide format
 class PresentorScreen extends StatefulWidget {
   static const String routeName = RouteNames.presentorScreen;
 
@@ -23,7 +24,7 @@ class PresentorScreen extends StatefulWidget {
 class PresentorScreenState extends State<PresentorScreen>
     with BackNavigatorMixin
     implements PresentorNavigator {
-  PresentorVm? viewModel;
+  PresentorVm? vm;
   Size? size;
 
   List<Tab>? viewerTabs;
@@ -36,7 +37,7 @@ class PresentorScreenState extends State<PresentorScreen>
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) {
-        viewModel = viewModel;
+        vm = viewModel;
         return screenWidget(context);
       },
     );
@@ -49,19 +50,19 @@ class PresentorScreenState extends State<PresentorScreen>
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(viewModel!.songTitle),
+            Text(vm!.songTitle),
             Text(
-              viewModel!.songTitle,
+              vm!.songTitle,
               style: const TextStyle(fontSize: 16),
             ),
           ],
         ),
         actions: <Widget>[
           InkWell(
-            onTap: viewModel!.likeSong,
+            onTap: vm!.likeSong,
             child: Padding(
               padding: const EdgeInsets.all(10),
-              child: Icon(viewModel!.likeIcon),
+              child: Icon(vm!.likeIcon),
             ),
           ),
           popupMenu(),
@@ -90,7 +91,7 @@ class PresentorScreenState extends State<PresentorScreen>
   Widget popupMenu() {
     return PopupMenuButton(
       itemBuilder: (context) {
-        return viewModel!.isDraft
+        return vm!.isDraft
             ? [
                 const PopupMenuItem<int>(
                   value: 0,
@@ -125,19 +126,19 @@ class PresentorScreenState extends State<PresentorScreen>
               ];
       },
       onSelected: (int value) {
-        viewModel!.popupActions(value);
+        vm!.popupActions(value);
       },
     );
   }
 
   Widget mainContainer(BuildContext context) {
     viewerTabs = List<Tab>.generate(
-      viewModel!.verseInfos.length,
+      vm!.verseInfos.length,
       (int index) {
         return Tab(
           child: Center(
             child: Text(
-              viewModel!.verseInfos[index],
+              vm!.verseInfos[index],
               style: TextStyle(
                 fontSize: size!.height * 0.0489,
                 fontWeight: FontWeight.bold,
@@ -148,16 +149,16 @@ class PresentorScreenState extends State<PresentorScreen>
       },
     );
     viewerWidgets = List<Widget>.generate(
-      viewModel!.verseInfos.length,
+      vm!.verseInfos.length,
       (int index) {
         return Column(
           children: <Widget>[
-            verseText(viewModel!.verseTexts[index]),
+            verseText(vm!.verseTexts[index]),
             Row(
               children: [
                 const Spacer(),
-                copyVerse(index, viewModel!.verseTexts[index]),
-                shareVerse(index, viewModel!.verseTexts[index]),
+                copyVerse(index, vm!.verseTexts[index]),
+                shareVerse(index, vm!.verseTexts[index]),
                 const Spacer(),
               ],
             ),
@@ -211,7 +212,7 @@ class PresentorScreenState extends State<PresentorScreen>
         heroTag: "CopyVerse_$index",
         tooltip: AppConstants.copyVerse,
         backgroundColor: ThemeColors.primary,
-        onPressed: () => viewModel!.copyVerse(lyrics),
+        onPressed: () => vm!.copyVerse(lyrics),
         child: const Icon(Icons.content_copy),
       ),
     );
@@ -224,7 +225,7 @@ class PresentorScreenState extends State<PresentorScreen>
         heroTag: "ShareVerse_$index",
         tooltip: AppConstants.shareVerse,
         backgroundColor: ThemeColors.primary,
-        onPressed: () => viewModel!.shareVerse(lyrics),
+        onPressed: () => vm!.shareVerse(lyrics),
         child: const Icon(Icons.share),
       ),
     );

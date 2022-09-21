@@ -12,6 +12,7 @@ import '../../vm/manage/settings_vm.dart';
 import '../../widget/provider/provider_widget.dart';
 import '../../widget/general/selector_item.dart';
 
+/// Settings screen for user to change app options
 class SettingsScreen extends StatefulWidget {
   static const String routeName = RouteNames.settingsScreen;
 
@@ -29,7 +30,7 @@ class SettingsScreenState extends State<SettingsScreen>
     implements SettingsNavigator {
   String theme = AppConstants.themeDefault, wakeLock = 'Disabled';
   bool wakeLockValue = false;
-  GlobalVm? viewModel;
+  GlobalVm? vm;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +43,7 @@ class SettingsScreenState extends State<SettingsScreen>
             title: const Text(AppConstants.settingsTitle),
           ),
           body: Consumer<GlobalVm>(builder: (context, viewModel, child) {
-            viewModel = viewModel;
+            vm = viewModel;
             return ListView(
               padding: const EdgeInsets.all(5),
               children: [
@@ -69,7 +70,7 @@ class SettingsScreenState extends State<SettingsScreen>
   }
 
   Widget wakeLockManagement() {
-    if (viewModel!.wakeLockStatus) {
+    if (vm!.wakeLockStatus) {
       wakeLock = 'Enabled';
     } else {
       wakeLock = 'Disabled';
@@ -83,13 +84,13 @@ class SettingsScreenState extends State<SettingsScreen>
         children: [
           SelectorItem(
             title: 'Enable',
-            onClick: () => viewModel!.updateWakeLockStatus(true),
-            selected: viewModel!.wakeLockStatus == true,
+            onClick: () => vm!.updateWakeLockStatus(true),
+            selected: vm!.wakeLockStatus == true,
           ),
           SelectorItem(
             title: 'Disable',
-            onClick: () => viewModel!.updateWakeLockStatus(false),
-            selected: viewModel!.wakeLockStatus == false,
+            onClick: () => vm!.updateWakeLockStatus(false),
+            selected: vm!.wakeLockStatus == false,
           ),
         ],
       ),
@@ -97,9 +98,9 @@ class SettingsScreenState extends State<SettingsScreen>
   }
 
   Widget themeManagement() {
-    if (viewModel!.themeMode == ThemeMode.light) {
+    if (vm!.themeMode == ThemeMode.light) {
       theme = AppConstants.themeLight;
-    } else if (viewModel!.themeMode == ThemeMode.dark) {
+    } else if (vm!.themeMode == ThemeMode.dark) {
       theme = AppConstants.themeDark;
     }
 
@@ -111,18 +112,18 @@ class SettingsScreenState extends State<SettingsScreen>
         children: [
           SelectorItem(
             title: 'Default',
-            onClick: () => viewModel!.updateThemeMode(ThemeMode.system),
-            selected: viewModel!.themeMode == ThemeMode.system,
+            onClick: () => vm!.updateThemeMode(ThemeMode.system),
+            selected: vm!.themeMode == ThemeMode.system,
           ),
           SelectorItem(
             title: 'Light',
-            onClick: () => viewModel!.updateThemeMode(ThemeMode.light),
-            selected: viewModel!.themeMode == ThemeMode.light,
+            onClick: () => vm!.updateThemeMode(ThemeMode.light),
+            selected: vm!.themeMode == ThemeMode.light,
           ),
           SelectorItem(
             title: 'Dark',
-            onClick: () => viewModel!.updateThemeMode(ThemeMode.dark),
-            selected: viewModel!.themeMode == ThemeMode.dark,
+            onClick: () => vm!.updateThemeMode(ThemeMode.dark),
+            selected: vm!.themeMode == ThemeMode.dark,
           ),
         ],
       ),

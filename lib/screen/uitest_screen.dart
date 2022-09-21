@@ -9,6 +9,7 @@ import '../../widget/provider/provider_widget.dart';
 import '../navigator/main_navigator.dart';
 import '../vm/uitest_vm.dart';
 
+/// Screen to build a complex ui before adding to the app
 class UiTestScreen extends StatefulWidget {
   static const String routeName = 'uitest';
 
@@ -19,7 +20,7 @@ class UiTestScreen extends StatefulWidget {
 }
 
 class UiTestScreenState extends State<UiTestScreen> implements UiTestNavigator {
-  UiTestVm? viewModel;
+  UiTestVm? vm;
   Size? size;
 
   @override
@@ -29,7 +30,7 @@ class UiTestScreenState extends State<UiTestScreen> implements UiTestNavigator {
     return ProviderWidget<UiTestVm>(
       create: () => GetIt.I()..init(this),
       childBuilderWithViewModel: (context, viewModel, theme, localization) {
-        viewModel = viewModel;
+        vm = viewModel;
         return screenWidget(context);
       },
     );
@@ -57,7 +58,7 @@ class UiTestScreenState extends State<UiTestScreen> implements UiTestNavigator {
         height: size!.width,
         child: LinearPercentIndicator(
           percent: double.parse(
-            (viewModel!.progress / 100).toStringAsFixed(1),
+            (vm!.progress / 100).toStringAsFixed(1),
           ),
           lineHeight: size!.width,
           backgroundColor: Colors.black,
@@ -77,8 +78,8 @@ class UiTestScreenState extends State<UiTestScreen> implements UiTestNavigator {
         division: 10,
         secondaryWidth: 10,
         progressGap: 10,
-        primaryValue: viewModel!.progress / 100,
-        secondaryValue: viewModel!.progress / 100,
+        primaryValue: vm!.progress / 100,
+        secondaryValue: vm!.progress / 100,
         primaryColor: Colors.yellow,
         secondaryColor: Colors.red,
         tertiaryColor: Colors.white24,
@@ -93,7 +94,7 @@ class UiTestScreenState extends State<UiTestScreen> implements UiTestNavigator {
               Padding(
                 padding: const EdgeInsets.only(top: 16),
                 child: Text(
-                  '${viewModel!.progress} %',
+                  '${vm!.progress} %',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     letterSpacing: 1.5,
@@ -107,7 +108,7 @@ class UiTestScreenState extends State<UiTestScreen> implements UiTestNavigator {
                 height: size!.width / 6,
                 child: Center(
                   child: Text(
-                    viewModel!.state,
+                    vm!.state,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       letterSpacing: 1.5,
@@ -135,7 +136,7 @@ class UiTestScreenState extends State<UiTestScreen> implements UiTestNavigator {
                       ),
                     ),
                     Text(
-                      viewModel!.time,
+                      vm!.time,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontWeight: FontWeight.w700,

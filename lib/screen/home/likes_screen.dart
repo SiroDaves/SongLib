@@ -13,9 +13,9 @@ import '../../widget/general/list_items.dart';
 import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
 
+/// Screen to show list of liked songs
 class LikesScreen extends StatefulWidget {
   static const String routeName = RouteNames.likesScreen;
-
   const LikesScreen({Key? key}) : super(key: key);
 
   @override
@@ -26,7 +26,7 @@ class LikesScreen extends StatefulWidget {
 class LikesScreenState extends State<LikesScreen>
     with BackNavigatorMixin
     implements LikesNavigator {
-  LikesVm? viewModel;
+  LikesVm? vm;
   Size? size;
 
   @override
@@ -37,7 +37,7 @@ class LikesScreenState extends State<LikesScreen>
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) {
-        viewModel = viewModel;
+        vm = viewModel;
         return screenWidget(context);
       },
     );
@@ -63,9 +63,9 @@ class LikesScreenState extends State<LikesScreen>
 
   Widget mainContainer() {
     return SingleChildScrollView(
-      child: viewModel!.isBusy
+      child: vm!.isBusy
           ? const ListLoading()
-          : viewModel!.likes!.isNotEmpty
+          : vm!.likes!.isNotEmpty
               ? listContainer()
               : const NoDataToShow(
                   title: AppConstants.itsEmptyHere,
@@ -81,16 +81,16 @@ class LikesScreenState extends State<LikesScreen>
         thickness: 10,
         radius: const Radius.circular(20),
         child: ListView.builder(
-            itemCount: viewModel!.likes!.length,
+            itemCount: vm!.likes!.length,
             padding: EdgeInsets.all(
               size!.height * 0.0082,
             ),
             itemBuilder: (context, index) {
-              final SongExt song = viewModel!.likes![index];
+              final SongExt song = vm!.likes![index];
               return SongItem(
                 song: song,
                 height: size!.height,
-                onTap: () => viewModel!.openPresentor(song: song),
+                onTap: () => vm!.openPresentor(song: song),
               );
             }),
       ),

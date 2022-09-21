@@ -8,6 +8,7 @@ import '../../vm/songs/editor_vm.dart';
 import '../../widget/general/inputs.dart';
 import '../../widget/provider/provider_widget.dart';
 
+/// Song editor screen to draft a new song or edit an existing one
 class EditorScreen extends StatefulWidget {
   static const String routeName = RouteNames.editorScreen;
 
@@ -21,7 +22,7 @@ class EditorScreen extends StatefulWidget {
 class EditorScreenState extends State<EditorScreen>
     with BackNavigatorMixin
     implements EditorNavigator {
-  EditorVm? viewModel;
+  EditorVm? vm;
   Size? size;
 
   @override
@@ -31,7 +32,7 @@ class EditorScreenState extends State<EditorScreen>
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) {
-        viewModel = viewModel;
+        vm = viewModel;
         return screenWidget();
       },
     );
@@ -41,18 +42,18 @@ class EditorScreenState extends State<EditorScreen>
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          viewModel!.isNewContent ? 'Draft a New Song' : 'Edit Your Song',
+          vm!.isNewContent ? 'Draft a New Song' : 'Edit Your Song',
         ),
         actions: <Widget>[
           InkWell(
-            onTap: () => viewModel!.saveChanges(),
+            onTap: () => vm!.saveChanges(),
             child: const Padding(
               padding: EdgeInsets.all(10),
               child: Icon(Icons.check),
             ),
           ),
           InkWell(
-            onTap: () => viewModel!.confirmCancel(context),
+            onTap: () => vm!.confirmCancel(context),
             child: const Padding(
               padding: EdgeInsets.all(10),
               child: Icon(Icons.clear),
@@ -92,13 +93,13 @@ class EditorScreenState extends State<EditorScreen>
             children: <Widget>[
               FormInput(
                 iLabel: 'Song Title',
-                iController: viewModel!.titleController!,
+                iController: vm!.titleController!,
                 prefix: const Icon(Icons.text_fields),
                 iOptions: const <String>[],
               ),
               FormInput(
                 iLabel: 'Song Content',
-                iController: viewModel!.contentController!,
+                iController: vm!.contentController!,
                 prefix: const Icon(Icons.list),
                 isMultiline: true,
                 iType: TextInputType.multiline,
@@ -106,13 +107,13 @@ class EditorScreenState extends State<EditorScreen>
               ),
               FormInput(
                 iLabel: 'Song Key (Optional)',
-                iController: viewModel!.keyController!,
+                iController: vm!.keyController!,
                 prefix: const Icon(Icons.key),
                 iOptions: const <String>[],
               ),
               FormInput(
                 iLabel: 'Song Alias (Optional)',
-                iController: viewModel!.aliasController!,
+                iController: vm!.aliasController!,
                 prefix: const Icon(Icons.text_format),
                 iOptions: const <String>[],
               ),

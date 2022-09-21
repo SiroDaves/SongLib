@@ -1,53 +1,54 @@
 import 'package:flutter/material.dart';
 
-import '../../../model/base/draft.dart';
+import '../../../model/base/listed.dart';
 import '../../../theme/theme_colors.dart';
 import '../../../vm/home/home_vm.dart';
 import '../../../widget/general/list_items.dart';
 import '../../../widget/search/search_widget.dart';
 
-class Tab3Search extends StatelessWidget {
+/// Search widget for song list tab
+class SongListSearch extends StatelessWidget {
   final HomeVm viewModel;
-  final List<Draft>? drafts;
+  final List<Listed>? listeds;
   final double? height;
 
-  const Tab3Search({
+  const SongListSearch({
     Key? key,
     required this.viewModel,
-    required this.drafts,
+    required this.listeds,
     required this.height,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SearchWidget<Draft>(
-      dataList: drafts!,
+    return SearchWidget<Listed>(
+      dataList: listeds!,
       hideSearchBoxWhenItemSelected: false,
       listContainerHeight: height! - 125,
       queryBuilder: (query, list) {
         return list
             .where(
-              (draft) => draft.title!.toLowerCase().contains(
+              (listed) => listed.title!.toLowerCase().contains(
                     query.toLowerCase(),
                   ),
             )
             .toList();
       },
-      popupListItemBuilder: (draft) {
-        return DraftItem(
-          draft: draft,
+      popupListItemBuilder: (listed) {
+        return ListedItem(
+          listed: listed,
           height: height!,
-          onTap: () => viewModel.openPresentor(draft: draft),
+          onTap: () => viewModel.openListView(listed),
         );
       },
-      selectedItemBuilder: (selectedDraft, deleteSelectedDraft) {
-        return selectedDraftWidget(selectedDraft, deleteSelectedDraft);
+      selectedItemBuilder: (selectedListed, deleteSelectedListed) {
+        return selectedListedWidget(selectedListed, deleteSelectedListed);
       },
-      noItemsFoundWidget: noDraftsFound(),
+      noItemsFoundWidget: noListedsFound(),
       textFieldBuilder: (controller, focusNode) {
         return searchField(controller, focusNode);
       },
-      onItemSelected: (draft) {},
+      onItemSelected: (listed) {},
     );
   }
 
@@ -82,8 +83,8 @@ class Tab3Search extends StatelessWidget {
           prefixIcon: const Icon(Icons.search, color: ThemeColors.primary),
           //suffixIcon: const Icon(Icons.mic, color: ThemeColors.primary),
           border: InputBorder.none,
-          hintText: "Search a Draft",
-          hintStyle: TextStyle(
+          hintText: "Search a List",
+          hintStyle: const TextStyle(
             color: ThemeColors.primary,
           ),
           contentPadding: const EdgeInsets.all(10),
@@ -92,9 +93,9 @@ class Tab3Search extends StatelessWidget {
     );
   }
 
-  Widget selectedDraftWidget(
-    Draft selectedDraft,
-    VoidCallback deleteSelectedDraft,
+  Widget selectedListedWidget(
+    Listed selectedListed,
+    VoidCallback deleteSelectedListed,
   ) {
     return Container(
       padding: const EdgeInsets.symmetric(
@@ -112,7 +113,7 @@ class Tab3Search extends StatelessWidget {
                 bottom: 8,
               ),
               child: Text(
-                selectedDraft.title!,
+                selectedListed.title!,
                 style: const TextStyle(fontSize: 14),
               ),
             ),
@@ -120,14 +121,14 @@ class Tab3Search extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.delete_outline, size: 22),
             color: Colors.grey[700],
-            onPressed: deleteSelectedDraft,
+            onPressed: deleteSelectedListed,
           ),
         ],
       ),
     );
   }
 
-  Widget noDraftsFound() {
+  Widget noListedsFound() {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -138,7 +139,7 @@ class Tab3Search extends StatelessWidget {
         ),
         const SizedBox(width: 10),
         Text(
-          "No Drafts Found",
+          "No Lists Found",
           style: TextStyle(
             fontSize: 16,
             color: Colors.grey[900]!.withOpacity(0.7),
@@ -148,11 +149,11 @@ class Tab3Search extends StatelessWidget {
     );
   }
 
-  Widget popupListDraftWidget(Draft draft) {
+  Widget popupListListedWidget(Listed listed) {
     return Container(
       padding: const EdgeInsets.all(12),
       child: Text(
-        draft.title!,
+        listed.title!,
         style: const TextStyle(fontSize: 16),
       ),
     );

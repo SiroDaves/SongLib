@@ -16,18 +16,18 @@ import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
 import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
-import 'widgets/tab1_search.dart';
-import 'widgets/tab2_search.dart';
-import 'widgets/tab3_search.dart';
+import 'widgets/song_list_search.dart';
+import 'widgets/search_tab_search.dart';
+import 'widgets/drafts_tab_search.dart';
 import 'widgets/tabs_indicator.dart';
 
-part 'tabs/listeds_tab.dart';
-part 'tabs/notes_tab.dart';
+part 'tabs/song_list_tab.dart';
+part 'tabs/drafts_tab.dart';
 part 'tabs/search_tab.dart';
 
+/// Home screen with 3 tabs of list, search and notes screens
 class HomeScreen extends StatefulWidget {
   static const String routeName = RouteNames.homeScreen;
-
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -38,7 +38,7 @@ class HomeScreen extends StatefulWidget {
 class HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin
     implements HomeNavigator {
-  HomeVm? viewModel;
+  HomeVm? vm;
   Size? size;
   TabController? pages;
   int activeIndex = 1;
@@ -77,7 +77,7 @@ class HomeScreenState extends State<HomeScreen>
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) {
-        viewModel = viewModel;
+        vm = viewModel;
         return Scaffold(
           body: mainWidget(),
           bottomNavigationBar: extraActions(),
@@ -92,9 +92,9 @@ class HomeScreenState extends State<HomeScreen>
         TabBarView(
           controller: pages,
           children: [
-            ListedsTab(viewModel: viewModel!),
-            SearchTab(viewModel: viewModel!),
-            NotesTab(viewModel: viewModel!),
+            SongListTab(homeVm: vm!),
+            SearchTab(homeVm: vm!),
+            DraftsTab(homeVm: vm!),
           ],
         ),
         TabsIndicator(controller: pages!),
@@ -109,21 +109,21 @@ class HomeScreenState extends State<HomeScreen>
         BottomNavigationBarItem(
           icon: Icon(
             Icons.favorite,
-            color: viewModel!.isBusy ? ThemeColors.primary : Colors.white,
+            color: vm!.isBusy ? ThemeColors.primary : Colors.white,
           ),
           label: '',
         ),
         BottomNavigationBarItem(
           icon: Icon(
             Icons.help,
-            color: viewModel!.isBusy ? ThemeColors.primary : Colors.white,
+            color: vm!.isBusy ? ThemeColors.primary : Colors.white,
           ),
           label: '',
         ),
         BottomNavigationBarItem(
           icon: Icon(
             Icons.settings,
-            color: viewModel!.isBusy ? ThemeColors.primary : Colors.white,
+            color: vm!.isBusy ? ThemeColors.primary : Colors.white,
           ),
           label: '',
         ),

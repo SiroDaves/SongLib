@@ -9,6 +9,7 @@ import '../util/constants/app_constants.dart';
 import '../vm/splash_vm.dart';
 import '../widget/provider/provider_widget.dart';
 
+/// Timed Welcome screen
 class SplashScreen extends StatefulWidget {
   static const String routeName = RouteNames.splashScreen;
 
@@ -22,15 +23,15 @@ class SplashScreen extends StatefulWidget {
 
 @visibleForTesting
 class SplashScreenState extends State<SplashScreen> implements SplashNavigator {
-  SplashVm? viewModel;
-  
+  SplashVm? vm;
+
   @override
   Widget build(BuildContext context) {
     return ProviderWidget<SplashVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) {
-        viewModel = viewModel;
+        vm = viewModel;
         return screenWidget(context);
       },
     );
