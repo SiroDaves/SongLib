@@ -9,7 +9,6 @@ import '../../model/base/songext.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
-import '../../widget/general/toast.dart';
 import '../home/home_vm.dart';
 
 @injectable
@@ -23,7 +22,6 @@ class EditorVm with ChangeNotifierEx {
   HomeVm? homeVm;
   SongExt? song;
   Draft? draft;
-  bool? isDraft;
 
   bool isBusy = false, isNewContent = false;
   String? title, content, alias, key;
@@ -40,23 +38,21 @@ class EditorVm with ChangeNotifierEx {
     navigator = navigator;
     homeVm = GetIt.instance<HomeVm>();
     
-    if (localStorage.draft != null) {
-      isDraft = true;
-      draft = localStorage.draft;
-    } else if (localStorage.song != null) {
-      isDraft = false;
-      song = localStorage.song;
-    }
     await loadEditor();
   }
 
   Future<void> loadEditor() async {
-    if (draft != null) {
+    isBusy = true;
+    notifyListeners();
+
+    if (localStorage.draft != null) {
+      draft = localStorage.draft;
       titleController!.text = draft!.title!;
       aliasController!.text = draft!.alias!;
       keyController!.text = draft!.key!;
       contentController!.text = draft!.content!;
-    } else if (song != null) {
+    } else if (localStorage.song != null) {
+      song = localStorage.song;
       titleController!.text = song!.title!;
       aliasController!.text = song!.alias!;
       keyController!.text = song!.key!;
@@ -64,6 +60,9 @@ class EditorVm with ChangeNotifierEx {
     } else {
       isNewContent = true;
     }
+
+    isBusy = false;
+    notifyListeners();
   }
 
   // function to validate creds

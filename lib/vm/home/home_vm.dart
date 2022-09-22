@@ -25,6 +25,7 @@ class HomeVm with ChangeNotifierEx {
   HomeVm(this.dbRepo, this.localStorage);
 
   bool isBusy = false;
+  String? title, content;
   String selectedBooks = "";
   List<String> bookNos = [];
   int mainBook = 0, currentPage = 1;
@@ -34,7 +35,6 @@ class HomeVm with ChangeNotifierEx {
   List<Listed>? listeds = [];
   List<Draft>? drafts = [];
 
-  String? title, content;
   TextEditingController? titleController, contentController;
 
   Future<void> init(HomeNavigator screenNavigator) async {
@@ -67,14 +67,7 @@ class HomeVm with ChangeNotifierEx {
   Future<void> fetchListedData() async {
     isBusy = true;
     notifyListeners();
-    try {
-      listeds = await dbRepo.fetchListeds();
-    } catch (exception, stackTrace) {
-      await Sentry.captureException(
-        exception,
-        stackTrace: stackTrace,
-      );
-    }
+    listeds = await dbRepo.fetchListeds();
     isBusy = false;
     notifyListeners();
   }
@@ -83,16 +76,9 @@ class HomeVm with ChangeNotifierEx {
   Future<void> fetchSearchData() async {
     isBusy = true;
     notifyListeners();
-    try {
-      books = await dbRepo.fetchBooks();
-      songs = await dbRepo.fetchSongs();
-      await selectSongbook(mainBook);
-    } catch (exception, stackTrace) {
-      await Sentry.captureException(
-        exception,
-        stackTrace: stackTrace,
-      );
-    }
+    books = await dbRepo.fetchBooks();
+    songs = await dbRepo.fetchSongs();
+    await selectSongbook(mainBook);
     isBusy = false;
     notifyListeners();
   }
@@ -101,14 +87,7 @@ class HomeVm with ChangeNotifierEx {
   Future<void> fetchDraftsData() async {
     isBusy = true;
     notifyListeners();
-    try {
-      drafts = await dbRepo.fetchDrafts();
-    } catch (exception, stackTrace) {
-      await Sentry.captureException(
-        exception,
-        stackTrace: stackTrace,
-      );
-    }
+    drafts = await dbRepo.fetchDrafts();
     isBusy = false;
     notifyListeners();
   }
@@ -137,44 +116,39 @@ class HomeVm with ChangeNotifierEx {
     notifyListeners();
   }
 
+  /// Add a song to liked songs
   Future<void> likeSong(SongExt song) async {
-    try {
-      await dbRepo.editSong(song);
-      if (!song.liked!) {
-        showToast(
-          text: '${song.title} ${AppConstants.songLiked}',
-          state: ToastStates.success,
-        );
-      }
-      notifyListeners();
-    } catch (_) {}
+    bool isLiked = song.liked!;
+    isLiked = !isLiked;
+    song.liked = isLiked;
+    await dbRepo.editSong(song);
+    if (isLiked) {
+      showToast(
+        text: '${song.title} ${AppConstants.songLiked}',
+        state: ToastStates.success,
+      );
+    }
+    notifyListeners();
   }
 
   Future<void> copySong(SongExt song) async {
-    final String songText = song.content!.replaceAll("#", "\n");
-    try {
-      await Clipboard.setData(ClipboardData(
-        text: '${songItemTitle(song.songNo!, song.title!)}\n\n$songText',
-      ));
-      showToast(
-        text: '${song.title} ${AppConstants.songCopied}',
-        state: ToastStates.success,
-      );
-    } catch (_) {}
+    await Clipboard.setData(ClipboardData(
+      text:
+          '${songItemTitle(song.songNo!, song.title!)}\n${refineTitle(song.songbook!)}'
+          '\n\n${song.content!.replaceAll("#", "\n")}',
+    ));
+    showToast(
+      text: '${song.title} ${AppConstants.songCopied}',
+      state: ToastStates.success,
+    );
   }
 
   Future<void> shareSong(SongExt song) async {
-    final String songText = song.content!.replaceAll("#", "\n");
-    try {
-      await Share.share(
-        '${songItemTitle(song.songNo!, song.title!)}\n\n$songText',
-        subject: AppConstants.shareVerse,
-      );
-      showToast(
-        text: AppConstants.readyShare,
-        state: ToastStates.success,
-      );
-    } catch (_) {}
+    await Share.share(
+      '${songItemTitle(song.songNo!, song.title!)}\n${refineTitle(song.songbook!)}'
+      '\n\n${song.content!.replaceAll("#", "\n")}',
+      subject: AppConstants.shareVerse,
+    );
   }
 
   // function to validate creds
@@ -228,7 +202,9 @@ class HomeVm with ChangeNotifierEx {
   void openPresentor({SongExt? song, Draft? draft}) async {
     if (song != null) {
       localStorage.song = song;
+      localStorage.draft = null;
     } else if (draft != null) {
+      localStorage.song = null;
       localStorage.draft = draft;
     }
     navigator.goToPresentor();

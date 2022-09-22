@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../model/base/listed.dart';
+import '../../navigator/main_navigator.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
 import '../../vm/songs/presentor_vm.dart';
-import '../../widget/general/labels.dart';
-import '../../widget/general/list_items.dart';
-import '../../widget/general/toast.dart';
 import '../../widget/progress/circular_progress.dart';
 import '../../widget/provider/provider_widget.dart';
+import '../lists/list_view_popup.dart';
 
 /// Screen to present a song in slide format
 class PresentorScreen extends StatefulWidget {
   static const String routeName = RouteNames.presentorScreen;
-
   const PresentorScreen({Key? key}) : super(key: key);
 
   @override
@@ -31,29 +27,6 @@ class PresentorScreenState extends State<PresentorScreen>
     implements PresentorNavigator {
   PresentorVm? vm;
   Size? size;
-
-  Future<void> popupActions(int value) async {
-    switch (value) {
-      case 0:
-        await Clipboard.setData(ClipboardData(
-          text: '${vm!.songTitle}\n${vm!.songBook}\n\n${vm!.songContent}',
-        ));
-        showToast(
-          text: '${vm!.songTitle} ${AppConstants.songCopied}',
-          state: ToastStates.success,
-        );
-        break;
-      case 1:
-        await vm!.editSong();
-        break;
-      case 2:
-        showLists();
-        break;
-      case 3:
-        await vm!.confirmDelete(context);
-        break;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +58,7 @@ class PresentorScreenState extends State<PresentorScreen>
         ),
         actions: <Widget>[
           InkWell(
-            onTap: vm!.likeSong,
+            onTap: vm!.openSongEditor,
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Icon(vm!.likeIcon),
@@ -102,43 +75,9 @@ class PresentorScreenState extends State<PresentorScreen>
             '${vm!.songTitle}\n${vm!.songBook}\n\n${vm!.songContent}',
             subject: AppConstants.shareVerse,
           );
-          showToast(
-            text: AppConstants.readyShare,
-            state: ToastStates.success,
-          );
         },
         child: const Icon(Icons.share, color: Colors.white),
       ),
-    );
-  }
-
-  void showLists() {
-    showModalBottomSheet<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return SizedBox(
-          height: size!.height * 0.75,
-          child: Scaffold(
-            appBar: AppBar(
-              title: const Text(AppConstants.addSongtoList),
-              actions: <Widget>[
-                InkWell(
-                  onTap: () => Navigator.pop(context),
-                  child: const Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Icon(Icons.clear),
-                  ),
-                ),
-              ],
-            ),
-            body: Scrollbar(
-              thickness: 10,
-              radius: const Radius.circular(20),
-              child: listContainer(),
-            ),
-          ),
-        );
-      },
     );
   }
 
@@ -157,10 +96,6 @@ class PresentorScreenState extends State<PresentorScreen>
                 ),
                 const PopupMenuItem<int>(
                   value: 2,
-                  child: Text(AppConstants.addSongtoList),
-                ),
-                const PopupMenuItem<int>(
-                  value: 3,
                   child: Text(AppConstants.deleteSong),
                 ),
               ]
@@ -175,7 +110,7 @@ class PresentorScreenState extends State<PresentorScreen>
                 ),
                 const PopupMenuItem<int>(
                   value: 2,
-                  child: Text(AppConstants.addSongtoList),
+                  child: Text(AppConstants.addtoList),
                 ),
               ];
       },
@@ -183,6 +118,28 @@ class PresentorScreenState extends State<PresentorScreen>
         popupActions(value);
       },
     );
+  }
+
+  Future<void> popupActions(int value) async {
+    switch (value) {
+      case 0:
+        await vm!.copySong();
+        break;
+      case 1:
+        await vm!.openSongEditor();
+        break;
+      case 2:
+        if (vm!.isDraft) {
+          await vm!.confirmDelete(context);
+        } else {
+          await showModalBottomSheet<void>(
+              context: context,
+              builder: (BuildContext context) {
+                return ListViewPopup(song: vm!.song!);
+              });
+        }
+        break;
+    }
   }
 
   Widget mainContainer() {
@@ -207,39 +164,6 @@ class PresentorScreenState extends State<PresentorScreen>
     );
   }
 
-  Widget listContainer() {
-    return FutureBuilder<List<Listed>?>(
-      future: vm!.fetchListedData(),
-      builder: (BuildContext context, AsyncSnapshot<List<Listed>?> snapshot) {
-        if (snapshot.hasData) {
-          if (snapshot.data!.isNotEmpty) {
-            return ListView.builder(
-              padding: const EdgeInsets.all(5),
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                final Listed listed = snapshot.data![index];
-                return ListedItem(
-                  listed: listed,
-                  height: size!.height,
-                  onTap: () => {},
-                );
-              },
-            );
-          } else {
-            return const NoDataToShow(
-              title: AppConstants.errorOccurred,
-              description: AppConstants.errorOccurredBody1,
-            );
-          }
-        } else if (snapshot.hasError) {
-          return const NoDataToShow(
-            title: AppConstants.errorOccurred,
-            description: AppConstants.errorOccurredBody1,
-          );
-        } else {
-          return const CircularProgress();
-        }
-      },
-    );
-  }
+  @override
+  void goToEditor() => MainNavigatorWidget.of(context).goToEditor();
 }

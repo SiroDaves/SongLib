@@ -4,7 +4,7 @@
 // InjectableConfigGenerator
 // **************************************************************************
 
-import 'package:dio/dio.dart' as _i38;
+import 'package:dio/dio.dart' as _i39;
 import 'package:drift/drift.dart' as _i6;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i7;
 import 'package:get_it/get_it.dart' as _i1;
@@ -26,29 +26,30 @@ import '../repository/refresh_repository.dart' as _i27;
 import '../repository/secure_storage/auth_storage.dart' as _i20;
 import '../repository/secure_storage/secure_storage.dart' as _i10;
 import '../repository/shared_prefs/local_storage.dart' as _i23;
-import '../repository/web_repository.dart' as _i41;
+import '../repository/web_repository.dart' as _i42;
 import '../util/cache/cache_controller.dart' as _i4;
 import '../util/cache/cache_controlling.dart' as _i3;
 import '../util/interceptor/network_auth_interceptor.dart' as _i25;
 import '../util/interceptor/network_error_interceptor.dart' as _i8;
 import '../util/interceptor/network_log_interceptor.dart' as _i9;
-import '../util/interceptor/network_refresh_interceptor.dart' as _i37;
+import '../util/interceptor/network_refresh_interceptor.dart' as _i38;
 import '../vm/global_vm.dart' as _i31;
 import '../vm/home/histories_vm.dart' as _i33;
 import '../vm/home/home_vm.dart' as _i34;
 import '../vm/home/likes_vm.dart' as _i35;
 import '../vm/info/helpdesk_vm.dart' as _i32;
-import '../vm/lists/list_vm.dart' as _i36;
+import '../vm/lists/list_popup_vm.dart' as _i36;
+import '../vm/lists/list_view_vm.dart' as _i37;
 import '../vm/manage/settings_vm.dart' as _i28;
-import '../vm/selection/progress_vm.dart' as _i42;
-import '../vm/selection/selection_vm.dart' as _i43;
+import '../vm/selection/progress_vm.dart' as _i43;
+import '../vm/selection/selection_vm.dart' as _i44;
 import '../vm/songs/editor_vm.dart' as _i30;
 import '../vm/songs/presentor_vm.dart' as _i26;
 import '../vm/splash_vm.dart' as _i29;
 import '../vm/uitest_vm.dart' as _i13;
-import '../webservice/api_client.dart' as _i40;
-import '../webservice/web_service.dart' as _i39;
-import 'injectable.dart' as _i44;
+import '../webservice/api_client.dart' as _i41;
+import '../webservice/web_service.dart' as _i40;
+import 'injectable.dart' as _i45;
 
 const String _dev = 'dev';
 const String _prod = 'prod';
@@ -127,27 +128,29 @@ Future<_i1.GetIt> $initGetIt(_i1.GetIt get,
       () => _i34.HomeVm(get<_i21.DbRepository>(), get<_i23.LocalStorage>()));
   gh.factory<_i35.LikesVm>(
       () => _i35.LikesVm(get<_i21.DbRepository>(), get<_i23.LocalStorage>()));
-  gh.factory<_i36.ListVm>(
-      () => _i36.ListVm(get<_i21.DbRepository>(), get<_i23.LocalStorage>()));
-  gh.singleton<_i37.NetworkRefreshInterceptor>(
-      _i37.NetworkRefreshInterceptor(get<_i27.RefreshRepository>()));
+  gh.factory<_i36.ListPopupVm>(() =>
+      _i36.ListPopupVm(get<_i21.DbRepository>(), get<_i23.LocalStorage>()));
+  gh.factory<_i37.ListViewVm>(() =>
+      _i37.ListViewVm(get<_i21.DbRepository>(), get<_i23.LocalStorage>()));
+  gh.singleton<_i38.NetworkRefreshInterceptor>(
+      _i38.NetworkRefreshInterceptor(get<_i27.RefreshRepository>()));
   gh.lazySingleton<_i5.CombiningSmartInterceptor>(() =>
       registerModule.provideCombiningSmartInterceptor(
           get<_i9.NetworkLogInterceptor>(),
           get<_i25.NetworkAuthInterceptor>(),
           get<_i8.NetworkErrorInterceptor>(),
-          get<_i37.NetworkRefreshInterceptor>()));
-  gh.lazySingleton<_i38.Dio>(
+          get<_i38.NetworkRefreshInterceptor>()));
+  gh.lazySingleton<_i39.Dio>(
       () => registerModule.provideDio(get<_i5.CombiningSmartInterceptor>()));
-  gh.singleton<_i39.WebService>(_i40.ApiClient(get<_i38.Dio>()),
+  gh.singleton<_i40.WebService>(_i41.ApiClient(get<_i39.Dio>()),
       registerFor: {_dev, _prod});
-  gh.lazySingleton<_i41.WebRepository>(
-      () => _i41.WebRepository(get<_i39.WebService>()));
-  gh.factory<_i42.ProgressVm>(() => _i42.ProgressVm(get<_i41.WebRepository>(),
+  gh.lazySingleton<_i42.WebRepository>(
+      () => _i42.WebRepository(get<_i40.WebService>()));
+  gh.factory<_i43.ProgressVm>(() => _i43.ProgressVm(get<_i42.WebRepository>(),
       get<_i21.DbRepository>(), get<_i23.LocalStorage>()));
-  gh.factory<_i43.SelectionVm>(() => _i43.SelectionVm(get<_i41.WebRepository>(),
+  gh.factory<_i44.SelectionVm>(() => _i44.SelectionVm(get<_i42.WebRepository>(),
       get<_i21.DbRepository>(), get<_i23.LocalStorage>()));
   return get;
 }
 
-class _$RegisterModule extends _i44.RegisterModule {}
+class _$RegisterModule extends _i45.RegisterModule {}

@@ -3,13 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:wakelock/wakelock.dart';
 
 import '../../model/base/draft.dart';
 import '../../model/base/history.dart';
-import '../../model/base/listed.dart';
 import '../../model/base/songext.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../repository/db_repository.dart';
@@ -142,78 +140,61 @@ class PresentorVm with ChangeNotifierEx {
       widgetContent.add(PresentorText(
         lyrics: verse,
         size: size!,
-        onDoubleTap: () => shareVerse(verse),
+        onDoubleTap: () => Share.share(
+          '${verse.replaceAll("#", "\n")}\n\n$songTitle,\n$songBook',
+          subject: AppConstants.shareVerse,
+        ),
         onLongPress: () => copyVerse(verse),
       ));
     }
 
     slides = PresentorSlides(
-      tabsWidth: size!.height * 0.08156,
       tabsElevation: 5,
-      indicatorWidth: size!.height * 0.08156,
       tabs: widgetTabs,
       contents: widgetContent,
-      contentScrollAxis: slideHorizontal ? Axis.vertical : Axis.horizontal,
+      tabsWidth: size!.height * 0.08156,
+      indicatorWidth: size!.height * 0.08156,
       indicatorColor: ThemeColors.accent,
+      contentScrollAxis: slideHorizontal ? Axis.vertical : Axis.horizontal,
     );
-  }
-
-  /// Get the listed data from the DB
-  Future<List<Listed>?> fetchListedData() async {
-    List<Listed>? listeds = [];
-    try {
-      listeds = await dbRepo.fetchListeds();
-    } catch (exception, stackTrace) {
-      await Sentry.captureException(
-        exception,
-        stackTrace: stackTrace,
-      );
-    }
-    return listeds;
   }
 
   /// Add a song to liked songs
   Future<void> likeSong() async {
-    try {
-      isLiked = !isLiked;
-      song!.liked = isLiked;
-      await dbRepo.editSong(song!);
-      likeIcon = isLiked ? Icons.favorite : Icons.favorite_border;
-      if (isLiked) {
-        showToast(
-          text: '${song!.title} ${AppConstants.songLiked}',
-          state: ToastStates.success,
-        );
-      }
-      notifyListeners();
-    } catch (_) {}
+    isLiked = !isLiked;
+    song!.liked = isLiked;
+    await dbRepo.editSong(song!);
+    likeIcon = isLiked ? Icons.favorite : Icons.favorite_border;
+    if (isLiked) {
+      showToast(
+        text: '${song!.title} ${AppConstants.songLiked}',
+        state: ToastStates.success,
+      );
+    }
+    notifyListeners();
+  }
+
+  /// Add a song to liked songs
+  Future<void> copySong() async {
+    await Clipboard.setData(ClipboardData(
+      text: '$songTitle\n$songBook\n\n$songContent',
+    ));
+    showToast(
+      text: '$songTitle ${AppConstants.songCopied}',
+      state: ToastStates.success,
+    );
   }
 
   Future<void> copyVerse(String lyrics) async {
-    try {
-      await Clipboard.setData(
-        ClipboardData(
-          text: '${lyrics.replaceAll("#", "\n")}\n\n$songTitle,\n$songBook',
-        ),
-      );
-      showToast(
-        text: 'Verse ${AppConstants.textCopied}',
-        state: ToastStates.success,
-      );
-    } catch (_) {}
-  }
-
-  Future<void> shareVerse(String lyrics) async {
-    try {
-      await Share.share(
-        '${lyrics.replaceAll("#", "\n")}\n\n$songTitle,\n$songBook',
-        subject: AppConstants.shareVerse,
-      );
-      showToast(
-        text: AppConstants.readyShare,
-        state: ToastStates.success,
-      );
-    } catch (_) {}
+    await Clipboard.setData(
+      ClipboardData(
+        text: '${lyrics.replaceAll("#", "\n")}\n\n$songTitle,\n$songBook',
+      ),
+    );
+    showToast(
+      text: 'Verse ${AppConstants.textCopied}',
+      state: ToastStates.success,
+    );
   }
 
   Future<void> confirmDelete(BuildContext context) async {
@@ -246,15 +227,24 @@ class PresentorVm with ChangeNotifierEx {
     );
   }
 
+  Future<void> openSongEditor() async {
+    if (isDraft) {
+      localStorage.song = null;
+      localStorage.draft = draft;
+    } else {
+      localStorage.song = song;
+      localStorage.draft = null;
+    }
+    navigator.goToEditor();
+  }
+
   Future<void> onBackPressed() async {
     await homeVm!.fetchDraftsData();
     navigator.goBack<void>();
     await Wakelock.disable();
   }
-
-  Future<void> editSong() async {
-    try {} catch (_) {}
-  }
 }
 
-abstract class PresentorNavigator implements BackNavigator {}
+abstract class PresentorNavigator implements BackNavigator {
+  void goToEditor();
+}

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
@@ -13,12 +14,12 @@ import '../../repository/shared_prefs/local_storage.dart';
 import '../home/home_vm.dart';
 
 @injectable
-class ListVm with ChangeNotifierEx {
-  late final ListNavigator navigator;
+class ListViewVm with ChangeNotifierEx {
+  late final ListViewNavigator navigator;
   final LocalStorage localStorage;
   final DbRepository dbRepo;
 
-  ListVm(this.dbRepo, this.localStorage);
+  ListViewVm(this.dbRepo, this.localStorage);
 
   HomeVm? homeVm;
   Listed? listed;
@@ -27,7 +28,7 @@ class ListVm with ChangeNotifierEx {
 
   bool isBusy = false;
 
-  Future<void> init(ListNavigator screenNavigator) async {
+  Future<void> init(ListViewNavigator screenNavigator) async {
     navigator = screenNavigator;
     homeVm = GetIt.instance<HomeVm>();
     listed = localStorage.listed;
@@ -53,8 +54,6 @@ class ListVm with ChangeNotifierEx {
     notifyListeners();
   }
 
-  void onBackPressed() => navigator.goBack<void>();
-
   void openPresentor({SongExt? song, Draft? draft}) async {
     if (song != null) {
       localStorage.song = song;
@@ -66,8 +65,39 @@ class ListVm with ChangeNotifierEx {
     navigator.goToPresentor();
   }
 
+  Future<void> confirmDelete(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text(
+          'Just a Minute',
+          style: TextStyle(fontSize: 18),
+        ),
+        content: Text(
+          'Are you sure you want to delete the song list: ${listed!.title}?',
+          style: const TextStyle(fontSize: 14),
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              dbRepo.deleteListed(listed!);
+              onBackPressed();
+            },
+            child: const Text("DELETE"),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("CANCEL"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void onBackPressed() => navigator.goBack<void>();
 }
 
-abstract class ListNavigator implements BackNavigator {
+abstract class ListViewNavigator implements BackNavigator {
   void goToPresentor();
 }

@@ -6,12 +6,12 @@ import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
 import '../../vm/songs/editor_vm.dart';
 import '../../widget/general/inputs.dart';
+import '../../widget/progress/circular_progress.dart';
 import '../../widget/provider/provider_widget.dart';
 
 /// Song editor screen to draft a new song or edit an existing one
 class EditorScreen extends StatefulWidget {
   static const String routeName = RouteNames.editorScreen;
-
   const EditorScreen({Key? key}) : super(key: key);
 
   @override
@@ -76,12 +76,12 @@ class EditorScreenState extends State<EditorScreen>
             ],
           ),
         ),
-        child: mainContainer(context),
+        child: vm!.isBusy ? const CircularProgress() : mainContainer(),
       ),
     );
   }
 
-  Widget mainContainer(BuildContext context) {
+  Widget mainContainer() {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(5),
       child: Card(

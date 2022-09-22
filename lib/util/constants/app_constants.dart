@@ -28,7 +28,8 @@ class AppConstants {
   static const hasChorus = "With a Chorus";
   static const verses = "Verse";
 
-  static const addSongtoList = "Add to a List";
+  static const addtoList = "Add to a List";
+  static const addSongtoList = "Add this song to a List";
   static const likeSong = "Like this song";
   static const editSong = "Edit this song";
   static const deleteSong = "Delete this song";
@@ -40,6 +41,7 @@ class AppConstants {
   static const textCopied = " copied!";
   static const shareVerse = "Share verse";
   static const songLiked = "song liked!";
+  static const songAddedToList = "song added to a list!";
   static const listCreated = "song list created!";
   static const readyShare = "Ready for sharing";
   static const screenshotVerse = "Screenshot verse";

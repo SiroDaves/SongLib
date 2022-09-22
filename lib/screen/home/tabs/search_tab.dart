@@ -131,11 +131,6 @@ class SearchTab extends StatelessWidget {
                     onPressed: () => homeVm.likeSong(song),
                   ),
                   ContextMenuButtonConfig(
-                    AppConstants.addSongtoList,
-                    icon: const Icon(Icons.add, size: 20),
-                    onPressed: () => {},
-                  ),
-                  ContextMenuButtonConfig(
                     AppConstants.copySong,
                     icon: const Icon(Icons.copy, size: 20),
                     onPressed: () => homeVm.copySong(song),
@@ -149,6 +144,16 @@ class SearchTab extends StatelessWidget {
                     AppConstants.editSong,
                     icon: const Icon(Icons.edit, size: 20),
                     onPressed: () => homeVm.openEditor(song: song),
+                  ),
+                  ContextMenuButtonConfig(
+                    AppConstants.addtoList,
+                    icon: const Icon(Icons.add, size: 20),
+                    onPressed: () => showModalBottomSheet<void>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return ListViewPopup(song: song);
+                      },
+                    ),
                   ),
                 ],
               ),

@@ -155,6 +155,8 @@ class _ListedDaoStorage extends DatabaseAccessor<SongLibDb>
       );
 
   @override
-  Future<void> deleteListed(Listed listed) =>
-      (delete(db.dbListedTable)..where((row) => row.id.equals(listed.id))).go();
+  Future<void> deleteListed(Listed listed) async {
+    await (delete(db.dbListedTable)..where((row) => row.parentid.equals(listed.id))).go();
+    await (delete(db.dbListedTable)..where((row) => row.id.equals(listed.id))).go();
+  }
 }

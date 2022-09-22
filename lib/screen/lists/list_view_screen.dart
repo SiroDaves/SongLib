@@ -8,7 +8,7 @@ import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
-import '../../vm/lists/list_vm.dart';
+import '../../vm/lists/list_view_vm.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
 import '../../widget/progress/line_progress.dart';
@@ -27,15 +27,15 @@ class ListViewScreen extends StatefulWidget {
 @visibleForTesting
 class ListViewScreenState extends State<ListViewScreen>
     with BackNavigatorMixin
-    implements ListNavigator {
-  ListVm? vm;
+    implements ListViewNavigator {
+  ListViewVm? vm;
   Size? size;
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
 
-    return ProviderWidget<ListVm>(
+    return ProviderWidget<ListViewVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) {
