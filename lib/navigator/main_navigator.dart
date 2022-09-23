@@ -7,6 +7,7 @@ import '../screen/home/likes_screen.dart';
 import '../screen/info/helpdesk.dart';
 import '../screen/lists/list_view_screen.dart';
 import '../screen/manage/settings_screen.dart';
+import '../screen/onboarding_screen.dart';
 import '../screen/selection/progress_screen.dart';
 import '../screen/selection/selection_screen.dart';
 import '../screen/songs/editor_screen.dart';
@@ -84,6 +85,11 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
           builder: (context) => const SelectionScreen(),
           settings: settings,
         );
+      case OnboardingScreen.routeName:
+        return MaterialPageRoute<void>(
+          builder: (context) => const OnboardingScreen(),
+          settings: settings,
+        );
       case ProgressScreen.routeName:
         return MaterialPageRoute<void>(
           builder: (context) => const ProgressScreen(),
@@ -155,6 +161,9 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
   @override
   void goToUiTest() => navigator.pushNamedAndRemoveUntil(
       UiTestScreen.routeName, (route) => false);
+
+  @override
+  void goToOnboarding() => navigator.pushReplacementNamed(OnboardingScreen.routeName);
 
   @override
   void goToHome() =>

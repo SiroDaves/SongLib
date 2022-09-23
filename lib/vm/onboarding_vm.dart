@@ -4,12 +4,12 @@ import 'package:injectable/injectable.dart';
 import '../repository/shared_prefs/local_storage.dart';
 
 @injectable
-class SplashVm with ChangeNotifierEx {
+class OnboardingVm with ChangeNotifierEx {
   final LocalStorage localStorage;
 
-  SplashVm(this.localStorage);
+  OnboardingVm(this.localStorage);
 
-  Future<void> init(SplashNavigator screenNavigator) async {
+  Future<void> init(OnboardingNavigator screenNavigator) async {
     final isLoaded = await localStorage.checkIfDataIsLoaded();
     await Future.delayed(const Duration(seconds: 3), () {});
     if (isLoaded) return screenNavigator.goToSelection();
@@ -17,9 +17,8 @@ class SplashVm with ChangeNotifierEx {
   }
 }
 
-abstract class SplashNavigator {
+abstract class OnboardingNavigator {
   void goToUiTest();  
   void goToHome();
-  void goToOnboarding();
   void goToSelection();
 }

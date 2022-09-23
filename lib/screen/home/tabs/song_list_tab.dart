@@ -11,28 +11,38 @@ class SongListTab extends StatelessWidget {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Container(
-        height: size!.height,
-        padding: const EdgeInsets.only(top: 40),
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [Colors.white, ThemeColors.accent, Colors.black],
+      body: ContextMenuOverlay(
+        cardBuilder: (_, children) => Container(
+          decoration: const BoxDecoration(
+            color: ThemeColors.accent,
+            boxShadow: [BoxShadow(blurRadius: 5)],
+            borderRadius: BorderRadius.all(Radius.circular(5)),
           ),
+          child: Column(children: children),
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              titleContainer(),
-              mainContainer(context),
-            ],
+        child: Container(
+          height: size!.height,
+          padding: const EdgeInsets.only(top: 40),
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [Colors.white, ThemeColors.accent, Colors.black],
+            ),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                titleContainer(),
+                mainContainer(context),
+              ],
+            ),
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: ThemeColors.primary,
-        onPressed: () => newListForm(context, homeVm),
+        onPressed: () => newListForm(context),
         child: const Icon(Icons.add, color: Colors.white),
       ),
     );
@@ -93,10 +103,21 @@ class SongListTab extends StatelessWidget {
           ),
           itemBuilder: (context, index) {
             final Listed listed = homeVm.listeds![index];
-            return ListedItem(
-              listed: listed,
-              height: size!.height,
-              onTap: () => homeVm.openListView(listed),
+            return ContextMenuRegion(
+              contextMenu: GenericContextMenu(
+                buttonConfigs: [
+                  ContextMenuButtonConfig(
+                    AppConstants.deleteList,
+                    icon: const Icon(Icons.delete, size: 20),
+                    onPressed: () => homeVm.deleteList(context, listed),
+                  ),
+                ],
+              ),
+              child: ListedItem(
+                listed: listed,
+                height: size!.height,
+                onTap: () => homeVm.openListView(listed),
+              ),
             );
           },
         ),
@@ -104,7 +125,7 @@ class SongListTab extends StatelessWidget {
     );
   }
 
-  Future<void> newListForm(BuildContext context, HomeVm homeVm) async {
+  Future<void> newListForm(BuildContext context) async {
     return showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -138,10 +159,10 @@ class SongListTab extends StatelessWidget {
         actions: <Widget>[
           TextButton(
             onPressed: () {
-              Navigator.pop(context);
+              homeVm.saveNewList();
               homeVm.titleController!.clear();
               homeVm.contentController!.clear();
-              homeVm.saveNewList();
+              Navigator.pop(context);
             },
             child: const Text("SAVE LIST"),
           ),

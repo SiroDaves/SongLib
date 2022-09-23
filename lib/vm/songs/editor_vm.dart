@@ -37,7 +37,7 @@ class EditorVm with ChangeNotifierEx {
 
     navigator = navigator;
     homeVm = GetIt.instance<HomeVm>();
-    
+
     await loadEditor();
   }
 
@@ -156,6 +156,7 @@ class EditorVm with ChangeNotifierEx {
               onPressed: () {
                 Navigator.pop(context);
                 saveChanges();
+                homeVm!.fetchDraftsData();
               },
               child: const Text("SAVE"),
             ),
@@ -196,6 +197,7 @@ class EditorVm with ChangeNotifierEx {
               onPressed: () {
                 Navigator.pop(context);
                 deleteSong();
+                homeVm!.fetchDraftsData();
               },
               child: const Text("DELETE"),
             ),
@@ -212,7 +214,6 @@ class EditorVm with ChangeNotifierEx {
   }
 
   Future<void> onBackPressed() async {
-    await homeVm!.fetchDraftsData();
     navigator.goBack<void>();
   }
 }

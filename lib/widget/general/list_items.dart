@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 import '../../model/base/book.dart';
 import '../../model/base/draft.dart';
@@ -8,6 +9,8 @@ import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
 import '../../util/constants/utilities.dart';
 import 'labels.dart';
+
+var locale = 'en';
 
 class BookItem extends StatelessWidget {
   final Book book;
@@ -134,6 +137,9 @@ class ListedItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dateValue = DateTime.parse(listed.updatedAt!);
+    final String lastUpdate = timeago.format(dateValue);
+
     return Hero(
       tag: 'ListedIndex_${listed.id}',
       child: GestureDetector(
@@ -166,7 +172,7 @@ class ListedItem extends StatelessWidget {
                       )
                     : Container(),
                 Text(
-                  'Updated ${listed.updatedAt!}',
+                  'Updated $lastUpdate',
                   maxLines: 1,
                   style: TextStyle(
                     fontSize: height * 0.015,

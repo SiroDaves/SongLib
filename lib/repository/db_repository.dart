@@ -37,20 +37,21 @@ abstract class DbRepository {
   Future<List<SongExt>> fetchSongs();
   Future<List<SongExt>> fetchLikedSongs();
 
-
   Future<void> saveBook(Book book);
   Future<void> saveSong(Song song);
   Future<void> saveDraft(Draft draft);
-  Future<void> saveListed(Listed listed);
-  Future<void> saveListedChild(Listed listed);
+  Future<int> saveListed(Listed listed);
+  Future<void> saveListedSong(Listed listed, SongExt song);
   Future<void> saveHistory(History history);
 
   Future<void> editSong(SongExt song);
   Future<void> editDraft(Draft draft);
+  Future<void> editListed(Listed listed);
 
   Future<void> deleteBooks();
   Future<void> deleteDraft(Draft draft);
   Future<void> deleteListed(Listed listed);
+  Future<void> deleteListedSongs(Listed listed);
   Future<void> majorCleanUp(String selectedBooks);
 }
 
@@ -127,13 +128,13 @@ class DbRepo implements DbRepository {
   }
 
   @override
-  Future<void> saveListed(Listed listed) async {
+  Future<int> saveListed(Listed listed) async {
     return await listedDao.createListed(listed);
   }
 
   @override
-  Future<void> saveListedChild(Listed listed) async {
-    return await listedDao.createListedChild(listed);
+  Future<void> saveListedSong(Listed listed, SongExt song) async {
+    return await listedDao.createListedSong(listed, song);
   }
 
   @override
@@ -152,6 +153,11 @@ class DbRepo implements DbRepository {
   }
 
   @override
+  Future<void> editListed(Listed listed) async {
+    await listedDao.updateListed(listed);
+  }
+
+  @override
   Future<void> deleteBooks() async {
     await bookDao.deleteBooks();
   }
@@ -164,6 +170,11 @@ class DbRepo implements DbRepository {
   @override
   Future<void> deleteListed(Listed listed) async {
     await listedDao.deleteListed(listed);
+  }
+
+  @override
+  Future<void> deleteListedSongs(Listed listed) async {
+    await listedDao.deleteListedSongs(listed);
   }
 
   @override

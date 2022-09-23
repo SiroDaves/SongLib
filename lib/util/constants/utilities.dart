@@ -6,7 +6,9 @@ import 'package:intl/intl.dart';
 
 String dateNow() {
   //2022-06-26T21:18:23.368Z
-  return DateFormat('yyyy-MM-ddTHH:mm.a').format(DateTime.now());
+  //3 Sept 2022 at 06:26:08 UTC
+  //1974-03-20 00:00:00
+  return DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
 }
 
 Future<bool> isKeyboardShowing() async {

@@ -34,6 +34,7 @@ class AppConstants {
   static const editSong = "Edit this song";
   static const deleteSong = "Delete this song";
   static const copySong = "Copy this song";
+  static const deleteList = "Delete this list";
   static const shareSong = "Share this song";
   static const songCopied = "song copied!";
 
@@ -43,6 +44,8 @@ class AppConstants {
   static const songLiked = "song liked!";
   static const songAddedToList = "song added to a list!";
   static const listCreated = "song list created!";
+  static const listUpdated = "song list updated!";
+  static const deleted = "deleted!";
   static const readyShare = "Ready for sharing";
   static const screenshotVerse = "Screenshot verse";
   static const screenshoted = "We have your screenshot!";

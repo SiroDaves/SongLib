@@ -46,17 +46,10 @@ class ListPopupVm with ChangeNotifierEx {
   }
 
   /// Add a song to a list
-  Future<void> addSongToList(Listed selected, SongExt song) async {
+  Future<void> addSongToList(Listed listed, SongExt song) async {
     isBusy = true;
     notifyListeners();
-    final Listed listed = Listed(
-      objectId: '',
-      parentid: selected.id,
-      song: song.id,
-      title: song.title,
-      description: song.content,
-    );
-    await dbRepo.saveListedChild(listed);
+    await dbRepo.saveListedSong(listed, song);
     showToast(
       text: '${song.title} ${AppConstants.songAddedToList}',
       state: ToastStates.success,

@@ -25,7 +25,6 @@ class HomeVm with ChangeNotifierEx {
   HomeVm(this.dbRepo, this.localStorage);
 
   bool isBusy = false;
-  String? title, content;
   String selectedBooks = "";
   List<String> bookNos = [];
   int mainBook = 0, currentPage = 1;
@@ -151,49 +150,59 @@ class HomeVm with ChangeNotifierEx {
     );
   }
 
-  // function to validate creds
-  bool validateInput() {
-    bool validated = false;
-    try {
-      if (titleController!.text.isNotEmpty) {
-        title = titleController!.text;
-        content = contentController!.text;
-
-        validated = true;
-      } else {
-        validated = false;
-      }
-    } catch (exception, stackTrace) {
-      Sentry.captureException(
-        exception,
-        stackTrace: stackTrace,
-      );
-    }
-    return validated;
+  Future<void> deleteList(BuildContext context, Listed listed) async {
+    return showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text(
+          'Just a Minute',
+          style: TextStyle(fontSize: 18),
+        ),
+        content: Text(
+          'Are you sure you want to delete the song list: ${listed.title}?',
+          style: const TextStyle(fontSize: 14),
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              dbRepo.deleteListed(listed);
+              fetchListedData();
+              showToast(
+                text: '${listed.title} ${AppConstants.deleted}',
+                state: ToastStates.success,
+              );
+            },
+            child: const Text("DELETE"),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("CANCEL"),
+          ),
+        ],
+      ),
+    );
   }
 
   /// Save changes for a listed be it a new one or simply updating an old one
   Future<void> saveNewList() async {
-    if (validateInput()) {
+    if (titleController!.text.isNotEmpty) {
       isBusy = true;
       notifyListeners();
+      final Listed listed = Listed(
+        objectId: '',
+        title: titleController!.text,
+        description: contentController!.text,
+      );
+      await dbRepo.saveListed(listed);
+      await fetchListedData();
+      showToast(
+        text: '${listed.title} ${AppConstants.listCreated}',
+        state: ToastStates.success,
+      );
 
-      try {
-        final Listed listed = Listed(
-          objectId: '',
-          title: titleController!.text,
-          description: contentController!.text,
-        );
-        await dbRepo.saveListed(listed);
-        await fetchListedData();
-        showToast(
-          text: '${listed.title} ${AppConstants.listCreated}',
-          state: ToastStates.success,
-        );
-
-        localStorage.listed = listed;
-        navigator.goToListView();
-      } catch (_) {}
+      //localStorage.listed = listed;
+      //navigator.goToListView();
       isBusy = false;
       notifyListeners();
     }

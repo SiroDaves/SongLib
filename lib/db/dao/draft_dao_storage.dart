@@ -1,9 +1,9 @@
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
-import 'package:songlib/util/constants/utilities.dart';
 
 import '../../model/base/draft.dart';
 import '../../model/tables/db_draft_table.dart';
+import '../../util/constants/utilities.dart';
 import '../songlib_db.dart';
 
 part 'draft_dao_storage.g.dart';
@@ -72,23 +72,24 @@ class _DraftDaoStorage extends DatabaseAccessor<SongLibDb>
   }
 
   @override
-  Future<void> createDraft({required Draft draft, bool isSimple = true}) =>
-      into(db.dbDraftTable).insert(
-        DbDraftTableCompanion.insert(
-          objectId: isSimple ? const Value.absent() : Value(draft.objectId!),
-          book: isSimple ? const Value.absent() : Value(draft.book!),
-          songNo: isSimple ? const Value.absent() : Value(draft.songNo!),
-          title: Value(draft.title!),
-          alias: Value(draft.alias!),
-          content: Value(draft.content!),
-          key: Value(draft.key!),
-          author: isSimple ? const Value.absent() : Value(draft.author!),
-          views: isSimple ? const Value.absent() : Value(draft.views!),
-          createdAt: isSimple ? Value(dateNow()) : Value(draft.createdAt!),
-          updatedAt: isSimple ? const Value.absent() : Value(draft.updatedAt!),
-          liked: isSimple ? const Value.absent() : Value(draft.liked!),
-        ),
-      );
+  Future<int> createDraft({required Draft draft, bool isSimple = true}) async {
+    return await into(db.dbDraftTable).insert(
+      DbDraftTableCompanion.insert(
+        objectId: isSimple ? const Value.absent() : Value(draft.objectId!),
+        book: isSimple ? const Value.absent() : Value(draft.book!),
+        songNo: isSimple ? const Value.absent() : Value(draft.songNo!),
+        title: Value(draft.title!),
+        alias: Value(draft.alias!),
+        content: Value(draft.content!),
+        key: Value(draft.key!),
+        author: isSimple ? const Value.absent() : Value(draft.author!),
+        views: isSimple ? const Value.absent() : Value(draft.views!),
+        createdAt: isSimple ? Value(dateNow()) : Value(draft.createdAt!),
+        updatedAt: isSimple ? const Value.absent() : Value(draft.updatedAt!),
+        liked: isSimple ? const Value.absent() : Value(draft.liked!),
+      ),
+    );
+  }
 
   @override
   Future<void> updateDraft(Draft draft) =>

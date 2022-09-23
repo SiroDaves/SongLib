@@ -6,28 +6,28 @@ import '../navigator/route_names.dart';
 import '../theme/theme_assets.dart';
 import '../theme/theme_colors.dart';
 import '../util/constants/app_constants.dart';
-import '../vm/splash_vm.dart';
+import '../vm/onboarding_vm.dart';
 import '../widget/provider/provider_widget.dart';
 
 /// Timed Welcome screen
-class SplashScreen extends StatefulWidget {
-  static const String routeName = RouteNames.splashScreen;
+class OnboardingScreen extends StatefulWidget {
+  static const String routeName = RouteNames.onboardingScreen;
 
-  const SplashScreen({
+  const OnboardingScreen({
     Key? key,
   }) : super(key: key);
 
   @override
-  SplashScreenState createState() => SplashScreenState();
+  OnboardingScreenState createState() => OnboardingScreenState();
 }
 
 @visibleForTesting
-class SplashScreenState extends State<SplashScreen> implements SplashNavigator {
-  SplashVm? vm;
+class OnboardingScreenState extends State<OnboardingScreen> implements OnboardingNavigator {
+  OnboardingVm? vm;
 
   @override
   Widget build(BuildContext context) {
-    return ProviderWidget<SplashVm>(
+    return ProviderWidget<OnboardingVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) {
@@ -66,9 +66,6 @@ class SplashScreenState extends State<SplashScreen> implements SplashNavigator {
 
   @override
   void goToUiTest() => MainNavigatorWidget.of(context).goToUiTest();
-
-  @override
-  void goToOnboarding() => MainNavigatorWidget.of(context).goToOnboarding();
 
   @override
   void goToHome() => MainNavigatorWidget.of(context).goToHome();

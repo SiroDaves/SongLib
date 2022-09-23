@@ -7,6 +7,7 @@ class RouteNames {
   
   static const splashScreen = 'splash';
   static const selectionScreen = 'selection';
+  static const onboardingScreen = 'onboarding';
   static const progressScreen = 'progress';
   static const homeScreen = 'home';
   static const searchScreen = 'search';

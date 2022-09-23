@@ -3,7 +3,9 @@ import 'package:injectable/injectable.dart';
 
 import '../../model/base/listed.dart';
 import '../../model/base/listedext.dart';
+import '../../model/base/songext.dart';
 import '../../model/tables/db_listed_table.dart';
+import '../../util/constants/utilities.dart';
 import '../songlib_db.dart';
 
 part 'listed_dao_storage.g.dart';
@@ -16,10 +18,11 @@ abstract class ListedDaoStorage {
   Future<List<Listed>> getAllListeds();
   Future<List<Listed>> getAllListedSongs();
   Future<List<ListedExt>> getListedSongs(int parentid);
-  Future<void> createListed(Listed listed);
-  Future<void> createListedChild(Listed listed);
+  Future<int> createListed(Listed listed);
+  Future<void> createListedSong(Listed listed, SongExt song);
   Future<void> updateListed(Listed listed);
   Future<void> deleteListed(Listed listed);
+  Future<void> deleteListedSongs(Listed listed);
 }
 
 @DriftAccessor(tables: [
@@ -122,22 +125,29 @@ class _ListedDaoStorage extends DatabaseAccessor<SongLibDb>
   }
 
   @override
-  Future<void> createListed(Listed listed) => into(db.dbListedTable).insert(
-        DbListedTableCompanion.insert(
-          objectId: Value(listed.objectId!),
-          title: Value(listed.title!),
-          description: Value(listed.description!),
-        ),
-      );
+  Future<int> createListed(Listed listed) async {
+    return await into(db.dbListedTable).insert(
+      DbListedTableCompanion.insert(
+        objectId: Value(listed.objectId!),
+        title: Value(listed.title!),
+        description: Value(listed.description!),
+        createdAt: Value(dateNow()),
+        updatedAt: Value(dateNow()),
+      ),
+    );
+  }
 
   @override
-  Future<void> createListedChild(Listed listed) async =>
+  Future<void> createListedSong(Listed listed, SongExt song) async =>
       into(db.dbListedTable).insert(
         DbListedTableCompanion.insert(
-          objectId: Value(listed.objectId!),
-          parentid: Value(listed.parentid!),
-          title: Value(listed.title!),
-          description: Value(listed.description!),
+          objectId: const Value.absent(),
+          parentid: Value(listed.id!),
+          song: Value(song.id!),
+          title: Value(songItemTitle(song.songNo!, song.title!)),
+          description: Value(truncateString(30, song.content!)),
+          createdAt: Value(dateNow()),
+          updatedAt: Value(dateNow()),
         ),
       );
 
@@ -155,8 +165,11 @@ class _ListedDaoStorage extends DatabaseAccessor<SongLibDb>
       );
 
   @override
-  Future<void> deleteListed(Listed listed) async {
-    await (delete(db.dbListedTable)..where((row) => row.parentid.equals(listed.id))).go();
-    await (delete(db.dbListedTable)..where((row) => row.id.equals(listed.id))).go();
-  }
+  Future<void> deleteListed(Listed listed) =>
+      (delete(db.dbListedTable)..where((row) => row.id.equals(listed.id))).go();
+
+  @override
+  Future<void> deleteListedSongs(Listed listed) =>
+      (delete(db.dbListedTable)..where((row) => row.parentid.equals(listed.id)))
+          .go();
 }
