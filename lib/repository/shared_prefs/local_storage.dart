@@ -17,10 +17,6 @@ abstract class LocalStorage {
     SharedPreferenceStorage preferences,
   ) = AppLocalStorage;
 
-  Future<bool> checkForNewInstallation();
-
-  Future<bool> checkIfDataIsLoaded();
-
   ThemeMode getThemeMode();
 
   Listed? listed;
@@ -46,25 +42,6 @@ class AppLocalStorage implements LocalStorage {
   final SharedPreferenceStorage sharedPreferences;
 
   AppLocalStorage(this.authStorage, this.sharedPreferences);
-
-  @override
-  Future<bool> checkForNewInstallation() async {
-    final result =
-        sharedPreferences.getBoolean(PrefConstants.uninstallCheckKey);
-    if (result != null) return false;
-    await sharedPreferences.saveBoolean(
-        key: PrefConstants.uninstallCheckKey, value: true);
-    await authStorage.clear();
-    return true;
-  }
-
-  @override
-  Future<bool> checkIfDataIsLoaded() async {
-    final result =
-        sharedPreferences.getBoolean(PrefConstants.dataLoadedCheckKey);
-    if (result != null) return false;
-    return true;
-  }
 
   @override
   Future<void> updateThemeMode(ThemeMode themeMode) async {

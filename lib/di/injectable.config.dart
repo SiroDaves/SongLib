@@ -4,7 +4,7 @@
 // InjectableConfigGenerator
 // **************************************************************************
 
-import 'package:dio/dio.dart' as _i39;
+import 'package:dio/dio.dart' as _i40;
 import 'package:drift/drift.dart' as _i6;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i7;
 import 'package:get_it/get_it.dart' as _i1;
@@ -22,34 +22,35 @@ import '../db/songlib_db.dart' as _i12;
 import '../repository/db_repository.dart' as _i21;
 import '../repository/debug_repository.dart' as _i22;
 import '../repository/locale_repository.dart' as _i24;
-import '../repository/refresh_repository.dart' as _i27;
+import '../repository/refresh_repository.dart' as _i28;
 import '../repository/secure_storage/auth_storage.dart' as _i20;
 import '../repository/secure_storage/secure_storage.dart' as _i10;
 import '../repository/shared_prefs/local_storage.dart' as _i23;
-import '../repository/web_repository.dart' as _i42;
+import '../repository/web_repository.dart' as _i43;
 import '../util/cache/cache_controller.dart' as _i4;
 import '../util/cache/cache_controlling.dart' as _i3;
 import '../util/interceptor/network_auth_interceptor.dart' as _i25;
 import '../util/interceptor/network_error_interceptor.dart' as _i8;
 import '../util/interceptor/network_log_interceptor.dart' as _i9;
-import '../util/interceptor/network_refresh_interceptor.dart' as _i38;
-import '../vm/global_vm.dart' as _i31;
-import '../vm/home/histories_vm.dart' as _i33;
-import '../vm/home/home_vm.dart' as _i34;
-import '../vm/home/likes_vm.dart' as _i35;
-import '../vm/info/helpdesk_vm.dart' as _i32;
-import '../vm/lists/list_popup_vm.dart' as _i36;
-import '../vm/lists/list_view_vm.dart' as _i37;
-import '../vm/manage/settings_vm.dart' as _i28;
-import '../vm/selection/progress_vm.dart' as _i43;
-import '../vm/selection/selection_vm.dart' as _i44;
-import '../vm/songs/editor_vm.dart' as _i30;
-import '../vm/songs/presentor_vm.dart' as _i26;
-import '../vm/splash_vm.dart' as _i29;
+import '../util/interceptor/network_refresh_interceptor.dart' as _i39;
+import '../vm/global_vm.dart' as _i32;
+import '../vm/home/histories_vm.dart' as _i34;
+import '../vm/home/home_vm.dart' as _i35;
+import '../vm/home/likes_vm.dart' as _i36;
+import '../vm/info/helpdesk_vm.dart' as _i33;
+import '../vm/lists/list_popup_vm.dart' as _i37;
+import '../vm/lists/list_view_vm.dart' as _i38;
+import '../vm/manage/settings_vm.dart' as _i29;
+import '../vm/onboarding_vm.dart' as _i26;
+import '../vm/selection/progress_vm.dart' as _i44;
+import '../vm/selection/selection_vm.dart' as _i45;
+import '../vm/songs/editor_vm.dart' as _i31;
+import '../vm/songs/presentor_vm.dart' as _i27;
+import '../vm/splash_vm.dart' as _i30;
 import '../vm/uitest_vm.dart' as _i13;
-import '../webservice/api_client.dart' as _i41;
-import '../webservice/web_service.dart' as _i40;
-import 'injectable.dart' as _i45;
+import '../webservice/api_client.dart' as _i42;
+import '../webservice/web_service.dart' as _i41;
+import 'injectable.dart' as _i46;
 
 const String _dev = 'dev';
 const String _prod = 'prod';
@@ -110,47 +111,49 @@ Future<_i1.GetIt> $initGetIt(_i1.GetIt get,
       () => _i24.LocaleRepository(get<_i5.SharedPreferenceStorage>()));
   gh.singleton<_i25.NetworkAuthInterceptor>(
       _i25.NetworkAuthInterceptor(get<_i20.AuthStorage>()));
-  gh.factory<_i26.PresentorVm>(() =>
-      _i26.PresentorVm(get<_i21.DbRepository>(), get<_i23.LocalStorage>()));
-  gh.lazySingleton<_i27.RefreshRepository>(
-      () => _i27.RefreshRepository(get<_i20.AuthStorage>()));
-  gh.factory<_i28.SettingsVm>(() =>
-      _i28.SettingsVm(get<_i21.DbRepository>(), get<_i23.LocalStorage>()));
-  gh.factory<_i29.SplashVm>(() => _i29.SplashVm(get<_i23.LocalStorage>()));
-  gh.factory<_i30.EditorVm>(
-      () => _i30.EditorVm(get<_i21.DbRepository>(), get<_i23.LocalStorage>()));
-  gh.singleton<_i31.GlobalVm>(_i31.GlobalVm(get<_i24.LocaleRepository>(),
+  gh.factory<_i26.OnboardingVm>(
+      () => _i26.OnboardingVm(get<_i23.LocalStorage>()));
+  gh.factory<_i27.PresentorVm>(() =>
+      _i27.PresentorVm(get<_i21.DbRepository>(), get<_i23.LocalStorage>()));
+  gh.lazySingleton<_i28.RefreshRepository>(
+      () => _i28.RefreshRepository(get<_i20.AuthStorage>()));
+  gh.factory<_i29.SettingsVm>(() =>
+      _i29.SettingsVm(get<_i21.DbRepository>(), get<_i23.LocalStorage>()));
+  gh.factory<_i30.SplashVm>(() => _i30.SplashVm(get<_i23.LocalStorage>()));
+  gh.factory<_i31.EditorVm>(
+      () => _i31.EditorVm(get<_i21.DbRepository>(), get<_i23.LocalStorage>()));
+  gh.singleton<_i32.GlobalVm>(_i32.GlobalVm(get<_i24.LocaleRepository>(),
       get<_i22.DebugRepository>(), get<_i23.LocalStorage>()));
-  gh.factory<_i32.HelpDeskVm>(() => _i32.HelpDeskVm(get<_i23.LocalStorage>()));
-  gh.factory<_i33.HistoriesVm>(() =>
-      _i33.HistoriesVm(get<_i21.DbRepository>(), get<_i23.LocalStorage>()));
-  gh.factory<_i34.HomeVm>(
-      () => _i34.HomeVm(get<_i21.DbRepository>(), get<_i23.LocalStorage>()));
-  gh.factory<_i35.LikesVm>(
-      () => _i35.LikesVm(get<_i21.DbRepository>(), get<_i23.LocalStorage>()));
-  gh.factory<_i36.ListPopupVm>(() =>
-      _i36.ListPopupVm(get<_i21.DbRepository>(), get<_i23.LocalStorage>()));
-  gh.factory<_i37.ListViewVm>(() =>
-      _i37.ListViewVm(get<_i21.DbRepository>(), get<_i23.LocalStorage>()));
-  gh.singleton<_i38.NetworkRefreshInterceptor>(
-      _i38.NetworkRefreshInterceptor(get<_i27.RefreshRepository>()));
+  gh.factory<_i33.HelpDeskVm>(() => _i33.HelpDeskVm(get<_i23.LocalStorage>()));
+  gh.factory<_i34.HistoriesVm>(() =>
+      _i34.HistoriesVm(get<_i21.DbRepository>(), get<_i23.LocalStorage>()));
+  gh.factory<_i35.HomeVm>(
+      () => _i35.HomeVm(get<_i21.DbRepository>(), get<_i23.LocalStorage>()));
+  gh.factory<_i36.LikesVm>(
+      () => _i36.LikesVm(get<_i21.DbRepository>(), get<_i23.LocalStorage>()));
+  gh.factory<_i37.ListPopupVm>(() =>
+      _i37.ListPopupVm(get<_i21.DbRepository>(), get<_i23.LocalStorage>()));
+  gh.factory<_i38.ListViewVm>(() =>
+      _i38.ListViewVm(get<_i21.DbRepository>(), get<_i23.LocalStorage>()));
+  gh.singleton<_i39.NetworkRefreshInterceptor>(
+      _i39.NetworkRefreshInterceptor(get<_i28.RefreshRepository>()));
   gh.lazySingleton<_i5.CombiningSmartInterceptor>(() =>
       registerModule.provideCombiningSmartInterceptor(
           get<_i9.NetworkLogInterceptor>(),
           get<_i25.NetworkAuthInterceptor>(),
           get<_i8.NetworkErrorInterceptor>(),
-          get<_i38.NetworkRefreshInterceptor>()));
-  gh.lazySingleton<_i39.Dio>(
+          get<_i39.NetworkRefreshInterceptor>()));
+  gh.lazySingleton<_i40.Dio>(
       () => registerModule.provideDio(get<_i5.CombiningSmartInterceptor>()));
-  gh.singleton<_i40.WebService>(_i41.ApiClient(get<_i39.Dio>()),
+  gh.singleton<_i41.WebService>(_i42.ApiClient(get<_i40.Dio>()),
       registerFor: {_dev, _prod});
-  gh.lazySingleton<_i42.WebRepository>(
-      () => _i42.WebRepository(get<_i40.WebService>()));
-  gh.factory<_i43.ProgressVm>(() => _i43.ProgressVm(get<_i42.WebRepository>(),
+  gh.lazySingleton<_i43.WebRepository>(
+      () => _i43.WebRepository(get<_i41.WebService>()));
+  gh.factory<_i44.ProgressVm>(() => _i44.ProgressVm(get<_i43.WebRepository>(),
       get<_i21.DbRepository>(), get<_i23.LocalStorage>()));
-  gh.factory<_i44.SelectionVm>(() => _i44.SelectionVm(get<_i42.WebRepository>(),
+  gh.factory<_i45.SelectionVm>(() => _i45.SelectionVm(get<_i43.WebRepository>(),
       get<_i21.DbRepository>(), get<_i23.LocalStorage>()));
   return get;
 }
 
-class _$RegisterModule extends _i45.RegisterModule {}
+class _$RegisterModule extends _i46.RegisterModule {}

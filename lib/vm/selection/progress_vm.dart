@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 
@@ -21,13 +20,14 @@ class ProgressVm with ChangeNotifierEx {
 
   ProgressVm(this.web, this.dbRepo, this.localStorage);
 
-  bool isBusy = false;
+  bool isBusy = false, onBoarded = false;
   List<Song>? songs = [];
   String selectedBooks = "", predistinatedBooks = "";
   List<String> newBooks = [], oldBooks = [], predistinated = [];
 
   Future<void> init(ProgressNavigator screenNavigator) async {
     navigator = screenNavigator;
+    onBoarded = localStorage.getPrefBool(PrefConstants.onboardedCheckKey);
     selectedBooks = localStorage.getPrefString(PrefConstants.selectedBooksKey);
     predistinatedBooks =
         localStorage.getPrefString(PrefConstants.predistinatedBooksKey);
@@ -96,11 +96,17 @@ class ProgressVm with ChangeNotifierEx {
 
     localStorage.setPrefBool(PrefConstants.dataLoadedCheckKey, true);
     localStorage.setPrefBool(PrefConstants.wakeLockCheckKey, true);
+    localStorage.setPrefBool(PrefConstants.slideHorizontalKey, false);
 
-    navigator.goToHome();
+    if (onBoarded) {
+      navigator.goToHome();
+    } else {
+      navigator.goToOnboarding();
+    }
   }
 }
 
 abstract class ProgressNavigator {
   void goToHome();
+  void goToOnboarding();
 }
