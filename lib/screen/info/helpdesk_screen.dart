@@ -51,6 +51,14 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
       children: [
         Card(
           child: ListTile(
+            leading: const Icon(Icons.settings),
+            title: const Text('How it works'),
+            subtitle: const Text('Revisit the onboarding screen once again'),
+            onTap: () => vm!.goToHowItWorks(),
+          ),
+        ),
+        Card(
+          child: ListTile(
             leading: const Icon(Icons.link),
             title: const Text('This app on Google PlayStore'),
             subtitle: const Text('Go to Play Store or Long Press to copy link'),
@@ -103,4 +111,7 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
 
   @override
   void goToHome() => MainNavigatorWidget.of(context).goToHome();
+
+  @override
+  void goToOnboarding() => MainNavigatorWidget.of(context).goToOnboarding();
 }

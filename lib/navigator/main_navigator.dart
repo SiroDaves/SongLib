@@ -100,7 +100,7 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
           child: const HomeScreen(),
           settings: settings,
         );
-     
+
       case PresentorScreen.routeName:
         return FadeInRoute<void>(
           child: const PresentorScreen(),
@@ -163,7 +163,8 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
       UiTestScreen.routeName, (route) => false);
 
   @override
-  void goToOnboarding() => navigator.pushReplacementNamed(OnboardingScreen.routeName);
+  void goToOnboarding() =>
+      navigator.pushReplacementNamed(OnboardingScreen.routeName);
 
   @override
   void goToHome() =>

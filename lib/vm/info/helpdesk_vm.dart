@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../repository/shared_prefs/local_storage.dart';
 import '../../util/constants/app_constants.dart';
+import '../../util/constants/pref_constants.dart';
 import '../../widget/general/toast.dart';
 
 @injectable
@@ -16,6 +17,10 @@ class HelpDeskVm with ChangeNotifierEx {
 
   Future<void> init(HelpDeskNavigator screenNavigator) async {
     navigator = screenNavigator;
+  }
+
+  Future<void> goToHowItWorks() async {
+    navigator.goToOnboarding();
   }
 
   Future<void> goToPlayStore() async {
@@ -86,4 +91,5 @@ class HelpDeskVm with ChangeNotifierEx {
 
 abstract class HelpDeskNavigator {
   void goToHome();
+  void goToOnboarding();
 }

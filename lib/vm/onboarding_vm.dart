@@ -10,11 +10,9 @@ class OnboardingVm with ChangeNotifierEx {
   final LocalStorage localStorage;
 
   OnboardingVm(this.localStorage);
-  bool onBoarded = false;
 
   Future<void> init(OnboardingNavigator screenNavigator) async {
     navigator = screenNavigator;
-    onBoarded = localStorage.getPrefBool(PrefConstants.onboardedCheckKey);
   }
 
   Future<void> finishOnboarding() async {
