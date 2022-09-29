@@ -57,7 +57,7 @@ abstract class RegisterModule {
   @singleton
   @preResolve
   Future<DatabaseConnection> provideDatabaseConnection() {
-    return createDriftDatabaseConnection('songlibDB');
+    return createDriftDatabaseConnection('songlibDatabase');
   }
 
   @lazySingleton

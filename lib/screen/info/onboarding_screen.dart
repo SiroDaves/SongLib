@@ -13,7 +13,6 @@ part 'onboarding_widget.dart';
 /// Timed Welcome screen
 class OnboardingScreen extends StatefulWidget {
   static const String routeName = RouteNames.onboardingScreen;
-
   const OnboardingScreen({Key? key}) : super(key: key);
 
   @override
@@ -77,7 +76,7 @@ class OnboardingScreenState extends State<OnboardingScreen>
         child: const Padding(
           padding: defaultProceedButtonPadding,
           child: Text(
-            'GO HOME',
+            'FINISH',
             style: defaultProceedButtonTextStyle,
           ),
         ),
@@ -93,7 +92,8 @@ class OnboardingScreenState extends State<OnboardingScreen>
         widget: OnboardingWidget(
           size: size!,
           image: 'screen1',
-          description: 'Access everything at a glance\nLong press a song for options',
+          description:
+              'Access everything at a glance\nLong press a song for options',
         ),
       ),
       PageModel(
@@ -145,7 +145,8 @@ class OnboardingScreenState extends State<OnboardingScreen>
         startPageIndex: 0,
         footerBuilder: (context, dragDistance, pagesLength, setIndex) {
           return Container(
-            padding: const EdgeInsets.all(10),
+            padding:
+                const EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 50),
             decoration: const BoxDecoration(
               color: ThemeColors.primary,
             ),

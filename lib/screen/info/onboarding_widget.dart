@@ -15,7 +15,7 @@ class OnboardingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: size!.height - 80,
+      height: size!.height,
       padding: const EdgeInsets.all(10),
       decoration: const BoxDecoration(
         color: ThemeColors.accent,
@@ -23,7 +23,7 @@ class OnboardingWidget extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            height: size!.height - 150,
+            height: size!.height - 200,
             padding: const EdgeInsets.all(20),
             child: Align(
               alignment: Alignment.topLeft,
