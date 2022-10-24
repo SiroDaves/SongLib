@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../model/base/listed.dart';
 import '../../../theme/theme_colors.dart';
-import '../../../vm/home/home_vm.dart';
+import '../../../viewmodel/home/home_vm.dart';
 import '../../../widget/general/list_items.dart';
 import '../../../widget/search/search_widget.dart';
 

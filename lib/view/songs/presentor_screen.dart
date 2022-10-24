@@ -7,7 +7,7 @@ import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
-import '../../vm/songs/presentor_vm.dart';
+import '../../viewmodel/songs/presentor_vm.dart';
 import '../../widget/progress/circular_progress.dart';
 import '../../widget/provider/provider_widget.dart';
 import '../lists/list_view_popup.dart';

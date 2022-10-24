@@ -6,7 +6,7 @@ import '../../../theme/theme_colors.dart';
 import '../../../util/constants/utilities.dart';
 import '../../../widget/general/list_items.dart';
 import '../../../widget/search/search_widget.dart';
-import '../../vm/lists/list_view_vm.dart';
+import '../../viewmodel/lists/list_view_vm.dart';
 
 /// Search widget for search tab
 class ListSongSearch extends StatelessWidget {

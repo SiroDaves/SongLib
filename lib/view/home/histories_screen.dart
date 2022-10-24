@@ -6,7 +6,7 @@ import '../../model/base/songext.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../util/constants/app_constants.dart';
-import '../../vm/home/histories_vm.dart';
+import '../../viewmodel/home/histories_vm.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
 import '../../widget/progress/line_progress.dart';

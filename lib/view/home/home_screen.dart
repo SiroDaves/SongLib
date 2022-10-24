@@ -10,7 +10,7 @@ import '../../navigator/main_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
-import '../../vm/home/home_vm.dart';
+import '../../viewmodel/home/home_vm.dart';
 import '../../widget/general/inputs.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';

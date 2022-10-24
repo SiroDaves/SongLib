@@ -4,7 +4,7 @@ import 'package:get_it/get_it.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
-import '../../vm/songs/editor_vm.dart';
+import '../../viewmodel/songs/editor_vm.dart';
 import '../../widget/general/inputs.dart';
 import '../../widget/progress/circular_progress.dart';
 import '../../widget/provider/provider_widget.dart';

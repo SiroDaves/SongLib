@@ -6,7 +6,7 @@ import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
-import '../../vm/info/helpdesk_vm.dart';
+import '../../viewmodel/info/helpdesk_vm.dart';
 import '../../widget/provider/provider_widget.dart';
 
 /// Help desk screen

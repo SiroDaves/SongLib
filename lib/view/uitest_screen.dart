@@ -1,34 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:songlib/theme/theme_colors.dart';
 
-import '../../navigator/main_navigator.dart';
-import '../../theme/theme_colors.dart';
-import '../../vm/selection/progress_vm.dart';
+import '../../util/constants/app_constants.dart';
 import '../../widget/progress/advanced/advanced_progress.dart';
-import '../../widget/progress/circular_progress.dart';
 import '../../widget/provider/provider_widget.dart';
+import '../navigator/main_navigator.dart';
+import '../viewmodel/uitest_vm.dart';
 
-/// Screen to visualise progress when data is being loaded to the app
-class ProgressScreen extends StatefulWidget {
-  static const String routeName = 'progress';
+/// Screen to build a complex ui before adding to the app
+class UiTestScreen extends StatefulWidget {
+  static const String routeName = 'uitest';
 
-  const ProgressScreen({Key? key}) : super(key: key);
+  const UiTestScreen({Key? key}) : super(key: key);
 
   @override
-  ProgressScreenState createState() => ProgressScreenState();
+  UiTestScreenState createState() => UiTestScreenState();
 }
 
-class ProgressScreenState extends State<ProgressScreen>
-    implements ProgressNavigator {
-  ProgressVm? vm;
+class UiTestScreenState extends State<UiTestScreen> implements UiTestNavigator {
+  UiTestVm? vm;
   Size? size;
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
 
-    return ProviderWidget<ProgressVm>(
+    return ProviderWidget<UiTestVm>(
       create: () => GetIt.I()..init(this),
       childBuilderWithViewModel: (context, viewModel, theme, localization) {
         vm = viewModel;
@@ -40,18 +39,19 @@ class ProgressScreenState extends State<ProgressScreen>
   Widget screenWidget(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: vm!.isBusy
-          ? const CircularProgress()
-          : Stack(
-              children: [
-                backgroundProgress(),
-                foregroundProgress(),
-              ],
-            ),
+      appBar: AppBar(
+        title: const Text(AppConstants.booksTitleLoading),
+      ),
+      body: Stack(
+        children: [
+          backgroundWidget(),
+          progressWidget(),
+        ],
+      ),
     );
   }
 
-  Widget backgroundProgress() {
+  Widget backgroundWidget() {
     return RotatedBox(
       quarterTurns: 7,
       child: SizedBox(
@@ -68,7 +68,7 @@ class ProgressScreenState extends State<ProgressScreen>
     );
   }
 
-  Widget foregroundProgress() {
+  Widget progressWidget() {
     return Center(
       child: AdvancedProgress(
         radius: size!.width / 2.5,
@@ -108,7 +108,7 @@ class ProgressScreenState extends State<ProgressScreen>
                 height: size!.width / 6,
                 child: Center(
                   child: Text(
-                    vm!.state.toUpperCase(),
+                    vm!.state,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       letterSpacing: 1.5,
@@ -156,7 +156,4 @@ class ProgressScreenState extends State<ProgressScreen>
 
   @override
   void goToHome() => MainNavigatorWidget.of(context).goToHome();
-
-  @override
-  void goToOnboarding() => MainNavigatorWidget.of(context).goToOnboarding();
 }

@@ -6,7 +6,7 @@ import '../navigator/route_names.dart';
 import '../theme/theme_assets.dart';
 import '../theme/theme_colors.dart';
 import '../util/constants/app_constants.dart';
-import '../vm/splash_vm.dart';
+import '../viewmodel/splash_vm.dart';
 import '../widget/provider/provider_widget.dart';
 
 /// Timed Welcome screen

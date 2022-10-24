@@ -4,7 +4,7 @@ import '../../../model/base/song.dart';
 import '../../../model/base/songext.dart';
 import '../../../theme/theme_colors.dart';
 import '../../../util/constants/utilities.dart';
-import '../../../vm/home/home_vm.dart';
+import '../../../viewmodel/home/home_vm.dart';
 import '../../../widget/general/list_items.dart';
 import '../../../widget/search/search_widget.dart';
 

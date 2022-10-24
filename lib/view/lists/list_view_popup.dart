@@ -8,7 +8,7 @@ import '../../navigator/main_navigator.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../util/constants/app_constants.dart';
-import '../../vm/lists/list_popup_vm.dart';
+import '../../viewmodel/lists/list_popup_vm.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
 import '../../widget/progress/circular_progress.dart';

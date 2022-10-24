@@ -1,33 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:songlib/theme/theme_colors.dart';
 
-import '../../util/constants/app_constants.dart';
+import '../../navigator/main_navigator.dart';
+import '../../theme/theme_colors.dart';
+import '../../viewmodel/selection/progress_vm.dart';
 import '../../widget/progress/advanced/advanced_progress.dart';
+import '../../widget/progress/circular_progress.dart';
 import '../../widget/provider/provider_widget.dart';
-import '../navigator/main_navigator.dart';
-import '../vm/uitest_vm.dart';
 
-/// Screen to build a complex ui before adding to the app
-class UiTestScreen extends StatefulWidget {
-  static const String routeName = 'uitest';
+/// Screen to visualise progress when data is being loaded to the app
+class ProgressScreen extends StatefulWidget {
+  static const String routeName = 'progress';
 
-  const UiTestScreen({Key? key}) : super(key: key);
+  const ProgressScreen({Key? key}) : super(key: key);
 
   @override
-  UiTestScreenState createState() => UiTestScreenState();
+  ProgressScreenState createState() => ProgressScreenState();
 }
 
-class UiTestScreenState extends State<UiTestScreen> implements UiTestNavigator {
-  UiTestVm? vm;
+class ProgressScreenState extends State<ProgressScreen>
+    implements ProgressNavigator {
+  ProgressVm? vm;
   Size? size;
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
 
-    return ProviderWidget<UiTestVm>(
+    return ProviderWidget<ProgressVm>(
       create: () => GetIt.I()..init(this),
       childBuilderWithViewModel: (context, viewModel, theme, localization) {
         vm = viewModel;
@@ -39,19 +40,18 @@ class UiTestScreenState extends State<UiTestScreen> implements UiTestNavigator {
   Widget screenWidget(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        title: const Text(AppConstants.booksTitleLoading),
-      ),
-      body: Stack(
-        children: [
-          backgroundWidget(),
-          progressWidget(),
-        ],
-      ),
+      body: vm!.isBusy
+          ? const CircularProgress()
+          : Stack(
+              children: [
+                backgroundProgress(),
+                foregroundProgress(),
+              ],
+            ),
     );
   }
 
-  Widget backgroundWidget() {
+  Widget backgroundProgress() {
     return RotatedBox(
       quarterTurns: 7,
       child: SizedBox(
@@ -68,7 +68,7 @@ class UiTestScreenState extends State<UiTestScreen> implements UiTestNavigator {
     );
   }
 
-  Widget progressWidget() {
+  Widget foregroundProgress() {
     return Center(
       child: AdvancedProgress(
         radius: size!.width / 2.5,
@@ -108,7 +108,7 @@ class UiTestScreenState extends State<UiTestScreen> implements UiTestNavigator {
                 height: size!.width / 6,
                 child: Center(
                   child: Text(
-                    vm!.state,
+                    vm!.state.toUpperCase(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       letterSpacing: 1.5,
@@ -156,4 +156,7 @@ class UiTestScreenState extends State<UiTestScreen> implements UiTestNavigator {
 
   @override
   void goToHome() => MainNavigatorWidget.of(context).goToHome();
+
+  @override
+  void goToOnboarding() => MainNavigatorWidget.of(context).goToOnboarding();
 }

@@ -8,7 +8,7 @@ import 'theme/theme_data.dart';
 import 'util/env/flavor_config.dart';
 import 'util/locale/localization_delegate.dart';
 import 'util/locale/localization_fallback_cupertino_delegate.dart';
-import 'vm/global_vm.dart';
+import 'viewmodel/global_vm.dart';
 import 'widget/provider/provider_widget.dart';
 
 void startApp() async {
