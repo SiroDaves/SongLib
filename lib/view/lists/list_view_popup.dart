@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:songlib/theme/theme_colors.dart';
 
 import '../../model/base/listed.dart';
 import '../../model/base/songext.dart';
 import '../../navigator/main_navigator.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
+import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
 import '../../viewmodel/lists/list_popup_vm.dart';
+import '../../widget/general/inputs.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
 import '../../widget/progress/circular_progress.dart';
@@ -56,6 +57,13 @@ class ListViewPopupState extends State<ListViewPopup>
       appBar: AppBar(
         title: const Text(AppConstants.addSongtoList),
         actions: <Widget>[
+          InkWell(
+            onTap: () => newListForm(context),
+            child: const Padding(
+              padding: EdgeInsets.all(10),
+              child: Icon(Icons.add),
+            ),
+          ),
           InkWell(
             onTap: () => Navigator.pop(context),
             child: const Padding(
@@ -116,6 +124,56 @@ class ListViewPopupState extends State<ListViewPopup>
     );
   }
 
+  Future<void> newListForm(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text(
+          'Draft a New List',
+          style: TextStyle(
+            fontSize: 22,
+            color: ThemeColors.primaryDark,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: SizedBox(
+          height: 150,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              FormInput(
+                iLabel: 'Title',
+                iController: vm!.titleController!,
+                iOptions: const <String>[],
+              ),
+              FormInput(
+                iLabel: 'Description (Optional)',
+                iController: vm!.contentController!,
+                iOptions: const <String>[],
+              ),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              vm!.saveNewList();
+              vm!.titleController!.clear();
+              vm!.contentController!.clear();
+              Navigator.pop(context);
+            },
+            child: const Text("SAVE LIST"),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("CANCEL"),
+          ),
+        ],
+      ),
+    );
+  }
+  
   @override
   void goToPresentor() => MainNavigatorWidget.of(context).goToPresentor();
 }

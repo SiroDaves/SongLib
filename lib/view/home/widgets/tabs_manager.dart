@@ -2,6 +2,50 @@ import 'package:flutter/material.dart';
 
 import '../../../theme/theme_colors.dart';
 
+class TabIcon extends StatelessWidget {
+  final String title;
+  final IconData iconData;
+  final Function()? onTap;
+
+  const TabIcon({
+    Key? key,
+    required this.title,
+    required this.iconData,
+    this.onTap,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Hero(
+      tag: 'TabIcon_$title',
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.all(5),
+          margin: const EdgeInsets.only(top: 10),
+          child: Column(
+            children: [
+              Icon(
+                iconData,
+                color: ThemeColors.primary,
+                size: 20,
+              ),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: ThemeColors.primary,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 // ignore: must_be_immutable
 class TabsIcons extends StatelessWidget {
   final TabController controller;
@@ -13,9 +57,21 @@ class TabsIcons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     icons = [
-      iconIndicator('Lists', Icons.list_alt),
-      iconIndicator('Search', Icons.search),
-      iconIndicator('Notes', Icons.edit),
+      TabIcon(
+        title: 'Lists',
+        iconData: Icons.list_alt,
+        onTap: () => controller.index == 0,
+      ),
+      TabIcon(
+        title: 'Search',
+        iconData: Icons.search,
+        onTap: () => controller.index == 1,
+      ),
+      TabIcon(
+        title: 'Notes',
+        iconData: Icons.edit,
+        onTap: () => controller.index == 2,
+      ),
     ];
 
     return Container(
@@ -33,29 +89,6 @@ class TabsIcons extends StatelessWidget {
     );
   }
 
-  Widget iconIndicator(String title, IconData iconData) {
-    return Container(
-      padding: const EdgeInsets.all(5),
-      margin: const EdgeInsets.only(top: 10),
-      child: Column(
-        children: [
-          Icon(
-            iconData,
-            color: ThemeColors.primary,
-            size: 20,
-          ),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: ThemeColors.primary,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
 
 // ignore: must_be_immutable
@@ -66,7 +99,6 @@ class TabsIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       height: 70,
       margin: const EdgeInsets.only(top: 20),

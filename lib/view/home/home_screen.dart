@@ -20,11 +20,11 @@ import '../lists/list_view_popup.dart';
 import 'widgets/song_list_search.dart';
 import 'widgets/search_tab_search.dart';
 import 'widgets/drafts_tab_search.dart';
-import 'widgets/tabs_indicator.dart';
+import 'widgets/tabs_manager.dart';
 
-part 'tabs/song_list_tab.dart';
 part 'tabs/drafts_tab.dart';
 part 'tabs/search_tab.dart';
+part 'tabs/song_list_tab.dart';
 
 /// Home screen with 3 tabs of list, search and notes screens
 class HomeScreen extends StatefulWidget {

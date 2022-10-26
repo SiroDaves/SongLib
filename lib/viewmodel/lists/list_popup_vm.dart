@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
@@ -20,6 +21,7 @@ class ListPopupVm with ChangeNotifierEx {
   final DbRepository dbRepo;
 
   ListPopupVm(this.dbRepo, this.localStorage);
+  TextEditingController? titleController, contentController;
 
   HomeVm? homeVm;
   List<ListedExt>? listeds = [];
@@ -28,6 +30,8 @@ class ListPopupVm with ChangeNotifierEx {
 
   Future<void> init(ListPopupNavigator screenNavigator) async {
     navigator = screenNavigator;
+    titleController = TextEditingController();
+    contentController = TextEditingController();
     homeVm = GetIt.instance<HomeVm>();
   }
 
@@ -56,6 +60,28 @@ class ListPopupVm with ChangeNotifierEx {
     );
     isBusy = false;
     notifyListeners();
+  }
+
+  /// Save changes for a listed be it a new one or simply updating an old one
+  Future<void> saveNewList() async {
+    if (titleController!.text.isNotEmpty) {
+      isBusy = true;
+      notifyListeners();
+      final Listed listed = Listed(
+        objectId: '',
+        title: titleController!.text,
+        description: contentController!.text,
+      );
+      await dbRepo.saveListed(listed);
+      await fetchListedData();
+      showToast(
+        text: '${listed.title} ${AppConstants.listCreated}',
+        state: ToastStates.success,
+      );
+
+      isBusy = false;
+      notifyListeners();
+    }
   }
 
   void onBackPressed() => navigator.goBack<void>();

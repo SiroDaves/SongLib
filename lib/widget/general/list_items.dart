@@ -171,12 +171,12 @@ class ListedItem extends StatelessWidget {
                         ),
                       )
                     : Container(),
-                Text(
-                  'Updated $lastUpdate',
-                  maxLines: 1,
-                  style: TextStyle(
-                    fontSize: height * 0.015,
-                  ),
+                Row(
+                  children: <Widget>[
+                    const Spacer(),
+                    //TagView(tagText: '${listed.song!} songs', height: height),
+                    TagView(tagText: 'Updated $lastUpdate', height: height),
+                  ],
                 ),
                 const SizedBox(height: 5),
               ],

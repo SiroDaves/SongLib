@@ -35,8 +35,20 @@ class _ListedDaoStorage extends DatabaseAccessor<SongLibDb>
 
   @override
   Future<List<Listed>> getAllListeds() async {
+    /*
+ 'SELECT  tb1.${db.dbListedTable.parentid.name}, tb1.${db.dbListedTable.id.name}, tb1.${db.dbListedTable.position.name}, '
+      'tb1.${db.dbListedTable.createdAt.name}, tb1.${db.dbListedTable.updatedAt.name} '
+      'FROM ${db.dbListedTable.actualTableName} tb1 '
+      'INNER JOIN ${db.dbListedTable.actualTableName} tb2 ON tb1.${db.dbListedTable.id.name} = tb2.${db.dbListedTable.parentid.name} '
+      'WHERE tb1.${db.dbListedTable.parentid.name}=0 '
+      'GROUP BY tb1.${db.dbListedTable.parentid.name}, tb1.${db.dbListedTable.id.name}, tb1.${db.dbListedTable.position.name}, '
+      'tb1.${db.dbListedTable.createdAt.name}, tb1.${db.dbListedTable.updatedAt.name}',
+      //'ORDER BY tb1.${db.dbListedTable.id.name} DESC;',
+    */
     final Stream<List<Listed>> streams = customSelect(
-      'SELECT * FROM ${db.dbListedTable.actualTableName} '
+      'SELECT  tb1.${db.dbListedTable.parentid.name}, tb1.${db.dbListedTable.id.name}, tb1.${db.dbListedTable.position.name}, '
+      'tb1.${db.dbListedTable.createdAt.name}, tb1.${db.dbListedTable.updatedAt.name} '
+      'FROM ${db.dbListedTable.actualTableName} tb1 '
       'WHERE ${db.dbListedTable.parentid.name}=0 '
       'ORDER BY ${db.dbListedTable.id.name} DESC;',
       readsFrom: {db.dbListedTable},
