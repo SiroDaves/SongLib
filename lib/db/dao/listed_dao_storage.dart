@@ -34,23 +34,14 @@ class _ListedDaoStorage extends DatabaseAccessor<SongLibDb>
   _ListedDaoStorage(SongLibDb db) : super(db);
 
   @override
-  Future<List<Listed>> getAllListeds() async {
-    /*
- 'SELECT  tb1.${db.dbListedTable.parentid.name}, tb1.${db.dbListedTable.id.name}, tb1.${db.dbListedTable.position.name}, '
-      'tb1.${db.dbListedTable.createdAt.name}, tb1.${db.dbListedTable.updatedAt.name} '
-      'FROM ${db.dbListedTable.actualTableName} tb1 '
-      'INNER JOIN ${db.dbListedTable.actualTableName} tb2 ON tb1.${db.dbListedTable.id.name} = tb2.${db.dbListedTable.parentid.name} '
-      'WHERE tb1.${db.dbListedTable.parentid.name}=0 '
-      'GROUP BY tb1.${db.dbListedTable.parentid.name}, tb1.${db.dbListedTable.id.name}, tb1.${db.dbListedTable.position.name}, '
-      'tb1.${db.dbListedTable.createdAt.name}, tb1.${db.dbListedTable.updatedAt.name}',
-      //'ORDER BY tb1.${db.dbListedTable.id.name} DESC;',
-    */
+  Future<List<Listed>> getAllListeds() async {    
     final Stream<List<Listed>> streams = customSelect(
-      'SELECT  tb1.${db.dbListedTable.parentid.name}, tb1.${db.dbListedTable.id.name}, tb1.${db.dbListedTable.position.name}, '
-      'tb1.${db.dbListedTable.createdAt.name}, tb1.${db.dbListedTable.updatedAt.name} '
-      'FROM ${db.dbListedTable.actualTableName} tb1 '
-      'WHERE ${db.dbListedTable.parentid.name}=0 '
-      'ORDER BY ${db.dbListedTable.id.name} DESC;',
+      'SELECT *, '
+      ' (SELECT COUNT(*) FROM ${db.dbListedTable.actualTableName} tbl2 '
+      ' WHERE tbl1.${db.dbListedTable.id.name} = tbl2.${db.dbListedTable.parentid.name}) as songCount '
+      'FROM ${db.dbListedTable.actualTableName} tbl1 '
+      'WHERE tbl1.${db.dbListedTable.parentid.name}=0 '
+      'ORDER BY tbl1.${db.dbListedTable.id.name} DESC;',
       readsFrom: {db.dbListedTable},
     ).watch().map(
       (rows) {
@@ -63,7 +54,7 @@ class _ListedDaoStorage extends DatabaseAccessor<SongLibDb>
                   .mapFromDatabaseResponse(row.data['object_id'])!,
               parentid: const IntType()
                   .mapFromDatabaseResponse(row.data['parentid'])!,
-              song: const IntType().mapFromDatabaseResponse(row.data['song'])!,
+              song: const IntType().mapFromDatabaseResponse(row.data['songCount'])!,
               title: const StringType()
                   .mapFromDatabaseResponse(row.data['title'])!,
               description: const StringType()
