@@ -58,8 +58,12 @@ class ListPopupVm with ChangeNotifierEx {
       text: '${song.title} ${AppConstants.songAddedToList}',
       state: ToastStates.success,
     );
-    isBusy = false;
-    notifyListeners();
+    try {
+      isBusy = false;
+      notifyListeners();
+    // ignore: empty_catches
+    } catch (e) {
+    }
   }
 
   /// Save changes for a listed be it a new one or simply updating an old one

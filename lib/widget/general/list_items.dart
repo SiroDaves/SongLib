@@ -174,7 +174,10 @@ class ListedItem extends StatelessWidget {
                 Row(
                   children: <Widget>[
                     const Spacer(),
-                    TagView(tagText: '${listed.song!} songs', height: height),
+                    TagView(
+                      tagText: '${listed.song!} song${listed.song! == 1 ? '' : 's'}',
+                      height: height,
+                    ),
                     TagView(tagText: 'Updated $lastUpdate', height: height),
                   ],
                 ),

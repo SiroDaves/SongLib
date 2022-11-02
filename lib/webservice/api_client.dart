@@ -3,6 +3,8 @@ import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../model/webservice/books_response.dart';
+import '../model/webservice/edits_response.dart';
+import '../model/webservice/notifications_response.dart';
 import '../model/webservice/songs_response.dart';
 import '../util/constants/api_constants.dart';
 import 'web_service.dart';
@@ -23,6 +25,14 @@ abstract class ApiClient extends WebService {
     @Query('where') String where = '{"enabled":true}',
     @Query('order') String order = 'position',
   });
+
+  @override
+  @GET(ApiConstants.edit)
+  Future<EditsResponse> getEditsResponse();
+
+  @override
+  @GET(ApiConstants.notification)
+  Future<NotificationsResponse> getNotificationsResponse();
 
   @override
   @GET(ApiConstants.song)

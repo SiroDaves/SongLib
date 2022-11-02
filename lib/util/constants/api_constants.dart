@@ -4,6 +4,8 @@ class ApiConstants {
   static const parseApiKey = "9s9zQYmaNMGf9BXWRfuWmgpIJAGxdVqqdSk67Vao";
 
   static const book = "Book";
+  static const edit = "Edit";
+  static const notification = "Notification";
   static const song = "Song";
 }
 

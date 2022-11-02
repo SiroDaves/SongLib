@@ -134,6 +134,7 @@ class DbRepo implements DbRepository {
 
   @override
   Future<void> saveListedSong(Listed listed, SongExt song) async {
+    await listedDao.updateListed(listed);
     return await listedDao.createListedSong(listed, song);
   }
 

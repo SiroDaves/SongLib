@@ -34,7 +34,8 @@ dependencies:
   json_annotation: ^4.6.0
   niddler_dart: ^1.5.0
   onboarding: ^3.1.0
-  package_info_plus: ^1.4.2 
+  package_info_plus: ^1.4.2
+  parse_server_sdk: ^3.1.2
   path: ^1.8.0
   path_provider: ^2.0.8
   percent_indicator: ^4.2.2

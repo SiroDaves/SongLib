@@ -91,7 +91,7 @@ class _ListedDaoStorage extends DatabaseAccessor<SongLibDb>
       'LEFT JOIN ${db.dbBookTable.actualTableName} AS books '
       'ON songs.${db.dbSongTable.book.name}=books.${db.dbBookTable.bookNo.name} '
       'WHERE listeds.${db.dbListedTable.parentid.name}=$parentid '
-      'ORDER BY listeds.${db.dbListedTable.id.name} DESC;',
+      'ORDER BY listeds.${db.dbListedTable.updatedAt.name} DESC;',
       readsFrom: {db.dbListedTable},
     ).watch().map(
       (rows) {
@@ -163,7 +163,7 @@ class _ListedDaoStorage extends DatabaseAccessor<SongLibDb>
           title: Value(listed.title!),
           description: Value(listed.description!),
           position: Value(listed.position!),
-          updatedAt: Value(listed.updatedAt!),
+          updatedAt: Value(dateNow()),
         ),
       );
 
