@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 String dateNow() {
-  //2022-06-26T21:18:23.368Z
-  //3 Sept 2022 at 06:26:08 UTC
-  //1974-03-20 00:00:00
   return DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+}
+
+String dateToString(DateTime dateValue) {
+  return DateFormat('yyyy-MM-dd HH:mm:ss').format(dateValue);
 }
 
 Future<bool> isKeyboardShowing() async {

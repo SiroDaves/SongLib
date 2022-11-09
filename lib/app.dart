@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'navigator/main_navigator.dart';
 import 'theme/theme_data.dart';
+import 'util/constants/api_constants.dart';
 import 'util/env/flavor_config.dart';
 import 'util/locale/localization_delegate.dart';
 import 'util/locale/localization_fallback_cupertino_delegate.dart';
@@ -12,6 +14,14 @@ import 'viewmodel/global_vm.dart';
 import 'widget/provider/provider_widget.dart';
 
 void startApp() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Parse().initialize(
+    ApiConstants.applicationID,
+    ApiConstants.parseApiUrl,
+    clientKey: ApiConstants.clientKey,
+    autoSendSessionId: true,
+  );
+
   await SentryFlutter.init(
     (options) {
       options.dsn =

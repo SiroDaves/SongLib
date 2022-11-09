@@ -3,22 +3,22 @@ import 'package:injectable/injectable.dart';
 
 import '../../model/base/song.dart';
 import '../../repository/db_repository.dart';
-import '../../repository/web_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
 import '../../util/constants/pref_constants.dart';
+import '../../webservice/song_response.dart';
 
 @injectable
 class ProgressVm with ChangeNotifierEx {
   late final ProgressNavigator navigator;
-  final WebRepository web;
-  final DbRepository dbRepo;
+  final SongResponse api;
+  final DbRepository db;
   final LocalStorage localStorage;
 
   int progress = 0;
   String state = '';
   String time = '00:00';
 
-  ProgressVm(this.web, this.dbRepo, this.localStorage);
+  ProgressVm(this.api, this.db, this.localStorage);
 
   bool isBusy = false, onBoarded = false;
   List<Song>? songs = [];
@@ -35,7 +35,7 @@ class ProgressVm with ChangeNotifierEx {
     if (predistinatedBooks.isNotEmpty) {
       isBusy = true;
       notifyListeners();
-      await dbRepo.majorCleanUp(selectedBooks);
+      await db.majorCleanUp(selectedBooks);
     }
 
     await fetchSongs();
@@ -46,7 +46,7 @@ class ProgressVm with ChangeNotifierEx {
     isBusy = true;
     notifyListeners();
 
-    songs = await web.fetchSongs(selectedBooks);
+    songs = await api.fetchSongs(selectedBooks);
 
     isBusy = false;
     notifyListeners();
@@ -89,7 +89,7 @@ class ProgressVm with ChangeNotifierEx {
           }
           notifyListeners();
 
-          await dbRepo.saveSong(songs![i]);
+          await db.saveSong(songs![i]);
         } catch (_) {}
       }
     }

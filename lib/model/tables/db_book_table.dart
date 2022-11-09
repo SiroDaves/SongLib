@@ -1,5 +1,4 @@
 import 'package:drift/drift.dart';
-import 'package:intl/intl.dart';
 
 import '../../db/songlib_db.dart';
 import '../base/book.dart';
@@ -7,7 +6,6 @@ import '../base/book.dart';
 
 @DataClassName('DbBook')
 class DbBookTable extends Table {
-  String date = DateFormat.yMMMd().format(DateTime.now());
   IntColumn get id => integer().autoIncrement()();
 
   TextColumn get objectId => text().unique()();

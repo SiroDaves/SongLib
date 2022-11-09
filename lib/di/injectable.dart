@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -11,7 +10,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../db/songlib_db.dart';
 import '../repository/secure_storage/secure_storage.dart';
-import '../util/constants/api_constants.dart';
 import '../util/env/flavor_config.dart';
 import '../util/interceptor/network_auth_interceptor.dart';
 import '../util/interceptor/network_error_interceptor.dart';
@@ -84,25 +82,7 @@ abstract class RegisterModule {
         ..addInterceptor(logInterceptor);
 
   @lazySingleton
-  Dio provideDio(CombiningSmartInterceptor interceptor) {
-    final dio = Dio(
-      BaseOptions(
-        baseUrl: ApiConstants.parseUrl,
-        headers: <String, dynamic>{
-          'X-Parse-Application-Id': ApiConstants.parseAppID,
-          'X-Parse-REST-API-Key': ApiConstants.parseApiKey,
-          'Content-Type': 'application/json',
-        },
-      ),
-    );
-    (dio.transformer as DefaultTransformer).jsonDecodeCallback = parseJson;
-    dio.interceptors.add(interceptor);
-    return dio;
-  }
-
-  @lazySingleton
-  SongLibDb provideSongLibDb(
-          DatabaseConnection databaseConnection) =>
+  SongLibDb provideSongLibDb(DatabaseConnection databaseConnection) =>
       SongLibDb.connect(databaseConnection);
 }
 

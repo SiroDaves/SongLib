@@ -1,12 +1,9 @@
-import '../model/webservice/books_response.dart';
-import '../model/webservice/notifications_response.dart';
-import '../model/webservice/songs_response.dart';
+import 'package:injectable/injectable.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
-// ignore: one_member_abstracts
+@lazySingleton
 abstract class WebService {
-  Future<BooksResponse?> getBooksResponse();
+  Future<List<ParseObject>> queryBooks();
 
-  Future<NotificationsResponse?> getNotificationsResponse();
-  
-  Future<SongsResponse?> getSongsResponse(String where);
+  Future<List<ParseObject>> querySongs(String where);
 }

@@ -1,21 +1,21 @@
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
+import 'package:songlib/webservice/book_response.dart';
 
 import '../../model/base/book.dart';
 import '../../model/base/selectable.dart';
 import '../../repository/db_repository.dart';
-import '../../repository/web_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
 import '../../util/constants/pref_constants.dart';
 
 @injectable
 class SelectionVm with ChangeNotifierEx {
   late final SelectionNavigator navigator;
-  final WebRepository web;
-  final DbRepository dbRepo;
+  final BookResponse api;
+  final DbRepository db;
   final LocalStorage localStorage;
 
-  SelectionVm(this.web, this.dbRepo, this.localStorage);
+  SelectionVm(this.api, this.db, this.localStorage);
 
   bool isBusy = false;
   List<Selectable<Book>?> selectables = [];
@@ -47,7 +47,7 @@ class SelectionVm with ChangeNotifierEx {
 
   /// Get the list of books
   Future<List<Book>?> fetchBooks() async {
-    books = await web.fetchBooks();
+    books = await api.fetchBooks();
     if (books!.isNotEmpty) {
       for (final book in books!) {
         bool predistinated = false;
@@ -65,7 +65,7 @@ class SelectionVm with ChangeNotifierEx {
 
     try {
       if (selectedBooks.isNotEmpty) {
-        await dbRepo.deleteBooks();
+        await db.deleteBooks();
         localStorage.setPrefString(
             PrefConstants.predistinatedBooksKey, selectedBooks);
         selectedBooks = "";
@@ -73,7 +73,7 @@ class SelectionVm with ChangeNotifierEx {
       for (int i = 0; i < selectables.length; i++) {
         final Book book = selectables[i]!.data;
         selectedBooks = "$selectedBooks${book.bookNo},";
-        await dbRepo.saveBook(book);
+        await db.saveBook(book);
       }
     } catch (_) {}
 
