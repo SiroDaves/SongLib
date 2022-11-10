@@ -1,17 +1,17 @@
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
-import 'package:songlib/webservice/book_response.dart';
 
 import '../../model/base/book.dart';
 import '../../model/base/selectable.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
 import '../../util/constants/pref_constants.dart';
+import '../../webservice/book/book_web_service.dart';
 
 @injectable
 class SelectionVm with ChangeNotifierEx {
   late final SelectionNavigator navigator;
-  final BookResponse api;
+  final BookWebService api;
   final DbRepository db;
   final LocalStorage localStorage;
 

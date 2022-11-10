@@ -1,24 +1,16 @@
 import 'package:injectable/injectable.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
-import '../model/base/book.dart';
-import '../util/constants/api_constants.dart';
-import '../util/constants/utilities.dart';
-import '../webservice/web_service.dart';
+import '../../model/base/book.dart';
+import '../../util/constants/api_constants.dart';
+import '../../util/constants/utilities.dart';
+import 'book_service.dart';
 
-@lazySingleton
-abstract class BookResponse {
-  @factoryMethod
-  factory BookResponse(WebService webService) = BookResp;
+@injectable
+@LazySingleton(as: BookService)
+class BookWebService implements BookService {
 
-  Future<List<Book>> fetchBooks();
-}
-
-class BookResp implements BookResponse {
-  final WebService webService;
-
-  BookResp(this.webService);
-
+  @override
   Future<List<ParseObject>> queryBooks() async {
     final QueryBuilder<ParseObject> parseQuery =
         QueryBuilder<ParseObject>(ParseObject(ApiConstants.book));
@@ -33,7 +25,6 @@ class BookResp implements BookResponse {
     }
   }
   
-  @override
   Future<List<Book>> fetchBooks() async {
     final List<Book> books = [];
     final List<ParseObject> objects = await queryBooks();

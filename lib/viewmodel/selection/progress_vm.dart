@@ -5,12 +5,12 @@ import '../../model/base/song.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
 import '../../util/constants/pref_constants.dart';
-import '../../webservice/song_response.dart';
+import '../../webservice/song/song_web_service.dart';
 
 @injectable
 class ProgressVm with ChangeNotifierEx {
   late final ProgressNavigator navigator;
-  final SongResponse api;
+  final SongWebService api;
   final DbRepository db;
   final LocalStorage localStorage;
 

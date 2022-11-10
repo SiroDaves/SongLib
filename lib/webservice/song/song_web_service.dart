@@ -1,24 +1,16 @@
 import 'package:injectable/injectable.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
-import '../model/base/song.dart';
-import '../util/constants/api_constants.dart';
-import '../util/constants/utilities.dart';
-import '../webservice/web_service.dart';
+import '../../model/base/song.dart';
+import '../../util/constants/api_constants.dart';
+import '../../util/constants/utilities.dart';
+import 'song_service.dart';
 
-@lazySingleton
-abstract class SongResponse {
-  @factoryMethod
-  factory SongResponse(WebService webService) = SongResp;
-
-  Future<List<Song>> fetchSongs(String where);
-}
-
-class SongResp implements SongResponse {
-  final WebService webService;
-
-  SongResp(this.webService);
+@injectable
+@LazySingleton(as: SongService)
+class SongWebService implements SongService {
  
+  @override
   Future<List<ParseObject>> querySongs(String where) async {
     final QueryBuilder<ParseObject> parseQuery =
         QueryBuilder<ParseObject>(ParseObject(ApiConstants.song));
@@ -34,7 +26,6 @@ class SongResp implements SongResponse {
     }
   }
   
-  @override
   Future<List<Song>> fetchSongs(String selectedBooks) async {
     final List<Song> songs = [];
     final List<ParseObject> objects = await querySongs('{"book":{"\$in":[$selectedBooks]}}');
