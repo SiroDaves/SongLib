@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../model/base/book.dart';
 import '../../navigator/main_navigator.dart';
@@ -42,10 +43,16 @@ class SelectionScreenState extends State<SelectionScreen>
 
   Widget screenWidget(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(AppConstants.booksTitle),
+      appBar: topContainer(),
+      body: SmartRefresher(
+        enablePullDown: true,
+        enablePullUp: true,
+        header: const WaterDropHeader(),
+        controller: vm!.refreshController,
+        onRefresh: vm!.onRefresh,
+        onLoading: vm!.onLoading,
+        child: vm!.isBusy ? const CircularProgress() : mainContainer(),
       ),
-      body: vm!.isBusy ? const CircularProgress() : mainContainer(),
       floatingActionButton: vm!.isBusy
           ? Container()
           : FloatingActionButton(
@@ -56,37 +63,57 @@ class SelectionScreenState extends State<SelectionScreen>
     );
   }
 
-  Widget mainContainer() {
-    return FutureBuilder<List<Book>?>(
-      future: vm!.fetchBooks(),
-      builder: (BuildContext context, AsyncSnapshot<List<Book>?> snapshot) {
-        if (snapshot.hasData) {
-          if (snapshot.data!.isNotEmpty) {
-            return ListView.builder(
-              padding: const EdgeInsets.all(5),
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) => BookItem(
-                book: snapshot.data![index],
-                selected: vm!.listedBooks[index]!.isSelected,
-                onTap: () => vm!.onBookSelected(index),
+  AppBar topContainer() {
+    return AppBar(
+      title: const Text(AppConstants.booksTitle),
+      actions: <Widget>[
+        InkWell(
+          onTap: () => areYouDoneDialog(context),
+          child: TextButton(
+            onPressed: () => areYouDoneDialog(context),
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(5),
+                ),
               ),
-            );
-          } else {
-            return const NoDataToShow(
-              title: AppConstants.errorOccurred,
-              description: AppConstants.errorOccurredBody,
-            );
-          }
-        } else if (snapshot.hasError) {
-          return const NoDataToShow(
-            title: AppConstants.errorOccurred,
-            description: AppConstants.noConnectionBody,
-          );
-        } else {
-          return const CircularProgress();
-        }
-      },
+              child: Row(
+                children: const <Widget>[
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(
+                      AppConstants.proceed,
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Icon(Icons.check),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
     );
+  }
+
+  Widget mainContainer() {
+    return vm!.books!.isNotEmpty
+        ? ListView.builder(
+            padding: const EdgeInsets.all(5),
+            itemCount: vm!.books!.length,
+            itemBuilder: (context, index) => BookItem(
+              book: vm!.books![index],
+              selected: vm!.listedBooks[index]!.isSelected,
+              onTap: () => vm!.onBookSelected(index),
+            ),
+          )
+        : const NoDataToShow(
+            title: AppConstants.errorOccurred,
+            description: AppConstants.errorOccurredBody,
+          );
   }
 
   Future<void> areYouDoneDialog(BuildContext context) async {

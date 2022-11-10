@@ -9,22 +9,24 @@ import 'book_service.dart';
 @injectable
 @LazySingleton(as: BookService)
 class BookWebService implements BookService {
-
   @override
   Future<List<ParseObject>> queryBooks() async {
     final QueryBuilder<ParseObject> parseQuery =
         QueryBuilder<ParseObject>(ParseObject(ApiConstants.book));
-    parseQuery.whereEqualTo('enabled', 'true');
-    parseQuery.orderByAscending('position');
+    parseQuery
+      ..whereEqualTo('enabled', true)
+      ..orderByAscending('position');
     final ParseResponse apiResponse = await parseQuery.query();
 
     if (apiResponse.success && apiResponse.results != null) {
       return apiResponse.results as List<ParseObject>;
     } else {
+      // ignore: avoid_print
+      print('Error: ${apiResponse.error}');
       return [];
     }
   }
-  
+
   Future<List<Book>> fetchBooks() async {
     final List<Book> books = [];
     final List<ParseObject> objects = await queryBooks();
@@ -47,5 +49,4 @@ class BookWebService implements BookService {
     }
     return books;
   }
-
 }

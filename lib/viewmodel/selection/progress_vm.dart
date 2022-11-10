@@ -24,6 +24,8 @@ class ProgressVm with ChangeNotifierEx {
   List<Song>? songs = [];
   String selectedBooks = "", predistinatedBooks = "";
   List<String> newBooks = [], oldBooks = [], predistinated = [];
+  List<String> selected = [];
+  List<int> bookNos = [];
 
   Future<void> init(ProgressNavigator screenNavigator) async {
     navigator = screenNavigator;
@@ -46,7 +48,11 @@ class ProgressVm with ChangeNotifierEx {
     isBusy = true;
     notifyListeners();
 
-    songs = await api.fetchSongs(selectedBooks);
+    selected = selectedBooks.split(",");
+    for(final select in selected){
+      bookNos.add(int.parse(select));
+    }
+    songs = await api.fetchSongs(bookNos);
 
     isBusy = false;
     notifyListeners();

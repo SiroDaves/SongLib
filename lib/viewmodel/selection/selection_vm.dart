@@ -1,5 +1,6 @@
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../model/base/book.dart';
 import '../../model/base/selectable.dart';
@@ -24,6 +25,10 @@ class SelectionVm with ChangeNotifierEx {
   String selectedBooks = "";
   List<String> bookNos = [];
 
+  RefreshController refreshController = RefreshController(
+    initialRefresh: false,
+  );
+
   Future<void> init(SelectionNavigator screenNavigator) async {
     navigator = screenNavigator;
     selectedBooks = localStorage.getPrefString(PrefConstants.selectedBooksKey);
@@ -43,6 +48,16 @@ class SelectionVm with ChangeNotifierEx {
         selectables.remove(listedBooks[index]);
       }
     } catch (_) {}
+  }
+
+  void onRefresh() async {
+    await fetchBooks();
+    refreshController.refreshCompleted();
+  }
+
+  void onLoading() async {
+    await fetchBooks();
+    refreshController.loadComplete();
   }
 
   /// Get the list of books

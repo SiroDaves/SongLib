@@ -9,14 +9,14 @@ import 'song_service.dart';
 @injectable
 @LazySingleton(as: SongService)
 class SongWebService implements SongService {
- 
   @override
-  Future<List<ParseObject>> querySongs(String where) async {
+  Future<List<ParseObject>> querySongs(List<int> books) async {
     final QueryBuilder<ParseObject> parseQuery =
         QueryBuilder<ParseObject>(ParseObject(ApiConstants.song));
-    parseQuery.whereEqualTo('enabled', where);
-    parseQuery.orderByAscending('songNo');
-    parseQuery.setLimit(10000);
+    parseQuery
+      ..whereContainedIn('book', books)
+      ..orderByAscending('songNo')
+      ..setLimit(10000);
     final ParseResponse apiResponse = await parseQuery.query();
 
     if (apiResponse.success && apiResponse.results != null) {
@@ -25,10 +25,10 @@ class SongWebService implements SongService {
       return [];
     }
   }
-  
-  Future<List<Song>> fetchSongs(String selectedBooks) async {
+
+  Future<List<Song>> fetchSongs(List<int> books) async {
     final List<Song> songs = [];
-    final List<ParseObject> objects = await querySongs('{"book":{"\$in":[$selectedBooks]}}');
+    final List<ParseObject> objects = await querySongs(books);
     if (objects.isNotEmpty) {
       for (final object in objects) {
         final Song song = Song(

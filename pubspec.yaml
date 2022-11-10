@@ -41,6 +41,7 @@ dependencies:
   percent_indicator: ^4.2.2
   plugin_platform_interface: ^2.1.2
   provider: ^6.0.3
+  pull_to_refresh: ^2.0.0
   retrofit: ^3.0.1+1
   screenshot: ^1.2.3
   scroll_when_needed: ^2.0.0
