@@ -5,8 +5,21 @@ part of '../home_screen.dart';
 class SearchTab extends StatelessWidget {
   final HomeVm homeVm;
   SearchTab({Key? key, required this.homeVm}) : super(key: key);
-
   Size? size;
+
+  RefreshController refreshController = RefreshController(
+    initialRefresh: false,
+  );
+
+  void onRefresh() async {
+    await homeVm.fetchSearchData();
+    refreshController.refreshCompleted();
+  }
+
+  void onLoading() async {
+    await homeVm.fetchSearchData();
+    refreshController.loadComplete();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +48,15 @@ class SearchTab extends StatelessWidget {
             child: Column(
               children: [
                 titleContainer(),
+                /*SmartRefresher(
+                  enablePullDown: true,
+                  enablePullUp: true,
+                  header: const WaterDropHeader(),
+                  controller: refreshController,
+                  onRefresh: onRefresh,
+                  onLoading: onLoading,
+                  child: mainContainer(context),
+                ),*/
                 mainContainer(context),
               ],
             ),

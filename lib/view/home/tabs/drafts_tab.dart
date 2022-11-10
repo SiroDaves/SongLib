@@ -5,8 +5,21 @@ part of '../home_screen.dart';
 class DraftsTab extends StatelessWidget {
   final HomeVm homeVm;
   DraftsTab({Key? key, required this.homeVm}) : super(key: key);
-
   Size? size;
+
+  RefreshController refreshController = RefreshController(
+    initialRefresh: false,
+  );
+
+  void onRefresh() async {
+    await homeVm.fetchDraftsData();
+    refreshController.refreshCompleted();
+  }
+
+  void onLoading() async {
+    await homeVm.fetchDraftsData();
+    refreshController.loadComplete();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +39,15 @@ class DraftsTab extends StatelessWidget {
           child: Column(
             children: [
               titleContainer(),
+              /*SmartRefresher(
+                  enablePullDown: true,
+                  enablePullUp: true,
+                  header: const WaterDropHeader(),
+                  controller: refreshController,
+                  onRefresh: onRefresh,
+                  onLoading: onLoading,
+                  child: mainContainer(context),
+                ),*/
               mainContainer(context),
             ],
           ),

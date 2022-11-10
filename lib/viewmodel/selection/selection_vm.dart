@@ -25,16 +25,15 @@ class SelectionVm with ChangeNotifierEx {
   String selectedBooks = "";
   List<String> bookNos = [];
 
-  RefreshController refreshController = RefreshController(
-    initialRefresh: false,
-  );
-
+  RefreshController refreshController = RefreshController(initialRefresh: true);
+  
   Future<void> init(SelectionNavigator screenNavigator) async {
     navigator = screenNavigator;
     selectedBooks = localStorage.getPrefString(PrefConstants.selectedBooksKey);
     if (selectedBooks.isNotEmpty) {
       bookNos = selectedBooks.split(",");
     }
+    await fetchBooks();
   }
 
   void onBookSelected(int index) {
@@ -62,6 +61,9 @@ class SelectionVm with ChangeNotifierEx {
 
   /// Get the list of books
   Future<List<Book>?> fetchBooks() async {
+    isBusy = true;
+    notifyListeners();
+
     books = await api.fetchBooks();
     if (books!.isNotEmpty) {
       for (final book in books!) {
@@ -70,6 +72,9 @@ class SelectionVm with ChangeNotifierEx {
         listedBooks.add(Selectable<Book>(book, predistinated));
       }
     }
+
+    isBusy = false;
+    notifyListeners();
     return books;
   }
 

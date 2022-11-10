@@ -5,7 +5,6 @@ import 'di/environments.dart';
 import 'di/injectable.dart';
 import 'main_common.dart';
 import 'util/env/flavor_config.dart';
-import 'util/inspector/database_inspector.dart';
 import 'util/inspector/local_storage_inspector.dart';
 import 'util/inspector/niddler.dart';
 
@@ -25,7 +24,6 @@ Future<void> main() async {
     // ignore: avoid_print
     print('Starting app from main.dart');
     await configureDependencies(Environments.dev);
-    await addDatabaseInspector();
     await initAllStorageInspectors();
 
     startApp();

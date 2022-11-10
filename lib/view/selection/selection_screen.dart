@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../model/base/book.dart';
 import '../../navigator/main_navigator.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
@@ -65,36 +64,37 @@ class SelectionScreenState extends State<SelectionScreen>
 
   AppBar topContainer() {
     return AppBar(
-      title: const Text(AppConstants.booksTitle),
+      title: Text(
+        vm!.isBusy ? AppConstants.booksTitleLoading : AppConstants.booksTitle,
+      ),
       actions: <Widget>[
-        InkWell(
-          onTap: () => areYouDoneDialog(context),
-          child: TextButton(
-            onPressed: () => areYouDoneDialog(context),
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-              ),
-              child: Row(
-                children: const <Widget>[
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      AppConstants.proceed,
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        vm!.isBusy
+            ? Container()
+            : TextButton(
+                onPressed: () => areYouDoneDialog(context),
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(5),
                     ),
                   ),
-                  Icon(Icons.check),
-                ],
+                  child: Row(
+                    children: const <Widget>[
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Text(
+                          AppConstants.proceed,
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Icon(Icons.check),
+                    ],
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
       ],
     );
   }

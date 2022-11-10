@@ -7,6 +7,20 @@ class SongListTab extends StatelessWidget {
   SongListTab({Key? key, required this.homeVm}) : super(key: key);
   Size? size;
 
+  RefreshController refreshController = RefreshController(
+    initialRefresh: false,
+  );
+
+  void onRefresh() async {
+    await homeVm.fetchListedData();
+    refreshController.refreshCompleted();
+  }
+
+  void onLoading() async {
+    await homeVm.fetchListedData();
+    refreshController.loadComplete();
+  }
+
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
@@ -34,6 +48,15 @@ class SongListTab extends StatelessWidget {
             child: Column(
               children: [
                 titleContainer(),
+                /*SmartRefresher(
+                  enablePullDown: true,
+                  enablePullUp: true,
+                  header: const WaterDropHeader(),
+                  controller: refreshController,
+                  onRefresh: onRefresh,
+                  onLoading: onLoading,
+                  child: mainContainer(context),
+                ),*/
                 mainContainer(context),
               ],
             ),
