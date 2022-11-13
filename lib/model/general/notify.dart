@@ -1,15 +1,15 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'notification.g.dart';
+part 'notify.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class Notification {
+class Notify {
   @JsonKey(name: 'objectId', includeIfNull: false)
   String? objectId;
   @JsonKey(name: 'title', includeIfNull: false)
   String? title;
-  @JsonKey(name: 'content', includeIfNull: false)
-  String? content;
+  @JsonKey(name: 'message', includeIfNull: false)
+  String? message;
   @JsonKey(name: 'image', includeIfNull: false)
   String? image;
   @JsonKey(name: 'views', includeIfNull: false)
@@ -19,17 +19,17 @@ class Notification {
   @JsonKey(name: 'updatedAt', includeIfNull: false)
   String? updatedAt;
 
-  Notification({
+  Notify({
     this.objectId,
     this.title,
-    this.content,
+    this.message,
     this.image,
     this.views,
     this.createdAt,
     this.updatedAt,
   });
 
-  factory Notification.fromJson(Map<String, dynamic> json) => _$NotificationFromJson(json);
+  factory Notify.fromJson(Map<String, dynamic> json) => _$NotifyFromJson(json);
 
-  Map<String, dynamic> toJson() => _$NotificationToJson(this);
+  Map<String, dynamic> toJson() => _$NotifyToJson(this);
 }

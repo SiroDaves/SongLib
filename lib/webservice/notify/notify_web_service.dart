@@ -1,18 +1,18 @@
 import 'package:injectable/injectable.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
-import '../../model/general/notification.dart';
+import '../../model/general/notify.dart';
 import '../../util/constants/api_constants.dart';
 import '../../util/constants/utilities.dart';
-import 'notification_service.dart';
+import 'notify_service.dart';
 
 @injectable
-@LazySingleton(as: NotificationService)
-class NotificationWebService implements NotificationService {
+@LazySingleton(as: NotifyService)
+class NotifyWebService implements NotifyService {
   @override
-  Future<List<ParseObject>> queryNotifications(List<int> books) async {
+  Future<List<ParseObject>> queryNotifys() async {
     final QueryBuilder<ParseObject> parseQuery =
-        QueryBuilder<ParseObject>(ParseObject(ApiConstants.notification));
+        QueryBuilder<ParseObject>(ParseObject(ApiConstants.notify));
     final ParseResponse apiResponse = await parseQuery.query();
 
     if (apiResponse.success && apiResponse.results != null) {
@@ -22,23 +22,23 @@ class NotificationWebService implements NotificationService {
     }
   }
 
-  Future<List<Notification>> fetchNotifications(List<int> books) async {
-    final List<Notification> notifications = [];
-    final List<ParseObject> objects = await queryNotifications(books);
+  Future<List<Notify>> fetchNotifys() async {
+    final List<Notify> notifys = [];
+    final List<ParseObject> objects = await queryNotifys();
     if (objects.isNotEmpty) {
       for (final object in objects) {
-        final Notification notification = Notification(
+        final Notify notify = Notify(
           objectId: object.get<String>('objectId'),
           title: object.get<String>('title'),
-          content: object.get<String>('content'),
+          message: object.get<String>('message'),
           image: object.get<String>('image'),
           views: object.get<int>('views'),
           createdAt: dateToString(object.get<DateTime>('createdAt')!),
           updatedAt: dateToString(object.get<DateTime>('updatedAt')!),
         );
-        notifications.add(notification);
+        notifys.add(notify);
       }
     }
-    return notifications;
+    return notifys;
   }
 }
