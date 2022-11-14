@@ -1,18 +1,14 @@
-import 'package:injectable/injectable.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 import '../../model/general/notify.dart';
 import '../../util/constants/api_constants.dart';
 import '../../util/constants/utilities.dart';
-import 'notify_service.dart';
 
-@injectable
-@LazySingleton(as: NotifyService)
-class NotifyWebService implements NotifyService {
-  @override
+class NotifyWebService {
   Future<List<ParseObject>> queryNotifys() async {
     final QueryBuilder<ParseObject> parseQuery =
         QueryBuilder<ParseObject>(ParseObject(ApiConstants.notify));
+    parseQuery.whereEqualTo('enabled', true);
     final ParseResponse apiResponse = await parseQuery.query();
 
     if (apiResponse.success && apiResponse.results != null) {

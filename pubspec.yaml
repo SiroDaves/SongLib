@@ -80,6 +80,7 @@ flutter:
     - assets/icon/
     - assets/images/
     - assets/locale/
+    - assets/sound/
   fonts:
     - family: TrebuchetMS
       fonts:

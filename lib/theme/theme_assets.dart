@@ -53,9 +53,9 @@ class ThemeAssets {
     iconPoints,
   ];
 
-  static const String appIcon = '$assetsIcon/icon.png';
+  static const String appIcon = '$assetsIcon/app_icon.png';
 
-  static const String appIconWhiteBg = '$assetsIcon/icon_white_bg.png';
+  static const String appIconWhiteBg = '$assetsIcon/app_icon_white_bg.png';
 
   static const String menuBackground1 = '$assetsImages/menu_background_1.png';
 

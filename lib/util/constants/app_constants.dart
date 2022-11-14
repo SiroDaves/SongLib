@@ -5,7 +5,8 @@ class AppConstants {
   static const protectedAuthenticationHeaderPrefix = 'Bearer';
   static const authorizationHeader = 'Authorization';
 
-  static const playstoreLink = "https://play.google.com/store/apps/details?id=com.songlib";
+  static const playstoreLink =
+      "https://play.google.com/store/apps/details?id=com.songlib";
 
   static const appTitle = "SongLib";
   static const listTitle = "Song Lists";
@@ -85,4 +86,6 @@ class AppConstants {
       "All caught here, please like a song to clear this emptiness here";
   static const itsEmptyHereBody4 =
       "All caught here, you can add personal lists and add songs to them";
+
+  static const getNotifys = 'CheckForNewNotifications';
 }

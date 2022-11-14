@@ -12,6 +12,7 @@ Notify _$NotifyFromJson(Map<String, dynamic> json) => Notify(
       message: json['message'] as String?,
       image: json['image'] as String?,
       views: json['views'] as int?,
+      enable: json['enable'] as bool?,
       createdAt: json['createdAt'] as String?,
       updatedAt: json['updatedAt'] as String?,
     );
@@ -30,6 +31,7 @@ Map<String, dynamic> _$NotifyToJson(Notify instance) {
   writeNotNull('message', instance.message);
   writeNotNull('image', instance.image);
   writeNotNull('views', instance.views);
+  writeNotNull('enable', instance.enable);
   writeNotNull('createdAt', instance.createdAt);
   writeNotNull('updatedAt', instance.updatedAt);
   return val;

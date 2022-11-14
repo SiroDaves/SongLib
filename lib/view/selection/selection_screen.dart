@@ -47,7 +47,7 @@ class SelectionScreenState extends State<SelectionScreen>
         enablePullDown: true,
         enablePullUp: true,
         header: const WaterDropHeader(),
-        footer: Container(),
+        //footer: Container(),
         controller: vm!.refreshController,
         onRefresh: vm!.onRefresh,
         onLoading: vm!.onLoading,

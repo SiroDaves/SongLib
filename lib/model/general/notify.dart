@@ -14,6 +14,8 @@ class Notify {
   String? image;
   @JsonKey(name: 'views', includeIfNull: false)
   int? views;
+  @JsonKey(name: 'enable', includeIfNull: false)
+  bool? enable;
   @JsonKey(name: 'createdAt', includeIfNull: false)
   String? createdAt;
   @JsonKey(name: 'updatedAt', includeIfNull: false)
@@ -25,6 +27,7 @@ class Notify {
     this.message,
     this.image,
     this.views,
+    this.enable,
     this.createdAt,
     this.updatedAt,
   });
