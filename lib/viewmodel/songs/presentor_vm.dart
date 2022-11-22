@@ -155,7 +155,7 @@ class PresentorVm with ChangeNotifierEx {
       tabsWidth: size!.height * 0.08156,
       indicatorWidth: size!.height * 0.08156,
       indicatorColor: ThemeColors.accent,
-      contentScrollAxis: slideHorizontal ? Axis.vertical : Axis.horizontal,
+      contentScrollAxis: slideHorizontal ? Axis.horizontal : Axis.vertical,
     );
   }
 

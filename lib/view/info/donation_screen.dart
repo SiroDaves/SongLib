@@ -37,7 +37,7 @@ class DonationScreenState extends State<DonationScreen>
         return Scaffold(
           backgroundColor: ThemeColors.accent,
           appBar: AppBar(
-            title: const Text(AppConstants.helpdeskTitle),
+            title: const Text(AppConstants.donateTitle),
           ),
           body: mainContainer(),
         );

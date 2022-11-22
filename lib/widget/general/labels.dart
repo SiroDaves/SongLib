@@ -106,13 +106,14 @@ class CustomCard extends StatelessWidget {
         title: Text(
           title!,
           style: TextStyle(fontWeight: FontWeight.bold, color: txColor),
-          maxLines: 2,
         ),
-        subtitle: Text(
-          title!,
-          style: TextStyle(color: txColor),
-          maxLines: 2,
-        ),
+        subtitle: description!.isEmpty
+            ? Container()
+            : Text(
+                description!,
+                style: TextStyle(color: txColor),
+                maxLines: 2,
+              ),
         onTap: onTap,
       ),
     );

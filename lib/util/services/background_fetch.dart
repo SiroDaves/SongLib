@@ -40,6 +40,35 @@ const String darwinNotificationCategoryText = 'textCategory';
 
 /// Defines a iOS/MacOS notification category for plain actions.
 const String darwinNotificationCategoryPlain = 'plainCategory';
+const AndroidNotificationDetails androidNotificationDetails =
+    AndroidNotificationDetails(
+  'songlib2022',
+  'SongLib Announcements',
+  channelDescription: 'Important brodcasts to the user',
+  icon: 'notify',
+  sound: RawResourceAndroidNotificationSound('slow_spring_board'),
+);
+
+const AndroidNotificationDetails androidRemindersN = AndroidNotificationDetails(
+  AppConstants.songLibReminders,
+  AppConstants.songLibRemindersN,
+  icon: 'notify',
+  sound: RawResourceAndroidNotificationSound('slow_spring_board'),
+  actions: <AndroidNotificationAction>[
+    AndroidNotificationAction(
+      'NotifyAction1',
+      'DONATE',
+      showsUserInterface: true,
+      cancelNotification: false,
+    ),
+    AndroidNotificationAction(
+      'NotifyAction2',
+      'BUY T-SHIRT',
+      showsUserInterface: true,
+      cancelNotification: false,
+    ),
+  ],
+);
 
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
@@ -70,14 +99,6 @@ void callbackDispatcher() {
 }
 
 void showNotification(Notifycation notifycation, flp) async {
-  const AndroidNotificationDetails androidNotificationDetails =
-      AndroidNotificationDetails(
-    'songlib2022',
-    'SongLib Announcements',
-    channelDescription: 'Important brodcasts to the user',
-    icon: 'Notifycation',
-    sound: RawResourceAndroidNotificationSound('slow_spring_board'),
-  );
   const DarwinNotificationDetails darwinNotificationDetails =
       DarwinNotificationDetails(sound: 'sound/slow_spring_board.aiff');
   final LinuxNotificationDetails linuxPlatformChannelSpecifics =

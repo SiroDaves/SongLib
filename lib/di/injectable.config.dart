@@ -21,36 +21,37 @@ import '../db/songlib_db.dart' as _i14;
 import '../repository/db_repository.dart' as _i24;
 import '../repository/debug_repository.dart' as _i25;
 import '../repository/locale_repository.dart' as _i27;
-import '../repository/refresh_repository.dart' as _i32;
+import '../repository/refresh_repository.dart' as _i33;
 import '../repository/secure_storage/auth_storage.dart' as _i23;
 import '../repository/secure_storage/secure_storage.dart' as _i12;
 import '../repository/shared_prefs/local_storage.dart' as _i26;
 import '../util/cache/cache_controller.dart' as _i5;
 import '../util/cache/cache_controlling.dart' as _i4;
-import '../util/interceptor/network_auth_interceptor.dart' as _i28;
+import '../util/interceptor/network_auth_interceptor.dart' as _i29;
 import '../util/interceptor/network_error_interceptor.dart' as _i10;
 import '../util/interceptor/network_log_interceptor.dart' as _i11;
-import '../util/interceptor/network_refresh_interceptor.dart' as _i45;
-import '../viewmodel/global_vm.dart' as _i38;
-import '../viewmodel/home/histories_vm.dart' as _i40;
-import '../viewmodel/home/home_vm.dart' as _i41;
-import '../viewmodel/home/likes_vm.dart' as _i42;
-import '../viewmodel/info/donation_vm.dart' as _i36;
-import '../viewmodel/info/helpdesk_vm.dart' as _i39;
-import '../viewmodel/lists/list_popup_vm.dart' as _i43;
-import '../viewmodel/lists/list_view_vm.dart' as _i44;
-import '../viewmodel/manage/settings_vm.dart' as _i34;
-import '../viewmodel/onboarding_vm.dart' as _i29;
-import '../viewmodel/selection/progress_vm.dart' as _i31;
-import '../viewmodel/selection/selection_vm.dart' as _i33;
-import '../viewmodel/songs/editor_vm.dart' as _i37;
-import '../viewmodel/songs/presentor_vm.dart' as _i30;
-import '../viewmodel/splash_vm.dart' as _i35;
+import '../util/interceptor/network_refresh_interceptor.dart' as _i46;
+import '../viewmodel/global_vm.dart' as _i39;
+import '../viewmodel/home/histories_vm.dart' as _i41;
+import '../viewmodel/home/home_vm.dart' as _i42;
+import '../viewmodel/home/likes_vm.dart' as _i43;
+import '../viewmodel/info/donation_vm.dart' as _i37;
+import '../viewmodel/info/helpdesk_vm.dart' as _i40;
+import '../viewmodel/info/merchandise_vm.dart' as _i28;
+import '../viewmodel/lists/list_popup_vm.dart' as _i44;
+import '../viewmodel/lists/list_view_vm.dart' as _i45;
+import '../viewmodel/manage/settings_vm.dart' as _i35;
+import '../viewmodel/onboarding_vm.dart' as _i30;
+import '../viewmodel/selection/progress_vm.dart' as _i32;
+import '../viewmodel/selection/selection_vm.dart' as _i34;
+import '../viewmodel/songs/editor_vm.dart' as _i38;
+import '../viewmodel/songs/presentor_vm.dart' as _i31;
+import '../viewmodel/splash_vm.dart' as _i36;
 import '../viewmodel/uitest_vm.dart' as _i16;
 import '../webservice/book/book_web_service.dart' as _i3;
 import '../webservice/edit/edit_web_service.dart' as _i8;
 import '../webservice/song/song_web_service.dart' as _i15;
-import 'injectable.dart' as _i46; // ignore_for_file: unnecessary_lambdas
+import 'injectable.dart' as _i47; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
 /// initializes the registration of provided dependencies inside of [GetIt]
@@ -109,46 +110,48 @@ Future<_i1.GetIt> $initGetIt(_i1.GetIt get,
       get<_i23.AuthStorage>(), get<_i6.SharedPreferenceStorage>()));
   gh.lazySingleton<_i27.LocaleRepository>(
       () => _i27.LocaleRepository(get<_i6.SharedPreferenceStorage>()));
-  gh.singleton<_i28.NetworkAuthInterceptor>(
-      _i28.NetworkAuthInterceptor(get<_i23.AuthStorage>()));
-  gh.factory<_i29.OnboardingVm>(
-      () => _i29.OnboardingVm(get<_i26.LocalStorage>()));
-  gh.factory<_i30.PresentorVm>(() =>
-      _i30.PresentorVm(get<_i24.DbRepository>(), get<_i26.LocalStorage>()));
-  gh.factory<_i31.ProgressVm>(() => _i31.ProgressVm(get<_i15.SongWebService>(),
+  gh.factory<_i28.MerchandiseVm>(
+      () => _i28.MerchandiseVm(get<_i26.LocalStorage>()));
+  gh.singleton<_i29.NetworkAuthInterceptor>(
+      _i29.NetworkAuthInterceptor(get<_i23.AuthStorage>()));
+  gh.factory<_i30.OnboardingVm>(
+      () => _i30.OnboardingVm(get<_i26.LocalStorage>()));
+  gh.factory<_i31.PresentorVm>(() =>
+      _i31.PresentorVm(get<_i24.DbRepository>(), get<_i26.LocalStorage>()));
+  gh.factory<_i32.ProgressVm>(() => _i32.ProgressVm(get<_i15.SongWebService>(),
       get<_i24.DbRepository>(), get<_i26.LocalStorage>()));
-  gh.lazySingleton<_i32.RefreshRepository>(
-      () => _i32.RefreshRepository(get<_i23.AuthStorage>()));
-  gh.factory<_i33.SelectionVm>(() => _i33.SelectionVm(get<_i3.BookWebService>(),
+  gh.lazySingleton<_i33.RefreshRepository>(
+      () => _i33.RefreshRepository(get<_i23.AuthStorage>()));
+  gh.factory<_i34.SelectionVm>(() => _i34.SelectionVm(get<_i3.BookWebService>(),
       get<_i24.DbRepository>(), get<_i26.LocalStorage>()));
-  gh.factory<_i34.SettingsVm>(() =>
-      _i34.SettingsVm(get<_i24.DbRepository>(), get<_i26.LocalStorage>()));
-  gh.factory<_i35.SplashVm>(() => _i35.SplashVm(get<_i26.LocalStorage>()));
-  gh.factory<_i36.DonationVm>(() => _i36.DonationVm(get<_i26.LocalStorage>()));
-  gh.factory<_i37.EditorVm>(
-      () => _i37.EditorVm(get<_i24.DbRepository>(), get<_i26.LocalStorage>()));
-  gh.singleton<_i38.GlobalVm>(_i38.GlobalVm(get<_i27.LocaleRepository>(),
+  gh.factory<_i35.SettingsVm>(() =>
+      _i35.SettingsVm(get<_i24.DbRepository>(), get<_i26.LocalStorage>()));
+  gh.factory<_i36.SplashVm>(() => _i36.SplashVm(get<_i26.LocalStorage>()));
+  gh.factory<_i37.DonationVm>(() => _i37.DonationVm(get<_i26.LocalStorage>()));
+  gh.factory<_i38.EditorVm>(
+      () => _i38.EditorVm(get<_i24.DbRepository>(), get<_i26.LocalStorage>()));
+  gh.singleton<_i39.GlobalVm>(_i39.GlobalVm(get<_i27.LocaleRepository>(),
       get<_i25.DebugRepository>(), get<_i26.LocalStorage>()));
-  gh.factory<_i39.HelpDeskVm>(() => _i39.HelpDeskVm(get<_i26.LocalStorage>()));
-  gh.factory<_i40.HistoriesVm>(() =>
-      _i40.HistoriesVm(get<_i24.DbRepository>(), get<_i26.LocalStorage>()));
-  gh.factory<_i41.HomeVm>(
-      () => _i41.HomeVm(get<_i24.DbRepository>(), get<_i26.LocalStorage>()));
-  gh.factory<_i42.LikesVm>(
-      () => _i42.LikesVm(get<_i24.DbRepository>(), get<_i26.LocalStorage>()));
-  gh.factory<_i43.ListPopupVm>(() =>
-      _i43.ListPopupVm(get<_i24.DbRepository>(), get<_i26.LocalStorage>()));
-  gh.factory<_i44.ListViewVm>(() =>
-      _i44.ListViewVm(get<_i24.DbRepository>(), get<_i26.LocalStorage>()));
-  gh.singleton<_i45.NetworkRefreshInterceptor>(
-      _i45.NetworkRefreshInterceptor(get<_i32.RefreshRepository>()));
+  gh.factory<_i40.HelpDeskVm>(() => _i40.HelpDeskVm(get<_i26.LocalStorage>()));
+  gh.factory<_i41.HistoriesVm>(() =>
+      _i41.HistoriesVm(get<_i24.DbRepository>(), get<_i26.LocalStorage>()));
+  gh.factory<_i42.HomeVm>(
+      () => _i42.HomeVm(get<_i24.DbRepository>(), get<_i26.LocalStorage>()));
+  gh.factory<_i43.LikesVm>(
+      () => _i43.LikesVm(get<_i24.DbRepository>(), get<_i26.LocalStorage>()));
+  gh.factory<_i44.ListPopupVm>(() =>
+      _i44.ListPopupVm(get<_i24.DbRepository>(), get<_i26.LocalStorage>()));
+  gh.factory<_i45.ListViewVm>(() =>
+      _i45.ListViewVm(get<_i24.DbRepository>(), get<_i26.LocalStorage>()));
+  gh.singleton<_i46.NetworkRefreshInterceptor>(
+      _i46.NetworkRefreshInterceptor(get<_i33.RefreshRepository>()));
   gh.lazySingleton<_i6.CombiningSmartInterceptor>(() =>
       registerModule.provideCombiningSmartInterceptor(
           get<_i11.NetworkLogInterceptor>(),
-          get<_i28.NetworkAuthInterceptor>(),
+          get<_i29.NetworkAuthInterceptor>(),
           get<_i10.NetworkErrorInterceptor>(),
-          get<_i45.NetworkRefreshInterceptor>()));
+          get<_i46.NetworkRefreshInterceptor>()));
   return get;
 }
 
-class _$RegisterModule extends _i46.RegisterModule {}
+class _$RegisterModule extends _i47.RegisterModule {}

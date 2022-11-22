@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../repository/shared_prefs/local_storage.dart';
 import '../../util/constants/app_constants.dart';
+import '../../util/constants/pref_constants.dart';
 import '../../widget/general/toast.dart';
 
 @injectable
@@ -16,6 +17,7 @@ class DonationVm with ChangeNotifierEx {
 
   Future<void> init(DonationNavigator screenNavigator) async {
     navigator = screenNavigator;
+    localStorage.setPrefBool(PrefConstants.donationCheckKey, true);
   }
 
   Future<void> copyNumber() async {

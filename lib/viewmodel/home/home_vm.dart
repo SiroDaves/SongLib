@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -271,7 +270,7 @@ class HomeVm with ChangeNotifierEx {
           ),
         ),
         content: SizedBox(
-          height: 200,
+          height: 250,
           child: Column(
             children: [
               const Text(
@@ -282,13 +281,19 @@ class HomeVm with ChangeNotifierEx {
               CustomCard(
                 title: 'Donate for the Project',
                 description: 'Give Once, Weekly, Monthly or Quartely',
-                onTap: () => navigator.goToDonation(),
+                onTap: () async {
+                  Navigator.pop(context);
+                  navigator.goToDonation();
+                },
               ),
               const SizedBox(height: 10),
               CustomCard(
                 title: 'Buy our Merchandise',
                 description: 'Order our branded T-Shirts (Kenya Only)',
-                onTap: () => goToMerchandise(),
+                onTap: () async {
+                  Navigator.pop(context);
+                  await goToMerchandise();
+                },
               ),
             ],
           ),
@@ -296,7 +301,10 @@ class HomeVm with ChangeNotifierEx {
         actions: <Widget>[
           SimpleButton(
             title: AppConstants.remind,
-            onPressed: () => notificationDialog(context),
+            onPressed: () async {
+              Navigator.pop(context);
+              await notificationDialog(context);
+            },
           ),
         ],
       ),
@@ -316,25 +324,19 @@ class HomeVm with ChangeNotifierEx {
           ),
         ),
         content: SizedBox(
-          height: 200,
+          height: 290,
           child: Column(
             children: [
-              CustomCard(
+              SimpleButton(
                 title: 'After 5 Hours',
-                onTap: () async {
+                onPressed: () async {
+                  Navigator.pop(context);
                   await flutterLocalNotificationsPlugin.zonedSchedule(
                     300,
                     AppConstants.songlibReminderNotificationTitle,
                     AppConstants.songlibReminderNotificationBody5Hrs,
-                    tz.TZDateTime.now(tz.local).add(
-                      const Duration(minutes: 1),
-                    ),
-                    const NotificationDetails(
-                      android: AndroidNotificationDetails(
-                        AppConstants.songLibReminders,
-                        AppConstants.songLibRemindersN,
-                      ),
-                    ),
+                    tz.TZDateTime.now(tz.local).add(const Duration(hours: 5)),
+                    const NotificationDetails(android: androidRemindersN),
                     androidAllowWhileIdle: true,
                     uiLocalNotificationDateInterpretation:
                         UILocalNotificationDateInterpretation.absoluteTime,
@@ -342,22 +344,16 @@ class HomeVm with ChangeNotifierEx {
                 },
               ),
               const SizedBox(height: 10),
-              CustomCard(
+              SimpleButton(
                 title: 'After 1 day',
-                onTap: () async {
+                onPressed: () async {
+                  Navigator.pop(context);
                   await flutterLocalNotificationsPlugin.zonedSchedule(
                     300,
                     AppConstants.songlibReminderNotificationTitle,
                     AppConstants.songlibReminderNotificationBody1Day,
-                    tz.TZDateTime.now(tz.local).add(
-                      const Duration(days: 1),
-                    ),
-                    const NotificationDetails(
-                      android: AndroidNotificationDetails(
-                        AppConstants.songLibReminders,
-                        AppConstants.songLibRemindersN,
-                      ),
-                    ),
+                    tz.TZDateTime.now(tz.local).add(const Duration(days: 1)),
+                    const NotificationDetails(android: androidRemindersN),
                     androidAllowWhileIdle: true,
                     uiLocalNotificationDateInterpretation:
                         UILocalNotificationDateInterpretation.absoluteTime,
@@ -365,22 +361,16 @@ class HomeVm with ChangeNotifierEx {
                 },
               ),
               const SizedBox(height: 10),
-              CustomCard(
+              SimpleButton(
                 title: 'After 2 days',
-                onTap: () async {
+                onPressed: () async {
+                  Navigator.pop(context);
                   await flutterLocalNotificationsPlugin.zonedSchedule(
                     300,
                     AppConstants.songlibReminderNotificationTitle,
                     AppConstants.songlibReminderNotificationBody2Days,
-                    tz.TZDateTime.now(tz.local).add(
-                      const Duration(days: 2),
-                    ),
-                    const NotificationDetails(
-                      android: AndroidNotificationDetails(
-                        AppConstants.songLibReminders,
-                        AppConstants.songLibRemindersN,
-                      ),
-                    ),
+                    tz.TZDateTime.now(tz.local).add(const Duration(days: 2)),
+                    const NotificationDetails(android: androidRemindersN),
                     androidAllowWhileIdle: true,
                     uiLocalNotificationDateInterpretation:
                         UILocalNotificationDateInterpretation.absoluteTime,
@@ -388,22 +378,16 @@ class HomeVm with ChangeNotifierEx {
                 },
               ),
               const SizedBox(height: 10),
-              CustomCard(
+              SimpleButton(
                 title: 'After 5 days',
-                onTap: () async {
+                onPressed: () async {
+                  Navigator.pop(context);
                   await flutterLocalNotificationsPlugin.zonedSchedule(
                     300,
                     AppConstants.songlibReminderNotificationTitle,
                     AppConstants.songlibReminderNotificationBody5Days,
-                    tz.TZDateTime.now(tz.local).add(
-                      const Duration(days: 5),
-                    ),
-                    const NotificationDetails(
-                      android: AndroidNotificationDetails(
-                        AppConstants.songLibReminders,
-                        AppConstants.songLibRemindersN,
-                      ),
-                    ),
+                    tz.TZDateTime.now(tz.local).add(const Duration(days: 5)),
+                    const NotificationDetails(android: androidRemindersN),
                     androidAllowWhileIdle: true,
                     uiLocalNotificationDateInterpretation:
                         UILocalNotificationDateInterpretation.absoluteTime,
@@ -411,22 +395,16 @@ class HomeVm with ChangeNotifierEx {
                 },
               ),
               const SizedBox(height: 10),
-              CustomCard(
+              SimpleButton(
                 title: 'After 10 days',
-                onTap: () async {
+                onPressed: () async {
+                  Navigator.pop(context);
                   await flutterLocalNotificationsPlugin.zonedSchedule(
                     300,
                     AppConstants.songlibReminderNotificationTitle,
                     AppConstants.songlibReminderNotificationBody10Days,
-                    tz.TZDateTime.now(tz.local).add(
-                      const Duration(days: 10),
-                    ),
-                    const NotificationDetails(
-                      android: AndroidNotificationDetails(
-                        AppConstants.songLibReminders,
-                        AppConstants.songLibRemindersN,
-                      ),
-                    ),
+                    tz.TZDateTime.now(tz.local).add(const Duration(days: 10)),
+                    const NotificationDetails(android: androidRemindersN),
                     androidAllowWhileIdle: true,
                     uiLocalNotificationDateInterpretation:
                         UILocalNotificationDateInterpretation.absoluteTime,
@@ -438,7 +416,7 @@ class HomeVm with ChangeNotifierEx {
         ),
         actions: <Widget>[
           SimpleButton(
-            title: AppConstants.remind,
+            title: AppConstants.cancel,
             onPressed: () => Navigator.pop(context),
           ),
         ],
