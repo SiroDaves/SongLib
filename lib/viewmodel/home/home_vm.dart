@@ -11,9 +11,11 @@ import '../../model/base/listed.dart';
 import '../../model/base/songext.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
+import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
 import '../../util/constants/pref_constants.dart';
 import '../../util/constants/utilities.dart';
+import '../../widget/action/buttons.dart';
 import '../../widget/general/toast.dart';
 
 @injectable
@@ -23,8 +25,9 @@ class HomeVm with ChangeNotifierEx {
   final LocalStorage localStorage;
 
   HomeVm(this.dbRepo, this.localStorage);
+  BuildContext? context;
 
-  bool isBusy = false;
+  bool isBusy = false, shownDonation = false;
   String selectedBooks = "";
   List<String> bookNos = [];
   int mainBook = 0, currentPage = 1;
@@ -42,6 +45,7 @@ class HomeVm with ChangeNotifierEx {
     contentController = TextEditingController();
 
     selectedBooks = localStorage.getPrefString(PrefConstants.selectedBooksKey);
+    shownDonation = localStorage.getPrefBool(PrefConstants.donationCheckKey);
     bookNos = selectedBooks.split(",");
     mainBook = int.parse(bookNos[0]);
     await fetchData();
@@ -60,6 +64,10 @@ class HomeVm with ChangeNotifierEx {
 
     isBusy = false;
     notifyListeners();
+
+    if (!shownDonation) {
+      await donationDialog(context!);
+    }
   }
 
   /// Get the listed data from the DB
@@ -237,6 +245,38 @@ class HomeVm with ChangeNotifierEx {
     localStorage.listed = listed;
     navigator.goToListView();
   }
+}
+
+Future<void> donationDialog(BuildContext context) async {
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) => AlertDialog(
+      title: const Text(
+        AppConstants.donationRequest,
+        style: TextStyle(
+          fontSize: 22,
+          color: ThemeColors.primaryDark,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      content: const Text(
+        AppConstants.donationRequestBody,
+        style: TextStyle(fontSize: 18),
+      ),
+      actions: <Widget>[
+        SimpleButton(
+          title: AppConstants.donate,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        SimpleButton(
+          title: AppConstants.remind,
+          onPressed: () => Navigator.pop(context),
+        ),
+      ],
+    ),
+  );
 }
 
 abstract class HomeNavigator {

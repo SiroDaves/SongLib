@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'notify.g.dart';
+part 'notifycation.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class Notify {
+class Notifycation {
   @JsonKey(name: 'objectId', includeIfNull: false)
   String? objectId;
   @JsonKey(name: 'title', includeIfNull: false)
@@ -21,7 +21,7 @@ class Notify {
   @JsonKey(name: 'updatedAt', includeIfNull: false)
   String? updatedAt;
 
-  Notify({
+  Notifycation({
     this.objectId,
     this.title,
     this.message,
@@ -32,7 +32,7 @@ class Notify {
     this.updatedAt,
   });
 
-  factory Notify.fromJson(Map<String, dynamic> json) => _$NotifyFromJson(json);
+  factory Notifycation.fromJson(Map<String, dynamic> json) => _$NotifycationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$NotifyToJson(this);
+  Map<String, dynamic> toJson() => _$NotifycationToJson(this);
 }

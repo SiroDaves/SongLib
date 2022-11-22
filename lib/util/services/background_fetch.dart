@@ -5,9 +5,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:workmanager/workmanager.dart';
 
-import '../../model/general/notify.dart';
+import '../../model/general/notifycation.dart';
 import '../../model/general/received_notification.dart';
-import '../../webservice/notify/notify_web_service.dart';
+import '../../webservice/notifycation/notifycation_web_service.dart';
 import '../constants/api_constants.dart';
 import '../constants/app_constants.dart';
 
@@ -56,11 +56,11 @@ void callbackDispatcher() {
     await flutterLocalNotificationsPlugin.initialize(initSetttings);
 
     switch (task) {
-      case AppConstants.getNotifys:
-        final NotifyWebService api = NotifyWebService();
-        final List<Notify> notifys = await api.fetchNotifys();
-        if (notifys.isNotEmpty) {
-          showNotification(notifys[0], flutterLocalNotificationsPlugin);
+      case AppConstants.getNotifycations:
+        final NotifycationWebService api = NotifycationWebService();
+        final List<Notifycation> notifycations = await api.fetchNotifycations();
+        if (notifycations.isNotEmpty) {
+          showNotification(notifycations[0], flutterLocalNotificationsPlugin);
         }
         break;
     }
@@ -69,13 +69,13 @@ void callbackDispatcher() {
   });
 }
 
-void showNotification(Notify notify, flp) async {
+void showNotification(Notifycation notifycation, flp) async {
   const AndroidNotificationDetails androidNotificationDetails =
       AndroidNotificationDetails(
     'songlib2022',
     'SongLib Announcements',
     channelDescription: 'Important brodcasts to the user',
-    icon: 'notify',
+    icon: 'Notifycation',
     sound: RawResourceAndroidNotificationSound('slow_spring_board'),
   );
   const DarwinNotificationDetails darwinNotificationDetails =
@@ -92,8 +92,8 @@ void showNotification(Notify notify, flp) async {
   );
   await flutterLocalNotificationsPlugin.show(
     id++,
-    notify.title,
-    notify.message,
+    notifycation.title,
+    notifycation.message,
     notificationDetails,
   );
 }

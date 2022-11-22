@@ -86,8 +86,8 @@ class SplashVm with ChangeNotifierEx {
   Future<void> nextActions() async {
     await Workmanager().initialize(callbackDispatcher);
     await Workmanager().registerPeriodicTask(
-      AppConstants.getNotifys,
-      AppConstants.getNotifys,
+      AppConstants.getNotifycations,
+      AppConstants.getNotifycations,
       frequency: const Duration(minutes: 1),
       existingWorkPolicy: ExistingWorkPolicy.replace,
     );

@@ -58,8 +58,12 @@ class AppConstants {
 
   static const okay = "OKAY";
   static const cancel = "CANCEL";
+  static const remind = "REMIND ME LATER";
+  static const donate = "DONATE NOW";
   static const proceed = "PROCEED";
   static const justAMinute = "Just a minute!";
+  static const donationRequest = "Donation Request";
+  static const donationRequestBody = "SongLib has bigger plans in the pipelines and will need your financial support to accomplish them. Consider donating for the project.";
   static const doneSelecting = "Done with selecting?";
   static const doneSelectingBody =
       "If you are done selecting please proceed ahead. We can always bring you back here to reselect afresh.";
@@ -87,5 +91,5 @@ class AppConstants {
   static const itsEmptyHereBody4 =
       "All caught here, you can add personal lists and add songs to them";
 
-  static const getNotifys = 'CheckForNewNotifications';
+  static const getNotifycations = 'CheckForNewNotifications';
 }

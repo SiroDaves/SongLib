@@ -1,13 +1,13 @@
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
-import '../../model/general/notify.dart';
+import '../../model/general/notifycation.dart';
 import '../../util/constants/api_constants.dart';
 import '../../util/constants/utilities.dart';
 
-class NotifyWebService {
-  Future<List<ParseObject>> queryNotifys() async {
+class NotifycationWebService {
+  Future<List<ParseObject>> queryNotifycations() async {
     final QueryBuilder<ParseObject> parseQuery =
-        QueryBuilder<ParseObject>(ParseObject(ApiConstants.notify));
+        QueryBuilder<ParseObject>(ParseObject(ApiConstants.Notifycation));
     parseQuery.whereEqualTo('enabled', true);
     final ParseResponse apiResponse = await parseQuery.query();
 
@@ -18,12 +18,12 @@ class NotifyWebService {
     }
   }
 
-  Future<List<Notify>> fetchNotifys() async {
-    final List<Notify> notifys = [];
-    final List<ParseObject> objects = await queryNotifys();
+  Future<List<Notifycation>> fetchNotifycations() async {
+    final List<Notifycation> notifycations = [];
+    final List<ParseObject> objects = await queryNotifycations();
     if (objects.isNotEmpty) {
       for (final object in objects) {
-        final Notify notify = Notify(
+        final Notifycation notifycation = Notifycation(
           objectId: object.get<String>('objectId'),
           title: object.get<String>('title'),
           message: object.get<String>('message'),
@@ -32,9 +32,9 @@ class NotifyWebService {
           createdAt: dateToString(object.get<DateTime>('createdAt')!),
           updatedAt: dateToString(object.get<DateTime>('updatedAt')!),
         );
-        notifys.add(notify);
+        notifycations.add(notifycation);
       }
     }
-    return notifys;
+    return notifycations;
   }
 }

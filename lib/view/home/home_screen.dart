@@ -12,6 +12,7 @@ import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
 import '../../viewmodel/home/home_vm.dart';
+import '../../widget/action/buttons.dart';
 import '../../widget/general/inputs.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
@@ -80,6 +81,7 @@ class HomeScreenState extends State<HomeScreen>
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) {
         vm = viewModel;
+        vm!.context = context;
         return Scaffold(
           body: mainWidget(),
           bottomNavigationBar: extraActions(),

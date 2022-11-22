@@ -17,6 +17,7 @@ abstract class MainNavigation {
   void goToHistories();
   void goToSettings();
   void goToHelpDesk();
+  void goToDonation();
 
   void showCustomDialog<T>({required WidgetBuilder builder});
 }

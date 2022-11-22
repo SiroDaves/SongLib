@@ -7,7 +7,7 @@ class ApiConstants {
 
   static const book = 'Book';
   static const edit = 'Edit';
-  static const notify = 'Notify';
+  static const Notifycation = 'Notifycation';
   static const song = 'Song';
 }
 

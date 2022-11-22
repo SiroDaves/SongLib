@@ -4,6 +4,7 @@ import 'package:icapps_architecture/icapps_architecture.dart';
 import '../view/home/home_screen.dart';
 import '../view/home/histories_screen.dart';
 import '../view/home/likes_screen.dart';
+import '../view/info/donation_screen.dart';
 import '../view/info/helpdesk_screen.dart';
 import '../view/lists/list_view_screen.dart';
 import '../view/manage/settings_screen.dart';
@@ -136,6 +137,11 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
           child: const HelpDeskScreen(),
           settings: settings,
         );
+      case DonationScreen.routeName:
+        return FadeInRoute<void>(
+          child: const DonationScreen(),
+          settings: settings,
+        );
       case 'test_route':
         if (!FlavorConfig.isInTest()) return null;
         return MaterialPageRoute<void>(
@@ -190,6 +196,9 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
 
   @override
   void goToHelpDesk() => navigator.pushNamed(HelpDeskScreen.routeName);
+
+  @override
+  void goToDonation() => navigator.pushNamed(DonationScreen.routeName);
 
   @override
   void closeDialog() => navigator.pop();

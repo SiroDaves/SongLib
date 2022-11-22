@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'notify.dart';
+part of 'notifycation.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Notify _$NotifyFromJson(Map<String, dynamic> json) => Notify(
+Notifycation _$NotifycationFromJson(Map<String, dynamic> json) => Notifycation(
       objectId: json['objectId'] as String?,
       title: json['title'] as String?,
       message: json['message'] as String?,
@@ -17,7 +17,7 @@ Notify _$NotifyFromJson(Map<String, dynamic> json) => Notify(
       updatedAt: json['updatedAt'] as String?,
     );
 
-Map<String, dynamic> _$NotifyToJson(Notify instance) {
+Map<String, dynamic> _$NotifycationToJson(Notifycation instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {

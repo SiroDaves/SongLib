@@ -8,13 +8,13 @@ import '../../util/constants/app_constants.dart';
 import '../../widget/general/toast.dart';
 
 @injectable
-class HelpDeskVm with ChangeNotifierEx {
+class DonationVm with ChangeNotifierEx {
   final LocalStorage localStorage;
-  late final HelpDeskNavigator navigator;
+  late final DonationNavigator navigator;
 
-  HelpDeskVm(this.localStorage);
+  DonationVm(this.localStorage);
 
-  Future<void> init(HelpDeskNavigator screenNavigator) async {
+  Future<void> init(DonationNavigator screenNavigator) async {
     navigator = screenNavigator;
   }
 
@@ -88,7 +88,7 @@ class HelpDeskVm with ChangeNotifierEx {
   }
 }
 
-abstract class HelpDeskNavigator {
+abstract class DonationNavigator {
   void goToHome();
   void goToOnboarding();
 }
