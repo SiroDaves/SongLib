@@ -62,6 +62,63 @@ class TextLabel extends StatelessWidget {
   }
 }
 
+class CustomCard extends StatelessWidget {
+  final String? title;
+  final String? description;
+  final Function()? onTap;
+  final Color? txColor;
+  final Color? bgColor;
+  final double ftSize;
+  final double bdRadius;
+  final EdgeInsetsGeometry cPadding;
+
+  const CustomCard({
+    Key? key,
+    required this.title,
+    this.description = "",
+    required this.onTap,
+    this.txColor = Colors.white,
+    this.bgColor = ThemeColors.primary,
+    this.ftSize = 20,
+    this.bdRadius = 5,
+    this.cPadding = const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: cPadding,
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.all(
+          Radius.circular(bdRadius),
+        ),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.grey,
+            spreadRadius: 1,
+            blurRadius: 1,
+            offset: Offset(0, 1),
+          ),
+        ],
+      ),
+      child: ListTile(
+        title: Text(
+          title!,
+          style: TextStyle(fontWeight: FontWeight.bold, color: txColor),
+          maxLines: 2,
+        ),
+        subtitle: Text(
+          title!,
+          style: TextStyle(color: txColor),
+          maxLines: 2,
+        ),
+        onTap: onTap,
+      ),
+    );
+  }
+}
+
 class NoDataToShow extends StatelessWidget {
   final String? title;
   final String? description;

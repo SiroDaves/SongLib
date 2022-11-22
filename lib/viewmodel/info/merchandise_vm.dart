@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
@@ -8,13 +9,16 @@ import '../../util/constants/app_constants.dart';
 import '../../widget/general/toast.dart';
 
 @injectable
-class HelpDeskVm with ChangeNotifierEx {
+class MerchandiseVm with ChangeNotifierEx {
   final LocalStorage localStorage;
-  late final HelpDeskNavigator navigator;
+  late final MerchandiseNavigator navigator;
 
-  HelpDeskVm(this.localStorage);
+  MerchandiseVm(this.localStorage);
+  
+  TextEditingController? qtyController, nameController;
+  TextEditingController? phoneController, locationController, extraController;
 
-  Future<void> init(HelpDeskNavigator screenNavigator) async {
+  Future<void> init(MerchandiseNavigator screenNavigator) async {
     navigator = screenNavigator;
   }
 
@@ -55,11 +59,6 @@ class HelpDeskVm with ChangeNotifierEx {
     if (await canLaunchUrl(url)) await launchUrl(url);
   }
 
-  Future<void> goToMerchandise() async {
-    final Uri url = Uri.parse('https://forms.gle/iMq8GXjMGmUSJg949');
-    if (await canLaunchUrl(url)) await launchUrl(url);
-  }
-
   Future<void> copyText(int type) async {
     String text1 = '', text2 = '';
     switch (type) {
@@ -93,8 +92,7 @@ class HelpDeskVm with ChangeNotifierEx {
   }
 }
 
-abstract class HelpDeskNavigator {
+abstract class MerchandiseNavigator {
   void goToHome();
   void goToOnboarding();
-  void goToDonation();
 }

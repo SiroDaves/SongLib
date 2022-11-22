@@ -51,58 +51,26 @@ class DonationScreenState extends State<DonationScreen>
       children: [
         Card(
           child: ListTile(
-            leading: const Icon(Icons.settings),
-            title: const Text('How it works'),
-            subtitle: const Text('Revisit the onboarding screen once again'),
-            onTap: () => vm!.goToHowItWorks(),
+            leading: const Icon(Icons.money),
+            title: const Text('M-Pesa Pochi la Biashara (Kenya)'),
+            subtitle: const Text('Tap to copy Number'),
+            onTap: () => vm!.copyNumber(),
           ),
         ),
         Card(
           child: ListTile(
-            leading: const Icon(Icons.link),
-            title: const Text('This app on Google PlayStore'),
-            subtitle: const Text('Go to Play Store or Long Press to copy link'),
-            onTap: () => vm!.goToPlayStore(),
-            onLongPress: () => vm!.copyText(0),
+            leading: const Icon(Icons.money),
+            title: const Text('Via PayPal (International)'),
+            subtitle: const Text('\$5, \$10, \$25 Once or Monthly'),
+            onTap: () => vm!.donateViaPaypal(),
           ),
         ),
         Card(
           child: ListTile(
-            leading: const Icon(Icons.email),
-            title: const Text('Email Address'),
-            subtitle: const Text('songlibke(at)gmail.com'),
-            onTap: () => vm!.goToEmail(),
-            onLongPress: () => vm!.copyText(1),
-          ),
-        ),
-        Card(
-          child: ExpansionTile(
-            leading: const Icon(Icons.display_settings),
-            title: const Text('Mobile Phone'),
-            subtitle: const Text('Tap for more actions'),
-            children: [
-              ListTile(
-                leading: const Icon(Icons.call),
-                title: const Text('Call'),
-                onTap: () => vm!.goToCalling(),
-                onLongPress: () => vm!.copyText(2),
-              ),
-              ListTile(
-                leading: const Icon(Icons.sms),
-                title: const Text('SMS'),
-                onTap: () => vm!.goToSms(),
-              ),
-              ListTile(
-                leading: const Icon(Icons.whatsapp),
-                title: const Text('WhatsApp'),
-                onTap: () => vm!.goToWhatsapp(),
-              ),
-              ListTile(
-                leading: const Icon(Icons.telegram),
-                title: const Text('TeleGram'),
-                onTap: () => vm!.goToTelegram(),
-              ),
-            ],
+            leading: const Icon(Icons.money),
+            title: const Text('Via Patreon (International)'),
+            subtitle: const Text('\$5, \$10, \$25 Monthly'),
+            onTap: () => vm!.donateViaPaetron(),
           ),
         ),
       ],

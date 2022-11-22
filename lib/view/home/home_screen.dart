@@ -161,5 +161,11 @@ class HomeScreenState extends State<HomeScreen>
   void goToHelpDesk() => MainNavigatorWidget.of(context).goToHelpDesk();
 
   @override
+  void goToDonation() => MainNavigatorWidget.of(context).goToDonation();
+
+  @override
+  void goToMerchandise() => MainNavigatorWidget.of(context).goToMerchandise();
+
+  @override
   void goToSettings() => MainNavigatorWidget.of(context).goToSettings();
 }

@@ -15,6 +15,8 @@ class AppConstants {
   static const draftTitle = "Song Drafts";
   static const settingsTitle = "App Settings";
   static const helpdeskTitle = "Help Desk";
+  static const donateTitle = "How to Donate";
+  static const merchandiseTitle = "Buy our Merchandise";
   static const booksTitle = "Select Song Books";
   static const booksTitleLoading = "Loading data ...";
 
@@ -62,8 +64,10 @@ class AppConstants {
   static const donate = "DONATE NOW";
   static const proceed = "PROCEED";
   static const justAMinute = "Just a minute!";
+  static const supportSonglib = "Support SongLib";
+  static const notificationDialog = "Let's remind you";
   static const donationRequest = "Donation Request";
-  static const donationRequestBody = "SongLib has bigger plans in the pipelines and will need your financial support to accomplish them. Consider donating for the project.";
+  static const donationRequestBody = "SongLib has a lot in the pipelines and will need your support to accomplish that.";
   static const doneSelecting = "Done with selecting?";
   static const doneSelectingBody =
       "If you are done selecting please proceed ahead. We can always bring you back here to reselect afresh.";
@@ -92,4 +96,20 @@ class AppConstants {
       "All caught here, you can add personal lists and add songs to them";
 
   static const getNotifycations = 'CheckForNewNotifications';
+
+  static const remindAfter5hrs = 'RemindAfterFiveHours';
+  static const remindAfter1Day = 'RemindAfterOneDay';
+  static const remindAfter2Days = 'RemindAfterTwoDays';
+  static const remindAfter5Days = 'RemindAfterFiveDays';
+  static const remindAfter10Days = 'RemindAfterTenDays';
+
+  static const songLibReminders = 'SongLibReminders';
+  static const songLibRemindersN = 'SongLib Reminders';
+
+  static const songlibReminderNotificationTitle = 'SongLib needs your Support';
+  static const songlibReminderNotificationBody5Hrs = 'Its 5 hours since you asked us to remind you to support us in the SongLib project';
+  static const songlibReminderNotificationBody1Day = 'Its 1 day since you asked us to remind you to support us in the SongLib project';
+  static const songlibReminderNotificationBody2Days = 'Its 2 days since you asked us to remind you to support us in the SongLib project';
+  static const songlibReminderNotificationBody5Days = 'Its 5 days since you asked us to remind you to support us in the SongLib project';
+  static const songlibReminderNotificationBody10Days = 'Its 10 days since you asked us to remind you to support us in the SongLib project';
 }

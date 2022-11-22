@@ -50,6 +50,27 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
       padding: const EdgeInsets.all(5),
       children: [
         Card(
+          child: ExpansionTile(
+            leading: const Icon(Icons.display_settings),
+            title: const Text('Support SongLib'),
+            subtitle: const Text('Tap for more actions'),
+            children: [
+              ListTile(
+                leading: const Icon(Icons.money),
+                title: const Text('Donate for the Project'),
+                subtitle: const Text('Give Once, Weekly, Monthly or Quartely'),
+                onTap: () => goToDonation(),
+              ),
+              ListTile(
+                leading: const Icon(Icons.shopping_basket),
+                title: const Text('Buy our Merchandise'),
+                subtitle: const Text('Order our branded T-Shirts (Kenya Only)'),
+                onTap: () => vm!.goToMerchandise(),
+              ),
+            ],
+          ),
+        ),
+        Card(
           child: ListTile(
             leading: const Icon(Icons.settings),
             title: const Text('How it works'),
@@ -70,7 +91,7 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
           child: ListTile(
             leading: const Icon(Icons.email),
             title: const Text('Email Address'),
-            subtitle: const Text('songlibke(at)gmail.com'),
+            subtitle: const Text('songlibke(at)gmail[.]com'),
             onTap: () => vm!.goToEmail(),
             onLongPress: () => vm!.copyText(1),
           ),
@@ -111,6 +132,9 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
 
   @override
   void goToHome() => MainNavigatorWidget.of(context).goToHome();
+
+  @override
+  void goToDonation() => MainNavigatorWidget.of(context).goToDonation();
 
   @override
   void goToOnboarding() => MainNavigatorWidget.of(context).goToOnboarding();

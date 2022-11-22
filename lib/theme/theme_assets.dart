@@ -148,4 +148,6 @@ class ThemeAssets {
   static const String iconYoung = '$assetsImages/icon_young.png';
 
   static const String iconPoints = '$assetsImages/icon_points.png';
+
+  static const String tshirtsImage = '$assetsIcon/app_icon.png';
 }
