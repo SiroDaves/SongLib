@@ -7,5 +7,5 @@ part of 'song_dao_storage.dart';
 // **************************************************************************
 
 mixin _$_SongDaoStorageMixin on DatabaseAccessor<SongLibDb> {
-  $DbSongTableTable get dbSongTable => attachedDatabase.dbSongTable;
+  $SongsTableTable get songsTable => attachedDatabase.songsTable;
 }

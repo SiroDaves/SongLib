@@ -7,5 +7,5 @@ part of 'listed_dao_storage.dart';
 // **************************************************************************
 
 mixin _$_ListedDaoStorageMixin on DatabaseAccessor<SongLibDb> {
-  $DbListedTableTable get dbListedTable => attachedDatabase.dbListedTable;
+  $ListedsTableTable get listedsTable => attachedDatabase.listedsTable;
 }

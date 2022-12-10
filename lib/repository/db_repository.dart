@@ -6,15 +6,15 @@ import '../db/dao/history_dao_storage.dart';
 import '../db/dao/listed_dao_storage.dart';
 import '../db/dao/search_dao_storage.dart';
 import '../db/dao/song_dao_storage.dart';
-import '../model/base/book.dart';
-import '../model/base/draft.dart';
-import '../model/base/history.dart';
-import '../model/base/historyext.dart';
-import '../model/base/listed.dart';
-import '../model/base/listedext.dart';
-import '../model/base/search.dart';
-import '../model/base/song.dart';
-import '../model/base/songext.dart';
+import '../models/base/book.dart';
+import '../models/base/draft.dart';
+import '../models/base/history.dart';
+import '../models/base/listed.dart';
+import '../models/base/search.dart';
+import '../models/base/song.dart';
+import '../models/exts/historyext.dart';
+import '../models/exts/listedext.dart';
+import '../models/exts/songext.dart';
 
 @lazySingleton
 abstract class DbRepository {

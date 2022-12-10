@@ -1,0 +1,74 @@
+import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+
+import '../navigator/main_navigator.dart';
+import '../navigator/route_names.dart';
+import '../theme/app_colors.dart';
+import '../utils/constants/app_constants.dart';
+import '../view_models/splash_vm.dart';
+import '../widgets/provider/provider_widget.dart';
+
+/// Timed Welcome screen
+class SplashScreen extends StatefulWidget {
+  static const String routeName = RouteNames.splashScreen;
+
+  const SplashScreen({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  SplashScreenState createState() => SplashScreenState();
+}
+
+@visibleForTesting
+class SplashScreenState extends State<SplashScreen> implements SplashNavigator {
+  SplashVM? vm;
+
+  @override
+  Widget build(BuildContext context) {
+    return ProviderWidget<SplashVM>(
+      create: () => GetIt.I()..init(this),
+      consumerWithThemeAndLocalization:
+          (context, viewModel, child, theme, localization) {
+        vm = viewModel;
+        return screenWidget(context);
+      },
+    );
+  }
+
+  Widget screenWidget(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Image.asset(
+              AppConstants.appIcon,
+              height: 200,
+              width: 200,
+            ),
+            const SizedBox(
+              height: 35,
+            ),
+            const Text(
+              AppConstants.appTitle,
+              style: TextStyle(
+                fontSize: 40,
+                color: AppColors.primary,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  void goToOnboarding() => MainNavigatorWidget.of(context).goToOnboarding();
+
+  @override
+  void goToHome() => MainNavigatorWidget.of(context).goToHome();
+
+  @override
+  void goToSelection() => MainNavigatorWidget.of(context).goToSelection();
+}

@@ -7,5 +7,5 @@ part of 'draft_dao_storage.dart';
 // **************************************************************************
 
 mixin _$_DraftDaoStorageMixin on DatabaseAccessor<SongLibDb> {
-  $DbDraftTableTable get dbDraftTable => attachedDatabase.dbDraftTable;
+  $DraftsTableTable get draftsTable => attachedDatabase.draftsTable;
 }

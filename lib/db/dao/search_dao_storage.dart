@@ -1,8 +1,8 @@
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../model/base/search.dart';
-import '../../model/tables/db_search_table.dart';
+import '../../models/base/search.dart';
+import '../../models/tables/searches_table.dart';
 import '../songlib_db.dart';
 
 part 'search_dao_storage.g.dart';
@@ -18,7 +18,7 @@ abstract class SearchDaoStorage {
 }
 
 @DriftAccessor(tables: [
-  DbSearchTable,
+  SearchesTable,
 ])
 class _SearchDaoStorage extends DatabaseAccessor<SongLibDb>
     with _$_SearchDaoStorageMixin
@@ -28,9 +28,9 @@ class _SearchDaoStorage extends DatabaseAccessor<SongLibDb>
   @override
   Future<List<Search>> getAllSearches() async {
     final Stream<List<Search>> streams = customSelect(
-      'SELECT * FROM ${db.dbSearchTable.actualTableName} '
-      'ORDER BY ${db.dbSearchTable.id.name} DESC;',
-      readsFrom: {db.dbSearchTable},
+      'SELECT * FROM ${db.searchesTable.actualTableName} '
+      'ORDER BY ${db.searchesTable.id.name} DESC;',
+      readsFrom: {db.searchesTable},
     ).watch().map(
       (rows) {
         final List<Search> drafts = [];
@@ -54,8 +54,8 @@ class _SearchDaoStorage extends DatabaseAccessor<SongLibDb>
   }
 
   @override
-  Future<void> createSearch(Search search) => into(db.dbSearchTable).insert(
-        DbSearchTableCompanion.insert(
+  Future<void> createSearch(Search search) => into(db.searchesTable).insert(
+        SearchesTableCompanion.insert(
           objectId: Value(search.objectId!),
           title: Value(search.title!),
           createdAt: Value(search.createdAt!),
@@ -64,5 +64,5 @@ class _SearchDaoStorage extends DatabaseAccessor<SongLibDb>
 
   @override
   Future<void> deleteSearch(Search search) =>
-      (delete(db.dbSearchTable)..where((row) => row.id.equals(search.id))).go();
+      (delete(db.searchesTable)..where((row) => row.id.equals(search.id))).go();
 }

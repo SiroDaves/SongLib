@@ -7,5 +7,5 @@ part of 'history_dao_storage.dart';
 // **************************************************************************
 
 mixin _$_HistoryDaoStorageMixin on DatabaseAccessor<SongLibDb> {
-  $DbHistoryTableTable get dbHistoryTable => attachedDatabase.dbHistoryTable;
+  $HistoriesTableTable get historiesTable => attachedDatabase.historiesTable;
 }

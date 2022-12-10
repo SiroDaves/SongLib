@@ -1,10 +1,10 @@
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
-import 'package:songlib/util/constants/utilities.dart';
 
-import '../../model/base/history.dart';
-import '../../model/base/historyext.dart';
-import '../../model/tables/db_history_table.dart';
+import '../../models/base/history.dart';
+import '../../models/exts/historyext.dart';
+import '../../models/tables/histories_table.dart';
+import '../../utils/constants/utilities.dart';
 import '../songlib_db.dart';
 
 part 'history_dao_storage.g.dart';
@@ -21,7 +21,7 @@ abstract class HistoryDaoStorage {
 }
 
 @DriftAccessor(tables: [
-  DbHistoryTable,
+  HistoriesTable,
 ])
 class _HistoryDaoStorage extends DatabaseAccessor<SongLibDb>
     with _$_HistoryDaoStorageMixin
@@ -30,7 +30,7 @@ class _HistoryDaoStorage extends DatabaseAccessor<SongLibDb>
 
   @override
   Future<List<History>> getHistories() async {
-    final List<DbHistory> results = await select(db.dbHistoryTable).get();
+    final List<Histories> results = await select(db.historiesTable).get();
     final List<History> histories = [];
     for (final result in results) {
       histories.add(
@@ -50,19 +50,20 @@ class _HistoryDaoStorage extends DatabaseAccessor<SongLibDb>
   @override
   Future<List<HistoryExt>> getAllHistories() async {
     final Stream<List<HistoryExt>> streams = customSelect(
-      'SELECT histories.${db.dbHistoryTable.id.name}, histories.${db.dbHistoryTable.createdAt.name}, '
-      'songs.${db.dbSongTable.book.name}, songs.${db.dbSongTable.songNo.name}, songs.${db.dbSongTable.title.name}, '
-      'songs.${db.dbSongTable.alias.name}, songs.${db.dbSongTable.content.name}, songs.${db.dbSongTable.key.name}, '
-      'songs.${db.dbSongTable.author.name}, songs.${db.dbSongTable.views.name}, songs.${db.dbSongTable.likes.name}, '
-      'songs.${db.dbSongTable.liked.name}, songs.${db.dbSongTable.id.name} AS songId, '
-      'books.${db.dbBookTable.title.name} AS songbook '
-      'FROM ${db.dbHistoryTable.actualTableName} AS histories '
-      'LEFT JOIN ${db.dbSongTable.actualTableName} AS songs '
-      'ON histories.${db.dbHistoryTable.song.name}=songs.${db.dbSongTable.id.name} '
-      'LEFT JOIN ${db.dbBookTable.actualTableName} AS books '
-      'ON songs.${db.dbSongTable.book.name}=books.${db.dbBookTable.bookNo.name} '
-      'ORDER BY ${db.dbSongTable.id.name} DESC;',
-      readsFrom: {db.dbSongTable},
+      'SELECT ${db.historiesTable.actualTableName}.${db.historiesTable.id.name}, ${db.historiesTable.actualTableName}.${db.historiesTable.createdAt.name}, '
+      '${db.songsTable.actualTableName}.${db.songsTable.book.name}, ${db.songsTable.actualTableName}.${db.songsTable.songNo.name}, '
+      '${db.songsTable.actualTableName}.${db.songsTable.title.name}, ${db.songsTable.actualTableName}.${db.songsTable.alias.name}, '
+      '${db.songsTable.actualTableName}.${db.songsTable.content.name}, ${db.songsTable.actualTableName}.${db.songsTable.key.name}, '
+      '${db.songsTable.actualTableName}.${db.songsTable.author.name}, ${db.songsTable.actualTableName}.${db.songsTable.views.name}, '
+      '${db.songsTable.actualTableName}.${db.songsTable.likes.name}, ${db.songsTable.actualTableName}.${db.songsTable.liked.name}, '
+      '${db.songsTable.actualTableName}.${db.songsTable.id.name} AS songId, ${db.booksTable.actualTableName}.${db.booksTable.title.name} AS songbook '
+      'FROM ${db.historiesTable.actualTableName} AS histories '
+      'LEFT JOIN ${db.songsTable.actualTableName} AS songs '
+      'ON ${db.historiesTable.actualTableName}.${db.historiesTable.song.name}=${db.songsTable.actualTableName}.${db.songsTable.id.name} '
+      'LEFT JOIN ${db.booksTable.actualTableName} AS books '
+      'ON ${db.songsTable.actualTableName}.${db.songsTable.book.name}=${db.booksTable.actualTableName}.${db.booksTable.bookNo.name} '
+      'ORDER BY ${db.songsTable.id.name} DESC;',
+      readsFrom: {db.songsTable},
     ).watch().map(
       (rows) {
         return rows.map((row) => HistoryExt.fromData(row.data)).toList();
@@ -72,8 +73,8 @@ class _HistoryDaoStorage extends DatabaseAccessor<SongLibDb>
   }
 
   @override
-  Future<void> createHistory(History history) => into(db.dbHistoryTable).insert(
-        DbHistoryTableCompanion.insert(
+  Future<void> createHistory(History history) => into(db.historiesTable).insert(
+        HistoriesTableCompanion.insert(
           song: Value(history.song!),
           createdAt: Value(dateNow()),
         ),
@@ -81,6 +82,6 @@ class _HistoryDaoStorage extends DatabaseAccessor<SongLibDb>
 
   @override
   Future<void> deleteHistory(History history) =>
-      (delete(db.dbHistoryTable)..where((row) => row.id.equals(history.id)))
+      (delete(db.historiesTable)..where((row) => row.id.equals(history.id)))
           .go();
 }

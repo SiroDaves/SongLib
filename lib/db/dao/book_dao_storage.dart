@@ -1,8 +1,8 @@
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../model/base/book.dart';
-import '../../model/tables/db_book_table.dart';
+import '../../models/base/book.dart';
+import '../../models/tables/books_table.dart';
 import '../songlib_db.dart';
 
 part 'book_dao_storage.g.dart';
@@ -20,7 +20,7 @@ abstract class BookDaoStorage {
 }
 
 @DriftAccessor(tables: [
-  DbBookTable,
+  BooksTable,
 ])
 class _BookDaoStorage extends DatabaseAccessor<SongLibDb>
     with _$_BookDaoStorageMixin
@@ -30,9 +30,9 @@ class _BookDaoStorage extends DatabaseAccessor<SongLibDb>
   @override
   Future<List<Book>> getAllBooks() async {
     final Stream<List<Book>> streams = customSelect(
-      'SELECT * FROM ${db.dbBookTable.actualTableName} '
-      'ORDER BY ${db.dbBookTable.position.name} ASC;',
-      readsFrom: {db.dbBookTable},
+      'SELECT * FROM ${db.booksTable.actualTableName} '
+      'ORDER BY ${db.booksTable.position.name} ASC;',
+      readsFrom: {db.booksTable},
     ).watch().map(
       (rows) {
         final List<Book> drafts = [];
@@ -68,8 +68,8 @@ class _BookDaoStorage extends DatabaseAccessor<SongLibDb>
   }
 
   @override
-  Future<void> createBook(Book book) => into(db.dbBookTable).insert(
-        DbBookTableCompanion.insert(
+  Future<void> createBook(Book book) => into(db.booksTable).insert(
+        BooksTableCompanion.insert(
           objectId: book.objectId!,
           bookNo: Value(book.bookNo!),
           enabled: Value(book.enabled!),
@@ -84,8 +84,8 @@ class _BookDaoStorage extends DatabaseAccessor<SongLibDb>
 
   @override
   Future<void> updateBook(Book book) =>
-      (update(db.dbBookTable)..where((row) => row.id.equals(book.id))).write(
-        DbBookTableCompanion(
+      (update(db.booksTable)..where((row) => row.id.equals(book.id))).write(
+        BooksTableCompanion(
           bookNo: Value(book.bookNo!),
           enabled: Value(book.enabled!),
           title: Value(book.title!),
@@ -98,8 +98,8 @@ class _BookDaoStorage extends DatabaseAccessor<SongLibDb>
 
   @override
   Future<void> deleteBook(Book book) =>
-      (delete(db.dbBookTable)..where((row) => row.id.equals(book.id))).go();
+      (delete(db.booksTable)..where((row) => row.id.equals(book.id))).go();
 
   @override
-  Future<void> deleteBooks() => (delete(db.dbBookTable)).go();
+  Future<void> deleteBooks() => (delete(db.booksTable)).go();
 }

@@ -7,7 +7,7 @@ part of 'songlib_db.dart';
 // **************************************************************************
 
 // ignore_for_file: type=lint
-class DbBook extends DataClass implements Insertable<DbBook> {
+class Books extends DataClass implements Insertable<Books> {
   final int id;
   final String objectId;
   final bool enabled;
@@ -18,7 +18,7 @@ class DbBook extends DataClass implements Insertable<DbBook> {
   final int position;
   final String createdAt;
   final String updatedAt;
-  DbBook(
+  Books(
       {required this.id,
       required this.objectId,
       required this.enabled,
@@ -29,9 +29,9 @@ class DbBook extends DataClass implements Insertable<DbBook> {
       required this.position,
       required this.createdAt,
       required this.updatedAt});
-  factory DbBook.fromData(Map<String, dynamic> data, {String? prefix}) {
+  factory Books.fromData(Map<String, dynamic> data, {String? prefix}) {
     final effectivePrefix = prefix ?? '';
-    return DbBook(
+    return Books(
       id: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
       objectId: const StringType()
@@ -70,8 +70,8 @@ class DbBook extends DataClass implements Insertable<DbBook> {
     return map;
   }
 
-  DbBookTableCompanion toCompanion(bool nullToAbsent) {
-    return DbBookTableCompanion(
+  BooksTableCompanion toCompanion(bool nullToAbsent) {
+    return BooksTableCompanion(
       id: Value(id),
       objectId: Value(objectId),
       enabled: Value(enabled),
@@ -85,10 +85,10 @@ class DbBook extends DataClass implements Insertable<DbBook> {
     );
   }
 
-  factory DbBook.fromJson(Map<String, dynamic> json,
+  factory Books.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return DbBook(
+    return Books(
       id: serializer.fromJson<int>(json['id']),
       objectId: serializer.fromJson<String>(json['objectId']),
       enabled: serializer.fromJson<bool>(json['enabled']),
@@ -118,7 +118,7 @@ class DbBook extends DataClass implements Insertable<DbBook> {
     };
   }
 
-  DbBook copyWith(
+  Books copyWith(
           {int? id,
           String? objectId,
           bool? enabled,
@@ -129,7 +129,7 @@ class DbBook extends DataClass implements Insertable<DbBook> {
           int? position,
           String? createdAt,
           String? updatedAt}) =>
-      DbBook(
+      Books(
         id: id ?? this.id,
         objectId: objectId ?? this.objectId,
         enabled: enabled ?? this.enabled,
@@ -143,7 +143,7 @@ class DbBook extends DataClass implements Insertable<DbBook> {
       );
   @override
   String toString() {
-    return (StringBuffer('DbBook(')
+    return (StringBuffer('Books(')
           ..write('id: $id, ')
           ..write('objectId: $objectId, ')
           ..write('enabled: $enabled, ')
@@ -164,7 +164,7 @@ class DbBook extends DataClass implements Insertable<DbBook> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is DbBook &&
+      (other is Books &&
           other.id == this.id &&
           other.objectId == this.objectId &&
           other.enabled == this.enabled &&
@@ -177,7 +177,7 @@ class DbBook extends DataClass implements Insertable<DbBook> {
           other.updatedAt == this.updatedAt);
 }
 
-class DbBookTableCompanion extends UpdateCompanion<DbBook> {
+class BooksTableCompanion extends UpdateCompanion<Books> {
   final Value<int> id;
   final Value<String> objectId;
   final Value<bool> enabled;
@@ -188,7 +188,7 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
   final Value<int> position;
   final Value<String> createdAt;
   final Value<String> updatedAt;
-  const DbBookTableCompanion({
+  const BooksTableCompanion({
     this.id = const Value.absent(),
     this.objectId = const Value.absent(),
     this.enabled = const Value.absent(),
@@ -200,7 +200,7 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
-  DbBookTableCompanion.insert({
+  BooksTableCompanion.insert({
     this.id = const Value.absent(),
     required String objectId,
     this.enabled = const Value.absent(),
@@ -212,7 +212,7 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   }) : objectId = Value(objectId);
-  static Insertable<DbBook> custom({
+  static Insertable<Books> custom({
     Expression<int>? id,
     Expression<String>? objectId,
     Expression<bool>? enabled,
@@ -238,7 +238,7 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
     });
   }
 
-  DbBookTableCompanion copyWith(
+  BooksTableCompanion copyWith(
       {Value<int>? id,
       Value<String>? objectId,
       Value<bool>? enabled,
@@ -249,7 +249,7 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
       Value<int>? position,
       Value<String>? createdAt,
       Value<String>? updatedAt}) {
-    return DbBookTableCompanion(
+    return BooksTableCompanion(
       id: id ?? this.id,
       objectId: objectId ?? this.objectId,
       enabled: enabled ?? this.enabled,
@@ -301,7 +301,7 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
 
   @override
   String toString() {
-    return (StringBuffer('DbBookTableCompanion(')
+    return (StringBuffer('BooksTableCompanion(')
           ..write('id: $id, ')
           ..write('objectId: $objectId, ')
           ..write('enabled: $enabled, ')
@@ -317,12 +317,12 @@ class DbBookTableCompanion extends UpdateCompanion<DbBook> {
   }
 }
 
-class $DbBookTableTable extends DbBookTable
-    with TableInfo<$DbBookTableTable, DbBook> {
+class $BooksTableTable extends BooksTable
+    with TableInfo<$BooksTableTable, Books> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $DbBookTableTable(this.attachedDatabase, [this._alias]);
+  $BooksTableTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
@@ -412,7 +412,7 @@ class $DbBookTableTable extends DbBookTable
   @override
   String get actualTableName => 'db_book_table';
   @override
-  VerificationContext validateIntegrity(Insertable<DbBook> instance,
+  VerificationContext validateIntegrity(Insertable<Books> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -463,18 +463,18 @@ class $DbBookTableTable extends DbBookTable
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  DbBook map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return DbBook.fromData(data,
+  Books map(Map<String, dynamic> data, {String? tablePrefix}) {
+    return Books.fromData(data,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
   @override
-  $DbBookTableTable createAlias(String alias) {
-    return $DbBookTableTable(attachedDatabase, alias);
+  $BooksTableTable createAlias(String alias) {
+    return $BooksTableTable(attachedDatabase, alias);
   }
 }
 
-class DbDraft extends DataClass implements Insertable<DbDraft> {
+class Drafts extends DataClass implements Insertable<Drafts> {
   final int id;
   final String objectId;
   final int book;
@@ -488,7 +488,7 @@ class DbDraft extends DataClass implements Insertable<DbDraft> {
   final String createdAt;
   final String updatedAt;
   final bool liked;
-  DbDraft(
+  Drafts(
       {required this.id,
       required this.objectId,
       required this.book,
@@ -502,9 +502,9 @@ class DbDraft extends DataClass implements Insertable<DbDraft> {
       required this.createdAt,
       required this.updatedAt,
       required this.liked});
-  factory DbDraft.fromData(Map<String, dynamic> data, {String? prefix}) {
+  factory Drafts.fromData(Map<String, dynamic> data, {String? prefix}) {
     final effectivePrefix = prefix ?? '';
-    return DbDraft(
+    return Drafts(
       id: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
       objectId: const StringType()
@@ -552,8 +552,8 @@ class DbDraft extends DataClass implements Insertable<DbDraft> {
     return map;
   }
 
-  DbDraftTableCompanion toCompanion(bool nullToAbsent) {
-    return DbDraftTableCompanion(
+  DraftsTableCompanion toCompanion(bool nullToAbsent) {
+    return DraftsTableCompanion(
       id: Value(id),
       objectId: Value(objectId),
       book: Value(book),
@@ -570,10 +570,10 @@ class DbDraft extends DataClass implements Insertable<DbDraft> {
     );
   }
 
-  factory DbDraft.fromJson(Map<String, dynamic> json,
+  factory Drafts.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return DbDraft(
+    return Drafts(
       id: serializer.fromJson<int>(json['id']),
       objectId: serializer.fromJson<String>(json['objectId']),
       book: serializer.fromJson<int>(json['book']),
@@ -609,7 +609,7 @@ class DbDraft extends DataClass implements Insertable<DbDraft> {
     };
   }
 
-  DbDraft copyWith(
+  Drafts copyWith(
           {int? id,
           String? objectId,
           int? book,
@@ -623,7 +623,7 @@ class DbDraft extends DataClass implements Insertable<DbDraft> {
           String? createdAt,
           String? updatedAt,
           bool? liked}) =>
-      DbDraft(
+      Drafts(
         id: id ?? this.id,
         objectId: objectId ?? this.objectId,
         book: book ?? this.book,
@@ -640,7 +640,7 @@ class DbDraft extends DataClass implements Insertable<DbDraft> {
       );
   @override
   String toString() {
-    return (StringBuffer('DbDraft(')
+    return (StringBuffer('Drafts(')
           ..write('id: $id, ')
           ..write('objectId: $objectId, ')
           ..write('book: $book, ')
@@ -664,7 +664,7 @@ class DbDraft extends DataClass implements Insertable<DbDraft> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is DbDraft &&
+      (other is Drafts &&
           other.id == this.id &&
           other.objectId == this.objectId &&
           other.book == this.book &&
@@ -680,7 +680,7 @@ class DbDraft extends DataClass implements Insertable<DbDraft> {
           other.liked == this.liked);
 }
 
-class DbDraftTableCompanion extends UpdateCompanion<DbDraft> {
+class DraftsTableCompanion extends UpdateCompanion<Drafts> {
   final Value<int> id;
   final Value<String> objectId;
   final Value<int> book;
@@ -694,7 +694,7 @@ class DbDraftTableCompanion extends UpdateCompanion<DbDraft> {
   final Value<String> createdAt;
   final Value<String> updatedAt;
   final Value<bool> liked;
-  const DbDraftTableCompanion({
+  const DraftsTableCompanion({
     this.id = const Value.absent(),
     this.objectId = const Value.absent(),
     this.book = const Value.absent(),
@@ -709,7 +709,7 @@ class DbDraftTableCompanion extends UpdateCompanion<DbDraft> {
     this.updatedAt = const Value.absent(),
     this.liked = const Value.absent(),
   });
-  DbDraftTableCompanion.insert({
+  DraftsTableCompanion.insert({
     this.id = const Value.absent(),
     this.objectId = const Value.absent(),
     this.book = const Value.absent(),
@@ -724,7 +724,7 @@ class DbDraftTableCompanion extends UpdateCompanion<DbDraft> {
     this.updatedAt = const Value.absent(),
     this.liked = const Value.absent(),
   });
-  static Insertable<DbDraft> custom({
+  static Insertable<Drafts> custom({
     Expression<int>? id,
     Expression<String>? objectId,
     Expression<int>? book,
@@ -756,7 +756,7 @@ class DbDraftTableCompanion extends UpdateCompanion<DbDraft> {
     });
   }
 
-  DbDraftTableCompanion copyWith(
+  DraftsTableCompanion copyWith(
       {Value<int>? id,
       Value<String>? objectId,
       Value<int>? book,
@@ -770,7 +770,7 @@ class DbDraftTableCompanion extends UpdateCompanion<DbDraft> {
       Value<String>? createdAt,
       Value<String>? updatedAt,
       Value<bool>? liked}) {
-    return DbDraftTableCompanion(
+    return DraftsTableCompanion(
       id: id ?? this.id,
       objectId: objectId ?? this.objectId,
       book: book ?? this.book,
@@ -834,7 +834,7 @@ class DbDraftTableCompanion extends UpdateCompanion<DbDraft> {
 
   @override
   String toString() {
-    return (StringBuffer('DbDraftTableCompanion(')
+    return (StringBuffer('DraftsTableCompanion(')
           ..write('id: $id, ')
           ..write('objectId: $objectId, ')
           ..write('book: $book, ')
@@ -853,12 +853,12 @@ class DbDraftTableCompanion extends UpdateCompanion<DbDraft> {
   }
 }
 
-class $DbDraftTableTable extends DbDraftTable
-    with TableInfo<$DbDraftTableTable, DbDraft> {
+class $DraftsTableTable extends DraftsTable
+    with TableInfo<$DraftsTableTable, Drafts> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $DbDraftTableTable(this.attachedDatabase, [this._alias]);
+  $DraftsTableTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
@@ -972,7 +972,7 @@ class $DbDraftTableTable extends DbDraftTable
   @override
   String get actualTableName => 'db_draft_table';
   @override
-  VerificationContext validateIntegrity(Insertable<DbDraft> instance,
+  VerificationContext validateIntegrity(Insertable<Drafts> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -1033,30 +1033,30 @@ class $DbDraftTableTable extends DbDraftTable
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  DbDraft map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return DbDraft.fromData(data,
+  Drafts map(Map<String, dynamic> data, {String? tablePrefix}) {
+    return Drafts.fromData(data,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
   @override
-  $DbDraftTableTable createAlias(String alias) {
-    return $DbDraftTableTable(attachedDatabase, alias);
+  $DraftsTableTable createAlias(String alias) {
+    return $DraftsTableTable(attachedDatabase, alias);
   }
 }
 
-class DbHistory extends DataClass implements Insertable<DbHistory> {
+class Histories extends DataClass implements Insertable<Histories> {
   final int id;
   final String objectId;
   final int song;
   final String createdAt;
-  DbHistory(
+  Histories(
       {required this.id,
       required this.objectId,
       required this.song,
       required this.createdAt});
-  factory DbHistory.fromData(Map<String, dynamic> data, {String? prefix}) {
+  factory Histories.fromData(Map<String, dynamic> data, {String? prefix}) {
     final effectivePrefix = prefix ?? '';
-    return DbHistory(
+    return Histories(
       id: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
       objectId: const StringType()
@@ -1077,8 +1077,8 @@ class DbHistory extends DataClass implements Insertable<DbHistory> {
     return map;
   }
 
-  DbHistoryTableCompanion toCompanion(bool nullToAbsent) {
-    return DbHistoryTableCompanion(
+  HistoriesTableCompanion toCompanion(bool nullToAbsent) {
+    return HistoriesTableCompanion(
       id: Value(id),
       objectId: Value(objectId),
       song: Value(song),
@@ -1086,10 +1086,10 @@ class DbHistory extends DataClass implements Insertable<DbHistory> {
     );
   }
 
-  factory DbHistory.fromJson(Map<String, dynamic> json,
+  factory Histories.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return DbHistory(
+    return Histories(
       id: serializer.fromJson<int>(json['id']),
       objectId: serializer.fromJson<String>(json['objectId']),
       song: serializer.fromJson<int>(json['song']),
@@ -1107,9 +1107,9 @@ class DbHistory extends DataClass implements Insertable<DbHistory> {
     };
   }
 
-  DbHistory copyWith(
+  Histories copyWith(
           {int? id, String? objectId, int? song, String? createdAt}) =>
-      DbHistory(
+      Histories(
         id: id ?? this.id,
         objectId: objectId ?? this.objectId,
         song: song ?? this.song,
@@ -1117,7 +1117,7 @@ class DbHistory extends DataClass implements Insertable<DbHistory> {
       );
   @override
   String toString() {
-    return (StringBuffer('DbHistory(')
+    return (StringBuffer('Histories(')
           ..write('id: $id, ')
           ..write('objectId: $objectId, ')
           ..write('song: $song, ')
@@ -1131,31 +1131,31 @@ class DbHistory extends DataClass implements Insertable<DbHistory> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is DbHistory &&
+      (other is Histories &&
           other.id == this.id &&
           other.objectId == this.objectId &&
           other.song == this.song &&
           other.createdAt == this.createdAt);
 }
 
-class DbHistoryTableCompanion extends UpdateCompanion<DbHistory> {
+class HistoriesTableCompanion extends UpdateCompanion<Histories> {
   final Value<int> id;
   final Value<String> objectId;
   final Value<int> song;
   final Value<String> createdAt;
-  const DbHistoryTableCompanion({
+  const HistoriesTableCompanion({
     this.id = const Value.absent(),
     this.objectId = const Value.absent(),
     this.song = const Value.absent(),
     this.createdAt = const Value.absent(),
   });
-  DbHistoryTableCompanion.insert({
+  HistoriesTableCompanion.insert({
     this.id = const Value.absent(),
     this.objectId = const Value.absent(),
     this.song = const Value.absent(),
     this.createdAt = const Value.absent(),
   });
-  static Insertable<DbHistory> custom({
+  static Insertable<Histories> custom({
     Expression<int>? id,
     Expression<String>? objectId,
     Expression<int>? song,
@@ -1169,12 +1169,12 @@ class DbHistoryTableCompanion extends UpdateCompanion<DbHistory> {
     });
   }
 
-  DbHistoryTableCompanion copyWith(
+  HistoriesTableCompanion copyWith(
       {Value<int>? id,
       Value<String>? objectId,
       Value<int>? song,
       Value<String>? createdAt}) {
-    return DbHistoryTableCompanion(
+    return HistoriesTableCompanion(
       id: id ?? this.id,
       objectId: objectId ?? this.objectId,
       song: song ?? this.song,
@@ -1202,7 +1202,7 @@ class DbHistoryTableCompanion extends UpdateCompanion<DbHistory> {
 
   @override
   String toString() {
-    return (StringBuffer('DbHistoryTableCompanion(')
+    return (StringBuffer('HistoriesTableCompanion(')
           ..write('id: $id, ')
           ..write('objectId: $objectId, ')
           ..write('song: $song, ')
@@ -1212,12 +1212,12 @@ class DbHistoryTableCompanion extends UpdateCompanion<DbHistory> {
   }
 }
 
-class $DbHistoryTableTable extends DbHistoryTable
-    with TableInfo<$DbHistoryTableTable, DbHistory> {
+class $HistoriesTableTable extends HistoriesTable
+    with TableInfo<$HistoriesTableTable, Histories> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $DbHistoryTableTable(this.attachedDatabase, [this._alias]);
+  $HistoriesTableTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
@@ -1253,7 +1253,7 @@ class $DbHistoryTableTable extends DbHistoryTable
   @override
   String get actualTableName => 'db_history_table';
   @override
-  VerificationContext validateIntegrity(Insertable<DbHistory> instance,
+  VerificationContext validateIntegrity(Insertable<Histories> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -1278,18 +1278,18 @@ class $DbHistoryTableTable extends DbHistoryTable
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  DbHistory map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return DbHistory.fromData(data,
+  Histories map(Map<String, dynamic> data, {String? tablePrefix}) {
+    return Histories.fromData(data,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
   @override
-  $DbHistoryTableTable createAlias(String alias) {
-    return $DbHistoryTableTable(attachedDatabase, alias);
+  $HistoriesTableTable createAlias(String alias) {
+    return $HistoriesTableTable(attachedDatabase, alias);
   }
 }
 
-class DbListed extends DataClass implements Insertable<DbListed> {
+class Listeds extends DataClass implements Insertable<Listeds> {
   final int id;
   final String objectId;
   final int parentid;
@@ -1299,7 +1299,7 @@ class DbListed extends DataClass implements Insertable<DbListed> {
   final int position;
   final String createdAt;
   final String updatedAt;
-  DbListed(
+  Listeds(
       {required this.id,
       required this.objectId,
       required this.parentid,
@@ -1309,9 +1309,9 @@ class DbListed extends DataClass implements Insertable<DbListed> {
       required this.position,
       required this.createdAt,
       required this.updatedAt});
-  factory DbListed.fromData(Map<String, dynamic> data, {String? prefix}) {
+  factory Listeds.fromData(Map<String, dynamic> data, {String? prefix}) {
     final effectivePrefix = prefix ?? '';
-    return DbListed(
+    return Listeds(
       id: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
       objectId: const StringType()
@@ -1347,8 +1347,8 @@ class DbListed extends DataClass implements Insertable<DbListed> {
     return map;
   }
 
-  DbListedTableCompanion toCompanion(bool nullToAbsent) {
-    return DbListedTableCompanion(
+  ListedsTableCompanion toCompanion(bool nullToAbsent) {
+    return ListedsTableCompanion(
       id: Value(id),
       objectId: Value(objectId),
       parentid: Value(parentid),
@@ -1361,10 +1361,10 @@ class DbListed extends DataClass implements Insertable<DbListed> {
     );
   }
 
-  factory DbListed.fromJson(Map<String, dynamic> json,
+  factory Listeds.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return DbListed(
+    return Listeds(
       id: serializer.fromJson<int>(json['id']),
       objectId: serializer.fromJson<String>(json['objectId']),
       parentid: serializer.fromJson<int>(json['parentid']),
@@ -1392,7 +1392,7 @@ class DbListed extends DataClass implements Insertable<DbListed> {
     };
   }
 
-  DbListed copyWith(
+  Listeds copyWith(
           {int? id,
           String? objectId,
           int? parentid,
@@ -1402,7 +1402,7 @@ class DbListed extends DataClass implements Insertable<DbListed> {
           int? position,
           String? createdAt,
           String? updatedAt}) =>
-      DbListed(
+      Listeds(
         id: id ?? this.id,
         objectId: objectId ?? this.objectId,
         parentid: parentid ?? this.parentid,
@@ -1415,7 +1415,7 @@ class DbListed extends DataClass implements Insertable<DbListed> {
       );
   @override
   String toString() {
-    return (StringBuffer('DbListed(')
+    return (StringBuffer('Listeds(')
           ..write('id: $id, ')
           ..write('objectId: $objectId, ')
           ..write('parentid: $parentid, ')
@@ -1435,7 +1435,7 @@ class DbListed extends DataClass implements Insertable<DbListed> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is DbListed &&
+      (other is Listeds &&
           other.id == this.id &&
           other.objectId == this.objectId &&
           other.parentid == this.parentid &&
@@ -1447,7 +1447,7 @@ class DbListed extends DataClass implements Insertable<DbListed> {
           other.updatedAt == this.updatedAt);
 }
 
-class DbListedTableCompanion extends UpdateCompanion<DbListed> {
+class ListedsTableCompanion extends UpdateCompanion<Listeds> {
   final Value<int> id;
   final Value<String> objectId;
   final Value<int> parentid;
@@ -1457,7 +1457,7 @@ class DbListedTableCompanion extends UpdateCompanion<DbListed> {
   final Value<int> position;
   final Value<String> createdAt;
   final Value<String> updatedAt;
-  const DbListedTableCompanion({
+  const ListedsTableCompanion({
     this.id = const Value.absent(),
     this.objectId = const Value.absent(),
     this.parentid = const Value.absent(),
@@ -1468,7 +1468,7 @@ class DbListedTableCompanion extends UpdateCompanion<DbListed> {
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
-  DbListedTableCompanion.insert({
+  ListedsTableCompanion.insert({
     this.id = const Value.absent(),
     this.objectId = const Value.absent(),
     this.parentid = const Value.absent(),
@@ -1479,7 +1479,7 @@ class DbListedTableCompanion extends UpdateCompanion<DbListed> {
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
-  static Insertable<DbListed> custom({
+  static Insertable<Listeds> custom({
     Expression<int>? id,
     Expression<String>? objectId,
     Expression<int>? parentid,
@@ -1503,7 +1503,7 @@ class DbListedTableCompanion extends UpdateCompanion<DbListed> {
     });
   }
 
-  DbListedTableCompanion copyWith(
+  ListedsTableCompanion copyWith(
       {Value<int>? id,
       Value<String>? objectId,
       Value<int>? parentid,
@@ -1513,7 +1513,7 @@ class DbListedTableCompanion extends UpdateCompanion<DbListed> {
       Value<int>? position,
       Value<String>? createdAt,
       Value<String>? updatedAt}) {
-    return DbListedTableCompanion(
+    return ListedsTableCompanion(
       id: id ?? this.id,
       objectId: objectId ?? this.objectId,
       parentid: parentid ?? this.parentid,
@@ -1561,7 +1561,7 @@ class DbListedTableCompanion extends UpdateCompanion<DbListed> {
 
   @override
   String toString() {
-    return (StringBuffer('DbListedTableCompanion(')
+    return (StringBuffer('ListedsTableCompanion(')
           ..write('id: $id, ')
           ..write('objectId: $objectId, ')
           ..write('parentid: $parentid, ')
@@ -1576,12 +1576,12 @@ class DbListedTableCompanion extends UpdateCompanion<DbListed> {
   }
 }
 
-class $DbListedTableTable extends DbListedTable
-    with TableInfo<$DbListedTableTable, DbListed> {
+class $ListedsTableTable extends ListedsTable
+    with TableInfo<$ListedsTableTable, Listeds> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $DbListedTableTable(this.attachedDatabase, [this._alias]);
+  $ListedsTableTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
@@ -1663,7 +1663,7 @@ class $DbListedTableTable extends DbListedTable
   @override
   String get actualTableName => 'db_listed_table';
   @override
-  VerificationContext validateIntegrity(Insertable<DbListed> instance,
+  VerificationContext validateIntegrity(Insertable<Listeds> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -1710,30 +1710,30 @@ class $DbListedTableTable extends DbListedTable
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  DbListed map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return DbListed.fromData(data,
+  Listeds map(Map<String, dynamic> data, {String? tablePrefix}) {
+    return Listeds.fromData(data,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
   @override
-  $DbListedTableTable createAlias(String alias) {
-    return $DbListedTableTable(attachedDatabase, alias);
+  $ListedsTableTable createAlias(String alias) {
+    return $ListedsTableTable(attachedDatabase, alias);
   }
 }
 
-class DbSearch extends DataClass implements Insertable<DbSearch> {
+class Searches extends DataClass implements Insertable<Searches> {
   final int id;
   final String objectId;
   final String title;
   final String createdAt;
-  DbSearch(
+  Searches(
       {required this.id,
       required this.objectId,
       required this.title,
       required this.createdAt});
-  factory DbSearch.fromData(Map<String, dynamic> data, {String? prefix}) {
+  factory Searches.fromData(Map<String, dynamic> data, {String? prefix}) {
     final effectivePrefix = prefix ?? '';
-    return DbSearch(
+    return Searches(
       id: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
       objectId: const StringType()
@@ -1754,8 +1754,8 @@ class DbSearch extends DataClass implements Insertable<DbSearch> {
     return map;
   }
 
-  DbSearchTableCompanion toCompanion(bool nullToAbsent) {
-    return DbSearchTableCompanion(
+  SearchesTableCompanion toCompanion(bool nullToAbsent) {
+    return SearchesTableCompanion(
       id: Value(id),
       objectId: Value(objectId),
       title: Value(title),
@@ -1763,10 +1763,10 @@ class DbSearch extends DataClass implements Insertable<DbSearch> {
     );
   }
 
-  factory DbSearch.fromJson(Map<String, dynamic> json,
+  factory Searches.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return DbSearch(
+    return Searches(
       id: serializer.fromJson<int>(json['id']),
       objectId: serializer.fromJson<String>(json['objectId']),
       title: serializer.fromJson<String>(json['title']),
@@ -1784,9 +1784,9 @@ class DbSearch extends DataClass implements Insertable<DbSearch> {
     };
   }
 
-  DbSearch copyWith(
+  Searches copyWith(
           {int? id, String? objectId, String? title, String? createdAt}) =>
-      DbSearch(
+      Searches(
         id: id ?? this.id,
         objectId: objectId ?? this.objectId,
         title: title ?? this.title,
@@ -1794,7 +1794,7 @@ class DbSearch extends DataClass implements Insertable<DbSearch> {
       );
   @override
   String toString() {
-    return (StringBuffer('DbSearch(')
+    return (StringBuffer('Searches(')
           ..write('id: $id, ')
           ..write('objectId: $objectId, ')
           ..write('title: $title, ')
@@ -1808,31 +1808,31 @@ class DbSearch extends DataClass implements Insertable<DbSearch> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is DbSearch &&
+      (other is Searches &&
           other.id == this.id &&
           other.objectId == this.objectId &&
           other.title == this.title &&
           other.createdAt == this.createdAt);
 }
 
-class DbSearchTableCompanion extends UpdateCompanion<DbSearch> {
+class SearchesTableCompanion extends UpdateCompanion<Searches> {
   final Value<int> id;
   final Value<String> objectId;
   final Value<String> title;
   final Value<String> createdAt;
-  const DbSearchTableCompanion({
+  const SearchesTableCompanion({
     this.id = const Value.absent(),
     this.objectId = const Value.absent(),
     this.title = const Value.absent(),
     this.createdAt = const Value.absent(),
   });
-  DbSearchTableCompanion.insert({
+  SearchesTableCompanion.insert({
     this.id = const Value.absent(),
     this.objectId = const Value.absent(),
     this.title = const Value.absent(),
     this.createdAt = const Value.absent(),
   });
-  static Insertable<DbSearch> custom({
+  static Insertable<Searches> custom({
     Expression<int>? id,
     Expression<String>? objectId,
     Expression<String>? title,
@@ -1846,12 +1846,12 @@ class DbSearchTableCompanion extends UpdateCompanion<DbSearch> {
     });
   }
 
-  DbSearchTableCompanion copyWith(
+  SearchesTableCompanion copyWith(
       {Value<int>? id,
       Value<String>? objectId,
       Value<String>? title,
       Value<String>? createdAt}) {
-    return DbSearchTableCompanion(
+    return SearchesTableCompanion(
       id: id ?? this.id,
       objectId: objectId ?? this.objectId,
       title: title ?? this.title,
@@ -1879,7 +1879,7 @@ class DbSearchTableCompanion extends UpdateCompanion<DbSearch> {
 
   @override
   String toString() {
-    return (StringBuffer('DbSearchTableCompanion(')
+    return (StringBuffer('SearchesTableCompanion(')
           ..write('id: $id, ')
           ..write('objectId: $objectId, ')
           ..write('title: $title, ')
@@ -1889,12 +1889,12 @@ class DbSearchTableCompanion extends UpdateCompanion<DbSearch> {
   }
 }
 
-class $DbSearchTableTable extends DbSearchTable
-    with TableInfo<$DbSearchTableTable, DbSearch> {
+class $SearchesTableTable extends SearchesTable
+    with TableInfo<$SearchesTableTable, Searches> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $DbSearchTableTable(this.attachedDatabase, [this._alias]);
+  $SearchesTableTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
@@ -1930,7 +1930,7 @@ class $DbSearchTableTable extends DbSearchTable
   @override
   String get actualTableName => 'db_search_table';
   @override
-  VerificationContext validateIntegrity(Insertable<DbSearch> instance,
+  VerificationContext validateIntegrity(Insertable<Searches> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -1955,18 +1955,18 @@ class $DbSearchTableTable extends DbSearchTable
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  DbSearch map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return DbSearch.fromData(data,
+  Searches map(Map<String, dynamic> data, {String? tablePrefix}) {
+    return Searches.fromData(data,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
   @override
-  $DbSearchTableTable createAlias(String alias) {
-    return $DbSearchTableTable(attachedDatabase, alias);
+  $SearchesTableTable createAlias(String alias) {
+    return $SearchesTableTable(attachedDatabase, alias);
   }
 }
 
-class DbSong extends DataClass implements Insertable<DbSong> {
+class Songs extends DataClass implements Insertable<Songs> {
   final int id;
   final String objectId;
   final int book;
@@ -1981,7 +1981,7 @@ class DbSong extends DataClass implements Insertable<DbSong> {
   final String createdAt;
   final String updatedAt;
   final bool liked;
-  DbSong(
+  Songs(
       {required this.id,
       required this.objectId,
       required this.book,
@@ -1996,9 +1996,9 @@ class DbSong extends DataClass implements Insertable<DbSong> {
       required this.createdAt,
       required this.updatedAt,
       required this.liked});
-  factory DbSong.fromData(Map<String, dynamic> data, {String? prefix}) {
+  factory Songs.fromData(Map<String, dynamic> data, {String? prefix}) {
     final effectivePrefix = prefix ?? '';
-    return DbSong(
+    return Songs(
       id: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
       objectId: const StringType()
@@ -2049,8 +2049,8 @@ class DbSong extends DataClass implements Insertable<DbSong> {
     return map;
   }
 
-  DbSongTableCompanion toCompanion(bool nullToAbsent) {
-    return DbSongTableCompanion(
+  SongsTableCompanion toCompanion(bool nullToAbsent) {
+    return SongsTableCompanion(
       id: Value(id),
       objectId: Value(objectId),
       book: Value(book),
@@ -2068,10 +2068,10 @@ class DbSong extends DataClass implements Insertable<DbSong> {
     );
   }
 
-  factory DbSong.fromJson(Map<String, dynamic> json,
+  factory Songs.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return DbSong(
+    return Songs(
       id: serializer.fromJson<int>(json['id']),
       objectId: serializer.fromJson<String>(json['objectId']),
       book: serializer.fromJson<int>(json['book']),
@@ -2109,7 +2109,7 @@ class DbSong extends DataClass implements Insertable<DbSong> {
     };
   }
 
-  DbSong copyWith(
+  Songs copyWith(
           {int? id,
           String? objectId,
           int? book,
@@ -2124,7 +2124,7 @@ class DbSong extends DataClass implements Insertable<DbSong> {
           String? createdAt,
           String? updatedAt,
           bool? liked}) =>
-      DbSong(
+      Songs(
         id: id ?? this.id,
         objectId: objectId ?? this.objectId,
         book: book ?? this.book,
@@ -2142,7 +2142,7 @@ class DbSong extends DataClass implements Insertable<DbSong> {
       );
   @override
   String toString() {
-    return (StringBuffer('DbSong(')
+    return (StringBuffer('Songs(')
           ..write('id: $id, ')
           ..write('objectId: $objectId, ')
           ..write('book: $book, ')
@@ -2167,7 +2167,7 @@ class DbSong extends DataClass implements Insertable<DbSong> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is DbSong &&
+      (other is Songs &&
           other.id == this.id &&
           other.objectId == this.objectId &&
           other.book == this.book &&
@@ -2184,7 +2184,7 @@ class DbSong extends DataClass implements Insertable<DbSong> {
           other.liked == this.liked);
 }
 
-class DbSongTableCompanion extends UpdateCompanion<DbSong> {
+class SongsTableCompanion extends UpdateCompanion<Songs> {
   final Value<int> id;
   final Value<String> objectId;
   final Value<int> book;
@@ -2199,7 +2199,7 @@ class DbSongTableCompanion extends UpdateCompanion<DbSong> {
   final Value<String> createdAt;
   final Value<String> updatedAt;
   final Value<bool> liked;
-  const DbSongTableCompanion({
+  const SongsTableCompanion({
     this.id = const Value.absent(),
     this.objectId = const Value.absent(),
     this.book = const Value.absent(),
@@ -2215,7 +2215,7 @@ class DbSongTableCompanion extends UpdateCompanion<DbSong> {
     this.updatedAt = const Value.absent(),
     this.liked = const Value.absent(),
   });
-  DbSongTableCompanion.insert({
+  SongsTableCompanion.insert({
     this.id = const Value.absent(),
     required String objectId,
     this.book = const Value.absent(),
@@ -2231,7 +2231,7 @@ class DbSongTableCompanion extends UpdateCompanion<DbSong> {
     this.updatedAt = const Value.absent(),
     this.liked = const Value.absent(),
   }) : objectId = Value(objectId);
-  static Insertable<DbSong> custom({
+  static Insertable<Songs> custom({
     Expression<int>? id,
     Expression<String>? objectId,
     Expression<int>? book,
@@ -2265,7 +2265,7 @@ class DbSongTableCompanion extends UpdateCompanion<DbSong> {
     });
   }
 
-  DbSongTableCompanion copyWith(
+  SongsTableCompanion copyWith(
       {Value<int>? id,
       Value<String>? objectId,
       Value<int>? book,
@@ -2280,7 +2280,7 @@ class DbSongTableCompanion extends UpdateCompanion<DbSong> {
       Value<String>? createdAt,
       Value<String>? updatedAt,
       Value<bool>? liked}) {
-    return DbSongTableCompanion(
+    return SongsTableCompanion(
       id: id ?? this.id,
       objectId: objectId ?? this.objectId,
       book: book ?? this.book,
@@ -2348,7 +2348,7 @@ class DbSongTableCompanion extends UpdateCompanion<DbSong> {
 
   @override
   String toString() {
-    return (StringBuffer('DbSongTableCompanion(')
+    return (StringBuffer('SongsTableCompanion(')
           ..write('id: $id, ')
           ..write('objectId: $objectId, ')
           ..write('book: $book, ')
@@ -2368,12 +2368,12 @@ class DbSongTableCompanion extends UpdateCompanion<DbSong> {
   }
 }
 
-class $DbSongTableTable extends DbSongTable
-    with TableInfo<$DbSongTableTable, DbSong> {
+class $SongsTableTable extends SongsTable
+    with TableInfo<$SongsTableTable, Songs> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $DbSongTableTable(this.attachedDatabase, [this._alias]);
+  $SongsTableTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
@@ -2495,7 +2495,7 @@ class $DbSongTableTable extends DbSongTable
   @override
   String get actualTableName => 'db_song_table';
   @override
-  VerificationContext validateIntegrity(Insertable<DbSong> instance,
+  VerificationContext validateIntegrity(Insertable<Songs> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -2562,35 +2562,35 @@ class $DbSongTableTable extends DbSongTable
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  DbSong map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return DbSong.fromData(data,
+  Songs map(Map<String, dynamic> data, {String? tablePrefix}) {
+    return Songs.fromData(data,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
   @override
-  $DbSongTableTable createAlias(String alias) {
-    return $DbSongTableTable(attachedDatabase, alias);
+  $SongsTableTable createAlias(String alias) {
+    return $SongsTableTable(attachedDatabase, alias);
   }
 }
 
 abstract class _$SongLibDb extends GeneratedDatabase {
   _$SongLibDb(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   _$SongLibDb.connect(DatabaseConnection c) : super.connect(c);
-  late final $DbBookTableTable dbBookTable = $DbBookTableTable(this);
-  late final $DbDraftTableTable dbDraftTable = $DbDraftTableTable(this);
-  late final $DbHistoryTableTable dbHistoryTable = $DbHistoryTableTable(this);
-  late final $DbListedTableTable dbListedTable = $DbListedTableTable(this);
-  late final $DbSearchTableTable dbSearchTable = $DbSearchTableTable(this);
-  late final $DbSongTableTable dbSongTable = $DbSongTableTable(this);
+  late final $BooksTableTable booksTable = $BooksTableTable(this);
+  late final $DraftsTableTable draftsTable = $DraftsTableTable(this);
+  late final $HistoriesTableTable historiesTable = $HistoriesTableTable(this);
+  late final $ListedsTableTable listedsTable = $ListedsTableTable(this);
+  late final $SearchesTableTable searchesTable = $SearchesTableTable(this);
+  late final $SongsTableTable songsTable = $SongsTableTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
-        dbBookTable,
-        dbDraftTable,
-        dbHistoryTable,
-        dbListedTable,
-        dbSearchTable,
-        dbSongTable
+        booksTable,
+        draftsTable,
+        historiesTable,
+        listedsTable,
+        searchesTable,
+        songsTable
       ];
 }

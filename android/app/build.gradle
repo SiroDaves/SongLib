@@ -24,7 +24,6 @@ if (flutterVersionName == null) {
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-apply plugin: 'com.google.gms.google-services'
 
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('key.properties')
@@ -53,8 +52,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 31
         multiDexEnabled true
-        versionCode 8
-        versionName "0.0.5.7" 
+        versionCode 9
+        versionName "0.0.5.9" 
     }
 
     signingConfigs {
@@ -71,27 +70,6 @@ android {
         }
     }
 
-    flavorDimensions "flavors"
-    productFlavors {
-        dev {
-            dimension "flavors"
-            applicationIdSuffix ".debug"
-            versionNameSuffix "-debug"
-        }
-        alpha {
-            dimension "flavors"
-            applicationIdSuffix ".alpha"
-            versionNameSuffix "-alpha"
-        }
-        beta {
-            dimension "flavors"
-            applicationIdSuffix ".beta"
-            versionNameSuffix "-beta"
-        }
-        prod {
-            dimension "flavors"
-        }
-    }
 }
 
 flutter {

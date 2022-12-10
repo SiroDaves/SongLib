@@ -1,21 +1,21 @@
 import 'package:drift/drift.dart';
 
-import '../model/tables/db_book_table.dart';
-import '../model/tables/db_draft_table.dart';
-import '../model/tables/db_history_table.dart';
-import '../model/tables/db_listed_table.dart';
-import '../model/tables/db_search_table.dart';
-import '../model/tables/db_song_table.dart';
+import '../models/tables/books_table.dart';
+import '../models/tables/drafts_table.dart';
+import '../models/tables/histories_table.dart';
+import '../models/tables/listeds_table.dart';
+import '../models/tables/searches_table.dart';
+import '../models/tables/songs_table.dart';
 
 part 'songlib_db.g.dart';
 
 @DriftDatabase(tables: [
-  DbBookTable,
-  DbDraftTable,
-  DbHistoryTable,
-  DbListedTable,
-  DbSearchTable,
-  DbSongTable,
+  BooksTable,
+  DraftsTable,
+  HistoriesTable,
+  ListedsTable,
+  SearchesTable,
+  SongsTable,
 ])
 class SongLibDb extends _$SongLibDb {
   SongLibDb(QueryExecutor db) : super(db);

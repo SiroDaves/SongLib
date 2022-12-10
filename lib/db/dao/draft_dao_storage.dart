@@ -1,9 +1,9 @@
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../model/base/draft.dart';
-import '../../model/tables/db_draft_table.dart';
-import '../../util/constants/utilities.dart';
+import '../../models/base/draft.dart';
+import '../../models/tables/drafts_table.dart';
+import '../../utils/constants/utilities.dart';
 import '../songlib_db.dart';
 
 part 'draft_dao_storage.g.dart';
@@ -20,7 +20,7 @@ abstract class DraftDaoStorage {
 }
 
 @DriftAccessor(tables: [
-  DbDraftTable,
+  DraftsTable,
 ])
 class _DraftDaoStorage extends DatabaseAccessor<SongLibDb>
     with _$_DraftDaoStorageMixin
@@ -30,9 +30,9 @@ class _DraftDaoStorage extends DatabaseAccessor<SongLibDb>
   @override
   Future<List<Draft>> getAllDrafts() async {
     final Stream<List<Draft>> streams = customSelect(
-      'SELECT * FROM ${db.dbDraftTable.actualTableName} '
-      'ORDER BY ${db.dbDraftTable.id.name} DESC;',
-      readsFrom: {db.dbDraftTable},
+      'SELECT * FROM ${db.draftsTable.actualTableName} '
+      'ORDER BY ${db.draftsTable.id.name} DESC;',
+      readsFrom: {db.draftsTable},
     ).watch().map(
       (rows) {
         final List<Draft> drafts = [];
@@ -73,8 +73,8 @@ class _DraftDaoStorage extends DatabaseAccessor<SongLibDb>
 
   @override
   Future<int> createDraft({required Draft draft, bool isSimple = true}) async {
-    return await into(db.dbDraftTable).insert(
-      DbDraftTableCompanion.insert(
+    return await into(db.draftsTable).insert(
+      DraftsTableCompanion.insert(
         objectId: isSimple ? const Value.absent() : Value(draft.objectId!),
         book: isSimple ? const Value.absent() : Value(draft.book!),
         songNo: isSimple ? const Value.absent() : Value(draft.songNo!),
@@ -93,8 +93,8 @@ class _DraftDaoStorage extends DatabaseAccessor<SongLibDb>
 
   @override
   Future<void> updateDraft(Draft draft) =>
-      (update(db.dbDraftTable)..where((row) => row.id.equals(draft.id))).write(
-        DbDraftTableCompanion(
+      (update(db.draftsTable)..where((row) => row.id.equals(draft.id))).write(
+        DraftsTableCompanion(
           book: Value(draft.book!),
           songNo: Value(draft.songNo!),
           title: Value(draft.title!),
@@ -110,5 +110,5 @@ class _DraftDaoStorage extends DatabaseAccessor<SongLibDb>
 
   @override
   Future<void> deleteDraft(Draft draft) =>
-      (delete(db.dbDraftTable)..where((row) => row.id.equals(draft.id))).go();
+      (delete(db.draftsTable)..where((row) => row.id.equals(draft.id))).go();
 }

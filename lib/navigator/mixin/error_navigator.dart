@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 
-import '../../util/locale/localization.dart';
-import '../../widget/provider/data_provider_widget.dart';
+import '../../utils/locale/localization.dart';
+import '../../widgets/provider/data_provider_widget.dart';
 
 abstract class ErrorNavigator {
   String? showError(dynamic error);
@@ -34,7 +34,7 @@ mixin ErrorNavigatorMixin<T extends StatefulWidget> on State<T>
       content: DataProviderWidget(
         childBuilderTheme: (context, theme) => Text(
           error,
-          style: theme.inverseCoreTextTheme.labelButtonSmall,
+          //style: theme.inverseCoreTextTheme.labelButtonSmall,
         ),
       ),
     );

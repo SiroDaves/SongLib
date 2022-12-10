@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../model/base/book.dart';
-import '../../model/base/draft.dart';
-import '../../model/base/listed.dart';
-import '../../model/base/songext.dart';
-import '../../util/constants/pref_constants.dart';
+import '../../models/base/book.dart';
+import '../../models/base/draft.dart';
+import '../../models/base/listed.dart';
+import '../../models/exts/songext.dart';
+import '../../utils/constants/pref_constants.dart';
 import '../secure_storage/auth_storage.dart';
 
 @lazySingleton
@@ -17,15 +17,14 @@ abstract class LocalStorage {
     SharedPreferenceStorage preferences,
   ) = AppLocalStorage;
 
-  ThemeMode getThemeMode();
-
   Listed? listed;
   SongExt? song;
   Draft? draft;
   Book? book;
 
+  ThemeMode getThemeMode();
   Future<void> updateThemeMode(ThemeMode themeMode);
-
+  
   bool getPrefBool(String settingsKey);
   int getPrefInt(String settingsKey);
   String getPrefString(String settingsKey);
@@ -44,6 +43,18 @@ class AppLocalStorage implements LocalStorage {
   AppLocalStorage(this.authStorage, this.sharedPreferences);
 
   @override
+  Listed? listed;
+  
+  @override
+  Book? book;
+  
+  @override
+  Draft? draft;
+  
+  @override
+  SongExt? song;
+  
+  @override
   Future<void> updateThemeMode(ThemeMode themeMode) async {
     await sharedPreferences.saveString(
         key: PrefConstants.appearanceThemeKey, value: themeMode.toString());
@@ -57,11 +68,9 @@ class AppLocalStorage implements LocalStorage {
         ThemeMode.values.find((element) => element.toString() == themeString);
     return theme ?? ThemeMode.system;
   }
-
+  
   @override
   void clearData() {
-    sharedPreferences.removeValue(key: PrefConstants.selectedBooksKey);
-    sharedPreferences.removeValue(key: PrefConstants.predistinatedBooksKey);
   }
 
   @override
@@ -106,15 +115,4 @@ class AppLocalStorage implements LocalStorage {
     sharedPreferences.saveString(key: settingsKey, value: settingsValue);
   }
   
-  @override
-  Listed? listed;
-  
-  @override
-  Book? book;
-  
-  @override
-  Draft? draft;
-  
-  @override
-  SongExt? song;
 }

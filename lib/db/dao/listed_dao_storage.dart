@@ -1,11 +1,11 @@
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../model/base/listed.dart';
-import '../../model/base/listedext.dart';
-import '../../model/base/songext.dart';
-import '../../model/tables/db_listed_table.dart';
-import '../../util/constants/utilities.dart';
+import '../../models/base/listed.dart';
+import '../../models/exts/listedext.dart';
+import '../../models/exts/songext.dart';
+import '../../models/tables/listeds_table.dart';
+import '../../utils/constants/utilities.dart';
 import '../songlib_db.dart';
 
 part 'listed_dao_storage.g.dart';
@@ -26,7 +26,7 @@ abstract class ListedDaoStorage {
 }
 
 @DriftAccessor(tables: [
-  DbListedTable,
+  ListedsTable,
 ])
 class _ListedDaoStorage extends DatabaseAccessor<SongLibDb>
     with _$_ListedDaoStorageMixin
@@ -37,12 +37,12 @@ class _ListedDaoStorage extends DatabaseAccessor<SongLibDb>
   Future<List<Listed>> getAllListeds() async {    
     final Stream<List<Listed>> streams = customSelect(
       'SELECT *, '
-      ' (SELECT COUNT(*) FROM ${db.dbListedTable.actualTableName} tbl2 '
-      ' WHERE tbl1.${db.dbListedTable.id.name} = tbl2.${db.dbListedTable.parentid.name}) as songCount '
-      'FROM ${db.dbListedTable.actualTableName} tbl1 '
-      'WHERE tbl1.${db.dbListedTable.parentid.name}=0 '
-      'ORDER BY tbl1.${db.dbListedTable.id.name} DESC;',
-      readsFrom: {db.dbListedTable},
+      ' (SELECT COUNT(*) FROM ${db.listedsTable.actualTableName} tbl2 '
+      ' WHERE tbl1.${db.listedsTable.id.name} = tbl2.${db.listedsTable.parentid.name}) as songCount '
+      'FROM ${db.listedsTable.actualTableName} tbl1 '
+      'WHERE tbl1.${db.listedsTable.parentid.name}=0 '
+      'ORDER BY tbl1.${db.listedsTable.id.name} DESC;',
+      readsFrom: {db.listedsTable},
     ).watch().map(
       (rows) {
         final List<Listed> listeds = [];
@@ -78,21 +78,24 @@ class _ListedDaoStorage extends DatabaseAccessor<SongLibDb>
   @override
   Future<List<ListedExt>> getListedSongs(int? parentid) async {
     final Stream<List<ListedExt>> streams = customSelect(
-      'SELECT listeds.${db.dbListedTable.parentid.name}, listeds.${db.dbListedTable.id.name}, listeds.${db.dbListedTable.position.name}, '
-      'listeds.${db.dbListedTable.id.name}, listeds.${db.dbListedTable.createdAt.name}, listeds.${db.dbListedTable.updatedAt.name}, '
-      'listeds.${db.dbListedTable.song.name}, songs.${db.dbSongTable.book.name}, songs.${db.dbSongTable.songNo.name}, '
-      'songs.${db.dbSongTable.title.name}, songs.${db.dbSongTable.alias.name}, songs.${db.dbSongTable.content.name}, '
-      'songs.${db.dbSongTable.key.name}, songs.${db.dbSongTable.author.name}, songs.${db.dbSongTable.views.name}, '
-      'songs.${db.dbSongTable.likes.name}, songs.${db.dbSongTable.liked.name}, songs.${db.dbSongTable.id.name} AS songId, '
-      'books.${db.dbBookTable.title.name} AS songbook '
-      'FROM ${db.dbListedTable.actualTableName} AS listeds '
-      'LEFT JOIN ${db.dbSongTable.actualTableName} AS songs '
-      'ON listeds.${db.dbListedTable.song.name}=songs.${db.dbSongTable.id.name} '
-      'LEFT JOIN ${db.dbBookTable.actualTableName} AS books '
-      'ON songs.${db.dbSongTable.book.name}=books.${db.dbBookTable.bookNo.name} '
-      'WHERE listeds.${db.dbListedTable.parentid.name}=$parentid '
-      'ORDER BY listeds.${db.dbListedTable.updatedAt.name} DESC;',
-      readsFrom: {db.dbListedTable},
+      'SELECT ${db.listedsTable.actualTableName}.${db.listedsTable.parentid.name}, ${db.listedsTable.actualTableName}.${db.listedsTable.id.name}, '
+      '${db.listedsTable.actualTableName}.${db.listedsTable.position.name}, ${db.listedsTable.actualTableName}.${db.listedsTable.id.name}, '
+      '${db.listedsTable.actualTableName}.${db.listedsTable.createdAt.name}, ${db.listedsTable.actualTableName}.${db.listedsTable.updatedAt.name}, '
+      '${db.listedsTable.actualTableName}.${db.listedsTable.song.name}, ${db.songsTable.actualTableName}.${db.songsTable.book.name}, '
+      '${db.songsTable.actualTableName}.${db.songsTable.songNo.name}, ${db.songsTable.actualTableName}.${db.songsTable.title.name}, '
+      '${db.songsTable.actualTableName}.${db.songsTable.alias.name}, ${db.songsTable.actualTableName}.${db.songsTable.content.name}, '
+      '${db.songsTable.actualTableName}.${db.songsTable.key.name}, ${db.songsTable.actualTableName}.${db.songsTable.author.name}, '
+      '${db.songsTable.actualTableName}.${db.songsTable.views.name}, ${db.songsTable.actualTableName}.${db.songsTable.likes.name}, '
+      '${db.songsTable.actualTableName}.${db.songsTable.liked.name}, ${db.songsTable.actualTableName}.${db.songsTable.id.name} AS songId, '
+      '${db.booksTable.actualTableName}.${db.booksTable.title.name} AS songbook '
+      'FROM ${db.listedsTable.actualTableName} AS listeds '
+      'LEFT JOIN ${db.songsTable.actualTableName} AS songs '
+      'ON ${db.listedsTable.actualTableName}.${db.listedsTable.song.name}=${db.songsTable.actualTableName}.${db.songsTable.id.name} '
+      'LEFT JOIN ${db.booksTable.actualTableName} AS books '
+      'ON ${db.songsTable.actualTableName}.${db.songsTable.book.name}=${db.booksTable.actualTableName}.${db.booksTable.bookNo.name} '
+      'WHERE ${db.listedsTable.actualTableName}.${db.listedsTable.parentid.name}=$parentid '
+      'ORDER BY ${db.listedsTable.actualTableName}.${db.listedsTable.updatedAt.name} DESC;',
+      readsFrom: {db.listedsTable},
     ).watch().map(
       (rows) {
         return rows.map((row) => ListedExt.fromData(row.data)).toList();
@@ -103,7 +106,7 @@ class _ListedDaoStorage extends DatabaseAccessor<SongLibDb>
 
   @override
   Future<List<Listed>> getAllListedSongs() async {
-    final List<DbListed> results = await select(db.dbListedTable).get();
+    final List<Listeds> results = await select(db.listedsTable).get();
     final List<Listed> listeds = [];
     for (final result in results) {
       listeds.add(
@@ -129,8 +132,8 @@ class _ListedDaoStorage extends DatabaseAccessor<SongLibDb>
 
   @override
   Future<int> createListed(Listed listed) async {
-    return await into(db.dbListedTable).insert(
-      DbListedTableCompanion.insert(
+    return await into(db.listedsTable).insert(
+      ListedsTableCompanion.insert(
         objectId: Value(listed.objectId!),
         title: Value(listed.title!),
         description: Value(listed.description!),
@@ -142,8 +145,8 @@ class _ListedDaoStorage extends DatabaseAccessor<SongLibDb>
 
   @override
   Future<void> createListedSong(Listed listed, SongExt song) async =>
-      into(db.dbListedTable).insert(
-        DbListedTableCompanion.insert(
+      into(db.listedsTable).insert(
+        ListedsTableCompanion.insert(
           objectId: const Value.absent(),
           parentid: Value(listed.id!),
           song: Value(song.id!),
@@ -156,9 +159,9 @@ class _ListedDaoStorage extends DatabaseAccessor<SongLibDb>
 
   @override
   Future<void> updateListed(Listed listed) =>
-      (update(db.dbListedTable)..where((row) => row.id.equals(listed.id)))
+      (update(db.listedsTable)..where((row) => row.id.equals(listed.id)))
           .write(
-        DbListedTableCompanion(
+        ListedsTableCompanion(
           parentid: Value(listed.parentid!),
           title: Value(listed.title!),
           description: Value(listed.description!),
@@ -169,10 +172,10 @@ class _ListedDaoStorage extends DatabaseAccessor<SongLibDb>
 
   @override
   Future<void> deleteListed(Listed listed) =>
-      (delete(db.dbListedTable)..where((row) => row.id.equals(listed.id))).go();
+      (delete(db.listedsTable)..where((row) => row.id.equals(listed.id))).go();
 
   @override
   Future<void> deleteListedSongs(Listed listed) =>
-      (delete(db.dbListedTable)..where((row) => row.parentid.equals(listed.id)))
+      (delete(db.listedsTable)..where((row) => row.parentid.equals(listed.id)))
           .go();
 }

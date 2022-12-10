@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 
-import '../view/home/home_screen.dart';
-import '../view/home/histories_screen.dart';
-import '../view/home/likes_screen.dart';
-import '../view/info/donation_screen.dart';
-import '../view/info/helpdesk_screen.dart';
-import '../view/info/merchandise_screen.dart';
-import '../view/lists/list_view_screen.dart';
-import '../view/manage/settings_screen.dart';
-import '../view/info/onboarding_screen.dart';
-import '../view/selection/progress_screen.dart';
-import '../view/selection/selection_screen.dart';
-import '../view/songs/editor_screen.dart';
-import '../view/songs/presentor_screen.dart';
-import '../view/splash_screen.dart';
-import '../view/uitest_screen.dart';
-import '../util/env/flavor_config.dart';
-import '../widget/general/text_scale_factor.dart';
+import '../views/home/home_screen.dart';
+import '../views/home/histories_screen.dart';
+import '../views/home/likes_screen.dart';
+import '../views/info/donation_screen.dart';
+import '../views/info/helpdesk_screen.dart';
+import '../views/info/merchandise_screen.dart';
+import '../views/lists/list_view_screen.dart';
+import '../views/manage/settings_screen.dart';
+import '../views/info/onboarding_screen.dart';
+import '../views/selection/progress_screen.dart';
+import '../views/selection/selection_screen.dart';
+import '../views/songs/editor_screen.dart';
+import '../views/songs/presentor_screen.dart';
+import '../views/splash_screen.dart';
+import '../utils/env/flavor_config.dart';
+import '../widgets/general/text_scale_factor.dart';
 import 'main_navigation.dart';
 
 class MainNavigatorWidget extends StatefulWidget {
@@ -75,11 +74,6 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
       case SplashScreen.routeName:
         return MaterialPageRoute<void>(
           builder: (context) => const SplashScreen(),
-          settings: settings,
-        );
-      case UiTestScreen.routeName:
-        return MaterialPageRoute<void>(
-          builder: (context) => const UiTestScreen(),
           settings: settings,
         );
       case SelectionScreen.routeName:
@@ -169,10 +163,6 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
   @override
   void goToProgress() =>
       navigator.pushReplacementNamed(ProgressScreen.routeName);
-
-  @override
-  void goToUiTest() => navigator.pushNamedAndRemoveUntil(
-      UiTestScreen.routeName, (route) => false);
 
   @override
   void goToOnboarding() =>

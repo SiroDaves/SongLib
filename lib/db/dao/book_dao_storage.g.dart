@@ -7,5 +7,5 @@ part of 'book_dao_storage.dart';
 // **************************************************************************
 
 mixin _$_BookDaoStorageMixin on DatabaseAccessor<SongLibDb> {
-  $DbBookTableTable get dbBookTable => attachedDatabase.dbBookTable;
+  $BooksTableTable get booksTable => attachedDatabase.booksTable;
 }
