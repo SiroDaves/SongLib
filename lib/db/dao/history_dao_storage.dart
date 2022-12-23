@@ -1,10 +1,10 @@
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
-import 'package:songlib/util/constants/utilities.dart';
 
 import '../../model/base/history.dart';
 import '../../model/base/historyext.dart';
 import '../../model/tables/db_history_table.dart';
+import '../../util/constants/utilities.dart';
 import '../songlib_db.dart';
 
 part 'history_dao_storage.g.dart';

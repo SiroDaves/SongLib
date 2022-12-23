@@ -1,8 +1,9 @@
-import 'package:songlib/theme/theme_dimens.dart';
-import 'package:songlib/theme/theme_durations.dart';
-import 'package:songlib/widget/provider/data_provider_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
+
+import '../../theme/theme_dimens.dart';
+import '../../theme/theme_durations.dart';
+import '../provider/data_provider_widget.dart';
 
 class TextActionItem extends StatelessWidget {
   final String text;

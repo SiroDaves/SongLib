@@ -33,12 +33,12 @@ class DonationVm with ChangeNotifierEx {
   }
   
   Future<void> donateViaPaypal() async {
-    final Uri url = Uri.parse('https://www.paypal.com/donate/?hosted_button_id=FYZYTW723Q8QC');
+    final Uri url = Uri.parse(AppConstants.donationPaypalLink);
     if (await canLaunchUrl(url)) await launchUrl(url);
   }
 
   Future<void> donateViaPaetron() async {
-    final Uri url = Uri.parse('https://www.patreon.com/SongLib');
+    final Uri url = Uri.parse(AppConstants.donationPatreaonLink);
     if (await canLaunchUrl(url)) await launchUrl(url);
   }
 

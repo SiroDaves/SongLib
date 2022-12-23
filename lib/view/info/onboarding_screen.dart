@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:onboarding/onboarding.dart';
-import 'package:songlib/theme/theme_colors.dart';
 
 import '../../navigator/main_navigator.dart';
 import '../../navigator/route_names.dart';
+import '../../theme/theme_colors.dart';
 import '../../viewmodel/onboarding_vm.dart';
 import '../../widget/provider/provider_widget.dart';
 

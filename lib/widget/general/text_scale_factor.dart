@@ -1,5 +1,6 @@
-import 'package:songlib/util/env/flavor_config.dart';
 import 'package:flutter/material.dart';
+
+import '../../util/env/flavor_config.dart';
 
 class TextScaleFactor extends StatelessWidget {
   final Widget child;

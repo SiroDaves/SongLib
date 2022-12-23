@@ -3,7 +3,7 @@ import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../repository/secure_storage/auth_storage.dart';
-import '../constants/app_constants.dart';
+import '../constants/api_constants.dart';
 
 @singleton
 class NetworkAuthInterceptor extends SimpleInterceptor {
@@ -20,8 +20,8 @@ class NetworkAuthInterceptor extends SimpleInterceptor {
       return super.onRequest(options);
     }
     final authorizationHeader =
-        '${AppConstants.protectedAuthenticationHeaderPrefix} ${await _storage.getAccessToken()}';
-    options.headers[AppConstants.authorizationHeader] = authorizationHeader;
+        '${ApiConstants.protectedAuthenticationHeaderPrefix} ${await _storage.getAccessToken()}';
+    options.headers[ApiConstants.authorizationHeader] = authorizationHeader;
     return options;
   }
 }

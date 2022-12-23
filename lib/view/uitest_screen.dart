@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:songlib/theme/theme_colors.dart';
 
 import '../../util/constants/app_constants.dart';
 import '../../widget/progress/advanced/advanced_progress.dart';
 import '../../widget/provider/provider_widget.dart';
 import '../navigator/main_navigator.dart';
+import '../theme/theme_colors.dart';
 import '../viewmodel/uitest_vm.dart';
 
 /// Screen to build a complex ui before adding to the app

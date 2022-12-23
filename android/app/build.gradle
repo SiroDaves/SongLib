@@ -53,8 +53,8 @@ android {
         minSdkVersion 21
         targetSdkVersion 31
         multiDexEnabled true
-        versionCode 8
-        versionName "0.0.5.7" 
+        versionCode 10
+        versionName "0.0.6.0" 
     }
 
     signingConfigs {
@@ -71,27 +71,6 @@ android {
         }
     }
 
-    flavorDimensions "flavors"
-    productFlavors {
-        dev {
-            dimension "flavors"
-            applicationIdSuffix ".debug"
-            versionNameSuffix "-debug"
-        }
-        alpha {
-            dimension "flavors"
-            applicationIdSuffix ".alpha"
-            versionNameSuffix "-alpha"
-        }
-        beta {
-            dimension "flavors"
-            applicationIdSuffix ".beta"
-            versionNameSuffix "-beta"
-        }
-        prod {
-            dimension "flavors"
-        }
-    }
 }
 
 flutter {

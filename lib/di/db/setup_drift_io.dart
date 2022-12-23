@@ -1,12 +1,13 @@
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:songlib/util/env/flavor_config.dart';
 import 'package:drift/drift.dart';
 import 'package:drift/isolate.dart';
 import 'package:drift/native.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+
+import '../../util/env/flavor_config.dart';
 
 Future<DatabaseConnection> createDriftDatabaseConnection(String name) async {
   if (FlavorConfig.isInTest()) {

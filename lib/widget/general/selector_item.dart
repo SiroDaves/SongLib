@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
-import 'package:songlib/theme/theme_colors.dart';
 
-import '../../theme/theme_dimens.dart';
+import '../../theme/theme_colors.dart';
 import '../provider/data_provider_widget.dart';
 
 class SelectorItem extends StatelessWidget {

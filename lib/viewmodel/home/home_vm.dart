@@ -253,7 +253,7 @@ class HomeVm with ChangeNotifierEx {
   }
 
   Future<void> goToMerchandise() async {
-    final Uri url = Uri.parse('https://forms.gle/iMq8GXjMGmUSJg949');
+    final Uri url = Uri.parse(AppConstants.tshirtOrderLink);
     if (await canLaunchUrl(url)) await launchUrl(url);
   }
 

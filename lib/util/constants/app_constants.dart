@@ -1,12 +1,10 @@
 class AppConstants {
   AppConstants._();
 
-  static const basicAuthPrefixHeader = 'Basic';
-  static const protectedAuthenticationHeaderPrefix = 'Bearer';
-  static const authorizationHeader = 'Authorization';
-
-  static const playstoreLink =
-      "https://play.google.com/store/apps/details?id=com.songlib";
+  static const playstoreLink = "https://play.google.com/store/apps/details?id=com.songlib";
+  static const tshirtOrderLink = "https://docs.google.com/forms/d/e/1FAIpQLSedRl841nlaniRCLm-I60VLL1tmHRC1Rd6j-eDNZZSNA8QzXQ/viewform?usp=sf_link";
+  static const donationPaypalLink = "https://www.paypal.com/donate/?hosted_button_id=FYZYTW723Q8QC";
+  static const donationPatreaonLink = "https://www.patreon.com/SongLib";
 
   static const appTitle = "SongLib";
   static const listTitle = "Song Lists";
