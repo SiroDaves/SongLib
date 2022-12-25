@@ -13,9 +13,7 @@ import '../widget/provider/provider_widget.dart';
 class SplashScreen extends StatefulWidget {
   static const String routeName = RouteNames.splashScreen;
 
-  const SplashScreen({
-    Key? key,
-  }) : super(key: key);
+  const SplashScreen({Key? key}) : super(key: key);
 
   @override
   SplashScreenState createState() => SplashScreenState();
@@ -32,35 +30,31 @@ class SplashScreenState extends State<SplashScreen> implements SplashNavigator {
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) {
         vm = viewModel;
-        return screenWidget(context);
+        return Scaffold(
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Image.asset(
+                  ThemeAssets.appIcon,
+                  height: 200,
+                  width: 200,
+                ),
+                const SizedBox(
+                  height: 35,
+                ),
+                const Text(
+                  AppConstants.appTitle,
+                  style: TextStyle(
+                    fontSize: 40,
+                    color: ThemeColors.primary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
       },
-    );
-  }
-
-  Widget screenWidget(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Image.asset(
-              ThemeAssets.appIcon,
-              height: 200,
-              width: 200,
-            ),
-            const SizedBox(
-              height: 35,
-            ),
-            const Text(
-              AppConstants.appTitle,
-              style: TextStyle(
-                fontSize: 40,
-                color: ThemeColors.primary,
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 

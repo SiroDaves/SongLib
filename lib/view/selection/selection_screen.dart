@@ -35,86 +35,80 @@ class SelectionScreenState extends State<SelectionScreen>
       create: () => GetIt.I()..init(this),
       childBuilderWithViewModel: (context, viewModel, theme, localization) {
         vm = viewModel;
-        return screenWidget(context);
-      },
-    );
-  }
-
-  Widget screenWidget(BuildContext context) {
-    return Scaffold(
-      appBar: topContainer(),
-      body: SmartRefresher(
-        enablePullDown: true,
-        enablePullUp: true,
-        header: const WaterDropHeader(),
-        //footer: Container(),
-        controller: vm!.refreshController,
-        onRefresh: vm!.onRefresh,
-        onLoading: vm!.onLoading,
-        child: vm!.isBusy ? const CircularProgress() : mainContainer(),
-      ),
-      floatingActionButton: vm!.isBusy
-          ? Container()
-          : FloatingActionButton(
-              backgroundColor: ThemeColors.primary,
-              onPressed: () => areYouDoneDialog(context),
-              child: const Icon(Icons.check, color: Colors.white),
-            ),
-    );
-  }
-
-  AppBar topContainer() {
-    return AppBar(
-      title: Text(
-        vm!.isBusy ? AppConstants.booksTitleLoading : AppConstants.booksTitle,
-      ),
-      actions: <Widget>[
-        vm!.isBusy
-            ? Container()
-            : TextButton(
-                onPressed: () => areYouDoneDialog(context),
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(5),
-                    ),
-                  ),
-                  child: Row(
-                    children: const <Widget>[
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Text(
-                          AppConstants.proceed,
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+        AppBar topContainer = AppBar(
+          title: Text(
+            vm!.isBusy
+                ? AppConstants.booksTitleLoading
+                : AppConstants.booksTitle,
+          ),
+          actions: <Widget>[
+            vm!.isBusy
+                ? Container()
+                : TextButton(
+                    onPressed: () => areYouDoneDialog(context),
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(5),
                         ),
                       ),
-                      Icon(Icons.check),
-                    ],
+                      child: Row(
+                        children: const <Widget>[
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: Text(
+                              AppConstants.proceed,
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Icon(Icons.check),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              ),
-      ],
-    );
-  }
+          ],
+        );
 
-  Widget mainContainer() {
-    return vm!.books!.isNotEmpty
-        ? ListView.builder(
-            padding: const EdgeInsets.all(5),
-            itemCount: vm!.books!.length,
-            itemBuilder: (context, index) => BookItem(
-              book: vm!.books![index],
-              selected: vm!.listedBooks[index]!.isSelected,
-              onTap: () => vm!.onBookSelected(index),
-            ),
-          )
-        : const NoDataToShow(
-            title: AppConstants.errorOccurred,
-            description: AppConstants.errorOccurredBody,
-          );
+        Widget mainContainer = vm!.books!.isNotEmpty
+            ? ListView.builder(
+                padding: const EdgeInsets.all(5),
+                itemCount: vm!.books!.length,
+                itemBuilder: (context, index) => BookItem(
+                  book: vm!.books![index],
+                  selected: vm!.listedBooks[index]!.isSelected,
+                  onTap: () => vm!.onBookSelected(index),
+                ),
+              )
+            : const NoDataToShow(
+                title: AppConstants.errorOccurred,
+                description: AppConstants.errorOccurredBody,
+              );
+
+        return Scaffold(
+          appBar: topContainer,
+          body: SmartRefresher(
+            enablePullDown: true,
+            enablePullUp: true,
+            header: const WaterDropHeader(),
+            //footer: Container(),
+            controller: vm!.refreshController,
+            onRefresh: vm!.onRefresh,
+            onLoading: vm!.onLoading,
+            child: vm!.isBusy ? const CircularProgress() : mainContainer,
+          ),
+          floatingActionButton: vm!.isBusy
+              ? Container()
+              : FloatingActionButton(
+                  backgroundColor: ThemeColors.primary,
+                  onPressed: () => areYouDoneDialog(context),
+                  child: const Icon(Icons.check, color: Colors.white),
+                ),
+        );
+      },
+    );
   }
 
   Future<void> areYouDoneDialog(BuildContext context) async {

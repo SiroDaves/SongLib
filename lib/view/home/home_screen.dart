@@ -1,4 +1,5 @@
 import 'package:context_menus/context_menus.dart';
+import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -82,27 +83,39 @@ class HomeScreenState extends State<HomeScreen>
         vm = viewModel;
         vm!.context = context;
         return Scaffold(
-          body: mainWidget(),
-          bottomNavigationBar: extraActions(),
+          body: Stack(
+            children: [
+              TabBarView(
+                controller: pages,
+                children: [
+                  SongListTab(homeVm: vm!),
+                  SearchTab(homeVm: vm!),
+                  DraftsTab(homeVm: vm!),
+                ],
+              ),
+              TabsIndicator(controller: pages!),
+              TabsIcons(controller: pages!),
+            ],
+          ),
+          //bottomNavigationBar: extraActions(),
+          extendBody: true,
+          bottomNavigationBar: FloatingNavbar(
+            //onTap: (int val) { },
+            currentIndex: 0,
+            onTap: onItemTapped,
+            //showSelectedLabels: false,
+            //showUnselectedLabels: false,
+            selectedItemColor: Colors.white,
+            unselectedItemColor: Colors.white,
+            backgroundColor: ThemeColors.primary,
+            items: [
+              FloatingNavbarItem(icon: Icons.favorite, title: 'Likes'),
+              FloatingNavbarItem(icon: Icons.help, title: 'Help'),
+              FloatingNavbarItem(icon: Icons.settings, title: 'Settings'),
+            ],
+          ),
         );
       },
-    );
-  }
-
-  Widget mainWidget() {
-    return Stack(
-      children: [
-        TabBarView(
-          controller: pages,
-          children: [
-            SongListTab(homeVm: vm!),
-            SearchTab(homeVm: vm!),
-            DraftsTab(homeVm: vm!),
-          ],
-        ),
-        TabsIndicator(controller: pages!),
-        TabsIcons(controller: pages!),
-      ],
     );
   }
 
