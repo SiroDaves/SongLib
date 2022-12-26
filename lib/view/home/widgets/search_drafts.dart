@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../model/base/draft.dart';
+import '../../../util/constants/utilities.dart';
 import '../../../viewmodel/home/home_vm.dart';
 import '../../../widget/general/list_items.dart';
 
@@ -9,8 +10,7 @@ class SearchDrafts extends SearchDelegate<List> {
   final HomeVm homeVm;
   final double? height;
 
-  SearchDrafts(
-      BuildContext context, this.homeVm, this.height, this.itemList) {
+  SearchDrafts(BuildContext context, this.homeVm, this.height, this.itemList) {
     filtered = itemList;
   }
 
@@ -54,25 +54,27 @@ class SearchDrafts extends SearchDelegate<List> {
   Widget buildResults(BuildContext context) {
     List<Draft> matchQuery = [];
     for (var item in itemList) {
-      if (item.title!.toLowerCase().contains(query.toLowerCase())) {
+      if (isNumeric(query)) {
+        matchQuery.add(item);
+      } else if (item.title!.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(item);
+      } else if (item.alias!.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(item);
+      } else if (item.content!.toLowerCase().contains(query.toLowerCase())) {
         matchQuery.add(item);
       }
     }
     return ListView.builder(
-          padding: EdgeInsets.only(
-            left: height! * 0.0082,
-            right: height! * 0.0163,
-          ),
-          itemBuilder: (context, index) {
-            final Draft draft = homeVm.drafts![index];
-            return DraftItem(
-              draft: draft,
-              height: height!,
-              onTap: () => homeVm.openPresentor(draft: draft),
-            );
-          },
-          itemCount: homeVm.drafts!.length,
+      itemBuilder: (context, index) {
+        var result = homeVm.drafts![index];
+        return DraftItem(
+          draft: result,
+          height: height!,
+          onTap: () => homeVm.openPresentor(draft: result),
         );
+      },
+      itemCount: homeVm.drafts!.length,
+    );
   }
 
   @override
@@ -85,17 +87,13 @@ class SearchDrafts extends SearchDelegate<List> {
       }
     }
 
-    return ListView.separated(
-      separatorBuilder: (context, index) => const Divider(
-        color: Colors.black,
-      ),
+    return ListView.builder(
       itemBuilder: (context, index) {
         var result = matchQuery[index];
-        return ListTile(
-          title: Text(result.title!),
-          onTap: () async {
-            close(context, filtered);
-          },
+        return DraftItem(
+          draft: result,
+          height: height!,
+          onTap: () => homeVm.openPresentor(draft: result),
         );
       },
       itemCount: matchQuery.length,

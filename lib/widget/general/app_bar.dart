@@ -1,5 +1,7 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
+import '../../model/general/general.dart';
 import '../../theme/theme_colors.dart';
 
 class PageTitle extends StatelessWidget {
@@ -57,34 +59,6 @@ class PageSearch extends StatelessWidget {
           boxShadow: [BoxShadow(blurRadius: 3)],
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
-        /*child: TextField(
-          textAlign: TextAlign.center,
-          readOnly: true,
-          style: TextStyle(
-            fontSize: size!.height * 0.0367,
-            color: ThemeColors.primary,
-          ),
-          decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: const BorderSide(color: ThemeColors.primary),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: const BorderSide(color: ThemeColors.primary),
-            ),
-            prefixIcon: const Icon(Icons.search, color: ThemeColors.primary),
-            suffixIcon: const Icon(Icons.mic, color: ThemeColors.primary),
-            border: InputBorder.none,
-            hintText: label,
-            hintStyle: const TextStyle(
-              color: ThemeColors.primary,
-              fontWeight: FontWeight.bold,
-            ),
-            contentPadding: const EdgeInsets.all(10),
-          ),
-        ),*/
-
         child: Padding(
           padding: EdgeInsets.symmetric(
             horizontal: size!.height * 0.03,
@@ -105,6 +79,85 @@ class PageSearch extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class SupportUsCarousel extends StatelessWidget {
+  final double? height;
+  final Function()? onTapSlide1;
+  final Function()? onTapSlide2;
+
+  const SupportUsCarousel({
+    Key? key,
+    this.height,
+    this.onTapSlide1,
+    this.onTapSlide2,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    List<HomeSlider>? sliders = [
+      HomeSlider(1, "assets/images/tshirts.jpg",
+          "SUPPORT US.\nOrder, Our Merchandise"),
+      HomeSlider(2, "assets/images/donate.jpg",
+          "Donate Today or even Monthly.\n SUPPORT US"),
+    ];
+
+    return CarouselSlider(
+      options: CarouselOptions(
+        aspectRatio: 5.0,
+        enlargeCenterPage: true,
+        enableInfiniteScroll: false,
+        initialPage: 0,
+        autoPlay: true,
+      ),
+      items: sliders.map((slider) {
+        return Builder(
+          builder: (BuildContext context) {
+            return Hero(
+              tag: 'CarouselIndex_${slider.title}',
+              child: GestureDetector(
+                onTap: () {
+                  if (slider.id == 1) {
+                    onTapSlide1;
+                  } else {
+                    onTapSlide2;
+                  }
+                },
+                child: Card(
+                  elevation: 2,
+                  color: Colors.black,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: height! * 0.227,
+                        padding: EdgeInsets.all(height! * 0.007),
+                        child: Text(
+                          slider.title,
+                          maxLines: 3,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: height! * 0.025,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      Image.asset(
+                        slider.image,
+                        height: height! * 0.146,
+                        width: height! * 0.242,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      }).toList(),
     );
   }
 }

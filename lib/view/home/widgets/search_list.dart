@@ -60,30 +60,15 @@ class SearchList extends SearchDelegate<List> {
       }
     }
     return ListView.builder(
-      itemCount: homeVm.listeds!.length,
-      padding: EdgeInsets.only(
-        left: height! * 0.0082,
-        right: height! * 0.0082,
-      ),
       itemBuilder: (context, index) {
-        final Listed listed = homeVm.listeds![index];
-        return ContextMenuRegion(
-          contextMenu: GenericContextMenu(
-            buttonConfigs: [
-              ContextMenuButtonConfig(
-                AppConstants.deleteList,
-                icon: const Icon(Icons.delete, size: 20),
-                onPressed: () => homeVm.deleteList(context, listed),
-              ),
-            ],
-          ),
-          child: ListedItem(
-            listed: listed,
-            height: height!,
-            onTap: () => homeVm.openListView(listed),
-          ),
+        var result = homeVm.listeds![index];
+        return ListedItem(
+          listed: result,
+          height: height!,
+          onTap: () => homeVm.openListView(result),
         );
       },
+      itemCount: homeVm.listeds!.length,
     );
   }
 
@@ -97,17 +82,13 @@ class SearchList extends SearchDelegate<List> {
       }
     }
 
-    return ListView.separated(
-      separatorBuilder: (context, index) => const Divider(
-        color: Colors.black,
-      ),
+    return ListView.builder(
       itemBuilder: (context, index) {
         var result = matchQuery[index];
-        return ListTile(
-          title: Text(result.title!),
-          onTap: () async {
-            close(context, filtered);
-          },
+        return ListedItem(
+          listed: result,
+          height: height!,
+          onTap: () => homeVm.openListView(result),
         );
       },
       itemCount: matchQuery.length,

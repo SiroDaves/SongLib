@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../model/base/book.dart';
-import '../../model/base/selectable.dart';
+import '../../model/general/general.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
 import '../../util/constants/pref_constants.dart';

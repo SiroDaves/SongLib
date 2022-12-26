@@ -12,6 +12,7 @@ environment:
 
 dependencies:
   card_swiper: ^2.0.4
+  carousel_slider: ^4.1.1
   collection: ^1.15.0
   context_menus: ^1.0.2
   cupertino_icons: ^1.0.2

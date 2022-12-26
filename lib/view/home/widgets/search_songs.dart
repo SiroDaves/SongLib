@@ -1,19 +1,16 @@
-import 'package:context_menus/context_menus.dart';
 import 'package:flutter/material.dart';
+import 'package:songlib/util/constants/utilities.dart';
 
 import '../../../model/base/songext.dart';
-import '../../../util/constants/app_constants.dart';
 import '../../../viewmodel/home/home_vm.dart';
 import '../../../widget/general/list_items.dart';
-import '../../lists/list_view_popup.dart';
 
 class SearchSongs extends SearchDelegate<List> {
   List<SongExt> itemList = [], filtered = [];
   final HomeVm homeVm;
   final double? height;
 
-  SearchSongs(
-      BuildContext context, this.homeVm, this.height, this.itemList) {
+  SearchSongs(BuildContext context, this.homeVm, this.height, this.itemList) {
     filtered = itemList;
   }
 
@@ -57,7 +54,13 @@ class SearchSongs extends SearchDelegate<List> {
   Widget buildResults(BuildContext context) {
     List<SongExt> matchQuery = [];
     for (var item in itemList) {
-      if (item.title!.toLowerCase().contains(query.toLowerCase())) {
+      if (isNumeric(query)) {
+        matchQuery.add(item);
+      } else if (item.title!.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(item);
+      } else if (item.alias!.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(item);
+      } else if (item.content!.toLowerCase().contains(query.toLowerCase())) {
         matchQuery.add(item);
       }
     }
@@ -69,49 +72,10 @@ class SearchSongs extends SearchDelegate<List> {
       ),
       itemBuilder: (context, index) {
         final SongExt song = homeVm.filtered![index];
-        return ContextMenuRegion(
-          contextMenu: GenericContextMenu(
-            buttonConfigs: [
-              ContextMenuButtonConfig(
-                AppConstants.likeSong,
-                icon: Icon(
-                  song.liked! ? Icons.favorite : Icons.favorite_border,
-                  size: 20,
-                ),
-                onPressed: () => homeVm.likeSong(song),
-              ),
-              ContextMenuButtonConfig(
-                AppConstants.copySong,
-                icon: const Icon(Icons.copy, size: 20),
-                onPressed: () => homeVm.copySong(song),
-              ),
-              ContextMenuButtonConfig(
-                AppConstants.shareSong,
-                icon: const Icon(Icons.share, size: 20),
-                onPressed: () => homeVm.shareSong(song),
-              ),
-              ContextMenuButtonConfig(
-                AppConstants.editSong,
-                icon: const Icon(Icons.edit, size: 20),
-                onPressed: () => homeVm.openEditor(song: song),
-              ),
-              ContextMenuButtonConfig(
-                AppConstants.addtoList,
-                icon: const Icon(Icons.add, size: 20),
-                onPressed: () => showModalBottomSheet<void>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return ListViewPopup(song: song);
-                  },
-                ),
-              ),
-            ],
-          ),
-          child: SongItem(
-            song: song,
-            height: height!,
-            onTap: () => homeVm.openPresentor(song: song),
-          ),
+        return SongItem(
+          song: song,
+          height: height!,
+          onTap: () => homeVm.openPresentor(song: song),
         );
       },
     );
@@ -127,20 +91,20 @@ class SearchSongs extends SearchDelegate<List> {
       }
     }
 
-    return ListView.separated(
-      separatorBuilder: (context, index) => const Divider(
-        color: Colors.black,
+    return ListView.builder(
+      padding: EdgeInsets.only(
+        left: height! * 0.0082,
+        right: height! * 0.0082,
       ),
+      itemCount: matchQuery.length,
       itemBuilder: (context, index) {
         var result = matchQuery[index];
-        return ListTile(
-          title: Text(result.title!),
-          onTap: () async {
-            close(context, filtered);
-          },
+        return SongItem(
+          song: result,
+          height: height!,
+          onTap: () => homeVm.openPresentor(song: result),
         );
       },
-      itemCount: matchQuery.length,
     );
   }
 }

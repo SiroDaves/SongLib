@@ -97,14 +97,16 @@ class SongBook extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          width: height * 0.1958,
-          margin: const EdgeInsets.only(right: 10),
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          height: height * 0.1245,
+          margin: const EdgeInsets.only(bottom: 10),
+          padding: const EdgeInsets.all(5),
           decoration: BoxDecoration(
             color: ThemeColors.primary,
             border: Border.all(color: Colors.white),
             boxShadow: const [BoxShadow(blurRadius: 3)],
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            borderRadius: BorderRadius.all(
+              Radius.circular(height * 0.0732),
+            ),
           ),
           child: Center(
             child: Text(
@@ -175,7 +177,8 @@ class ListedItem extends StatelessWidget {
                   children: <Widget>[
                     const Spacer(),
                     TagView(
-                      tagText: '${listed.song!} song${listed.song! == 1 ? '' : 's'}',
+                      tagText:
+                          '${listed.song!} song${listed.song! == 1 ? '' : 's'}',
                       height: height,
                     ),
                     TagView(tagText: 'Updated $lastUpdate', height: height),
@@ -251,7 +254,6 @@ class SongItem extends StatelessWidget {
                 ),
                 Row(
                   children: <Widget>[
-                    const Spacer(),
                     TagView(
                         tagText: refineTitle(song.songbook!), height: height),
                     TagView(tagText: versesText, height: height),
