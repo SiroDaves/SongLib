@@ -45,80 +45,70 @@ class ListViewPopupState extends State<ListViewPopup>
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) {
-        vm = viewModel;
-        return screenWidget(context);
-      },
-    );
-  }
-
-  Widget screenWidget(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ThemeColors.accent,
-      appBar: AppBar(
-        title: const Text(AppConstants.addSongtoList),
-        actions: <Widget>[
-          InkWell(
-            onTap: () => newListForm(context),
-            child: const Padding(
-              padding: EdgeInsets.all(10),
-              child: Icon(Icons.add),
-            ),
+        var mainContainer = Scrollbar(
+          thickness: 10,
+          radius: const Radius.circular(20),
+          child: FutureBuilder<List<Listed>?>(
+            future: vm!.fetchListedData(),
+            builder:
+                (BuildContext context, AsyncSnapshot<List<Listed>?> snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data!.isNotEmpty) {
+                  return ListView.builder(
+                    padding: const EdgeInsets.all(5),
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      final Listed listed = snapshot.data![index];
+                      return ListedItem(
+                        listed: listed,
+                        height: size!.height,
+                        onTap: () {
+                          vm!.addSongToList(listed, song!);
+                          Navigator.pop(context);
+                        },
+                      );
+                    },
+                  );
+                } else {
+                  return const NoDataToShow(
+                    title: AppConstants.errorOccurred,
+                    description: AppConstants.errorOccurredBody1,
+                  );
+                }
+              } else if (snapshot.hasError) {
+                return const NoDataToShow(
+                  title: AppConstants.errorOccurred,
+                  description: AppConstants.errorOccurredBody1,
+                );
+              } else {
+                return const CircularProgress();
+              }
+            },
           ),
-          InkWell(
-            onTap: () => Navigator.pop(context),
-            child: const Padding(
-              padding: EdgeInsets.all(10),
-              child: Icon(Icons.clear),
-            ),
+        );
+
+        return Scaffold(
+          backgroundColor: ThemeColors.accent,
+          appBar: AppBar(
+            title: const Text(AppConstants.addSongtoList),
+            actions: <Widget>[
+              InkWell(
+                onTap: () => newListForm(context),
+                child: const Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Icon(Icons.add),
+                ),
+              ),
+              InkWell(
+                onTap: () => Navigator.pop(context),
+                child: const Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Icon(Icons.clear),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-      body: mainContainer(),
-    );
-  }
-
-  Widget mainContainer() {
-    return Scrollbar(
-      thickness: 10,
-      radius: const Radius.circular(20),
-      child: FutureBuilder<List<Listed>?>(
-        future: vm!.fetchListedData(),
-        builder: (BuildContext context, AsyncSnapshot<List<Listed>?> snapshot) {
-          if (snapshot.hasData) {
-            if (snapshot.data!.isNotEmpty) {
-              return listContainer(snapshot.data!);
-            } else {
-              return const NoDataToShow(
-                title: AppConstants.errorOccurred,
-                description: AppConstants.errorOccurredBody1,
-              );
-            }
-          } else if (snapshot.hasError) {
-            return const NoDataToShow(
-              title: AppConstants.errorOccurred,
-              description: AppConstants.errorOccurredBody1,
-            );
-          } else {
-            return const CircularProgress();
-          }
-        },
-      ),
-    );
-  }
-
-  Widget listContainer(List<Listed> listeds) {
-    return ListView.builder(
-      padding: const EdgeInsets.all(5),
-      itemCount: listeds.length,
-      itemBuilder: (context, index) {
-        final Listed listed = listeds[index];
-        return ListedItem(
-          listed: listed,
-          height: size!.height,
-          onTap: () {
-            vm!.addSongToList(listed, song!);
-            Navigator.pop(context);
-          },
+          body: mainContainer,
         );
       },
     );
@@ -173,7 +163,7 @@ class ListViewPopupState extends State<ListViewPopup>
       ),
     );
   }
-  
+
   @override
   void goToPresentor() => MainNavigatorWidget.of(context).goToPresentor();
 }

@@ -24,91 +24,27 @@ class SearchTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: ContextMenuOverlay(
-        cardBuilder: (_, children) => Container(
-          decoration: const BoxDecoration(
-            color: ThemeColors.accent,
-            boxShadow: [BoxShadow(blurRadius: 5)],
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-          ),
-          child: Column(children: children),
-        ),
-        child: Container(
-          height: size!.height,
-          padding: const EdgeInsets.only(top: 40),
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Colors.white, ThemeColors.accent, Colors.black],
-            ),
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                titleContainer(),
-                /*SmartRefresher(
-                  enablePullDown: true,
-                  enablePullUp: true,
-                  header: const WaterDropHeader(),
-                  controller: refreshController,
-                  onRefresh: onRefresh,
-                  onLoading: onLoading,
-                  child: mainContainer(context),
-                ),*/
-                mainContainer(context),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 
-  Widget mainContainer(BuildContext context) {
-    return SizedBox(
-      child: homeVm.isBusy
-          ? const ListLoading()
-          : Column(
-              children: [
-                homeVm.songs!.isNotEmpty
-                    ? SearchTabSearch(
-                        viewModel: homeVm,
-                        songs: homeVm.songs,
-                        height: size!.height,
-                      )
-                    : Container(),
-                homeVm.books!.isNotEmpty ? bookContainer(context) : Container(),
-                homeVm.songs!.isNotEmpty
-                    ? listContainer(context)
-                    : const NoDataToShow(
-                        title: AppConstants.itsEmptyHere,
-                        description: AppConstants.itsEmptyHereBody,
-                      ),
-              ],
-            ),
-    );
-  }
-
-  Widget titleContainer() {
-    return SizedBox(
-      height: size!.height * 0.0815,
-      child: Center(
-        child: Text(
-          AppConstants.appTitle,
-          style: TextStyle(
-            fontSize: size!.height * 0.05,
-            fontWeight: FontWeight.bold,
-            color: ThemeColors.primary,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget bookContainer(BuildContext context) {
-    return SizedBox(
+    var titleContainer = homeVm.isBusy
+        ? PageTitle(label: AppConstants.appTitle, size: size)
+        : homeVm.songs!.isNotEmpty
+            ? PageSearch(
+                label: AppConstants.appTitle,
+                size: size,
+                onTap: () async {
+                  await showSearch(
+                    context: context,
+                    delegate: SearchSongs(
+                      context,
+                      homeVm,
+                      size!.height,
+                      homeVm.songs!,
+                    ),
+                  );
+                },
+              )
+            : PageTitle(label: AppConstants.appTitle, size: size);
+    var booksContainer = SizedBox(
       height: size!.height * 0.0897,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
@@ -124,11 +60,8 @@ class SearchTab extends StatelessWidget {
         itemCount: homeVm.books!.length,
       ),
     );
-  }
-
-  Widget listContainer(BuildContext context) {
-    return Container(
-      height: size!.height * 0.7,
+    var listContainer = Container(
+      height: size!.height * 0.8,
       padding: const EdgeInsets.only(right: 2),
       child: Scrollbar(
         thickness: 10,
@@ -186,6 +119,54 @@ class SearchTab extends StatelessWidget {
               ),
             );
           },
+        ),
+      ),
+    );
+
+    var mainContainer = SizedBox(
+      child: homeVm.isBusy
+          ? const ListLoading()
+          : Column(
+              children: [
+                homeVm.books!.isNotEmpty ? booksContainer : Container(),
+                homeVm.songs!.isNotEmpty
+                    ? listContainer
+                    : const NoDataToShow(
+                        title: AppConstants.itsEmptyHere,
+                        description: AppConstants.itsEmptyHereBody,
+                      ),
+              ],
+            ),
+    );
+
+    return Scaffold(
+      body: ContextMenuOverlay(
+        cardBuilder: (_, children) => Container(
+          decoration: const BoxDecoration(
+            color: ThemeColors.accent,
+            boxShadow: [BoxShadow(blurRadius: 5)],
+            borderRadius: BorderRadius.all(Radius.circular(5)),
+          ),
+          child: Column(children: children),
+        ),
+        child: Container(
+          height: size!.height,
+          padding: const EdgeInsets.only(top: 40),
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Colors.white, ThemeColors.accent, Colors.black],
+            ),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                titleContainer,
+                mainContainer,
+              ],
+            ),
+          ),
         ),
       ),
     );

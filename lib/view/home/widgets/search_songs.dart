@@ -3,16 +3,17 @@ import 'package:flutter/material.dart';
 
 import '../../../model/base/songext.dart';
 import '../../../util/constants/app_constants.dart';
+import '../../../viewmodel/home/home_vm.dart';
 import '../../../widget/general/list_items.dart';
-import '../../viewmodel/lists/list_view_vm.dart';
+import '../../lists/list_view_popup.dart';
 
-class ListSearchSongs extends SearchDelegate<List> {
+class SearchSongs extends SearchDelegate<List> {
   List<SongExt> itemList = [], filtered = [];
-  final ListViewVm viewModel;
+  final HomeVm homeVm;
   final double? height;
 
-  ListSearchSongs(
-      BuildContext context, this.viewModel, this.height, this.itemList) {
+  SearchSongs(
+      BuildContext context, this.homeVm, this.height, this.itemList) {
     filtered = itemList;
   }
 
@@ -61,17 +62,56 @@ class ListSearchSongs extends SearchDelegate<List> {
       }
     }
     return ListView.builder(
-      itemCount: itemList.length,
+      itemCount: homeVm.filtered!.length,
       padding: EdgeInsets.only(
         left: height! * 0.0082,
         right: height! * 0.0082,
       ),
       itemBuilder: (context, index) {
-        final SongExt song = itemList[index];
-        return SongItem(
-          song: song,
-          height: height!,
-          onTap: () => viewModel.openPresentor(song: song),
+        final SongExt song = homeVm.filtered![index];
+        return ContextMenuRegion(
+          contextMenu: GenericContextMenu(
+            buttonConfigs: [
+              ContextMenuButtonConfig(
+                AppConstants.likeSong,
+                icon: Icon(
+                  song.liked! ? Icons.favorite : Icons.favorite_border,
+                  size: 20,
+                ),
+                onPressed: () => homeVm.likeSong(song),
+              ),
+              ContextMenuButtonConfig(
+                AppConstants.copySong,
+                icon: const Icon(Icons.copy, size: 20),
+                onPressed: () => homeVm.copySong(song),
+              ),
+              ContextMenuButtonConfig(
+                AppConstants.shareSong,
+                icon: const Icon(Icons.share, size: 20),
+                onPressed: () => homeVm.shareSong(song),
+              ),
+              ContextMenuButtonConfig(
+                AppConstants.editSong,
+                icon: const Icon(Icons.edit, size: 20),
+                onPressed: () => homeVm.openEditor(song: song),
+              ),
+              ContextMenuButtonConfig(
+                AppConstants.addtoList,
+                icon: const Icon(Icons.add, size: 20),
+                onPressed: () => showModalBottomSheet<void>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return ListViewPopup(song: song);
+                  },
+                ),
+              ),
+            ],
+          ),
+          child: SongItem(
+            song: song,
+            height: height!,
+            onTap: () => homeVm.openPresentor(song: song),
+          ),
         );
       },
     );

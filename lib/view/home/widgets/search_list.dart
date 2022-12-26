@@ -1,23 +1,22 @@
 import 'package:context_menus/context_menus.dart';
 import 'package:flutter/material.dart';
 
-import '../../../model/base/songext.dart';
+import '../../../model/base/listed.dart';
 import '../../../util/constants/app_constants.dart';
+import '../../../viewmodel/home/home_vm.dart';
 import '../../../widget/general/list_items.dart';
-import '../../viewmodel/lists/list_view_vm.dart';
 
-class ListSearchSongs extends SearchDelegate<List> {
-  List<SongExt> itemList = [], filtered = [];
-  final ListViewVm viewModel;
+class SearchList extends SearchDelegate<List> {
+  List<Listed> itemList = [], filtered = [];
+  final HomeVm homeVm;
   final double? height;
 
-  ListSearchSongs(
-      BuildContext context, this.viewModel, this.height, this.itemList) {
+  SearchList(BuildContext context, this.homeVm, this.height, this.itemList) {
     filtered = itemList;
   }
 
   @override
-  String get searchFieldLabel => "Search a Song";
+  String get searchFieldLabel => "Search a List";
 
   @override
   ThemeData appBarTheme(BuildContext context) {
@@ -54,24 +53,35 @@ class ListSearchSongs extends SearchDelegate<List> {
 
   @override
   Widget buildResults(BuildContext context) {
-    List<SongExt> matchQuery = [];
+    List<Listed> matchQuery = [];
     for (var item in itemList) {
       if (item.title!.toLowerCase().contains(query.toLowerCase())) {
         matchQuery.add(item);
       }
     }
     return ListView.builder(
-      itemCount: itemList.length,
+      itemCount: homeVm.listeds!.length,
       padding: EdgeInsets.only(
         left: height! * 0.0082,
         right: height! * 0.0082,
       ),
       itemBuilder: (context, index) {
-        final SongExt song = itemList[index];
-        return SongItem(
-          song: song,
-          height: height!,
-          onTap: () => viewModel.openPresentor(song: song),
+        final Listed listed = homeVm.listeds![index];
+        return ContextMenuRegion(
+          contextMenu: GenericContextMenu(
+            buttonConfigs: [
+              ContextMenuButtonConfig(
+                AppConstants.deleteList,
+                icon: const Icon(Icons.delete, size: 20),
+                onPressed: () => homeVm.deleteList(context, listed),
+              ),
+            ],
+          ),
+          child: ListedItem(
+            listed: listed,
+            height: height!,
+            onTap: () => homeVm.openListView(listed),
+          ),
         );
       },
     );
@@ -79,7 +89,7 @@ class ListSearchSongs extends SearchDelegate<List> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    List<SongExt> matchQuery = [];
+    List<Listed> matchQuery = [];
 
     for (var item in itemList) {
       if (item.title!.toLowerCase().startsWith(query.toLowerCase())) {

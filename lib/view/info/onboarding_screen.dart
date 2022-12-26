@@ -22,7 +22,6 @@ class OnboardingScreen extends StatefulWidget {
 @visibleForTesting
 class OnboardingScreenState extends State<OnboardingScreen>
     implements OnboardingNavigator {
-  OnboardingVm? vm;
   Size? size;
   late Material materialButton;
   late int index;
@@ -60,24 +59,6 @@ class OnboardingScreenState extends State<OnboardingScreen>
             'SKIP',
             style:
                 TextStyle(color: ThemeColors.primaryDark, letterSpacing: 1.0),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Material get finishButton {
-    return Material(
-      borderRadius: defaultProceedButtonBorderRadius,
-      color: ThemeColors.primaryDark,
-      child: InkWell(
-        borderRadius: defaultProceedButtonBorderRadius,
-        onTap: () => vm!.finishOnboarding(),
-        child: const Padding(
-          padding: defaultProceedButtonPadding,
-          child: Text(
-            'FINISH',
-            style: defaultProceedButtonTextStyle,
           ),
         ),
       ),
@@ -129,66 +110,75 @@ class OnboardingScreenState extends State<OnboardingScreen>
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) {
-        vm = viewModel;
-        return screenWidget(context);
-      },
-    );
-  }
-
-  Widget screenWidget(BuildContext context) {
-    return Scaffold(
-      body: Onboarding(
-        pages: onboardingPages,
-        onPageChange: (int pageIndex) {
-          index = pageIndex;
-        },
-        startPageIndex: 0,
-        footerBuilder: (context, dragDistance, pagesLength, setIndex) {
-          return Container(
-            padding:
-                const EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 50),
-            decoration: const BoxDecoration(
-              color: ThemeColors.primary,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+        return Scaffold(
+          body: Onboarding(
+            pages: onboardingPages,
+            onPageChange: (int pageIndex) {
+              index = pageIndex;
+            },
+            startPageIndex: 0,
+            footerBuilder: (context, dragDistance, pagesLength, setIndex) {
+              return Container(
+                padding: const EdgeInsets.only(
+                    top: 20, right: 20, left: 20, bottom: 50),
+                decoration: const BoxDecoration(
+                  color: ThemeColors.primary,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: CustomIndicator(
-                        netDragPercent: dragDistance,
-                        pagesLength: pagesLength,
-                        indicator: Indicator(
-                          indicatorDesign: IndicatorDesign.line(
-                            lineDesign: LineDesign(
-                              lineType: DesignType.line_uniform,
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: CustomIndicator(
+                            netDragPercent: dragDistance,
+                            pagesLength: pagesLength,
+                            indicator: Indicator(
+                              indicatorDesign: IndicatorDesign.line(
+                                lineDesign: LineDesign(
+                                  lineType: DesignType.line_uniform,
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Text(
+                            onboardingTitles[index],
+                            style: pageTitleStyle,
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Text(
-                        onboardingTitles[index],
-                        style: pageTitleStyle,
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
+                    index == pagesLength - 1
+                        ? Material(
+                            borderRadius: defaultProceedButtonBorderRadius,
+                            color: ThemeColors.primaryDark,
+                            child: InkWell(
+                              borderRadius: defaultProceedButtonBorderRadius,
+                              onTap: () => viewModel.finishOnboarding(),
+                              child: const Padding(
+                                padding: defaultProceedButtonPadding,
+                                child: Text(
+                                  'FINISH',
+                                  style: defaultProceedButtonTextStyle,
+                                ),
+                              ),
+                            ),
+                          )
+                        : skipButton(setIndex: setIndex)
                   ],
                 ),
-                index == pagesLength - 1
-                    ? finishButton
-                    : skipButton(setIndex: setIndex)
-              ],
-            ),
-          );
-        },
-      ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 

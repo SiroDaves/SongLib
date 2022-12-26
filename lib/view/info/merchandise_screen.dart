@@ -26,72 +26,65 @@ class MerchandiseScreen extends StatefulWidget {
 class MerchandiseScreenState extends State<MerchandiseScreen>
     with BackNavigatorMixin
     implements MerchandiseNavigator {
-  MerchandiseVm? vm;
-
   @override
   Widget build(BuildContext context) {
     return ProviderWidget<MerchandiseVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) {
-        vm = viewModel;
         return Scaffold(
           backgroundColor: ThemeColors.accent,
           appBar: AppBar(
             title: const Text(AppConstants.merchandiseTitle),
           ),
-          body: mainContainer(),
+          body: ListView(
+            padding: const EdgeInsets.all(5),
+            children: [
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: Image.asset('assets/images/tshirts.png'),
+                ),
+              ),
+              const SizedBox(height: 10),
+              FormInput(
+                iLabel: 'Quantity',
+                iController: viewModel.qtyController!,
+                prefix: const Icon(Icons.numbers),
+                iOptions: const <String>[],
+              ),
+              FormInput(
+                iLabel: 'Your Name',
+                iController: viewModel.nameController!,
+                prefix: const Icon(Icons.person),
+                isMultiline: true,
+                iOptions: const <String>[],
+              ),
+              FormInput(
+                iLabel: 'Phone Number',
+                iController: viewModel.phoneController!,
+                prefix: const Icon(Icons.phone),
+                iType: TextInputType.phone,
+                iOptions: const <String>[],
+              ),
+              FormInput(
+                iLabel: 'Location',
+                iController: viewModel.locationController!,
+                prefix: const Icon(Icons.text_format),
+                iOptions: const <String>[],
+              ),
+              FormInput(
+                iLabel: 'Extra: Size & Qty',
+                iController: viewModel.nameController!,
+                prefix: const Icon(Icons.list),
+                isMultiline: true,
+                iType: TextInputType.multiline,
+                iOptions: const <String>[],
+              ),
+            ],
+          ),
         );
       },
-    );
-  }
-
-  Widget mainContainer() {
-    return ListView(
-      padding: const EdgeInsets.all(5),
-      children: [
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(5),
-            child: Image.asset('assets/images/tshirts.png'),
-          ),
-        ),
-        const SizedBox(height: 10),
-        FormInput(
-          iLabel: 'Quantity',
-          iController: vm!.qtyController!,
-          prefix: const Icon(Icons.numbers),
-          iOptions: const <String>[],
-        ),
-        FormInput(
-          iLabel: 'Your Name',
-          iController: vm!.nameController!,
-          prefix: const Icon(Icons.person),
-          isMultiline: true,
-          iOptions: const <String>[],
-        ),
-        FormInput(
-          iLabel: 'Phone Number',
-          iController: vm!.phoneController!,
-          prefix: const Icon(Icons.phone),
-          iType: TextInputType.phone,
-          iOptions: const <String>[],
-        ),
-        FormInput(
-          iLabel: 'Location',
-          iController: vm!.locationController!,
-          prefix: const Icon(Icons.text_format),
-          iOptions: const <String>[],
-        ),
-        FormInput(
-          iLabel: 'Extra: Size & Qty',
-          iController: vm!.nameController!,
-          prefix: const Icon(Icons.list),
-          isMultiline: true,
-          iType: TextInputType.multiline,
-          iOptions: const <String>[],
-        ),
-      ],
     );
   }
 

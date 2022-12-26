@@ -25,55 +25,46 @@ class DonationScreen extends StatefulWidget {
 class DonationScreenState extends State<DonationScreen>
     with BackNavigatorMixin
     implements DonationNavigator {
-  DonationVm? vm;
-
   @override
   Widget build(BuildContext context) {
     return ProviderWidget<DonationVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
-          (context, viewModel, child, theme, localization) {
-        vm = viewModel;
-        return Scaffold(
-          backgroundColor: ThemeColors.accent,
-          appBar: AppBar(
-            title: const Text(AppConstants.donateTitle),
-          ),
-          body: mainContainer(),
-        );
-      },
-    );
-  }
-
-  Widget mainContainer() {
-    return ListView(
-      padding: const EdgeInsets.all(5),
-      children: [
-        Card(
-          child: ListTile(
-            leading: const Icon(Icons.money),
-            title: const Text('M-Pesa Pochi la Biashara (Kenya)'),
-            subtitle: const Text('Tap to copy Number'),
-            onTap: () => vm!.copyNumber(),
-          ),
+          (context, viewModel, child, theme, localization) => Scaffold(
+        backgroundColor: ThemeColors.accent,
+        appBar: AppBar(
+          title: const Text(AppConstants.donateTitle),
         ),
-        Card(
-          child: ListTile(
-            leading: const Icon(Icons.money),
-            title: const Text('Via PayPal (International)'),
-            subtitle: const Text('\$5, \$10, \$25 Once or Monthly'),
-            onTap: () => vm!.donateViaPaypal(),
-          ),
+        body: ListView(
+          padding: const EdgeInsets.all(5),
+          children: [
+            Card(
+              child: ListTile(
+                leading: const Icon(Icons.money),
+                title: const Text('M-Pesa Pochi la Biashara (Kenya)'),
+                subtitle: const Text('Tap to copy Number'),
+                onTap: () => viewModel.copyNumber(),
+              ),
+            ),
+            Card(
+              child: ListTile(
+                leading: const Icon(Icons.money),
+                title: const Text('Via PayPal (International)'),
+                subtitle: const Text('\$5, \$10, \$25 Once or Monthly'),
+                onTap: () => viewModel.donateViaPaypal(),
+              ),
+            ),
+            Card(
+              child: ListTile(
+                leading: const Icon(Icons.money),
+                title: const Text('Via Patreon (International)'),
+                subtitle: const Text('\$5, \$10, \$25 Monthly'),
+                onTap: () => viewModel.donateViaPaetron(),
+              ),
+            ),
+          ],
         ),
-        Card(
-          child: ListTile(
-            leading: const Icon(Icons.money),
-            title: const Text('Via Patreon (International)'),
-            subtitle: const Text('\$5, \$10, \$25 Monthly'),
-            onTap: () => vm!.donateViaPaetron(),
-          ),
-        ),
-      ],
+      ),
     );
   }
 

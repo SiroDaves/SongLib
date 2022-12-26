@@ -24,7 +24,6 @@ class SelectionScreen extends StatefulWidget {
 
 class SelectionScreenState extends State<SelectionScreen>
     implements SelectionNavigator {
-  SelectionVm? vm;
   Size? size;
 
   @override
@@ -34,18 +33,17 @@ class SelectionScreenState extends State<SelectionScreen>
     return ProviderWidget<SelectionVm>(
       create: () => GetIt.I()..init(this),
       childBuilderWithViewModel: (context, viewModel, theme, localization) {
-        vm = viewModel;
-        AppBar topContainer = AppBar(
+        var topContainer = AppBar(
           title: Text(
-            vm!.isBusy
+            viewModel.isBusy
                 ? AppConstants.booksTitleLoading
                 : AppConstants.booksTitle,
           ),
           actions: <Widget>[
-            vm!.isBusy
+            viewModel.isBusy
                 ? Container()
                 : TextButton(
-                    onPressed: () => areYouDoneDialog(context),
+                    onPressed: () => areYouDoneDialog(context, viewModel),
                     child: Container(
                       padding: const EdgeInsets.all(10),
                       decoration: const BoxDecoration(
@@ -72,14 +70,14 @@ class SelectionScreenState extends State<SelectionScreen>
           ],
         );
 
-        Widget mainContainer = vm!.books!.isNotEmpty
+        var mainContainer = viewModel.books!.isNotEmpty
             ? ListView.builder(
                 padding: const EdgeInsets.all(5),
-                itemCount: vm!.books!.length,
+                itemCount: viewModel.books!.length,
                 itemBuilder: (context, index) => BookItem(
-                  book: vm!.books![index],
-                  selected: vm!.listedBooks[index]!.isSelected,
-                  onTap: () => vm!.onBookSelected(index),
+                  book: viewModel.books![index],
+                  selected: viewModel.listedBooks[index]!.isSelected,
+                  onTap: () => viewModel.onBookSelected(index),
                 ),
               )
             : const NoDataToShow(
@@ -94,16 +92,16 @@ class SelectionScreenState extends State<SelectionScreen>
             enablePullUp: true,
             header: const WaterDropHeader(),
             //footer: Container(),
-            controller: vm!.refreshController,
-            onRefresh: vm!.onRefresh,
-            onLoading: vm!.onLoading,
-            child: vm!.isBusy ? const CircularProgress() : mainContainer,
+            controller: viewModel.refreshController,
+            onRefresh: viewModel.onRefresh,
+            onLoading: viewModel.onLoading,
+            child: viewModel.isBusy ? const CircularProgress() : mainContainer,
           ),
-          floatingActionButton: vm!.isBusy
+          floatingActionButton: viewModel.isBusy
               ? Container()
               : FloatingActionButton(
                   backgroundColor: ThemeColors.primary,
-                  onPressed: () => areYouDoneDialog(context),
+                  onPressed: () => areYouDoneDialog(context, viewModel),
                   child: const Icon(Icons.check, color: Colors.white),
                 ),
         );
@@ -111,8 +109,9 @@ class SelectionScreenState extends State<SelectionScreen>
     );
   }
 
-  Future<void> areYouDoneDialog(BuildContext context) async {
-    if (vm!.selectables.isNotEmpty) {
+  Future<void> areYouDoneDialog(
+      BuildContext context, SelectionVm viewModel) async {
+    if (viewModel.selectables.isNotEmpty) {
       return showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
@@ -137,7 +136,7 @@ class SelectionScreenState extends State<SelectionScreen>
               title: AppConstants.proceed,
               onPressed: () {
                 Navigator.pop(context);
-                vm!.saveBooks();
+                viewModel.saveBooks();
               },
             ),
           ],

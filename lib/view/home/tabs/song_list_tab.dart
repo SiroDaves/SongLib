@@ -24,95 +24,26 @@ class SongListTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: ContextMenuOverlay(
-        cardBuilder: (_, children) => Container(
-          decoration: const BoxDecoration(
-            color: ThemeColors.accent,
-            boxShadow: [BoxShadow(blurRadius: 5)],
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-          ),
-          child: Column(children: children),
-        ),
-        child: Container(
-          height: size!.height,
-          padding: const EdgeInsets.only(top: 40),
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [Colors.white, ThemeColors.accent, Colors.black],
-            ),
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                titleContainer(),
-                /*SmartRefresher(
-                  enablePullDown: true,
-                  enablePullUp: true,
-                  header: const WaterDropHeader(),
-                  controller: refreshController,
-                  onRefresh: onRefresh,
-                  onLoading: onLoading,
-                  child: mainContainer(context),
-                ),*/
-                mainContainer(context),
-              ],
-            ),
-          ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: ThemeColors.primary,
-        onPressed: () => newListForm(context),
-        child: const Icon(Icons.add, color: Colors.white),
-      ),
-    );
-  }
-
-  Widget mainContainer(BuildContext context) {
-    return SizedBox(
-      child: homeVm.isBusy
-          ? const ListLoading()
-          : Column(
-              children: [
-                homeVm.listeds!.isNotEmpty
-                    ? SongListSearch(
-                        viewModel: homeVm,
-                        listeds: homeVm.listeds,
-                        height: size!.height,
-                      )
-                    : Container(),
-                homeVm.listeds!.isNotEmpty
-                    ? listContainer(context)
-                    : const NoDataToShow(
-                        title: AppConstants.itsEmptyHere1,
-                        description: AppConstants.itsEmptyHereBody4,
-                      ),
-              ],
-            ),
-    );
-  }
-
-  Widget titleContainer() {
-    return SizedBox(
-      height: size!.height * 0.0815,
-      child: Center(
-        child: Text(
-          AppConstants.listTitle,
-          style: TextStyle(
-            fontSize: size!.height * 0.05,
-            fontWeight: FontWeight.bold,
-            color: ThemeColors.primary,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget listContainer(BuildContext context) {
-    return Container(
+    var titleContainer = homeVm.isBusy
+        ? PageTitle(label: AppConstants.listTitle, size: size)
+        : homeVm.books!.isNotEmpty
+            ? PageSearch(
+                label: AppConstants.listTitle,
+                size: size,
+                onTap: () async {
+                  await showSearch(
+                    context: context,
+                    delegate: SearchList(
+                      context,
+                      homeVm,
+                      size!.height,
+                      homeVm.listeds!,
+                    ),
+                  );
+                },
+              )
+            : PageTitle(label: AppConstants.listTitle, size: size);
+    var listContainer = Container(
       height: size!.height * 0.7,
       padding: const EdgeInsets.only(right: 2),
       child: Scrollbar(
@@ -143,6 +74,58 @@ class SongListTab extends StatelessWidget {
               ),
             );
           },
+        ),
+      ),
+    );
+
+    var mainContainer = SizedBox(
+      child: homeVm.isBusy
+          ? const ListLoading()
+          : homeVm.listeds!.isNotEmpty
+              ? listContainer
+              : const NoDataToShow(
+                  title: AppConstants.itsEmptyHere1,
+                  description: AppConstants.itsEmptyHereBody4,
+                ),
+    );
+
+    return Scaffold(
+      body: ContextMenuOverlay(
+        cardBuilder: (_, children) => Container(
+          decoration: const BoxDecoration(
+            color: ThemeColors.accent,
+            boxShadow: [BoxShadow(blurRadius: 5)],
+            borderRadius: BorderRadius.all(Radius.circular(5)),
+          ),
+          child: Column(children: children),
+        ),
+        child: Container(
+          height: size!.height,
+          padding: const EdgeInsets.only(top: 40),
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [Colors.white, ThemeColors.accent, Colors.black],
+            ),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                titleContainer,
+                mainContainer,
+              ],
+            ),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 50.0),
+        child: FloatingActionButton(
+          backgroundColor: ThemeColors.primary,
+          onPressed: () => newListForm(context),
+          child: const Icon(Icons.add, color: Colors.white),
         ),
       ),
     );

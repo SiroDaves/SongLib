@@ -24,85 +24,8 @@ class DraftsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Container(
-        height: size!.height,
-        padding: const EdgeInsets.only(top: 40),
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Colors.white, ThemeColors.accent, Colors.black],
-          ),
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              titleContainer(),
-              /*SmartRefresher(
-                  enablePullDown: true,
-                  enablePullUp: true,
-                  header: const WaterDropHeader(),
-                  controller: refreshController,
-                  onRefresh: onRefresh,
-                  onLoading: onLoading,
-                  child: mainContainer(context),
-                ),*/
-              mainContainer(context),
-            ],
-          ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: ThemeColors.primary,
-        onPressed: () => homeVm.openEditor(),
-        child: const Icon(Icons.add, color: Colors.white),
-      ),
-    );
-  }
 
-  Widget mainContainer(BuildContext context) {
-    return SizedBox(
-      child: homeVm.isBusy
-          ? const ListLoading()
-          : Column(
-              children: [
-                homeVm.drafts!.isNotEmpty
-                    ? DraftsTabSearch(
-                        viewModel: homeVm,
-                        drafts: homeVm.drafts,
-                        height: size!.height,
-                      )
-                    : Container(),
-                homeVm.drafts!.isNotEmpty
-                    ? listContainer(context)
-                    : const NoDataToShow(
-                        title: AppConstants.itsEmptyHere,
-                        description: AppConstants.itsEmptyHereBody2,
-                      ),
-              ],
-            ),
-    );
-  }
-
-  Widget titleContainer() {
-    return SizedBox(
-      height: size!.height * 0.0815,
-      child: Center(
-        child: Text(
-          AppConstants.draftTitle,
-          style: TextStyle(
-            fontSize: size!.height * 0.04375,
-            fontWeight: FontWeight.bold,
-            color: ThemeColors.primary,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget listContainer(BuildContext context) {
-    return SizedBox(
+    var listContainer = SizedBox(
       height: size!.height * 0.78125,
       child: Scrollbar(
         thickness: 10,
@@ -121,6 +44,68 @@ class DraftsTab extends StatelessWidget {
             );
           },
           itemCount: homeVm.drafts!.length,
+        ),
+      ),
+    );
+
+    var titleContainer = homeVm.isBusy
+        ? PageTitle(label: AppConstants.draftTitle, size: size)
+        : homeVm.drafts!.isNotEmpty
+            ? PageSearch(
+                label: AppConstants.draftTitle,
+                size: size,
+                onTap: () async {
+                  await showSearch(
+                    context: context,
+                    delegate: SearchDrafts(
+                      context,
+                      homeVm,
+                      size!.height,
+                      homeVm.drafts!,
+                    ),
+                  );
+                },
+              )
+            : PageTitle(label: AppConstants.draftTitle, size: size);
+
+    var mainContainer = SizedBox(
+      child: homeVm.isBusy
+          ? const ListLoading()
+          : homeVm.drafts!.isNotEmpty
+              ? listContainer
+              : const NoDataToShow(
+                  title: AppConstants.itsEmptyHere,
+                  description: AppConstants.itsEmptyHereBody2,
+                ),
+    );
+
+    return Scaffold(
+      body: Container(
+        height: size!.height,
+        padding: const EdgeInsets.only(top: 40),
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Colors.white, ThemeColors.accent, Colors.black],
+          ),
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              titleContainer,
+              mainContainer,
+            ],
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 50.0),
+        child: FloatingActionButton(
+          backgroundColor: ThemeColors.primary,
+          onPressed: () => homeVm.openEditor(),
+          child: const Icon(Icons.add, color: Colors.white),
         ),
       ),
     );

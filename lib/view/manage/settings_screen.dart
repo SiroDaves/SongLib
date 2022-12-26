@@ -30,7 +30,6 @@ class SettingsScreenState extends State<SettingsScreen>
     implements SettingsNavigator {
   String theme = AppConstants.themeDefault;
   String wakeLock = 'Disabled', slideDirection = 'Vertical (Up, Down)';
-  GlobalVm? vm;
 
   @override
   Widget build(BuildContext context) {
@@ -43,119 +42,104 @@ class SettingsScreenState extends State<SettingsScreen>
             title: const Text(AppConstants.settingsTitle),
           ),
           body: Consumer<GlobalVm>(builder: (context, viewModel, child) {
-            vm = viewModel;
+            if (viewModel.wakeLockStatus) {
+              wakeLock = 'Enabled';
+            } else {
+              wakeLock = 'Disabled';
+            }
+            if (viewModel.slideHorizontal) {
+              slideDirection = 'Horizontal (Left, Right)';
+            } else {
+              slideDirection = 'Vertical (Up, Down)';
+            }
+            if (viewModel.themeMode == ThemeMode.light) {
+              theme = AppConstants.themeLight;
+            } else if (viewModel.themeMode == ThemeMode.dark) {
+              theme = AppConstants.themeDark;
+            }
+
+            var songbooks = Card(
+              child: ListTile(
+                leading: const Icon(Icons.sort),
+                title: const Text('Songbooks Management'),
+                subtitle: const Text('Reselect your songbooks afresh'),
+                onTap: () => goToSelection(),
+              ),
+            );
+            var screenAwake = Card(
+              child: ExpansionTile(
+                leading: const Icon(Icons.display_settings),
+                title: const Text('Keep Screen On in Song View'),
+                subtitle: Text('Status: $wakeLock'),
+                children: [
+                  SelectorItem(
+                    title: 'Enable',
+                    onClick: () => viewModel.updateWakeLockStatus(true),
+                    selected: viewModel.wakeLockStatus == true,
+                  ),
+                  SelectorItem(
+                    title: 'Disable',
+                    onClick: () => viewModel.updateWakeLockStatus(false),
+                    selected: viewModel.wakeLockStatus == false,
+                  ),
+                ],
+              ),
+            );
+            var sliderDirection = Card(
+              child: ExpansionTile(
+                leading: const Icon(Icons.display_settings),
+                title: const Text('Song Slides Direction'),
+                subtitle: Text('Direction: $slideDirection'),
+                children: [
+                  SelectorItem(
+                    title: 'Vertical (Up, Down)',
+                    onClick: () => viewModel.updateSlideHorizontal(false),
+                    selected: viewModel.slideHorizontal == false,
+                  ),
+                  SelectorItem(
+                    title: 'Horizontal (Left, Right)',
+                    onClick: () => viewModel.updateSlideHorizontal(true),
+                    selected: viewModel.slideHorizontal == true,
+                  ),
+                ],
+              ),
+            );
+            var themes = Card(
+              child: ExpansionTile(
+                leading: const Icon(Icons.display_settings),
+                title: const Text('Theme Mode'),
+                subtitle: Text('Theme: $theme'),
+                children: [
+                  SelectorItem(
+                    title: 'Default',
+                    onClick: () => viewModel.updateThemeMode(ThemeMode.system),
+                    selected: viewModel.themeMode == ThemeMode.system,
+                  ),
+                  SelectorItem(
+                    title: 'Light',
+                    onClick: () => viewModel.updateThemeMode(ThemeMode.light),
+                    selected: viewModel.themeMode == ThemeMode.light,
+                  ),
+                  SelectorItem(
+                    title: 'Dark',
+                    onClick: () => viewModel.updateThemeMode(ThemeMode.dark),
+                    selected: viewModel.themeMode == ThemeMode.dark,
+                  ),
+                ],
+              ),
+            );
             return ListView(
               padding: const EdgeInsets.all(5),
               children: [
-                songbookManagement(),
-                wakeLockManagement(),
-                slideDirectionManagement(),
-                //themeManagement(),
+                songbooks,
+                screenAwake,
+                sliderDirection,
+                //themes,
               ],
             );
           }),
         );
       },
-    );
-  }
-
-  Widget songbookManagement() {
-    return Card(
-      child: ListTile(
-        leading: const Icon(Icons.sort),
-        title: const Text('Songbooks Management'),
-        subtitle: const Text('Reselect your songbooks afresh'),
-        onTap: () => goToSelection(),
-      ),
-    );
-  }
-
-  Widget wakeLockManagement() {
-    if (vm!.wakeLockStatus) {
-      wakeLock = 'Enabled';
-    } else {
-      wakeLock = 'Disabled';
-    }
-
-    return Card(
-      child: ExpansionTile(
-        leading: const Icon(Icons.display_settings),
-        title: const Text('Keep Screen On in Song View'),
-        subtitle: Text('Status: $wakeLock'),
-        children: [
-          SelectorItem(
-            title: 'Enable',
-            onClick: () => vm!.updateWakeLockStatus(true),
-            selected: vm!.wakeLockStatus == true,
-          ),
-          SelectorItem(
-            title: 'Disable',
-            onClick: () => vm!.updateWakeLockStatus(false),
-            selected: vm!.wakeLockStatus == false,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget slideDirectionManagement() {
-    if (vm!.slideHorizontal) {
-      slideDirection = 'Horizontal (Left, Right)';
-    } else {
-      slideDirection = 'Vertical (Up, Down)';
-    }
-
-    return Card(
-      child: ExpansionTile(
-        leading: const Icon(Icons.display_settings),
-        title: const Text('Song Slides Direction'),
-        subtitle: Text('Direction: $slideDirection'),
-        children: [
-          SelectorItem(
-            title: 'Vertical (Up, Down)',
-            onClick: () => vm!.updateSlideHorizontal(true),
-            selected: vm!.slideHorizontal == true,
-          ),
-          SelectorItem(
-            title: 'Horizontal (Left, Right)',
-            onClick: () => vm!.updateSlideHorizontal(false),
-            selected: vm!.slideHorizontal == false,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget themeManagement() {
-    if (vm!.themeMode == ThemeMode.light) {
-      theme = AppConstants.themeLight;
-    } else if (vm!.themeMode == ThemeMode.dark) {
-      theme = AppConstants.themeDark;
-    }
-
-    return Card(
-      child: ExpansionTile(
-        leading: const Icon(Icons.display_settings),
-        title: const Text('Theme Mode'),
-        subtitle: Text('Theme: $theme'),
-        children: [
-          SelectorItem(
-            title: 'Default',
-            onClick: () => vm!.updateThemeMode(ThemeMode.system),
-            selected: vm!.themeMode == ThemeMode.system,
-          ),
-          SelectorItem(
-            title: 'Light',
-            onClick: () => vm!.updateThemeMode(ThemeMode.light),
-            selected: vm!.themeMode == ThemeMode.light,
-          ),
-          SelectorItem(
-            title: 'Dark',
-            onClick: () => vm!.updateThemeMode(ThemeMode.dark),
-            selected: vm!.themeMode == ThemeMode.dark,
-          ),
-        ],
-      ),
     );
   }
 

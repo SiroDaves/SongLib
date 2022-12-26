@@ -25,31 +25,13 @@ class HelpDeskScreen extends StatefulWidget {
 class HelpDeskScreenState extends State<HelpDeskScreen>
     with BackNavigatorMixin
     implements HelpDeskNavigator {
-  HelpDeskVm? vm;
-
   @override
   Widget build(BuildContext context) {
     return ProviderWidget<HelpDeskVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) {
-        vm = viewModel;
-        return Scaffold(
-          backgroundColor: ThemeColors.accent,
-          appBar: AppBar(
-            title: const Text(AppConstants.helpdeskTitle),
-          ),
-          body: mainContainer(),
-        );
-      },
-    );
-  }
-
-  Widget mainContainer() {
-    return ListView(
-      padding: const EdgeInsets.all(5),
-      children: [
-        Card(
+        Card merchandise = Card(
           child: ExpansionTile(
             leading: const Icon(Icons.display_settings),
             title: const Text('Support SongLib'),
@@ -65,38 +47,12 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
                 leading: const Icon(Icons.shopping_basket),
                 title: const Text('Buy our Merchandise'),
                 subtitle: const Text('Order our branded T-Shirts (Kenya Only)'),
-                onTap: () => vm!.goToMerchandise(),
+                onTap: () => viewModel.goToMerchandise(),
               ),
             ],
           ),
-        ),
-        Card(
-          child: ListTile(
-            leading: const Icon(Icons.settings),
-            title: const Text('How it works'),
-            subtitle: const Text('Revisit the onboarding screen once again'),
-            onTap: () => vm!.goToHowItWorks(),
-          ),
-        ),
-        Card(
-          child: ListTile(
-            leading: const Icon(Icons.link),
-            title: const Text('This app on Google PlayStore'),
-            subtitle: const Text('Go to Play Store or Long Press to copy link'),
-            onTap: () => vm!.goToPlayStore(),
-            onLongPress: () => vm!.copyText(0),
-          ),
-        ),
-        Card(
-          child: ListTile(
-            leading: const Icon(Icons.email),
-            title: const Text('Email Address'),
-            subtitle: const Text('songlibke(at)gmail[.]com'),
-            onTap: () => vm!.goToEmail(),
-            onLongPress: () => vm!.copyText(1),
-          ),
-        ),
-        Card(
+        );
+        Card telegram = Card(
           child: ExpansionTile(
             leading: const Icon(Icons.display_settings),
             title: const Text('Mobile Phone'),
@@ -105,28 +61,69 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
               ListTile(
                 leading: const Icon(Icons.call),
                 title: const Text('Call'),
-                onTap: () => vm!.goToCalling(),
-                onLongPress: () => vm!.copyText(2),
+                onTap: () => viewModel.goToCalling(),
+                onLongPress: () => viewModel.copyText(2),
               ),
               ListTile(
                 leading: const Icon(Icons.sms),
                 title: const Text('SMS'),
-                onTap: () => vm!.goToSms(),
+                onTap: () => viewModel.goToSms(),
               ),
               ListTile(
                 leading: const Icon(Icons.whatsapp),
                 title: const Text('WhatsApp'),
-                onTap: () => vm!.goToWhatsapp(),
+                onTap: () => viewModel.goToWhatsapp(),
               ),
               ListTile(
                 leading: const Icon(Icons.telegram),
                 title: const Text('TeleGram'),
-                onTap: () => vm!.goToTelegram(),
+                onTap: () => viewModel.goToTelegram(),
               ),
             ],
           ),
-        ),
-      ],
+        );
+        return Scaffold(
+          backgroundColor: ThemeColors.accent,
+          appBar: AppBar(
+            title: const Text(AppConstants.helpdeskTitle),
+          ),
+          body: ListView(
+            padding: const EdgeInsets.all(5),
+            children: [
+              merchandise,
+              Card(
+                child: ListTile(
+                  leading: const Icon(Icons.settings),
+                  title: const Text('How it works'),
+                  subtitle:
+                      const Text('Revisit the onboarding screen once again'),
+                  onTap: () => viewModel.goToHowItWorks(),
+                ),
+              ),
+              Card(
+                child: ListTile(
+                  leading: const Icon(Icons.link),
+                  title: const Text('This app on Google PlayStore'),
+                  subtitle:
+                      const Text('Go to Play Store or Long Press to copy link'),
+                  onTap: () => viewModel.goToPlayStore(),
+                  onLongPress: () => viewModel.copyText(0),
+                ),
+              ),
+              Card(
+                child: ListTile(
+                  leading: const Icon(Icons.email),
+                  title: const Text('Email Address'),
+                  subtitle: const Text('songlibke(at)gmail[.]com'),
+                  onTap: () => viewModel.goToEmail(),
+                  onLongPress: () => viewModel.copyText(1),
+                ),
+              ),
+              telegram,
+            ],
+          ),
+        );
+      },
     );
   }
 

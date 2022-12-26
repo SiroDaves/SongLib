@@ -72,7 +72,7 @@ class HomeVm with ChangeNotifierEx {
     notifyListeners();
 
     if (!shownDonation) {
-      await donationDialog(context!);
+      //await donationDialog(context!);
     }
   }
 

@@ -10,6 +10,7 @@ import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
 import '../../viewmodel/lists/list_view_vm.dart';
+import '../../widget/general/app_bar.dart';
 import '../../widget/general/inputs.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
@@ -42,124 +43,120 @@ class ListViewScreenState extends State<ListViewScreen>
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) {
-        vm = viewModel;
-        return screenWidget(context);
-      },
-    );
-  }
+        var listContainer = vm!.listeds!.isNotEmpty
+            ? Container(
+                height: size!.height * 0.8,
+                padding: const EdgeInsets.only(right: 2),
+                child: Scrollbar(
+                  thickness: 10,
+                  radius: const Radius.circular(20),
+                  child: ListView.builder(
+                    itemCount: vm!.listeds!.length,
+                    padding: EdgeInsets.all(
+                      size!.height * 0.0082,
+                    ),
+                    itemBuilder: (context, index) {
+                      final SongExt song = SongExt(
+                        songbook: vm!.listeds![index].songbook,
+                        songNo: vm!.listeds![index].songNo,
+                        book: vm!.listeds![index].book,
+                        title: vm!.listeds![index].title,
+                        alias: vm!.listeds![index].alias,
+                        content: vm!.listeds![index].content,
+                        views: vm!.listeds![index].views,
+                        likes: vm!.listeds![index].likes,
+                        author: vm!.listeds![index].author,
+                        key: vm!.listeds![index].key,
+                        id: vm!.listeds![index].songId,
+                      );
 
-  Widget screenWidget(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(vm!.listed!.title!),
-        actions: <Widget>[
-          InkWell(
-            onTap: () => editListForm(context),
-            child: const Padding(
-              padding: EdgeInsets.all(10),
-              child: Icon(Icons.edit),
-            ),
-          ),
-          InkWell(
-            onTap: () => vm!.confirmDelete(context),
-            child: const Padding(
-              padding: EdgeInsets.all(10),
-              child: Icon(Icons.delete),
-            ),
-          ),
-        ],
-      ),
-      body: mainContainer(),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: ThemeColors.primary,
-        onPressed: () => vm!.showSearchWidget(true),
-        child: const Icon(Icons.add, color: Colors.white),
-      ),
-    );
-  }
-
-  Widget mainContainer() {
-    return ContextMenuOverlay(
-      cardBuilder: (_, children) => Container(
-        decoration: const BoxDecoration(
-          color: ThemeColors.accent,
-          boxShadow: [BoxShadow(blurRadius: 5)],
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-        ),
-        child: Column(children: children),
-      ),
-      child: Container(
-        height: size!.height,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.white, ThemeColors.accent, Colors.black],
-          ),
-        ),
-        child: SingleChildScrollView(
-          child: vm!.isBusy
-              ? const ListLoading()
-              : Stack(
-                  children: [
-                    listContainer(),
-                    vm!.showSearch
-                        ? ListSongSearch(
-                            viewModel: vm!,
-                            songs: vm!.songs,
-                            height: size!.height,
-                          )
-                        : Container(),
-                  ],
+                      return SongItem(
+                        song: song,
+                        height: size!.height,
+                        onTap: () => vm!.openPresentor(song: song),
+                      );
+                    },
+                  ),
                 ),
-        ),
-      ),
-    );
-  }
+              )
+            : const NoDataToShow(
+                title: AppConstants.itsEmptyHere,
+                description: AppConstants.itsEmptyHereBody,
+              );
 
-  Widget listContainer() {
-    return vm!.listeds!.isNotEmpty
-        ? Container(
-            height: size!.height * 0.8,
-            padding: const EdgeInsets.only(right: 2),
-            child: Scrollbar(
-              thickness: 10,
-              radius: const Radius.circular(20),
-              child: ListView.builder(
-                itemCount: vm!.listeds!.length,
-                padding: EdgeInsets.all(
-                  size!.height * 0.0082,
-                ),
-                itemBuilder: (context, index) =>
-                    songItemWidget(vm!.listeds![index]),
+        var mainContainer = ContextMenuOverlay(
+          cardBuilder: (_, children) => Container(
+            decoration: const BoxDecoration(
+              color: ThemeColors.accent,
+              boxShadow: [BoxShadow(blurRadius: 5)],
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+            ),
+            child: Column(children: children),
+          ),
+          child: Container(
+            height: size!.height,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Colors.white, ThemeColors.accent, Colors.black],
               ),
             ),
-          )
-        : const NoDataToShow(
-            title: AppConstants.itsEmptyHere,
-            description: AppConstants.itsEmptyHereBody,
-          );
-  }
+            child: SingleChildScrollView(
+              child: vm!.isBusy
+                  ? const ListLoading()
+                  : Stack(
+                      children: [
+                        listContainer,
+                        PageSearch(
+                          label: AppConstants.appTitle,
+                          size: size,
+                          onTap: () async {
+                            await showSearch(
+                              context: context,
+                              delegate: ListSearchSongs(
+                                context,
+                                vm!,
+                                size!.height,
+                                vm!.songs!,
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+            ),
+          ),
+        );
 
-  Widget songItemWidget(ListedExt listed) {
-    final SongExt song = SongExt(
-      songbook: listed.songbook,
-      songNo: listed.songNo,
-      book: listed.book,
-      title: listed.title,
-      alias: listed.alias,
-      content: listed.content,
-      views: listed.views,
-      likes: listed.likes,
-      author: listed.author,
-      key: listed.key,
-      id: listed.songId,
-    );
-
-    return SongItem(
-      song: song,
-      height: size!.height,
-      onTap: () => vm!.openPresentor(song: song),
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(vm!.listed!.title!),
+            actions: <Widget>[
+              InkWell(
+                onTap: () => editListForm(context),
+                child: const Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Icon(Icons.edit),
+                ),
+              ),
+              InkWell(
+                onTap: () => vm!.confirmDelete(context),
+                child: const Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Icon(Icons.delete),
+                ),
+              ),
+            ],
+          ),
+          body: mainContainer,
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: ThemeColors.primary,
+            onPressed: () => vm!.showSearchWidget(true),
+            child: const Icon(Icons.add, color: Colors.white),
+          ),
+        );
+      },
     );
   }
 

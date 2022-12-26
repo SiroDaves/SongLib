@@ -1,18 +1,16 @@
-import 'package:context_menus/context_menus.dart';
 import 'package:flutter/material.dart';
 
-import '../../../model/base/songext.dart';
-import '../../../util/constants/app_constants.dart';
+import '../../../model/base/draft.dart';
+import '../../../viewmodel/home/home_vm.dart';
 import '../../../widget/general/list_items.dart';
-import '../../viewmodel/lists/list_view_vm.dart';
 
-class ListSearchSongs extends SearchDelegate<List> {
-  List<SongExt> itemList = [], filtered = [];
-  final ListViewVm viewModel;
+class SearchDrafts extends SearchDelegate<List> {
+  List<Draft> itemList = [], filtered = [];
+  final HomeVm homeVm;
   final double? height;
 
-  ListSearchSongs(
-      BuildContext context, this.viewModel, this.height, this.itemList) {
+  SearchDrafts(
+      BuildContext context, this.homeVm, this.height, this.itemList) {
     filtered = itemList;
   }
 
@@ -54,32 +52,32 @@ class ListSearchSongs extends SearchDelegate<List> {
 
   @override
   Widget buildResults(BuildContext context) {
-    List<SongExt> matchQuery = [];
+    List<Draft> matchQuery = [];
     for (var item in itemList) {
       if (item.title!.toLowerCase().contains(query.toLowerCase())) {
         matchQuery.add(item);
       }
     }
     return ListView.builder(
-      itemCount: itemList.length,
-      padding: EdgeInsets.only(
-        left: height! * 0.0082,
-        right: height! * 0.0082,
-      ),
-      itemBuilder: (context, index) {
-        final SongExt song = itemList[index];
-        return SongItem(
-          song: song,
-          height: height!,
-          onTap: () => viewModel.openPresentor(song: song),
+          padding: EdgeInsets.only(
+            left: height! * 0.0082,
+            right: height! * 0.0163,
+          ),
+          itemBuilder: (context, index) {
+            final Draft draft = homeVm.drafts![index];
+            return DraftItem(
+              draft: draft,
+              height: height!,
+              onTap: () => homeVm.openPresentor(draft: draft),
+            );
+          },
+          itemCount: homeVm.drafts!.length,
         );
-      },
-    );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    List<SongExt> matchQuery = [];
+    List<Draft> matchQuery = [];
 
     for (var item in itemList) {
       if (item.title!.toLowerCase().startsWith(query.toLowerCase())) {

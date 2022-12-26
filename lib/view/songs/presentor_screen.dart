@@ -25,7 +25,6 @@ class PresentorScreen extends StatefulWidget {
 class PresentorScreenState extends State<PresentorScreen>
     with BackNavigatorMixin
     implements PresentorNavigator {
-  PresentorVm? vm;
   Size? size;
 
   @override
@@ -35,132 +34,128 @@ class PresentorScreenState extends State<PresentorScreen>
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) {
-        vm = viewModel;
-        vm!.size = size;
-        return screenWidget(context);
-      },
-    );
-  }
+        viewModel.size = size;
 
-  Widget screenWidget(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(vm!.songTitle),
-            Text(
-              vm!.songBook,
-              style: const TextStyle(fontSize: 16),
+        Future<void> popupActions(int value) async {
+          switch (value) {
+            case 0:
+              await viewModel.copySong();
+              break;
+            case 1:
+              await viewModel.openSongEditor();
+              break;
+            case 2:
+              if (viewModel.isDraft) {
+                await viewModel.confirmDelete(context);
+              } else {
+                await showModalBottomSheet<void>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return ListViewPopup(song: viewModel.song!);
+                    });
+              }
+              break;
+          }
+        }
+
+        var popupMenu = PopupMenuButton(
+          itemBuilder: (context) {
+            return viewModel.isDraft
+                ? [
+                    const PopupMenuItem<int>(
+                      value: 0,
+                      child: Text(AppConstants.copySong),
+                    ),
+                    const PopupMenuItem<int>(
+                      value: 1,
+                      child: Text(AppConstants.editSong),
+                    ),
+                    const PopupMenuItem<int>(
+                      value: 2,
+                      child: Text(AppConstants.deleteSong),
+                    ),
+                  ]
+                : [
+                    const PopupMenuItem<int>(
+                      value: 0,
+                      child: Text(AppConstants.copySong),
+                    ),
+                    const PopupMenuItem<int>(
+                      value: 1,
+                      child: Text(AppConstants.editSong),
+                    ),
+                    const PopupMenuItem<int>(
+                      value: 2,
+                      child: Text(AppConstants.addtoList),
+                    ),
+                  ];
+          },
+          onSelected: (int value) {
+            popupActions(value);
+          },
+        );
+
+        var appBarWidget = AppBar(
+          title: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(viewModel.songTitle),
+              Text(
+                viewModel.songBook,
+                style: const TextStyle(fontSize: 16),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            InkWell(
+              onTap: viewModel.openSongEditor,
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Icon(viewModel.likeIcon),
+              ),
             ),
+            popupMenu,
           ],
-        ),
-        actions: <Widget>[
-          InkWell(
-            onTap: vm!.openSongEditor,
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Icon(vm!.likeIcon),
+        );
+
+        var fabButton = FloatingActionButton(
+          backgroundColor: ThemeColors.primary,
+          onPressed: () {
+            Share.share(
+              '${viewModel.songTitle}\n${viewModel.songBook}\n\n${viewModel.songContent}',
+              subject: AppConstants.shareVerse,
+            );
+          },
+          child: const Icon(Icons.share, color: Colors.white),
+        );
+
+        return Scaffold(
+          appBar: appBarWidget,
+          body: Container(
+            height: size!.height,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Colors.white,
+                  Colors.orange,
+                  ThemeColors.accent,
+                  ThemeColors.primary,
+                  Colors.black,
+                ],
+              ),
+            ),
+            child: SizedBox(
+              child: viewModel.isBusy
+                  ? const CircularProgress()
+                  : viewModel.slides,
             ),
           ),
-          popupMenu(),
-        ],
-      ),
-      body: mainContainer(),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: ThemeColors.primary,
-        onPressed: () {
-          Share.share(
-            '${vm!.songTitle}\n${vm!.songBook}\n\n${vm!.songContent}',
-            subject: AppConstants.shareVerse,
-          );
-        },
-        child: const Icon(Icons.share, color: Colors.white),
-      ),
-    );
-  }
-
-  Widget popupMenu() {
-    return PopupMenuButton(
-      itemBuilder: (context) {
-        return vm!.isDraft
-            ? [
-                const PopupMenuItem<int>(
-                  value: 0,
-                  child: Text(AppConstants.copySong),
-                ),
-                const PopupMenuItem<int>(
-                  value: 1,
-                  child: Text(AppConstants.editSong),
-                ),
-                const PopupMenuItem<int>(
-                  value: 2,
-                  child: Text(AppConstants.deleteSong),
-                ),
-              ]
-            : [
-                const PopupMenuItem<int>(
-                  value: 0,
-                  child: Text(AppConstants.copySong),
-                ),
-                const PopupMenuItem<int>(
-                  value: 1,
-                  child: Text(AppConstants.editSong),
-                ),
-                const PopupMenuItem<int>(
-                  value: 2,
-                  child: Text(AppConstants.addtoList),
-                ),
-              ];
+          floatingActionButton: fabButton,
+        );
       },
-      onSelected: (int value) {
-        popupActions(value);
-      },
-    );
-  }
-
-  Future<void> popupActions(int value) async {
-    switch (value) {
-      case 0:
-        await vm!.copySong();
-        break;
-      case 1:
-        await vm!.openSongEditor();
-        break;
-      case 2:
-        if (vm!.isDraft) {
-          await vm!.confirmDelete(context);
-        } else {
-          await showModalBottomSheet<void>(
-              context: context,
-              builder: (BuildContext context) {
-                return ListViewPopup(song: vm!.song!);
-              });
-        }
-        break;
-    }
-  }
-
-  Widget mainContainer() {
-    return Container(
-      height: size!.height,
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          colors: [
-            Colors.white,
-            Colors.orange,
-            ThemeColors.accent,
-            ThemeColors.primary,
-            Colors.black,
-          ],
-        ),
-      ),
-      child: SizedBox(
-        child: vm!.isBusy ? const CircularProgress() : vm!.slides,
-      ),
     );
   }
 
