@@ -124,27 +124,14 @@ class SearchTab extends StatelessWidget {
     var mainContainer = Container(
       margin: EdgeInsets.only(top: size!.height * 0.0952),
       height: size!.height * 0.835,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            SupportUsCarousel(
-              height: size!.height,
-              onTapSlide1: () => homeVm.goToMerchandise,
-              onTapSlide2: () => homeVm.navigator.goToDonation,
-            ),
-            SizedBox(
-              child: homeVm.isBusy
-                  ? const ListLoading()
-                  : homeVm.songs!.isNotEmpty
-                      ? listContainer
-                      : const NoDataToShow(
-                          title: AppConstants.itsEmptyHere,
-                          description: AppConstants.itsEmptyHereBody,
-                        ),
-            ),
-          ],
-        ),
-      ),
+      child: homeVm.isBusy
+          ? const ListLoading()
+          : homeVm.songs!.isNotEmpty
+              ? listContainer
+              : const NoDataToShow(
+                  title: AppConstants.itsEmptyHere,
+                  description: AppConstants.itsEmptyHereBody,
+                ),
     );
     return Scaffold(
       body: ContextMenuOverlay(

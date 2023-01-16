@@ -97,6 +97,7 @@ class SongBook extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
+          width: height * 0.1245,
           height: height * 0.1245,
           margin: const EdgeInsets.only(bottom: 10),
           padding: const EdgeInsets.all(5),
