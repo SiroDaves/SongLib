@@ -44,14 +44,11 @@ class SearchTab extends StatelessWidget {
                 },
               )
             : PageTitle(label: AppConstants.appTitle, size: size);
-    var booksContainer = Container(
-      height: size!.height * 0.805,
-      width: size!.height * 0.1464,
-      margin: EdgeInsets.only(
-        top: size!.height * 0.1098,
-        left: size!.height * 0.4392,
-      ),
+    var booksContainer = SizedBox(
+      height: 100,
       child: ListView.builder(
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.all(5),
         itemBuilder: (context, index) {
           final Book book = homeVm.books![index];
@@ -124,15 +121,25 @@ class SearchTab extends StatelessWidget {
     var mainContainer = Container(
       margin: EdgeInsets.only(top: size!.height * 0.0952),
       height: size!.height * 0.835,
-      child: homeVm.isBusy
-          ? const ListLoading()
-          : homeVm.songs!.isNotEmpty
-              ? listContainer
-              : const NoDataToShow(
-                  title: AppConstants.itsEmptyHere,
-                  description: AppConstants.itsEmptyHereBody,
-                ),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            homeVm.books!.isNotEmpty ? booksContainer : Container(),
+            SizedBox(
+              child: homeVm.isBusy
+                  ? const ListLoading()
+                  : homeVm.songs!.isNotEmpty
+                      ? listContainer
+                      : const NoDataToShow(
+                          title: AppConstants.itsEmptyHere,
+                          description: AppConstants.itsEmptyHereBody,
+                        ),
+            ),
+          ],
+        ),
+      ),
     );
+    
     return Scaffold(
       body: ContextMenuOverlay(
         cardBuilder: (_, children) => Container(
@@ -157,7 +164,6 @@ class SearchTab extends StatelessWidget {
             alignment: AlignmentDirectional.topCenter,
             children: [
               mainContainer,
-              homeVm.books!.isNotEmpty ? booksContainer : Container(),
               titleContainer,
             ],
           ),

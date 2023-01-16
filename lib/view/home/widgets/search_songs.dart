@@ -51,42 +51,22 @@ class SearchSongs extends SearchDelegate<List> {
   }
 
   @override
-  Widget buildResults(BuildContext context) {
+  Widget buildResults(BuildContext context) => searchThis(context);
+
+  @override
+  Widget buildSuggestions(BuildContext context) => searchThis(context);
+
+  Widget searchThis(BuildContext context) {
     List<SongExt> matchQuery = [];
+
     for (var item in itemList) {
-      if (isNumeric(query)) {
+      if (isNumeric(query) && item.songNo == int.parse(query)) {
         matchQuery.add(item);
       } else if (item.title!.toLowerCase().contains(query.toLowerCase())) {
         matchQuery.add(item);
       } else if (item.alias!.toLowerCase().contains(query.toLowerCase())) {
         matchQuery.add(item);
       } else if (item.content!.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(item);
-      }
-    }
-    return ListView.builder(
-      itemCount: homeVm.filtered!.length,
-      padding: EdgeInsets.only(
-        left: height! * 0.0082,
-        right: height! * 0.0082,
-      ),
-      itemBuilder: (context, index) {
-        final SongExt song = homeVm.filtered![index];
-        return SongItem(
-          song: song,
-          height: height!,
-          onTap: () => homeVm.openPresentor(song: song),
-        );
-      },
-    );
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    List<SongExt> matchQuery = [];
-
-    for (var item in itemList) {
-      if (item.title!.toLowerCase().startsWith(query.toLowerCase())) {
         matchQuery.add(item);
       }
     }

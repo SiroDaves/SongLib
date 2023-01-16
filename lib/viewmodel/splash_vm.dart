@@ -24,74 +24,10 @@ class SplashVm with ChangeNotifierEx {
     onBoarded = localStorage.getPrefBool(PrefConstants.onboardedCheckKey);
 
     await Future.delayed(const Duration(seconds: 3), () {});
-
-    await isAndroidPermissionGranted();
-    await requestPermissions();
-    configureSelectNotificationSubject();
     await nextActions();
   }
 
-  Future<void> isAndroidPermissionGranted() async {
-    if (Platform.isAndroid) {
-      final bool granted = await flutterLocalNotificationsPlugin
-              .resolvePlatformSpecificImplementation<
-                  AndroidFlutterLocalNotificationsPlugin>()
-              ?.areNotificationsEnabled() ??
-          false;
-
-      notificationsEnabled = granted;
-    }
-  }
-
-  Future<void> requestPermissions() async {
-    if (Platform.isIOS || Platform.isMacOS) {
-      await flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<
-              IOSFlutterLocalNotificationsPlugin>()
-          ?.requestPermissions(
-            alert: true,
-            badge: true,
-            sound: true,
-            critical: true,
-          );
-      await flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<
-              MacOSFlutterLocalNotificationsPlugin>()
-          ?.requestPermissions(
-            alert: true,
-            badge: true,
-            sound: true,
-            critical: true,
-          );
-    } else if (Platform.isAndroid) {
-      final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
-          flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin>();
-
-      final bool? granted = await androidImplementation?.requestPermission();
-      notificationsEnabled = granted ?? false;
-      notifyListeners();
-    }
-  }
-
-
-  void configureSelectNotificationSubject() {
-    selectNotificationStream.stream.listen((String? payload) async {
-      /*await Navigator.of(context).push(MaterialPageRoute<void>(
-        builder: (BuildContext context) => SecondPage(payload),
-      ));*/
-    });
-  }
-
   Future<void> nextActions() async {
-    await Workmanager().initialize(callbackDispatcher);
-    await Workmanager().registerPeriodicTask(
-      AppConstants.getNotifycations,
-      AppConstants.getNotifycations,
-      frequency: const Duration(minutes: 1),
-      existingWorkPolicy: ExistingWorkPolicy.replace,
-    );
-
     if (isLoaded) {
       if (onBoarded) {
         navigator.goToHome();

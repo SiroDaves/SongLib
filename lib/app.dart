@@ -1,14 +1,8 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
-import 'package:timezone/data/latest_all.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
 
 import 'navigator/main_navigator.dart';
 import 'theme/theme_data.dart';
@@ -19,18 +13,8 @@ import 'util/locale/localization_fallback_cupertino_delegate.dart';
 import 'viewmodel/global_vm.dart';
 import 'widget/provider/provider_widget.dart';
 
-Future<void> configureLocalTimeZone() async {
-  if (kIsWeb || Platform.isLinux) {
-    return;
-  }
-  tz.initializeTimeZones();
-  final String timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
-  tz.setLocalLocation(tz.getLocation(timeZoneName));
-}
-
 void startApp() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await configureLocalTimeZone();
 
   await Parse().initialize(
     ApiConstants.applicationID,

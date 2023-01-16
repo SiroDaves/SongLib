@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:timezone/data/latest_all.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../model/base/book.dart';
@@ -15,13 +12,9 @@ import '../../model/base/listed.dart';
 import '../../model/base/songext.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
-import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
 import '../../util/constants/pref_constants.dart';
 import '../../util/constants/utilities.dart';
-import '../../util/services/background_fetch.dart';
-import '../../widget/action/buttons.dart';
-import '../../widget/general/labels.dart';
 import '../../widget/general/toast.dart';
 
 @injectable
@@ -257,174 +250,7 @@ class HomeVm with ChangeNotifierEx {
     if (await canLaunchUrl(url)) await launchUrl(url);
   }
 
-  Future<void> donationDialog(BuildContext context) async {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: const Text(
-          AppConstants.supportSonglib,
-          style: TextStyle(
-            fontSize: 22,
-            color: ThemeColors.primaryDark,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        content: SizedBox(
-          height: 250,
-          child: Column(
-            children: [
-              const Text(
-                AppConstants.donationRequestBody,
-                style: TextStyle(fontSize: 18),
-              ),
-              const SizedBox(height: 10),
-              CustomCard(
-                title: 'Donate for the Project',
-                description: 'Give Once, Weekly, Monthly or Quartely',
-                onTap: () async {
-                  Navigator.pop(context);
-                  navigator.goToDonation();
-                },
-              ),
-              const SizedBox(height: 10),
-              CustomCard(
-                title: 'Buy our Merchandise',
-                description: 'Order our branded T-Shirts (Kenya Only)',
-                onTap: () async {
-                  Navigator.pop(context);
-                  await goToMerchandise();
-                },
-              ),
-            ],
-          ),
-        ),
-        actions: <Widget>[
-          SimpleButton(
-            title: AppConstants.remind,
-            onPressed: () async {
-              Navigator.pop(context);
-              await notificationDialog(context);
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Future<void> notificationDialog(BuildContext context) async {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: const Text(
-          AppConstants.notificationDialog,
-          style: TextStyle(
-            fontSize: 22,
-            color: ThemeColors.primaryDark,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        content: SizedBox(
-          height: 290,
-          child: Column(
-            children: [
-              SimpleButton(
-                title: 'After 5 Hours',
-                onPressed: () async {
-                  Navigator.pop(context);
-                  await flutterLocalNotificationsPlugin.zonedSchedule(
-                    300,
-                    AppConstants.songlibReminderNotificationTitle,
-                    AppConstants.songlibReminderNotificationBody5Hrs,
-                    tz.TZDateTime.now(tz.local).add(const Duration(hours: 5)),
-                    const NotificationDetails(android: androidRemindersN),
-                    androidAllowWhileIdle: true,
-                    uiLocalNotificationDateInterpretation:
-                        UILocalNotificationDateInterpretation.absoluteTime,
-                  );
-                },
-              ),
-              const SizedBox(height: 10),
-              SimpleButton(
-                title: 'After 1 day',
-                onPressed: () async {
-                  Navigator.pop(context);
-                  await flutterLocalNotificationsPlugin.zonedSchedule(
-                    300,
-                    AppConstants.songlibReminderNotificationTitle,
-                    AppConstants.songlibReminderNotificationBody1Day,
-                    tz.TZDateTime.now(tz.local).add(const Duration(days: 1)),
-                    const NotificationDetails(android: androidRemindersN),
-                    androidAllowWhileIdle: true,
-                    uiLocalNotificationDateInterpretation:
-                        UILocalNotificationDateInterpretation.absoluteTime,
-                  );
-                },
-              ),
-              const SizedBox(height: 10),
-              SimpleButton(
-                title: 'After 2 days',
-                onPressed: () async {
-                  Navigator.pop(context);
-                  await flutterLocalNotificationsPlugin.zonedSchedule(
-                    300,
-                    AppConstants.songlibReminderNotificationTitle,
-                    AppConstants.songlibReminderNotificationBody2Days,
-                    tz.TZDateTime.now(tz.local).add(const Duration(days: 2)),
-                    const NotificationDetails(android: androidRemindersN),
-                    androidAllowWhileIdle: true,
-                    uiLocalNotificationDateInterpretation:
-                        UILocalNotificationDateInterpretation.absoluteTime,
-                  );
-                },
-              ),
-              const SizedBox(height: 10),
-              SimpleButton(
-                title: 'After 5 days',
-                onPressed: () async {
-                  Navigator.pop(context);
-                  await flutterLocalNotificationsPlugin.zonedSchedule(
-                    300,
-                    AppConstants.songlibReminderNotificationTitle,
-                    AppConstants.songlibReminderNotificationBody5Days,
-                    tz.TZDateTime.now(tz.local).add(const Duration(days: 5)),
-                    const NotificationDetails(android: androidRemindersN),
-                    androidAllowWhileIdle: true,
-                    uiLocalNotificationDateInterpretation:
-                        UILocalNotificationDateInterpretation.absoluteTime,
-                  );
-                },
-              ),
-              const SizedBox(height: 10),
-              SimpleButton(
-                title: 'After 10 days',
-                onPressed: () async {
-                  Navigator.pop(context);
-                  await flutterLocalNotificationsPlugin.zonedSchedule(
-                    300,
-                    AppConstants.songlibReminderNotificationTitle,
-                    AppConstants.songlibReminderNotificationBody10Days,
-                    tz.TZDateTime.now(tz.local).add(const Duration(days: 10)),
-                    const NotificationDetails(android: androidRemindersN),
-                    androidAllowWhileIdle: true,
-                    uiLocalNotificationDateInterpretation:
-                        UILocalNotificationDateInterpretation.absoluteTime,
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
-        actions: <Widget>[
-          SimpleButton(
-            title: AppConstants.cancel,
-            onPressed: () => Navigator.pop(context),
-          ),
-        ],
-      ),
-    );
-  }
 }
-
 abstract class HomeNavigator {
   void goToPresentor();
   void goToEditor();
