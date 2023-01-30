@@ -5,18 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "SL",
+            "name": "SLApp",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "SongLib (profile mode)",
+            "name": "songlib (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "SongLib (release mode)",
+            "name": "songlib (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"

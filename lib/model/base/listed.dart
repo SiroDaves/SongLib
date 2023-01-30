@@ -1,41 +1,49 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'listed.g.dart';
-
-@JsonSerializable(explicitToJson: true)
 class Listed {
-  @JsonKey(name: 'objectId', includeIfNull: false)
-  String? objectId;
-  @JsonKey(name: 'parentid', includeIfNull: false)
-  int? parentid;
-  @JsonKey(name: 'title', includeIfNull: false)
-  String? title;
-  @JsonKey(name: 'description', includeIfNull: false)
-  String? description;
-  @JsonKey(name: 'position', includeIfNull: false)
-  int? position;
-  @JsonKey(name: 'createdAt', includeIfNull: false)
-  String? createdAt;
-  @JsonKey(name: 'updatedAt', includeIfNull: false)
-  String? updatedAt;
-  @JsonKey(name: 'id', includeIfNull: false)
   int? id;
-  @JsonKey(name: 'song', includeIfNull: false)
+  String? objectId;
+  int? parentid;
   int? song;
+  String? title;
+  String? description;
+  int? position;
+  String? createdAt;
+  String? updatedAt;
 
   Listed({
+    this.id,
     this.objectId,
     this.parentid,
+    this.song,
     this.title,
     this.description,
     this.position,
     this.createdAt,
     this.updatedAt,
-    this.id,
-    this.song,
   });
 
-  factory Listed.fromJson(Map<String, dynamic> json) => _$ListedFromJson(json);
+  Listed.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    objectId = json['objectId'];
+    parentid = json['parentid'];
+    song = json['song'];
+    title = json['title'];
+    description = json['description'];
+    position = json['position'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+  }
 
-  Map<String, dynamic> toJson() => _$ListedToJson(this);
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['objectId'] = objectId;
+    data['parentid'] = parentid;
+    data['song'] = song;
+    data['title'] = title;
+    data['description'] = description;
+    data['position'] = position;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
+    return data;
+  }
 }

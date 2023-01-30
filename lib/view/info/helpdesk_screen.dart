@@ -70,7 +70,7 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
                 onTap: () => viewModel.goToSms(),
               ),
               ListTile(
-                leading: const Icon(Icons.whatsapp),
+                leading: const Icon(IconData(0xf05a6, fontFamily: 'MaterialIcons')),
                 title: const Text('WhatsApp'),
                 onTap: () => viewModel.goToWhatsapp(),
               ),

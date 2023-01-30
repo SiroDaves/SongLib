@@ -4,13 +4,16 @@ import 'package:injectable/injectable.dart';
 import '../../model/base/song.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
+import '../../util/constants/app_constants.dart';
+import '../../util/constants/event_constants.dart';
 import '../../util/constants/pref_constants.dart';
-import '../../webservice/song/song_web_service.dart';
+import '../../util/constants/utilities.dart';
+import '../../webservice/app_web_service.dart';
 
 @injectable
 class ProgressVm with ChangeNotifierEx {
   late final ProgressNavigator navigator;
-  final SongWebService api;
+  final AppWebService api;
   final DbRepository db;
   final LocalStorage localStorage;
 
@@ -20,7 +23,9 @@ class ProgressVm with ChangeNotifierEx {
 
   ProgressVm(this.api, this.db, this.localStorage);
 
-  bool isBusy = false, onBoarded = false;
+  bool isLoading = false, hasError = false, onBoarded = false;
+  String errorTitle = AppConstants.errorOccurred;
+  String errorBody = AppConstants.errorOccurredBody;
   List<Song>? songs = [];
   String selectedBooks = "", predistinatedBooks = "";
   List<String> newBooks = [], oldBooks = [], predistinated = [];
@@ -35,7 +40,7 @@ class ProgressVm with ChangeNotifierEx {
         localStorage.getPrefString(PrefConstants.predistinatedBooksKey);
 
     if (predistinatedBooks.isNotEmpty) {
-      isBusy = true;
+      isLoading = true;
       notifyListeners();
       await db.majorCleanUp(selectedBooks);
     }
@@ -45,23 +50,44 @@ class ProgressVm with ChangeNotifierEx {
 
   /// Get the list of songs and save theme
   Future<void> fetchSongs() async {
-    isBusy = true;
+    isLoading = true;
     notifyListeners();
 
     selected = selectedBooks.split(",");
-    for(final select in selected){
+    for (final select in selected) {
       bookNos.add(int.parse(select));
     }
-    songs = await api.fetchSongs(bookNos);
+    //songs = await api.fetchSongs(bookNos);
 
-    isBusy = false;
+    if (await isConnected()) {
+      var response = await api.fetchSongs(bookNos);
+      if (response.id == EventConstants.requestSuccessful) {
+        Song song = Song();
+        songs = song.fromData(response.data);
+
+        if (songs!.isNotEmpty) {
+          await saveSongs();
+        } else {
+          hasError = true;
+        }
+      } else {
+        hasError = true;
+      }
+    } else {
+      hasError = true;
+      errorTitle = AppConstants.noConnection;
+      errorBody = AppConstants.noConnectionBody;
+    }
+
+    isLoading = false;
     notifyListeners();
-
-    await saveSongs();
   }
 
   /// Get the list of songs and save theme
   Future<void> saveSongs() async {
+    isLoading = false;
+    notifyListeners();
+
     if (songs!.isNotEmpty) {
       for (int i = 0; i < songs!.length; i++) {
         try {

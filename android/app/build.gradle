@@ -54,11 +54,17 @@ android {
         targetSdkVersion 31
         compileSdkVersion 33
         multiDexEnabled true
-        versionCode 11
-        versionName "0.0.6.1" 
+        versionCode 12
+        versionName "0.0.6.2" 
     }
     
     signingConfigs {
+        debug {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
+        }
         release {
             keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']
@@ -67,8 +73,24 @@ android {
         }
     }
     buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
         release {
+            minifyEnabled true
             signingConfig signingConfigs.release
+        }
+    }
+
+    flavorDimensions "flavors"
+    productFlavors {
+        dev {
+            dimension "flavors"
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+        }
+        prod {
+            dimension "flavors"
         }
     }
 }

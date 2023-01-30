@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 import '../../navigator/main_navigator.dart';
 import '../../theme/theme_colors.dart';
@@ -32,18 +32,27 @@ class SelectionScreenState extends State<SelectionScreen>
 
     return ProviderWidget<SelectionVm>(
       create: () => GetIt.I()..init(this),
-      childBuilderWithViewModel: (context, viewModel, theme, localization) {
+      childBuilderWithViewModel: (context, vm, theme, localization) {
         var topContainer = AppBar(
           title: Text(
-            viewModel.isBusy
+            vm.isLoading
                 ? AppConstants.booksTitleLoading
                 : AppConstants.booksTitle,
           ),
           actions: <Widget>[
-            viewModel.isBusy
+            vm.isLoading
+                ? Container()
+                : InkWell(
+                    onTap: vm.fetchBooks,
+                    child: const Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Icon(Icons.refresh),
+                    ),
+                  ),
+            vm.isLoading
                 ? Container()
                 : TextButton(
-                    onPressed: () => areYouDoneDialog(context, viewModel),
+                    onPressed: () => areYouDoneDialog(context, vm),
                     child: Container(
                       padding: const EdgeInsets.all(10),
                       decoration: const BoxDecoration(
@@ -70,38 +79,62 @@ class SelectionScreenState extends State<SelectionScreen>
           ],
         );
 
-        var mainContainer = viewModel.books!.isNotEmpty
-            ? ListView.builder(
-                padding: const EdgeInsets.all(5),
-                itemCount: viewModel.books!.length,
-                itemBuilder: (context, index) => BookItem(
-                  book: viewModel.books![index],
-                  selected: viewModel.listedBooks[index]!.isSelected,
-                  onTap: () => viewModel.onBookSelected(index),
-                ),
-              )
-            : const NoDataToShow(
-                title: AppConstants.errorOccurred,
-                description: AppConstants.errorOccurredBody,
-              );
-
         return Scaffold(
           appBar: topContainer,
-          body: SmartRefresher(
-            enablePullDown: true,
-            enablePullUp: true,
-            header: const WaterDropHeader(),
-            //footer: Container(),
-            controller: viewModel.refreshController,
-            onRefresh: viewModel.onRefresh,
-            onLoading: viewModel.onLoading,
-            child: viewModel.isBusy ? const CircularProgress() : mainContainer,
+          body: SafeArea(
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              child: Stack(
+                children: [
+                  vm.isLoading
+                      ? const CircularProgress()
+                      : vm.books!.isNotEmpty
+                          ? UniversalPlatform.isWindows
+                              ? LayoutBuilder(
+                                  builder: (context, dimens) {
+                                    int axisCount =
+                                        (dimens.maxWidth / 450).round();
+                                    return GridView.builder(
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: axisCount,
+                                        childAspectRatio: 4,
+                                      ),
+                                      itemCount: vm.books!.length,
+                                      itemBuilder: (context, index) => BookItem(
+                                        book: vm.books![index],
+                                        selected:
+                                            vm.listedBooks[index]!.isSelected,
+                                        onTap: () => vm.onBookSelected(index),
+                                      ),
+                                    );
+                                  },
+                                )
+                              : ListView.builder(
+                                  padding: const EdgeInsets.all(5),
+                                  itemCount: vm.books!.length,
+                                  itemBuilder: (context, index) => BookItem(
+                                    book: vm.books![index],
+                                    selected: vm.listedBooks[index]!.isSelected,
+                                    onTap: () => vm.onBookSelected(index),
+                                  ),
+                                )
+                          : Container(),
+                  vm.hasError
+                      ? NoDataToShow(
+                          title: vm.errorTitle,
+                          description: vm.errorBody,
+                        )
+                      : Container(),
+                ],
+              ),
+            ),
           ),
-          floatingActionButton: viewModel.isBusy
+          floatingActionButton: vm.isLoading
               ? Container()
               : FloatingActionButton(
                   backgroundColor: ThemeColors.primary,
-                  onPressed: () => areYouDoneDialog(context, viewModel),
+                  onPressed: () => areYouDoneDialog(context, vm),
                   child: const Icon(Icons.check, color: Colors.white),
                 ),
         );
@@ -109,9 +142,8 @@ class SelectionScreenState extends State<SelectionScreen>
     );
   }
 
-  Future<void> areYouDoneDialog(
-      BuildContext context, SelectionVm viewModel) async {
-    if (viewModel.selectables.isNotEmpty) {
+  Future<void> areYouDoneDialog(BuildContext context, SelectionVm vm) async {
+    if (vm.selectables.isNotEmpty) {
       return showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
@@ -136,7 +168,7 @@ class SelectionScreenState extends State<SelectionScreen>
               title: AppConstants.proceed,
               onPressed: () {
                 Navigator.pop(context);
-                viewModel.saveBooks();
+                vm.saveBooks();
               },
             ),
           ],

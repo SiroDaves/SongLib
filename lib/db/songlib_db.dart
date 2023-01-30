@@ -20,8 +20,8 @@ part 'songlib_db.g.dart';
 class SongLibDb extends _$SongLibDb {
   SongLibDb(QueryExecutor db) : super(db);
 
-  SongLibDb.connect(DatabaseConnection connection)
-      : super.connect(connection);
+  SongLibDb.connect(DatabaseConnection connection) : super.connect(connection);
+  // _$SongLibDb.connect(DatabaseConnection c) : super.connect(c);
 
   @override
   int get schemaVersion => 1;

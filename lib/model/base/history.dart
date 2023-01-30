@@ -1,27 +1,29 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'history.g.dart';
-
-@JsonSerializable(explicitToJson: true)
 class History {
-  @JsonKey(name: 'objectId', includeIfNull: false)
-  String? objectId;
-  @JsonKey(name: 'song', required: true, includeIfNull: false)
-  int? song;
-  @JsonKey(name: 'createdAt', includeIfNull: false)
-  String? createdAt;
-  @JsonKey(name: 'id', includeIfNull: false)
   int? id;
+  String? objectId;
+  int? song;
+  String? createdAt;
 
   History({
+    this.id,
     this.objectId,
     this.song,
     this.createdAt,
-    this.id,
   });
 
-  factory History.fromJson(Map<String, dynamic> json) =>
-      _$HistoryFromJson(json);
+  History.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    objectId = json['objectId'];
+    song = json['song'];
+    createdAt = json['createdAt'];
+  }
 
-  Map<String, dynamic> toJson() => _$HistoryToJson(this);
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['objectId'] = objectId;
+    data['song'] = song;
+    data['createdAt'] = createdAt;
+    return data;
+  }
 }

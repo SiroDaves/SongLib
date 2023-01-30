@@ -26,53 +26,44 @@ class BookItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: 'BookItem_${book.objectId}',
-      child: GestureDetector(
-        onTap: onTap,
-        child: Card(
-          color: selected ? Colors.deepOrange : Colors.white,
-          elevation: 5,
-          child: Row(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Icon(
-                  selected ? Icons.check_box : Icons.check_box_outline_blank,
+    return Container(
+      margin: const EdgeInsets.all(5),
+      child: Card(
+        color: selected ? Colors.deepOrange : Colors.white,
+        elevation: 5,
+        child: Center(
+          child: ListTile(
+            onTap: onTap,
+            leading: Padding(
+              padding: const EdgeInsets.all(15),
+              child: Icon(
+                selected ? Icons.check_box : Icons.check_box_outline_blank,
+                color: selected ? Colors.white : Colors.black,
+              ),
+            ),
+            title: Padding(
+              padding: const EdgeInsets.only(top: 10, bottom: 5),
+              child: Text(
+                refineTitle(book.title!),
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                   color: selected ? Colors.white : Colors.black,
                 ),
               ),
-              textContainer(),
-            ],
+            ),
+            subtitle: Padding(
+              padding: const EdgeInsets.only(top: 5, bottom: 10),
+              child: Text(
+                "${book.songs!} ${book.subTitle} songs",
+                style: TextStyle(
+                  fontSize: 18,
+                  color: selected ? Colors.white : Colors.black,
+                ),
+              ),
+            ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget textContainer() {
-    return Container(
-      margin: const EdgeInsets.all(10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            refineTitle(book.title!),
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: selected ? Colors.white : Colors.black,
-            ),
-          ),
-          const SizedBox(height: 5),
-          Text(
-            "${book.songs!} ${book.subTitle} songs",
-            style: TextStyle(
-              fontSize: 16,
-              color: selected ? Colors.white : Colors.black,
-            ),
-          ),
-        ],
       ),
     );
   }

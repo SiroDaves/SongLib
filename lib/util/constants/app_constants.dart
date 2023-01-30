@@ -1,9 +1,14 @@
+import 'package:flutter/material.dart';
+
 class AppConstants {
   AppConstants._();
 
-  static const playstoreLink = "https://play.google.com/store/apps/details?id=com.songlib";
-  static const tshirtOrderLink = "https://docs.google.com/forms/d/e/1FAIpQLSedRl841nlaniRCLm-I60VLL1tmHRC1Rd6j-eDNZZSNA8QzXQ/viewform?usp=sf_link";
-  static const donationPaypalLink = "https://www.paypal.com/donate/?hosted_button_id=FYZYTW723Q8QC";
+  static const playstoreLink =
+      "https://play.google.com/store/apps/details?id=com.songlib";
+  static const tshirtOrderLink =
+      "https://docs.google.com/forms/d/e/1FAIpQLSedRl841nlaniRCLm-I60VLL1tmHRC1Rd6j-eDNZZSNA8QzXQ/viewform?usp=sf_link";
+  static const donationPaypalLink =
+      "https://www.paypal.com/donate/?hosted_button_id=FYZYTW723Q8QC";
   static const donationPatreaonLink = "https://www.patreon.com/SongLib";
 
   static const appTitle = "SongLib";
@@ -65,7 +70,8 @@ class AppConstants {
   static const supportSonglib = "Support SongLib";
   static const notificationDialog = "Let's remind you";
   static const donationRequest = "Donation Request";
-  static const donationRequestBody = "SongLib has a lot in the pipelines and will need your support to accomplish that.";
+  static const donationRequestBody =
+      "SongLib has a lot in the pipelines and will need your support to accomplish that.";
   static const doneSelecting = "Done with selecting?";
   static const doneSelectingBody =
       "If you are done selecting please proceed ahead. We can always bring you back here to reselect afresh.";
@@ -77,6 +83,7 @@ class AppConstants {
       "An unexpected error occurred while trying to present the song to you. Please try again later or contact support";
   static const errorOccurredBody =
       "An unexpected error occurred while trying to fetch data from the server. Please try again later or contact support";
+  static const noConnection = "No internet connection!";
   static const noConnectionBody =
       "If you have reliable internet connection, then our servers are down. It's one thing or the other, we can't tell which is which.";
 
@@ -105,9 +112,18 @@ class AppConstants {
   static const songLibRemindersN = 'SongLib Reminders';
 
   static const songlibReminderNotificationTitle = 'SongLib needs your Support';
-  static const songlibReminderNotificationBody5Hrs = 'Its 5 hours since you asked us to remind you to support us in the SongLib project';
-  static const songlibReminderNotificationBody1Day = 'Its 1 day since you asked us to remind you to support us in the SongLib project';
-  static const songlibReminderNotificationBody2Days = 'Its 2 days since you asked us to remind you to support us in the SongLib project';
-  static const songlibReminderNotificationBody5Days = 'Its 5 days since you asked us to remind you to support us in the SongLib project';
-  static const songlibReminderNotificationBody10Days = 'Its 10 days since you asked us to remind you to support us in the SongLib project';
+  static const songlibReminderNotificationBody5Hrs =
+      'Its 5 hours since you asked us to remind you to support us in the SongLib project';
+  static const songlibReminderNotificationBody1Day =
+      'Its 1 day since you asked us to remind you to support us in the SongLib project';
+  static const songlibReminderNotificationBody2Days =
+      'Its 2 days since you asked us to remind you to support us in the SongLib project';
+  static const songlibReminderNotificationBody5Days =
+      'Its 5 days since you asked us to remind you to support us in the SongLib project';
+  static const songlibReminderNotificationBody10Days =
+      'Its 10 days since you asked us to remind you to support us in the SongLib project';
+
+  /// <i class="material-icons md-36">whatsapp</i> &#x2014; material icon named "whatsapp".
+  static const IconData whatsapp =
+      IconData(0xf05a6, fontFamily: 'MaterialIcons');
 }

@@ -1,37 +1,21 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'draft.g.dart';
-
-@JsonSerializable(explicitToJson: true)
 class Draft {
-  @JsonKey(name: 'objectId', includeIfNull: false)
-  String? objectId;
-  @JsonKey(name: 'book', includeIfNull: false)
-  int? book;
-  @JsonKey(name: 'songNo', includeIfNull: false)
-  int? songNo;
-  @JsonKey(name: 'title', includeIfNull: false)
-  String? title;
-  @JsonKey(name: 'alias', includeIfNull: false)
-  String? alias;
-  @JsonKey(name: 'content', includeIfNull: false)
-  String? content;
-  @JsonKey(name: 'key', includeIfNull: false)
-  String? key;
-  @JsonKey(name: 'author', includeIfNull: false)
-  String? author;
-  @JsonKey(name: 'views', includeIfNull: false)
-  int? views;
-  @JsonKey(name: 'createdAt', includeIfNull: false)
-  String? createdAt;
-  @JsonKey(name: 'updatedAt', includeIfNull: false)
-  String? updatedAt;
-  @JsonKey(name: 'liked', includeIfNull: false)
-  bool? liked;
-  @JsonKey(name: 'id', includeIfNull: false)
   int? id;
+  String? objectId;
+  int? book;
+  int? songNo;
+  String? title;
+  String? alias;
+  String? content;
+  String? key;
+  String? author;
+  int? views;
+  int? likes;
+  bool? liked;
+  String? createdAt;
+  String? updatedAt;
 
   Draft({
+    this.id,
     this.objectId,
     this.book,
     this.songNo,
@@ -41,13 +25,43 @@ class Draft {
     this.key,
     this.author,
     this.views,
+    this.likes,
+    this.liked,
     this.createdAt,
     this.updatedAt,
-    this.liked,
-    this.id,
   });
 
-  factory Draft.fromJson(Map<String, dynamic> json) => _$DraftFromJson(json);
+  Draft.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    objectId = json['objectId'];
+    book = json['book'];
+    songNo = json['songNo'];
+    title = json['title'];
+    alias = json['alias'];
+    content = json['content'];
+    key = json['key'];
+    author = json['author'];
+    views = json['views'];
+    likes = json['likes'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+  }
 
-  Map<String, dynamic> toJson() => _$DraftToJson(this);
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['objectId'] = objectId;
+    data['book'] = book;
+    data['songNo'] = songNo;
+    data['title'] = title;
+    data['alias'] = alias;
+    data['content'] = content;
+    data['key'] = key;
+    data['author'] = author;
+    data['views'] = views;
+    data['likes'] = likes;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
+    return data;
+  }
 }

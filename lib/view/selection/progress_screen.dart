@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 import '../../navigator/main_navigator.dart';
 import '../../theme/theme_colors.dart';
@@ -22,21 +23,24 @@ class ProgressScreen extends StatefulWidget {
 class ProgressScreenState extends State<ProgressScreen>
     implements ProgressNavigator {
   Size? size;
+  double? radius;
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
+    radius =
+        UniversalPlatform.isWindows ? size!.height / 2.5 : size!.width / 2.5;
 
     return ProviderWidget<ProgressVm>(
         create: () => GetIt.I()..init(this),
-        childBuilderWithViewModel: (context, viewModel, theme, localization) {
-          RotatedBox backgroundProgress = RotatedBox(
+        childBuilderWithViewModel: (context, vm, theme, localization) {
+          var backgroundProgress = RotatedBox(
             quarterTurns: 7,
             child: SizedBox(
               height: size!.width,
               child: LinearPercentIndicator(
                 percent: double.parse(
-                  (viewModel.progress / 100).toStringAsFixed(1),
+                  (vm.progress / 100).toStringAsFixed(1),
                 ),
                 lineHeight: size!.width,
                 backgroundColor: Colors.black,
@@ -44,36 +48,30 @@ class ProgressScreenState extends State<ProgressScreen>
               ),
             ),
           );
-          Padding progressPercentage = Padding(
-            padding: const EdgeInsets.only(top: 16),
+          var progressPercentage = Text(
+            '${vm.progress} %',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              letterSpacing: 1.5,
+              fontWeight: FontWeight.w400,
+              fontSize: radius! / 1.5,
+              color: Colors.white,
+            ),
+          );
+          var progressState = Center(
             child: Text(
-              '${viewModel.progress} %',
+              vm.state.toUpperCase(),
               textAlign: TextAlign.center,
               style: TextStyle(
                 letterSpacing: 1.5,
-                fontWeight: FontWeight.w400,
-                fontSize: size!.width / 5,
-                color: Colors.white,
-              ),
-            ),
-          );
-          SizedBox progressState = SizedBox(
-            height: size!.width / 6,
-            child: Center(
-              child: Text(
-                viewModel.state.toUpperCase(),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  letterSpacing: 1.5,
-                  fontWeight: FontWeight.w800,
-                  fontSize: size!.width / 20,
-                  color: Colors.white24,
-                ),
+                fontWeight: FontWeight.w800,
+                fontSize: radius! / 8,
+                color: Colors.white24,
               ),
             ),
           );
 
-          Padding timeLeft = Padding(
+          var timeLeft = Padding(
             padding: const EdgeInsets.only(
               top: 10,
             ),
@@ -85,16 +83,16 @@ class ProgressScreenState extends State<ProgressScreen>
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
-                    fontSize: size!.width / 25,
+                    fontSize: radius! / 7,
                     color: Colors.white,
                   ),
                 ),
                 Text(
-                  viewModel.time,
+                  vm.time,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
-                    fontSize: size!.width / 15,
+                    fontSize: radius! / 5,
                     color: Colors.white,
                   ),
                 ),
@@ -102,17 +100,17 @@ class ProgressScreenState extends State<ProgressScreen>
             ),
           );
 
-          Center foregroundProgress = Center(
+          var foregroundProgress = Center(
             child: AdvancedProgress(
-              radius: size!.width / 2.5,
+              radius: radius!,
               levelAmount: 100,
               levelLowHeight: 16,
               levelHighHeight: 20,
               division: 10,
               secondaryWidth: 10,
               progressGap: 10,
-              primaryValue: viewModel.progress / 100,
-              secondaryValue: viewModel.progress / 100,
+              primaryValue: vm.progress / 100,
+              secondaryValue: vm.progress / 100,
               primaryColor: Colors.yellow,
               secondaryColor: Colors.red,
               tertiaryColor: Colors.white24,
@@ -121,7 +119,7 @@ class ProgressScreenState extends State<ProgressScreen>
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    SizedBox(height: size!.width / 5),
+                    SizedBox(height: radius! / 2.1),
                     progressPercentage,
                     progressState,
                     timeLeft,
@@ -133,7 +131,7 @@ class ProgressScreenState extends State<ProgressScreen>
 
           return Scaffold(
             backgroundColor: Colors.black,
-            body: viewModel.isBusy
+            body: vm.isLoading
                 ? const CircularProgress()
                 : Stack(
                     children: [

@@ -11,10 +11,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../db/songlib_db.dart';
 import '../repository/secure_storage/secure_storage.dart';
 import '../util/env/flavor_config.dart';
-import '../util/interceptor/network_auth_interceptor.dart';
-import '../util/interceptor/network_error_interceptor.dart';
-import '../util/interceptor/network_log_interceptor.dart';
-import '../util/interceptor/network_refresh_interceptor.dart';
 import 'db/setup_drift_none.dart'
     if (dart.library.io) 'db/setup_drift_io.dart'
     if (dart.library.js) 'db/setup_drift_web.dart';
@@ -67,19 +63,6 @@ abstract class RegisterModule {
     if (kIsWeb) return preferences;
     return secure;
   }
-
-  @lazySingleton
-  CombiningSmartInterceptor provideCombiningSmartInterceptor(
-    NetworkLogInterceptor logInterceptor,
-    NetworkAuthInterceptor authInterceptor,
-    NetworkErrorInterceptor errorInterceptor,
-    NetworkRefreshInterceptor refreshInterceptor,
-  ) =>
-      CombiningSmartInterceptor()
-        ..addInterceptor(authInterceptor)
-        ..addInterceptor(refreshInterceptor)
-        ..addInterceptor(errorInterceptor)
-        ..addInterceptor(logInterceptor);
 
   @lazySingleton
   SongLibDb provideSongLibDb(DatabaseConnection databaseConnection) =>

@@ -1,8 +1,8 @@
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
-import '../../model/general/notifycation.dart';
-import '../../util/constants/api_constants.dart';
-import '../../util/constants/utilities.dart';
+import '../model/general/notifycation.dart';
+import '../util/constants/api_constants.dart';
+import '../util/constants/utilities.dart';
 
 class NotifycationWebService {
   Future<List<ParseObject>> queryNotifycations() async {

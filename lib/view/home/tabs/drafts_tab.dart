@@ -7,20 +7,6 @@ class DraftsTab extends StatelessWidget {
   DraftsTab({Key? key, required this.homeVm}) : super(key: key);
   Size? size;
 
-  RefreshController refreshController = RefreshController(
-    initialRefresh: false,
-  );
-
-  void onRefresh() async {
-    await homeVm.fetchDraftsData();
-    refreshController.refreshCompleted();
-  }
-
-  void onLoading() async {
-    await homeVm.fetchDraftsData();
-    refreshController.loadComplete();
-  }
-
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;

@@ -1,26 +1,29 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'search.g.dart';
-
-@JsonSerializable(explicitToJson: true)
 class Search {
-  @JsonKey(name: 'objectId', includeIfNull: false)
-  String? objectId;
-  @JsonKey(name: 'title', includeIfNull: false)
-  String? title;
-  @JsonKey(name: 'createdAt', includeIfNull: false)
-  String? createdAt;
-  @JsonKey(name: 'id', includeIfNull: false)
   int? id;
+  String? objectId;
+  String? title;
+  String? createdAt;
 
   Search({
+    this.id,
     this.objectId,
     this.title,
     this.createdAt,
-    this.id,
   });
 
-  factory Search.fromJson(Map<String, dynamic> json) => _$SearchFromJson(json);
+  Search.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    objectId = json['objectId'];
+    title = json['title'];
+    createdAt = json['createdAt'];
+  }
 
-  Map<String, dynamic> toJson() => _$SearchToJson(this);
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['objectId'] = objectId;
+    data['title'] = title;
+    data['createdAt'] = createdAt;
+    return data;
+  }
 }

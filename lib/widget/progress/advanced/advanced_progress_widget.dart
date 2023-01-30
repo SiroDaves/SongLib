@@ -3,12 +3,12 @@ part of 'advanced_progress.dart';
 /// Advanced progress widget.
 /// Represents two progress, primary and secondary.
 class AdvancedProgress extends StatelessWidget {
-  AdvancedProgress({
+  const AdvancedProgress({
     Key? key,
+    required this.radius,
     this.primaryValue,
     this.secondaryValue,
     this.secondaryWidth = 10.0,
-    required this.radius,
     this.startAngle = 120.0,
     this.maxDegrees = 300.0,
     this.progressGap = 0.0,
@@ -25,6 +25,9 @@ class AdvancedProgress extends StatelessWidget {
     this.child,
   }) : super(key: key);
 
+  /// Total radius for whole widget.
+  final double radius;
+
   /// Value for primary progress.
   final double? primaryValue;
 
@@ -33,9 +36,6 @@ class AdvancedProgress extends StatelessWidget {
 
   /// Secondary progress width.
   final double secondaryWidth;
-
-  /// Total radius for whole widget.
-  final double radius;
 
   /// Progress start angle.
   final double startAngle;
@@ -92,7 +92,7 @@ class AdvancedProgress extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       width: size,
       height: size,
-      decoration: BoxDecoration(),
+      decoration: const BoxDecoration(),
       child: CustomPaint(
         painter: AdvancedProgressPainter(
           primaryValue: primaryValue,

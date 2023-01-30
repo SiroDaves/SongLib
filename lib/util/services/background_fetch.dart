@@ -7,7 +7,7 @@ import 'package:workmanager/workmanager.dart';
 
 import '../../model/general/notifycation.dart';
 import '../../model/general/received_notification.dart';
-import '../../webservice/notifycation/notifycation_web_service.dart';
+import '../../webservice/notifycation_web_service.dart';
 import '../constants/api_constants.dart';
 import '../constants/app_constants.dart';
 
