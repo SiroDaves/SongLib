@@ -26,7 +26,7 @@ class ListPopupVm with ChangeNotifierEx {
   HomeVm? homeVm;
   List<ListedExt>? listeds = [];
 
-  bool isBusy = false;
+  bool isLoading = false;
 
   Future<void> init(ListPopupNavigator screenNavigator) async {
     navigator = screenNavigator;
@@ -51,7 +51,7 @@ class ListPopupVm with ChangeNotifierEx {
 
   /// Add a song to a list
   Future<void> addSongToList(Listed listed, SongExt song) async {
-    isBusy = true;
+    isLoading = true;
     notifyListeners();
     await dbRepo.saveListedSong(listed, song);
     showToast(
@@ -59,7 +59,7 @@ class ListPopupVm with ChangeNotifierEx {
       state: ToastStates.success,
     );
     try {
-      isBusy = false;
+      isLoading = false;
       notifyListeners();
     // ignore: empty_catches
     } catch (e) {
@@ -69,7 +69,7 @@ class ListPopupVm with ChangeNotifierEx {
   /// Save changes for a listed be it a new one or simply updating an old one
   Future<void> saveNewList() async {
     if (titleController!.text.isNotEmpty) {
-      isBusy = true;
+      isLoading = true;
       notifyListeners();
       final Listed listed = Listed(
         objectId: '',
@@ -83,7 +83,7 @@ class ListPopupVm with ChangeNotifierEx {
         state: ToastStates.success,
       );
 
-      isBusy = false;
+      isLoading = false;
       notifyListeners();
     }
   }

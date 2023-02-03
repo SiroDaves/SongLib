@@ -109,7 +109,7 @@ class EditorScreenState extends State<EditorScreen>
                 ],
               ),
             ),
-            child: viewModel.isBusy ? const CircularProgress() : mainContainer,
+            child: viewModel.isLoading ? const CircularProgress() : mainContainer,
           ),
         );
       },

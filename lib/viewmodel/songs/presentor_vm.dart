@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get_it/get_it.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:wakelock/wakelock.dart';
 
+import '../../di/injectable.dart';
 import '../../model/base/draft.dart';
 import '../../model/base/history.dart';
 import '../../model/base/songext.dart';
@@ -23,18 +23,18 @@ import '../home/home_vm.dart';
 
 @injectable
 class PresentorVm with ChangeNotifierEx {
-  late final PresentorNavigator navigator;
   final LocalStorage localStorage;
   final DbRepository dbRepo;
 
   PresentorVm(this.dbRepo, this.localStorage);
 
-  HomeVm? homeVm;
+  late final PresentorNavigator navigator;
+  late HomeVm homeVm;
   SongExt? song;
   Draft? draft;
 
-  bool isBusy = false, enableWakeLock = false, slideHorizontal = false;
-  bool isLiked = true, hasChorus = false, isDraft = false;
+  bool isLoading = false, enableWakeLock = false, slideHorizontal = false;
+  bool isLiked = false, hasChorus = false, notDraft = false;
 
   String songTitle = '', songBook = '', songContent = '';
   int curStanza = 0, curSong = 0;
@@ -48,28 +48,33 @@ class PresentorVm with ChangeNotifierEx {
   IconData likeIcon = Icons.favorite_border;
 
   Future<void> init(PresentorNavigator screenNavigator) async {
+    navigator = screenNavigator;
+    draft = localStorage.draft;
+    song = localStorage.song;
+
     enableWakeLock = localStorage.getPrefBool(PrefConstants.wakeLockCheckKey);
+    notDraft = localStorage.getPrefBool(PrefConstants.notDraftKey);
     slideHorizontal =
         localStorage.getPrefBool(PrefConstants.slideHorizontalKey);
     if (enableWakeLock) await Wakelock.enable();
 
-    navigator = screenNavigator;
-    homeVm = GetIt.instance<HomeVm>();
-    draft = localStorage.draft;
-    song = localStorage.song;
-    isDraft = draft != null ? true : false;
+    homeVm = HomeVm(dbRepo, localStorage);
+    homeVm = getIt.get<HomeVm>();
     await loadPresentor();
   }
 
   /// Prepare song lyrics to be shown in slide format
   Future<void> loadPresentor() async {
-    isBusy = true;
+    isLoading = true;
     notifyListeners();
 
     verseInfos.clear();
     verseTexts.clear();
 
-    if (isDraft) {
+    if (notDraft) {
+      await loadSong(song!);
+      await dbRepo.saveHistory(History(song: song!.id));
+    } else {
       await loadSong(
         SongExt(
           songNo: 0,
@@ -83,18 +88,17 @@ class PresentorVm with ChangeNotifierEx {
           key: draft!.key,
         ),
       );
-    } else {
-      await loadSong(song!);
-      await dbRepo.saveHistory(History(song: song!.id));
     }
 
-    isBusy = false;
+    isLoading = false;
     notifyListeners();
   }
 
   Future<void> loadSong(SongExt data) async {
-    songBook = refineTitle(song!.songbook!);
-    songTitle = songItemTitle(data.songNo!, data.title!);
+    songBook = refineTitle(data.songbook!);
+    songTitle = notDraft
+        ? songItemTitle(data.songNo!, data.title!)
+        : refineTitle(data.title!);
 
     isLiked = data.liked!;
     likeIcon = isLiked ? Icons.favorite : Icons.favorite_border;
@@ -227,19 +231,8 @@ class PresentorVm with ChangeNotifierEx {
     );
   }
 
-  Future<void> openSongEditor() async {
-    if (isDraft) {
-      localStorage.song = null;
-      localStorage.draft = draft;
-    } else {
-      localStorage.song = song;
-      localStorage.draft = null;
-    }
-    navigator.goToEditor();
-  }
-
   Future<void> onBackPressed() async {
-    await homeVm!.fetchDraftsData();
+    await homeVm.fetchData();
     navigator.goBack<void>();
     await Wakelock.disable();
   }

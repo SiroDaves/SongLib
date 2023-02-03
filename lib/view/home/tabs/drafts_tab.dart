@@ -3,72 +3,32 @@ part of '../home_screen.dart';
 /// Tab screen with list of song drafts
 // ignore: must_be_immutable
 class DraftsTab extends StatelessWidget {
-  final HomeVm homeVm;
-  DraftsTab({Key? key, required this.homeVm}) : super(key: key);
+  final HomeVm vm;
+  DraftsTab(this.vm, {Key? key}) : super(key: key);
   Size? size;
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
 
-    var listContainer = SizedBox(
-      height: size!.height * 0.78125,
-      child: Scrollbar(
-        thickness: 10,
-        radius: const Radius.circular(20),
-        child: ListView.builder(
-          padding: EdgeInsets.only(
-            left: size!.height * 0.0082,
-            right: size!.height * 0.0163,
-          ),
-          itemBuilder: (context, index) {
-            final Draft draft = homeVm.drafts![index];
-            return DraftItem(
-              draft: draft,
-              height: size!.height,
-              onTap: () => homeVm.openPresentor(draft: draft),
-            );
-          },
-          itemCount: homeVm.drafts!.length,
-        ),
+    var listContainer = ListView.builder(
+      padding: EdgeInsets.all(
+        size!.height * 0.015,
       ),
-    );
-
-    var titleContainer = homeVm.isBusy
-        ? PageTitle(label: AppConstants.draftTitle, size: size)
-        : homeVm.drafts!.isNotEmpty
-            ? PageSearch(
-                label: AppConstants.draftTitle,
-                size: size,
-                onTap: () async {
-                  await showSearch(
-                    context: context,
-                    delegate: SearchDrafts(
-                      context,
-                      homeVm,
-                      size!.height,
-                      homeVm.drafts!,
-                    ),
-                  );
-                },
-              )
-            : PageTitle(label: AppConstants.draftTitle, size: size);
-
-    var mainContainer = SizedBox(
-      child: homeVm.isBusy
-          ? const ListLoading()
-          : homeVm.drafts!.isNotEmpty
-              ? listContainer
-              : const NoDataToShow(
-                  title: AppConstants.itsEmptyHere,
-                  description: AppConstants.itsEmptyHereBody2,
-                ),
+      itemBuilder: (context, index) {
+        final Draft draft = vm.drafts![index];
+        return DraftItem(
+          draft: draft,
+          height: size!.height,
+          onTap: () => vm.openPresentor(draft: draft),
+        );
+      },
+      itemCount: vm.drafts!.length,
     );
 
     return Scaffold(
       body: Container(
         height: size!.height,
-        padding: const EdgeInsets.only(top: 40),
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -76,23 +36,20 @@ class DraftsTab extends StatelessWidget {
             colors: [Colors.white, ThemeColors.accent, Colors.black],
           ),
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              titleContainer,
-              mainContainer,
-            ],
-          ),
-        ),
+        child: vm.isLoading
+            ? const ListLoading()
+            : vm.drafts!.isNotEmpty
+                ? listContainer
+                : const NoDataToShow(
+                    title: AppConstants.itsEmptyHere,
+                    description: AppConstants.itsEmptyHereBody2,
+                  ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 50.0),
-        child: FloatingActionButton(
-          backgroundColor: ThemeColors.primary,
-          onPressed: () => homeVm.openEditor(),
-          child: const Icon(Icons.add, color: Colors.white),
-        ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: ThemeColors.primary,
+        onPressed: () => vm.openEditor(),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }

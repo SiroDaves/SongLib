@@ -23,7 +23,7 @@ class EditorVm with ChangeNotifierEx {
   SongExt? song;
   Draft? draft;
 
-  bool isBusy = false, isNewContent = false;
+  bool isLoading = false, isNewContent = false;
   String? title, content, alias, key;
   TextEditingController? titleController, contentController;
   TextEditingController? aliasController, keyController;
@@ -42,7 +42,7 @@ class EditorVm with ChangeNotifierEx {
   }
 
   Future<void> loadEditor() async {
-    isBusy = true;
+    isLoading = true;
     notifyListeners();
 
     if (localStorage.draft != null) {
@@ -61,7 +61,7 @@ class EditorVm with ChangeNotifierEx {
       isNewContent = true;
     }
 
-    isBusy = false;
+    isLoading = false;
     notifyListeners();
   }
 
@@ -84,7 +84,7 @@ class EditorVm with ChangeNotifierEx {
   /// Save changes for a song be it a new one or simply updating an old one
   Future<void> saveChanges() async {
     if (validateInput()) {
-      isBusy = true;
+      isLoading = true;
       notifyListeners();
 
       try {
@@ -117,7 +117,7 @@ class EditorVm with ChangeNotifierEx {
       }
 
       await onBackPressed();
-      isBusy = false;
+      isLoading = false;
       notifyListeners();
     }
   }
@@ -127,12 +127,12 @@ class EditorVm with ChangeNotifierEx {
     bool? success;
 
     if (validateInput()) {
-      isBusy = true;
+      isLoading = true;
       notifyListeners();
 
       //await dbRepo.d(draft!);
 
-      isBusy = true;
+      isLoading = true;
       notifyListeners();
     }
     return success;

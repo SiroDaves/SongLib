@@ -71,13 +71,11 @@ class BookItem extends StatelessWidget {
 
 class SongBook extends StatelessWidget {
   final Book book;
-  final double height;
   final Function()? onTap;
 
   const SongBook({
     Key? key,
     required this.book,
-    required this.height,
     this.onTap,
   }) : super(key: key);
 
@@ -88,26 +86,23 @@ class SongBook extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          width: height * 0.1245,
-          height: height * 0.1245,
-          margin: const EdgeInsets.only(bottom: 10),
+          width: 100,
+          margin: const EdgeInsets.all(5),
           padding: const EdgeInsets.all(5),
           decoration: BoxDecoration(
             color: ThemeColors.primary,
             border: Border.all(color: Colors.white),
             boxShadow: const [BoxShadow(blurRadius: 3)],
-            borderRadius: BorderRadius.all(
-              Radius.circular(height * 0.0732),
-            ),
+            borderRadius: const BorderRadius.all(Radius.circular(50)),
           ),
           child: Center(
             child: Text(
               '${truncateString(19, refineTitle(book.title!))} (${book.songs})',
               textAlign: TextAlign.center,
               maxLines: 3,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
-                fontSize: height * 0.0228,
+                fontSize: 18,
               ),
             ),
           ),

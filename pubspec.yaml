@@ -15,7 +15,6 @@ dependencies:
   context_menus: ^1.0.2
   cupertino_icons: ^1.0.2
   drift: ^1.7.1
-  floating_bottom_navigation_bar: ^1.5.2
   flutter:
     sdk: flutter
   flutter_cache_manager: ^3.3.0

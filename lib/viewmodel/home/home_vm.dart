@@ -17,7 +17,7 @@ import '../../util/constants/pref_constants.dart';
 import '../../util/constants/utilities.dart';
 import '../../widget/general/toast.dart';
 
-@injectable
+@singleton
 class HomeVm with ChangeNotifierEx {
   late final HomeNavigator navigator;
   final DbRepository dbRepo;
@@ -26,13 +26,13 @@ class HomeVm with ChangeNotifierEx {
   HomeVm(this.dbRepo, this.localStorage);
   BuildContext? context;
 
-  bool isBusy = false, shownDonation = false;
+  bool isLoading = false, shownDonation = false;
   String selectedBooks = "";
   List<String> bookNos = [];
   int mainBook = 0, currentPage = 1;
 
   List<Book>? books = [];
-  List<SongExt>? filtered = [], songs = [];
+  List<SongExt>? filtered = [], songs = [], likes = [];
   List<Listed>? listeds = [];
   List<Draft>? drafts = [];
 
@@ -51,17 +51,18 @@ class HomeVm with ChangeNotifierEx {
   }
 
   /// Get the data from the DB
-  Future<void> fetchData() async {
-    isBusy = true;
+  Future<void> fetchData({bool showLoading = true}) async {
+    if (showLoading) isLoading = true;
     notifyListeners();
 
     listeds = await dbRepo.fetchListeds();
     books = await dbRepo.fetchBooks();
     songs = await dbRepo.fetchSongs();
+    likes = await dbRepo.fetchLikedSongs();
     await selectSongbook(mainBook);
     drafts = await dbRepo.fetchDrafts();
 
-    isBusy = false;
+    isLoading = false;
     notifyListeners();
 
     if (!shownDonation) {
@@ -70,37 +71,37 @@ class HomeVm with ChangeNotifierEx {
   }
 
   /// Get the listed data from the DB
-  Future<void> fetchListedData() async {
-    isBusy = true;
+  Future<void> fetchListedData({bool showLoading = true}) async {
+    if (showLoading) isLoading = true;
     notifyListeners();
     listeds = await dbRepo.fetchListeds();
-    isBusy = false;
+    isLoading = false;
     notifyListeners();
   }
 
   /// Get the song data from the DB
-  Future<void> fetchSearchData() async {
-    isBusy = true;
+  Future<void> fetchSearchData({bool showLoading = true}) async {
+    if (showLoading) isLoading = true;
     notifyListeners();
     books = await dbRepo.fetchBooks();
     songs = await dbRepo.fetchSongs();
     await selectSongbook(mainBook);
-    isBusy = false;
+    isLoading = false;
     notifyListeners();
   }
 
   /// Get the notes data from the DB
-  Future<void> fetchDraftsData() async {
-    isBusy = true;
+  Future<void> fetchDraftsData({bool showLoading = true}) async {
+    if (showLoading) isLoading = true;
     notifyListeners();
     drafts = await dbRepo.fetchDrafts();
-    isBusy = false;
+    isLoading = false;
     notifyListeners();
   }
 
   /// Set songbook
-  Future<void> selectSongbook(int book) async {
-    isBusy = true;
+  Future<void> selectSongbook(int book, {bool showLoading = true}) async {
+    if (showLoading) isLoading = true;
     notifyListeners();
     mainBook = book;
 
@@ -118,7 +119,25 @@ class HomeVm with ChangeNotifierEx {
       );
     }
 
-    isBusy = false;
+    isLoading = false;
+    notifyListeners();
+  }
+
+  /// Get the data from the DB
+  Future<void> fetchLikedSongs({bool showLoading = true}) async {
+    if (showLoading) isLoading = true;
+    notifyListeners();
+
+    try {
+      likes = await dbRepo.fetchLikedSongs();
+    } catch (exception, stackTrace) {
+      await Sentry.captureException(
+        exception,
+        stackTrace: stackTrace,
+      );
+    }
+
+    isLoading = false;
     notifyListeners();
   }
 
@@ -128,6 +147,7 @@ class HomeVm with ChangeNotifierEx {
     isLiked = !isLiked;
     song.liked = isLiked;
     await dbRepo.editSong(song);
+    await fetchLikedSongs(showLoading: false);
     if (isLiked) {
       showToast(
         text: '${song.title} ${AppConstants.songLiked}',
@@ -194,7 +214,7 @@ class HomeVm with ChangeNotifierEx {
   /// Save changes for a listed be it a new one or simply updating an old one
   Future<void> saveNewList() async {
     if (titleController!.text.isNotEmpty) {
-      isBusy = true;
+      isLoading = true;
       notifyListeners();
       final Listed listed = Listed(
         objectId: '',
@@ -210,7 +230,7 @@ class HomeVm with ChangeNotifierEx {
 
       //localStorage.listed = listed;
       //navigator.goToListView();
-      isBusy = false;
+      isLoading = false;
       notifyListeners();
     }
   }
@@ -218,10 +238,10 @@ class HomeVm with ChangeNotifierEx {
   void openPresentor({SongExt? song, Draft? draft}) async {
     if (song != null) {
       localStorage.song = song;
-      localStorage.draft = null;
+      localStorage.setPrefBool(PrefConstants.notDraftKey, true);
     } else if (draft != null) {
-      localStorage.song = null;
       localStorage.draft = draft;
+      localStorage.setPrefBool(PrefConstants.notDraftKey, false);
     }
     navigator.goToPresentor();
   }
@@ -249,14 +269,12 @@ class HomeVm with ChangeNotifierEx {
     final Uri url = Uri.parse(AppConstants.tshirtOrderLink);
     if (await canLaunchUrl(url)) await launchUrl(url);
   }
-
 }
+
 abstract class HomeNavigator {
   void goToPresentor();
   void goToEditor();
-  void goToLikes();
   void goToListView();
-  void goToHistories();
   void goToHelpDesk();
   void goToDonation();
   void goToMerchandise();

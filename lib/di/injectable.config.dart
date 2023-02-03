@@ -155,10 +155,10 @@ Future<_i1.GetIt> $initGetIt(
         get<_i20.DbRepository>(),
         get<_i22.LocalStorage>(),
       ));
-  gh.factory<_i37.HomeVm>(() => _i37.HomeVm(
-        get<_i20.DbRepository>(),
-        get<_i22.LocalStorage>(),
-      ));
+  gh.singleton<_i37.HomeVm>(_i37.HomeVm(
+    get<_i20.DbRepository>(),
+    get<_i22.LocalStorage>(),
+  ));
   gh.factory<_i38.LikesVm>(() => _i38.LikesVm(
         get<_i20.DbRepository>(),
         get<_i22.LocalStorage>(),

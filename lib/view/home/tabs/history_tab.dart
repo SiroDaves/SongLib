@@ -1,18 +1,18 @@
 part of '../home_screen.dart';
 
-/// Tab screen with list of song lists
+/// Tab screen with list of liked songs
 // ignore: must_be_immutable
-class SongListTab extends StatelessWidget {
-  final HomeVm homeVm;
-  SongListTab({Key? key, required this.homeVm}) : super(key: key);
+class HistoryTab extends StatelessWidget {
+  final HomeVm vm;
+  HistoryTab(this.vm, {Key? key}) : super(key: key);
   Size? size;
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    var titleContainer = homeVm.isBusy
+    var titleContainer = vm.isLoading
         ? PageTitle(label: AppConstants.listTitle, size: size)
-        : homeVm.books!.isNotEmpty
+        : vm.books!.isNotEmpty
             ? PageSearch(
                 label: AppConstants.listTitle,
                 size: size,
@@ -21,9 +21,9 @@ class SongListTab extends StatelessWidget {
                     context: context,
                     delegate: SearchList(
                       context,
-                      homeVm,
+                      vm,
                       size!.height,
-                      homeVm.listeds!,
+                      vm.listeds!,
                     ),
                   );
                 },
@@ -36,27 +36,27 @@ class SongListTab extends StatelessWidget {
         thickness: 10,
         radius: const Radius.circular(20),
         child: ListView.builder(
-          itemCount: homeVm.listeds!.length,
+          itemCount: vm.listeds!.length,
           padding: EdgeInsets.only(
             left: size!.height * 0.0082,
             right: size!.height * 0.0082,
           ),
           itemBuilder: (context, index) {
-            final Listed listed = homeVm.listeds![index];
+            final Listed listed = vm.listeds![index];
             return ContextMenuRegion(
               contextMenu: GenericContextMenu(
                 buttonConfigs: [
                   ContextMenuButtonConfig(
                     AppConstants.deleteList,
                     icon: const Icon(Icons.delete, size: 20),
-                    onPressed: () => homeVm.deleteList(context, listed),
+                    onPressed: () => vm.deleteList(context, listed),
                   ),
                 ],
               ),
               child: ListedItem(
                 listed: listed,
                 height: size!.height,
-                onTap: () => homeVm.openListView(listed),
+                onTap: () => vm.openListView(listed),
               ),
             );
           },
@@ -65,9 +65,9 @@ class SongListTab extends StatelessWidget {
     );
 
     var mainContainer = SizedBox(
-      child: homeVm.isBusy
+      child: vm.isLoading
           ? const ListLoading()
-          : homeVm.listeds!.isNotEmpty
+          : vm.listeds!.isNotEmpty
               ? listContainer
               : const NoDataToShow(
                   title: AppConstants.itsEmptyHere1,
@@ -137,12 +137,12 @@ class SongListTab extends StatelessWidget {
             children: <Widget>[
               FormInput(
                 iLabel: 'Title',
-                iController: homeVm.titleController!,
+                iController: vm.titleController!,
                 iOptions: const <String>[],
               ),
               FormInput(
                 iLabel: 'Description (Optional)',
-                iController: homeVm.contentController!,
+                iController: vm.contentController!,
                 iOptions: const <String>[],
               ),
             ],
@@ -151,9 +151,9 @@ class SongListTab extends StatelessWidget {
         actions: <Widget>[
           TextButton(
             onPressed: () {
-              homeVm.saveNewList();
-              homeVm.titleController!.clear();
-              homeVm.contentController!.clear();
+              vm.saveNewList();
+              vm.titleController!.clear();
+              vm.contentController!.clear();
               Navigator.pop(context);
             },
             child: const Text("SAVE LIST"),

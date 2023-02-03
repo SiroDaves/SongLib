@@ -3,60 +3,40 @@ part of '../home_screen.dart';
 /// Tab screen for searches
 // ignore: must_be_immutable
 class SearchTab extends StatelessWidget {
-  final HomeVm homeVm;
-  SearchTab({Key? key, required this.homeVm}) : super(key: key);
+  final HomeVm vm;
+  SearchTab(this.vm, {Key? key}) : super(key: key);
   Size? size;
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
 
-    var titleContainer = homeVm.isBusy
-        ? PageTitle(label: AppConstants.appTitle, size: size)
-        : homeVm.songs!.isNotEmpty
-            ? PageSearch(
-                label: AppConstants.appTitle,
-                size: size,
-                onTap: () async {
-                  await showSearch(
-                    context: context,
-                    delegate: SearchSongs(
-                      context,
-                      homeVm,
-                      size!.height,
-                      homeVm.songs!,
-                    ),
-                  );
-                },
-              )
-            : PageTitle(label: AppConstants.appTitle, size: size);
     var booksContainer = SizedBox(
-      height: 100,
+      height: 120,
       child: ListView.builder(
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.all(5),
         itemBuilder: (context, index) {
-          final Book book = homeVm.books![index];
+          final Book book = vm.books![index];
           return SongBook(
             book: book,
-            height: size!.height,
-            onTap: () => homeVm.selectSongbook(book.bookNo!),
+            onTap: () => vm.selectSongbook(book.bookNo!),
           );
         },
-        itemCount: homeVm.books!.length,
+        itemCount: vm.books!.length,
       ),
     );
     var listContainer = ListView.builder(
       physics: const ClampingScrollPhysics(),
       shrinkWrap: true,
-      itemCount: homeVm.filtered!.length,
+      itemCount: vm.filtered!.length,
       padding: EdgeInsets.only(
         left: size!.height * 0.0082,
         right: size!.height * 0.0082,
       ),
       itemBuilder: (context, index) {
-        final SongExt song = homeVm.filtered![index];
+        final SongExt song = vm.filtered![index];
         return ContextMenuRegion(
           contextMenu: GenericContextMenu(
             buttonConfigs: [
@@ -66,22 +46,22 @@ class SearchTab extends StatelessWidget {
                   song.liked! ? Icons.favorite : Icons.favorite_border,
                   size: 20,
                 ),
-                onPressed: () => homeVm.likeSong(song),
+                onPressed: () => vm.likeSong(song),
               ),
               ContextMenuButtonConfig(
                 AppConstants.copySong,
                 icon: const Icon(Icons.copy, size: 20),
-                onPressed: () => homeVm.copySong(song),
+                onPressed: () => vm.copySong(song),
               ),
               ContextMenuButtonConfig(
                 AppConstants.shareSong,
                 icon: const Icon(Icons.share, size: 20),
-                onPressed: () => homeVm.shareSong(song),
+                onPressed: () => vm.shareSong(song),
               ),
               ContextMenuButtonConfig(
                 AppConstants.editSong,
                 icon: const Icon(Icons.edit, size: 20),
-                onPressed: () => homeVm.openEditor(song: song),
+                onPressed: () => vm.openEditor(song: song),
               ),
               ContextMenuButtonConfig(
                 AppConstants.addtoList,
@@ -98,34 +78,12 @@ class SearchTab extends StatelessWidget {
           child: SongItem(
             song: song,
             height: size!.height,
-            onTap: () => homeVm.openPresentor(song: song),
+            onTap: () => vm.openPresentor(song: song),
           ),
         );
       },
     );
 
-    var mainContainer = Container(
-      margin: EdgeInsets.only(top: size!.height * 0.0952),
-      height: size!.height * 0.835,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            homeVm.books!.isNotEmpty ? booksContainer : Container(),
-            SizedBox(
-              child: homeVm.isBusy
-                  ? const ListLoading()
-                  : homeVm.songs!.isNotEmpty
-                      ? listContainer
-                      : const NoDataToShow(
-                          title: AppConstants.itsEmptyHere,
-                          description: AppConstants.itsEmptyHereBody,
-                        ),
-            ),
-          ],
-        ),
-      ),
-    );
-    
     return Scaffold(
       body: ContextMenuOverlay(
         cardBuilder: (_, children) => Container(
@@ -138,7 +96,6 @@ class SearchTab extends StatelessWidget {
         ),
         child: Container(
           height: size!.height,
-          padding: const EdgeInsets.only(top: 40),
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -146,12 +103,22 @@ class SearchTab extends StatelessWidget {
               colors: [Colors.white, ThemeColors.accent, Colors.black],
             ),
           ),
-          child: Stack(
-            alignment: AlignmentDirectional.topCenter,
-            children: [
-              mainContainer,
-              titleContainer,
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                vm.books!.isNotEmpty ? booksContainer : Container(),
+                SizedBox(
+                  child: vm.isLoading
+                      ? const ListLoading()
+                      : vm.songs!.isNotEmpty
+                          ? listContainer
+                          : const NoDataToShow(
+                              title: AppConstants.itsEmptyHere,
+                              description: AppConstants.itsEmptyHereBody,
+                            ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

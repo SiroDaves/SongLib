@@ -33,26 +33,26 @@ class PresentorScreenState extends State<PresentorScreen>
     return ProviderWidget<PresentorVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
-          (context, viewModel, child, theme, localization) {
-        viewModel.size = size;
+          (context, vm, child, theme, localization) {
+        vm.size = size;
 
         Future<void> popupActions(int value) async {
           switch (value) {
             case 0:
-              await viewModel.copySong();
+              await vm.copySong();
               break;
             case 1:
-              await viewModel.openSongEditor();
+              vm.navigator.goToEditor();
               break;
             case 2:
-              if (viewModel.isDraft) {
-                await viewModel.confirmDelete(context);
-              } else {
+              if (vm.notDraft) {
                 await showModalBottomSheet<void>(
                     context: context,
                     builder: (BuildContext context) {
-                      return ListViewPopup(song: viewModel.song!);
+                      return ListViewPopup(song: vm.song!);
                     });
+              } else {
+                await vm.confirmDelete(context);
               }
               break;
           }
@@ -60,7 +60,7 @@ class PresentorScreenState extends State<PresentorScreen>
 
         var popupMenu = PopupMenuButton(
           itemBuilder: (context) {
-            return viewModel.isDraft
+            return vm.notDraft
                 ? [
                     const PopupMenuItem<int>(
                       value: 0,
@@ -72,7 +72,7 @@ class PresentorScreenState extends State<PresentorScreen>
                     ),
                     const PopupMenuItem<int>(
                       value: 2,
-                      child: Text(AppConstants.deleteSong),
+                      child: Text(AppConstants.addtoList),
                     ),
                   ]
                 : [
@@ -86,7 +86,7 @@ class PresentorScreenState extends State<PresentorScreen>
                     ),
                     const PopupMenuItem<int>(
                       value: 2,
-                      child: Text(AppConstants.addtoList),
+                      child: Text(AppConstants.deleteSong),
                     ),
                   ];
           },
@@ -100,19 +100,19 @@ class PresentorScreenState extends State<PresentorScreen>
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(viewModel.songTitle),
+              Text(vm.songTitle),
               Text(
-                viewModel.songBook,
+                vm.songBook,
                 style: const TextStyle(fontSize: 16),
               ),
             ],
           ),
           actions: <Widget>[
             InkWell(
-              onTap: viewModel.openSongEditor,
+              onTap: vm.notDraft ? vm.likeSong : vm.navigator.goToEditor,
               child: Padding(
                 padding: const EdgeInsets.all(10),
-                child: Icon(viewModel.likeIcon),
+                child: Icon(vm.notDraft ? vm.likeIcon : Icons.edit),
               ),
             ),
             popupMenu,
@@ -123,7 +123,7 @@ class PresentorScreenState extends State<PresentorScreen>
           backgroundColor: ThemeColors.primary,
           onPressed: () {
             Share.share(
-              '${viewModel.songTitle}\n${viewModel.songBook}\n\n${viewModel.songContent}',
+              '${vm.songTitle}\n${vm.songBook}\n\n${vm.songContent}',
               subject: AppConstants.shareVerse,
             );
           },
@@ -148,9 +148,7 @@ class PresentorScreenState extends State<PresentorScreen>
               ),
             ),
             child: SizedBox(
-              child: viewModel.isBusy
-                  ? const CircularProgress()
-                  : viewModel.slides,
+              child: vm.isLoading ? const CircularProgress() : vm.slides,
             ),
           ),
           floatingActionButton: fabButton,

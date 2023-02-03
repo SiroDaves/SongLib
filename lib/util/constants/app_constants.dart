@@ -12,6 +12,10 @@ class AppConstants {
   static const donationPatreaonLink = "https://www.patreon.com/SongLib";
 
   static const appTitle = "SongLib";
+  static const appVersion = "v0.0.6.3";
+  static const appFrom = "with love from";
+  static const appCredits1 = "Jack Siro";
+  static const appCredits2 = "Titus Thumbi";
   static const listTitle = "Song Lists";
   static const likesTitle = "Liked Songs";
   static const historiesTitle = "Histories";

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -17,7 +16,7 @@ class LikesVm with ChangeNotifierEx {
 
   LikesVm(this.dbRepo, this.localStorage);
 
-  bool isBusy = false;
+  bool isLoading = false;
   List<SongExt>? likes = [];
 
   Future<void> init(LikesNavigator screenNavigator) async {
@@ -27,7 +26,7 @@ class LikesVm with ChangeNotifierEx {
 
   /// Get the data from the DB
   Future<void> fetchData() async {
-    isBusy = true;
+    isLoading = true;
     notifyListeners();
 
     try {
@@ -39,7 +38,7 @@ class LikesVm with ChangeNotifierEx {
       );
     }
 
-    isBusy = false;
+    isLoading = false;
     notifyListeners();
   }
 

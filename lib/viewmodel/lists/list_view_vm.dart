@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../di/injectable.dart';
 import '../../model/base/draft.dart';
 import '../../model/base/listed.dart';
 import '../../model/base/listedext.dart';
@@ -27,16 +28,18 @@ class ListViewVm with ChangeNotifierEx {
   List<SongExt>? songs = [];
   List<ListedExt>? listeds = [];
 
-  bool isBusy = false, showSearch = false;
+  bool isLoading = false, showSearch = false;
   TextEditingController? titleController, contentController;
 
   Future<void> init(ListViewNavigator screenNavigator) async {
     navigator = screenNavigator;
 
-    homeVm = GetIt.instance<HomeVm>();
+    homeVm = HomeVm(dbRepo, localStorage);
+    homeVm = getIt.get<HomeVm>();
+
     listed = localStorage.listed;
-    titleController = TextEditingController(text: listed!.title);
-    contentController = TextEditingController(text: listed!.description);
+    titleController = TextEditingController(text: listed!.title ?? '');
+    contentController = TextEditingController(text: listed!.description ?? '');
     await fetchData();
   }
 
@@ -48,18 +51,18 @@ class ListViewVm with ChangeNotifierEx {
 
   /// Get the data from the DB
   Future<void> fetchData() async {
-    isBusy = true;
+    isLoading = true;
     notifyListeners();
     songs = await dbRepo.fetchSongs();
     listeds = await dbRepo.fetchListedSongs(listed!.id!);
-    isBusy = false;
+    isLoading = false;
     notifyListeners();
   }
 
   /// Save changes for a listed be it a new one or simply updating an old one
   Future<void> saveChanges() async {
     if (titleController!.text.isNotEmpty) {
-      isBusy = true;
+      isLoading = true;
       notifyListeners();
       listed!.title = titleController!.text;
       listed!.description = contentController!.text;
@@ -68,7 +71,7 @@ class ListViewVm with ChangeNotifierEx {
         text: '${listed!.title} ${AppConstants.listUpdated}',
         state: ToastStates.success,
       );
-      isBusy = false;
+      isLoading = false;
       notifyListeners();
     }
   }
@@ -110,7 +113,7 @@ class ListViewVm with ChangeNotifierEx {
 
   /// Add a song to a list
   Future<void> addSongToList(SongExt song) async {
-    isBusy = true;
+    isLoading = true;
     notifyListeners();
     await dbRepo.saveListedSong(listed!, song);
     await showSearchWidget(false);
@@ -119,7 +122,7 @@ class ListViewVm with ChangeNotifierEx {
       text: '${song.title} ${AppConstants.songAddedToList}',
       state: ToastStates.success,
     );
-    isBusy = false;
+    isLoading = false;
     notifyListeners();
   }
 

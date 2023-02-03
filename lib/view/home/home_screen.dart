@@ -1,7 +1,7 @@
 import 'package:context_menus/context_menus.dart';
-import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:styled_widget/styled_widget.dart';
 
 import '../../model/base/book.dart';
 import '../../model/base/draft.dart';
@@ -9,6 +9,7 @@ import '../../model/base/listed.dart';
 import '../../model/base/songext.dart';
 import '../../navigator/main_navigator.dart';
 import '../../navigator/route_names.dart';
+import '../../theme/theme_assets.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
 import '../../viewmodel/home/home_vm.dart';
@@ -21,12 +22,12 @@ import '../../widget/provider/provider_widget.dart';
 import '../lists/list_view_popup.dart';
 import 'widgets/search_list.dart';
 import 'widgets/search_songs.dart';
-import 'widgets/search_drafts.dart';
-import 'widgets/tabs_manager.dart';
 
 part 'tabs/drafts_tab.dart';
+part 'tabs/history_tab.dart';
 part 'tabs/search_tab.dart';
-part 'tabs/song_list_tab.dart';
+part 'tabs/likes_tab.dart';
+part 'tabs/list_tab.dart';
 
 /// Home screen with 3 tabs of list, search and notes screens
 class HomeScreen extends StatefulWidget {
@@ -37,80 +38,94 @@ class HomeScreen extends StatefulWidget {
   HomeScreenState createState() => HomeScreenState();
 }
 
-@visibleForTesting
 class HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin
+    with TickerProviderStateMixin
     implements HomeNavigator {
+  late TabController tabController;
   Size? size;
-  TabController? pages;
-  int activeIndex = 1;
 
   @override
   void initState() {
-    pages = TabController(vsync: this, length: 3, initialIndex: activeIndex)
-      ..addListener(() {
-        setState(() {
-          activeIndex = pages!.index;
-        });
-      });
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    pages!.dispose();
-    super.dispose();
-  }
-
-  void onItemTapped(int index) {
-    switch (index) {
-      case 0:
-        return goToLikes();
-      case 1:
-        return goToHelpDesk();
-      case 2:
-        return goToSettings();
-    }
+    tabController = TabController(
+      length: 4,
+      vsync: this,
+      initialIndex: 1,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
     return ProviderWidget<HomeVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
-          (context, viewModel, child, theme, localization) {
-        var floatingNavbar = FloatingNavbar(
-          currentIndex: 0,
-          onTap: onItemTapped,
-          fontSize: 1,
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.white,
-          backgroundColor: ThemeColors.primary,
-          selectedBackgroundColor: ThemeColors.primary,
-          margin: const EdgeInsets.symmetric(horizontal: 20),
-          items: [
-            FloatingNavbarItem(icon: Icons.favorite, title: 'Likes'),
-            FloatingNavbarItem(icon: Icons.help, title: 'Help'),
-            FloatingNavbarItem(icon: Icons.settings, title: 'Settings'),
-          ],
-        );
+          (context, vm, child, theme, localization) {
         return Scaffold(
-          body: Stack(
-            children: [
-              TabBarView(
-                controller: pages,
-                children: [
-                  SongListTab(homeVm: viewModel),
-                  SearchTab(homeVm: viewModel),
-                  DraftsTab(homeVm: viewModel),
-                ],
+          appBar: AppBar(
+            title: [
+              Image.asset(
+                ThemeAssets.appIcon,
+                height: 35,
+                width: 35,
               ),
-              TabsIndicator(controller: pages!),
-              TabsIcons(controller: pages!),
+              const SizedBox(width: 10),
+              const Text(
+                AppConstants.appTitle,
+                style: TextStyle(
+                  fontSize: 25,
+                  letterSpacing: 3,
+                  fontWeight: FontWeight.bold,
+                ),
+              )
+            ].toRow(),
+            actions: <Widget>[
+              InkWell(
+                onTap: () async {
+                  await showSearch(
+                    context: context,
+                    delegate: SearchSongs(context, vm, size!.height),
+                  );
+                },
+                child: const Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Icon(Icons.search),
+                ),
+              ),
+              InkWell(
+                onTap: goToHelpDesk,
+                child: const Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Icon(Icons.help),
+                ),
+              ),
+              InkWell(
+                onTap: goToSettings,
+                child: const Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Icon(Icons.settings),
+                ),
+              ),
+            ],
+            bottom: TabBar(
+              controller: tabController,
+              tabs: <Widget>[
+                Tab(text: 'Lists'.toUpperCase()),
+                Tab(text: 'Search'.toUpperCase()),
+                Tab(text: 'Likes'.toUpperCase()),
+                Tab(text: 'Notes'.toUpperCase()),
+              ],
+            ),
+          ),
+          body: TabBarView(
+            controller: tabController,
+            children: <Widget>[
+              ListTab(vm),
+              SearchTab(vm),
+              LikesTab(vm),
+              DraftsTab(vm),
             ],
           ),
-          extendBody: true,
-          bottomNavigationBar: floatingNavbar,
         );
       },
     );
@@ -123,13 +138,7 @@ class HomeScreenState extends State<HomeScreen>
   void goToEditor() => MainNavigatorWidget.of(context).goToEditor();
 
   @override
-  void goToLikes() => MainNavigatorWidget.of(context).goToLikes();
-
-  @override
   void goToListView() => MainNavigatorWidget.of(context).goToListView();
-
-  @override
-  void goToHistories() => MainNavigatorWidget.of(context).goToHistories();
 
   @override
   void goToHelpDesk() => MainNavigatorWidget.of(context).goToHelpDesk();

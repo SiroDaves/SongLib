@@ -2,7 +2,6 @@ import 'package:context_menus/context_menus.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../model/base/listedext.dart';
 import '../../model/base/songext.dart';
 import '../../navigator/main_navigator.dart';
 import '../../navigator/mixin/back_navigator.dart';
@@ -10,13 +9,12 @@ import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
 import '../../viewmodel/lists/list_view_vm.dart';
-import '../../widget/general/app_bar.dart';
 import '../../widget/general/inputs.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
 import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
-import 'list_song_search.dart';
+import '../home/widgets/add_songs.dart';
 
 /// Screen for viewing a song list
 class ListViewScreen extends StatefulWidget {
@@ -42,48 +40,38 @@ class ListViewScreenState extends State<ListViewScreen>
     return ProviderWidget<ListViewVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
-          (context, viewModel, child, theme, localization) {
-        var listContainer = vm!.listeds!.isNotEmpty
-            ? Container(
-                height: size!.height * 0.8,
-                padding: const EdgeInsets.only(right: 2),
-                child: Scrollbar(
-                  thickness: 10,
-                  radius: const Radius.circular(20),
-                  child: ListView.builder(
-                    itemCount: vm!.listeds!.length,
-                    padding: EdgeInsets.all(
-                      size!.height * 0.0082,
-                    ),
-                    itemBuilder: (context, index) {
-                      final SongExt song = SongExt(
-                        songbook: vm!.listeds![index].songbook,
-                        songNo: vm!.listeds![index].songNo,
-                        book: vm!.listeds![index].book,
-                        title: vm!.listeds![index].title,
-                        alias: vm!.listeds![index].alias,
-                        content: vm!.listeds![index].content,
-                        views: vm!.listeds![index].views,
-                        likes: vm!.listeds![index].likes,
-                        author: vm!.listeds![index].author,
-                        key: vm!.listeds![index].key,
-                        id: vm!.listeds![index].songId,
-                      );
-
-                      return SongItem(
-                        song: song,
-                        height: size!.height,
-                        onTap: () => vm!.openPresentor(song: song),
-                      );
-                    },
-                  ),
-                ),
-              )
-            : const NoDataToShow(
-                title: AppConstants.itsEmptyHere,
-                description: AppConstants.itsEmptyHereBody,
+          (context, vm, child, theme, localization) {
+        var listContainer = Container(
+          height: size!.height * 0.8,
+          padding: const EdgeInsets.only(right: 2),
+          child: ListView.builder(
+            itemCount: vm.listeds!.length,
+            padding: EdgeInsets.all(
+              size!.height * 0.0082,
+            ),
+            itemBuilder: (context, index) {
+              final SongExt song = SongExt(
+                songbook: vm.listeds![index].songbook,
+                songNo: vm.listeds![index].songNo,
+                book: vm.listeds![index].book,
+                title: vm.listeds![index].title,
+                alias: vm.listeds![index].alias,
+                content: vm.listeds![index].content,
+                views: vm.listeds![index].views,
+                likes: vm.listeds![index].likes,
+                author: vm.listeds![index].author,
+                key: vm.listeds![index].key,
+                id: vm.listeds![index].songId,
               );
 
+              return SongItem(
+                song: song,
+                height: size!.height,
+                onTap: () => vm.openPresentor(song: song),
+              );
+            },
+          ),
+        );
         var mainContainer = ContextMenuOverlay(
           cardBuilder: (_, children) => Container(
             decoration: const BoxDecoration(
@@ -103,35 +91,20 @@ class ListViewScreenState extends State<ListViewScreen>
               ),
             ),
             child: SingleChildScrollView(
-              child: vm!.isBusy
+              child: vm.isLoading
                   ? const ListLoading()
-                  : Stack(
-                      children: [
-                        listContainer,
-                        PageSearch(
-                          label: AppConstants.appTitle,
-                          size: size,
-                          onTap: () async {
-                            await showSearch(
-                              context: context,
-                              delegate: ListSearchSongs(
-                                context,
-                                vm!,
-                                size!.height,
-                                vm!.songs!,
-                              ),
-                            );
-                          },
+                  : vm.listeds!.isNotEmpty
+                      ? listContainer
+                      : const NoDataToShow(
+                          title: AppConstants.itsEmptyHere,
+                          description: AppConstants.itsEmptyHereBody,
                         ),
-                      ],
-                    ),
             ),
           ),
         );
-
         return Scaffold(
           appBar: AppBar(
-            title: Text(vm!.listed!.title!),
+            title: Text(vm.listed!.title ?? 'List Title'),
             actions: <Widget>[
               InkWell(
                 onTap: () => editListForm(context),
@@ -141,7 +114,7 @@ class ListViewScreenState extends State<ListViewScreen>
                 ),
               ),
               InkWell(
-                onTap: () => vm!.confirmDelete(context),
+                onTap: () => vm.confirmDelete(context),
                 child: const Padding(
                   padding: EdgeInsets.all(10),
                   child: Icon(Icons.delete),
@@ -152,7 +125,12 @@ class ListViewScreenState extends State<ListViewScreen>
           body: mainContainer,
           floatingActionButton: FloatingActionButton(
             backgroundColor: ThemeColors.primary,
-            onPressed: () => vm!.showSearchWidget(true),
+            onPressed: () async {
+              await showSearch(
+                context: context,
+                delegate: AddSongs(context, vm.homeVm!, vm, size!.height),
+              );
+            },
             child: const Icon(Icons.add, color: Colors.white),
           ),
         );

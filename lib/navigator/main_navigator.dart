@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 
 import '../view/home/home_screen.dart';
-import '../view/home/histories_screen.dart';
-import '../view/home/likes_screen.dart';
 import '../view/info/donation_screen.dart';
 import '../view/info/helpdesk_screen.dart';
 import '../view/info/merchandise_screen.dart';
@@ -113,19 +111,9 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
           child: const EditorScreen(),
           settings: settings,
         );
-      case LikesScreen.routeName:
-        return FadeInRoute<void>(
-          child: const LikesScreen(),
-          settings: settings,
-        );
       case ListViewScreen.routeName:
         return FadeInRoute<void>(
           child: const ListViewScreen(),
-          settings: settings,
-        );
-      case HistoriesScreen.routeName:
-        return FadeInRoute<void>(
-          child: const HistoriesScreen(),
           settings: settings,
         );
       case SettingsScreen.routeName:
@@ -189,13 +177,7 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
   void goToEditor() => navigator.pushNamed(EditorScreen.routeName);
 
   @override
-  void goToLikes() => navigator.pushNamed(LikesScreen.routeName);
-
-  @override
   void goToListView() => navigator.pushNamed(ListViewScreen.routeName);
-
-  @override
-  void goToHistories() => navigator.pushNamed(HistoriesScreen.routeName);
 
   @override
   void goToSettings() => navigator.pushNamed(SettingsScreen.routeName);

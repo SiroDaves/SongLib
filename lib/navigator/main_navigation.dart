@@ -12,9 +12,7 @@ abstract class MainNavigation {
   void goToEditor();  
   void goToPresentor();
   void closeDialog();
-  void goToLikes();
   void goToListView();
-  void goToHistories();
   void goToSettings();
   void goToHelpDesk();
   void goToDonation();

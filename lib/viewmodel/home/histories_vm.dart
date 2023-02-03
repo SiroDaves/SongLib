@@ -19,7 +19,7 @@ class HistoriesVm with ChangeNotifierEx {
   final ScrollController listsScroller =
       ScrollController(initialScrollOffset: 0);
 
-  bool isBusy = false;
+  bool isLoading = false;
   List<HistoryExt>? histories = [];
 
   Future<void> init(HistoriesNavigator screenNavigator) async {
@@ -29,7 +29,7 @@ class HistoriesVm with ChangeNotifierEx {
 
   /// Get the data from the DB
   Future<void> fetchData() async {
-    isBusy = true;
+    isLoading = true;
     notifyListeners();
 
     try {
@@ -41,7 +41,7 @@ class HistoriesVm with ChangeNotifierEx {
       );
     }
 
-    isBusy = false;
+    isLoading = false;
     notifyListeners();
   }
 

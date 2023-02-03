@@ -4,13 +4,15 @@ import '../../../model/base/songext.dart';
 import '../../../theme/theme_colors.dart';
 import '../../../util/constants/utilities.dart';
 import '../../../viewmodel/home/home_vm.dart';
+import '../../../viewmodel/lists/list_view_vm.dart';
 import '../../../widget/general/list_items.dart';
 
-class SearchSongs extends SearchDelegate<List> {
-  final HomeVm vm;
+class AddSongs extends SearchDelegate<List> {
+  final HomeVm homeVm;
+  final ListViewVm listVm;
   final double? height;
 
-  SearchSongs(BuildContext context, this.vm, this.height);
+  AddSongs(BuildContext context, this.homeVm, this.listVm, this.height);
 
   @override
   String get searchFieldLabel => "Search a Song";
@@ -39,7 +41,7 @@ class SearchSongs extends SearchDelegate<List> {
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
-      onPressed: () => close(context, vm.songs!),
+      onPressed: () => close(context, homeVm.songs!),
       icon: const Icon(Icons.arrow_back),
     );
   }
@@ -51,7 +53,7 @@ class SearchSongs extends SearchDelegate<List> {
   Widget buildSuggestions(BuildContext context) => searchThis(context);
 
   Widget searchThis(BuildContext context) {
-    List<SongExt> matchQuery = vm.songs!.where((s) {
+    List<SongExt> matchQuery = homeVm.songs!.where((s) {
       return (isNumeric(query) && s.songNo == int.parse(query)) ||
           s.title!.toLowerCase().contains(query.toLowerCase()) ||
           s.alias!.toLowerCase().contains(query.toLowerCase()) ||
@@ -66,7 +68,10 @@ class SearchSongs extends SearchDelegate<List> {
         return SongItem(
           song: result,
           height: height!,
-          onTap: () => vm.openPresentor(song: result),
+          onTap: () {
+            listVm.addSongToList(result);
+            close(context, homeVm.songs!);
+          },
         );
       },
     );
