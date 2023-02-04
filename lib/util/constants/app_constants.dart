@@ -17,6 +17,7 @@ class AppConstants {
   static const appCredits1 = "Jack Siro";
   static const appCredits2 = "Titus Thumbi";
   static const listTitle = "Song Lists";
+  static const searchTitle = "Song Search";
   static const likesTitle = "Liked Songs";
   static const historiesTitle = "Histories";
   static const draftTitle = "Song Drafts";

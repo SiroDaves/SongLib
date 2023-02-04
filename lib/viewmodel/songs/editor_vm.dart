@@ -9,7 +9,7 @@ import '../../model/base/songext.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
-import '../home/home_vm.dart';
+import '../home_vm.dart';
 
 @injectable
 class EditorVm with ChangeNotifierEx {

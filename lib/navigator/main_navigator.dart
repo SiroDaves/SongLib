@@ -4,7 +4,6 @@ import 'package:icapps_architecture/icapps_architecture.dart';
 import '../view/home/home_screen.dart';
 import '../view/info/donation_screen.dart';
 import '../view/info/helpdesk_screen.dart';
-import '../view/info/merchandise_screen.dart';
 import '../view/lists/list_view_screen.dart';
 import '../view/manage/settings_screen.dart';
 import '../view/info/onboarding_screen.dart';
@@ -131,11 +130,6 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
           child: const DonationScreen(),
           settings: settings,
         );
-      case MerchandiseScreen.routeName:
-        return FadeInRoute<void>(
-          child: const MerchandiseScreen(),
-          settings: settings,
-        );
       case 'test_route':
         if (!FlavorConfig.isInTest()) return null;
         return MaterialPageRoute<void>(
@@ -187,9 +181,6 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
 
   @override
   void goToDonation() => navigator.pushNamed(DonationScreen.routeName);
-
-  @override
-  void goToMerchandise() => navigator.pushNamed(MerchandiseScreen.routeName);
 
   @override
   void closeDialog() => navigator.pop();

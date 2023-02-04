@@ -1,15 +1,12 @@
-part of '../home_screen.dart';
+part of '../../home_screen.dart';
 
-/// Tab screen for searches
-// ignore: must_be_immutable
-class SearchTab extends StatelessWidget {
+class BsSearchTab extends StatelessWidget {
   final HomeVm vm;
-  SearchTab(this.vm, {Key? key}) : super(key: key);
-  Size? size;
+  const BsSearchTab(this.vm, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
 
     var booksContainer = SizedBox(
       height: 120,
@@ -21,7 +18,7 @@ class SearchTab extends StatelessWidget {
           final Book book = vm.books![index];
           return SongBook(
             book: book,
-            onTap: () => vm.selectSongbook(book.bookNo!),
+            onTap: () => vm.selectSongbook(book),
           );
         },
         itemCount: vm.books!.length,
@@ -32,8 +29,8 @@ class SearchTab extends StatelessWidget {
       shrinkWrap: true,
       itemCount: vm.filtered!.length,
       padding: EdgeInsets.only(
-        left: size!.height * 0.0082,
-        right: size!.height * 0.0082,
+        left: size.height * 0.0082,
+        right: size.height * 0.0082,
       ),
       itemBuilder: (context, index) {
         final SongExt song = vm.filtered![index];
@@ -77,51 +74,62 @@ class SearchTab extends StatelessWidget {
           ),
           child: SongItem(
             song: song,
-            height: size!.height,
+            height: size.height,
             onTap: () => vm.openPresentor(song: song),
           ),
         );
       },
     );
 
-    return Scaffold(
-      body: ContextMenuOverlay(
-        cardBuilder: (_, children) => Container(
-          decoration: const BoxDecoration(
-            color: ThemeColors.accent,
-            boxShadow: [BoxShadow(blurRadius: 5)],
-            borderRadius: BorderRadius.all(Radius.circular(5)),
+    List<String> verses = vm.setSong.content!.split("##");
+    var songViewer = Scaffold(
+      appBar: AppBar(
+        title: Text(songItemTitle(vm.setSong.songNo!, vm.setSong.title!)),
+      ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              Colors.white,
+              Colors.orange,
+              ThemeColors.accent,
+              ThemeColors.primary,
+              Colors.black,
+            ],
           ),
-          child: Column(children: children),
         ),
-        child: Container(
-          height: size!.height,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Colors.white, ThemeColors.accent, Colors.black],
-            ),
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                vm.books!.isNotEmpty ? booksContainer : Container(),
-                SizedBox(
-                  child: vm.isLoading
-                      ? const ListLoading()
-                      : vm.songs!.isNotEmpty
-                          ? listContainer
-                          : const NoDataToShow(
-                              title: AppConstants.itsEmptyHere,
-                              description: AppConstants.itsEmptyHereBody,
-                            ),
-                ),
-              ],
-            ),
-          ),
+        child: ListView.builder(
+          itemCount: verses.length,
+          itemBuilder: (context, index) {
+            return Card(
+              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              child: Text(
+                verses[index].replaceAll("#", "\n"),
+                style: TextStyle(fontSize: size.height * 0.03),
+              ).padding(all: 10),
+            );
+          },
         ),
       ),
+    );
+
+    return Column(
+      children: [
+        vm.books!.isNotEmpty ? booksContainer : Container(),
+        SizedBox(
+          height: size.height - 180,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              listContainer.expanded(),
+              songViewer.expanded(),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

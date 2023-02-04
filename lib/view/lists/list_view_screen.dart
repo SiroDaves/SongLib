@@ -14,7 +14,7 @@ import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
 import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
-import '../home/widgets/add_songs.dart';
+import '../home/mobile/widgets/add_songs.dart';
 
 /// Screen for viewing a song list
 class ListViewScreen extends StatefulWidget {

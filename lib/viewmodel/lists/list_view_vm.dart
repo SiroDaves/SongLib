@@ -13,7 +13,7 @@ import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
 import '../../util/constants/app_constants.dart';
 import '../../widget/general/toast.dart';
-import '../home/home_vm.dart';
+import '../home_vm.dart';
 
 @injectable
 class ListViewVm with ChangeNotifierEx {

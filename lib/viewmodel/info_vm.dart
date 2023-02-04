@@ -1,27 +1,21 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../repository/shared_prefs/local_storage.dart';
-import '../../util/constants/app_constants.dart';
-import '../../util/constants/pref_constants.dart';
-import '../../widget/general/toast.dart';
+import '../repository/shared_prefs/local_storage.dart';
+import '../util/constants/app_constants.dart';
+import '../widget/general/toast.dart';
 
 @injectable
-class MerchandiseVm with ChangeNotifierEx {
+class InfoVm with ChangeNotifierEx {
   final LocalStorage localStorage;
-  late final MerchandiseNavigator navigator;
+  late final InfoNavigator navigator;
 
-  MerchandiseVm(this.localStorage);
-  
-  TextEditingController? qtyController, nameController;
-  TextEditingController? phoneController, locationController, extraController;
+  InfoVm(this.localStorage);
 
-  Future<void> init(MerchandiseNavigator screenNavigator) async {
+  Future<void> init(InfoNavigator screenNavigator) async {
     navigator = screenNavigator;
-    localStorage.setPrefBool(PrefConstants.donationCheckKey, true);
   }
 
   Future<void> goToHowItWorks() async {
@@ -61,6 +55,11 @@ class MerchandiseVm with ChangeNotifierEx {
     if (await canLaunchUrl(url)) await launchUrl(url);
   }
 
+  Future<void> goToMerchandise() async {
+    final Uri url = Uri.parse('https://forms.gle/iMq8GXjMGmUSJg949');
+    if (await canLaunchUrl(url)) await launchUrl(url);
+  }
+
   Future<void> copyText(int type) async {
     String text1 = '', text2 = '';
     switch (type) {
@@ -92,9 +91,32 @@ class MerchandiseVm with ChangeNotifierEx {
       );
     } catch (_) {}
   }
+
+  Future<void> copyNumber() async {
+    try {
+      await Clipboard.setData(
+        const ClipboardData(text: '+254' '115' '586' '529'),
+      );
+      showToast(
+        text: 'Phone number ${AppConstants.textCopied}',
+        state: ToastStates.success,
+      );
+    } catch (_) {}
+  }
+
+  Future<void> donateViaPaypal() async {
+    final Uri url = Uri.parse(AppConstants.donationPaypalLink);
+    if (await canLaunchUrl(url)) await launchUrl(url);
+  }
+
+  Future<void> donateViaPaetron() async {
+    final Uri url = Uri.parse(AppConstants.donationPatreaonLink);
+    if (await canLaunchUrl(url)) await launchUrl(url);
+  }
 }
 
-abstract class MerchandiseNavigator {
+abstract class InfoNavigator {
   void goToHome();
   void goToOnboarding();
+  void goToDonation();
 }

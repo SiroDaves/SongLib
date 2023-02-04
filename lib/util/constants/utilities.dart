@@ -95,6 +95,16 @@ String songItemTitle(int number, String title) {
   }
 }
 
+List<String> songVerses(String songContent) {
+  List<String> verseList = [];
+  var verses = songContent.split("##");
+
+  for (final verse in verses) {
+    verseList.add(verse.replaceAll("#", "\n"));
+  }
+  return verseList;
+}
+
 String songCopyString(String title, String content) {
   return "$title\n\n$content";
 }

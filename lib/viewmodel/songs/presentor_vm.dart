@@ -19,7 +19,7 @@ import '../../util/constants/utilities.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/presentor_slides.dart';
 import '../../widget/general/toast.dart';
-import '../home/home_vm.dart';
+import '../home_vm.dart';
 
 @injectable
 class PresentorVm with ChangeNotifierEx {

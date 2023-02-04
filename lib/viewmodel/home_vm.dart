@@ -4,18 +4,21 @@ import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../model/base/book.dart';
-import '../../model/base/draft.dart';
-import '../../model/base/listed.dart';
-import '../../model/base/songext.dart';
-import '../../repository/db_repository.dart';
-import '../../repository/shared_prefs/local_storage.dart';
-import '../../util/constants/app_constants.dart';
-import '../../util/constants/pref_constants.dart';
-import '../../util/constants/utilities.dart';
-import '../../widget/general/toast.dart';
+import '../model/base/book.dart';
+import '../model/base/draft.dart';
+import '../model/base/listed.dart';
+import '../model/base/songext.dart';
+import '../repository/db_repository.dart';
+import '../repository/shared_prefs/local_storage.dart';
+import '../util/constants/app_constants.dart';
+import '../util/constants/pref_constants.dart';
+import '../util/constants/utilities.dart';
+import '../widget/general/toast.dart';
+
+enum PageType { lists, search, likes, drafts, helpdesk, settings }
 
 @singleton
 class HomeVm with ChangeNotifierEx {
@@ -26,28 +29,46 @@ class HomeVm with ChangeNotifierEx {
   HomeVm(this.dbRepo, this.localStorage);
   BuildContext? context;
 
-  bool isLoading = false, shownDonation = false;
-  String selectedBooks = "";
-  List<String> bookNos = [];
-  int mainBook = 0, currentPage = 1;
+  bool isLoading = false;
+  int currentPage = 1;
 
+  Book setBook = Book();
   List<Book>? books = [];
+
+  SongExt setSong = SongExt();
+  SongExt setLiked = SongExt();
   List<SongExt>? filtered = [], songs = [], likes = [];
+
+  Listed setListed = Listed();
   List<Listed>? listeds = [];
+
+  Draft setDraft = Draft();
   List<Draft>? drafts = [];
 
+  TextEditingController? searchController = TextEditingController();
   TextEditingController? titleController, contentController;
+  PageType setPage = PageType.search;
 
+  List<PageType> pages = [
+    PageType.lists,
+    PageType.search,
+    PageType.likes,
+    PageType.drafts,
+    PageType.helpdesk,
+    PageType.settings,
+  ];
   Future<void> init(HomeNavigator screenNavigator) async {
     navigator = screenNavigator;
     titleController = TextEditingController();
     contentController = TextEditingController();
 
-    selectedBooks = localStorage.getPrefString(PrefConstants.selectedBooksKey);
-    shownDonation = localStorage.getPrefBool(PrefConstants.donationCheckKey);
-    bookNos = selectedBooks.split(",");
-    mainBook = int.parse(bookNos[0]);
     await fetchData();
+  }
+
+  void setCurrentPage(PageType page) async {
+    setPage = page;
+    searchController!.clear();
+    notifyListeners();
   }
 
   /// Get the data from the DB
@@ -55,19 +76,23 @@ class HomeVm with ChangeNotifierEx {
     if (showLoading) isLoading = true;
     notifyListeners();
 
-    listeds = await dbRepo.fetchListeds();
     books = await dbRepo.fetchBooks();
+
     songs = await dbRepo.fetchSongs();
+
     likes = await dbRepo.fetchLikedSongs();
-    await selectSongbook(mainBook);
+    setLiked = likes![0];
+
+    listeds = await dbRepo.fetchListeds();
+    setListed = listeds![0];
+
     drafts = await dbRepo.fetchDrafts();
+    setDraft = drafts![0];
+
+    await selectSongbook(books![0]);
 
     isLoading = false;
     notifyListeners();
-
-    if (!shownDonation) {
-      //await donationDialog(context!);
-    }
   }
 
   /// Get the listed data from the DB
@@ -75,6 +100,7 @@ class HomeVm with ChangeNotifierEx {
     if (showLoading) isLoading = true;
     notifyListeners();
     listeds = await dbRepo.fetchListeds();
+    setListed = listeds![0];
     isLoading = false;
     notifyListeners();
   }
@@ -85,7 +111,7 @@ class HomeVm with ChangeNotifierEx {
     notifyListeners();
     books = await dbRepo.fetchBooks();
     songs = await dbRepo.fetchSongs();
-    await selectSongbook(mainBook);
+    await selectSongbook(books![0]);
     isLoading = false;
     notifyListeners();
   }
@@ -95,23 +121,25 @@ class HomeVm with ChangeNotifierEx {
     if (showLoading) isLoading = true;
     notifyListeners();
     drafts = await dbRepo.fetchDrafts();
+    setDraft = drafts![0];
     isLoading = false;
     notifyListeners();
   }
 
   /// Set songbook
-  Future<void> selectSongbook(int book, {bool showLoading = true}) async {
+  Future<void> selectSongbook(Book book, {bool showLoading = true}) async {
     if (showLoading) isLoading = true;
     notifyListeners();
-    mainBook = book;
+    setBook = book;
 
     try {
       filtered!.clear();
       for (int i = 0; i < songs!.length; i++) {
-        if (songs![i].book == book) {
+        if (songs![i].book == setBook.bookNo) {
           filtered!.add(songs![i]);
         }
       }
+      setSong = filtered![0];
     } catch (exception, stackTrace) {
       await Sentry.captureException(
         exception,
@@ -130,6 +158,7 @@ class HomeVm with ChangeNotifierEx {
 
     try {
       likes = await dbRepo.fetchLikedSongs();
+      setLiked = likes![0];
     } catch (exception, stackTrace) {
       await Sentry.captureException(
         exception,
@@ -211,6 +240,44 @@ class HomeVm with ChangeNotifierEx {
     );
   }
 
+  void onSearch(String query) async {
+    switch (setPage) {
+      case PageType.lists:
+        if (query.isNotEmpty) {
+          /*list = notes
+              .where(
+                  (e) => e.title!.toLowerCase().contains(query.toLowerCase()))
+              .toList();*/
+        }
+        break;
+      case PageType.search:
+        if (query.isNotEmpty) {
+          filtered = songs!.where((s) {
+            return (isNumeric(query) && s.songNo == int.parse(query)) ||
+                s.title!.toLowerCase().contains(query.toLowerCase()) ||
+                s.alias!.toLowerCase().contains(query.toLowerCase()) ||
+                s.content!.toLowerCase().contains(query.toLowerCase());
+          }).toList();
+        }
+        break;
+      case PageType.likes:
+        if (query.isNotEmpty) {}
+        break;
+      case PageType.drafts:
+        if (query.isNotEmpty) {}
+        break;
+      default:
+        break;
+    }
+    notifyListeners();
+  }
+
+  void onClear() async {
+    //filteredTeachers = teachers;
+    searchController!.clear();
+    notifyListeners();
+  }
+
   /// Save changes for a listed be it a new one or simply updating an old one
   Future<void> saveNewList() async {
     if (titleController!.text.isNotEmpty) {
@@ -237,13 +304,16 @@ class HomeVm with ChangeNotifierEx {
 
   void openPresentor({SongExt? song, Draft? draft}) async {
     if (song != null) {
-      localStorage.song = song;
+      localStorage.song = setSong = song;
       localStorage.setPrefBool(PrefConstants.notDraftKey, true);
     } else if (draft != null) {
-      localStorage.draft = draft;
+      localStorage.draft = setDraft = draft;
       localStorage.setPrefBool(PrefConstants.notDraftKey, false);
     }
-    navigator.goToPresentor();
+    notifyListeners();
+    if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) {
+      navigator.goToPresentor();
+    }
   }
 
   void openEditor({SongExt? song, Draft? draft}) async {
@@ -277,6 +347,5 @@ abstract class HomeNavigator {
   void goToListView();
   void goToHelpDesk();
   void goToDonation();
-  void goToMerchandise();
   void goToSettings();
 }

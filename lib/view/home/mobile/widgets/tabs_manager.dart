@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../theme/theme_colors.dart';
+import '../../../../theme/theme_colors.dart';
 
 class TabIcon extends StatelessWidget {
   final String title;

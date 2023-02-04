@@ -6,7 +6,7 @@ import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
-import '../../viewmodel/info/helpdesk_vm.dart';
+import '../../viewmodel/info_vm.dart';
 import '../../widget/provider/provider_widget.dart';
 
 /// Help desk screen
@@ -24,10 +24,10 @@ class HelpDeskScreen extends StatefulWidget {
 @visibleForTesting
 class HelpDeskScreenState extends State<HelpDeskScreen>
     with BackNavigatorMixin
-    implements HelpDeskNavigator {
+    implements InfoNavigator {
   @override
   Widget build(BuildContext context) {
-    return ProviderWidget<HelpDeskVm>(
+    return ProviderWidget<InfoVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) {

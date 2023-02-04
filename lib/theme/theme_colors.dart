@@ -5,6 +5,7 @@ class ThemeColors {
   static const primary = Color(0XFFC55A11);
   static const primaryDark = Color(0XFF843C0C);
   static const accent = Color(0XFFF4B183);
+  static const accentLight = Color.fromARGB(255, 248, 225, 209);
   static const accentDark = Color(0xFF0080A8);
   static const white = Color(0xFFFFFFFF);
   static const black = Color(0xFF000000);
