@@ -3,13 +3,13 @@ import 'package:icapps_architecture/icapps_architecture.dart';
 
 import '../util/env/flavor_config.dart';
 import 'theme_colors.dart';
-import 'theme_fonts.dart';
+import 'theme_styles.dart';
 
 class SongLibThemeData {
   SongLibThemeData._();
 
   static final darkThemeData = ThemeData(
-    fontFamily: ThemeFonts.body,
+    fontFamily: ThemeFonts.lato,
     primaryColor: ThemeColors.primary,
     colorScheme: const ColorScheme(
       primary: ThemeColors.primary,
@@ -163,198 +163,198 @@ class SongLibTheme {
           titleHuge: TextStyle(
               fontSize: 40,
               color: colorTheme.text,
-              fontFamily: ThemeFonts.title,
+              fontFamily: ThemeFonts.lato,
               height: 1.2),
           titleBig: TextStyle(
               fontSize: 30,
               color: colorTheme.text,
-              fontFamily: ThemeFonts.title,
+              fontFamily: ThemeFonts.lato,
               height: 1.2),
           titleNormal: TextStyle(
               fontSize: 24,
               color: colorTheme.text,
-              fontFamily: ThemeFonts.title),
+              fontFamily: ThemeFonts.lato),
           titleSmall: TextStyle(
               fontSize: 18,
               color: colorTheme.text,
-              fontFamily: ThemeFonts.title),
+              fontFamily: ThemeFonts.lato),
           titleListItem: TextStyle(
               fontSize: 18,
               color: colorTheme.text,
-              fontFamily: ThemeFonts.title,
+              fontFamily: ThemeFonts.lato,
               fontWeight: FontWeight.bold),
           labelButtonBig: TextStyle(
               fontSize: 16,
               color: colorTheme.text,
-              fontFamily: ThemeFonts.button,
+              fontFamily: ThemeFonts.lato,
               fontWeight: FontWeight.bold),
           labelButtonBigDisabled: TextStyle(
               fontSize: 16,
               color: colorTheme.disabledButtonText,
-              fontFamily: ThemeFonts.button,
+              fontFamily: ThemeFonts.lato,
               fontWeight: FontWeight.bold),
           labelButtonSmall: TextStyle(
               fontSize: 14,
               color: colorTheme.text,
-              fontFamily: ThemeFonts.button,
+              fontFamily: ThemeFonts.lato,
               fontWeight: FontWeight.bold),
           labelButtonSmallDisabled: TextStyle(
               fontSize: 14,
               color: colorTheme.disabledButtonText,
-              fontFamily: ThemeFonts.button,
+              fontFamily: ThemeFonts.lato,
               fontWeight: FontWeight.bold),
           bodyBig: TextStyle(
               fontSize: 18,
               color: colorTheme.text,
-              fontFamily: ThemeFonts.body),
+              fontFamily: ThemeFonts.lato),
           bodyNormal: TextStyle(
               fontSize: 16,
               color: colorTheme.text,
-              fontFamily: ThemeFonts.body),
+              fontFamily: ThemeFonts.lato),
           bodySmall: TextStyle(
               fontSize: 14,
               color: colorTheme.text,
-              fontFamily: ThemeFonts.body),
+              fontFamily: ThemeFonts.lato),
           bodyUltraSmall: TextStyle(
               fontSize: 12,
               color: colorTheme.text,
-              fontFamily: ThemeFonts.body),
+              fontFamily: ThemeFonts.lato),
           infoBodySubHeader: TextStyle(
               fontSize: 14,
               color: colorTheme.text,
-              fontFamily: ThemeFonts.body,
+              fontFamily: ThemeFonts.lato,
               fontWeight: FontWeight.w600),
         ),
         inverseCoreTextTheme: SongLibTextTheme(
           titleHuge: TextStyle(
               fontSize: 40,
               color: colorTheme.inverseText,
-              fontFamily: ThemeFonts.title,
+              fontFamily: ThemeFonts.lato,
               height: 1.2),
           titleBig: TextStyle(
               fontSize: 30,
               color: colorTheme.inverseText,
-              fontFamily: ThemeFonts.title,
+              fontFamily: ThemeFonts.lato,
               height: 1.2),
           titleNormal: TextStyle(
               fontSize: 24,
               color: colorTheme.inverseText,
-              fontFamily: ThemeFonts.title),
+              fontFamily: ThemeFonts.lato),
           titleSmall: TextStyle(
               fontSize: 18,
               color: colorTheme.inverseText,
-              fontFamily: ThemeFonts.title),
+              fontFamily: ThemeFonts.lato),
           titleListItem: TextStyle(
               fontSize: 18,
               color: colorTheme.inverseText,
-              fontFamily: ThemeFonts.title,
+              fontFamily: ThemeFonts.lato,
               fontWeight: FontWeight.bold),
           labelButtonBig: TextStyle(
               fontSize: 16,
               color: colorTheme.inverseText,
-              fontFamily: ThemeFonts.button,
+              fontFamily: ThemeFonts.lato,
               fontWeight: FontWeight.bold),
           labelButtonBigDisabled: TextStyle(
               fontSize: 16,
               color: colorTheme.disabledButtonText,
-              fontFamily: ThemeFonts.button,
+              fontFamily: ThemeFonts.lato,
               fontWeight: FontWeight.bold),
           labelButtonSmall: TextStyle(
               fontSize: 14,
               color: colorTheme.inverseText,
-              fontFamily: ThemeFonts.button,
+              fontFamily: ThemeFonts.lato,
               fontWeight: FontWeight.bold),
           labelButtonSmallDisabled: TextStyle(
               fontSize: 14,
               color: colorTheme.disabledButtonText,
-              fontFamily: ThemeFonts.button,
+              fontFamily: ThemeFonts.lato,
               fontWeight: FontWeight.bold),
           bodyBig: TextStyle(
               fontSize: 18,
               color: colorTheme.inverseText,
-              fontFamily: ThemeFonts.body),
+              fontFamily: ThemeFonts.lato),
           bodyNormal: TextStyle(
               fontSize: 16,
               color: colorTheme.inverseText,
-              fontFamily: ThemeFonts.body),
+              fontFamily: ThemeFonts.lato),
           bodySmall: TextStyle(
               fontSize: 14,
               color: colorTheme.inverseText,
-              fontFamily: ThemeFonts.body),
+              fontFamily: ThemeFonts.lato),
           bodyUltraSmall: TextStyle(
               fontSize: 12,
               color: colorTheme.inverseText,
-              fontFamily: ThemeFonts.body),
+              fontFamily: ThemeFonts.lato),
           infoBodySubHeader: TextStyle(
               fontSize: 14,
               color: colorTheme.inverseText,
-              fontFamily: ThemeFonts.body,
+              fontFamily: ThemeFonts.lato,
               fontWeight: FontWeight.w600),
         ),
         accentTextTheme: SongLibTextTheme(
           titleHuge: TextStyle(
               fontSize: 40,
               color: colorTheme.accent,
-              fontFamily: ThemeFonts.title,
+              fontFamily: ThemeFonts.lato,
               height: 1.2),
           titleBig: TextStyle(
               fontSize: 30,
               color: colorTheme.accent,
-              fontFamily: ThemeFonts.title,
+              fontFamily: ThemeFonts.lato,
               height: 1.2),
           titleNormal: TextStyle(
               fontSize: 24,
               color: colorTheme.accent,
-              fontFamily: ThemeFonts.title),
+              fontFamily: ThemeFonts.lato),
           titleSmall: TextStyle(
               fontSize: 18,
               color: colorTheme.accent,
-              fontFamily: ThemeFonts.title),
+              fontFamily: ThemeFonts.lato),
           titleListItem: TextStyle(
               fontSize: 18,
               color: colorTheme.accent,
-              fontFamily: ThemeFonts.title,
+              fontFamily: ThemeFonts.lato,
               fontWeight: FontWeight.bold),
           labelButtonBig: TextStyle(
               fontSize: 16,
               color: colorTheme.accent,
-              fontFamily: ThemeFonts.button,
+              fontFamily: ThemeFonts.lato,
               fontWeight: FontWeight.bold),
           labelButtonBigDisabled: TextStyle(
               fontSize: 16,
               color: colorTheme.disabledButtonText,
-              fontFamily: ThemeFonts.button,
+              fontFamily: ThemeFonts.lato,
               fontWeight: FontWeight.bold),
           labelButtonSmall: TextStyle(
               fontSize: 14,
               color: colorTheme.accent,
-              fontFamily: ThemeFonts.button,
+              fontFamily: ThemeFonts.lato,
               fontWeight: FontWeight.bold),
           labelButtonSmallDisabled: TextStyle(
               fontSize: 14,
               color: colorTheme.disabledButtonText,
-              fontFamily: ThemeFonts.button,
+              fontFamily: ThemeFonts.lato,
               fontWeight: FontWeight.bold),
           bodyBig: TextStyle(
               fontSize: 18,
               color: colorTheme.accent,
-              fontFamily: ThemeFonts.body),
+              fontFamily: ThemeFonts.lato),
           bodyNormal: TextStyle(
               fontSize: 16,
               color: colorTheme.accent,
-              fontFamily: ThemeFonts.body),
+              fontFamily: ThemeFonts.lato),
           bodySmall: TextStyle(
               fontSize: 14,
               color: colorTheme.accent,
-              fontFamily: ThemeFonts.body),
+              fontFamily: ThemeFonts.lato),
           bodyUltraSmall: TextStyle(
               fontSize: 12,
               color: colorTheme.accent,
-              fontFamily: ThemeFonts.body),
+              fontFamily: ThemeFonts.lato),
           infoBodySubHeader: TextStyle(
               fontSize: 14,
               color: colorTheme.accent,
-              fontFamily: ThemeFonts.body,
+              fontFamily: ThemeFonts.lato,
               fontWeight: FontWeight.w600),
         ),
         exceptionsTextTheme: const SongLibTextThemeExceptions(),

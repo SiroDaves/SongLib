@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../../theme/theme_colors.dart';
-import '../../../../viewmodel/home_vm.dart';
+import '../../../../vm/home/home_vm.dart';
 
 class BsSearch extends StatelessWidget {
   final HomeVm? vm;

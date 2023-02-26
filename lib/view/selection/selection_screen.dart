@@ -5,7 +5,7 @@ import 'package:universal_platform/universal_platform.dart';
 import '../../navigator/main_navigator.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
-import '../../viewmodel/selection/selection_vm.dart';
+import '../../vm/selection/selection_vm.dart';
 import '../../widget/action/buttons.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
@@ -51,31 +51,34 @@ class SelectionScreenState extends State<SelectionScreen>
                   ),
             vm.isLoading
                 ? Container()
-                : TextButton(
-                    onPressed: () => areYouDoneDialog(context, vm),
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(5),
-                        ),
-                      ),
-                      child: Row(
-                        children: const <Widget>[
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(
-                              AppConstants.proceed,
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
+                : vm.hasError
+                    ? Container()
+                    : TextButton(
+                        onPressed: () => areYouDoneDialog(context, vm),
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(5),
                             ),
                           ),
-                          Icon(Icons.check),
-                        ],
+                          child: Row(
+                            children: const <Widget>[
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                child: Text(
+                                  AppConstants.proceed,
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Icon(Icons.check),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
           ],
         );
 
@@ -132,11 +135,13 @@ class SelectionScreenState extends State<SelectionScreen>
           ),
           floatingActionButton: vm.isLoading
               ? Container()
-              : FloatingActionButton(
-                  backgroundColor: ThemeColors.primary,
-                  onPressed: () => areYouDoneDialog(context, vm),
-                  child: const Icon(Icons.check, color: Colors.white),
-                ),
+              : vm.hasError
+                  ? Container()
+                  : FloatingActionButton(
+                      backgroundColor: ThemeColors.primary,
+                      onPressed: () => areYouDoneDialog(context, vm),
+                      child: const Icon(Icons.check, color: Colors.white),
+                    ),
         );
       },
     );

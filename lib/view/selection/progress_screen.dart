@@ -5,7 +5,7 @@ import 'package:universal_platform/universal_platform.dart';
 
 import '../../navigator/main_navigator.dart';
 import '../../theme/theme_colors.dart';
-import '../../viewmodel/selection/progress_vm.dart';
+import '../../vm/selection/progress_vm.dart';
 import '../../widget/progress/advanced/advanced_progress.dart';
 import '../../widget/progress/circular_progress.dart';
 import '../../widget/provider/provider_widget.dart';
@@ -122,7 +122,7 @@ class ProgressScreenState extends State<ProgressScreen>
                     SizedBox(height: radius! / 2.1),
                     progressPercentage,
                     progressState,
-                    timeLeft,
+                    //timeLeft,
                   ],
                 ),
               ),
@@ -145,7 +145,4 @@ class ProgressScreenState extends State<ProgressScreen>
 
   @override
   void goToHome() => MainNavigatorWidget.of(context).goToHome();
-
-  @override
-  void goToOnboarding() => MainNavigatorWidget.of(context).goToOnboarding();
 }

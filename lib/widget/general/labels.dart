@@ -180,11 +180,9 @@ class TagView extends StatelessWidget {
           padding:
               EdgeInsets.symmetric(horizontal: 10, vertical: height * 0.0049),
           margin: EdgeInsets.only(top: 2, right: height * 0.008),
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: ThemeColors.primary,
-            border: Border.all(color: Colors.white),
-            borderRadius: const BorderRadius.all(Radius.circular(5)),
-            boxShadow: const [BoxShadow(blurRadius: 1)],
+            borderRadius: BorderRadius.all(Radius.circular(5)),
           ),
           child: Text(
             tagText,
@@ -244,8 +242,8 @@ class PresentorText extends StatelessWidget {
   Widget build(BuildContext context) {
     final double nfontsize = getFontSize(
       lyrics.length + 20,
-      size.height - 200,
-      size.width - 100,
+      size.height - 500,
+      size.width,
     );
     return GestureDetector(
       onDoubleTap: onDoubleTap,

@@ -7,7 +7,7 @@ import '../util/constants/utilities.dart';
 class NotifycationWebService {
   Future<List<ParseObject>> queryNotifycations() async {
     final QueryBuilder<ParseObject> parseQuery =
-        QueryBuilder<ParseObject>(ParseObject(ApiConstants.Notifycation));
+        QueryBuilder<ParseObject>(ParseObject(ApiConstants.notifycation));
     parseQuery.whereEqualTo('enabled', true);
     final ParseResponse apiResponse = await parseQuery.query();
 

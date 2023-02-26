@@ -7,8 +7,8 @@ import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
-import '../../viewmodel/global_vm.dart';
-import '../../viewmodel/manage/settings_vm.dart';
+import '../../vm/global_vm.dart';
+import '../../vm/manage/settings_vm.dart';
 import '../../widget/provider/provider_widget.dart';
 import '../../widget/general/selector_item.dart';
 

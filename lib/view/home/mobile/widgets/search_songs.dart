@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../model/base/songext.dart';
 import '../../../../theme/theme_colors.dart';
 import '../../../../util/constants/utilities.dart';
-import '../../../../viewmodel/home_vm.dart';
+import '../../../../vm/home/home_vm.dart';
 import '../../../../widget/general/list_items.dart';
 
 class SearchSongs extends SearchDelegate<List> {

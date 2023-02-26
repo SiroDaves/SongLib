@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:drift/drift.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 import '../../util/constants/utilities.dart';
-import '../../widget/general/list_items.dart';
 
 class Book {
   int? id;
@@ -57,7 +56,7 @@ class Book {
     return data;
   }
 
-  List<Book> fromData(List<ParseObject?> data) {
+  List<Book> fromParse(List<ParseObject?> data) {
     return data
         .map(
           (object) => Book(
@@ -76,4 +75,22 @@ class Book {
         .toList();
   }
 
+  factory Book.fromData(Map<String, dynamic> data) {
+    return Book(
+      id: const IntType().mapFromDatabaseResponse(data['id'])!,
+      objectId:
+          const StringType().mapFromDatabaseResponse(data['object_id'])!,
+      title: const StringType().mapFromDatabaseResponse(data['title'])!,
+      subTitle:
+          const StringType().mapFromDatabaseResponse(data['sub_title'])!,
+      songs: const IntType().mapFromDatabaseResponse(data['songs'])!,
+      position: const IntType().mapFromDatabaseResponse(data['position'])!,
+      bookNo: const IntType().mapFromDatabaseResponse(data['book_no'])!,
+      enabled: const BoolType().mapFromDatabaseResponse(data['enabled'])!,
+      createdAt:
+          const StringType().mapFromDatabaseResponse(data['created_at'])!,
+      updatedAt:
+          const StringType().mapFromDatabaseResponse(data['updated_at'])!,
+    );
+  }
 }

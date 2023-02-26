@@ -12,7 +12,7 @@ part 'history_dao_storage.g.dart';
 @lazySingleton
 abstract class HistoryDaoStorage {
   @factoryMethod
-  factory HistoryDaoStorage(SongLibDb db) = _HistoryDaoStorage;
+  factory HistoryDaoStorage(SongLibDB db) = _HistoryDaoStorage;
 
   Future<List<History>> getHistories();
   Future<List<HistoryExt>> getAllHistories();
@@ -23,10 +23,10 @@ abstract class HistoryDaoStorage {
 @DriftAccessor(tables: [
   DbHistoryTable,
 ])
-class _HistoryDaoStorage extends DatabaseAccessor<SongLibDb>
+class _HistoryDaoStorage extends DatabaseAccessor<SongLibDB>
     with _$_HistoryDaoStorageMixin
     implements HistoryDaoStorage {
-  _HistoryDaoStorage(SongLibDb db) : super(db);
+  _HistoryDaoStorage(SongLibDB db) : super(db);
 
   @override
   Future<List<History>> getHistories() async {

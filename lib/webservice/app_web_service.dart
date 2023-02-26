@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
@@ -19,7 +18,6 @@ abstract class AppWebService {
 }
 
 class AppService implements AppWebService {
-  
   @override
   Future<ParseResp> fetchBooks() async {
     try {
@@ -31,6 +29,10 @@ class AppService implements AppWebService {
       final ParseResponse apiResponse = await parseQuery.query();
 
       if (apiResponse.success && apiResponse.results != null) {
+        // ignore: avoid_print
+        print('Api Request: ${ApiConstants.parseApiBaseUrl}${ApiConstants.book}');
+        // ignore: avoid_print
+        print('Api Response: [${apiResponse.statusCode}] ${apiResponse.results}');
         return ParseResp(
           apiResponse.results as List<ParseObject>,
           id: EventConstants.requestSuccessful,
@@ -57,6 +59,10 @@ class AppService implements AppWebService {
       final ParseResponse apiResponse = await parseQuery.query();
 
       if (apiResponse.success && apiResponse.results != null) {
+        // ignore: avoid_print
+        print('Api Request: ${ApiConstants.parseApiBaseUrl}${ApiConstants.song}');
+        // ignore: avoid_print
+        print('Api Response: [${apiResponse.statusCode}] ${apiResponse.results}');
         return ParseResp(
           apiResponse.results as List<ParseObject>,
           id: EventConstants.requestSuccessful,
@@ -83,6 +89,10 @@ class AppService implements AppWebService {
       final ParseResponse apiResponse = await parseQuery.query();
 
       if (apiResponse.success && apiResponse.results != null) {
+        // ignore: avoid_print
+        print('Api Request: ${ApiConstants.parseApiBaseUrl}${ApiConstants.song}');
+        // ignore: avoid_print
+        print('Api Response: [${apiResponse.statusCode}] ${apiResponse.results}');
         return ParseResp(
           apiResponse.results as List<ParseObject>,
           id: EventConstants.requestSuccessful,

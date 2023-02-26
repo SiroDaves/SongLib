@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:styled_widget/styled_widget.dart';
 
 import '../navigator/main_navigator.dart';
 import '../navigator/route_names.dart';
 import '../theme/theme_assets.dart';
 import '../theme/theme_colors.dart';
 import '../util/constants/app_constants.dart';
-import '../viewmodel/splash_vm.dart';
+import '../vm/splash_vm.dart';
 import '../widget/provider/provider_widget.dart';
 
 /// Timed Welcome screen
@@ -121,9 +120,6 @@ class SplashScreenState extends State<SplashScreen> implements SplashNavigator {
       ),
     );
   }
-
-  @override
-  void goToUiTest() => MainNavigatorWidget.of(context).goToUiTest();
 
   @override
   void goToOnboarding() => MainNavigatorWidget.of(context).goToOnboarding();

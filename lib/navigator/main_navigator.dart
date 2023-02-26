@@ -11,8 +11,8 @@ import '../view/selection/progress_screen.dart';
 import '../view/selection/selection_screen.dart';
 import '../view/songs/editor_screen.dart';
 import '../view/songs/presentor_screen.dart';
+import '../view/songs/projector_screen.dart';
 import '../view/splash_screen.dart';
-import '../view/uitest_screen.dart';
 import '../util/env/flavor_config.dart';
 import '../widget/general/text_scale_factor.dart';
 import 'main_navigation.dart';
@@ -74,11 +74,6 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
           builder: (context) => const SplashScreen(),
           settings: settings,
         );
-      case UiTestScreen.routeName:
-        return MaterialPageRoute<void>(
-          builder: (context) => const UiTestScreen(),
-          settings: settings,
-        );
       case SelectionScreen.routeName:
         return MaterialPageRoute<void>(
           builder: (context) => const SelectionScreen(),
@@ -103,6 +98,11 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
       case PresentorScreen.routeName:
         return FadeInRoute<void>(
           child: const PresentorScreen(),
+          settings: settings,
+        );
+      case ProjectorScreen.routeName:
+        return FadeInRoute<void>(
+          child: const ProjectorScreen(),
           settings: settings,
         );
       case EditorScreen.routeName:
@@ -153,10 +153,6 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
       navigator.pushReplacementNamed(ProgressScreen.routeName);
 
   @override
-  void goToUiTest() => navigator.pushNamedAndRemoveUntil(
-      UiTestScreen.routeName, (route) => false);
-
-  @override
   void goToOnboarding() =>
       navigator.pushReplacementNamed(OnboardingScreen.routeName);
 
@@ -166,6 +162,9 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
 
   @override
   void goToPresentor() => navigator.pushNamed(PresentorScreen.routeName);
+
+  @override
+  void goToProjector() => navigator.pushNamed(ProjectorScreen.routeName);
 
   @override
   void goToEditor() => navigator.pushNamed(EditorScreen.routeName);

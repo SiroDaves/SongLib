@@ -6,6 +6,6 @@ part of 'song_dao_storage.dart';
 // DaoGenerator
 // **************************************************************************
 
-mixin _$_SongDaoStorageMixin on DatabaseAccessor<SongLibDb> {
+mixin _$_SongDaoStorageMixin on DatabaseAccessor<SongLibDB> {
   $DbSongTableTable get dbSongTable => attachedDatabase.dbSongTable;
 }

@@ -5,7 +5,7 @@ import 'package:textstyle_extensions/textstyle_extensions.dart';
 
 import '../../../../theme/theme_colors.dart';
 import '../../../../theme/theme_styles.dart';
-import '../../../../viewmodel/home_vm.dart';
+import '../../../../vm/home/home_vm.dart';
 
 class SidebarBtn extends StatefulWidget {
   final IconData icon;

@@ -10,7 +10,7 @@ part 'book_dao_storage.g.dart';
 @lazySingleton
 abstract class BookDaoStorage {
   @factoryMethod
-  factory BookDaoStorage(SongLibDb db) = _BookDaoStorage;
+  factory BookDaoStorage(SongLibDB db) = _BookDaoStorage;
 
   Future<List<Book>> getAllBooks();
   Future<void> createBook(Book book);
@@ -22,10 +22,10 @@ abstract class BookDaoStorage {
 @DriftAccessor(tables: [
   DbBookTable,
 ])
-class _BookDaoStorage extends DatabaseAccessor<SongLibDb>
+class _BookDaoStorage extends DatabaseAccessor<SongLibDB>
     with _$_BookDaoStorageMixin
     implements BookDaoStorage {
-  _BookDaoStorage(SongLibDb db) : super(db);
+  _BookDaoStorage(SongLibDB db) : super(db);
 
   @override
   Future<List<Book>> getAllBooks() async {
@@ -35,33 +35,7 @@ class _BookDaoStorage extends DatabaseAccessor<SongLibDb>
       readsFrom: {db.dbBookTable},
     ).watch().map(
       (rows) {
-        final List<Book> drafts = [];
-        for (final row in rows) {
-          drafts.add(
-            Book(
-              id: const IntType().mapFromDatabaseResponse(row.data['id'])!,
-              objectId: const StringType()
-                  .mapFromDatabaseResponse(row.data['object_id'])!,
-              enabled: const BoolType()
-                  .mapFromDatabaseResponse(row.data['enabled'])!,
-              bookNo:
-                  const IntType().mapFromDatabaseResponse(row.data['book_no'])!,
-              title: const StringType()
-                  .mapFromDatabaseResponse(row.data['title'])!,
-              subTitle: const StringType()
-                  .mapFromDatabaseResponse(row.data['sub_title'])!,
-              songs:
-                  const IntType().mapFromDatabaseResponse(row.data['songs'])!,
-              position: const IntType()
-                  .mapFromDatabaseResponse(row.data['position'])!,
-              createdAt: const StringType()
-                  .mapFromDatabaseResponse(row.data['created_at'])!,
-              updatedAt: const StringType()
-                  .mapFromDatabaseResponse(row.data['updated_at'])!,
-            ),
-          );
-        }
-        return drafts;
+        return rows.map((row) => Book.fromData(row.data)).toList();
       },
     );
     return await streams.first;

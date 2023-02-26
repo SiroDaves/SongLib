@@ -1,3 +1,5 @@
+import 'package:drift/drift.dart';
+
 class Draft {
   int? id;
   String? objectId;
@@ -63,5 +65,25 @@ class Draft {
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
     return data;
+  }
+
+  factory Draft.fromData(Map<String, dynamic> data) {
+    return Draft(
+      id: const IntType().mapFromDatabaseResponse(data['id'])!,
+      objectId: const StringType().mapFromDatabaseResponse(data['object_id'])!,
+      book: const IntType().mapFromDatabaseResponse(data['book'])!,
+      songNo: const IntType().mapFromDatabaseResponse(data['song_no'])!,
+      title: const StringType().mapFromDatabaseResponse(data['title'])!,
+      alias: const StringType().mapFromDatabaseResponse(data['alias'])!,
+      content: const StringType().mapFromDatabaseResponse(data['content'])!,
+      key: const StringType().mapFromDatabaseResponse(data['key'])!,
+      author: const StringType().mapFromDatabaseResponse(data['author'])!,
+      views: const IntType().mapFromDatabaseResponse(data['views'])!,
+      createdAt:
+          const StringType().mapFromDatabaseResponse(data['created_at'])!,
+      updatedAt:
+          const StringType().mapFromDatabaseResponse(data['updated_at'])!,
+      liked: const BoolType().mapFromDatabaseResponse(data['liked'])!,
+    );
   }
 }

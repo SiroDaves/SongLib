@@ -8,10 +8,8 @@ import 'architecture.dart';
 import 'di/environments.dart';
 import 'di/injectable.dart';
 import 'util/env/flavor_config.dart';
-import 'util/inspector/local_storage_inspector.dart';
-import 'util/inspector/niddler.dart';
-import 'util/web/app_configurator.dart' if (dart.library.html) 'util/web/app_configurator_web.dart';
-
+import 'util/web/app_configurator.dart'
+    if (dart.library.html) 'util/web/app_configurator_web.dart';
 
 FutureOr<R>? wrapMain<R>(FutureOr<R> Function() appCode) {
   return runZonedGuarded(() async {
@@ -33,13 +31,11 @@ FutureOr<R>? wrapMain<R>(FutureOr<R> Function() appCode) {
       // ignore: avoid_print
       print(trace);
     }
-
   });
 }
 
 Future<void> main() async {
   await wrapMain(() async {
-    await initNiddler();
     const values = FlavorValues(
       logNetworkInfo: true,
       showFullErrorMessages: true,
@@ -53,7 +49,6 @@ Future<void> main() async {
     // ignore: avoid_print
     print('Starting app from main.dart');
     await configureDependencies(Environments.dev);
-    await initAllStorageInspectors();
 
     startApp();
   });

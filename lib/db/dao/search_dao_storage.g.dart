@@ -6,6 +6,6 @@ part of 'search_dao_storage.dart';
 // DaoGenerator
 // **************************************************************************
 
-mixin _$_SearchDaoStorageMixin on DatabaseAccessor<SongLibDb> {
+mixin _$_SearchDaoStorageMixin on DatabaseAccessor<SongLibDB> {
   $DbSearchTableTable get dbSearchTable => attachedDatabase.dbSearchTable;
 }

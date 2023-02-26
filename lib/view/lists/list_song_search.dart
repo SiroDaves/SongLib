@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../model/base/songext.dart';
 import '../../../util/constants/app_constants.dart';
 import '../../../widget/general/list_items.dart';
-import '../../viewmodel/lists/list_view_vm.dart';
+import '../../vm/lists/list_view_vm.dart';
 
 class ListSearchSongs extends SearchDelegate<List> {
   List<SongExt> itemList = [], filtered = [];

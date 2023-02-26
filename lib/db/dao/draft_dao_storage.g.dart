@@ -6,6 +6,6 @@ part of 'draft_dao_storage.dart';
 // DaoGenerator
 // **************************************************************************
 
-mixin _$_DraftDaoStorageMixin on DatabaseAccessor<SongLibDb> {
+mixin _$_DraftDaoStorageMixin on DatabaseAccessor<SongLibDB> {
   $DbDraftTableTable get dbDraftTable => attachedDatabase.dbDraftTable;
 }

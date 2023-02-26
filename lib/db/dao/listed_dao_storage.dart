@@ -13,7 +13,7 @@ part 'listed_dao_storage.g.dart';
 @lazySingleton
 abstract class ListedDaoStorage {
   @factoryMethod
-  factory ListedDaoStorage(SongLibDb db) = _ListedDaoStorage;
+  factory ListedDaoStorage(SongLibDB db) = _ListedDaoStorage;
 
   Future<List<Listed>> getAllListeds();
   Future<List<Listed>> getAllListedSongs();
@@ -28,13 +28,13 @@ abstract class ListedDaoStorage {
 @DriftAccessor(tables: [
   DbListedTable,
 ])
-class _ListedDaoStorage extends DatabaseAccessor<SongLibDb>
+class _ListedDaoStorage extends DatabaseAccessor<SongLibDB>
     with _$_ListedDaoStorageMixin
     implements ListedDaoStorage {
-  _ListedDaoStorage(SongLibDb db) : super(db);
+  _ListedDaoStorage(SongLibDB db) : super(db);
 
   @override
-  Future<List<Listed>> getAllListeds() async {    
+  Future<List<Listed>> getAllListeds() async {
     final Stream<List<Listed>> streams = customSelect(
       'SELECT *, '
       ' (SELECT COUNT(*) FROM ${db.dbListedTable.actualTableName} tbl2 '
@@ -45,30 +45,7 @@ class _ListedDaoStorage extends DatabaseAccessor<SongLibDb>
       readsFrom: {db.dbListedTable},
     ).watch().map(
       (rows) {
-        final List<Listed> listeds = [];
-        for (final row in rows) {
-          listeds.add(
-            Listed(
-              id: const IntType().mapFromDatabaseResponse(row.data['id'])!,
-              objectId: const StringType()
-                  .mapFromDatabaseResponse(row.data['object_id'])!,
-              parentid: const IntType()
-                  .mapFromDatabaseResponse(row.data['parentid'])!,
-              song: const IntType().mapFromDatabaseResponse(row.data['songCount'])!,
-              title: const StringType()
-                  .mapFromDatabaseResponse(row.data['title'])!,
-              description: const StringType()
-                  .mapFromDatabaseResponse(row.data['description'])!,
-              position: const IntType()
-                  .mapFromDatabaseResponse(row.data['position'])!,
-              createdAt: const StringType()
-                  .mapFromDatabaseResponse(row.data['created_at'])!,
-              updatedAt: const StringType()
-                  .mapFromDatabaseResponse(row.data['updated_at'])!,
-            ),
-          );
-        }
-        return listeds;
+        return rows.map((row) => Listed.fromData(row.data)).toList();
       },
     );
 
@@ -78,20 +55,20 @@ class _ListedDaoStorage extends DatabaseAccessor<SongLibDb>
   @override
   Future<List<ListedExt>> getListedSongs(int? parentid) async {
     final Stream<List<ListedExt>> streams = customSelect(
-      'SELECT listeds.${db.dbListedTable.parentid.name}, listeds.${db.dbListedTable.id.name}, listeds.${db.dbListedTable.position.name}, '
-      'listeds.${db.dbListedTable.id.name}, listeds.${db.dbListedTable.createdAt.name}, listeds.${db.dbListedTable.updatedAt.name}, '
-      'listeds.${db.dbListedTable.song.name}, songs.${db.dbSongTable.book.name}, songs.${db.dbSongTable.songNo.name}, '
+      'SELECT lists.${db.dbListedTable.parentid.name}, lists.${db.dbListedTable.id.name}, lists.${db.dbListedTable.position.name}, '
+      'lists.${db.dbListedTable.id.name}, lists.${db.dbListedTable.createdAt.name}, lists.${db.dbListedTable.updatedAt.name}, '
+      'lists.${db.dbListedTable.song.name}, songs.${db.dbSongTable.book.name}, songs.${db.dbSongTable.songNo.name}, '
       'songs.${db.dbSongTable.title.name}, songs.${db.dbSongTable.alias.name}, songs.${db.dbSongTable.content.name}, '
       'songs.${db.dbSongTable.key.name}, songs.${db.dbSongTable.author.name}, songs.${db.dbSongTable.views.name}, '
       'songs.${db.dbSongTable.likes.name}, songs.${db.dbSongTable.liked.name}, songs.${db.dbSongTable.id.name} AS songId, '
       'books.${db.dbBookTable.title.name} AS songbook '
-      'FROM ${db.dbListedTable.actualTableName} AS listeds '
+      'FROM ${db.dbListedTable.actualTableName} AS lists '
       'LEFT JOIN ${db.dbSongTable.actualTableName} AS songs '
-      'ON listeds.${db.dbListedTable.song.name}=songs.${db.dbSongTable.id.name} '
+      'ON lists.${db.dbListedTable.song.name}=songs.${db.dbSongTable.id.name} '
       'LEFT JOIN ${db.dbBookTable.actualTableName} AS books '
       'ON songs.${db.dbSongTable.book.name}=books.${db.dbBookTable.bookNo.name} '
-      'WHERE listeds.${db.dbListedTable.parentid.name}=$parentid '
-      'ORDER BY listeds.${db.dbListedTable.updatedAt.name} DESC;',
+      'WHERE lists.${db.dbListedTable.parentid.name}=$parentid '
+      'ORDER BY lists.${db.dbListedTable.updatedAt.name} DESC;',
       readsFrom: {db.dbListedTable},
     ).watch().map(
       (rows) {
@@ -104,9 +81,9 @@ class _ListedDaoStorage extends DatabaseAccessor<SongLibDb>
   @override
   Future<List<Listed>> getAllListedSongs() async {
     final List<DbListed> results = await select(db.dbListedTable).get();
-    final List<Listed> listeds = [];
+    final List<Listed> lists = [];
     for (final result in results) {
-      listeds.add(
+      lists.add(
         Listed(
           id: const IntType().mapFromDatabaseResponse(result.id)!,
           objectId:
@@ -124,7 +101,7 @@ class _ListedDaoStorage extends DatabaseAccessor<SongLibDb>
         ),
       );
     }
-    return listeds;
+    return lists;
   }
 
   @override

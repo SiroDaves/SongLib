@@ -3,7 +3,7 @@ import 'package:styled_widget/styled_widget.dart';
 
 import '../../../../theme/theme_colors.dart';
 import '../../../../util/constants/app_constants.dart';
-import '../../../../viewmodel/home_vm.dart';
+import '../../../../vm/home/home_vm.dart';
 import 'sidebar_btn.dart';
 
 class Sidebar extends StatefulWidget {

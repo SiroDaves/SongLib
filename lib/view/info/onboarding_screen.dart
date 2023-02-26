@@ -5,7 +5,7 @@ import 'package:onboarding/onboarding.dart';
 import '../../navigator/main_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
-import '../../viewmodel/onboarding_vm.dart';
+import '../../vm/home/onboarding_vm.dart';
 import '../../widget/provider/provider_widget.dart';
 
 part 'onboarding_widget.dart';

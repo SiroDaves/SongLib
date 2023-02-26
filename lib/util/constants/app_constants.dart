@@ -90,7 +90,8 @@ class AppConstants {
       "An unexpected error occurred while trying to fetch data from the server. Please try again later or contact support";
   static const noConnection = "No internet connection!";
   static const noConnectionBody =
-      "If you have reliable internet connection, then our servers are down. It's one thing or the other, we can't tell which is which.";
+      "If you have reliable internet connection, then it's our servers that are down or unaccessible.\n\nIf this situation persists, email us: futuristicken"
+      "@gmail" ".com with a screenshot and your device info.";
 
   static const itsEmptyHere = "Wueh! It's empty here";
   static const itsEmptyHere1 = "Wueh! No lists here yet";

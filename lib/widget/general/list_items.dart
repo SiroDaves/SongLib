@@ -86,24 +86,19 @@ class SongBook extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          width: 100,
+          width: 80,
           margin: const EdgeInsets.all(5),
           padding: const EdgeInsets.all(5),
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: ThemeColors.primary,
-            border: Border.all(color: Colors.white),
-            boxShadow: const [BoxShadow(blurRadius: 3)],
-            borderRadius: const BorderRadius.all(Radius.circular(50)),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
           child: Center(
             child: Text(
               '${truncateString(19, refineTitle(book.title!))} (${book.songs})',
               textAlign: TextAlign.center,
               maxLines: 3,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-              ),
+              style: const TextStyle(color: Colors.white, fontSize: 16),
             ),
           ),
         ),

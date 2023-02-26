@@ -65,8 +65,8 @@ abstract class RegisterModule {
   }
 
   @lazySingleton
-  SongLibDb provideSongLibDb(DatabaseConnection databaseConnection) =>
-      SongLibDb.connect(databaseConnection);
+  SongLibDB provideSongLibDB(DatabaseConnection databaseConnection) =>
+      SongLibDB.connect(databaseConnection);
 }
 
 dynamic _parseAndDecode(String response) => jsonDecode(response);

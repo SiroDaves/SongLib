@@ -15,14 +15,12 @@ import '../../theme/theme_assets.dart';
 import '../../theme/theme_colors.dart';
 import '../../theme/theme_styles.dart';
 import '../../util/constants/app_constants.dart';
-import '../../util/constants/utilities.dart';
-import '../../viewmodel/home_vm.dart';
+import '../../vm/home/home_vm.dart';
 import '../../widget/general/app_bar.dart';
 import '../../widget/general/fading_index_stack.dart';
 import '../../widget/general/inputs.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
-import '../../widget/progress/circular_progress.dart';
 import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
 import '../lists/list_view_popup.dart';
@@ -31,7 +29,7 @@ import 'bigscreen/widgets/sidebar.dart';
 import 'mobile/widgets/search_list.dart';
 import 'mobile/widgets/search_songs.dart';
 
-part 'bigscreen/tabs/bs_search_tab.dart';
+part 'bigscreen/tabs/search_tab_bs.dart';
 part 'mobile/tabs/drafts_tab.dart';
 part 'mobile/tabs/history_tab.dart';
 part 'mobile/tabs/search_tab.dart';
@@ -128,7 +126,12 @@ class HomeScreenState extends State<HomeScreen>
             children: [
               const SizedBox(width: 10),
               Image.asset(ThemeAssets.appIcon, height: 35, width: 35),
-              const SizedBox(width: 30),
+              const SizedBox(width: 10),
+              const Text(
+                '${AppConstants.appTitle} ${AppConstants.appVersion}',
+                style: TextStyle(fontSize: 25),
+              ),
+              const SizedBox(width: 60),
               BsSearch(vm),
               const SizedBox(width: 10),
             ],
@@ -159,7 +162,7 @@ class HomeScreenState extends State<HomeScreen>
               index: vm.pages.indexOf(vm.setPage),
               children: <Widget>[
                 Container(),
-                BsSearchTab(vm),
+                SearchTabBs(vm),
                 Container(),
                 Container(),
                 Container(),
@@ -168,12 +171,8 @@ class HomeScreenState extends State<HomeScreen>
             )
                 .decorated(color: ThemeColors.accentLight)
                 .positioned(
-                    left: 300,
-                    right: 0,
-                    bottom: 0,
-                    top: 0,
-                    animate: true)
-                .animate(.35.seconds, Curves.easeOut),
+                    left: 300, right: 0, bottom: 0, top: 0, animate: true)
+                .animate(.35.seconds, Curves.bounceIn),
             Sidebar(vm)
                 .positioned(
                     left: 0, top: 0, bottom: 0, width: 300, animate: true)
@@ -209,6 +208,9 @@ class HomeScreenState extends State<HomeScreen>
 
   @override
   void goToPresentor() => MainNavigatorWidget.of(context).goToPresentor();
+
+  @override
+  void goToProjector() => MainNavigatorWidget.of(context).goToProjector();
 
   @override
   void goToEditor() => MainNavigatorWidget.of(context).goToEditor();

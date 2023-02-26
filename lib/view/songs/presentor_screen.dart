@@ -7,7 +7,8 @@ import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/app_constants.dart';
-import '../../viewmodel/songs/presentor_vm.dart';
+import '../../vm/songs/presentor_vm.dart';
+import '../../widget/general/presentable.dart';
 import '../../widget/progress/circular_progress.dart';
 import '../../widget/provider/provider_widget.dart';
 import '../lists/list_view_popup.dart';
@@ -148,7 +149,21 @@ class PresentorScreenState extends State<PresentorScreen>
               ),
             ),
             child: SizedBox(
-              child: vm.isLoading ? const CircularProgress() : vm.slides,
+              child: vm.isLoading
+                  ? const CircularProgress()
+                  : vm.widgetTabs.isEmpty
+                      ? Presentable(
+                          index: vm.curSlide,
+                          tabsElevation: 5,
+                          tabs: vm.widgetTabs,
+                          contents: vm.widgetContent,
+                          tabsWidth: size!.height * 0.08156,
+                          indicatorWidth: size!.height * 0.08156,
+                          contentScrollAxis: vm.slideHorizontal
+                              ? Axis.horizontal
+                              : Axis.vertical,
+                        )
+                      : Container(),
             ),
           ),
           floatingActionButton: fabButton,

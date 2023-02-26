@@ -10,7 +10,7 @@ part 'search_dao_storage.g.dart';
 @lazySingleton
 abstract class SearchDaoStorage {
   @factoryMethod
-  factory SearchDaoStorage(SongLibDb db) = _SearchDaoStorage;
+  factory SearchDaoStorage(SongLibDB db) = _SearchDaoStorage;
 
   Future<List<Search>> getAllSearches();
   Future<void> createSearch(Search search);
@@ -20,10 +20,10 @@ abstract class SearchDaoStorage {
 @DriftAccessor(tables: [
   DbSearchTable,
 ])
-class _SearchDaoStorage extends DatabaseAccessor<SongLibDb>
+class _SearchDaoStorage extends DatabaseAccessor<SongLibDB>
     with _$_SearchDaoStorageMixin
     implements SearchDaoStorage {
-  _SearchDaoStorage(SongLibDb db) : super(db);
+  _SearchDaoStorage(SongLibDB db) : super(db);
 
   @override
   Future<List<Search>> getAllSearches() async {
@@ -33,21 +33,7 @@ class _SearchDaoStorage extends DatabaseAccessor<SongLibDb>
       readsFrom: {db.dbSearchTable},
     ).watch().map(
       (rows) {
-        final List<Search> drafts = [];
-        for (final row in rows) {
-          drafts.add(
-            Search(
-              id: const IntType().mapFromDatabaseResponse(row.data['id'])!,
-              objectId: const StringType()
-                  .mapFromDatabaseResponse(row.data['object_id'])!,
-              title: const StringType()
-                  .mapFromDatabaseResponse(row.data['title'])!,
-              createdAt: const StringType()
-                  .mapFromDatabaseResponse(row.data['created_at'])!,
-            ),
-          );
-        }
-        return drafts;
+        return rows.map((row) => Search.fromData(row.data)).toList();
       },
     );
     return await streams.first;

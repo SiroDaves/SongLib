@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 
-import '../../util/locale/localization.dart';
 import '../../widget/provider/data_provider_widget.dart';
 
 abstract class ErrorNavigator {
   String? showError(dynamic error);
-
-  void showErrorWithLocaleKey(String errorGeneral, {List<dynamic>? args});
 }
 
 mixin ErrorNavigatorMixin<T extends StatefulWidget> on State<T>
@@ -25,7 +22,6 @@ mixin ErrorNavigatorMixin<T extends StatefulWidget> on State<T>
           'Caught an error that is not handled by the SongLibError $error');
       key = 'Something went wrong';
     }
-    showErrorWithLocaleKey(key);
     return key;
   }
 
@@ -40,10 +36,4 @@ mixin ErrorNavigatorMixin<T extends StatefulWidget> on State<T>
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
-
-  @override
-  void showErrorWithLocaleKey(String errorKey, {List<dynamic>? args}) =>
-      _showError(
-        Localization.of(context).getTranslation(errorKey, args: args),
-      );
 }

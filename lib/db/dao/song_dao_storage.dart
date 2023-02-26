@@ -11,7 +11,7 @@ part 'song_dao_storage.g.dart';
 @lazySingleton
 abstract class SongDaoStorage {
   @factoryMethod
-  factory SongDaoStorage(SongLibDb db) = _SongDaoStorage;
+  factory SongDaoStorage(SongLibDB db) = _SongDaoStorage;
 
   Future<List<SongExt>> getLikedSongs();
   Future<List<SongExt>> getAllSongs();
@@ -23,10 +23,10 @@ abstract class SongDaoStorage {
 @DriftAccessor(tables: [
   DbSongTable,
 ])
-class _SongDaoStorage extends DatabaseAccessor<SongLibDb>
+class _SongDaoStorage extends DatabaseAccessor<SongLibDB>
     with _$_SongDaoStorageMixin
     implements SongDaoStorage {
-  _SongDaoStorage(SongLibDb db) : super(db);
+  _SongDaoStorage(SongLibDB db) : super(db);
 
   @override
   Future<List<SongExt>> getLikedSongs() async {

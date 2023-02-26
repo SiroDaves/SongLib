@@ -12,7 +12,7 @@ class Durations {
   static const Duration slow = Duration(milliseconds: 700);
 }
 
-class Fonts {
+class ThemeFonts {
   static const String lato = "Lato";
 
   static const String quicksand = "Quicksand";
@@ -77,20 +77,20 @@ class Sizes {
 
 class TextStyles {
   static const TextStyle lato = TextStyle(
-    fontFamily: Fonts.lato,
+    fontFamily: ThemeFonts.lato,
     fontWeight: FontWeight.w400,
     letterSpacing: 0,
     height: 1,
     fontFamilyFallback: [
-      Fonts.emoji,
+      ThemeFonts.emoji,
     ],
   );
 
   static const TextStyle quicksand = TextStyle(
-    fontFamily: Fonts.quicksand,
+    fontFamily: ThemeFonts.quicksand,
     fontWeight: FontWeight.w400,
     fontFamilyFallback: [
-      Fonts.emoji,
+      ThemeFonts.emoji,
     ],
   );
 

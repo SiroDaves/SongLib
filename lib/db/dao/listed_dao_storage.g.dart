@@ -6,6 +6,6 @@ part of 'listed_dao_storage.dart';
 // DaoGenerator
 // **************************************************************************
 
-mixin _$_ListedDaoStorageMixin on DatabaseAccessor<SongLibDb> {
+mixin _$_ListedDaoStorageMixin on DatabaseAccessor<SongLibDB> {
   $DbListedTableTable get dbListedTable => attachedDatabase.dbListedTable;
 }

@@ -2573,9 +2573,9 @@ class $DbSongTableTable extends DbSongTable
   }
 }
 
-abstract class _$SongLibDb extends GeneratedDatabase {
-  _$SongLibDb(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
-  _$SongLibDb.connect(DatabaseConnection c) : super.connect(c);
+abstract class _$SongLibDB extends GeneratedDatabase {
+  _$SongLibDB(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
+  _$SongLibDB.connect(DatabaseConnection c) : super.connect(c);
   late final $DbBookTableTable dbBookTable = $DbBookTableTable(this);
   late final $DbDraftTableTable dbDraftTable = $DbDraftTableTable(this);
   late final $DbHistoryTableTable dbHistoryTable = $DbHistoryTableTable(this);

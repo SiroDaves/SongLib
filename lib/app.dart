@@ -8,9 +8,8 @@ import 'navigator/main_navigator.dart';
 import 'theme/theme_data.dart';
 import 'util/constants/api_constants.dart';
 import 'util/env/flavor_config.dart';
-import 'util/locale/localization_delegate.dart';
-import 'util/locale/localization_fallback_cupertino_delegate.dart';
-import 'viewmodel/global_vm.dart';
+import 'util/i10n/app_localizations.dart';
+import 'vm/global_vm.dart';
 import 'widget/provider/provider_widget.dart';
 
 void startApp() async {
@@ -59,14 +58,13 @@ class InternalApp extends StatelessWidget {
       create: () => GetIt.I()..init(context),
       consumer: (context, viewModel, consumerChild) => MaterialApp(
         debugShowCheckedModeBanner: false,
-        localizationsDelegates: [
-          viewModel.localeDelegate,
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
-          FallbackCupertinoLocalisationsDelegate.delegate,
+          GlobalCupertinoLocalizations.delegate,
         ],
-        locale: viewModel.locale,
-        supportedLocales: LocalizationDelegate.supportedLocales,
+        supportedLocales: const [Locale('en'), Locale('sw')],
         themeMode: viewModel.themeMode,
         theme: SongLibThemeData.lightTheme(viewModel.targetPlatform),
         darkTheme: SongLibThemeData.darkTheme(viewModel.targetPlatform),

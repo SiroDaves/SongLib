@@ -1,3 +1,5 @@
+import 'package:drift/drift.dart';
+
 class Search {
   int? id;
   String? objectId;
@@ -25,5 +27,15 @@ class Search {
     data['title'] = title;
     data['createdAt'] = createdAt;
     return data;
+  }
+
+  factory Search.fromData(Map<String, dynamic> data) {
+    return Search(
+      id: const IntType().mapFromDatabaseResponse(data['id'])!,
+      objectId: const StringType().mapFromDatabaseResponse(data['object_id'])!,
+      title: const StringType().mapFromDatabaseResponse(data['title'])!,
+      createdAt:
+          const StringType().mapFromDatabaseResponse(data['created_at'])!,
+    );
   }
 }

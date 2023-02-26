@@ -11,7 +11,7 @@ part 'draft_dao_storage.g.dart';
 @lazySingleton
 abstract class DraftDaoStorage {
   @factoryMethod
-  factory DraftDaoStorage(SongLibDb db) = _DraftDaoStorage;
+  factory DraftDaoStorage(SongLibDB db) = _DraftDaoStorage;
 
   Future<List<Draft>> getAllDrafts();
   Future<void> createDraft({required Draft draft, bool isSimple = true});
@@ -22,10 +22,10 @@ abstract class DraftDaoStorage {
 @DriftAccessor(tables: [
   DbDraftTable,
 ])
-class _DraftDaoStorage extends DatabaseAccessor<SongLibDb>
+class _DraftDaoStorage extends DatabaseAccessor<SongLibDB>
     with _$_DraftDaoStorageMixin
     implements DraftDaoStorage {
-  _DraftDaoStorage(SongLibDb db) : super(db);
+  _DraftDaoStorage(SongLibDB db) : super(db);
 
   @override
   Future<List<Draft>> getAllDrafts() async {
@@ -35,37 +35,7 @@ class _DraftDaoStorage extends DatabaseAccessor<SongLibDb>
       readsFrom: {db.dbDraftTable},
     ).watch().map(
       (rows) {
-        final List<Draft> drafts = [];
-        for (final row in rows) {
-          drafts.add(
-            Draft(
-              id: const IntType().mapFromDatabaseResponse(row.data['id'])!,
-              objectId: const StringType()
-                  .mapFromDatabaseResponse(row.data['object_id'])!,
-              book: const IntType().mapFromDatabaseResponse(row.data['book'])!,
-              songNo:
-                  const IntType().mapFromDatabaseResponse(row.data['song_no'])!,
-              title: const StringType()
-                  .mapFromDatabaseResponse(row.data['title'])!,
-              alias: const StringType()
-                  .mapFromDatabaseResponse(row.data['alias'])!,
-              content: const StringType()
-                  .mapFromDatabaseResponse(row.data['content'])!,
-              key: const StringType().mapFromDatabaseResponse(row.data['key'])!,
-              author: const StringType()
-                  .mapFromDatabaseResponse(row.data['author'])!,
-              views:
-                  const IntType().mapFromDatabaseResponse(row.data['views'])!,
-              createdAt: const StringType()
-                  .mapFromDatabaseResponse(row.data['created_at'])!,
-              updatedAt: const StringType()
-                  .mapFromDatabaseResponse(row.data['updated_at'])!,
-              liked:
-                  const BoolType().mapFromDatabaseResponse(row.data['liked'])!,
-            ),
-          );
-        }
-        return drafts;
+        return rows.map((row) => Draft.fromData(row.data)).toList();
       },
     );
     return await streams.first;

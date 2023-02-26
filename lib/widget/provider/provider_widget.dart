@@ -2,21 +2,21 @@ import 'package:flutter/widgets.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 
 import '../../theme/theme_data.dart';
-import '../../util/locale/localization.dart';
+import '../../util/i10n/app_localizations.dart';
 
 class ProviderWidget<T extends ChangeNotifier>
-    extends BaseProviderWidget<T, SongLibTheme, Localization> {
+    extends BaseProviderWidget<T, SongLibTheme, AppLocalizations> {
   const ProviderWidget({
     required T Function() create,
     Widget? child,
     Widget Function(BuildContext context, SongLibTheme theme,
-            Localization localization)?
+            AppLocalizations localization)?
         childBuilder,
     Widget Function(
       BuildContext context,
       T viewModel,
       SongLibTheme theme,
-      Localization localization,
+      AppLocalizations localization,
     )?
         childBuilderWithViewModel,
     Widget? consumerChild,
@@ -26,7 +26,7 @@ class ProviderWidget<T extends ChangeNotifier>
       T viewModel,
       Widget? child,
       SongLibTheme theme,
-      Localization localization,
+      AppLocalizations localization,
     )?
         consumerWithThemeAndLocalization,
     bool lazy = true,
