@@ -16,7 +16,10 @@ import '../../theme/theme_assets.dart';
 import '../../theme/theme_colors.dart';
 import '../../theme/theme_styles.dart';
 import '../../util/constants/app_constants.dart';
+import '../../util/constants/pref_constants.dart';
+import '../../util/constants/utilities.dart';
 import '../../vm/home/home_vm.dart';
+import '../../widget/action/sidebar.dart';
 import '../../widget/general/app_bar.dart';
 import '../../widget/general/fading_index_stack.dart';
 import '../../widget/general/inputs.dart';
@@ -25,10 +28,9 @@ import '../../widget/general/list_items.dart';
 import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
 import '../../widget/search/search_list.dart';
+import '../../widget/search/search_songs_pc.dart';
+import '../../widget/search/search_songs.dart';
 import '../lists/list_view_popup.dart';
-import '../../widget/search/search_songs_bs.dart';
-import '../../widget/widgets/sidebar.dart';
-import '../../widget/search/search_songs_ss.dart';
 
 part 'mobile/drafts_tab.dart';
 part 'mobile/history_tab.dart';
@@ -89,7 +91,7 @@ class HomeScreenState extends State<HomeScreen>
               onTap: () async {
                 await showSearch(
                   context: context,
-                  delegate: SearchSongsSs(context, vm, size!.height),
+                  delegate: SearchSongs(context, vm, size!.height),
                 );
               },
               child: const Padding(
@@ -133,7 +135,7 @@ class HomeScreenState extends State<HomeScreen>
                 style: TextStyle(fontSize: 25),
               ),
               const SizedBox(width: 60),
-              SearchSongsBs(vm),
+              SearchSongsPc(vm),
               const SizedBox(width: 10),
             ],
           ),
@@ -208,38 +210,38 @@ class HomeScreenState extends State<HomeScreen>
   }
 
   @override
-  void goToPresentSong() => MainNavigatorWidget.of(context).goToPresentSong();
+  void goToSongPresentor() => MainNavigator.of(context).goToSongPresentor();
 
   @override
-  void goToPresentSongPc() => MainNavigatorWidget.of(context).goToPresentSongPc();
+  void goToSongPresentorPc() => MainNavigator.of(context).goToSongPresentorPc();
 
   @override
-  void goToPresentDraft() => MainNavigatorWidget.of(context).goToPresentDraft();
+  void goToDraftPresentor() => MainNavigator.of(context).goToDraftPresentor();
 
   @override
-  void goToPresentDraftPc() => MainNavigatorWidget.of(context).goToPresentDraftPc();
+  void goToDraftPresentorPc() => MainNavigator.of(context).goToDraftPresentorPc();
 
   @override
-  void goToEditSong() => MainNavigatorWidget.of(context).goToEditSong();
+  void goToSongEditor() => MainNavigator.of(context).goToSongEditor();
 
   @override
-  void goToEditSongPc() => MainNavigatorWidget.of(context).goToEditSongPc();
+  void goToSongEditorPc() => MainNavigator.of(context).goToSongEditorPc();
 
   @override
-  void goToEditDraft(bool emptyDraft) => MainNavigatorWidget.of(context).goToEditDraft(emptyDraft);
+  void goToDraftEditor(bool notEmpty) => MainNavigator.of(context).goToDraftEditor(notEmpty);
 
   @override
-  void goToEditDraftPc(bool emptyDraft) => MainNavigatorWidget.of(context).goToEditDraftPc(emptyDraft);
+  void goToDraftEditorPc(bool notEmpty) => MainNavigator.of(context).goToDraftEditorPc(notEmpty);
 
   @override
-  void goToListView() => MainNavigatorWidget.of(context).goToListView();
+  void goToListView() => MainNavigator.of(context).goToListView();
 
   @override
-  void goToHelpDesk() => MainNavigatorWidget.of(context).goToHelpDesk();
+  void goToHelpDesk() => MainNavigator.of(context).goToHelpDesk();
 
   @override
-  void goToDonation() => MainNavigatorWidget.of(context).goToDonation();
+  void goToDonation() => MainNavigator.of(context).goToDonation();
 
   @override
-  void goToSettings() => MainNavigatorWidget.of(context).goToSettings();
+  void goToSettings() => MainNavigator.of(context).goToSettings();
 }

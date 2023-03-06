@@ -183,5 +183,5 @@ class OnboardingScreenState extends State<OnboardingScreen>
   }
 
   @override
-  void goToHome() => MainNavigatorWidget.of(context).goToHome();
+  void goToHome() => MainNavigator.of(context).goToHome();
 }

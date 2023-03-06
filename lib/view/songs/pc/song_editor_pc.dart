@@ -4,30 +4,30 @@ import 'package:get_it/get_it.dart';
 import '../../../navigator/mixin/back_navigator.dart';
 import '../../../navigator/route_names.dart';
 import '../../../theme/theme_colors.dart';
-import '../../../vm/songs/editor_vm.dart';
+import '../../../vm/songs/song_editor_vm.dart';
 import '../../../widget/general/inputs.dart';
 import '../../../widget/progress/circular_progress.dart';
 import '../../../widget/provider/provider_widget.dart';
 
 /// Song editor screen to draft a new song or edit an existing one
-class EditSongPc extends StatefulWidget {
+class SongEditorPc extends StatefulWidget {
   static const String routeName = RouteNames.editSongPc;
-  const EditSongPc({Key? key}) : super(key: key);
+  const SongEditorPc({Key? key}) : super(key: key);
 
   @override
-  EditSongPcState createState() => EditSongPcState();
+  SongEditorPcState createState() => SongEditorPcState();
 }
 
 @visibleForTesting
-class EditSongPcState extends State<EditSongPc>
+class SongEditorPcState extends State<SongEditorPc>
     with BackNavigatorMixin
-    implements EditorNavigator {
+    implements SongEditorNavigator {
   Size? size;
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    return ProviderWidget<EditorVm>(
+    return ProviderWidget<SongEditorVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) {
@@ -71,12 +71,10 @@ class EditSongPcState extends State<EditSongPc>
             ),
           ),
         );
-        
+
         return Scaffold(
           appBar: AppBar(
-            title: Text(
-              viewModel.isNewContent ? 'Draft a New Song' : 'Edit Your Song',
-            ),
+            title: const Text('Edit Your Song'),
             actions: <Widget>[
               InkWell(
                 onTap: () => viewModel.saveChanges(),
@@ -109,7 +107,8 @@ class EditSongPcState extends State<EditSongPc>
                 ],
               ),
             ),
-            child: viewModel.isLoading ? const CircularProgress() : mainContainer,
+            child:
+                viewModel.isLoading ? const CircularProgress() : mainContainer,
           ),
         );
       },

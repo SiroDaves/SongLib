@@ -7,12 +7,12 @@ import '../../model/tables/db_history_table.dart';
 import '../../util/constants/utilities.dart';
 import '../songlib_db.dart';
 
-part 'history_dao_storage.g.dart';
+part 'history_dao.g.dart';
 
 @lazySingleton
-abstract class HistoryDaoStorage {
+abstract class HistoryDao {
   @factoryMethod
-  factory HistoryDaoStorage(SongLibDB db) = _HistoryDaoStorage;
+  factory HistoryDao(SongLibDB db) = _HistoryDao;
 
   Future<List<History>> getHistories();
   Future<List<HistoryExt>> getAllHistories();
@@ -23,33 +23,31 @@ abstract class HistoryDaoStorage {
 @DriftAccessor(tables: [
   DbHistoryTable,
 ])
-class _HistoryDaoStorage extends DatabaseAccessor<SongLibDB>
-    with _$_HistoryDaoStorageMixin
-    implements HistoryDaoStorage {
-  _HistoryDaoStorage(SongLibDB db) : super(db);
+class _HistoryDao extends DatabaseAccessor<SongLibDB>
+    with _$_HistoryDaoMixin
+    implements HistoryDao {
+  _HistoryDao(SongLibDB db) : super(db);
 
   @override
   Future<List<History>> getHistories() async {
     final List<DbHistory> results = await select(db.dbHistoryTable).get();
-    final List<History> histories = [];
-    for (final result in results) {
-      histories.add(
-        History(
-          id: const IntType().mapFromDatabaseResponse(result.id)!,
-          song: const IntType().mapFromDatabaseResponse(result.song)!,
-          objectId:
-              const StringType().mapFromDatabaseResponse(result.objectId)!,
-          createdAt:
-              const StringType().mapFromDatabaseResponse(result.createdAt)!,
-        ),
-      );
-    }
-    return histories;
+    return results
+        .map(
+          (result) => History(
+            id: const IntType().mapFromDatabaseResponse(result.id)!,
+            song: const IntType().mapFromDatabaseResponse(result.song)!,
+            objectId:
+                const StringType().mapFromDatabaseResponse(result.objectId)!,
+            createdAt:
+                const StringType().mapFromDatabaseResponse(result.createdAt)!,
+          ),
+        )
+        .toList();
   }
 
   @override
   Future<List<HistoryExt>> getAllHistories() async {
-    final Stream<List<HistoryExt>> streams = customSelect(
+    return await customSelect(
       'SELECT histories.${db.dbHistoryTable.id.name}, histories.${db.dbHistoryTable.createdAt.name}, '
       'songs.${db.dbSongTable.book.name}, songs.${db.dbSongTable.songNo.name}, songs.${db.dbSongTable.title.name}, '
       'songs.${db.dbSongTable.alias.name}, songs.${db.dbSongTable.content.name}, songs.${db.dbSongTable.key.name}, '
@@ -67,8 +65,7 @@ class _HistoryDaoStorage extends DatabaseAccessor<SongLibDB>
       (rows) {
         return rows.map((row) => HistoryExt.fromData(row.data)).toList();
       },
-    );
-    return await streams.first;
+    ).first;
   }
 
   @override

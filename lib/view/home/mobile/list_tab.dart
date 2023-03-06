@@ -30,7 +30,11 @@ class ListTab extends StatelessWidget {
           child: ListedItem(
             listed: listed,
             height: size!.height,
-            onTap: () => vm.openListView(listed),
+            onTap: () {
+              vm.localStorage.listed = vm.setListed = listed;
+              vm.navigator.goToSongEditorPc();
+              //vm.openListView(listed)
+            },
           ),
         );
       },

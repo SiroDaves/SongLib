@@ -1,13 +1,15 @@
 import 'package:injectable/injectable.dart';
 
-import '../db/dao/book_dao_storage.dart';
-import '../db/dao/draft_dao_storage.dart';
-import '../db/dao/history_dao_storage.dart';
-import '../db/dao/listed_dao_storage.dart';
-import '../db/dao/search_dao_storage.dart';
-import '../db/dao/song_dao_storage.dart';
+import '../db/dao/book_dao.dart';
+import '../db/dao/draft_dao.dart';
+import '../db/dao/edit_dao.dart';
+import '../db/dao/history_dao.dart';
+import '../db/dao/listed_dao.dart';
+import '../db/dao/search_dao.dart';
+import '../db/dao/song_dao.dart';
 import '../model/base/book.dart';
 import '../model/base/draft.dart';
+import '../model/base/edit.dart';
 import '../model/base/history.dart';
 import '../model/base/historyext.dart';
 import '../model/base/listed.dart';
@@ -20,12 +22,13 @@ import '../model/base/songext.dart';
 abstract class DbRepository {
   @factoryMethod
   factory DbRepository(
-    BookDaoStorage bookDao,
-    DraftDaoStorage draftDao,
-    HistoryDaoStorage historyDao,
-    ListedDaoStorage listedDao,
-    SearchDaoStorage searchDao,
-    SongDaoStorage songDao,
+    BookDao bookDao,
+    DraftDao draftDao,
+    EditDao editDao,
+    HistoryDao historyDao,
+    ListedDao listedDao,
+    SearchDao searchDao,
+    SongDao songDao,
   ) = DbRepo;
 
   Future<List<Book>> fetchBooks();
@@ -36,6 +39,7 @@ abstract class DbRepository {
   Future<List<Search>> fetchSearches();
   Future<List<SongExt>> fetchSongs();
   Future<List<SongExt>> fetchLikedSongs();
+  Future<List<Edit>> fetchEdits();
 
   Future<void> saveBook(Book book);
   Future<void> saveSong(Song song);
@@ -43,29 +47,33 @@ abstract class DbRepository {
   Future<int> saveListed(Listed listed);
   Future<void> saveListedSong(Listed listed, SongExt song);
   Future<void> saveHistory(History history);
+  Future<void> saveEdit(Edit edit);
 
   Future<void> editSong(SongExt song);
   Future<void> editDraft(Draft draft);
   Future<void> editListed(Listed listed);
 
-  Future<void> deleteBooks();
-  Future<void> deleteDraft(Draft draft);
-  Future<void> deleteListed(Listed listed);
-  Future<void> deleteListedSongs(Listed listed);
+  Future<void> removeBooks();
+  Future<void> removeDraft(Draft draft);
+  Future<void> removeEdit(Edit edit);
+  Future<void> removeListed(Listed listed);
+  Future<void> removeListedSongs(Listed listed);
   Future<void> majorCleanUp(String selectedBooks);
 }
 
 class DbRepo implements DbRepository {
-  final BookDaoStorage bookDao;
-  final DraftDaoStorage draftDao;
-  final HistoryDaoStorage historyDao;
-  final ListedDaoStorage listedDao;
-  final SearchDaoStorage searchDao;
-  final SongDaoStorage songDao;
+  final BookDao bookDao;
+  final DraftDao draftDao;
+  final EditDao editDao;
+  final HistoryDao historyDao;
+  final ListedDao listedDao;
+  final SearchDao searchDao;
+  final SongDao songDao;
 
   DbRepo(
     this.bookDao,
     this.draftDao,
+    this.editDao,
     this.historyDao,
     this.listedDao,
     this.searchDao,
@@ -108,6 +116,11 @@ class DbRepo implements DbRepository {
   }
 
   @override
+  Future<List<Edit>> fetchEdits() async {
+    return await editDao.getAllEdits();
+  }
+
+  @override
   Future<List<SongExt>> fetchLikedSongs() async {
     return await songDao.getLikedSongs();
   }
@@ -133,6 +146,11 @@ class DbRepo implements DbRepository {
   }
 
   @override
+  Future<void> saveEdit(Edit edit) async {
+    await editDao.createEdit(edit);
+  }
+
+  @override
   Future<void> saveListedSong(Listed listed, SongExt song) async {
     await listedDao.updateListed(listed);
     return await listedDao.createListedSong(listed, song);
@@ -145,6 +163,17 @@ class DbRepo implements DbRepository {
 
   @override
   Future<void> editSong(SongExt song) async {
+    await editDao.createEdit(
+      Edit(
+        song: song.objectId,
+        book: song.book,
+        songNo: song.songNo,
+        title: song.title,
+        content: song.content,
+        key: song.key,
+        alias: song.alias,
+      ),
+    );
     await songDao.updateSong(song);
   }
 
@@ -159,22 +188,27 @@ class DbRepo implements DbRepository {
   }
 
   @override
-  Future<void> deleteBooks() async {
+  Future<void> removeBooks() async {
     await bookDao.deleteBooks();
   }
 
   @override
-  Future<void> deleteDraft(Draft draft) async {
+  Future<void> removeDraft(Draft draft) async {
     await draftDao.deleteDraft(draft);
   }
 
   @override
-  Future<void> deleteListed(Listed listed) async {
+  Future<void> removeEdit(Edit edit) async {
+    await editDao.deleteEdit(edit);
+  }
+
+  @override
+  Future<void> removeListed(Listed listed) async {
     await listedDao.deleteListed(listed);
   }
 
   @override
-  Future<void> deleteListedSongs(Listed listed) async {
+  Future<void> removeListedSongs(Listed listed) async {
     await listedDao.deleteListedSongs(listed);
   }
 
@@ -184,6 +218,7 @@ class DbRepo implements DbRepository {
     final List<SongExt> songs = await songDao.getAllSongs();
     final List<History> histories = await historyDao.getHistories();
     final List<Listed> listeds = await listedDao.getAllListeds();
+    final List<Edit> edits = await editDao.getAllEdits();
     for (final song in songs) {
       if (!books.contains(song.book.toString())) {
         for (final history in histories) {

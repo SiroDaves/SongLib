@@ -10,7 +10,7 @@ class DraftsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-
+    
     var listContainer = ListView.builder(
       padding: EdgeInsets.all(
         size!.height * 0.015,
@@ -20,7 +20,10 @@ class DraftsTab extends StatelessWidget {
         return DraftItem(
           draft: draft,
           height: size!.height,
-          onTap: () => vm.openPresentor(draft: draft),
+          onTap: () {
+            vm.localStorage.draft = vm.setDraft = draft;
+            vm.navigator.goToDraftPresentor();
+          },
         );
       },
       itemCount: vm.drafts!.length,
@@ -48,7 +51,7 @@ class DraftsTab extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         backgroundColor: ThemeColors.primary,
-        onPressed: () => vm.openEditor(),
+        onPressed: () => vm.navigator.goToDraftEditor(true),
         child: const Icon(Icons.add, color: Colors.white),
       ),
     );

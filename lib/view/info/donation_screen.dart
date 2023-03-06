@@ -69,11 +69,11 @@ class DonationScreenState extends State<DonationScreen>
   }
 
   @override
-  void goToHome() => MainNavigatorWidget.of(context).goToHome();
+  void goToHome() => MainNavigator.of(context).goToHome();
 
   @override
-  void goToOnboarding() => MainNavigatorWidget.of(context).goToOnboarding();
+  void goToOnboarding() => MainNavigator.of(context).goToOnboarding();
 
   @override
-  void goToDonation() => MainNavigatorWidget.of(context).goToDonation();
+  void goToDonation() => MainNavigator.of(context).goToDonation();
 }

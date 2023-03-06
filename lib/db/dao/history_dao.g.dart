@@ -1,11 +1,11 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'listed_dao_storage.dart';
+part of 'history_dao.dart';
 
 // **************************************************************************
 // DaoGenerator
 // **************************************************************************
 
-mixin _$_ListedDaoStorageMixin on DatabaseAccessor<SongLibDB> {
-  $DbListedTableTable get dbListedTable => attachedDatabase.dbListedTable;
+mixin _$_HistoryDaoMixin on DatabaseAccessor<SongLibDB> {
+  $DbHistoryTableTable get dbHistoryTable => attachedDatabase.dbHistoryTable;
 }

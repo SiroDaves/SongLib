@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 
-import '../view/drafts/mobile/edit_draft.dart';
-import '../view/drafts/mobile/present_draft.dart';
-import '../view/drafts/pc/edit_draft_pc.dart';
-import '../view/drafts/pc/present_draft_pc.dart';
+import '../view/drafts/mobile/draft_editor.dart';
+import '../view/drafts/mobile/draft_presentor.dart';
+import '../view/drafts/pc/draft_editor_pc.dart';
+import '../view/drafts/pc/draft_presentor_pc.dart';
 import '../view/home/home_screen.dart';
 import '../view/info/donation_screen.dart';
 import '../view/info/helpdesk_screen.dart';
@@ -13,22 +13,22 @@ import '../view/manage/settings_screen.dart';
 import '../view/info/onboarding_screen.dart';
 import '../view/selection/progress_screen.dart';
 import '../view/selection/selection_screen.dart';
-import '../view/songs/mobile/edit_song.dart';
-import '../view/songs/pc/edit_song_pc.dart';
-import '../view/songs/pc/present_song_pc.dart';
-import '../view/songs/mobile/present_song.dart';
+import '../view/songs/mobile/song_editor.dart';
+import '../view/songs/pc/song_editor_pc.dart';
+import '../view/songs/pc/song_presentor_pc.dart';
+import '../view/songs/mobile/song_presentor.dart';
 import '../view/splash_screen.dart';
 import '../util/env/flavor_config.dart';
 import '../widget/general/text_scale_factor.dart';
 import 'main_navigation.dart';
 
-class MainNavigatorWidget extends StatefulWidget {
+class MainNavigator extends StatefulWidget {
   final Widget? child;
 
-  const MainNavigatorWidget({this.child, Key? key}) : super(key: key);
+  const MainNavigator({this.child, Key? key}) : super(key: key);
 
   @override
-  MainNavigatorWidgetState createState() => MainNavigatorWidgetState();
+  MainNavigatorState createState() => MainNavigatorState();
 
   static MainNavigationMixin of(BuildContext context,
       {bool rootNavigator = false}) {
@@ -40,7 +40,7 @@ class MainNavigatorWidget extends StatefulWidget {
         throw FlutterError(
             'MainNavigation operation requested with a context that does not include a MainNavigation.\n'
             'The context used to push or pop routes from the MainNavigation must be that of a '
-            'widget that is a descendant of a MainNavigatorWidget widget.');
+            'widget that is a descendant of a MainNavigator widget.');
       }
       return true;
     }());
@@ -48,7 +48,7 @@ class MainNavigatorWidget extends StatefulWidget {
   }
 }
 
-class MainNavigatorWidgetState extends State<MainNavigatorWidget>
+class MainNavigatorState extends State<MainNavigator>
     with MainNavigationMixin {
   static final GlobalKey<NavigatorState> _navigationKey =
       GlobalKey<NavigatorState>();
@@ -100,47 +100,47 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
           settings: settings,
         );
 
-      case PresentSong.routeName:
+      case SongPresentor.routeName:
         return FadeInRoute<void>(
-          child: const PresentSong(),
+          child: const SongPresentor(),
           settings: settings,
         );
-      case PresentSongPc.routeName:
+      case SongPresentorPc.routeName:
         return FadeInRoute<void>(
-          child: const PresentSongPc(),
-          settings: settings,
-        );
-
-      case PresentDraft.routeName:
-        return FadeInRoute<void>(
-          child: const PresentDraft(),
-          settings: settings,
-        );
-      case PresentDraftPc.routeName:
-        return FadeInRoute<void>(
-          child: const PresentDraftPc(),
+          child: const SongPresentorPc(),
           settings: settings,
         );
 
-      case EditSong.routeName:
+      case DraftPresentor.routeName:
         return FadeInRoute<void>(
-          child: const EditSong(),
+          child: const DraftPresentor(),
           settings: settings,
         );
-      case EditSongPc.routeName:
+      case DraftPresentorPc.routeName:
         return FadeInRoute<void>(
-          child: const EditSongPc(),
+          child: const DraftPresentorPc(),
           settings: settings,
         );
 
-      case EditDraft.routeName:
+      case SongEditor.routeName:
         return FadeInRoute<void>(
-          child: const EditDraft(),
+          child: const SongEditor(),
           settings: settings,
         );
-      case EditDraftPc.routeName:
+      case SongEditorPc.routeName:
         return FadeInRoute<void>(
-          child: const EditDraftPc(),
+          child: const SongEditorPc(),
+          settings: settings,
+        );
+
+      case DraftEditor.routeName:
+        return FadeInRoute<void>(
+          child: const DraftEditor(),
+          settings: settings,
+        );
+      case DraftEditorPc.routeName:
+        return FadeInRoute<void>(
+          child: const DraftEditorPc(),
           settings: settings,
         );
 
@@ -195,33 +195,33 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
       navigator.pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
 
   @override
-  void goToPresentSong() => navigator.pushNamed(PresentSong.routeName);
+  void goToSongPresentor() => navigator.pushNamed(SongPresentor.routeName);
 
   @override
-  void goToPresentSongPc() => navigator.pushNamed(PresentSongPc.routeName);
+  void goToSongPresentorPc() => navigator.pushNamed(SongPresentorPc.routeName);
 
   @override
-  void goToPresentDraft() => navigator.pushNamed(PresentDraft.routeName);
+  void goToDraftPresentor() => navigator.pushNamed(DraftPresentor.routeName);
 
   @override
-  void goToPresentDraftPc() => navigator.pushNamed(PresentDraftPc.routeName);
+  void goToDraftPresentorPc() => navigator.pushNamed(DraftPresentorPc.routeName);
 
   @override
-  void goToEditSong() => navigator.pushNamed(EditSong.routeName);
+  void goToSongEditor() => navigator.pushNamed(SongEditor.routeName);
 
   @override
-  void goToEditSongPc() => navigator.pushNamed(EditSongPc.routeName);
+  void goToSongEditorPc() => navigator.pushNamed(SongEditorPc.routeName);
 
   @override
-  void goToEditDraft(bool emptyDraft) => navigator.pushNamed(
-        EditDraft.routeName,
-        arguments: emptyDraft,
+  void goToDraftEditor(bool notEmpty) => navigator.pushNamed(
+        DraftEditor.routeName,
+        arguments: notEmpty,
       );
 
   @override
-  void goToEditDraftPc(bool emptyDraft) => navigator.pushNamed(
-        EditDraftPc.routeName,
-        arguments: emptyDraft,
+  void goToDraftEditorPc(bool notEmpty) => navigator.pushNamed(
+        DraftEditorPc.routeName,
+        arguments: notEmpty,
       );
 
   @override

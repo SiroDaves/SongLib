@@ -7,30 +7,30 @@ import '../../../navigator/mixin/back_navigator.dart';
 import '../../../navigator/route_names.dart';
 import '../../../theme/theme_colors.dart';
 import '../../../util/big_screen_intents.dart';
-import '../../../vm/drafts/present_draft_vm.dart';
+import '../../../vm/songs/song_presentor_vm.dart';
 import '../../../widget/general/present_on_pc.dart';
 import '../../../widget/progress/circular_progress.dart';
 import '../../../widget/provider/provider_widget.dart';
 
-/// Screen to present a draft in slide format
-class PresentDraftPc extends StatefulWidget {
-  static const String routeName = RouteNames.presentDraftPc;
-  const PresentDraftPc({Key? key}) : super(key: key);
+/// Screen to present a song in slide format
+class SongPresentorPc extends StatefulWidget {
+  static const String routeName = RouteNames.presentSongPc;
+  const SongPresentorPc({Key? key}) : super(key: key);
 
   @override
-  PresentDraftPcState createState() => PresentDraftPcState();
+  SongPresentorPcState createState() => SongPresentorPcState();
 }
 
 @visibleForTesting
-class PresentDraftPcState extends State<PresentDraftPc>
+class SongPresentorPcState extends State<SongPresentorPc>
     with BackNavigatorMixin
-    implements PresentDraftNavigator {
+    implements SongPresentorNavigator {
   Size? size;
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    return ProviderWidget<PresentDraftVm>(
+    return ProviderWidget<SongPresentorVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, vm, child, theme, localization) {
@@ -41,7 +41,7 @@ class PresentDraftPcState extends State<PresentDraftPc>
             centerTitle: true,
             leading: Container(),
             title: Text(
-              vm.draftTitle,
+              '${vm.songTitle} - ${vm.songBook}',
               style: const TextStyle(fontSize: 30),
             ),
           ),
@@ -233,10 +233,8 @@ class PresentDraftPcState extends State<PresentDraftPc>
   }
 
   @override
-  void goToEditDraft(bool emptyDraft) =>
-      MainNavigatorWidget.of(context).goToEditDraft(emptyDraft);
+  void goToSongEditor() => MainNavigator.of(context).goToSongEditor();
 
   @override
-  void goToEditDraftPc(bool emptyDraft) =>
-      MainNavigatorWidget.of(context).goToEditDraftPc(emptyDraft);
+  void goToSongEditorPc() => MainNavigator.of(context).goToSongEditorPc();
 }

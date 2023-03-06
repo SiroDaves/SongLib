@@ -89,7 +89,7 @@ class SelectionVm with ChangeNotifierEx {
 
     try {
       if (selectedBooks.isNotEmpty) {
-        await db.deleteBooks();
+        await db.removeBooks();
         localStorage.setPrefString(
             PrefConstants.predistinatedBooksKey, selectedBooks);
         selectedBooks = "";

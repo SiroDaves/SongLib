@@ -5,12 +5,12 @@ import '../../model/base/book.dart';
 import '../../model/tables/db_book_table.dart';
 import '../songlib_db.dart';
 
-part 'book_dao_storage.g.dart';
+part 'book_dao.g.dart';
 
 @lazySingleton
-abstract class BookDaoStorage {
+abstract class BookDao {
   @factoryMethod
-  factory BookDaoStorage(SongLibDB db) = _BookDaoStorage;
+  factory BookDao(SongLibDB db) = _BookDao;
 
   Future<List<Book>> getAllBooks();
   Future<void> createBook(Book book);
@@ -22,14 +22,14 @@ abstract class BookDaoStorage {
 @DriftAccessor(tables: [
   DbBookTable,
 ])
-class _BookDaoStorage extends DatabaseAccessor<SongLibDB>
-    with _$_BookDaoStorageMixin
-    implements BookDaoStorage {
-  _BookDaoStorage(SongLibDB db) : super(db);
+class _BookDao extends DatabaseAccessor<SongLibDB>
+    with _$_BookDaoMixin
+    implements BookDao {
+  _BookDao(SongLibDB db) : super(db);
 
   @override
   Future<List<Book>> getAllBooks() async {
-    final Stream<List<Book>> streams = customSelect(
+    return await customSelect(
       'SELECT * FROM ${db.dbBookTable.actualTableName} '
       'ORDER BY ${db.dbBookTable.position.name} ASC;',
       readsFrom: {db.dbBookTable},
@@ -37,8 +37,7 @@ class _BookDaoStorage extends DatabaseAccessor<SongLibDB>
       (rows) {
         return rows.map((row) => Book.fromData(row.data)).toList();
       },
-    );
-    return await streams.first;
+    ).first;
   }
 
   @override

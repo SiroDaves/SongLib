@@ -69,13 +69,13 @@ class InternalApp extends StatelessWidget {
         theme: Provider.of<GlobalVm>(context).isDarkMode
             ? AppThemeData.lightTheme(vm.targetPlatform)
             : AppThemeData.darkTheme(vm.targetPlatform),
-        navigatorKey: MainNavigatorWidgetState.navigationKey,
+        navigatorKey: MainNavigatorState.navigationKey,
         initialRoute:
-            home == null ? MainNavigatorWidgetState.initialRoute : null,
-        onGenerateRoute: MainNavigatorWidgetState.onGenerateRoute,
-        navigatorObservers: MainNavigatorWidgetState.navigatorObservers,
+            home == null ? MainNavigatorState.initialRoute : null,
+        onGenerateRoute: MainNavigatorState.onGenerateRoute,
+        navigatorObservers: MainNavigatorState.navigatorObservers,
         builder: home == null
-            ? (context, child) => MainNavigatorWidget(child: child)
+            ? (context, child) => MainNavigator(child: child)
             : null,
         home: home,
       ),

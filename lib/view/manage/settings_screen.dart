@@ -144,8 +144,8 @@ class SettingsScreenState extends State<SettingsScreen>
   }
 
   @override
-  void goToHome() => MainNavigatorWidget.of(context).goToHome();
+  void goToHome() => MainNavigator.of(context).goToHome();
 
   @override
-  void goToSelection() => MainNavigatorWidget.of(context).goToSelection();
+  void goToSelection() => MainNavigator.of(context).goToSelection();
 }

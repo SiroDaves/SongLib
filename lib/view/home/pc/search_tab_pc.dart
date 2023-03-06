@@ -62,7 +62,10 @@ class SearchTabPc extends StatelessWidget {
                 ContextMenuButtonConfig(
                   AppConstants.editSong,
                   icon: const Icon(Icons.edit, size: 20),
-                  onPressed: () => vm.openEditor(song: song),
+                  onPressed: () {
+                    vm.localStorage.song = vm.setSong = song;
+                    vm.navigator.goToSongEditorPc();
+                  },
                 ),
                 ContextMenuButtonConfig(
                   AppConstants.addtoList,
@@ -81,7 +84,13 @@ class SearchTabPc extends StatelessWidget {
               isSelected: vm.setSong == song,
               isSearching: vm.isSearching,
               height: size.height,
-              onPressed: () => vm.openPresentor(song: song),
+              onPressed: () {
+                vm.localStorage.song = vm.setSong = song;
+                vm.verses = song.content!.split("##");
+                vm.songTitle = songItemTitle(song.songNo!, song.title!);
+                vm.localStorage.setPrefBool(PrefConstants.notDraftKey, true);
+                vm.rebuild();
+              },
             ),
           );
         },
@@ -106,7 +115,7 @@ class SearchTabPc extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: vm.navigator.goToPresentSongPc,
+            onTap: vm.navigator.goToSongPresentorPc,
             child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Image.asset(ThemeAssets.iconProject,

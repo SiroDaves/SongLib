@@ -208,5 +208,5 @@ class SelectionScreenState extends State<SelectionScreen>
   }
 
   @override
-  void goToProgress() => MainNavigatorWidget.of(context).goToProgress();
+  void goToProgress() => MainNavigator.of(context).goToProgress();
 }

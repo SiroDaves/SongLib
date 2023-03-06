@@ -7,11 +7,11 @@ import '../../vm/home/home_vm.dart';
 import '../general/list_items.dart';
 
 /// Small screen search
-class SearchSongsSs extends SearchDelegate<List> {
+class SearchSongs extends SearchDelegate<List> {
   final HomeVm vm;
   final double? height;
 
-  SearchSongsSs(BuildContext context, this.vm, this.height);
+  SearchSongs(BuildContext context, this.vm, this.height);
 
   @override
   String get searchFieldLabel => "Search a Song";
@@ -82,7 +82,10 @@ class SearchSongsSs extends SearchDelegate<List> {
             song: result,
             height: height!,
             isSearching: true,
-            onPressed: () => vm.openPresentor(song: result),
+            onPressed: () {
+              vm.localStorage.song = vm.setSong = result;
+              vm.navigator.goToSongPresentor();
+            },
           );
         },
       ),

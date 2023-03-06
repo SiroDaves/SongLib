@@ -11,5 +11,5 @@ mixin BackNavigatorMixin<T extends StatefulWidget> on State<T>
     implements BackNavigator {
   @override
   void goBack<E>({E? result}) =>
-      MainNavigatorWidget.of(context).goBack<E>(result: result);
+      MainNavigator.of(context).goBack<E>(result: result);
 }

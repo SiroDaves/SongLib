@@ -6,12 +6,12 @@ import '../../model/base/songext.dart';
 import '../../model/tables/db_song_table.dart';
 import '../songlib_db.dart';
 
-part 'song_dao_storage.g.dart';
+part 'song_dao.g.dart';
 
 @lazySingleton
-abstract class SongDaoStorage {
+abstract class SongDao {
   @factoryMethod
-  factory SongDaoStorage(SongLibDB db) = _SongDaoStorage;
+  factory SongDao(SongLibDB db) = _SongDao;
 
   Future<List<SongExt>> getLikedSongs();
   Future<List<SongExt>> getAllSongs();
@@ -23,19 +23,30 @@ abstract class SongDaoStorage {
 @DriftAccessor(tables: [
   DbSongTable,
 ])
-class _SongDaoStorage extends DatabaseAccessor<SongLibDB>
-    with _$_SongDaoStorageMixin
-    implements SongDaoStorage {
-  _SongDaoStorage(SongLibDB db) : super(db);
+class _SongDao extends DatabaseAccessor<SongLibDB>
+    with _$_SongDaoMixin
+    implements SongDao {
+  _SongDao(SongLibDB db) : super(db);
+  
 
   @override
   Future<List<SongExt>> getLikedSongs() async {
-    final Stream<List<SongExt>> streams = customSelect(
-      'SELECT songs.${db.dbSongTable.book.name}, songs.${db.dbSongTable.songNo.name}, '
-      'songs.${db.dbSongTable.title.name}, songs.${db.dbSongTable.alias.name}, songs.${db.dbSongTable.content.name}, '
-      'songs.${db.dbSongTable.key.name}, songs.${db.dbSongTable.author.name}, songs.${db.dbSongTable.views.name}, '
-      'songs.${db.dbSongTable.likes.name}, songs.${db.dbSongTable.createdAt.name}, songs.${db.dbSongTable.updatedAt.name}, '
-      'songs.${db.dbSongTable.liked.name}, songs.${db.dbSongTable.id.name}, '
+    return await customSelect(
+      'SELECT '
+      'songs.${db.dbSongTable.id.name}, '
+      'songs.${db.dbSongTable.book.name}, '
+      'songs.${db.dbSongTable.songNo.name}, '
+      'songs.${db.dbSongTable.title.name}, '
+      'songs.${db.dbSongTable.alias.name}, '
+      'songs.${db.dbSongTable.content.name}, '
+      'songs.${db.dbSongTable.key.name}, '
+      'songs.${db.dbSongTable.author.name}, '
+      'songs.${db.dbSongTable.views.name}, '
+      'songs.${db.dbSongTable.likes.name}, '
+      'songs.${db.dbSongTable.createdAt.name}, '
+      'songs.${db.dbSongTable.updatedAt.name}, '
+      'songs.${db.dbSongTable.liked.name}, '
+      'songs.${db.dbSongTable.objectId.name} AS objectid, '
       'books.${db.dbBookTable.title.name} AS songbook '
       'FROM ${db.dbSongTable.actualTableName} AS songs '
       'LEFT JOIN ${db.dbBookTable.actualTableName} AS books '
@@ -47,18 +58,27 @@ class _SongDaoStorage extends DatabaseAccessor<SongLibDB>
       (rows) {
         return rows.map((row) => SongExt.fromData(row.data)).toList();
       },
-    );
-    return await streams.first;
+    ).first;
   }
 
   @override
   Future<List<SongExt>> getAllSongs() async {
     final Stream<List<SongExt>> streams = customSelect(
-      'SELECT songs.${db.dbSongTable.book.name}, songs.${db.dbSongTable.songNo.name}, '
-      'songs.${db.dbSongTable.title.name}, songs.${db.dbSongTable.alias.name}, songs.${db.dbSongTable.content.name}, '
-      'songs.${db.dbSongTable.key.name}, songs.${db.dbSongTable.author.name}, songs.${db.dbSongTable.views.name}, '
-      'songs.${db.dbSongTable.likes.name}, songs.${db.dbSongTable.createdAt.name}, songs.${db.dbSongTable.updatedAt.name}, '
-      'songs.${db.dbSongTable.liked.name}, songs.${db.dbSongTable.id.name}, '
+      'SELECT '
+      'songs.${db.dbSongTable.id.name}, '
+      'songs.${db.dbSongTable.book.name}, '
+      'songs.${db.dbSongTable.songNo.name}, '
+      'songs.${db.dbSongTable.title.name}, '
+      'songs.${db.dbSongTable.alias.name}, '
+      'songs.${db.dbSongTable.content.name}, '
+      'songs.${db.dbSongTable.key.name}, '
+      'songs.${db.dbSongTable.author.name}, '
+      'songs.${db.dbSongTable.views.name}, '
+      'songs.${db.dbSongTable.likes.name}, '
+      'songs.${db.dbSongTable.createdAt.name}, '
+      'songs.${db.dbSongTable.updatedAt.name}, '
+      'songs.${db.dbSongTable.liked.name}, '
+      'songs.${db.dbSongTable.objectId.name} AS objectid, '
       'books.${db.dbBookTable.title.name} AS songbook '
       'FROM ${db.dbSongTable.actualTableName} AS songs '
       'LEFT JOIN ${db.dbBookTable.actualTableName} AS books '

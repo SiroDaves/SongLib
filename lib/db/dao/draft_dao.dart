@@ -6,12 +6,12 @@ import '../../model/tables/db_draft_table.dart';
 import '../../util/constants/utilities.dart';
 import '../songlib_db.dart';
 
-part 'draft_dao_storage.g.dart';
+part 'draft_dao.g.dart';
 
 @lazySingleton
-abstract class DraftDaoStorage {
+abstract class DraftDao {
   @factoryMethod
-  factory DraftDaoStorage(SongLibDB db) = _DraftDaoStorage;
+  factory DraftDao(SongLibDB db) = _DraftDao;
 
   Future<List<Draft>> getAllDrafts();
   Future<void> createDraft({required Draft draft, bool isSimple = true});
@@ -22,14 +22,14 @@ abstract class DraftDaoStorage {
 @DriftAccessor(tables: [
   DbDraftTable,
 ])
-class _DraftDaoStorage extends DatabaseAccessor<SongLibDB>
-    with _$_DraftDaoStorageMixin
-    implements DraftDaoStorage {
-  _DraftDaoStorage(SongLibDB db) : super(db);
+class _DraftDao extends DatabaseAccessor<SongLibDB>
+    with _$_DraftDaoMixin
+    implements DraftDao {
+  _DraftDao(SongLibDB db) : super(db);
 
   @override
   Future<List<Draft>> getAllDrafts() async {
-    final Stream<List<Draft>> streams = customSelect(
+    return await customSelect(
       'SELECT * FROM ${db.dbDraftTable.actualTableName} '
       'ORDER BY ${db.dbDraftTable.id.name} DESC;',
       readsFrom: {db.dbDraftTable},
@@ -37,8 +37,7 @@ class _DraftDaoStorage extends DatabaseAccessor<SongLibDB>
       (rows) {
         return rows.map((row) => Draft.fromData(row.data)).toList();
       },
-    );
-    return await streams.first;
+    ).first;
   }
 
   @override

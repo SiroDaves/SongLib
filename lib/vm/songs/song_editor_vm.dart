@@ -4,40 +4,35 @@ import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../di/injectable.dart';
-import '../../model/base/draft.dart';
 import '../../model/base/songext.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
-import '../../util/constants/pref_constants.dart';
 import '../home/home_vm.dart';
 
 @injectable
-class EditorVm with ChangeNotifierEx {
-  late final EditorNavigator navigator;
+class SongEditorVm with ChangeNotifierEx {
+  late final SongEditorNavigator navigator;
   final LocalStorage localStorage;
   final DbRepository dbRepo;
 
-  EditorVm(this.dbRepo, this.localStorage);
+  SongEditorVm(this.dbRepo, this.localStorage);
 
   HomeVm? homeVm;
   SongExt? song;
-  Draft? draft;
 
-  bool isLoading = false, isNewContent = false, notDraft = false;
+  bool isLoading = false, notEmpty = false;
   String? title, content, alias, key;
-  TextEditingController? titleController = TextEditingController(),
-      contentController = TextEditingController();
-  TextEditingController? aliasController = TextEditingController(),
-      keyController = TextEditingController();
+  TextEditingController? titleController = TextEditingController();
+  TextEditingController? contentController = TextEditingController();
+  TextEditingController? aliasController = TextEditingController();
+  TextEditingController? keyController = TextEditingController();
 
-  Future<void> init(EditorNavigator screenNavigator) async {
+  Future<void> init(SongEditorNavigator screenNavigator) async {
     navigator = screenNavigator;
 
-    draft = localStorage.draft;
     song = localStorage.song;
 
-    notDraft = localStorage.getPrefBool(PrefConstants.notDraftKey);
     homeVm = HomeVm(dbRepo, localStorage);
     homeVm = getIt.get<HomeVm>();
     await loadEditor();
@@ -47,17 +42,10 @@ class EditorVm with ChangeNotifierEx {
     isLoading = true;
     notifyListeners();
 
-    if (notDraft) {
-      titleController!.text = song!.title!;
-      aliasController!.text = song!.alias!;
-      keyController!.text = song!.key!;
-      contentController!.text = song!.content!;
-    } else {
-      titleController!.text = draft!.title!;
-      aliasController!.text = draft!.alias!;
-      keyController!.text = draft!.key!;
-      contentController!.text = draft!.content!;
-    } 
+    titleController!.text = song!.title!;
+    aliasController!.text = song!.alias!;
+    keyController!.text = song!.key!;
+    contentController!.text = song!.content!.replaceAll('#', '\n');
 
     isLoading = false;
     notifyListeners();
@@ -92,20 +80,6 @@ class EditorVm with ChangeNotifierEx {
           song!.alias = alias;
           song!.key = key;
           await dbRepo.editSong(song!);
-        } else if (draft != null) {
-          draft!.title = title;
-          draft!.content = content;
-          draft!.alias = alias;
-          draft!.key = key;
-          await dbRepo.editDraft(draft!);
-        } else {
-          draft = Draft(
-            title: title,
-            content: content,
-            alias: alias,
-            key: key,
-          );
-          await dbRepo.saveDraft(draft!);
         }
       } catch (exception, stackTrace) {
         await Sentry.captureException(
@@ -118,22 +92,6 @@ class EditorVm with ChangeNotifierEx {
       isLoading = false;
       notifyListeners();
     }
-  }
-
-  /// Remove a song from the records
-  Future<bool?> deleteSong() async {
-    bool? success;
-
-    if (validateInput()) {
-      isLoading = true;
-      notifyListeners();
-
-      //await dbRepo.d(draft!);
-
-      isLoading = true;
-      notifyListeners();
-    }
-    return success;
   }
 
   Future<void> confirmCancel(BuildContext context) async {
@@ -152,9 +110,9 @@ class EditorVm with ChangeNotifierEx {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.pop(context);
                 saveChanges();
                 homeVm!.fetchDraftsData();
+                Navigator.pop(context);
               },
               child: const Text("SAVE"),
             ),
@@ -177,43 +135,9 @@ class EditorVm with ChangeNotifierEx {
     }
   }
 
-  Future<void> confirmDelete(BuildContext context) async {
-    if (validateInput()) {
-      return showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: const Text(
-            'Just a Minute',
-            style: TextStyle(fontSize: 18),
-          ),
-          content: Text(
-            'Are you sure you want to delete the song: ${titleController!.text}?',
-            style: const TextStyle(fontSize: 14),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                deleteSong();
-                homeVm!.fetchDraftsData();
-              },
-              child: const Text("DELETE"),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("CANCEL"),
-            ),
-          ],
-        ),
-      );
-    } else {
-      await onBackPressed();
-    }
-  }
-
   Future<void> onBackPressed() async {
     navigator.goBack<void>();
   }
 }
 
-abstract class EditorNavigator implements BackNavigator {}
+abstract class SongEditorNavigator implements BackNavigator {}

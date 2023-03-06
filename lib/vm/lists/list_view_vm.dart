@@ -96,7 +96,7 @@ class ListViewVm with ChangeNotifierEx {
                 state: ToastStates.success,
               );
               Navigator.pop(context);
-              dbRepo.deleteListed(listed!);
+              dbRepo.removeListed(listed!);
               homeVm!.fetchListedData();
               onBackPressed();
             },

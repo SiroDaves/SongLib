@@ -144,5 +144,5 @@ class ProgressScreenState extends State<ProgressScreen>
   }
 
   @override
-  void goToHome() => MainNavigatorWidget.of(context).goToHome();
+  void goToHome() => MainNavigator.of(context).goToHome();
 }

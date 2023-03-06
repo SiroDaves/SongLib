@@ -189,5 +189,5 @@ class ListViewScreenState extends State<ListViewScreen>
   }
 
   @override
-  void goToPresentor() => MainNavigatorWidget.of(context).goToPresentSong();
+  void goToPresentor() => MainNavigator.of(context).goToSongPresentor();
 }

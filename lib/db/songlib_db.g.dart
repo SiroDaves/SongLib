@@ -1044,6 +1044,426 @@ class $DbDraftTableTable extends DbDraftTable
   }
 }
 
+class DbEdit extends DataClass implements Insertable<DbEdit> {
+  final int id;
+  final String song;
+  final int book;
+  final int songNo;
+  final String title;
+  final String alias;
+  final String content;
+  final String key;
+  final String createdAt;
+  DbEdit(
+      {required this.id,
+      required this.song,
+      required this.book,
+      required this.songNo,
+      required this.title,
+      required this.alias,
+      required this.content,
+      required this.key,
+      required this.createdAt});
+  factory DbEdit.fromData(Map<String, dynamic> data, {String? prefix}) {
+    final effectivePrefix = prefix ?? '';
+    return DbEdit(
+      id: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
+      song: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}song'])!,
+      book: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}book'])!,
+      songNo: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}song_no'])!,
+      title: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}title'])!,
+      alias: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}alias'])!,
+      content: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}content'])!,
+      key: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}key'])!,
+      createdAt: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}created_at'])!,
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['song'] = Variable<String>(song);
+    map['book'] = Variable<int>(book);
+    map['song_no'] = Variable<int>(songNo);
+    map['title'] = Variable<String>(title);
+    map['alias'] = Variable<String>(alias);
+    map['content'] = Variable<String>(content);
+    map['key'] = Variable<String>(key);
+    map['created_at'] = Variable<String>(createdAt);
+    return map;
+  }
+
+  DbEditTableCompanion toCompanion(bool nullToAbsent) {
+    return DbEditTableCompanion(
+      id: Value(id),
+      song: Value(song),
+      book: Value(book),
+      songNo: Value(songNo),
+      title: Value(title),
+      alias: Value(alias),
+      content: Value(content),
+      key: Value(key),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory DbEdit.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DbEdit(
+      id: serializer.fromJson<int>(json['id']),
+      song: serializer.fromJson<String>(json['song']),
+      book: serializer.fromJson<int>(json['book']),
+      songNo: serializer.fromJson<int>(json['songNo']),
+      title: serializer.fromJson<String>(json['title']),
+      alias: serializer.fromJson<String>(json['alias']),
+      content: serializer.fromJson<String>(json['content']),
+      key: serializer.fromJson<String>(json['key']),
+      createdAt: serializer.fromJson<String>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'song': serializer.toJson<String>(song),
+      'book': serializer.toJson<int>(book),
+      'songNo': serializer.toJson<int>(songNo),
+      'title': serializer.toJson<String>(title),
+      'alias': serializer.toJson<String>(alias),
+      'content': serializer.toJson<String>(content),
+      'key': serializer.toJson<String>(key),
+      'createdAt': serializer.toJson<String>(createdAt),
+    };
+  }
+
+  DbEdit copyWith(
+          {int? id,
+          String? song,
+          int? book,
+          int? songNo,
+          String? title,
+          String? alias,
+          String? content,
+          String? key,
+          String? createdAt}) =>
+      DbEdit(
+        id: id ?? this.id,
+        song: song ?? this.song,
+        book: book ?? this.book,
+        songNo: songNo ?? this.songNo,
+        title: title ?? this.title,
+        alias: alias ?? this.alias,
+        content: content ?? this.content,
+        key: key ?? this.key,
+        createdAt: createdAt ?? this.createdAt,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('DbEdit(')
+          ..write('id: $id, ')
+          ..write('song: $song, ')
+          ..write('book: $book, ')
+          ..write('songNo: $songNo, ')
+          ..write('title: $title, ')
+          ..write('alias: $alias, ')
+          ..write('content: $content, ')
+          ..write('key: $key, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      id, song, book, songNo, title, alias, content, key, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DbEdit &&
+          other.id == this.id &&
+          other.song == this.song &&
+          other.book == this.book &&
+          other.songNo == this.songNo &&
+          other.title == this.title &&
+          other.alias == this.alias &&
+          other.content == this.content &&
+          other.key == this.key &&
+          other.createdAt == this.createdAt);
+}
+
+class DbEditTableCompanion extends UpdateCompanion<DbEdit> {
+  final Value<int> id;
+  final Value<String> song;
+  final Value<int> book;
+  final Value<int> songNo;
+  final Value<String> title;
+  final Value<String> alias;
+  final Value<String> content;
+  final Value<String> key;
+  final Value<String> createdAt;
+  const DbEditTableCompanion({
+    this.id = const Value.absent(),
+    this.song = const Value.absent(),
+    this.book = const Value.absent(),
+    this.songNo = const Value.absent(),
+    this.title = const Value.absent(),
+    this.alias = const Value.absent(),
+    this.content = const Value.absent(),
+    this.key = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  DbEditTableCompanion.insert({
+    this.id = const Value.absent(),
+    this.song = const Value.absent(),
+    this.book = const Value.absent(),
+    this.songNo = const Value.absent(),
+    this.title = const Value.absent(),
+    this.alias = const Value.absent(),
+    this.content = const Value.absent(),
+    this.key = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  static Insertable<DbEdit> custom({
+    Expression<int>? id,
+    Expression<String>? song,
+    Expression<int>? book,
+    Expression<int>? songNo,
+    Expression<String>? title,
+    Expression<String>? alias,
+    Expression<String>? content,
+    Expression<String>? key,
+    Expression<String>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (song != null) 'song': song,
+      if (book != null) 'book': book,
+      if (songNo != null) 'song_no': songNo,
+      if (title != null) 'title': title,
+      if (alias != null) 'alias': alias,
+      if (content != null) 'content': content,
+      if (key != null) 'key': key,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  DbEditTableCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? song,
+      Value<int>? book,
+      Value<int>? songNo,
+      Value<String>? title,
+      Value<String>? alias,
+      Value<String>? content,
+      Value<String>? key,
+      Value<String>? createdAt}) {
+    return DbEditTableCompanion(
+      id: id ?? this.id,
+      song: song ?? this.song,
+      book: book ?? this.book,
+      songNo: songNo ?? this.songNo,
+      title: title ?? this.title,
+      alias: alias ?? this.alias,
+      content: content ?? this.content,
+      key: key ?? this.key,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (song.present) {
+      map['song'] = Variable<String>(song.value);
+    }
+    if (book.present) {
+      map['book'] = Variable<int>(book.value);
+    }
+    if (songNo.present) {
+      map['song_no'] = Variable<int>(songNo.value);
+    }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
+    if (alias.present) {
+      map['alias'] = Variable<String>(alias.value);
+    }
+    if (content.present) {
+      map['content'] = Variable<String>(content.value);
+    }
+    if (key.present) {
+      map['key'] = Variable<String>(key.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<String>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DbEditTableCompanion(')
+          ..write('id: $id, ')
+          ..write('song: $song, ')
+          ..write('book: $book, ')
+          ..write('songNo: $songNo, ')
+          ..write('title: $title, ')
+          ..write('alias: $alias, ')
+          ..write('content: $content, ')
+          ..write('key: $key, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $DbEditTableTable extends DbEditTable
+    with TableInfo<$DbEditTableTable, DbEdit> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DbEditTableTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
+      'id', aliasedName, false,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _songMeta = const VerificationMeta('song');
+  @override
+  late final GeneratedColumn<String?> song = GeneratedColumn<String?>(
+      'song', aliasedName, false,
+      type: const StringType(),
+      requiredDuringInsert: false,
+      defaultValue: const Constant(''));
+  final VerificationMeta _bookMeta = const VerificationMeta('book');
+  @override
+  late final GeneratedColumn<int?> book = GeneratedColumn<int?>(
+      'book', aliasedName, false,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
+  final VerificationMeta _songNoMeta = const VerificationMeta('songNo');
+  @override
+  late final GeneratedColumn<int?> songNo = GeneratedColumn<int?>(
+      'song_no', aliasedName, false,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
+  final VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
+  late final GeneratedColumn<String?> title = GeneratedColumn<String?>(
+      'title', aliasedName, false,
+      type: const StringType(),
+      requiredDuringInsert: false,
+      defaultValue: const Constant(''));
+  final VerificationMeta _aliasMeta = const VerificationMeta('alias');
+  @override
+  late final GeneratedColumn<String?> alias = GeneratedColumn<String?>(
+      'alias', aliasedName, false,
+      type: const StringType(),
+      requiredDuringInsert: false,
+      defaultValue: const Constant(''));
+  final VerificationMeta _contentMeta = const VerificationMeta('content');
+  @override
+  late final GeneratedColumn<String?> content = GeneratedColumn<String?>(
+      'content', aliasedName, false,
+      type: const StringType(),
+      requiredDuringInsert: false,
+      defaultValue: const Constant(''));
+  final VerificationMeta _keyMeta = const VerificationMeta('key');
+  @override
+  late final GeneratedColumn<String?> key = GeneratedColumn<String?>(
+      'key', aliasedName, false,
+      type: const StringType(),
+      requiredDuringInsert: false,
+      defaultValue: const Constant(''));
+  final VerificationMeta _createdAtMeta = const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<String?> createdAt = GeneratedColumn<String?>(
+      'created_at', aliasedName, false,
+      type: const StringType(),
+      requiredDuringInsert: false,
+      defaultValue: const Constant(''));
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, song, book, songNo, title, alias, content, key, createdAt];
+  @override
+  String get aliasedName => _alias ?? 'db_edit_table';
+  @override
+  String get actualTableName => 'db_edit_table';
+  @override
+  VerificationContext validateIntegrity(Insertable<DbEdit> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('song')) {
+      context.handle(
+          _songMeta, song.isAcceptableOrUnknown(data['song']!, _songMeta));
+    }
+    if (data.containsKey('book')) {
+      context.handle(
+          _bookMeta, book.isAcceptableOrUnknown(data['book']!, _bookMeta));
+    }
+    if (data.containsKey('song_no')) {
+      context.handle(_songNoMeta,
+          songNo.isAcceptableOrUnknown(data['song_no']!, _songNoMeta));
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
+    }
+    if (data.containsKey('alias')) {
+      context.handle(
+          _aliasMeta, alias.isAcceptableOrUnknown(data['alias']!, _aliasMeta));
+    }
+    if (data.containsKey('content')) {
+      context.handle(_contentMeta,
+          content.isAcceptableOrUnknown(data['content']!, _contentMeta));
+    }
+    if (data.containsKey('key')) {
+      context.handle(
+          _keyMeta, key.isAcceptableOrUnknown(data['key']!, _keyMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  DbEdit map(Map<String, dynamic> data, {String? tablePrefix}) {
+    return DbEdit.fromData(data,
+        prefix: tablePrefix != null ? '$tablePrefix.' : null);
+  }
+
+  @override
+  $DbEditTableTable createAlias(String alias) {
+    return $DbEditTableTable(attachedDatabase, alias);
+  }
+}
+
 class DbHistory extends DataClass implements Insertable<DbHistory> {
   final int id;
   final String objectId;
@@ -2578,16 +2998,25 @@ abstract class _$SongLibDB extends GeneratedDatabase {
   _$SongLibDB.connect(DatabaseConnection c) : super.connect(c);
   late final $DbBookTableTable dbBookTable = $DbBookTableTable(this);
   late final $DbDraftTableTable dbDraftTable = $DbDraftTableTable(this);
+  late final $DbEditTableTable dbEditTable = $DbEditTableTable(this);
   late final $DbHistoryTableTable dbHistoryTable = $DbHistoryTableTable(this);
   late final $DbListedTableTable dbListedTable = $DbListedTableTable(this);
   late final $DbSearchTableTable dbSearchTable = $DbSearchTableTable(this);
   late final $DbSongTableTable dbSongTable = $DbSongTableTable(this);
+  late final BookDao bookDao = BookDao(this as SongLibDB);
+  late final DraftDao draftDao = DraftDao(this as SongLibDB);
+  late final EditDao editDao = EditDao(this as SongLibDB);
+  late final HistoryDao historyDao = HistoryDao(this as SongLibDB);
+  late final ListedDao listedDao = ListedDao(this as SongLibDB);
+  late final SearchDao searchDao = SearchDao(this as SongLibDB);
+  late final SongDao songDao = SongDao(this as SongLibDB);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
         dbBookTable,
         dbDraftTable,
+        dbEditTable,
         dbHistoryTable,
         dbListedTable,
         dbSearchTable,

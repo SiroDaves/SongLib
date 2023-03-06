@@ -26,7 +26,10 @@ class LikesTab extends StatelessWidget {
             return SongItem(
               song: song,
               height: size!.height,
-              onPressed: () => vm.openPresentor(song: song),
+              onPressed: () {
+                vm.localStorage.song = vm.setSong = song;
+                vm.navigator.goToSongPresentor();
+              },
             );
           },
         ),

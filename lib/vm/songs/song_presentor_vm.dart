@@ -19,13 +19,13 @@ import '../../widget/general/toast.dart';
 import '../home/home_vm.dart';
 
 @injectable
-class PresentSongVm with ChangeNotifierEx {
+class SongPresentorVm with ChangeNotifierEx {
   final LocalStorage localStorage;
   final DbRepository dbRepo;
 
-  PresentSongVm(this.dbRepo, this.localStorage);
+  SongPresentorVm(this.dbRepo, this.localStorage);
 
-  late final PresentSongNavigator navigator;
+  late final SongPresentorNavigator navigator;
   late HomeVm homeVm;
   SongExt? song;
 
@@ -42,7 +42,7 @@ class PresentSongVm with ChangeNotifierEx {
 
   IconData likeIcon = Icons.favorite_border;
 
-  Future<void> init(PresentSongNavigator screenNavigator) async {
+  Future<void> init(SongPresentorNavigator screenNavigator) async {
     navigator = screenNavigator;
 
     song = localStorage.song;
@@ -174,7 +174,7 @@ class PresentSongVm with ChangeNotifierEx {
   }
 }
 
-abstract class PresentSongNavigator implements BackNavigator {
-  void goToEditSong();
-  void goToEditSongPc();
+abstract class SongPresentorNavigator implements BackNavigator {
+  void goToSongEditor();
+  void goToSongEditorPc();
 }

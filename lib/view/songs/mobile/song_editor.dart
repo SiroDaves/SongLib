@@ -4,33 +4,33 @@ import 'package:get_it/get_it.dart';
 import '../../../navigator/mixin/back_navigator.dart';
 import '../../../navigator/route_names.dart';
 import '../../../theme/theme_colors.dart';
-import '../../../vm/songs/editor_vm.dart';
+import '../../../vm/songs/song_editor_vm.dart';
 import '../../../widget/general/inputs.dart';
 import '../../../widget/progress/circular_progress.dart';
 import '../../../widget/provider/provider_widget.dart';
 
 /// Song editor screen to draft a new song or edit an existing one
-class EditSong extends StatefulWidget {
+class SongEditor extends StatefulWidget {
   static const String routeName = RouteNames.editSong;
-  const EditSong({Key? key}) : super(key: key);
+  const SongEditor({Key? key}) : super(key: key);
 
   @override
-  EditSongState createState() => EditSongState();
+  SongEditorState createState() => SongEditorState();
 }
 
 @visibleForTesting
-class EditSongState extends State<EditSong>
+class SongEditorState extends State<SongEditor>
     with BackNavigatorMixin
-    implements EditorNavigator {
+    implements SongEditorNavigator {
   Size? size;
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    return ProviderWidget<EditorVm>(
+    return ProviderWidget<SongEditorVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
-          (context, viewModel, child, theme, localization) {
+          (context, vm, child, theme, localization) {
         var mainContainer = SingleChildScrollView(
           padding: const EdgeInsets.all(5),
           child: Card(
@@ -42,13 +42,13 @@ class EditSongState extends State<EditSong>
                 children: <Widget>[
                   FormInput(
                     iLabel: 'Song Title',
-                    iController: viewModel.titleController!,
+                    iController: vm.titleController!,
                     prefix: const Icon(Icons.text_fields),
                     iOptions: const <String>[],
                   ),
                   FormInput(
                     iLabel: 'Song Content',
-                    iController: viewModel.contentController!,
+                    iController: vm.contentController!,
                     prefix: const Icon(Icons.list),
                     isMultiline: true,
                     iType: TextInputType.multiline,
@@ -56,13 +56,13 @@ class EditSongState extends State<EditSong>
                   ),
                   FormInput(
                     iLabel: 'Song Key (Optional)',
-                    iController: viewModel.keyController!,
+                    iController: vm.keyController!,
                     prefix: const Icon(Icons.key),
                     iOptions: const <String>[],
                   ),
                   FormInput(
                     iLabel: 'Song Alias (Optional)',
-                    iController: viewModel.aliasController!,
+                    iController: vm.aliasController!,
                     prefix: const Icon(Icons.text_format),
                     iOptions: const <String>[],
                   ),
@@ -71,22 +71,20 @@ class EditSongState extends State<EditSong>
             ),
           ),
         );
-        
+
         return Scaffold(
           appBar: AppBar(
-            title: Text(
-              viewModel.isNewContent ? 'Draft a New Song' : 'Edit Your Song',
-            ),
+            title: const Text('Edit Your Song'),
             actions: <Widget>[
               InkWell(
-                onTap: () => viewModel.saveChanges(),
+                onTap: () => vm.saveChanges(),
                 child: const Padding(
                   padding: EdgeInsets.all(10),
                   child: Icon(Icons.check),
                 ),
               ),
               InkWell(
-                onTap: () => viewModel.confirmCancel(context),
+                onTap: () => vm.confirmCancel(context),
                 child: const Padding(
                   padding: EdgeInsets.all(10),
                   child: Icon(Icons.clear),
@@ -98,8 +96,8 @@ class EditSongState extends State<EditSong>
             height: size!.height,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
                 colors: [
                   Colors.white,
                   Colors.orange,
@@ -109,7 +107,7 @@ class EditSongState extends State<EditSong>
                 ],
               ),
             ),
-            child: viewModel.isLoading ? const CircularProgress() : mainContainer,
+            child: vm.isLoading ? const CircularProgress() : mainContainer,
           ),
         );
       },

@@ -7,49 +7,54 @@ import '../../../navigator/mixin/back_navigator.dart';
 import '../../../navigator/route_names.dart';
 import '../../../theme/theme_colors.dart';
 import '../../../util/constants/app_constants.dart';
-import '../../../vm/drafts/present_draft_vm.dart';
+import '../../../vm/songs/song_presentor_vm.dart';
 import '../../../widget/action/fab_widget.dart';
 import '../../../widget/general/present_on_mobile.dart';
 import '../../../widget/progress/circular_progress.dart';
 import '../../../widget/provider/provider_widget.dart';
+import '../../lists/list_view_popup.dart';
 
-/// Screen to present a draft in slide format
-class PresentDraft extends StatefulWidget {
-  static const String routeName = RouteNames.presentDraft;
-  const PresentDraft({Key? key}) : super(key: key);
+/// Screen to present a song in slide format
+class SongPresentor extends StatefulWidget {
+  static const String routeName = RouteNames.presentSong;
+  const SongPresentor({Key? key}) : super(key: key);
 
   @override
-  PresentDraftState createState() => PresentDraftState();
+  SongPresentorState createState() => SongPresentorState();
 }
 
 @visibleForTesting
-class PresentDraftState extends State<PresentDraft>
+class SongPresentorState extends State<SongPresentor>
     with BackNavigatorMixin
-    implements PresentDraftNavigator {
+    implements SongPresentorNavigator {
   Size? size;
 
-  @override
+  @override 
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    return ProviderWidget<PresentDraftVm>(
+    return ProviderWidget<SongPresentorVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, vm, child, theme, localization) {
         vm.size = size;
 
         var appBarWidget = AppBar(
-          title: Text(vm.draftTitle),
+          title: Text(vm.songTitle),
           actions: <Widget>[
-            const InkWell(
-              //onTap: vm.notDraft ? vm.likeDraft : vm.navigator.goToEditor,
+            InkWell(
+              //onTap: vm.notDraft ? vm.likeSong : vm.navigator.goToEditor,
               child: Padding(
-                padding: EdgeInsets.all(10),
-                child: Icon(Icons.edit),
+                padding: const EdgeInsets.all(10),
+                child: Icon(vm.likeIcon),
               ),
             ),
             InkWell(
               onTap: () async {
-                await vm.confirmDelete(context);
+                await showModalBottomSheet<void>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return ListViewPopup(song: vm.song!);
+                    });
               },
               child: const Padding(
                 padding: EdgeInsets.all(10),
@@ -83,7 +88,7 @@ class PresentDraftState extends State<PresentDraft>
                       ? PresentOnMobile(
                           index: vm.curSlide,
                           tabsElevation: 5,
-                          songbook: '',
+                          songbook: vm.songBook,
                           tabs: vm.widgetTabs,
                           contents: vm.widgetContent,
                           tabsWidth: size!.height * 0.08156,
@@ -103,7 +108,7 @@ class PresentDraftState extends State<PresentDraft>
                 backgroundColor: ThemeColors.primary,
                 onPressed: () {
                   Share.share(
-                    '${vm.draftTitle}\n${vm.draftBook}\n\n${vm.draftContent}',
+                    '${vm.songTitle}\n${vm.songBook}\n\n${vm.songContent}',
                     subject: AppConstants.shareVerse,
                   );
                 },
@@ -112,13 +117,13 @@ class PresentDraftState extends State<PresentDraft>
               FloatingActionButton(
                 heroTag: 'copy_fab',
                 backgroundColor: ThemeColors.primary,
-                onPressed: vm.copyDraft,
+                onPressed: vm.copySong,
                 child: const Icon(Icons.copy, color: Colors.white),
               ),
               FloatingActionButton(
                 heroTag: 'edit_fab',
                 backgroundColor: ThemeColors.primary,
-                onPressed: () => vm.navigator.goToEditDraft(false),
+                onPressed: () => vm.navigator.goToSongEditor(),
                 child: const Icon(Icons.edit, color: Colors.white),
               ),
             ],
@@ -129,10 +134,8 @@ class PresentDraftState extends State<PresentDraft>
   }
 
   @override
-  void goToEditDraft(bool emptyDraft) =>
-      MainNavigatorWidget.of(context).goToEditDraft(emptyDraft);
+  void goToSongEditor() => MainNavigator.of(context).goToSongEditor();
 
   @override
-  void goToEditDraftPc(bool emptyDraft) =>
-      MainNavigatorWidget.of(context).goToEditDraftPc(emptyDraft);
+  void goToSongEditorPc() => MainNavigator.of(context).goToSongEditorPc();
 }

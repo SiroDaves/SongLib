@@ -223,7 +223,7 @@ class HomeVm with ChangeNotifierEx {
           TextButton(
             onPressed: () {
               Navigator.pop(context);
-              dbRepo.deleteListed(listed);
+              dbRepo.removeListed(listed);
               fetchListedData();
               showToast(
                 text: '${listed.title} ${AppConstants.deleted}',
@@ -304,58 +304,21 @@ class HomeVm with ChangeNotifierEx {
     }
   }
 
-  void openPresentor({SongExt? song, Draft? draft}) async {
-    if (song != null) {
-      localStorage.song = setSong = song;
-      verses = setSong.content!.split("##");
-      songTitle = songItemTitle(setSong.songNo!, setSong.title!);
-      localStorage.setPrefBool(PrefConstants.notDraftKey, true);
-    } else if (draft != null) {
-      localStorage.draft = setDraft = draft;
-      verses = setDraft.content!.split("##");
-      songTitle = setDraft.title!;
-      localStorage.setPrefBool(PrefConstants.notDraftKey, false);
-    }
+  /// rebuild the widget tree
+  void rebuild() async {
     notifyListeners();
-    if (Platform.isAndroid || Platform.isIOS) {
-      navigator.goToPresentSong();
-    }
-  }
-
-  void openEditor({SongExt? song, Draft? draft}) async {
-    if (song != null) {
-      localStorage.song = song;
-      localStorage.draft = null;
-    } else if (draft != null) {
-      localStorage.song = null;
-      localStorage.draft = draft;
-    } else {
-      localStorage.song = null;
-      localStorage.draft = null;
-    }
-    //navigator.goToEditor(false);
-  }
-
-  void openListView(Listed listed) {
-    localStorage.listed = listed;
-    navigator.goToListView();
-  }
-
-  Future<void> goToMerchandise() async {
-    final Uri url = Uri.parse(AppConstants.tshirtOrderLink);
-    if (await canLaunchUrl(url)) await launchUrl(url);
   }
 }
 
 abstract class HomeNavigator {
-  void goToPresentSong();
-  void goToPresentSongPc();
-  void goToPresentDraft();
-  void goToPresentDraftPc();
-  void goToEditSong();
-  void goToEditSongPc();
-  void goToEditDraft(bool emptyDraft);
-  void goToEditDraftPc(bool emptyDraft);
+  void goToSongPresentor();
+  void goToSongPresentorPc();
+  void goToDraftPresentor();
+  void goToDraftPresentorPc();
+  void goToSongEditor();
+  void goToSongEditorPc();
+  void goToDraftEditor(bool notEmpty);
+  void goToDraftEditorPc(bool notEmpty);
   void goToListView();
   void goToHelpDesk();
   void goToDonation();

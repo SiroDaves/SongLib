@@ -5,9 +5,9 @@ import '../../theme/theme_colors.dart';
 import '../../vm/home/home_vm.dart';
 
 /// Search songs widget for big screen
-class SearchSongsBs extends StatelessWidget {
+class SearchSongsPc extends StatelessWidget {
   final HomeVm? vm;
-  const SearchSongsBs(this.vm, {Key? key}) : super(key: key);
+  const SearchSongsPc(this.vm, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,11 +1,11 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'draft_dao_storage.dart';
+part of 'song_dao.dart';
 
 // **************************************************************************
 // DaoGenerator
 // **************************************************************************
 
-mixin _$_DraftDaoStorageMixin on DatabaseAccessor<SongLibDB> {
-  $DbDraftTableTable get dbDraftTable => attachedDatabase.dbDraftTable;
+mixin _$_SongDaoMixin on DatabaseAccessor<SongLibDB> {
+  $DbSongTableTable get dbSongTable => attachedDatabase.dbSongTable;
 }

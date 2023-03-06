@@ -8,12 +8,12 @@ import '../../model/tables/db_listed_table.dart';
 import '../../util/constants/utilities.dart';
 import '../songlib_db.dart';
 
-part 'listed_dao_storage.g.dart';
+part 'listed_dao.g.dart';
 
 @lazySingleton
-abstract class ListedDaoStorage {
+abstract class ListedDao {
   @factoryMethod
-  factory ListedDaoStorage(SongLibDB db) = _ListedDaoStorage;
+  factory ListedDao(SongLibDB db) = _ListedDao;
 
   Future<List<Listed>> getAllListeds();
   Future<List<Listed>> getAllListedSongs();
@@ -28,14 +28,14 @@ abstract class ListedDaoStorage {
 @DriftAccessor(tables: [
   DbListedTable,
 ])
-class _ListedDaoStorage extends DatabaseAccessor<SongLibDB>
-    with _$_ListedDaoStorageMixin
-    implements ListedDaoStorage {
-  _ListedDaoStorage(SongLibDB db) : super(db);
+class _ListedDao extends DatabaseAccessor<SongLibDB>
+    with _$_ListedDaoMixin
+    implements ListedDao {
+  _ListedDao(SongLibDB db) : super(db);
 
   @override
   Future<List<Listed>> getAllListeds() async {
-    final Stream<List<Listed>> streams = customSelect(
+    return await customSelect(
       'SELECT *, '
       ' (SELECT COUNT(*) FROM ${db.dbListedTable.actualTableName} tbl2 '
       ' WHERE tbl1.${db.dbListedTable.id.name} = tbl2.${db.dbListedTable.parentid.name}) as songCount '
@@ -47,14 +47,12 @@ class _ListedDaoStorage extends DatabaseAccessor<SongLibDB>
       (rows) {
         return rows.map((row) => Listed.fromData(row.data)).toList();
       },
-    );
-
-    return await streams.first;
+    ).first;
   }
 
   @override
   Future<List<ListedExt>> getListedSongs(int? parentid) async {
-    final Stream<List<ListedExt>> streams = customSelect(
+    return await customSelect(
       'SELECT lists.${db.dbListedTable.parentid.name}, lists.${db.dbListedTable.id.name}, lists.${db.dbListedTable.position.name}, '
       'lists.${db.dbListedTable.id.name}, lists.${db.dbListedTable.createdAt.name}, lists.${db.dbListedTable.updatedAt.name}, '
       'lists.${db.dbListedTable.song.name}, songs.${db.dbSongTable.book.name}, songs.${db.dbSongTable.songNo.name}, '
@@ -74,34 +72,31 @@ class _ListedDaoStorage extends DatabaseAccessor<SongLibDB>
       (rows) {
         return rows.map((row) => ListedExt.fromData(row.data)).toList();
       },
-    );
-    return await streams.first;
+    ).first;
   }
 
   @override
   Future<List<Listed>> getAllListedSongs() async {
     final List<DbListed> results = await select(db.dbListedTable).get();
-    final List<Listed> lists = [];
-    for (final result in results) {
-      lists.add(
-        Listed(
-          id: const IntType().mapFromDatabaseResponse(result.id)!,
-          objectId:
-              const StringType().mapFromDatabaseResponse(result.objectId)!,
-          song: const IntType().mapFromDatabaseResponse(result.song)!,
-          parentid: const IntType().mapFromDatabaseResponse(result.parentid)!,
-          title: const StringType().mapFromDatabaseResponse(result.title)!,
-          description:
-              const StringType().mapFromDatabaseResponse(result.description)!,
-          position: const IntType().mapFromDatabaseResponse(result.position)!,
-          createdAt:
-              const StringType().mapFromDatabaseResponse(result.createdAt)!,
-          updatedAt:
-              const StringType().mapFromDatabaseResponse(result.updatedAt)!,
-        ),
-      );
-    }
-    return lists;
+    return results
+        .map(
+          (result) => Listed(
+            id: const IntType().mapFromDatabaseResponse(result.id)!,
+            objectId:
+                const StringType().mapFromDatabaseResponse(result.objectId)!,
+            song: const IntType().mapFromDatabaseResponse(result.song)!,
+            parentid: const IntType().mapFromDatabaseResponse(result.parentid)!,
+            title: const StringType().mapFromDatabaseResponse(result.title)!,
+            description:
+                const StringType().mapFromDatabaseResponse(result.description)!,
+            position: const IntType().mapFromDatabaseResponse(result.position)!,
+            createdAt:
+                const StringType().mapFromDatabaseResponse(result.createdAt)!,
+            updatedAt:
+                const StringType().mapFromDatabaseResponse(result.updatedAt)!,
+          ),
+        )
+        .toList();
   }
 
   @override

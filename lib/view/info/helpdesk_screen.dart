@@ -128,11 +128,11 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
   }
 
   @override
-  void goToHome() => MainNavigatorWidget.of(context).goToHome();
+  void goToHome() => MainNavigator.of(context).goToHome();
 
   @override
-  void goToDonation() => MainNavigatorWidget.of(context).goToDonation();
+  void goToDonation() => MainNavigator.of(context).goToDonation();
 
   @override
-  void goToOnboarding() => MainNavigatorWidget.of(context).goToOnboarding();
+  void goToOnboarding() => MainNavigator.of(context).goToOnboarding();
 }

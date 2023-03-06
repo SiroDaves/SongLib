@@ -3,6 +3,7 @@ import 'package:drift/drift.dart';
 class SongExt {
   int? book;
   int? songNo;
+  String? objectId;
   String? title;
   String? alias;
   String? content;
@@ -19,6 +20,7 @@ class SongExt {
   SongExt({
     this.book,
     this.songNo,
+    this.objectId,
     this.title,
     this.alias,
     this.content,
@@ -38,6 +40,7 @@ class SongExt {
       id: const IntType().mapFromDatabaseResponse(data['id'])!,
       book: const IntType().mapFromDatabaseResponse(data['book'])!,
       songNo: const IntType().mapFromDatabaseResponse(data['song_no'])!,
+      objectId: const StringType().mapFromDatabaseResponse(data['objectid'])!,
       title: const StringType().mapFromDatabaseResponse(data['title'])!,
       alias: const StringType().mapFromDatabaseResponse(data['alias'])!,
       content: const StringType().mapFromDatabaseResponse(data['content'])!,

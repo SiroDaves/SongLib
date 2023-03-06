@@ -1,17 +1,15 @@
-import 'package:context_menus/context_menus.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../model/base/listed.dart';
-import '../../../../util/constants/app_constants.dart';
 import '../../../../vm/home/home_vm.dart';
 import '../../../../widget/general/list_items.dart';
 
 class SearchList extends SearchDelegate<List> {
   List<Listed> itemList = [], filtered = [];
-  final HomeVm homeVm;
+  final HomeVm vm;
   final double? height;
 
-  SearchList(BuildContext context, this.homeVm, this.height, this.itemList) {
+  SearchList(BuildContext context, this.vm, this.height, this.itemList) {
     filtered = itemList;
   }
 
@@ -61,14 +59,17 @@ class SearchList extends SearchDelegate<List> {
     }
     return ListView.builder(
       itemBuilder: (context, index) {
-        var result = homeVm.listeds![index];
+        var result = vm.listeds![index];
         return ListedItem(
           listed: result,
           height: height!,
-          onTap: () => homeVm.openListView(result),
+          onTap: () {
+            vm.localStorage.listed = result;
+            vm.navigator.goToListView();
+          },
         );
       },
-      itemCount: homeVm.listeds!.length,
+      itemCount: vm.listeds!.length,
     );
   }
 
@@ -88,7 +89,10 @@ class SearchList extends SearchDelegate<List> {
         return ListedItem(
           listed: result,
           height: height!,
-          onTap: () => homeVm.openListView(result),
+          onTap: () {
+            vm.localStorage.listed = result;
+            vm.navigator.goToListView();
+          },
         );
       },
       itemCount: matchQuery.length,

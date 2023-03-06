@@ -165,5 +165,5 @@ class ListViewPopupState extends State<ListViewPopup>
   }
 
   @override
-  void goToPresentor() => MainNavigatorWidget.of(context).goToPresentSong();
+  void goToPresentor() => MainNavigator.of(context).goToSongPresentor();
 }

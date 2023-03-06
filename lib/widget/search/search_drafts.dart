@@ -7,10 +7,10 @@ import '../../../../widget/general/list_items.dart';
 
 class SearchDrafts extends SearchDelegate<List> {
   List<Draft> itemList = [], filtered = [];
-  final HomeVm homeVm;
+  final HomeVm vm;
   final double? height;
 
-  SearchDrafts(BuildContext context, this.homeVm, this.height, this.itemList) {
+  SearchDrafts(BuildContext context, this.vm, this.height, this.itemList) {
     filtered = itemList;
   }
 
@@ -66,14 +66,17 @@ class SearchDrafts extends SearchDelegate<List> {
     }
     return ListView.builder(
       itemBuilder: (context, index) {
-        var result = homeVm.drafts![index];
+        var result = vm.drafts![index];
         return DraftItem(
           draft: result,
           height: height!,
-          onTap: () => homeVm.openPresentor(draft: result),
+          onTap: () {
+            vm.localStorage.draft = vm.setDraft = result;
+            vm.navigator.goToDraftPresentor();
+          },
         );
       },
-      itemCount: homeVm.drafts!.length,
+      itemCount: vm.drafts!.length,
     );
   }
 
@@ -93,7 +96,10 @@ class SearchDrafts extends SearchDelegate<List> {
         return DraftItem(
           draft: result,
           height: height!,
-          onTap: () => homeVm.openPresentor(draft: result),
+          onTap: () {
+            vm.localStorage.draft = vm.setDraft = result;
+            vm.navigator.goToDraftPresentor();
+          },
         );
       },
       itemCount: matchQuery.length,

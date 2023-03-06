@@ -5,12 +5,12 @@ import '../../model/base/search.dart';
 import '../../model/tables/db_search_table.dart';
 import '../songlib_db.dart';
 
-part 'search_dao_storage.g.dart';
+part 'search_dao.g.dart';
 
 @lazySingleton
-abstract class SearchDaoStorage {
+abstract class SearchDao {
   @factoryMethod
-  factory SearchDaoStorage(SongLibDB db) = _SearchDaoStorage;
+  factory SearchDao(SongLibDB db) = _SearchDao;
 
   Future<List<Search>> getAllSearches();
   Future<void> createSearch(Search search);
@@ -20,14 +20,14 @@ abstract class SearchDaoStorage {
 @DriftAccessor(tables: [
   DbSearchTable,
 ])
-class _SearchDaoStorage extends DatabaseAccessor<SongLibDB>
-    with _$_SearchDaoStorageMixin
-    implements SearchDaoStorage {
-  _SearchDaoStorage(SongLibDB db) : super(db);
+class _SearchDao extends DatabaseAccessor<SongLibDB>
+    with _$_SearchDaoMixin
+    implements SearchDao {
+  _SearchDao(SongLibDB db) : super(db);
 
   @override
   Future<List<Search>> getAllSearches() async {
-    final Stream<List<Search>> streams = customSelect(
+    return await customSelect(
       'SELECT * FROM ${db.dbSearchTable.actualTableName} '
       'ORDER BY ${db.dbSearchTable.id.name} DESC;',
       readsFrom: {db.dbSearchTable},
@@ -35,8 +35,7 @@ class _SearchDaoStorage extends DatabaseAccessor<SongLibDB>
       (rows) {
         return rows.map((row) => Search.fromData(row.data)).toList();
       },
-    );
-    return await streams.first;
+    ).first;
   }
 
   @override

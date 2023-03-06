@@ -101,6 +101,7 @@ class SongBook extends StatelessWidget {
         elevation: 0,
         padding: const EdgeInsets.all(10),
         shape: const RoundedRectangleBorder(
+          side: BorderSide(color: ThemeColors.primary),
           borderRadius: BorderRadius.all(
             Radius.circular(10),
           ),

@@ -62,7 +62,10 @@ class SearchTab extends StatelessWidget {
               ContextMenuButtonConfig(
                 AppConstants.editSong,
                 icon: const Icon(Icons.edit, size: 20),
-                onPressed: () => vm.openEditor(song: song),
+                onPressed: () {
+                  vm.localStorage.song = vm.setSong = song;
+                  vm.navigator.goToSongEditor();
+                },
               ),
               ContextMenuButtonConfig(
                 AppConstants.addtoList,
@@ -79,7 +82,10 @@ class SearchTab extends StatelessWidget {
           child: SongItem(
             song: song,
             height: size!.height,
-            onPressed: () => vm.openPresentor(song: song),
+            onPressed: () {
+              vm.localStorage.song = vm.setSong = song;
+              vm.navigator.goToSongPresentor();
+            },
           ),
         );
       },

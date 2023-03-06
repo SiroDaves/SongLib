@@ -45,26 +45,18 @@ class FormInput extends StatelessWidget {
       child: TextFormField(
         controller: iController,
         keyboardType: iType,
-        autovalidateMode: isMultiline! ? AutovalidateMode.disabled : AutovalidateMode.onUserInteraction,
+        autovalidateMode: isMultiline!
+            ? AutovalidateMode.disabled
+            : AutovalidateMode.onUserInteraction,
         validator: iValidator,
         minLines: isMultiline! ? 15 : 1,
         maxLines: isMultiline! ? 30 : 1,
         enabled: isEnabled,
         readOnly: iOptions!.isNotEmpty ? true : false,
-        onTap: () {
-          if (iOptions!.isNotEmpty) {
-            /*showModalBottomSheet(
-              context: context,
-              builder: (context) {
-                return showModalDropdown(context);
-              },
-            );*/
-          }
-        },
         decoration: InputDecoration(
           labelText: iLabel,
           prefixIcon: prefix,
-          labelStyle: TextStyle(fontSize: 16, color: foreColor),
+          labelStyle: const TextStyle(fontSize: 16),
           isDense: isMultiline! ? true : false,
           contentPadding: isMultiline! ? null : const EdgeInsets.all(5),
           enabledBorder: OutlineInputBorder(
@@ -76,44 +68,10 @@ class FormInput extends StatelessWidget {
             borderSide: BorderSide(color: foreColor),
           ),
         ),
-        style: TextStyle(
-          fontSize: 18,
-          color: foreColor,
-        ),
-        textInputAction: isMultiline! ? TextInputAction.newline : TextInputAction.next,
+        style: const TextStyle(fontSize: 18),
+        textInputAction:
+            isMultiline! ? TextInputAction.newline : TextInputAction.next,
         onChanged: onChanged,
-      ),
-    );
-  }
-
-  Widget showModalDropdown(BuildContext context) {
-    return Container(
-      height: 250,
-      margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-      color: Colors.white,
-      child: ListView(
-        children: iOptions!
-            .map(
-              (listItem) => ListTile(
-                onTap: () {
-                  iController!.text = listItem;
-                  Navigator.pop(context);
-                  if (executeValueChange!) onValueChanged!();
-                },
-                title: Column(
-                  children: [
-                    Text(
-                      listItem,
-                      textAlign: TextAlign.start,
-                      style: const TextStyle(color: Colors.black),
-                    ),
-                    const SizedBox(height: 4),
-                    const Divider(height: 1)
-                  ],
-                ),
-              ),
-            )
-            .toList(),
       ),
     );
   }

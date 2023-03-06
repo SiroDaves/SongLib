@@ -18,13 +18,13 @@ import '../../widget/general/toast.dart';
 import '../home/home_vm.dart';
 
 @injectable
-class PresentDraftVm with ChangeNotifierEx {
+class DraftPresentorVm with ChangeNotifierEx {
   final LocalStorage localStorage;
   final DbRepository dbRepo;
 
-  PresentDraftVm(this.dbRepo, this.localStorage);
+  DraftPresentorVm(this.dbRepo, this.localStorage);
 
-  late final PresentDraftNavigator navigator;
+  late final DraftPresentorNavigator navigator;
   late HomeVm homeVm;
   Draft? draft;
 
@@ -41,7 +41,7 @@ class PresentDraftVm with ChangeNotifierEx {
 
   IconData likeIcon = Icons.favorite_border;
 
-  Future<void> init(PresentDraftNavigator screenNavigator) async {
+  Future<void> init(DraftPresentorNavigator screenNavigator) async {
     navigator = screenNavigator;
 
     draft = localStorage.draft;
@@ -167,7 +167,7 @@ class PresentDraftVm with ChangeNotifierEx {
           TextButton(
             onPressed: () {
               Navigator.pop(context);
-              dbRepo.deleteDraft(draft!);
+              dbRepo.removeDraft(draft!);
               onBackPressed();
             },
             child: const Text("DELETE"),
@@ -188,7 +188,7 @@ class PresentDraftVm with ChangeNotifierEx {
   }
 }
 
-abstract class PresentDraftNavigator implements BackNavigator {
-  void goToEditDraft(bool emptyDraft);
-  void goToEditDraftPc(bool emptyDraft);
+abstract class DraftPresentorNavigator implements BackNavigator {
+  void goToDraftEditor(bool notEmpty);
+  void goToDraftEditorPc(bool notEmpty);
 }
