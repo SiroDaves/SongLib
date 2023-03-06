@@ -4,12 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 
 import 'app.dart';
-import 'architecture.dart';
 import 'di/environments.dart';
 import 'di/injectable.dart';
+import 'theme/theme_data.dart';
 import 'util/env/flavor_config.dart';
+import 'util/i10n/app_localizations.dart';
 import 'util/web/app_configurator.dart'
     if (dart.library.html) 'util/web/app_configurator_web.dart';
+
+L _getLocale<L>(BuildContext context) => AppLocalizations.of(context) as L;
+
+T _getTheme<T>(BuildContext context) => AppTheme.of(context) as T;
+
+Future<void> initArchitecture() async {
+  await OsInfo.init();
+  localizationLookup = _getLocale;
+  themeLookup = _getTheme;
+}
 
 FutureOr<R>? wrapMain<R>(FutureOr<R> Function() appCode) {
   return runZonedGuarded(() async {

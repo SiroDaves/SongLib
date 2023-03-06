@@ -1,7 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:universal_platform/universal_platform.dart';
 
 import '../../navigator/main_navigator.dart';
 import '../../theme/theme_colors.dart';
@@ -28,8 +29,7 @@ class ProgressScreenState extends State<ProgressScreen>
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    radius =
-        UniversalPlatform.isWindows ? size!.height / 2.5 : size!.width / 2.5;
+    radius = Platform.isWindows ? size!.height / 2.5 : size!.width / 2.5;
 
     return ProviderWidget<ProgressVm>(
         create: () => GetIt.I()..init(this),

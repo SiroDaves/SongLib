@@ -5,9 +5,9 @@ import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton
-abstract class DebugRepository {
+abstract class SettingsRepository {
   @factoryMethod
-  factory DebugRepository(SharedPreferenceStorage sharedPrefs) = _DebugRepository;
+  factory SettingsRepository(SharedPreferenceStorage sharedPrefs) = _SettingsRepository;
 
   Future<void> saveSlowAnimations({required bool enabled});
 
@@ -18,13 +18,13 @@ abstract class DebugRepository {
   TargetPlatform? getTargetPlatform();
 }
 
-class _DebugRepository implements DebugRepository {
+class _SettingsRepository implements SettingsRepository {
   static const _enableSlowAnimationsKey = 'enable_slow_animations';
   static const _selectedPlatformKey = 'selected_platform';
 
   final SharedPreferenceStorage _sharedPreferences;
 
-  _DebugRepository(this._sharedPreferences);
+  _SettingsRepository(this._sharedPreferences);
 
   @override
   Future<void> saveSlowAnimations({required bool enabled}) async {

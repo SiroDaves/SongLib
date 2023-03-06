@@ -1,6 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:universal_platform/universal_platform.dart';
 
 import '../../navigator/main_navigator.dart';
 import '../../theme/theme_colors.dart';
@@ -92,7 +93,7 @@ class SelectionScreenState extends State<SelectionScreen>
                   vm.isLoading
                       ? const CircularProgress()
                       : vm.books!.isNotEmpty
-                          ? UniversalPlatform.isWindows
+                          ? Platform.isWindows
                               ? LayoutBuilder(
                                   builder: (context, dimens) {
                                     int axisCount =

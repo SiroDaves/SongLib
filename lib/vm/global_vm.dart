@@ -4,63 +4,43 @@ import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../repository/debug_repository.dart';
+import '../../repository/settings_repository.dart';
 import '../../repository/locale_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
-import '../../theme/theme_assets.dart';
 import '../../util/env/flavor_config.dart';
 import '../util/constants/pref_constants.dart';
 
 @singleton
 class GlobalVm with ChangeNotifierEx {
   final LocaleRepository localeRepository;
-  final DebugRepository debugRepository;
+  final SettingsRepository settingsRepository;
   final LocalStorage localStorage;
 
   TargetPlatform? targetPlat;
 
   GlobalVm(
     this.localeRepository,
-    this.debugRepository,
+    this.settingsRepository,
     this.localStorage,
   );
 
   ThemeMode get themeMode => FlavorConfig.instance.themeMode;
-
   TargetPlatform? get targetPlatform => targetPlat;
 
   bool wakeLockStatus = false;
   bool slideHorizontal = false;
+  bool get isDarkMode => localStorage.getPrefBool(PrefConstants.darkModeKey);
 
   Future<void> init(BuildContext context) async {
-    initTargetPlatform();
-    getThemeMode();
-    wakeLockStatus = localStorage.getPrefBool(PrefConstants.wakeLockCheckKey);
-  }
-
-  void initTargetPlatform() {
-    targetPlat = debugRepository.getTargetPlatform();
-    notifyListeners();
-  }
-
-  void getThemeMode() {
+    targetPlat = settingsRepository.getTargetPlatform();
     FlavorConfig.instance.themeMode = localStorage.getThemeMode();
+    wakeLockStatus = localStorage.getPrefBool(PrefConstants.wakeLockCheckKey);
     notifyListeners();
   }
 
-  Future<void> setSelectedPlatformToAndroid() async {
-    await debugRepository.saveSelectedPlatform('android');
-    initTargetPlatform();
-  }
-
-  Future<void> setSelectedPlatformToIOS() async {
-    await debugRepository.saveSelectedPlatform('ios');
-    initTargetPlatform();
-  }
-
-  Future<void> setSelectedPlatformToDefault() async {
-    await debugRepository.saveSelectedPlatform(null);
-    initTargetPlatform();
+  Future<void> setDarkMode(bool val) async {
+    localStorage.setPrefBool(PrefConstants.darkModeKey, val);
+    notifyListeners();
   }
 
   Future<void> updateThemeMode(ThemeMode themeMode) async {

@@ -5,8 +5,8 @@ import '../util/env/flavor_config.dart';
 import 'theme_colors.dart';
 import 'theme_styles.dart';
 
-class SongLibThemeData {
-  SongLibThemeData._();
+class AppThemeData {
+  AppThemeData._();
 
   static final darkThemeData = ThemeData(
     fontFamily: ThemeFonts.lato,
@@ -52,7 +52,7 @@ class SongLibThemeData {
   }
 }
 
-class SongLibTextTheme {
+class AppTextTheme {
   final TextStyle titleHuge;
   final TextStyle titleBig;
   final TextStyle titleNormal;
@@ -71,7 +71,7 @@ class SongLibTextTheme {
   final TextStyle infoBodySubHeader;
   final TextStyle bodyBig;
 
-  const SongLibTextTheme({
+  const AppTextTheme({
     required this.titleHuge,
     required this.titleBig,
     required this.titleNormal,
@@ -89,11 +89,11 @@ class SongLibTextTheme {
   });
 }
 
-class SongLibTextThemeExceptions {
-  const SongLibTextThemeExceptions();
+class AppTextThemeExceptions {
+  const AppTextThemeExceptions();
 }
 
-class SongLibColorsTheme {
+class AppColorsTheme {
   final Color text;
   final Color inverseText;
   final Color disabledButtonText;
@@ -109,7 +109,7 @@ class SongLibColorsTheme {
   final Color inverseProgressIndicator;
   final Color progressIndicator;
 
-  const SongLibColorsTheme({
+  const AppColorsTheme({
     required this.text,
     required this.inverseText,
     required this.disabledButtonText,
@@ -127,15 +127,15 @@ class SongLibColorsTheme {
   });
 }
 
-class SongLibTheme {
-  final SongLibTextTheme coreTextTheme;
-  final SongLibTextTheme inverseCoreTextTheme;
-  final SongLibTextTheme accentTextTheme;
-  final SongLibTextThemeExceptions exceptionsTextTheme;
-  final SongLibColorsTheme colorsTheme;
+class AppTheme {
+  final AppTextTheme coreTextTheme;
+  final AppTextTheme inverseCoreTextTheme;
+  final AppTextTheme accentTextTheme;
+  final AppTextThemeExceptions exceptionsTextTheme;
+  final AppColorsTheme colorsTheme;
 
   static final instanceDark = fromColorTheme(
-    colorTheme: const SongLibColorsTheme(
+    colorTheme: const AppColorsTheme(
       text: ThemeColors.white,
       inverseText: ThemeColors.black,
       disabledButtonText: ThemeColors.lightGrey,
@@ -155,11 +155,11 @@ class SongLibTheme {
 
   static final instanceLight = instanceDark;
 
-  static SongLibTheme fromColorTheme(
-          {required SongLibColorsTheme colorTheme}) =>
-      SongLibTheme._(
+  static AppTheme fromColorTheme(
+          {required AppColorsTheme colorTheme}) =>
+      AppTheme._(
         colorsTheme: colorTheme,
-        coreTextTheme: SongLibTextTheme(
+        coreTextTheme: AppTextTheme(
           titleHuge: TextStyle(
               fontSize: 40,
               color: colorTheme.text,
@@ -225,7 +225,7 @@ class SongLibTheme {
               fontFamily: ThemeFonts.lato,
               fontWeight: FontWeight.w600),
         ),
-        inverseCoreTextTheme: SongLibTextTheme(
+        inverseCoreTextTheme: AppTextTheme(
           titleHuge: TextStyle(
               fontSize: 40,
               color: colorTheme.inverseText,
@@ -291,7 +291,7 @@ class SongLibTheme {
               fontFamily: ThemeFonts.lato,
               fontWeight: FontWeight.w600),
         ),
-        accentTextTheme: SongLibTextTheme(
+        accentTextTheme: AppTextTheme(
           titleHuge: TextStyle(
               fontSize: 40,
               color: colorTheme.accent,
@@ -357,10 +357,10 @@ class SongLibTheme {
               fontFamily: ThemeFonts.lato,
               fontWeight: FontWeight.w600),
         ),
-        exceptionsTextTheme: const SongLibTextThemeExceptions(),
+        exceptionsTextTheme: const AppTextThemeExceptions(),
       );
 
-  const SongLibTheme._({
+  const AppTheme._({
     required this.coreTextTheme,
     required this.inverseCoreTextTheme,
     required this.accentTextTheme,
@@ -368,7 +368,7 @@ class SongLibTheme {
     required this.colorsTheme,
   });
 
-  static SongLibTheme of(BuildContext context,
+  static AppTheme of(BuildContext context,
       {bool forceDark = false, bool forceLight = false}) {
     if (forceDark) return instanceDark;
     if (forceLight) return instanceLight;

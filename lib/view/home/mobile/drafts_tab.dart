@@ -1,4 +1,4 @@
-part of '../../home_screen.dart';
+part of '../home_screen.dart';
 
 /// Tab screen with list of song drafts
 // ignore: must_be_immutable

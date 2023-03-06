@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:styled_widget/styled_widget.dart';
 
-import '../../../../theme/theme_colors.dart';
-import '../../../../vm/home/home_vm.dart';
+import '../../theme/theme_colors.dart';
+import '../../vm/home/home_vm.dart';
 
-class BsSearch extends StatelessWidget {
+/// Search songs widget for big screen
+class SearchSongsBs extends StatelessWidget {
   final HomeVm? vm;
-  const BsSearch(this.vm, {Key? key}) : super(key: key);
+  const SearchSongsBs(this.vm, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     return Expanded(
       child: TextFormField(
         controller: vm!.searchController,
@@ -23,11 +23,11 @@ class BsSearch extends StatelessWidget {
           ),
           isDense: true,
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(10),
             borderSide: const BorderSide(color: Colors.white),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(10),
             borderSide: const BorderSide(color: Colors.white),
           ),
         ),
@@ -36,7 +36,7 @@ class BsSearch extends StatelessWidget {
         onChanged: (String query) => vm!.onSearch(query),
       ).decorated(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(10),
       ),
     );
   }

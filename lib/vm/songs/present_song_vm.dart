@@ -6,7 +6,6 @@ import 'package:share_plus/share_plus.dart';
 import 'package:wakelock/wakelock.dart';
 
 import '../../di/injectable.dart';
-import '../../model/base/draft.dart';
 import '../../model/base/history.dart';
 import '../../model/base/songext.dart';
 import '../../navigator/mixin/back_navigator.dart';
@@ -20,19 +19,18 @@ import '../../widget/general/toast.dart';
 import '../home/home_vm.dart';
 
 @injectable
-class PresentorVm with ChangeNotifierEx {
+class PresentSongVm with ChangeNotifierEx {
   final LocalStorage localStorage;
   final DbRepository dbRepo;
 
-  PresentorVm(this.dbRepo, this.localStorage);
+  PresentSongVm(this.dbRepo, this.localStorage);
 
-  late final PresentorNavigator navigator;
+  late final PresentSongNavigator navigator;
   late HomeVm homeVm;
   SongExt? song;
-  Draft? draft;
 
   bool isLoading = false, enableWakeLock = false, slideHorizontal = false;
-  bool isLiked = false, hasChorus = false, notDraft = false;
+  bool isLiked = false, hasChorus = false;
 
   String songTitle = '', songBook = '', songContent = '';
   int curStanza = 0, curSong = 0, curSlide = 0;
@@ -44,17 +42,12 @@ class PresentorVm with ChangeNotifierEx {
 
   IconData likeIcon = Icons.favorite_border;
 
-  Future<void> init(PresentorNavigator screenNavigator) async {
+  Future<void> init(PresentSongNavigator screenNavigator) async {
     navigator = screenNavigator;
 
-    isLoading = true;
-    notifyListeners();
-
-    draft = localStorage.draft;
     song = localStorage.song;
 
     enableWakeLock = localStorage.getPrefBool(PrefConstants.wakeLockCheckKey);
-    notDraft = localStorage.getPrefBool(PrefConstants.notDraftKey);
     slideHorizontal =
         localStorage.getPrefBool(PrefConstants.slideHorizontalKey);
     if (enableWakeLock) await Wakelock.enable();
@@ -66,44 +59,29 @@ class PresentorVm with ChangeNotifierEx {
 
   /// Prepare song lyrics to be shown in slide format
   Future<void> loadPresentor() async {
+    isLoading = true;
+    notifyListeners();
+
     verseInfos.clear();
     verseTexts.clear();
 
-    if (notDraft) {
-      await loadSong(song!);
-      await dbRepo.saveHistory(History(song: song!.id));
-    } else {
-      await loadSong(
-        SongExt(
-          songNo: 0,
-          id: draft!.id,
-          alias: draft!.alias,
-          title: draft!.title,
-          songbook: 'My Draft Book',
-          content: draft!.content,
-          author: draft!.author,
-          liked: draft!.liked,
-          key: draft!.key,
-        ),
-      );
-    }
+    await loadSong();
+    await dbRepo.saveHistory(History(song: song!.id));
 
     isLoading = false;
     notifyListeners();
   }
 
-  Future<void> loadSong(SongExt data) async {
-    songBook = refineTitle(data.songbook!);
-    songTitle = notDraft
-        ? songItemTitle(data.songNo!, data.title!)
-        : refineTitle(data.title!);
+  Future<void> loadSong() async {
+    songBook = refineTitle(song!.songbook!);
+    songTitle = songItemTitle(song!.songNo!, song!.title!);
 
-    isLiked = data.liked!;
+    isLiked = song!.liked!;
     likeIcon = isLiked ? Icons.favorite : Icons.favorite_border;
-    songVerses = data.content!.split("##");
+    songVerses = song!.content!.split("##");
     final int verseCount = songVerses.length;
 
-    if (data.content!.contains("CHORUS")) {
+    if (song!.content!.contains("CHORUS")) {
       hasChorus = true;
     } else {
       hasChorus = false;
@@ -189,36 +167,6 @@ class PresentorVm with ChangeNotifierEx {
     );
   }
 
-  Future<void> confirmDelete(BuildContext context) async {
-    return showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: const Text(
-          'Just a Minute',
-          style: TextStyle(fontSize: 18),
-        ),
-        content: Text(
-          'Are you sure you want to delete the song: $songTitle?',
-          style: const TextStyle(fontSize: 14),
-        ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              dbRepo.deleteDraft(draft!);
-              onBackPressed();
-            },
-            child: const Text("DELETE"),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text("CANCEL"),
-          ),
-        ],
-      ),
-    );
-  }
-
   Future<void> onBackPressed() async {
     await homeVm.fetchData();
     navigator.goBack<void>();
@@ -226,6 +174,7 @@ class PresentorVm with ChangeNotifierEx {
   }
 }
 
-abstract class PresentorNavigator implements BackNavigator {
-  void goToEditor();
+abstract class PresentSongNavigator implements BackNavigator {
+  void goToEditSong();
+  void goToEditSongPc();
 }

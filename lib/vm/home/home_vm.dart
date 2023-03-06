@@ -1,10 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../model/base/book.dart';
@@ -29,7 +30,7 @@ class HomeVm with ChangeNotifierEx {
   HomeVm(this.dbRepo, this.localStorage);
   BuildContext? context;
 
-  bool isLoading = false;
+  bool isLoading = false, isSearching = false;
   int currentPage = 1;
 
   Book setBook = Book();
@@ -127,6 +128,7 @@ class HomeVm with ChangeNotifierEx {
 
   /// Set songbook
   Future<void> selectSongbook(Book book, {bool showLoading = true}) async {
+    isSearching = false;
     if (showLoading) isLoading = true;
     notifyListeners();
     setBook = book;
@@ -250,6 +252,7 @@ class HomeVm with ChangeNotifierEx {
         }
         break;
       case PageType.search:
+        isSearching = true;
         if (query.isNotEmpty) {
           filtered = songs!.where((s) {
             return (isNumeric(query) && s.songNo == int.parse(query)) ||
@@ -314,8 +317,8 @@ class HomeVm with ChangeNotifierEx {
       localStorage.setPrefBool(PrefConstants.notDraftKey, false);
     }
     notifyListeners();
-    if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) {
-      navigator.goToPresentor();
+    if (Platform.isAndroid || Platform.isIOS) {
+      navigator.goToPresentSong();
     }
   }
 
@@ -330,7 +333,7 @@ class HomeVm with ChangeNotifierEx {
       localStorage.song = null;
       localStorage.draft = null;
     }
-    navigator.goToEditor();
+    //navigator.goToEditor(false);
   }
 
   void openListView(Listed listed) {
@@ -345,9 +348,14 @@ class HomeVm with ChangeNotifierEx {
 }
 
 abstract class HomeNavigator {
-  void goToPresentor();
-  void goToProjector();
-  void goToEditor();
+  void goToPresentSong();
+  void goToPresentSongPc();
+  void goToPresentDraft();
+  void goToPresentDraftPc();
+  void goToEditSong();
+  void goToEditSongPc();
+  void goToEditDraft(bool emptyDraft);
+  void goToEditDraftPc(bool emptyDraft);
   void goToListView();
   void goToHelpDesk();
   void goToDonation();

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
+import '../../di/injectable.dart';
 import '../../model/base/draft.dart';
 import '../../model/base/songext.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
+import '../../util/constants/pref_constants.dart';
 import '../home/home_vm.dart';
 
 @injectable
@@ -23,21 +24,22 @@ class EditorVm with ChangeNotifierEx {
   SongExt? song;
   Draft? draft;
 
-  bool isLoading = false, isNewContent = false;
+  bool isLoading = false, isNewContent = false, notDraft = false;
   String? title, content, alias, key;
-  TextEditingController? titleController, contentController;
-  TextEditingController? aliasController, keyController;
+  TextEditingController? titleController = TextEditingController(),
+      contentController = TextEditingController();
+  TextEditingController? aliasController = TextEditingController(),
+      keyController = TextEditingController();
 
   Future<void> init(EditorNavigator screenNavigator) async {
     navigator = screenNavigator;
-    titleController = TextEditingController();
-    contentController = TextEditingController();
-    aliasController = TextEditingController();
-    keyController = TextEditingController();
 
-    navigator = navigator;
-    homeVm = GetIt.instance<HomeVm>();
+    draft = localStorage.draft;
+    song = localStorage.song;
 
+    notDraft = localStorage.getPrefBool(PrefConstants.notDraftKey);
+    homeVm = HomeVm(dbRepo, localStorage);
+    homeVm = getIt.get<HomeVm>();
     await loadEditor();
   }
 
@@ -45,21 +47,17 @@ class EditorVm with ChangeNotifierEx {
     isLoading = true;
     notifyListeners();
 
-    if (localStorage.draft != null) {
-      draft = localStorage.draft;
-      titleController!.text = draft!.title!;
-      aliasController!.text = draft!.alias!;
-      keyController!.text = draft!.key!;
-      contentController!.text = draft!.content!;
-    } else if (localStorage.song != null) {
-      song = localStorage.song;
+    if (notDraft) {
       titleController!.text = song!.title!;
       aliasController!.text = song!.alias!;
       keyController!.text = song!.key!;
       contentController!.text = song!.content!;
     } else {
-      isNewContent = true;
-    }
+      titleController!.text = draft!.title!;
+      aliasController!.text = draft!.alias!;
+      keyController!.text = draft!.key!;
+      contentController!.text = draft!.content!;
+    } 
 
     isLoading = false;
     notifyListeners();

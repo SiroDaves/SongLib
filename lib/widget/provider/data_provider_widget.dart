@@ -5,13 +5,13 @@ import '../../theme/theme_data.dart';
 import '../../util/i10n/app_localizations.dart';
 
 class DataProviderWidget
-    extends BaseThemeProviderWidget<SongLibTheme, AppLocalizations> {
+    extends BaseThemeProviderWidget<AppTheme, AppLocalizations> {
   const DataProviderWidget({
-    Widget Function(BuildContext context, SongLibTheme theme)?
+    Widget Function(BuildContext context, AppTheme theme)?
         childBuilderTheme,
     Widget Function(BuildContext context, AppLocalizations localization)?
         childBuilderLocalization,
-    Widget Function(BuildContext context, SongLibTheme theme,
+    Widget Function(BuildContext context, AppTheme theme,
             AppLocalizations localization)?
         childBuilder,
   }) : super(

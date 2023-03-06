@@ -5,17 +5,17 @@ import '../../theme/theme_data.dart';
 import '../../util/i10n/app_localizations.dart';
 
 class ProviderWidget<T extends ChangeNotifier>
-    extends BaseProviderWidget<T, SongLibTheme, AppLocalizations> {
+    extends BaseProviderWidget<T, AppTheme, AppLocalizations> {
   const ProviderWidget({
     required T Function() create,
     Widget? child,
-    Widget Function(BuildContext context, SongLibTheme theme,
+    Widget Function(BuildContext context, AppTheme theme,
             AppLocalizations localization)?
         childBuilder,
     Widget Function(
       BuildContext context,
       T viewModel,
-      SongLibTheme theme,
+      AppTheme theme,
       AppLocalizations localization,
     )?
         childBuilderWithViewModel,
@@ -25,7 +25,7 @@ class ProviderWidget<T extends ChangeNotifier>
       BuildContext context,
       T viewModel,
       Widget? child,
-      SongLibTheme theme,
+      AppTheme theme,
       AppLocalizations localization,
     )?
         consumerWithThemeAndLocalization,

@@ -1,0 +1,141 @@
+import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:share_plus/share_plus.dart';
+
+import '../../../navigator/main_navigator.dart';
+import '../../../navigator/mixin/back_navigator.dart';
+import '../../../navigator/route_names.dart';
+import '../../../theme/theme_colors.dart';
+import '../../../util/constants/app_constants.dart';
+import '../../../vm/songs/present_song_vm.dart';
+import '../../../widget/action/fab_widget.dart';
+import '../../../widget/general/present_on_mobile.dart';
+import '../../../widget/progress/circular_progress.dart';
+import '../../../widget/provider/provider_widget.dart';
+import '../../lists/list_view_popup.dart';
+
+/// Screen to present a song in slide format
+class PresentSong extends StatefulWidget {
+  static const String routeName = RouteNames.presentSong;
+  const PresentSong({Key? key}) : super(key: key);
+
+  @override
+  PresentSongState createState() => PresentSongState();
+}
+
+@visibleForTesting
+class PresentSongState extends State<PresentSong>
+    with BackNavigatorMixin
+    implements PresentSongNavigator {
+  Size? size;
+
+  @override 
+  Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
+    return ProviderWidget<PresentSongVm>(
+      create: () => GetIt.I()..init(this),
+      consumerWithThemeAndLocalization:
+          (context, vm, child, theme, localization) {
+        vm.size = size;
+
+        var appBarWidget = AppBar(
+          title: Text(vm.songTitle),
+          actions: <Widget>[
+            InkWell(
+              //onTap: vm.notDraft ? vm.likeSong : vm.navigator.goToEditor,
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Icon(vm.likeIcon),
+              ),
+            ),
+            InkWell(
+              onTap: () async {
+                await showModalBottomSheet<void>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return ListViewPopup(song: vm.song!);
+                    });
+              },
+              child: const Padding(
+                padding: EdgeInsets.all(10),
+                child: Icon(Icons.list),
+              ),
+            ),
+          ],
+        );
+
+        return Scaffold(
+          appBar: appBarWidget,
+          body: Container(
+            height: size!.height,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.white,
+                  Colors.orange,
+                  ThemeColors.accent,
+                  ThemeColors.primary,
+                  Colors.black,
+                ],
+              ),
+            ),
+            child: SizedBox(
+              child: vm.isLoading
+                  ? const CircularProgress()
+                  : vm.widgetTabs.isNotEmpty
+                      ? PresentOnMobile(
+                          index: vm.curSlide,
+                          tabsElevation: 5,
+                          songbook: vm.songBook,
+                          tabs: vm.widgetTabs,
+                          contents: vm.widgetContent,
+                          tabsWidth: size!.height * 0.08156,
+                          indicatorWidth: size!.height * 0.08156,
+                          contentScrollAxis: vm.slideHorizontal
+                              ? Axis.horizontal
+                              : Axis.vertical,
+                        )
+                      : Container(),
+            ),
+          ),
+          floatingActionButton: ExpandableFab(
+            distance: 112.0,
+            children: [
+              FloatingActionButton(
+                heroTag: 'share_fab',
+                backgroundColor: ThemeColors.primary,
+                onPressed: () {
+                  Share.share(
+                    '${vm.songTitle}\n${vm.songBook}\n\n${vm.songContent}',
+                    subject: AppConstants.shareVerse,
+                  );
+                },
+                child: const Icon(Icons.share, color: Colors.white),
+              ),
+              FloatingActionButton(
+                heroTag: 'copy_fab',
+                backgroundColor: ThemeColors.primary,
+                onPressed: vm.copySong,
+                child: const Icon(Icons.copy, color: Colors.white),
+              ),
+              FloatingActionButton(
+                heroTag: 'edit_fab',
+                backgroundColor: ThemeColors.primary,
+                onPressed: () => vm.navigator.goToEditSong(),
+                child: const Icon(Icons.edit, color: Colors.white),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  void goToEditSong() => MainNavigatorWidget.of(context).goToEditSong();
+
+  @override
+  void goToEditSongPc() => MainNavigatorWidget.of(context).goToEditSongPc();
+}

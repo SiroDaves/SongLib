@@ -6,7 +6,6 @@ import 'package:drift/isolate.dart';
 import 'package:drift/native.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:universal_platform/universal_platform.dart';
 
 import '../../util/env/flavor_config.dart';
 
@@ -15,7 +14,7 @@ Future<DatabaseConnection> createDriftDatabaseConnection(String name) async {
     return DatabaseConnection.fromExecutor(NativeDatabase.memory());
   }
   Directory dbFolder = await getApplicationDocumentsDirectory();
-  if (UniversalPlatform.isWindows) {
+  if (Platform.isWindows) {
     dbFolder = await getApplicationSupportDirectory();
   }
 

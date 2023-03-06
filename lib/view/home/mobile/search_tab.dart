@@ -1,4 +1,4 @@
-part of '../../home_screen.dart';
+part of '../home_screen.dart';
 
 /// Tab screen for searches
 // ignore: must_be_immutable
@@ -12,7 +12,7 @@ class SearchTab extends StatelessWidget {
     size = MediaQuery.of(context).size;
 
     var booksContainer = SizedBox(
-      height: 120,
+      height: 80,
       child: ListView.builder(
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
@@ -21,7 +21,8 @@ class SearchTab extends StatelessWidget {
           final Book book = vm.books![index];
           return SongBook(
             book: book,
-            onTap: () => vm.selectSongbook(book),
+            isSelected: vm.setBook == book,
+            onPressed: () => vm.selectSongbook(book),
           );
         },
         itemCount: vm.books!.length,
@@ -30,7 +31,7 @@ class SearchTab extends StatelessWidget {
     var listContainer = ListView.builder(
       physics: const ClampingScrollPhysics(),
       shrinkWrap: true,
-      itemCount: vm.filtered!.length,
+      itemCount: vm.filtered!.length > 30 ? 30 : vm.filtered!.length,
       padding: EdgeInsets.only(
         left: size!.height * 0.0082,
         right: size!.height * 0.0082,
@@ -78,7 +79,7 @@ class SearchTab extends StatelessWidget {
           child: SongItem(
             song: song,
             height: size!.height,
-            onTap: () => vm.openPresentor(song: song),
+            onPressed: () => vm.openPresentor(song: song),
           ),
         );
       },

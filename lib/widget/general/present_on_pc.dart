@@ -1,79 +1,40 @@
-import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:textstyle_extensions/textstyle_extensions.dart';
 
 import '../../theme/theme_colors.dart';
 import '../../theme/theme_styles.dart';
 
-enum IndicatorSide { start, end }
-
-/// A vertical tab widget for flutter
-class Projectable extends StatefulWidget {
+class PresentOnPc extends StatefulWidget {
   final Key? key;
-  final int? index;
+  final int index;
   final double? tabsWidth;
   final double? indicatorWidth;
-  final IndicatorSide? indicatorSide;
   final List<String>? infos;
   final List<Widget>? contents;
-  final TextDirection? direction;
-  final Color? indicatorColor;
-  final bool? disabledChangePageFromContentView;
-  final Axis? contentScrollAxis;
-  final Color? selectedTabBackgroundColor;
-  final Color? tabBackgroundColor;
-  final TextStyle? selectedTabTextStyle;
-  final TextStyle? tabTextStyle;
-  final Duration? changePageDuration;
-  final Curve? changePageCurve;
-  final Color? tabsShadowColor;
-  final double? tabsElevation;
-  final Function(int? tabIndex)? onSelect;
   final Color? backgroundColor;
+  final Function(int? tabIndex)? onSelect;
 
-  const Projectable(
-      {this.key,
-      required this.index,
-      required this.infos,
-      required this.contents,
-      this.tabsWidth = 200,
-      this.indicatorWidth = 3,
-      this.indicatorSide,
-      this.direction = TextDirection.ltr,
-      this.indicatorColor = Colors.green,
-      this.disabledChangePageFromContentView = false,
-      this.contentScrollAxis = Axis.horizontal,
-      this.selectedTabBackgroundColor = const Color(0x1100ff00),
-      this.tabBackgroundColor = const Color(0xfff8f8f8),
-      this.selectedTabTextStyle = const TextStyle(color: Colors.black),
-      this.tabTextStyle = const TextStyle(color: Colors.black),
-      this.changePageCurve = Curves.easeInOut,
-      this.changePageDuration = const Duration(milliseconds: 300),
-      this.tabsShadowColor = Colors.black54,
-      this.tabsElevation = 2.0,
-      this.onSelect,
-      this.backgroundColor})
-      : assert(infos != null &&
+  const PresentOnPc({
+    this.key,
+    required this.infos,
+    required this.contents,
+    required this.index,
+    this.tabsWidth = 200,
+    this.indicatorWidth = 3,
+    this.onSelect,
+    this.backgroundColor,
+  })  : assert(infos != null &&
             contents != null &&
             infos.length == contents.length),
         super(key: key);
 
   @override
-  ProjectableState createState() => ProjectableState();
+  PresentOnPcState createState() => PresentOnPcState();
 }
 
-class ProjectableState extends State<Projectable>
-    with TickerProviderStateMixin {
+class PresentOnPcState extends State<PresentOnPc> with TickerProviderStateMixin {
   double targetOpacity = 1;
   List<AnimationController?>? animationControllers = [];
-
-  @override
-  void didUpdateWidget(Projectable oldWidget) {
-    if (oldWidget.index == widget.index) return;
-    setState(() => targetOpacity = 0);
-    Future.delayed(1.milliseconds, () => setState(() => targetOpacity = 1));
-    super.didUpdateWidget(oldWidget);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,9 +63,7 @@ class ProjectableState extends State<Projectable>
                   topLeft: Radius.circular(20),
                 ),
               ),
-              onPressed: () => setState(() {
-                
-              }),
+              onPressed: () => widget.onSelect!(index),
               child: Text(
                 widget.infos![index],
                 style: TextStyles.Btn.bold

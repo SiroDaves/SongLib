@@ -1,6 +1,7 @@
 class PrefConstants {
   static const appearanceThemeKey = 'appearanceTheme';
   static const dataLoadedCheckKey = 'dataLoaded';
+  static const darkModeKey = 'darkMode';
   static const notDraftKey = 'notDraft';
   static const onboardedCheckKey = 'onBoarded';
   static const predistinatedBooksKey = 'predestinatedBooks';

@@ -14,7 +14,7 @@ import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
 import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
-import '../home/mobile/widgets/add_songs.dart';
+import '../../widget/search/add_songs.dart';
 
 /// Screen for viewing a song list
 class ListViewScreen extends StatefulWidget {
@@ -67,7 +67,7 @@ class ListViewScreenState extends State<ListViewScreen>
               return SongItem(
                 song: song,
                 height: size!.height,
-                onTap: () => vm.openPresentor(song: song),
+                onPressed: () => vm.openPresentor(song: song),
               );
             },
           ),
@@ -189,5 +189,5 @@ class ListViewScreenState extends State<ListViewScreen>
   }
 
   @override
-  void goToPresentor() => MainNavigatorWidget.of(context).goToPresentor();
+  void goToPresentor() => MainNavigatorWidget.of(context).goToPresentSong();
 }

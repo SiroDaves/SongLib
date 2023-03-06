@@ -6,7 +6,7 @@ import '../../theme/theme_colors.dart';
 enum IndicatorSide { start, end }
 
 /// A vertical tab widget for flutter
-class Presentable extends StatefulWidget {
+class PresentOnMobile extends StatefulWidget {
   final Key? key;
   final int? index;
   final double? tabsWidth;
@@ -14,6 +14,7 @@ class Presentable extends StatefulWidget {
   final IndicatorSide? indicatorSide;
   final List<Tab>? tabs;
   final List<Widget>? contents;
+  final String? songbook;
   final TextDirection? direction;
   final Color? indicatorColor;
   final bool? disabledChangePageFromContentView;
@@ -29,11 +30,12 @@ class Presentable extends StatefulWidget {
   final Function(int? tabIndex)? onSelect;
   final Color? backgroundColor;
 
-  const Presentable(
+  const PresentOnMobile(
       {this.key,
       required this.index,
       required this.tabs,
       required this.contents,
+      required this.songbook,
       this.tabsWidth = 200,
       this.indicatorWidth = 3,
       this.indicatorSide,
@@ -56,10 +58,10 @@ class Presentable extends StatefulWidget {
         super(key: key);
 
   @override
-  PresentableState createState() => PresentableState();
+  PresentOnMobileState createState() => PresentOnMobileState();
 }
 
-class PresentableState extends State<Presentable>
+class PresentOnMobileState extends State<PresentOnMobile>
     with TickerProviderStateMixin {
   int? selectedIndex;
   bool? changePageByTapView;
@@ -76,7 +78,7 @@ class PresentableState extends State<Presentable>
   double targetOpacity = 1;
 
   @override
-  void didUpdateWidget(Presentable oldWidget) {
+  void didUpdateWidget(PresentOnMobile oldWidget) {
     if (oldWidget.index == widget.index) return;
     setState(() => targetOpacity = 0);
     Future.delayed(1.milliseconds, () => setState(() => targetOpacity = 1));
@@ -254,6 +256,15 @@ class PresentableState extends State<Presentable>
         children: <Widget>[
           contentContainer,
           indicatorContainer,
+          Container(
+            width: double.infinity,
+            margin: const EdgeInsets.symmetric(vertical: 20),
+            child: Text(
+              '  ${widget.songbook!}',
+              style: TextStyle(
+                  fontSize: widget.tabsWidth! / 2, color: Colors.white),
+            ),
+          ),
         ],
       ),
     );

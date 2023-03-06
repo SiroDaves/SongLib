@@ -1,36 +1,39 @@
-part of '../../home_screen.dart';
+part of '../home_screen.dart';
 
-/// Tab screen with list of liked songs
+/// Tab screen with list of song lists
 // ignore: must_be_immutable
-class LikesTab extends StatelessWidget {
+class ListTab extends StatelessWidget {
   final HomeVm vm;
-  LikesTab(this.vm, {Key? key}) : super(key: key);
+  ListTab(this.vm, {Key? key}) : super(key: key);
   Size? size;
 
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    var listContainer = Container(
-      height: size!.height * 0.7,
-      padding: const EdgeInsets.only(right: 2),
-      child: Scrollbar(
-        thickness: 10,
-        radius: const Radius.circular(20),
-        child: ListView.builder(
-          itemCount: vm.likes!.length,
-          padding: EdgeInsets.all(
-            size!.height * 0.015,
-          ),
-          itemBuilder: (context, index) {
-            final SongExt song = vm.likes![index];
-            return SongItem(
-              song: song,
-              height: size!.height,
-              onTap: () => vm.openPresentor(song: song),
-            );
-          },
-        ),
+    var listContainer = ListView.builder(
+      itemCount: vm.listeds!.length,
+      padding: EdgeInsets.all(
+        size!.height * 0.015,
       ),
+      itemBuilder: (context, index) {
+        final Listed listed = vm.listeds![index];
+        return ContextMenuRegion(
+          contextMenu: GenericContextMenu(
+            buttonConfigs: [
+              ContextMenuButtonConfig(
+                AppConstants.deleteList,
+                icon: const Icon(Icons.delete, size: 20),
+                onPressed: () => vm.deleteList(context, listed),
+              ),
+            ],
+          ),
+          child: ListedItem(
+            listed: listed,
+            height: size!.height,
+            onTap: () => vm.openListView(listed),
+          ),
+        );
+      },
     );
 
     return Scaffold(
@@ -54,13 +57,19 @@ class LikesTab extends StatelessWidget {
           ),
           child: vm.isLoading
               ? const ListLoading()
-              : vm.likes!.isNotEmpty
+              : vm.listeds!.isNotEmpty
                   ? listContainer
                   : const NoDataToShow(
                       title: AppConstants.itsEmptyHere1,
                       description: AppConstants.itsEmptyHereBody4,
                     ),
         ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: ThemeColors.primary,
+        onPressed: () => newListForm(context),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }

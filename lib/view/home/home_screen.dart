@@ -1,9 +1,10 @@
+import 'dart:io';
+
 import 'package:context_menus/context_menus.dart';
 import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:styled_widget/styled_widget.dart';
-import 'package:universal_platform/universal_platform.dart';
 
 import '../../model/base/book.dart';
 import '../../model/base/draft.dart';
@@ -23,18 +24,18 @@ import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
 import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
+import '../../widget/search/search_list.dart';
 import '../lists/list_view_popup.dart';
-import 'bigscreen/widgets/bs_search.dart';
-import 'bigscreen/widgets/sidebar.dart';
-import 'mobile/widgets/search_list.dart';
-import 'mobile/widgets/search_songs.dart';
+import '../../widget/search/search_songs_bs.dart';
+import '../../widget/widgets/sidebar.dart';
+import '../../widget/search/search_songs_ss.dart';
 
-part 'bigscreen/tabs/search_tab_bs.dart';
-part 'mobile/tabs/drafts_tab.dart';
-part 'mobile/tabs/history_tab.dart';
-part 'mobile/tabs/search_tab.dart';
-part 'mobile/tabs/likes_tab.dart';
-part 'mobile/tabs/list_tab.dart';
+part 'mobile/drafts_tab.dart';
+part 'mobile/history_tab.dart';
+part 'mobile/search_tab.dart';
+part 'mobile/likes_tab.dart';
+part 'mobile/list_tab.dart';
+part 'pc/search_tab_pc.dart';
 
 /// Home screen with 3 tabs of list, search and notes screens
 class HomeScreen extends StatefulWidget {
@@ -88,7 +89,7 @@ class HomeScreenState extends State<HomeScreen>
               onTap: () async {
                 await showSearch(
                   context: context,
-                  delegate: SearchSongs(context, vm, size!.height),
+                  delegate: SearchSongsSs(context, vm, size!.height),
                 );
               },
               child: const Padding(
@@ -132,7 +133,7 @@ class HomeScreenState extends State<HomeScreen>
                 style: TextStyle(fontSize: 25),
               ),
               const SizedBox(width: 60),
-              BsSearch(vm),
+              SearchSongsBs(vm),
               const SizedBox(width: 10),
             ],
           ),
@@ -162,7 +163,7 @@ class HomeScreenState extends State<HomeScreen>
               index: vm.pages.indexOf(vm.setPage),
               children: <Widget>[
                 Container(),
-                SearchTabBs(vm),
+                SearchTabPc(vm),
                 Container(),
                 Container(),
                 Container(),
@@ -181,13 +182,13 @@ class HomeScreenState extends State<HomeScreen>
         );
 
         return Scaffold(
-          appBar: UniversalPlatform.isWindows ? desktopAppbar : mobileAppbar,
+          appBar: Platform.isWindows ? desktopAppbar : mobileAppbar,
           body: TweenAnimationBuilder<double>(
             duration: Durations.slow,
             tween: Tween(begin: 0, end: 1),
             builder: (_, value, ___) {
               return FocusTraversalGroup(
-                child: UniversalPlatform.isWindows
+                child: Platform.isWindows
                     ? desktopBody
                     : TabBarView(
                         controller: tabController,
@@ -207,13 +208,28 @@ class HomeScreenState extends State<HomeScreen>
   }
 
   @override
-  void goToPresentor() => MainNavigatorWidget.of(context).goToPresentor();
+  void goToPresentSong() => MainNavigatorWidget.of(context).goToPresentSong();
 
   @override
-  void goToProjector() => MainNavigatorWidget.of(context).goToProjector();
+  void goToPresentSongPc() => MainNavigatorWidget.of(context).goToPresentSongPc();
 
   @override
-  void goToEditor() => MainNavigatorWidget.of(context).goToEditor();
+  void goToPresentDraft() => MainNavigatorWidget.of(context).goToPresentDraft();
+
+  @override
+  void goToPresentDraftPc() => MainNavigatorWidget.of(context).goToPresentDraftPc();
+
+  @override
+  void goToEditSong() => MainNavigatorWidget.of(context).goToEditSong();
+
+  @override
+  void goToEditSongPc() => MainNavigatorWidget.of(context).goToEditSongPc();
+
+  @override
+  void goToEditDraft(bool emptyDraft) => MainNavigatorWidget.of(context).goToEditDraft(emptyDraft);
+
+  @override
+  void goToEditDraftPc(bool emptyDraft) => MainNavigatorWidget.of(context).goToEditDraftPc(emptyDraft);
 
   @override
   void goToListView() => MainNavigatorWidget.of(context).goToListView();

@@ -68,7 +68,8 @@ class AddSongs extends SearchDelegate<List> {
         return SongItem(
           song: result,
           height: height!,
-          onTap: () {
+          isSearching: true,
+          onPressed: () {
             listVm.addSongToList(result);
             close(context, homeVm.songs!);
           },

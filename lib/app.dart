@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'navigator/main_navigator.dart';
@@ -56,7 +57,7 @@ class InternalApp extends StatelessWidget {
     return ProviderWidget<GlobalVm>(
       lazy: FlavorConfig.isInTest(),
       create: () => GetIt.I()..init(context),
-      consumer: (context, viewModel, consumerChild) => MaterialApp(
+      consumer: (context, vm, consumerChild) => MaterialApp(
         debugShowCheckedModeBanner: false,
         localizationsDelegates: const [
           AppLocalizations.delegate,
@@ -65,9 +66,9 @@ class InternalApp extends StatelessWidget {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: const [Locale('en'), Locale('sw')],
-        themeMode: viewModel.themeMode,
-        theme: SongLibThemeData.lightTheme(viewModel.targetPlatform),
-        darkTheme: SongLibThemeData.darkTheme(viewModel.targetPlatform),
+        theme: Provider.of<GlobalVm>(context).isDarkMode
+            ? AppThemeData.lightTheme(vm.targetPlatform)
+            : AppThemeData.darkTheme(vm.targetPlatform),
         navigatorKey: MainNavigatorWidgetState.navigationKey,
         initialRoute:
             home == null ? MainNavigatorWidgetState.initialRoute : null,

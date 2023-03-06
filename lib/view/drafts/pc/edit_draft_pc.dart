@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../navigator/mixin/back_navigator.dart';
-import '../../navigator/route_names.dart';
-import '../../theme/theme_colors.dart';
-import '../../vm/songs/editor_vm.dart';
-import '../../widget/general/inputs.dart';
-import '../../widget/progress/circular_progress.dart';
-import '../../widget/provider/provider_widget.dart';
+import '../../../navigator/mixin/back_navigator.dart';
+import '../../../navigator/route_names.dart';
+import '../../../theme/theme_colors.dart';
+import '../../../vm/songs/editor_vm.dart';
+import '../../../widget/general/inputs.dart';
+import '../../../widget/progress/circular_progress.dart';
+import '../../../widget/provider/provider_widget.dart';
 
 /// Song editor screen to draft a new song or edit an existing one
-class EditorScreen extends StatefulWidget {
-  static const String routeName = RouteNames.editorScreen;
-  const EditorScreen({Key? key}) : super(key: key);
+class EditDraftPc extends StatefulWidget {
+  static const String routeName = RouteNames.editDraftPc;
+  const EditDraftPc({Key? key}) : super(key: key);
 
   @override
-  EditorScreenState createState() => EditorScreenState();
+  EditDraftPcState createState() => EditDraftPcState();
 }
 
 @visibleForTesting
-class EditorScreenState extends State<EditorScreen>
+class EditDraftPcState extends State<EditDraftPc>
     with BackNavigatorMixin
     implements EditorNavigator {
   Size? size;

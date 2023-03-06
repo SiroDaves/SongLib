@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 
-import '../../../../model/base/songext.dart';
-import '../../../../theme/theme_colors.dart';
-import '../../../../util/constants/utilities.dart';
-import '../../../../vm/home/home_vm.dart';
-import '../../../../widget/general/list_items.dart';
+import '../../model/base/songext.dart';
+import '../../theme/theme_colors.dart';
+import '../../util/constants/utilities.dart';
+import '../../vm/home/home_vm.dart';
+import '../general/list_items.dart';
 
-class SearchSongs extends SearchDelegate<List> {
+/// Small screen search
+class SearchSongsSs extends SearchDelegate<List> {
   final HomeVm vm;
   final double? height;
 
-  SearchSongs(BuildContext context, this.vm, this.height);
+  SearchSongsSs(BuildContext context, this.vm, this.height);
 
   @override
   String get searchFieldLabel => "Search a Song";
@@ -58,17 +59,33 @@ class SearchSongs extends SearchDelegate<List> {
           s.content!.toLowerCase().contains(query.toLowerCase());
     }).toList();
 
-    return ListView.builder(
-      padding: EdgeInsets.all(height! * 0.015),
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return SongItem(
-          song: result,
-          height: height!,
-          onTap: () => vm.openPresentor(song: result),
-        );
-      },
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Colors.white, ThemeColors.accent, Colors.black],
+        ),
+      ),
+      child: ListView.builder(
+        //padding: EdgeInsets.all(height! * 0.015),
+        physics: const ClampingScrollPhysics(),
+        shrinkWrap: true,
+        padding: EdgeInsets.only(
+          left: height! * 0.0082,
+          right: height! * 0.0082,
+        ),
+        itemCount: matchQuery.length,
+        itemBuilder: (context, index) {
+          var result = matchQuery[index];
+          return SongItem(
+            song: result,
+            height: height!,
+            isSearching: true,
+            onPressed: () => vm.openPresentor(song: result),
+          );
+        },
+      ),
     );
   }
 }

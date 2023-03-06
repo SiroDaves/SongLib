@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:textstyle_extensions/textstyle_extensions.dart';
 
-import '../../../../theme/theme_colors.dart';
-import '../../../../theme/theme_styles.dart';
-import '../../../../vm/home/home_vm.dart';
+import '../../theme/theme_colors.dart';
+import '../../theme/theme_styles.dart';
+import '../../vm/home/home_vm.dart';
 
 class SidebarBtn extends StatefulWidget {
   final IconData icon;

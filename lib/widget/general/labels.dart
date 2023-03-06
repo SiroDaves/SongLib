@@ -180,9 +180,10 @@ class TagView extends StatelessWidget {
           padding:
               EdgeInsets.symmetric(horizontal: 10, vertical: height * 0.0049),
           margin: EdgeInsets.only(top: 2, right: height * 0.008),
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: ThemeColors.primary,
-            borderRadius: BorderRadius.all(Radius.circular(5)),
+            border: Border.all(color: Colors.white),
+            borderRadius: const BorderRadius.all(Radius.circular(5)),
           ),
           child: Text(
             tagText,

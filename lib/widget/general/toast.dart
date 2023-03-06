@@ -1,12 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:universal_platform/universal_platform.dart';
 
 void showToast({
   String? text,
   ToastStates? state,
 }) {
-  UniversalPlatform.isWindows
+  Platform.isWindows
       ? null
       : Fluttertoast.showToast(
           msg: text!,

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:styled_widget/styled_widget.dart';
+import 'package:textstyle_extensions/textstyle_extensions.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../model/base/book.dart';
@@ -6,6 +8,7 @@ import '../../model/base/draft.dart';
 import '../../model/base/listed.dart';
 import '../../model/base/songext.dart';
 import '../../theme/theme_colors.dart';
+import '../../theme/theme_styles.dart';
 import '../../util/constants/app_constants.dart';
 import '../../util/constants/utilities.dart';
 import 'labels.dart';
@@ -71,35 +74,44 @@ class BookItem extends StatelessWidget {
 
 class SongBook extends StatelessWidget {
   final Book book;
-  final Function()? onTap;
+  final bool isSelected;
+  final Function()? onPressed;
 
   const SongBook({
     Key? key,
     required this.book,
-    this.onTap,
+    this.isSelected = false,
+    this.onPressed,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: 'BookIndex_${book.objectId}',
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          width: 80,
-          margin: const EdgeInsets.all(5),
-          padding: const EdgeInsets.all(5),
-          decoration: const BoxDecoration(
-            color: ThemeColors.primary,
-            borderRadius: BorderRadius.all(Radius.circular(10)),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 5),
+      child: RawMaterialButton(
+        textStyle: TextStyles.Btn.bold
+            .size(16)
+            .textColor(isSelected ? Colors.white : ThemeColors.primary),
+        fillColor: isSelected ? ThemeColors.primary : ThemeColors.accent,
+        highlightColor: Colors.white.withOpacity(.1),
+        focusElevation: 0,
+        hoverColor: isSelected ? ThemeColors.primary : Colors.white,
+        hoverElevation: 1,
+        highlightElevation: 0,
+        elevation: 0,
+        padding: const EdgeInsets.all(10),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
           ),
-          child: Center(
-            child: Text(
-              '${truncateString(19, refineTitle(book.title!))} (${book.songs})',
-              textAlign: TextAlign.center,
-              maxLines: 3,
-              style: const TextStyle(color: Colors.white, fontSize: 16),
-            ),
+        ),
+        onPressed: onPressed,
+        child: SizedBox(
+          width: 100,
+          child: Text(
+            truncateString(19, refineTitle(book.title!)),
+            textAlign: TextAlign.center,
+            maxLines: 2,
           ),
         ),
       ),
@@ -180,13 +192,17 @@ class ListedItem extends StatelessWidget {
 class SongItem extends StatelessWidget {
   final SongExt song;
   final double height;
-  final Function()? onTap;
+  final bool isSelected;
+  final bool isSearching;
+  final Function()? onPressed;
 
   SongItem({
     Key? key,
     required this.song,
     required this.height,
-    this.onTap,
+    this.isSelected = false,
+    this.isSearching = false,
+    this.onPressed,
   }) : super(key: key);
 
   bool hasChorus = false;
@@ -205,48 +221,60 @@ class SongItem extends StatelessWidget {
     }
 
     versesText = verses.length == 1 ? versesText : '${versesText}s';
-
-    return Hero(
-      tag: 'SongIndex_${song.id}',
-      child: GestureDetector(
-        onTap: onTap,
-        child: Card(
-          elevation: 2,
-          margin: EdgeInsets.only(bottom: height * 0.0049),
-          child: Padding(
-            padding: EdgeInsets.all(height * 0.0049),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  songItemTitle(song.songNo!, song.title!),
-                  maxLines: 1,
-                  style: TextStyle(
-                    fontSize: height * 0.0261,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Divider(color: ThemeColors.accent, height: height * 0.0049),
-                Text(
-                  refineContent(verses[0]),
-                  maxLines: 2,
-                  style: TextStyle(
-                    fontSize: height * 0.0228,
-                  ),
-                ),
-                Row(
-                  children: <Widget>[
+    return Padding(
+      padding: const EdgeInsets.only(right: 5, bottom: 5),
+      child: RawMaterialButton(
+        fillColor: isSelected ? ThemeColors.primary : Colors.white,
+        highlightColor: Colors.white.withOpacity(.1),
+        focusElevation: 0,
+        hoverColor: isSelected ? ThemeColors.primary : ThemeColors.accent,
+        hoverElevation: 1,
+        highlightElevation: 0,
+        padding: const EdgeInsets.all(5),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(5),
+          ),
+        ),
+        onPressed: onPressed,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              songItemTitle(song.songNo!, song.title!),
+              maxLines: 1,
+              style: TextStyles.Body1.size(height * 0.0261)
+                  .bold
+                  .textColor(isSelected ? Colors.white : Colors.black)
+                  .textHeight(1.5),
+            ),
+            Divider(color: ThemeColors.accent, height: height * 0.0049),
+            Text(
+              refineContent(verses[0]),
+              maxLines: 2,
+              style: TextStyles.Body1.size(height * 0.0228)
+                  .textColor(isSelected ? Colors.white : Colors.black)
+                  .textHeight(1.5),
+            ),
+            Container(
+              height: height * 0.035,
+              width: MediaQuery.of(context).size.width - 30,
+              margin: const EdgeInsets.only(right: 5, bottom: 5),
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: <Widget>[
+                  if (isSearching)
                     TagView(
                         tagText: refineTitle(song.songbook!), height: height),
-                    TagView(tagText: versesText, height: height),
-                    hasChorus
-                        ? TagView(tagText: chorusText, height: height)
-                        : Container(),
-                  ],
-                ),
-              ],
+                  TagView(tagText: versesText, height: height),
+                  if (hasChorus) TagView(tagText: chorusText, height: height),
+                  Container(
+                    width: 10,
+                  ),
+                ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

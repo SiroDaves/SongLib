@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 
+import '../view/drafts/mobile/edit_draft.dart';
+import '../view/drafts/mobile/present_draft.dart';
+import '../view/drafts/pc/edit_draft_pc.dart';
+import '../view/drafts/pc/present_draft_pc.dart';
 import '../view/home/home_screen.dart';
 import '../view/info/donation_screen.dart';
 import '../view/info/helpdesk_screen.dart';
@@ -9,9 +13,10 @@ import '../view/manage/settings_screen.dart';
 import '../view/info/onboarding_screen.dart';
 import '../view/selection/progress_screen.dart';
 import '../view/selection/selection_screen.dart';
-import '../view/songs/editor_screen.dart';
-import '../view/songs/presentor_screen.dart';
-import '../view/songs/projector_screen.dart';
+import '../view/songs/mobile/edit_song.dart';
+import '../view/songs/pc/edit_song_pc.dart';
+import '../view/songs/pc/present_song_pc.dart';
+import '../view/songs/mobile/present_song.dart';
 import '../view/splash_screen.dart';
 import '../util/env/flavor_config.dart';
 import '../widget/general/text_scale_factor.dart';
@@ -95,21 +100,50 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
           settings: settings,
         );
 
-      case PresentorScreen.routeName:
+      case PresentSong.routeName:
         return FadeInRoute<void>(
-          child: const PresentorScreen(),
+          child: const PresentSong(),
           settings: settings,
         );
-      case ProjectorScreen.routeName:
+      case PresentSongPc.routeName:
         return FadeInRoute<void>(
-          child: const ProjectorScreen(),
+          child: const PresentSongPc(),
           settings: settings,
         );
-      case EditorScreen.routeName:
+
+      case PresentDraft.routeName:
         return FadeInRoute<void>(
-          child: const EditorScreen(),
+          child: const PresentDraft(),
           settings: settings,
         );
+      case PresentDraftPc.routeName:
+        return FadeInRoute<void>(
+          child: const PresentDraftPc(),
+          settings: settings,
+        );
+
+      case EditSong.routeName:
+        return FadeInRoute<void>(
+          child: const EditSong(),
+          settings: settings,
+        );
+      case EditSongPc.routeName:
+        return FadeInRoute<void>(
+          child: const EditSongPc(),
+          settings: settings,
+        );
+
+      case EditDraft.routeName:
+        return FadeInRoute<void>(
+          child: const EditDraft(),
+          settings: settings,
+        );
+      case EditDraftPc.routeName:
+        return FadeInRoute<void>(
+          child: const EditDraftPc(),
+          settings: settings,
+        );
+
       case ListViewScreen.routeName:
         return FadeInRoute<void>(
           child: const ListViewScreen(),
@@ -161,13 +195,34 @@ class MainNavigatorWidgetState extends State<MainNavigatorWidget>
       navigator.pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
 
   @override
-  void goToPresentor() => navigator.pushNamed(PresentorScreen.routeName);
+  void goToPresentSong() => navigator.pushNamed(PresentSong.routeName);
 
   @override
-  void goToProjector() => navigator.pushNamed(ProjectorScreen.routeName);
+  void goToPresentSongPc() => navigator.pushNamed(PresentSongPc.routeName);
 
   @override
-  void goToEditor() => navigator.pushNamed(EditorScreen.routeName);
+  void goToPresentDraft() => navigator.pushNamed(PresentDraft.routeName);
+
+  @override
+  void goToPresentDraftPc() => navigator.pushNamed(PresentDraftPc.routeName);
+
+  @override
+  void goToEditSong() => navigator.pushNamed(EditSong.routeName);
+
+  @override
+  void goToEditSongPc() => navigator.pushNamed(EditSongPc.routeName);
+
+  @override
+  void goToEditDraft(bool emptyDraft) => navigator.pushNamed(
+        EditDraft.routeName,
+        arguments: emptyDraft,
+      );
+
+  @override
+  void goToEditDraftPc(bool emptyDraft) => navigator.pushNamed(
+        EditDraftPc.routeName,
+        arguments: emptyDraft,
+      );
 
   @override
   void goToListView() => navigator.pushNamed(ListViewScreen.routeName);
