@@ -35,7 +35,7 @@ abstract class DbRepository {
   Future<List<Draft>> fetchDrafts();
   Future<List<HistoryExt>> fetchHistories();
   Future<List<Listed>> fetchListeds();
-  Future<List<ListedExt>> fetchListedSongs(int song);
+  Future<List<ListedExt>> fetchListedSongs(int listed);
   Future<List<Search>> fetchSearches();
   Future<List<SongExt>> fetchSongs();
   Future<List<SongExt>> fetchLikedSongs();

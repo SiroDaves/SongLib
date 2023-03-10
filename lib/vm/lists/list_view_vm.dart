@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 
@@ -25,8 +24,10 @@ class ListViewVm with ChangeNotifierEx {
 
   HomeVm? homeVm;
   Listed? listed;
-  List<SongExt>? songs = [];
+  String songTitle = 'Song Title', listTitle = "List Title";
+  SongExt setSong = SongExt();
   List<ListedExt>? listeds = [];
+  List<SongExt>? songs = [], listSongs = [];
 
   bool isLoading = false, showSearch = false;
   TextEditingController? titleController, contentController;
@@ -34,12 +35,12 @@ class ListViewVm with ChangeNotifierEx {
   Future<void> init(ListViewNavigator screenNavigator) async {
     navigator = screenNavigator;
 
+    listed = localStorage.listed;
     homeVm = HomeVm(dbRepo, localStorage);
     homeVm = getIt.get<HomeVm>();
-
-    listed = localStorage.listed;
     titleController = TextEditingController(text: listed!.title ?? '');
     contentController = TextEditingController(text: listed!.description ?? '');
+
     await fetchData();
   }
 
@@ -53,8 +54,29 @@ class ListViewVm with ChangeNotifierEx {
   Future<void> fetchData() async {
     isLoading = true;
     notifyListeners();
+    listTitle = listed!.title!;
+
     songs = await dbRepo.fetchSongs();
     listeds = await dbRepo.fetchListedSongs(listed!.id!);
+    for (var listed in listeds!) {
+      listSongs!.add(
+        SongExt(
+          songbook: listed.songbook,
+          songNo: listed.songNo,
+          book: listed.book,
+          title: listed.title,
+          alias: listed.alias,
+          content: listed.content,
+          views: listed.views,
+          likes: listed.likes,
+          liked: listed.liked,
+          author: listed.author,
+          key: listed.key,
+          id: listed.songId,
+        ),
+      );
+    }
+    setSong = songs![0];
     isLoading = false;
     notifyListeners();
   }
@@ -126,20 +148,10 @@ class ListViewVm with ChangeNotifierEx {
     notifyListeners();
   }
 
-  void openPresentor({SongExt? song, Draft? draft}) async {
-    if (song != null) {
-      localStorage.song = song;
-      localStorage.draft = null;
-    } else if (draft != null) {
-      localStorage.song = null;
-      localStorage.draft = draft;
-    }
-    navigator.goToPresentor();
-  }
-
   void onBackPressed() => navigator.goBack<void>();
 }
 
 abstract class ListViewNavigator implements BackNavigator {
-  void goToPresentor();
+  void goToSongPresentor();
+  void goToSongPresentorPc();
 }

@@ -76,7 +76,7 @@ class SongPresentorVm with ChangeNotifierEx {
     songBook = refineTitle(song!.songbook!);
     songTitle = songItemTitle(song!.songNo!, song!.title!);
 
-    isLiked = song!.liked!;
+    isLiked = song!.liked != null ? song!.liked! : false;
     likeIcon = isLiked ? Icons.favorite : Icons.favorite_border;
     songVerses = song!.content!.split("##");
     final int verseCount = songVerses.length;

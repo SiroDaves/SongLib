@@ -2,9 +2,10 @@ part of '../home_screen.dart';
 
 /// Tab screen with list of song lists
 // ignore: must_be_immutable
-class ListTab extends StatelessWidget {
+class ListPopup extends StatelessWidget {
   final HomeVm vm;
-  ListTab(this.vm, {Key? key}) : super(key: key);
+  final SongExt song;
+  ListPopup({Key? key, required this.vm, required this.song}) : super(key: key);
   Size? size;
 
   @override
@@ -17,29 +18,37 @@ class ListTab extends StatelessWidget {
       ),
       itemBuilder: (context, index) {
         final Listed listed = vm.listeds![index];
-        return ContextMenuRegion(
-          contextMenu: GenericContextMenu(
-            buttonConfigs: [
-              ContextMenuButtonConfig(
-                AppConstants.deleteList,
-                icon: const Icon(Icons.delete, size: 20),
-                onPressed: () => vm.deleteList(context, listed),
-              ),
-            ],
-          ),
-          child: ListedItem(
-            listed: listed,
-            height: size!.height,
-            onTap: () {
-              vm.localStorage.listed = vm.setListed = listed;
-              vm.navigator.goToListView();
-            },
-          ),
+        return ListedItem(
+          listed: listed,
+          height: size!.height,
+          onTap: () {
+            vm.addSongToList(listed, song);
+            Navigator.pop(context);
+          },
         );
       },
     );
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(AppConstants.addSongtoList),
+        actions: <Widget>[
+          InkWell(
+            onTap: () => newListForm(context),
+            child: const Padding(
+              padding: EdgeInsets.all(10),
+              child: Icon(Icons.add),
+            ),
+          ),
+          InkWell(
+            onTap: () => Navigator.pop(context),
+            child: const Padding(
+              padding: EdgeInsets.all(10),
+              child: Icon(Icons.clear),
+            ),
+          ),
+        ],
+      ),
       body: ContextMenuOverlay(
         cardBuilder: (_, children) => Container(
           decoration: const BoxDecoration(
@@ -59,7 +68,7 @@ class ListTab extends StatelessWidget {
             ),
           ),
           child: vm.isLoading
-              ? const ListLoading()
+              ? const CircularProgress()
               : vm.listeds!.isNotEmpty
                   ? listContainer
                   : const NoDataToShow(
@@ -67,12 +76,6 @@ class ListTab extends StatelessWidget {
                       description: AppConstants.itsEmptyHereBody4,
                     ),
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: ThemeColors.primary,
-        onPressed: () => newListForm(context),
-        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }

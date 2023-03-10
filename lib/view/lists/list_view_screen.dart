@@ -30,44 +30,31 @@ class ListViewScreen extends StatefulWidget {
 class ListViewScreenState extends State<ListViewScreen>
     with BackNavigatorMixin
     implements ListViewNavigator {
-  ListViewVm? vm;
-  Size? size;
-
   @override
   Widget build(BuildContext context) {
-    size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
 
     return ProviderWidget<ListViewVm>(
       create: () => GetIt.I()..init(this),
-      consumerWithThemeAndLocalization:
-          (context, vm, child, theme, localization) {
+      consumerWithThemeAndLocalization: (ctx, vm, child, theme, localization) {
         var listContainer = Container(
-          height: size!.height * 0.8,
+          height: size.height * 0.8,
           padding: const EdgeInsets.only(right: 2),
           child: ListView.builder(
-            itemCount: vm.listeds!.length,
+            itemCount: vm.listSongs!.length,
             padding: EdgeInsets.all(
-              size!.height * 0.0082,
+              size.height * 0.0082,
             ),
-            itemBuilder: (context, index) {
-              final SongExt song = SongExt(
-                songbook: vm.listeds![index].songbook,
-                songNo: vm.listeds![index].songNo,
-                book: vm.listeds![index].book,
-                title: vm.listeds![index].title,
-                alias: vm.listeds![index].alias,
-                content: vm.listeds![index].content,
-                views: vm.listeds![index].views,
-                likes: vm.listeds![index].likes,
-                author: vm.listeds![index].author,
-                key: vm.listeds![index].key,
-                id: vm.listeds![index].songId,
-              );
-
+            itemBuilder: (ctx, index) {
+              final SongExt song = vm.listSongs![index];
               return SongItem(
                 song: song,
-                height: size!.height,
-                onPressed: () => vm.openPresentor(song: song),
+                isSearching: true,
+                height: size.height,
+                onPressed: () {
+                  vm.localStorage.song = vm.setSong = song;
+                  vm.navigator.goToSongPresentor();
+                },
               );
             },
           ),
@@ -82,7 +69,7 @@ class ListViewScreenState extends State<ListViewScreen>
             child: Column(children: children),
           ),
           child: Container(
-            height: size!.height,
+            height: size.height,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
@@ -104,10 +91,10 @@ class ListViewScreenState extends State<ListViewScreen>
         );
         return Scaffold(
           appBar: AppBar(
-            title: Text(vm.listed!.title ?? 'List Title'),
+            title: Text(vm.listTitle),
             actions: <Widget>[
               InkWell(
-                onTap: () => editListForm(context),
+                onTap: () => editListForm(context, vm),
                 child: const Padding(
                   padding: EdgeInsets.all(10),
                   child: Icon(Icons.edit),
@@ -128,7 +115,7 @@ class ListViewScreenState extends State<ListViewScreen>
             onPressed: () async {
               await showSearch(
                 context: context,
-                delegate: AddSongs(context, vm.homeVm!, vm, size!.height),
+                delegate: AddSongs(context, vm.homeVm!, vm, size.height),
               );
             },
             child: const Icon(Icons.add, color: Colors.white),
@@ -138,7 +125,7 @@ class ListViewScreenState extends State<ListViewScreen>
     );
   }
 
-  Future<void> editListForm(BuildContext context) async {
+  Future<void> editListForm(BuildContext context, ListViewVm vm) async {
     return showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -158,12 +145,12 @@ class ListViewScreenState extends State<ListViewScreen>
             children: <Widget>[
               FormInput(
                 iLabel: 'Title',
-                iController: vm!.titleController!,
+                iController: vm.titleController!,
                 iOptions: const <String>[],
               ),
               FormInput(
                 iLabel: 'Description (Optional)',
-                iController: vm!.contentController!,
+                iController: vm.contentController!,
                 iOptions: const <String>[],
               ),
             ],
@@ -172,9 +159,9 @@ class ListViewScreenState extends State<ListViewScreen>
         actions: <Widget>[
           TextButton(
             onPressed: () {
-              vm!.saveChanges();
-              vm!.titleController!.clear();
-              vm!.contentController!.clear();
+              vm.saveChanges();
+              vm.titleController!.clear();
+              vm.contentController!.clear();
               Navigator.pop(context);
             },
             child: const Text("SAVE CHANGES"),
@@ -189,5 +176,8 @@ class ListViewScreenState extends State<ListViewScreen>
   }
 
   @override
-  void goToPresentor() => MainNavigator.of(context).goToSongPresentor();
+  void goToSongPresentor() => MainNavigator.of(context).goToSongPresentor();
+
+  @override
+  void goToSongPresentorPc() => MainNavigator.of(context).goToSongPresentorPc();
 }

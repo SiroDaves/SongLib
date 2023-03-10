@@ -54,8 +54,8 @@ android {
         targetSdkVersion 31
         compileSdkVersion 33
         multiDexEnabled true
-        versionCode 13
-        versionName "0.0.6.3" 
+        versionCode 15
+        versionName "0.0.6.5" 
     }
     
     signingConfigs {

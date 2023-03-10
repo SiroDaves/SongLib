@@ -25,16 +25,17 @@ import '../../widget/general/fading_index_stack.dart';
 import '../../widget/general/inputs.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
+import '../../widget/progress/circular_progress.dart';
 import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
 import '../../widget/search/search_list.dart';
 import '../../widget/search/search_songs_pc.dart';
 import '../../widget/search/search_songs.dart';
-import '../lists/list_view_popup.dart';
 
 part 'mobile/drafts_tab.dart';
 part 'mobile/history_tab.dart';
 part 'mobile/search_tab.dart';
+part 'mobile/list_popup.dart';
 part 'mobile/likes_tab.dart';
 part 'mobile/list_tab.dart';
 part 'pc/search_tab_pc.dart';

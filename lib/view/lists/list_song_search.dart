@@ -71,7 +71,7 @@ class ListSearchSongs extends SearchDelegate<List> {
         return SongItem(
           song: song,
           height: height!,
-          onPressed: () => viewModel.openPresentor(song: song),
+          onPressed: () {},
         );
       },
     );

@@ -53,7 +53,7 @@ class AppConstants {
   static const textCopied = " copied!";
   static const shareVerse = "Share verse";
   static const songLiked = "song liked!";
-  static const songAddedToList = "song added to a list!";
+  static const songAddedToList = " added to ";
   static const listCreated = "song list created!";
   static const listUpdated = "song list updated!";
   static const deleted = "deleted!";

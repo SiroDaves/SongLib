@@ -280,6 +280,20 @@ class HomeVm with ChangeNotifierEx {
     notifyListeners();
   }
 
+  /// Add a song to a list
+  Future<void> addSongToList(Listed listed, SongExt song) async {
+    isLoading = true;
+    notifyListeners();
+    await dbRepo.saveListedSong(listed, song);
+    showToast(
+      text: '${song.title}${AppConstants.songAddedToList}${listed.title} list',
+      state: ToastStates.success,
+    );
+    listeds = await dbRepo.fetchListeds();
+    isLoading = false;
+    notifyListeners();
+  }
+
   /// Save changes for a listed be it a new one or simply updating an old one
   Future<void> saveNewList() async {
     if (titleController!.text.isNotEmpty) {
@@ -297,8 +311,6 @@ class HomeVm with ChangeNotifierEx {
         state: ToastStates.success,
       );
 
-      //localStorage.listed = listed;
-      //navigator.goToListView();
       isLoading = false;
       notifyListeners();
     }

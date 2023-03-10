@@ -5,7 +5,6 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../di/injectable.dart';
 import '../../model/base/draft.dart';
-import '../../model/base/songext.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
@@ -24,7 +23,7 @@ class DraftEditorVm with ChangeNotifierEx {
 
   bool isLoading = false, notEmpty = false;
   String? title, content, alias, key;
-  String? pageTitle = 'Draft a New Draft';
+  String? pageTitle = 'Draft a New Song';
   TextEditingController? titleController = TextEditingController();
   TextEditingController? contentController = TextEditingController();
   TextEditingController? aliasController = TextEditingController();
@@ -32,8 +31,6 @@ class DraftEditorVm with ChangeNotifierEx {
 
   Future<void> init(DraftEditorNavigator screenNavigator) async {
     navigator = screenNavigator;
-
-    draft = localStorage.draft;
 
     homeVm = HomeVm(dbRepo, localStorage);
     homeVm = getIt.get<HomeVm>();
@@ -45,6 +42,7 @@ class DraftEditorVm with ChangeNotifierEx {
     notifyListeners();
 
     if (notEmpty) {
+      draft = localStorage.draft;
       pageTitle = 'Edit Your Draft';
       titleController!.text = draft!.title!;
       aliasController!.text = draft!.alias!;
@@ -78,32 +76,25 @@ class DraftEditorVm with ChangeNotifierEx {
       isLoading = true;
       notifyListeners();
 
-      try {
-        if (draft != null) {
-          draft!.title = title;
-          draft!.content = content;
-          draft!.alias = alias;
-          draft!.key = key;
-          await dbRepo.editDraft(draft!);
-        } else {
-          draft = Draft(
-            title: title,
-            content: content,
-            alias: alias,
-            key: key,
-          );
-          await dbRepo.saveDraft(draft!);
-        }
-      } catch (exception, stackTrace) {
-        await Sentry.captureException(
-          exception,
-          stackTrace: stackTrace,
+      if (draft != null) {
+        draft!.title = title;
+        draft!.content = content;
+        draft!.alias = alias;
+        draft!.key = key;
+        await dbRepo.editDraft(draft!);
+      } else {
+        draft = Draft(
+          title: title,
+          content: content,
+          alias: alias,
+          key: key,
         );
+        await dbRepo.saveDraft(draft!);
       }
-
-      await onBackPressed();
+      homeVm!.drafts = await dbRepo.fetchDrafts();
       isLoading = false;
       notifyListeners();
+      await onBackPressed();
     }
   }
 

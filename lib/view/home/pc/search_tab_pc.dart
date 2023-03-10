@@ -73,7 +73,7 @@ class SearchTabPc extends StatelessWidget {
                   onPressed: () => showModalBottomSheet<void>(
                     context: context,
                     builder: (BuildContext context) {
-                      return ListViewPopup(song: song);
+                      return ListPopup(vm: vm, song: song);
                     },
                   ),
                 ),

@@ -79,34 +79,22 @@ class LineProgress extends StatelessWidget {
                 ),
               ),
             ),
-            leadingContainer(),
-            //traillingContainer(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget leadingContainer() {
-    return Container(
-      height: progressSize,
-      width: (progressSize / 2) - 20,
-      margin: const EdgeInsets.symmetric(horizontal: 10),
-      decoration: BoxDecoration(
-        color: Colors.grey,
-        border: Border.all(color: progressColor),
-        borderRadius: BorderRadius.all(
-          Radius.elliptical(
-            progressSize / 4,
-            progressSize / 2,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget traillingContainer() {
-    return Container(
+            Container(
+              height: progressSize,
+              width: (progressSize / 2) - 20,
+              margin: const EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                color: Colors.grey,
+                border: Border.all(color: progressColor),
+                borderRadius: BorderRadius.all(
+                  Radius.elliptical(
+                    progressSize / 4,
+                    progressSize / 2,
+                  ),
+                ),
+              ),
+            ),
+            /*Container(
       height: progressSize,
       width: (progressSize / 2) - 20,
       margin: EdgeInsets.only(left: progressSize * 2.55),
@@ -120,6 +108,10 @@ class LineProgress extends StatelessWidget {
           ),
         ),
       ),
+    )*/
+          ],
+        ),
+      ),
     );
   }
 }
@@ -129,21 +121,7 @@ class ListLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SkeletonLoader(
-      builder: Container(
-        height: 90,
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-        child: rowWidget(),
-      ),
-      items: 10,
-      period: const Duration(seconds: 3),
-      highlightColor: ThemeColors.primary,
-      direction: SkeletonDirection.ltr,
-    );
-  }
-
-  Widget rowWidget() {
-    return Column(
+    var rowWidget = Column(
       children: <Widget>[
         Container(
           width: double.infinity,
@@ -182,6 +160,19 @@ class ListLoading extends StatelessWidget {
           ),
         ),
       ],
+    );
+    return SingleChildScrollView(
+      child: SkeletonLoader(
+        builder: Container(
+          height: 90,
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          child: rowWidget,
+        ),
+        items: 10,
+        period: const Duration(seconds: 3),
+        highlightColor: ThemeColors.primary,
+        direction: SkeletonDirection.ltr,
+      ),
     );
   }
 }
