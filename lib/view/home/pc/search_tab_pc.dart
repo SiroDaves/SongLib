@@ -6,6 +6,7 @@ class SearchTabPc extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var tr = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
 
     var booksContainer = Container(
@@ -42,7 +43,7 @@ class SearchTabPc extends StatelessWidget {
             contextMenu: GenericContextMenu(
               buttonConfigs: [
                 ContextMenuButtonConfig(
-                  AppConstants.likeSong,
+                  tr.likeSong,
                   icon: Icon(
                     song.liked! ? Icons.favorite : Icons.favorite_border,
                     size: 20,
@@ -50,17 +51,17 @@ class SearchTabPc extends StatelessWidget {
                   onPressed: () => vm.likeSong(song),
                 ),
                 ContextMenuButtonConfig(
-                  AppConstants.copySong,
+                  tr.copySong,
                   icon: const Icon(Icons.copy, size: 20),
                   onPressed: () => vm.copySong(song),
                 ),
                 ContextMenuButtonConfig(
-                  AppConstants.shareSong,
+                  tr.shareSong,
                   icon: const Icon(Icons.share, size: 20),
                   onPressed: () => vm.shareSong(song),
                 ),
                 ContextMenuButtonConfig(
-                  AppConstants.editSong,
+                  tr.editSong,
                   icon: const Icon(Icons.edit, size: 20),
                   onPressed: () {
                     vm.localStorage.song = vm.setSong = song;
@@ -68,7 +69,7 @@ class SearchTabPc extends StatelessWidget {
                   },
                 ),
                 ContextMenuButtonConfig(
-                  AppConstants.addtoList,
+                  tr.addtoList,
                   icon: const Icon(Icons.add, size: 20),
                   onPressed: () => showModalBottomSheet<void>(
                     context: context,

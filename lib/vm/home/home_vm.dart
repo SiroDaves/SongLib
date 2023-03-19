@@ -1,12 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../model/base/book.dart';
 import '../../model/base/draft.dart';
@@ -14,8 +12,6 @@ import '../../model/base/listed.dart';
 import '../../model/base/songext.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
-import '../../util/constants/app_constants.dart';
-import '../../util/constants/pref_constants.dart';
 import '../../util/constants/utilities.dart';
 import '../../widget/general/toast.dart';
 
@@ -28,7 +24,7 @@ class HomeVm with ChangeNotifierEx {
   final LocalStorage localStorage;
 
   HomeVm(this.dbRepo, this.localStorage);
-  BuildContext? context;
+  AppLocalizations? tr;
 
   bool isLoading = false, isSearching = false;
   int currentPage = 1;
@@ -62,6 +58,7 @@ class HomeVm with ChangeNotifierEx {
   ];
   Future<void> init(HomeNavigator screenNavigator) async {
     navigator = screenNavigator;
+
     titleController = TextEditingController();
     contentController = TextEditingController();
 
@@ -180,7 +177,7 @@ class HomeVm with ChangeNotifierEx {
     await fetchLikedSongs(showLoading: false);
     if (isLiked) {
       showToast(
-        text: '${song.title} ${AppConstants.songLiked}',
+        text: '${song.title} ${tr!.songLiked}',
         state: ToastStates.success,
       );
     }
@@ -194,7 +191,7 @@ class HomeVm with ChangeNotifierEx {
           '\n\n${song.content!.replaceAll("#", "\n")}',
     ));
     showToast(
-      text: '${song.title} ${AppConstants.songCopied}',
+      text: '${song.title} ${tr!.songCopied}',
       state: ToastStates.success,
     );
   }
@@ -203,7 +200,7 @@ class HomeVm with ChangeNotifierEx {
     await Share.share(
       '${songItemTitle(song.songNo!, song.title!)}\n${refineTitle(song.songbook!)}'
       '\n\n${song.content!.replaceAll("#", "\n")}',
-      subject: AppConstants.shareVerse,
+      subject: tr!.shareVerse,
     );
   }
 
@@ -226,7 +223,7 @@ class HomeVm with ChangeNotifierEx {
               dbRepo.removeListed(listed);
               fetchListedData();
               showToast(
-                text: '${listed.title} ${AppConstants.deleted}',
+                text: '${listed.title} ${tr!.deleted}',
                 state: ToastStates.success,
               );
             },
@@ -286,7 +283,7 @@ class HomeVm with ChangeNotifierEx {
     notifyListeners();
     await dbRepo.saveListedSong(listed, song);
     showToast(
-      text: '${song.title}${AppConstants.songAddedToList}${listed.title} list',
+      text: '${song.title}${tr!.songAddedToList}${listed.title} list',
       state: ToastStates.success,
     );
     listeds = await dbRepo.fetchListeds();
@@ -307,7 +304,7 @@ class HomeVm with ChangeNotifierEx {
       await dbRepo.saveListed(listed);
       await fetchListedData();
       showToast(
-        text: '${listed.title} ${AppConstants.listCreated}',
+        text: '${listed.title} ${tr!.listCreated}',
         state: ToastStates.success,
       );
 

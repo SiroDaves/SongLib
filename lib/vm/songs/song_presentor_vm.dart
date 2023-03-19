@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:share_plus/share_plus.dart';
@@ -11,9 +12,10 @@ import '../../model/base/songext.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
-import '../../util/constants/app_constants.dart';
+import '../../theme/theme_colors.dart';
 import '../../util/constants/pref_constants.dart';
 import '../../util/constants/utilities.dart';
+import '../../widget/action/buttons.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/toast.dart';
 import '../home/home_vm.dart';
@@ -30,13 +32,16 @@ class SongPresentorVm with ChangeNotifierEx {
   SongExt? song;
 
   bool isLoading = false, enableWakeLock = false, slideHorizontal = false;
-  bool isLiked = false, hasChorus = false;
+  bool isLiked = false, hasChorus = false, shownPcHints = false;
 
-  String songTitle = '', songBook = '', songContent = '';
+  String pageTitle = '...', songTitle = '', songBook = '', songContent = '';
   int curStanza = 0, curSong = 0, curSlide = 0;
   List<String> songVerses = [], verseInfos = [], verseTexts = [];
 
+  BuildContext? context;
+  AppLocalizations? tr;
   Size? size;
+  double fSize = 25;
   List<Tab> widgetTabs = [];
   List<Widget> widgetContent = [];
 
@@ -46,15 +51,19 @@ class SongPresentorVm with ChangeNotifierEx {
     navigator = screenNavigator;
 
     song = localStorage.song;
-
     enableWakeLock = localStorage.getPrefBool(PrefConstants.wakeLockCheckKey);
+    shownPcHints = localStorage.getPrefBool(PrefConstants.pcHintsKey);
     slideHorizontal =
         localStorage.getPrefBool(PrefConstants.slideHorizontalKey);
     if (enableWakeLock) await Wakelock.enable();
 
+    isLoading = true;
+    notifyListeners();
     homeVm = HomeVm(dbRepo, localStorage);
     homeVm = getIt.get<HomeVm>();
+    fSize = (size!.height * 0.0489).toDouble();
     await loadPresentor();
+    if (isDesktop && !shownPcHints) hintsDialog(context!);
   }
 
   /// Prepare song lyrics to be shown in slide format
@@ -67,7 +76,7 @@ class SongPresentorVm with ChangeNotifierEx {
 
     await loadSong();
     await dbRepo.saveHistory(History(song: song!.id));
-
+    pageTitle = '$songTitle - $songBook';
     isLoading = false;
     notifyListeners();
   }
@@ -112,7 +121,7 @@ class SongPresentorVm with ChangeNotifierEx {
     for (final verse in verseInfos) {
       widgetTabs.add(
         Tab(
-          child: PresentorInfo(info: verse, fontSize: size!.height * 0.0489),
+          child: PresentorInfo(info: verse, fontSize: fSize),
         ),
       );
     }
@@ -122,7 +131,7 @@ class SongPresentorVm with ChangeNotifierEx {
         size: size!,
         onDoubleTap: () => Share.share(
           '${verse.replaceAll("#", "\n")}\n\n$songTitle,\n$songBook',
-          subject: AppConstants.shareVerse,
+          subject: tr!.shareVerse,
         ),
         onLongPress: () => copyVerse(verse),
       ));
@@ -137,7 +146,7 @@ class SongPresentorVm with ChangeNotifierEx {
     likeIcon = isLiked ? Icons.favorite : Icons.favorite_border;
     if (isLiked) {
       showToast(
-        text: '${song!.title} ${AppConstants.songLiked}',
+        text: '${song!.title} ${tr!.songLiked}',
         state: ToastStates.success,
       );
     }
@@ -150,7 +159,7 @@ class SongPresentorVm with ChangeNotifierEx {
       text: '$songTitle\n$songBook\n\n$songContent',
     ));
     showToast(
-      text: '$songTitle ${AppConstants.songCopied}',
+      text: '$songTitle ${tr!.songCopied}',
       state: ToastStates.success,
     );
   }
@@ -162,8 +171,37 @@ class SongPresentorVm with ChangeNotifierEx {
       ),
     );
     showToast(
-      text: 'Verse ${AppConstants.textCopied}',
+      text: 'Verse ${tr!.textCopied}',
       state: ToastStates.success,
+    );
+  }
+
+  Future<void> hintsDialog(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Text(
+          tr!.keyboardShortcuts,
+          style: const TextStyle(
+            fontSize: 22,
+            color: ThemeColors.primaryDark,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: Text(
+          tr!.keyboardShortcutsTexts,
+          style: const TextStyle(fontSize: 18),
+        ),
+        actions: <Widget>[
+          SimpleButton(
+            title: tr!.okay,
+            onPressed: () {
+              Navigator.pop(context);
+              localStorage.setPrefBool(PrefConstants.pcHintsKey, true);
+            },
+          ),
+        ],
+      ),
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -6,7 +7,6 @@ import '../../../navigator/main_navigator.dart';
 import '../../../navigator/mixin/back_navigator.dart';
 import '../../../navigator/route_names.dart';
 import '../../../theme/theme_colors.dart';
-import '../../../util/constants/app_constants.dart';
 import '../../../vm/drafts/draft_presentor_vm.dart';
 import '../../../widget/action/fab_widget.dart';
 import '../../../widget/general/present_on_mobile.dart';
@@ -30,12 +30,14 @@ class DraftPresentorState extends State<DraftPresentor>
 
   @override
   Widget build(BuildContext context) {
+    var tr = AppLocalizations.of(context)!;
     size = MediaQuery.of(context).size;
     return ProviderWidget<DraftPresentorVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, vm, child, theme, localization) {
         vm.size = size;
+        vm.tr = AppLocalizations.of(context)!;
 
         var appBarWidget = AppBar(
           title: Text(vm.draftTitle),
@@ -104,7 +106,7 @@ class DraftPresentorState extends State<DraftPresentor>
                 onPressed: () {
                   Share.share(
                     '${vm.draftTitle}\n${vm.draftBook}\n\n${vm.draftContent}',
-                    subject: AppConstants.shareVerse,
+                    subject: tr.shareVerse,
                   );
                 },
                 child: const Icon(Icons.share, color: Colors.white),

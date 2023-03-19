@@ -31,6 +31,7 @@ class SongEditorState extends State<SongEditor>
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, vm, child, theme, localization) {
+        //vm.context = context;
         var mainContainer = SingleChildScrollView(
           padding: const EdgeInsets.all(5),
           child: Card(

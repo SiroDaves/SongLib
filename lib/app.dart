@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +10,6 @@ import 'navigator/main_navigator.dart';
 import 'theme/theme_data.dart';
 import 'util/constants/api_constants.dart';
 import 'util/env/flavor_config.dart';
-import 'util/i10n/app_localizations.dart';
 import 'vm/global_vm.dart';
 import 'widget/provider/provider_widget.dart';
 

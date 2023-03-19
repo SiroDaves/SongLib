@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+class InfoIntent extends Intent {
+  const InfoIntent();
+}
+
 class CloseIntent extends Intent {
   const CloseIntent();
 }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../navigator/main_navigator.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
-import '../../util/constants/app_constants.dart';
 import '../../vm/home/info_vm.dart';
 import '../../widget/provider/provider_widget.dart';
 
@@ -27,10 +27,12 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
     implements InfoNavigator {
   @override
   Widget build(BuildContext context) {
+    var tr = AppLocalizations.of(context)!;
     return ProviderWidget<InfoVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) {
+        //vm.tr = AppLocalizations.of(context)!;
         Card merchandise = Card(
           child: ExpansionTile(
             leading: const Icon(Icons.display_settings),
@@ -85,7 +87,7 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
         return Scaffold(
           backgroundColor: ThemeColors.accent,
           appBar: AppBar(
-            title: const Text(AppConstants.helpdeskTitle),
+            title: Text(tr.helpdeskTitle),
           ),
           body: ListView(
             padding: const EdgeInsets.all(5),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:share_plus/share_plus.dart';
@@ -10,9 +11,10 @@ import '../../model/base/draft.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
-import '../../util/constants/app_constants.dart';
+import '../../theme/theme_colors.dart';
 import '../../util/constants/pref_constants.dart';
 import '../../util/constants/utilities.dart';
+import '../../widget/action/buttons.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/toast.dart';
 import '../home/home_vm.dart';
@@ -28,8 +30,10 @@ class DraftPresentorVm with ChangeNotifierEx {
   late HomeVm homeVm;
   Draft? draft;
 
+  BuildContext? context;
+  AppLocalizations? tr;
   bool isLoading = false, enableWakeLock = false, slideHorizontal = false;
-  bool isLiked = false, hasChorus = false;
+  bool isLiked = false, hasChorus = false, shownPcHints = false;
 
   String draftTitle = '', draftBook = '', draftContent = '';
   int curStanza = 0, curDraft = 0, curSlide = 0;
@@ -48,6 +52,7 @@ class DraftPresentorVm with ChangeNotifierEx {
     draft = localStorage.draft;
 
     enableWakeLock = localStorage.getPrefBool(PrefConstants.wakeLockCheckKey);
+    shownPcHints = localStorage.getPrefBool(PrefConstants.pcHintsKey);
     slideHorizontal =
         localStorage.getPrefBool(PrefConstants.slideHorizontalKey);
     if (enableWakeLock) await Wakelock.enable();
@@ -55,6 +60,7 @@ class DraftPresentorVm with ChangeNotifierEx {
     homeVm = HomeVm(dbRepo, localStorage);
     homeVm = getIt.get<HomeVm>();
     await loadPresentor();
+    if (isDesktop && !shownPcHints) hintsDialog(context!);
   }
 
   /// Prepare draft lyrics to be shown in slide format
@@ -121,7 +127,7 @@ class DraftPresentorVm with ChangeNotifierEx {
         size: size!,
         onDoubleTap: () => Share.share(
           '${verse.replaceAll("#", "\n")}\n\n$draftTitle,\n$draftBook',
-          subject: AppConstants.shareVerse,
+          subject: tr!.shareVerse,
         ),
         onLongPress: () => copyVerse(verse),
       ));
@@ -134,7 +140,7 @@ class DraftPresentorVm with ChangeNotifierEx {
       text: '$draftTitle\n$draftBook\n\n$draftContent',
     ));
     showToast(
-      text: '$draftTitle ${AppConstants.songCopied}',
+      text: '$draftTitle ${tr!.songCopied}',
       state: ToastStates.success,
     );
   }
@@ -146,7 +152,7 @@ class DraftPresentorVm with ChangeNotifierEx {
       ),
     );
     showToast(
-      text: 'Verse ${AppConstants.textCopied}',
+      text: 'Verse ${tr!.textCopied}',
       state: ToastStates.success,
     );
   }
@@ -175,6 +181,35 @@ class DraftPresentorVm with ChangeNotifierEx {
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: const Text("CANCEL"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> hintsDialog(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Text(
+          tr!.keyboardShortcuts,
+          style: const TextStyle(
+            fontSize: 22,
+            color: ThemeColors.primaryDark,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: Text(
+          tr!.keyboardShortcutsTexts,
+          style: const TextStyle(fontSize: 18),
+        ),
+        actions: <Widget>[
+          SimpleButton(
+            title: tr!.okay,
+            onPressed: () {
+              Navigator.pop(context);
+              localStorage.setPrefBool(PrefConstants.pcHintsKey, true);
+            },
           ),
         ],
       ),

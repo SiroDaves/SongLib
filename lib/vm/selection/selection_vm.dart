@@ -1,3 +1,4 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 
@@ -5,7 +6,6 @@ import '../../model/base/book.dart';
 import '../../model/general/general.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
-import '../../util/constants/app_constants.dart';
 import '../../util/constants/event_constants.dart';
 import '../../util/constants/pref_constants.dart';
 import '../../util/constants/utilities.dart';
@@ -20,17 +20,17 @@ class SelectionVm with ChangeNotifierEx {
 
   SelectionVm(this.api, this.db, this.localStorage);
 
+  AppLocalizations? tr;
   bool isLoading = false, hasError = false;
   List<Selectable<Book>?> selectables = [], listedBooks = [];
   List<Book>? books = [];
 
-  String selectedBooks = "";
-  String errorTitle = AppConstants.errorOccurred;
-  String errorBody = AppConstants.errorOccurredBody;
+  String selectedBooks = "", errorTitle = "", errorBody = "";
   List<String> bookNos = [];
 
   Future<void> init(SelectionNavigator screenNavigator) async {
     navigator = screenNavigator;
+
     selectedBooks = localStorage.getPrefString(PrefConstants.selectedBooksKey);
     if (selectedBooks.isNotEmpty) {
       bookNos = selectedBooks.split(",");
@@ -73,8 +73,8 @@ class SelectionVm with ChangeNotifierEx {
       }
     } else {
       hasError = true;
-      errorTitle = AppConstants.noConnection;
-      errorBody = AppConstants.noConnectionBody;
+      errorTitle = tr!.noConnection;
+      errorBody = tr!.noConnectionBody;
     }
 
     isLoading = false;

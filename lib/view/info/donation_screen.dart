@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../navigator/main_navigator.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
-import '../../util/constants/app_constants.dart';
 import '../../vm/home/info_vm.dart';
 import '../../widget/provider/provider_widget.dart';
 
@@ -27,13 +27,14 @@ class DonationScreenState extends State<DonationScreen>
     implements InfoNavigator {
   @override
   Widget build(BuildContext context) {
+    var tr = AppLocalizations.of(context)!;
     return ProviderWidget<InfoVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) => Scaffold(
         backgroundColor: ThemeColors.accent,
         appBar: AppBar(
-          title: const Text(AppConstants.donateTitle),
+          title: Text(tr.donateTitle),
         ),
         body: ListView(
           padding: const EdgeInsets.all(5),

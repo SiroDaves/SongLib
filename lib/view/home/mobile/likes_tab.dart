@@ -9,6 +9,7 @@ class LikesTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var tr = AppLocalizations.of(context)!;
     size = MediaQuery.of(context).size;
     var listContainer = Container(
       height: size!.height * 0.7,
@@ -59,9 +60,9 @@ class LikesTab extends StatelessWidget {
               ? const ListLoading()
               : vm.likes!.isNotEmpty
                   ? listContainer
-                  : const NoDataToShow(
-                      title: AppConstants.itsEmptyHere1,
-                      description: AppConstants.itsEmptyHereBody4,
+                  : NoDataToShow(
+                      title: tr.itsEmptyHere1,
+                      description: tr.itsEmptyHereBody4,
                     ),
         ),
       ),

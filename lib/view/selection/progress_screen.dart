@@ -1,11 +1,11 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../../navigator/main_navigator.dart';
 import '../../theme/theme_colors.dart';
+import '../../util/constants/utilities.dart';
 import '../../vm/selection/progress_vm.dart';
 import '../../widget/progress/advanced/advanced_progress.dart';
 import '../../widget/progress/circular_progress.dart';
@@ -29,11 +29,12 @@ class ProgressScreenState extends State<ProgressScreen>
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    radius = Platform.isWindows ? size!.height / 2.5 : size!.width / 2.5;
+    radius = isDesktop ? size!.height / 2.5 : size!.width / 2.5;
 
     return ProviderWidget<ProgressVm>(
         create: () => GetIt.I()..init(this),
         childBuilderWithViewModel: (context, vm, theme, localization) {
+        vm.tr = AppLocalizations.of(context)!;
           var backgroundProgress = RotatedBox(
             quarterTurns: 7,
             child: SizedBox(

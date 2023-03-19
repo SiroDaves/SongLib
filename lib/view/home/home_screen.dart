@@ -1,8 +1,7 @@
-import 'dart:io';
-
 import 'package:context_menus/context_menus.dart';
 import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -31,6 +30,7 @@ import '../../widget/provider/provider_widget.dart';
 import '../../widget/search/search_list.dart';
 import '../../widget/search/search_songs_pc.dart';
 import '../../widget/search/search_songs.dart';
+import '../manage/settings_screen.dart';
 
 part 'mobile/drafts_tab.dart';
 part 'mobile/history_tab.dart';
@@ -38,6 +38,10 @@ part 'mobile/search_tab.dart';
 part 'mobile/list_popup.dart';
 part 'mobile/likes_tab.dart';
 part 'mobile/list_tab.dart';
+part 'pc/drafts_tab_pc.dart';
+part 'pc/help_desk_pc.dart';
+part 'pc/likes_tab_pc.dart';
+part 'pc/list_tab_pc.dart';
 part 'pc/search_tab_pc.dart';
 
 /// Home screen with 3 tabs of list, search and notes screens
@@ -72,6 +76,7 @@ class HomeScreenState extends State<HomeScreen>
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, vm, child, theme, localization) {
+        vm.tr = AppLocalizations.of(context)!;
         var mobileAppbar = AppBar(
           title: Row(
             children: [
@@ -165,12 +170,12 @@ class HomeScreenState extends State<HomeScreen>
               duration: Durations.slow,
               index: vm.pages.indexOf(vm.setPage),
               children: <Widget>[
-                Container(),
+                ListTabPc(vm),
                 SearchTabPc(vm),
-                Container(),
-                Container(),
-                Container(),
-                Container(),
+                LikesTabPc(vm),
+                DraftsTabPc(vm),
+                HelpDeskPc(vm),
+                SettingsScreen(),
               ],
             )
                 .decorated(color: ThemeColors.accentLight)
@@ -185,13 +190,13 @@ class HomeScreenState extends State<HomeScreen>
         );
 
         return Scaffold(
-          appBar: Platform.isWindows ? desktopAppbar : mobileAppbar,
+          appBar: isDesktop ? desktopAppbar : mobileAppbar,
           body: TweenAnimationBuilder<double>(
             duration: Durations.slow,
             tween: Tween(begin: 0, end: 1),
             builder: (_, value, ___) {
               return FocusTraversalGroup(
-                child: Platform.isWindows
+                child: isDesktop
                     ? desktopBody
                     : TabBarView(
                         controller: tabController,
@@ -220,7 +225,8 @@ class HomeScreenState extends State<HomeScreen>
   void goToDraftPresentor() => MainNavigator.of(context).goToDraftPresentor();
 
   @override
-  void goToDraftPresentorPc() => MainNavigator.of(context).goToDraftPresentorPc();
+  void goToDraftPresentorPc() =>
+      MainNavigator.of(context).goToDraftPresentorPc();
 
   @override
   void goToSongEditor() => MainNavigator.of(context).goToSongEditor();
@@ -229,10 +235,12 @@ class HomeScreenState extends State<HomeScreen>
   void goToSongEditorPc() => MainNavigator.of(context).goToSongEditorPc();
 
   @override
-  void goToDraftEditor(bool notEmpty) => MainNavigator.of(context).goToDraftEditor(notEmpty);
+  void goToDraftEditor(bool notEmpty) =>
+      MainNavigator.of(context).goToDraftEditor(notEmpty);
 
   @override
-  void goToDraftEditorPc(bool notEmpty) => MainNavigator.of(context).goToDraftEditorPc(notEmpty);
+  void goToDraftEditorPc(bool notEmpty) =>
+      MainNavigator.of(context).goToDraftEditorPc(notEmpty);
 
   @override
   void goToListView() => MainNavigator.of(context).goToListView();

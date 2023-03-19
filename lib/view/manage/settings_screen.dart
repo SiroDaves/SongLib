@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
@@ -6,7 +7,6 @@ import '../../navigator/main_navigator.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
-import '../../util/constants/app_constants.dart';
 import '../../vm/global_vm.dart';
 import '../../vm/manage/settings_vm.dart';
 import '../../widget/provider/provider_widget.dart';
@@ -28,18 +28,18 @@ class SettingsScreen extends StatefulWidget {
 class SettingsScreenState extends State<SettingsScreen>
     with BackNavigatorMixin
     implements SettingsNavigator {
-  String theme = AppConstants.themeDefault;
-  String wakeLock = 'Disabled', slideDirection = 'Vertical (Up, Down)';
-
   @override
   Widget build(BuildContext context) {
+    var tr = AppLocalizations.of(context)!;
+    String theme = "System Default";
+    String wakeLock = 'Disabled', slideDirection = 'Vertical (Up, Down)';
     return ProviderWidget<SettingsVm>(
       create: () => GetIt.I()..init(this),
       childBuilderWithViewModel: (context, value, _, localization) {
         return Scaffold(
           backgroundColor: ThemeColors.accent,
           appBar: AppBar(
-            title: const Text(AppConstants.settingsTitle),
+            title: Text(tr.settingsTitle),
           ),
           body: Consumer<GlobalVm>(builder: (context, viewModel, child) {
             if (viewModel.wakeLockStatus) {
@@ -53,9 +53,9 @@ class SettingsScreenState extends State<SettingsScreen>
               slideDirection = 'Vertical (Up, Down)';
             }
             if (viewModel.themeMode == ThemeMode.light) {
-              theme = AppConstants.themeLight;
+              theme = tr.themeLight;
             } else if (viewModel.themeMode == ThemeMode.dark) {
-              theme = AppConstants.themeDark;
+              theme = tr.themeDark;
             }
 
             var songbooks = Card(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../model/base/listed.dart';
@@ -7,7 +8,6 @@ import '../../navigator/main_navigator.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
-import '../../util/constants/app_constants.dart';
 import '../../vm/lists/list_popup_vm.dart';
 import '../../widget/general/inputs.dart';
 import '../../widget/general/labels.dart';
@@ -39,12 +39,14 @@ class ListViewPopupState extends State<ListViewPopup>
 
   @override
   Widget build(BuildContext context) {
+    var tr = AppLocalizations.of(context)!;
     size = MediaQuery.of(context).size;
 
     return ProviderWidget<ListPopupVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) {
+        //vm.tr = AppLocalizations.of(context)!;
         var mainContainer = Scrollbar(
           thickness: 10,
           radius: const Radius.circular(20),
@@ -70,15 +72,15 @@ class ListViewPopupState extends State<ListViewPopup>
                     },
                   );
                 } else {
-                  return const NoDataToShow(
-                    title: AppConstants.errorOccurred,
-                    description: AppConstants.errorOccurredBody1,
+                  return NoDataToShow(
+                    title: tr.errorOccurred,
+                    description: tr.errorOccurredBody1,
                   );
                 }
               } else if (snapshot.hasError) {
-                return const NoDataToShow(
-                  title: AppConstants.errorOccurred,
-                  description: AppConstants.errorOccurredBody1,
+                return NoDataToShow(
+                  title: tr.errorOccurred,
+                  description: tr.errorOccurredBody1,
                 );
               } else {
                 return const CircularProgress();
@@ -90,7 +92,7 @@ class ListViewPopupState extends State<ListViewPopup>
         return Scaffold(
           backgroundColor: ThemeColors.accent,
           appBar: AppBar(
-            title: const Text(AppConstants.addSongtoList),
+            title: Text(tr.addSongtoList),
             actions: <Widget>[
               InkWell(
                 onTap: () => newListForm(context),

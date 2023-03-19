@@ -9,6 +9,7 @@ class ListTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var tr = AppLocalizations.of(context)!;
     size = MediaQuery.of(context).size;
     var listContainer = ListView.builder(
       itemCount: vm.listeds!.length,
@@ -21,7 +22,7 @@ class ListTab extends StatelessWidget {
           contextMenu: GenericContextMenu(
             buttonConfigs: [
               ContextMenuButtonConfig(
-                AppConstants.deleteList,
+                tr.deleteList,
                 icon: const Icon(Icons.delete, size: 20),
                 onPressed: () => vm.deleteList(context, listed),
               ),
@@ -62,9 +63,9 @@ class ListTab extends StatelessWidget {
               ? const ListLoading()
               : vm.listeds!.isNotEmpty
                   ? listContainer
-                  : const NoDataToShow(
-                      title: AppConstants.itsEmptyHere1,
-                      description: AppConstants.itsEmptyHereBody4,
+                  : NoDataToShow(
+                      title: tr.itsEmptyHere1,
+                      description: tr.itsEmptyHereBody4,
                     ),
         ),
       ),

@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -14,8 +16,12 @@ class InfoVm with ChangeNotifierEx {
 
   InfoVm(this.localStorage);
 
+  BuildContext? context;
+  AppLocalizations? tr;
+
   Future<void> init(InfoNavigator screenNavigator) async {
     navigator = screenNavigator;
+    tr = AppLocalizations.of(context!)!;
   }
 
   Future<void> goToHowItWorks() async {
@@ -86,7 +92,7 @@ class InfoVm with ChangeNotifierEx {
         ClipboardData(text: text1),
       );
       showToast(
-        text: '$text2 ${AppConstants.textCopied}',
+        text: '$text2 ${tr!.textCopied}',
         state: ToastStates.success,
       );
     } catch (_) {}
@@ -98,7 +104,7 @@ class InfoVm with ChangeNotifierEx {
         const ClipboardData(text: '+254' '115' '586' '529'),
       );
       showToast(
-        text: 'Phone number ${AppConstants.textCopied}',
+        text: 'Phone number ${tr!.textCopied}',
         state: ToastStates.success,
       );
     } catch (_) {}

@@ -1,11 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../navigator/main_navigator.dart';
 import '../../theme/theme_colors.dart';
-import '../../util/constants/app_constants.dart';
+import '../../util/constants/utilities.dart';
 import '../../vm/selection/selection_vm.dart';
 import '../../widget/action/buttons.dart';
 import '../../widget/general/labels.dart';
@@ -29,16 +28,18 @@ class SelectionScreenState extends State<SelectionScreen>
 
   @override
   Widget build(BuildContext context) {
+    var tr = AppLocalizations.of(context)!;
     size = MediaQuery.of(context).size;
 
     return ProviderWidget<SelectionVm>(
       create: () => GetIt.I()..init(this),
       childBuilderWithViewModel: (context, vm, theme, localization) {
+        vm.tr = AppLocalizations.of(context)!;
         var topContainer = AppBar(
           title: Text(
             vm.isLoading
-                ? AppConstants.booksTitleLoading
-                : AppConstants.booksTitle,
+                ? tr.booksTitleLoading
+                : tr.booksTitle,
           ),
           actions: <Widget>[
             vm.isLoading
@@ -65,17 +66,17 @@ class SelectionScreenState extends State<SelectionScreen>
                             ),
                           ),
                           child: Row(
-                            children: const <Widget>[
+                            children: <Widget>[
                               Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                padding: const EdgeInsets.symmetric(horizontal: 10),
                                 child: Text(
-                                  AppConstants.proceed,
-                                  style: TextStyle(
+                                  tr.proceed,
+                                  style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
-                              Icon(Icons.check),
+                              const Icon(Icons.check),
                             ],
                           ),
                         ),
@@ -93,7 +94,7 @@ class SelectionScreenState extends State<SelectionScreen>
                   vm.isLoading
                       ? const CircularProgress()
                       : vm.books!.isNotEmpty
-                          ? Platform.isWindows
+                          ? isDesktop
                               ? LayoutBuilder(
                                   builder: (context, dimens) {
                                     int axisCount =
@@ -149,29 +150,30 @@ class SelectionScreenState extends State<SelectionScreen>
   }
 
   Future<void> areYouDoneDialog(BuildContext context, SelectionVm vm) async {
+    var tr = AppLocalizations.of(context)!;
     if (vm.selectables.isNotEmpty) {
       return showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
-          title: const Text(
-            AppConstants.doneSelecting,
-            style: TextStyle(
+          title: Text(
+            tr.doneSelecting,
+            style: const TextStyle(
               fontSize: 22,
               color: ThemeColors.primaryDark,
               fontWeight: FontWeight.bold,
             ),
           ),
-          content: const Text(
-            AppConstants.doneSelectingBody,
-            style: TextStyle(fontSize: 18),
+          content: Text(
+            tr.doneSelectingBody,
+            style: const TextStyle(fontSize: 18),
           ),
           actions: <Widget>[
             SimpleButton(
-              title: AppConstants.cancel,
+              title: tr.cancel,
               onPressed: () => Navigator.pop(context),
             ),
             SimpleButton(
-              title: AppConstants.proceed,
+              title: tr.proceed,
               onPressed: () {
                 Navigator.pop(context);
                 vm.saveBooks();
@@ -184,21 +186,21 @@ class SelectionScreenState extends State<SelectionScreen>
       return showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
-          title: const Text(
-            AppConstants.noSelection,
-            style: TextStyle(
+          title: Text(
+            tr.noSelection,
+            style: const TextStyle(
               fontSize: 22,
               color: ThemeColors.primaryDark,
               fontWeight: FontWeight.bold,
             ),
           ),
-          content: const Text(
-            AppConstants.noSelectionBody,
-            style: TextStyle(fontSize: 18),
+          content: Text(
+            tr.noSelectionBody,
+            style: const TextStyle(fontSize: 18),
           ),
           actions: <Widget>[
             SimpleButton(
-              title: AppConstants.okay,
+              title: tr.okay,
               onPressed: () => Navigator.pop(context),
             ),
           ],

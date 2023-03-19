@@ -1,5 +1,6 @@
 import 'package:context_menus/context_menus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../model/base/songext.dart';
@@ -7,7 +8,6 @@ import '../../navigator/main_navigator.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
-import '../../util/constants/app_constants.dart';
 import '../../vm/lists/list_view_vm.dart';
 import '../../widget/general/inputs.dart';
 import '../../widget/general/labels.dart';
@@ -32,11 +32,13 @@ class ListViewScreenState extends State<ListViewScreen>
     implements ListViewNavigator {
   @override
   Widget build(BuildContext context) {
+    var tr = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
 
     return ProviderWidget<ListViewVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization: (ctx, vm, child, theme, localization) {
+        vm.tr = AppLocalizations.of(context)!;
         var listContainer = Container(
           height: size.height * 0.8,
           padding: const EdgeInsets.only(right: 2),
@@ -82,9 +84,9 @@ class ListViewScreenState extends State<ListViewScreen>
                   ? const ListLoading()
                   : vm.listeds!.isNotEmpty
                       ? listContainer
-                      : const NoDataToShow(
-                          title: AppConstants.itsEmptyHere,
-                          description: AppConstants.itsEmptyHereBody,
+                      : NoDataToShow(
+                          title: tr.itsEmptyHere,
+                          description: tr.itsEmptyHereBody,
                         ),
             ),
           ),

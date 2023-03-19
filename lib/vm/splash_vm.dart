@@ -15,6 +15,7 @@ class SplashVm with ChangeNotifierEx {
   Future<void> init(SplashNavigator screenNavigator) async {
     navigator = screenNavigator;
     isLoaded = localStorage.getPrefBool(PrefConstants.dataLoadedCheckKey);
+    onBoarded = localStorage.getPrefBool(PrefConstants.onboardedCheckKey);
 
     await Future.delayed(const Duration(seconds: 3), () {});
     await nextActions();
@@ -22,7 +23,11 @@ class SplashVm with ChangeNotifierEx {
 
   Future<void> nextActions() async {
     if (isLoaded) {
-      navigator.goToHome();
+      if (onBoarded) {
+        navigator.goToHome();
+      } else {
+        navigator.goToOnboarding();
+      }
     } else {
       navigator.goToSelection();
     }

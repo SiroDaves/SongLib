@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:textstyle_extensions/textstyle_extensions.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -8,7 +9,6 @@ import '../../model/base/listed.dart';
 import '../../model/base/songext.dart';
 import '../../theme/theme_colors.dart';
 import '../../theme/theme_styles.dart';
-import '../../util/constants/app_constants.dart';
 import '../../util/constants/utilities.dart';
 import 'labels.dart';
 
@@ -210,14 +210,15 @@ class SongItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var tr = AppLocalizations.of(context)!;
     final verses = song.content!.split("##");
 
     if (song.content!.contains("CHORUS")) {
       hasChorus = true;
-      chorusText = AppConstants.hasChorus;
-      versesText = '${verses.length - 1} ${AppConstants.verses}';
+      chorusText = tr.hasChorus;
+      versesText = '${verses.length - 1} ${tr.verses}';
     } else {
-      versesText = '${verses.length} ${AppConstants.verses}';
+      versesText = '${verses.length} ${tr.verses}';
     }
 
     versesText = verses.length == 1 ? versesText : '${versesText}s';
@@ -299,14 +300,15 @@ class DraftItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var tr = AppLocalizations.of(context)!;
     final verses = draft.content!.split("##");
 
     if (draft.content!.contains("CHORUS")) {
       hasChorus = true;
-      chorusText = AppConstants.hasChorus;
-      versesText = '${verses.length - 1} ${AppConstants.verses}';
+      chorusText = tr.hasChorus;
+      versesText = '${verses.length - 1} ${tr.verses}';
     } else {
-      versesText = '${verses.length} ${AppConstants.verses}';
+      versesText = '${verses.length} ${tr.verses}';
     }
 
     versesText = verses.length == 1 ? versesText : '${versesText}s';

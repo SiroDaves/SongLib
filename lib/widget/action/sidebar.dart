@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../theme/theme_colors.dart';
-import '../../util/constants/app_constants.dart';
 import '../../vm/home/home_vm.dart';
 import 'sidebar_btn.dart';
 
@@ -20,6 +20,7 @@ class SidebarState extends State<Sidebar> {
 
   @override
   Widget build(BuildContext context) {
+    var tr = AppLocalizations.of(context)!;
     vm = widget.viewModel;
 
     return FocusTraversalGroup(
@@ -40,7 +41,7 @@ class SidebarState extends State<Sidebar> {
           children: <Widget>[
             SidebarBtn(
               Icons.list,
-              AppConstants.listTitle,
+              tr.listTitle,
               pageType: PageType.lists,
               isSelected: vm!.setPage == PageType.lists,
               onPressed: () => handlePageSelected(PageType.lists),
@@ -48,7 +49,7 @@ class SidebarState extends State<Sidebar> {
             const Divider(color: ThemeColors.primaryDark),
             SidebarBtn(
               Icons.search,
-              AppConstants.searchTitle,
+              tr.searchTitle,
               pageType: PageType.search,
               isSelected: vm!.setPage == PageType.search,
               onPressed: () => handlePageSelected(PageType.search),
@@ -56,7 +57,7 @@ class SidebarState extends State<Sidebar> {
             const Divider(color: ThemeColors.primaryDark),
             SidebarBtn(
               Icons.favorite,
-              AppConstants.likesTitle,
+              tr.likesTitle,
               pageType: PageType.likes,
               isSelected: vm!.setPage == PageType.likes,
               onPressed: () => handlePageSelected(PageType.likes),
@@ -64,7 +65,7 @@ class SidebarState extends State<Sidebar> {
             const Divider(color: ThemeColors.primaryDark),
             SidebarBtn(
               Icons.edit,
-              AppConstants.draftTitle,
+              tr.draftTitle,
               pageType: PageType.drafts,
               isSelected: vm!.setPage == PageType.drafts,
               onPressed: () => handlePageSelected(PageType.drafts),
@@ -74,7 +75,7 @@ class SidebarState extends State<Sidebar> {
             const Divider(color: ThemeColors.primaryDark),
             SidebarBtn(
               Icons.support,
-              AppConstants.helpdeskTitle,
+              tr.helpdeskTitle,
               pageType: PageType.helpdesk,
               isSelected: vm!.setPage == PageType.helpdesk,
               onPressed: () => handlePageSelected(PageType.helpdesk),
@@ -82,7 +83,7 @@ class SidebarState extends State<Sidebar> {
             const Divider(color: ThemeColors.primaryDark),
             SidebarBtn(
               Icons.settings,
-              AppConstants.settingsTitle,
+              tr.settingsTitle,
               pageType: PageType.settings,
               isSelected: vm!.setPage == PageType.settings,
               onPressed: () => handlePageSelected(PageType.settings),

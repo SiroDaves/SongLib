@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 
 import 'app.dart';
@@ -8,7 +9,6 @@ import 'di/environments.dart';
 import 'di/injectable.dart';
 import 'theme/theme_data.dart';
 import 'util/env/flavor_config.dart';
-import 'util/i10n/app_localizations.dart';
 import 'util/web/app_configurator.dart'
     if (dart.library.html) 'util/web/app_configurator_web.dart';
 

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
@@ -10,7 +11,6 @@ import '../../model/base/songext.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
-import '../../util/constants/app_constants.dart';
 import '../../widget/general/toast.dart';
 import '../home/home_vm.dart';
 
@@ -23,6 +23,8 @@ class ListPopupVm with ChangeNotifierEx {
   ListPopupVm(this.dbRepo, this.localStorage);
   TextEditingController? titleController, contentController;
 
+  BuildContext? context;
+  AppLocalizations? tr;
   HomeVm? homeVm;
   List<ListedExt>? listeds = [];
 
@@ -30,6 +32,7 @@ class ListPopupVm with ChangeNotifierEx {
 
   Future<void> init(ListPopupNavigator screenNavigator) async {
     navigator = screenNavigator;
+    tr = AppLocalizations.of(context!)!;
     titleController = TextEditingController();
     contentController = TextEditingController();
     homeVm = GetIt.instance<HomeVm>();
@@ -55,7 +58,7 @@ class ListPopupVm with ChangeNotifierEx {
     notifyListeners();
     await dbRepo.saveListedSong(listed, song);
     showToast(
-      text: '${song.title} ${AppConstants.songAddedToList}',
+      text: '${song.title} ${tr!.songAddedToList}',
       state: ToastStates.success,
     );
     try {
@@ -79,7 +82,7 @@ class ListPopupVm with ChangeNotifierEx {
       await dbRepo.saveListed(listed);
       await fetchListedData();
       showToast(
-        text: '${listed.title} ${AppConstants.listCreated}',
+        text: '${listed.title} ${tr!.listCreated}',
         state: ToastStates.success,
       );
 

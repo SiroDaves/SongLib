@@ -10,6 +10,7 @@ class ListPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var tr = AppLocalizations.of(context)!;
     size = MediaQuery.of(context).size;
     var listContainer = ListView.builder(
       itemCount: vm.listeds!.length,
@@ -31,7 +32,7 @@ class ListPopup extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(AppConstants.addSongtoList),
+        title: Text(tr.addSongtoList),
         actions: <Widget>[
           InkWell(
             onTap: () => newListForm(context),
@@ -71,9 +72,9 @@ class ListPopup extends StatelessWidget {
               ? const CircularProgress()
               : vm.listeds!.isNotEmpty
                   ? listContainer
-                  : const NoDataToShow(
-                      title: AppConstants.itsEmptyHere1,
-                      description: AppConstants.itsEmptyHereBody4,
+                  : NoDataToShow(
+                      title: tr.itsEmptyHere1,
+                      description: tr.itsEmptyHereBody4,
                     ),
         ),
       ),

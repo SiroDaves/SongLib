@@ -1,10 +1,10 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../model/base/song.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
-import '../../util/constants/app_constants.dart';
 import '../../util/constants/event_constants.dart';
 import '../../util/constants/pref_constants.dart';
 import '../../util/constants/utilities.dart';
@@ -23,17 +23,17 @@ class ProgressVm with ChangeNotifierEx {
 
   ProgressVm(this.api, this.db, this.localStorage);
 
+  AppLocalizations? tr;
   bool isLoading = false, hasError = false, onBoarded = false;
-  String errorTitle = AppConstants.errorOccurred;
-  String errorBody = AppConstants.errorOccurredBody;
-  List<Song>? songs = [];
+  String errorTitle = "", errorBody = "";
   String selectedBooks = "", predistinatedBooks = "";
-  List<String> newBooks = [], oldBooks = [], predistinated = [];
-  List<String> selected = [];
+  List<Song>? songs = [];
+  List<String> newBooks = [], oldBooks = [], predistinated = [], selected = [];
   List<int> bookNos = [];
 
   Future<void> init(ProgressNavigator screenNavigator) async {
     navigator = screenNavigator;
+
     onBoarded = localStorage.getPrefBool(PrefConstants.onboardedCheckKey);
     selectedBooks = localStorage.getPrefString(PrefConstants.selectedBooksKey);
     predistinatedBooks =
@@ -75,8 +75,8 @@ class ProgressVm with ChangeNotifierEx {
       }
     } else {
       hasError = true;
-      errorTitle = AppConstants.noConnection;
-      errorBody = AppConstants.noConnectionBody;
+      errorTitle = tr!.noConnection;
+      errorBody = tr!.noConnectionBody;
     }
 
     isLoading = false;
@@ -127,6 +127,7 @@ class ProgressVm with ChangeNotifierEx {
     }
 
     localStorage.setPrefBool(PrefConstants.dataLoadedCheckKey, true);
+    localStorage.setPrefString(PrefConstants.dateInstalledKey, dateNow());
     localStorage.setPrefBool(PrefConstants.wakeLockCheckKey, true);
 
     navigator.goToHome();

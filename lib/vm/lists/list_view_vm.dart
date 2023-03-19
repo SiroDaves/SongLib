@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../di/injectable.dart';
-import '../../model/base/draft.dart';
 import '../../model/base/listed.dart';
 import '../../model/base/listedext.dart';
 import '../../model/base/songext.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
-import '../../util/constants/app_constants.dart';
 import '../../widget/general/toast.dart';
 import '../home/home_vm.dart';
 
@@ -22,6 +21,7 @@ class ListViewVm with ChangeNotifierEx {
 
   ListViewVm(this.dbRepo, this.localStorage);
 
+  AppLocalizations? tr;
   HomeVm? homeVm;
   Listed? listed;
   String songTitle = 'Song Title', listTitle = "List Title";
@@ -90,7 +90,7 @@ class ListViewVm with ChangeNotifierEx {
       listed!.description = contentController!.text;
       await dbRepo.editListed(listed!);
       showToast(
-        text: '${listed!.title} ${AppConstants.listUpdated}',
+        text: '${listed!.title} ${tr!.listUpdated}',
         state: ToastStates.success,
       );
       isLoading = false;
@@ -114,7 +114,7 @@ class ListViewVm with ChangeNotifierEx {
           TextButton(
             onPressed: () {
               showToast(
-                text: '${listed!.title} ${AppConstants.deleted}',
+                text: '${listed!.title} ${tr!.deleted}',
                 state: ToastStates.success,
               );
               Navigator.pop(context);
@@ -141,7 +141,7 @@ class ListViewVm with ChangeNotifierEx {
     await showSearchWidget(false);
     await fetchData();
     showToast(
-      text: '${song.title} ${AppConstants.songAddedToList}',
+      text: '${song.title} ${tr!.songAddedToList}',
       state: ToastStates.success,
     );
     isLoading = false;

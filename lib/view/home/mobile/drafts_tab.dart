@@ -9,8 +9,9 @@ class DraftsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var tr = AppLocalizations.of(context)!;
     size = MediaQuery.of(context).size;
-    
+
     var listContainer = ListView.builder(
       padding: EdgeInsets.all(
         size!.height * 0.015,
@@ -43,9 +44,9 @@ class DraftsTab extends StatelessWidget {
             ? const ListLoading()
             : vm.drafts!.isNotEmpty
                 ? listContainer
-                : const NoDataToShow(
-                    title: AppConstants.itsEmptyHere,
-                    description: AppConstants.itsEmptyHereBody2,
+                : NoDataToShow(
+                    title: tr.itsEmptyHere,
+                    description: tr.itsEmptyHereBody2,
                   ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

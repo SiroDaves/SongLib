@@ -31,6 +31,7 @@ class SongEditorPcState extends State<SongEditorPc>
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, viewModel, child, theme, localization) {
+        //vm.context = context;
         var mainContainer = SingleChildScrollView(
           padding: const EdgeInsets.all(5),
           child: Card(

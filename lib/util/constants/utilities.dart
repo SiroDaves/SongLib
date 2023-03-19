@@ -4,6 +4,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+bool isDesktop = Platform.isWindows || Platform.isLinux || Platform.isMacOS;
+bool isMobile = Platform.isAndroid || Platform.isIOS || Platform.isFuchsia;
+
 String dateNow() {
   return DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
 }

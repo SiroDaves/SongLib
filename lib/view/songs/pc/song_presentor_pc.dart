@@ -1,5 +1,7 @@
+import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../navigator/main_navigator.dart';
@@ -28,6 +30,26 @@ class SongPresentorPcState extends State<SongPresentorPc>
   Size? size;
 
   @override
+  void initState() {
+    init();
+    super.initState();
+  }
+
+  Future<void> init() async {
+    //await DesktopWindow.setFullScreen(true);
+  }
+
+  @override
+  void dispose() {
+    finish();
+    super.dispose();
+  }
+
+  Future<void> finish() async {
+    await DesktopWindow.setFullScreen(false);
+  }
+
+  @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return ProviderWidget<SongPresentorVm>(
@@ -35,49 +57,64 @@ class SongPresentorPcState extends State<SongPresentorPc>
       consumerWithThemeAndLocalization:
           (context, vm, child, theme, localization) {
         vm.size = size;
+        vm.context = context;
+        vm.tr = AppLocalizations.of(context)!;
 
         var projection = Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            leading: Container(),
             title: Text(
-              '${vm.songTitle} - ${vm.songBook}',
+              vm.pageTitle,
               style: const TextStyle(fontSize: 30),
             ),
-          ),
-          body: Container(
-            height: size!.height,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                  Colors.white,
-                  Colors.orange,
-                  ThemeColors.accent,
-                  ThemeColors.primary,
-                  Colors.black,
-                ],
+            actions: <Widget>[
+              InkWell(
+                onTap: () => vm.hintsDialog(context),
+                child: const Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Icon(Icons.info),
+                ),
               ),
-            ),
-            child: SizedBox(
-              child: vm.isLoading
-                  ? const CircularProgress()
-                  : PresentOnPc(
-                      index: vm.curSlide,
-                      infos: vm.verseInfos,
-                      contents: vm.widgetContent,
-                      tabsWidth: size!.height * 0.08156,
-                      indicatorWidth: size!.height * 0.08156,
-                      onSelect: (index) => setState(() {
-                        vm.curSlide = index!;
-                      }),
-                    ),
+            ],
+          ),
+          body: SafeArea(
+            child: Container(
+              height: size!.height,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [
+                    Colors.white,
+                    Colors.orange,
+                    ThemeColors.accent,
+                    ThemeColors.primary,
+                    Colors.black,
+                  ],
+                ),
+              ),
+              child: LayoutBuilder(
+                builder: (context, dimens) {
+                  vm.size = size = Size(dimens.maxWidth, dimens.maxHeight);
+                  return vm.isLoading
+                      ? const CircularProgress()
+                      : PresentOnPc(
+                          index: vm.curSlide,
+                          infos: vm.verseInfos,
+                          contents: vm.widgetContent,
+                          tabsWidth: size!.height * 0.08156,
+                          indicatorWidth: size!.height * 0.08156,
+                          onSelect: (index) =>
+                              setState(() => vm.curSlide = index!),
+                        );
+                },
+              ),
             ),
           ),
         );
         return Shortcuts(
           shortcuts: const <ShortcutActivator, Intent>{
+            SingleActivator(LogicalKeyboardKey.keyI): InfoIntent(),
             SingleActivator(LogicalKeyboardKey.escape): CloseIntent(),
             SingleActivator(LogicalKeyboardKey.arrowUp): PreviousIntent(),
             SingleActivator(LogicalKeyboardKey.arrowDown): NextIntent(),
@@ -98,131 +135,121 @@ class SongPresentorPcState extends State<SongPresentorPc>
             SingleActivator(LogicalKeyboardKey.digit7): VerseSevenIntent(),
             SingleActivator(LogicalKeyboardKey.keyL): VerseLastIntent(),
             SingleActivator(LogicalKeyboardKey.keyS): VerseSecondLastIntent(),
+            //SingleActivator(LogicalKeyboardKey.arrowRight): BiggerFontIntent(),
+            //SingleActivator(LogicalKeyboardKey.arrowLeft): SmallerFontIntent(),
           },
           child: Actions(
             actions: <Type, Action<Intent>>{
+              InfoIntent: CallbackAction<InfoIntent>(
+                onInvoke: (InfoIntent intent) => vm.hintsDialog(context),
+              ),
               CloseIntent: CallbackAction<CloseIntent>(
                 onInvoke: (CloseIntent intent) => vm.navigator.goBack(),
               ),
               PreviousIntent: CallbackAction<PreviousIntent>(
-                onInvoke: (PreviousIntent intent) => setState(() {
-                  if (vm.curSlide != 0) vm.curSlide = vm.curSlide - 1;
-                }),
+                onInvoke: (PreviousIntent intent) => {
+                  if (vm.curSlide != 0)
+                    setState(() => vm.curSlide = vm.curSlide - 1),
+                },
               ),
               NextIntent: CallbackAction<NextIntent>(
-                onInvoke: (NextIntent intent) => setState(() {
-                  if (vm.curSlide < vm.widgetContent.length) {
-                    vm.curSlide = vm.curSlide + 1;
-                  }
-                }),
+                onInvoke: (NextIntent intent) => {
+                  if (vm.curSlide < vm.widgetContent.length)
+                    setState(() => vm.curSlide = vm.curSlide + 1),
+                },
               ),
               ChorusIntent: CallbackAction<ChorusIntent>(
-                onInvoke: (ChorusIntent intent) => setState(() {
-                  if (vm.hasChorus) {
-                    vm.curSlide = 1;
-                  }
-                }),
+                onInvoke: (ChorusIntent intent) => {
+                  if (vm.hasChorus) setState(() => vm.curSlide = 1),
+                },
               ),
               VerseOneIntent: CallbackAction<VerseOneIntent>(
-                onInvoke: (VerseOneIntent intent) => setState(() {
-                  vm.curSlide = 0;
-                }),
+                onInvoke: (VerseOneIntent intent) =>
+                    setState(() => vm.curSlide = 0),
               ),
               VerseTwoIntent: CallbackAction<VerseTwoIntent>(
-                onInvoke: (VerseTwoIntent intent) => setState(() {
-                  if (vm.hasChorus) {
-                    if (vm.widgetContent.length <= 3) {
-                      vm.curSlide = 2;
-                    }
-                  } else {
-                    if (vm.widgetContent.length <= 2) {
-                      vm.curSlide = 1;
-                    }
-                  }
-                }),
+                onInvoke: (VerseTwoIntent intent) => {
+                  if (vm.hasChorus && vm.widgetContent.length >= 3)
+                    setState(() => vm.curSlide = 2)
+                  else if (vm.widgetContent.length >= 2)
+                    setState(() => vm.curSlide = 1)
+                },
               ),
               VerseThreeIntent: CallbackAction<VerseThreeIntent>(
-                onInvoke: (VerseThreeIntent intent) => setState(() {
-                  if (vm.hasChorus) {
-                    if (vm.widgetContent.length <= 5) {
-                      vm.curSlide = 4;
-                    }
-                  } else {
-                    if (vm.widgetContent.length <= 3) {
-                      vm.curSlide = 2;
-                    }
-                  }
-                }),
+                onInvoke: (VerseThreeIntent intent) => {
+                  if (vm.hasChorus && vm.widgetContent.length >= 5)
+                    setState(() => vm.curSlide = 4)
+                  else if (vm.widgetContent.length >= 3)
+                    setState(() => vm.curSlide = 2)
+                },
               ),
               VerseFourIntent: CallbackAction<VerseFourIntent>(
-                onInvoke: (VerseFourIntent intent) => setState(() {
-                  if (vm.hasChorus) {
-                    if (vm.widgetContent.length <= 7) {
-                      vm.curSlide = 6;
-                    }
-                  } else {
-                    if (vm.widgetContent.length <= 4) {
-                      vm.curSlide = 3;
-                    }
-                  }
-                }),
+                onInvoke: (VerseFourIntent intent) => {
+                  if (vm.hasChorus && vm.widgetContent.length >= 7)
+                    setState(() => vm.curSlide = 6)
+                  else if (vm.widgetContent.length >= 2)
+                    setState(() => vm.curSlide = 3)
+                },
               ),
               VerseFiveIntent: CallbackAction<VerseFiveIntent>(
-                onInvoke: (VerseFiveIntent intent) => setState(() {
-                  if (vm.hasChorus) {
-                    if (vm.widgetContent.length <= 9) {
-                      vm.curSlide = 8;
-                    }
-                  } else {
-                    if (vm.widgetContent.length <= 5) {
-                      vm.curSlide = 4;
-                    }
-                  }
-                }),
+                onInvoke: (VerseFiveIntent intent) => {
+                  if (vm.hasChorus && vm.widgetContent.length >= 9)
+                    setState(() => vm.curSlide = 8)
+                  else if (vm.widgetContent.length >= 5)
+                    setState(() => vm.curSlide = 2)
+                },
               ),
               VerseSixIntent: CallbackAction<VerseSixIntent>(
-                onInvoke: (VerseSixIntent intent) => setState(() {
-                  if (vm.hasChorus) {
-                    if (vm.widgetContent.length <= 11) {
-                      vm.curSlide = 10;
-                    }
-                  } else {
-                    if (vm.widgetContent.length <= 6) {
-                      vm.curSlide = 5;
-                    }
-                  }
-                }),
+                onInvoke: (VerseSixIntent intent) => {
+                  if (vm.hasChorus && vm.widgetContent.length >= 11)
+                    setState(() => vm.curSlide = 10)
+                  else if (vm.widgetContent.length >= 6)
+                    setState(() => vm.curSlide = 5)
+                },
               ),
               VerseSevenIntent: CallbackAction<VerseSevenIntent>(
-                onInvoke: (VerseSevenIntent intent) => setState(() {
-                  if (vm.hasChorus) {
-                    if (vm.widgetContent.length <= 13) {
-                      vm.curSlide = 12;
-                    }
-                  } else {
-                    if (vm.widgetContent.length <= 7) {
-                      vm.curSlide = 6;
-                    }
-                  }
-                }),
+                onInvoke: (VerseSevenIntent intent) => {
+                  if (vm.hasChorus && vm.widgetContent.length >= 13)
+                    setState(() => vm.curSlide = 12)
+                  else if (vm.widgetContent.length >= 7)
+                    setState(() => vm.curSlide = 6)
+                },
               ),
               VerseLastIntent: CallbackAction<VerseLastIntent>(
-                onInvoke: (VerseLastIntent intent) => setState(() {
-                  if (vm.hasChorus) {
-                    vm.curSlide = vm.widgetContent.length - 2;
-                  } else {
-                    vm.curSlide = vm.widgetContent.length - 1;
-                  }
-                }),
+                onInvoke: (VerseLastIntent intent) => {
+                  if (vm.hasChorus)
+                    setState(() => vm.curSlide = vm.widgetContent.length - 2)
+                  else
+                    setState(() => vm.curSlide = vm.widgetContent.length - 1)
+                },
               ),
               VerseSecondLastIntent: CallbackAction<VerseSecondLastIntent>(
-                onInvoke: (VerseSecondLastIntent intent) => setState(() {
-                  if (vm.hasChorus) {
-                    vm.curSlide = vm.widgetContent.length - 4;
-                  } else {
-                    vm.curSlide = vm.widgetContent.length - 2;
+                onInvoke: (VerseSecondLastIntent intent) => {
+                  if (vm.hasChorus)
+                    setState(() => vm.curSlide = vm.widgetContent.length - 4)
+                  else
+                    setState(() => vm.curSlide = vm.widgetContent.length - 2)
+                },
+              ),
+              SmallerFontIntent: CallbackAction<SmallerFontIntent>(
+                onInvoke: (SmallerFontIntent intent) {
+                  if (vm.fSize > 5) {
+                    setState(() => vm.curSlide = 0);
+                    setState(() => vm.fSize = vm.fSize - 3);
+                    vm.loadPresentor();
                   }
-                }),
+                  return null;
+                },
+              ),
+              BiggerFontIntent: CallbackAction<BiggerFontIntent>(
+                onInvoke: (BiggerFontIntent intent) {
+                  if (vm.fSize < 100) {
+                    setState(() => vm.curSlide = 0);
+                    setState(() => vm.fSize = vm.fSize + 3);
+                    vm.loadPresentor();
+                  }
+                  return null;
+                },
               ),
             },
             child: Focus(autofocus: true, child: projection),

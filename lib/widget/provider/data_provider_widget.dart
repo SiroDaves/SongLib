@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 
 import '../../theme/theme_data.dart';
-import '../../util/i10n/app_localizations.dart';
 
 class DataProviderWidget
     extends BaseThemeProviderWidget<AppTheme, AppLocalizations> {

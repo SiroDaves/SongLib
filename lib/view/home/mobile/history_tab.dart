@@ -9,12 +9,13 @@ class HistoryTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var tr = AppLocalizations.of(context)!;
     size = MediaQuery.of(context).size;
     var titleContainer = vm.isLoading
-        ? PageTitle(label: AppConstants.listTitle, size: size)
+        ? PageTitle(label: tr.listTitle, size: size)
         : vm.books!.isNotEmpty
             ? PageSearch(
-                label: AppConstants.listTitle,
+                label: tr.listTitle,
                 size: size,
                 onTap: () async {
                   await showSearch(
@@ -28,7 +29,7 @@ class HistoryTab extends StatelessWidget {
                   );
                 },
               )
-            : PageTitle(label: AppConstants.listTitle, size: size);
+            : PageTitle(label: tr.listTitle, size: size);
     var listContainer = Container(
       height: size!.height * 0.7,
       padding: const EdgeInsets.only(right: 2),
@@ -47,7 +48,7 @@ class HistoryTab extends StatelessWidget {
               contextMenu: GenericContextMenu(
                 buttonConfigs: [
                   ContextMenuButtonConfig(
-                    AppConstants.deleteList,
+                    tr.deleteList,
                     icon: const Icon(Icons.delete, size: 20),
                     onPressed: () => vm.deleteList(context, listed),
                   ),
@@ -73,9 +74,9 @@ class HistoryTab extends StatelessWidget {
           ? const ListLoading()
           : vm.listeds!.isNotEmpty
               ? listContainer
-              : const NoDataToShow(
-                  title: AppConstants.itsEmptyHere1,
-                  description: AppConstants.itsEmptyHereBody4,
+              : NoDataToShow(
+                  title: tr.itsEmptyHere1,
+                  description: tr.itsEmptyHereBody4,
                 ),
     );
 
