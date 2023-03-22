@@ -9,6 +9,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../model/base/book.dart';
 import '../../model/base/draft.dart';
 import '../../model/base/listed.dart';
+import '../../model/base/listedext.dart';
 import '../../model/base/songext.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
@@ -35,10 +36,11 @@ class HomeVm with ChangeNotifierEx {
   String songTitle = 'Song Title';
   SongExt setSong = SongExt();
   SongExt setLiked = SongExt();
-  List<SongExt>? filtered = [], songs = [], likes = [];
+  List<SongExt>? filtered = [], songs = [], likes = [], listSongs = [];
   List<String> verses = [];
 
   Listed setListed = Listed();
+  List<ListedExt>? listedSongs = [];
   List<Listed>? listeds = [];
 
   Draft setDraft = Draft();
@@ -98,6 +100,35 @@ class HomeVm with ChangeNotifierEx {
     notifyListeners();
     listeds = await dbRepo.fetchListeds();
     setListed = listeds![0];
+    isLoading = false;
+    notifyListeners();
+  }
+
+  /// Get the data from the DB
+  Future<void> fetchSetListedData() async {
+    isLoading = true;
+    notifyListeners();
+
+    listedSongs = await dbRepo.fetchListedSongs(setListed.id!);
+    for (var listed in listedSongs!) {
+      listSongs!.add(
+        SongExt(
+          songbook: listed.songbook,
+          songNo: listed.songNo,
+          book: listed.book,
+          title: listed.title,
+          alias: listed.alias,
+          content: listed.content,
+          views: listed.views,
+          likes: listed.likes,
+          liked: listed.liked,
+          author: listed.author,
+          key: listed.key,
+          id: listed.songId,
+        ),
+      );
+    }
+    
     isLoading = false;
     notifyListeners();
   }
@@ -273,8 +304,7 @@ class HomeVm with ChangeNotifierEx {
             }
 
             // Create a regular expression pattern to match the words in the query
-            RegExp queryPtn =
-                RegExp(words.map((w) => '($w)').join('.*'));
+            RegExp queryPtn = RegExp(words.map((w) => '($w)').join('.*'));
 
             // Remove "," and "!" characters from s.title, s.alias, and s.content
             String title = s.title!.replaceAll(charsPtn, '').toLowerCase();

@@ -64,7 +64,7 @@ class ListViewPopupState extends State<ListViewPopup>
                       return ListedItem(
                         listed: listed,
                         height: size!.height,
-                        onTap: () {
+                        onPressed: () {
                           vm!.addSongToList(listed, song!);
                           Navigator.pop(context);
                         },

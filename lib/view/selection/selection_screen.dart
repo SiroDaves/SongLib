@@ -67,6 +67,7 @@ class SelectionScreenState extends State<SelectionScreen>
                           ),
                           child: Row(
                             children: <Widget>[
+                              const Icon(Icons.check),
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 10),
                                 child: Text(
@@ -76,7 +77,6 @@ class SelectionScreenState extends State<SelectionScreen>
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
-                              const Icon(Icons.check),
                             ],
                           ),
                         ),

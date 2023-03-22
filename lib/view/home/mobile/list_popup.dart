@@ -22,7 +22,7 @@ class ListPopup extends StatelessWidget {
         return ListedItem(
           listed: listed,
           height: size!.height,
-          onTap: () {
+          onPressed: () {
             vm.addSongToList(listed, song);
             Navigator.pop(context);
           },

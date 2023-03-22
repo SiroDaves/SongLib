@@ -5,16 +5,15 @@ part of '../home_screen.dart';
 class ListTab extends StatelessWidget {
   final HomeVm vm;
   ListTab(this.vm, {Key? key}) : super(key: key);
-  Size? size;
 
   @override
   Widget build(BuildContext context) {
     var tr = AppLocalizations.of(context)!;
-    size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
     var listContainer = ListView.builder(
       itemCount: vm.listeds!.length,
       padding: EdgeInsets.all(
-        size!.height * 0.015,
+        size.height * 0.015,
       ),
       itemBuilder: (context, index) {
         final Listed listed = vm.listeds![index];
@@ -30,8 +29,8 @@ class ListTab extends StatelessWidget {
           ),
           child: ListedItem(
             listed: listed,
-            height: size!.height,
-            onTap: () {
+            height: size.height,
+            onPressed: () {
               vm.localStorage.listed = vm.setListed = listed;
               vm.navigator.goToListView();
             },
@@ -51,7 +50,7 @@ class ListTab extends StatelessWidget {
           child: Column(children: children),
         ),
         child: Container(
-          height: size!.height,
+          height: size.height,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topRight,
@@ -72,58 +71,8 @@ class ListTab extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         backgroundColor: ThemeColors.primary,
-        onPressed: () => newListForm(context),
+        onPressed: () => newListForm(context, vm),
         child: const Icon(Icons.add, color: Colors.white),
-      ),
-    );
-  }
-
-  Future<void> newListForm(BuildContext context) async {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: const Text(
-          'Draft a New List',
-          style: TextStyle(
-            fontSize: 22,
-            color: ThemeColors.primaryDark,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        content: SizedBox(
-          height: 150,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              FormInput(
-                iLabel: 'Title',
-                iController: vm.titleController!,
-                iOptions: const <String>[],
-              ),
-              FormInput(
-                iLabel: 'Description (Optional)',
-                iController: vm.contentController!,
-                iOptions: const <String>[],
-              ),
-            ],
-          ),
-        ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              vm.saveNewList();
-              vm.titleController!.clear();
-              vm.contentController!.clear();
-              Navigator.pop(context);
-            },
-            child: const Text("SAVE LIST"),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text("CANCEL"),
-          ),
-        ],
       ),
     );
   }

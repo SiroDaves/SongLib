@@ -8,121 +8,55 @@ class ListTabPc extends StatelessWidget {
   Widget build(BuildContext context) {
     var tr = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
+    var listContainer = ListView.builder(
+      itemCount: vm.listeds!.length,
+      padding: EdgeInsets.all(
+        size.height * 0.015,
+      ),
+      itemBuilder: (context, index) {
+        final Listed listed = vm.listeds![index];
+        return ContextMenuRegion(
+          contextMenu: GenericContextMenu(
+            buttonConfigs: [
+              ContextMenuButtonConfig(
+                tr.deleteList,
+                icon: const Icon(Icons.delete, size: 20),
+                onPressed: () => vm.deleteList(context, listed),
+              ),
+            ],
+          ),
+          child: ListedItem(
+            listed: listed,
+            height: size.height,
+            onPressed: () {
+              vm.localStorage.listed = vm.setListed = listed;
+              vm.fetchSetListedData();
+              vm.rebuild();
+            },
+          ),
+        );
+      },
+    );
 
-    var booksContainer = Container(
-      height: 100,
-      padding: const EdgeInsets.only(left: 5),
-      child: ListView.builder(
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.all(5),
-        itemBuilder: (context, index) {
-          final Book book = vm.books![index];
-          return SongBook(
-            book: book,
-            isSelected: vm.setBook == book,
-            onPressed: () => vm.selectSongbook(book),
-          );
-        },
-        itemCount: vm.books!.length,
-      ),
-    );
-    var listContainer = Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
-      child: ListView.builder(
-        physics: const ClampingScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: vm.filtered!.length,
-        padding: EdgeInsets.only(
-          left: size.height * 0.0082,
-          right: size.height * 0.0082,
-        ),
-        itemBuilder: (context, index) {
-          final SongExt song = vm.filtered![index];
-          return ContextMenuRegion(
-            contextMenu: GenericContextMenu(
-              buttonConfigs: [
-                ContextMenuButtonConfig(
-                  tr.likeSong,
-                  icon: Icon(
-                    song.liked! ? Icons.favorite : Icons.favorite_border,
-                    size: 20,
-                  ),
-                  onPressed: () => vm.likeSong(song),
-                ),
-                ContextMenuButtonConfig(
-                  tr.copySong,
-                  icon: const Icon(Icons.copy, size: 20),
-                  onPressed: () => vm.copySong(song),
-                ),
-                ContextMenuButtonConfig(
-                  tr.shareSong,
-                  icon: const Icon(Icons.share, size: 20),
-                  onPressed: () => vm.shareSong(song),
-                ),
-                ContextMenuButtonConfig(
-                  tr.editSong,
-                  icon: const Icon(Icons.edit, size: 20),
-                  onPressed: () {
-                    vm.localStorage.song = vm.setSong = song;
-                    vm.navigator.goToSongEditorPc();
-                  },
-                ),
-                ContextMenuButtonConfig(
-                  tr.addtoList,
-                  icon: const Icon(Icons.add, size: 20),
-                  onPressed: () => showModalBottomSheet<void>(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return ListPopup(vm: vm, song: song);
-                    },
-                  ),
-                ),
-              ],
-            ),
-            child: SongItem(
-              song: song,
-              isSelected: vm.setSong == song,
-              isSearching: vm.isSearching,
-              height: size.height,
-              onPressed: () {
-                vm.localStorage.song = vm.setSong = song;
-                vm.verses = song.content!.split("##");
-                vm.songTitle = songItemTitle(song.songNo!, song.title!);
-                vm.localStorage.setPrefBool(PrefConstants.notDraftKey, true);
-                vm.rebuild();
-              },
-            ),
-          );
-        },
-      ),
-    );
-    var songViewer = Scaffold(
+    var listViewer = Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10),
-          ),
-        ),
-        elevation: 8,
-        title: Text(vm.songTitle),
+        title: Text(vm.setListed.title!),
         actions: <Widget>[
           InkWell(
-            onTap: () {},
+            onTap: () {},//=> editListForm(context, vm),
             child: const Padding(
               padding: EdgeInsets.all(10),
-              child: Icon(Icons.copy),
+              child: Icon(Icons.edit),
             ),
           ),
           InkWell(
-            onTap: vm.navigator.goToSongPresentorPc,
-            child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Image.asset(ThemeAssets.iconProject,
-                    height: 30, width: 30)),
+            onTap: () {},//=> vm.confirmDelete(context),
+            child: const Padding(
+              padding: EdgeInsets.all(10),
+              child: Icon(Icons.delete),
+            ),
           ),
-          const SizedBox(width: 10),
         ],
       ),
       body: Container(
@@ -139,7 +73,7 @@ class ListTabPc extends StatelessWidget {
             ],
           ),
         ),
-        child: ListView.builder(
+        /*child: ListView.builder(
           itemCount: vm.verses.length,
           itemBuilder: (context, index) {
             return Card(
@@ -150,24 +84,33 @@ class ListTabPc extends StatelessWidget {
               ).padding(all: 10),
             );
           },
-        ),
+        ),*/
       ),
     );
-    return Column(
-      children: [
-        vm.books!.isNotEmpty ? booksContainer : Container(),
-        SizedBox(
-          height: size.height - 160,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              listContainer.expanded(),
-              if (vm.verses.isNotEmpty) songViewer.expanded(),
-            ],
-          ),
+    return ContextMenuOverlay(
+      cardBuilder: (_, children) => Container(
+        decoration: const BoxDecoration(
+          color: ThemeColors.accent,
+          boxShadow: [BoxShadow(blurRadius: 5)],
+          borderRadius: BorderRadius.all(Radius.circular(5)),
         ),
-      ],
+        child: Column(children: children),
+      ),
+      child: vm.isLoading
+          ? const ListLoading()
+          : vm.listeds!.isNotEmpty
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    listContainer.expanded(),
+                    if (vm.setListed.title!.isNotEmpty) listViewer.expanded(),
+                  ],
+                )
+              : NoDataToShow(
+                  title: tr.itsEmptyHere1,
+                  description: tr.itsEmptyHereBody4,
+                ),
     );
   }
 }

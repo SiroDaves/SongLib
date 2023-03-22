@@ -122,13 +122,15 @@ class SongBook extends StatelessWidget {
 class ListedItem extends StatelessWidget {
   final Listed listed;
   final double height;
-  final Function()? onTap;
+  final bool isSelected;
+  final Function()? onPressed;
 
   const ListedItem({
     Key? key,
     required this.listed,
     required this.height,
-    this.onTap,
+    this.isSelected = false,
+    this.onPressed,
   }) : super(key: key);
 
   @override
@@ -136,52 +138,57 @@ class ListedItem extends StatelessWidget {
     final dateValue = DateTime.parse(listed.updatedAt!);
     final String lastUpdate = timeago.format(dateValue);
 
-    return Hero(
-      tag: 'ListedIndex_${listed.id}',
-      child: GestureDetector(
-        onTap: onTap,
-        child: Card(
-          elevation: 2,
-          margin: EdgeInsets.only(right: 5, bottom: height * 0.0049),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  listed.title!,
-                  maxLines: 1,
-                  style: TextStyle(
-                    fontSize: height * 0.0261,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Divider(color: ThemeColors.accent, height: height * 0.0049),
-                const SizedBox(height: 5),
-                listed.description!.isNotEmpty
-                    ? Text(
-                        listed.description!,
-                        maxLines: 1,
-                        style: TextStyle(
-                          fontSize: height * 0.015,
-                        ),
-                      )
-                    : Container(),
-                Row(
-                  children: <Widget>[
-                    const Spacer(),
-                    TagView(
-                      tagText:
-                          '${listed.song!} song${listed.song! == 1 ? '' : 's'}',
-                      height: height,
+    return Padding(
+      padding: const EdgeInsets.only(right: 5, bottom: 5),
+      child: RawMaterialButton(
+        fillColor: isSelected ? ThemeColors.primary : Colors.white,
+        highlightColor: Colors.white.withOpacity(.1),
+        focusElevation: 0,
+        hoverColor: isSelected ? ThemeColors.primary : ThemeColors.accent,
+        hoverElevation: 1,
+        highlightElevation: 0,
+        padding: const EdgeInsets.all(5),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(5),
+          ),
+        ),
+        onPressed: onPressed,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              listed.title!,
+              maxLines: 1,
+              style: TextStyle(
+                fontSize: height * 0.0261,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Divider(color: ThemeColors.accent, height: height * 0.0049),
+            const SizedBox(height: 5),
+            listed.description!.isNotEmpty
+                ? Text(
+                    listed.description!,
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontSize: height * 0.015,
                     ),
-                    TagView(tagText: 'Updated $lastUpdate', height: height),
-                  ],
+                  )
+                : Container(),
+            Row(
+              children: <Widget>[
+                const Spacer(),
+                TagView(
+                  tagText:
+                      '${listed.song!} song${listed.song! == 1 ? '' : 's'}',
+                  height: height,
                 ),
-                const SizedBox(height: 5),
+                TagView(tagText: 'Updated $lastUpdate', height: height),
               ],
             ),
-          ),
+            const SizedBox(height: 5),
+          ],
         ),
       ),
     );
