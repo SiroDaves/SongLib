@@ -75,7 +75,7 @@ class PcActionBtn1 extends StatelessWidget {
     switch (vm!.setPage) {
       case PageType.lists:
         return TextButton(
-          onPressed: () => newListForm(vm!, context),
+          onPressed: () => newListForm(context, vm!),
           child: Container(
             padding: const EdgeInsets.all(10),
             decoration: const BoxDecoration(
