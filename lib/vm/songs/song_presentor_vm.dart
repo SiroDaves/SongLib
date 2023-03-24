@@ -189,10 +189,18 @@ class SongPresentorVm with ChangeNotifierEx {
           ),
         ),
         content: Text(
-          tr!.keyboardShortcutsTexts,
+          tr!.keyboardShortcutsTexts + tr!.donationRequest,
           style: const TextStyle(fontSize: 18),
         ),
         actions: <Widget>[
+          SimpleButton(
+            title: tr!.donate,
+            onPressed: () {
+              Navigator.pop(context);
+              navigator.goToDonation();
+            },
+          ),
+          const Spacer(),
           SimpleButton(
             title: tr!.okay,
             onPressed: () {
@@ -215,4 +223,5 @@ class SongPresentorVm with ChangeNotifierEx {
 abstract class SongPresentorNavigator implements BackNavigator {
   void goToSongEditor();
   void goToSongEditorPc();
+  void goToDonation();
 }

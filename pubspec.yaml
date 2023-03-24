@@ -31,7 +31,7 @@ dependencies:
   http: ^0.13.5
   icapps_architecture: ^0.7.2
   injectable: ^1.5.3
-  intl: ^0.18.0
+  intl: ^0.17.0
   json_annotation: ^4.6.0
   niddler_dart: ^1.5.0
   onboarding: ^3.1.0

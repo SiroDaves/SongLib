@@ -30,7 +30,6 @@ import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
 import '../../widget/search/search_list.dart';
 import '../../widget/search/search_songs.dart';
-import '../lists/list_view_screen.dart';
 import '../manage/settings_screen.dart';
 
 part '../../widget/search/pc_headers.dart';
@@ -79,6 +78,7 @@ class HomeScreenState extends State<HomeScreen>
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, vm, child, theme, localization) {
+        vm.context = context;
         vm.tr = AppLocalizations.of(context)!;
         var mobileAppbar = AppBar(
           title: Row(
