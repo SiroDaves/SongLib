@@ -264,4 +264,8 @@ class SongPresentorPcState extends State<SongPresentorPc>
 
   @override
   void goToSongEditorPc() => MainNavigator.of(context).goToSongEditorPc();
+  
+  @override
+  void goToDonation() => MainNavigator.of(context).goToDonation();
+
 }

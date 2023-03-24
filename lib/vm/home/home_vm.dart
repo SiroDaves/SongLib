@@ -9,10 +9,13 @@ import 'package:share_plus/share_plus.dart';
 import '../../model/base/book.dart';
 import '../../model/base/draft.dart';
 import '../../model/base/listed.dart';
+import '../../model/base/listedext.dart';
 import '../../model/base/songext.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
+import '../../theme/theme_colors.dart';
 import '../../util/constants/utilities.dart';
+import '../../widget/action/buttons.dart';
 import '../../widget/general/toast.dart';
 
 enum PageType { lists, search, likes, drafts, helpdesk, settings }
@@ -26,19 +29,21 @@ class HomeVm with ChangeNotifierEx {
   HomeVm(this.dbRepo, this.localStorage);
   AppLocalizations? tr;
 
-  bool isLoading = false, isSearching = false;
+  bool isLoading = false, isSearching = false, shownUpdateHint = false;
   int currentPage = 1;
+  BuildContext? context;
 
   Book setBook = Book();
   List<Book>? books = [];
 
-  String songTitle = 'Song Title';
+  String songTitle = 'Song Title', currentUpdate = 'update68';
   SongExt setSong = SongExt();
   SongExt setLiked = SongExt();
-  List<SongExt>? filtered = [], songs = [], likes = [];
+  List<SongExt>? filtered = [], songs = [], likes = [], listSongs = [];
   List<String> verses = [];
 
   Listed setListed = Listed();
+  List<ListedExt>? listedSongs = [];
   List<Listed>? listeds = [];
 
   Draft setDraft = Draft();
@@ -61,8 +66,10 @@ class HomeVm with ChangeNotifierEx {
 
     titleController = TextEditingController();
     contentController = TextEditingController();
+    shownUpdateHint = localStorage.getPrefBool(currentUpdate);
 
     await fetchData();
+    if (!shownUpdateHint) currentUpdateDialog(context!);
   }
 
   void setCurrentPage(PageType page) async {
@@ -98,6 +105,35 @@ class HomeVm with ChangeNotifierEx {
     notifyListeners();
     listeds = await dbRepo.fetchListeds();
     setListed = listeds![0];
+    isLoading = false;
+    notifyListeners();
+  }
+
+  /// Get the data from the DB
+  Future<void> fetchSetListedData() async {
+    isLoading = true;
+    notifyListeners();
+
+    listedSongs = await dbRepo.fetchListedSongs(setListed.id!);
+    for (var listed in listedSongs!) {
+      listSongs!.add(
+        SongExt(
+          songbook: listed.songbook,
+          songNo: listed.songNo,
+          book: listed.book,
+          title: listed.title,
+          alias: listed.alias,
+          content: listed.content,
+          views: listed.views,
+          likes: listed.likes,
+          liked: listed.liked,
+          author: listed.author,
+          key: listed.key,
+          id: listed.songId,
+        ),
+      );
+    }
+
     isLoading = false;
     notifyListeners();
   }
@@ -273,8 +309,7 @@ class HomeVm with ChangeNotifierEx {
             }
 
             // Create a regular expression pattern to match the words in the query
-            RegExp queryPtn =
-                RegExp(words.map((w) => '($w)').join('.*'));
+            RegExp queryPtn = RegExp(words.map((w) => '($w)').join('.*'));
 
             // Remove "," and "!" characters from s.title, s.alias, and s.content
             String title = s.title!.replaceAll(charsPtn, '').toLowerCase();
@@ -363,6 +398,44 @@ class HomeVm with ChangeNotifierEx {
   /// rebuild the widget tree
   void rebuild() async {
     notifyListeners();
+  }
+
+  Future<void> currentUpdateDialog(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Text(
+          tr!.hintsCurrentUpdate,
+          style: const TextStyle(
+            fontSize: 22,
+            color: ThemeColors.primaryDark,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: Text(
+          tr!.hintsCurrentUpdateText + tr!.donationRequest,
+          style: const TextStyle(fontSize: 18),
+        ),
+        actions: <Widget>[
+          SimpleButton(
+            title: tr!.donate,
+            onPressed: () {
+              Navigator.pop(context);
+              localStorage.setPrefBool(currentUpdate, true);
+              navigator.goToDonation();
+            },
+          ),
+          const Spacer(),
+          SimpleButton(
+            title: tr!.okay,
+            onPressed: () {
+              Navigator.pop(context);
+              localStorage.setPrefBool(currentUpdate, true);
+            },
+          ),
+        ],
+      ),
+    );
   }
 }
 

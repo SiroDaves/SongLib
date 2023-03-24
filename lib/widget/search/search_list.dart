@@ -63,7 +63,7 @@ class SearchList extends SearchDelegate<List> {
         return ListedItem(
           listed: result,
           height: height!,
-          onTap: () {
+          onPressed: () {
             vm.localStorage.listed = result;
             vm.navigator.goToListView();
           },
@@ -89,7 +89,7 @@ class SearchList extends SearchDelegate<List> {
         return ListedItem(
           listed: result,
           height: height!,
-          onTap: () {
+          onPressed: () {
             vm.localStorage.listed = result;
             vm.navigator.goToListView();
           },

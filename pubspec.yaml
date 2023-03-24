@@ -68,7 +68,6 @@ dev_dependencies:
   license_generator: ^1.0.5
   injectable_generator: ^1.5.4
   json_serializable: ^6.3.1
-  locale_gen: ^4.1.2
   mockito: ^5.0.15
   model_generator: ^5.8.1
   retrofit_generator: ^4.0.3+1
@@ -87,13 +86,6 @@ flutter:
       fonts:
         - asset: assets/fonts/Trebuchet-MS.ttf
 
-locale_gen:
-  default_language: 'en'
-  languages: ['en', 'fr', 'es']
-  locale_assets_path: 'assets/locale/'
-  assets_path: 'assets/locale/'
-  output_path: 'lib/util/locale/'
-
 icapps_license:
   nullsafety: true
   licenses:
@@ -105,10 +97,6 @@ targets:
     builders:
       json_serializable:
         options:
-          # Options configure how source code is generated for every
-          # `@JsonSerializable`-annotated class in the package.
-          #
-          # The default value for each is listed.
           any_map: false
           checked: false
           create_factory: true

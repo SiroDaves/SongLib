@@ -24,14 +24,16 @@ import '../../widget/general/fading_index_stack.dart';
 import '../../widget/general/inputs.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
+import '../../widget/general/toast.dart';
 import '../../widget/progress/circular_progress.dart';
 import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
 import '../../widget/search/search_list.dart';
-import '../../widget/search/search_songs_pc.dart';
 import '../../widget/search/search_songs.dart';
 import '../manage/settings_screen.dart';
 
+part '../../widget/search/pc_headers.dart';
+part 'home_screen_helpers.dart';
 part 'mobile/drafts_tab.dart';
 part 'mobile/history_tab.dart';
 part 'mobile/search_tab.dart';
@@ -76,6 +78,7 @@ class HomeScreenState extends State<HomeScreen>
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, vm, child, theme, localization) {
+        vm.context = context;
         vm.tr = AppLocalizations.of(context)!;
         var mobileAppbar = AppBar(
           title: Row(
@@ -141,18 +144,12 @@ class HomeScreenState extends State<HomeScreen>
                 style: TextStyle(fontSize: 25),
               ),
               const SizedBox(width: 60),
-              SearchSongsPc(vm),
+              PcSearch(vm),
               const SizedBox(width: 10),
             ],
           ),
           actions: <Widget>[
-            InkWell(
-              onTap: () {},
-              child: const Padding(
-                padding: EdgeInsets.all(10),
-                child: Icon(Icons.refresh),
-              ),
-            ),
+            PcActionBtn1(vm),
             /*const SizedBox(width: 0),
             InkWell(
               onTap: () {},
@@ -175,7 +172,7 @@ class HomeScreenState extends State<HomeScreen>
                 LikesTabPc(vm),
                 DraftsTabPc(vm),
                 HelpDeskPc(vm),
-                SettingsScreen(),
+                const SettingsScreen(),
               ],
             )
                 .decorated(color: ThemeColors.accentLight)

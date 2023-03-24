@@ -765,14 +765,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
-  locale_gen:
-    dependency: "direct dev"
-    description:
-      name: locale_gen
-      sha256: d064317496ff441dcbf57c9c605312ed66addc3aaa202c5110a34ac3df35fc12
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.1.2"
   logger:
     dependency: transitive
     description:
