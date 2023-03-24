@@ -130,10 +130,15 @@ class ProgressVm with ChangeNotifierEx {
     localStorage.setPrefString(PrefConstants.dateInstalledKey, dateNow());
     localStorage.setPrefBool(PrefConstants.wakeLockCheckKey, true);
 
-    navigator.goToHome();
+    if (onBoarded) {
+      navigator.goToHome();
+    } else {
+      navigator.goToOnboarding();
+    }
   }
 }
 
 abstract class ProgressNavigator {
   void goToHome();
+  void goToOnboarding();
 }

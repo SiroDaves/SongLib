@@ -147,38 +147,6 @@ class PresentOnMobileState extends State<PresentOnMobile>
             alignment = Alignment.centerRight;
           }
 
-          Widget? child;
-          if (tab.child != null) {
-            child = tab.child;
-          } else {
-            child = Container(
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                children: <Widget>[
-                  (tab.icon != null)
-                      ? Row(
-                          children: <Widget>[
-                            tab.icon!,
-                            const SizedBox(width: 5)
-                          ],
-                        )
-                      : Container(),
-                  (tab.text != null)
-                      ? SizedBox(
-                          width: widget.tabsWidth,
-                          child: Text(
-                            tab.text!,
-                            softWrap: true,
-                            style: selectedIndex == index
-                                ? widget.selectedTabTextStyle
-                                : widget.tabTextStyle,
-                          ))
-                      : Container(),
-                ],
-              ),
-            );
-          }
-
           var itemBGColor = widget.tabBackgroundColor;
           if (selectedIndex == index) {
             itemBGColor = widget.selectedTabBackgroundColor;
@@ -232,7 +200,7 @@ class PresentOnMobileState extends State<PresentOnMobile>
                 },
                 child: Container(
                   width: widget.indicatorWidth,
-                  margin: const EdgeInsets.all(3),
+                  margin: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     color: itemBGColor,
                     borderRadius: const BorderRadius.only(
@@ -241,8 +209,7 @@ class PresentOnMobileState extends State<PresentOnMobile>
                     ),
                   ),
                   alignment: alignment,
-                  padding: const EdgeInsets.all(5),
-                  child: child,
+                  child: tab.child,
                 ),
               ),
             ],

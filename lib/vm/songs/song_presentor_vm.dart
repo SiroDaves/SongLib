@@ -121,7 +121,10 @@ class SongPresentorVm with ChangeNotifierEx {
     for (final verse in verseInfos) {
       widgetTabs.add(
         Tab(
-          child: PresentorInfo(info: verse, fontSize: fSize),
+          child: PresentorInfo(
+            info: verse,
+            fontSize: fSize * .75,
+          ),
         ),
       );
     }

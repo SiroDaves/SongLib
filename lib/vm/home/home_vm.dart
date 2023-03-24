@@ -15,6 +15,7 @@ import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/utilities.dart';
+import '../../widget/action/app_dialog.dart';
 import '../../widget/action/buttons.dart';
 import '../../widget/general/toast.dart';
 
@@ -69,7 +70,30 @@ class HomeVm with ChangeNotifierEx {
     shownUpdateHint = localStorage.getPrefBool(currentUpdate);
 
     await fetchData();
-    if (!shownUpdateHint) currentUpdateDialog(context!);
+    if (!shownUpdateHint) {
+      appDialog(
+        context!,
+        tr!.hintsCurrentUpdate,
+        tr!.hintsCurrentUpdateText,
+        [
+          TextButton(
+            child: Text(tr!.donate),
+            onPressed: () {
+              Navigator.pop(context!);
+              localStorage.setPrefBool(currentUpdate, true);
+              navigator.goToDonation();
+            },
+          ),
+          TextButton(
+            child: Text(tr!.okay),
+            onPressed: () {
+              Navigator.pop(context!);
+              localStorage.setPrefBool(currentUpdate, true);
+            },
+          ),
+        ],
+      );
+    }
   }
 
   void setCurrentPage(PageType page) async {
@@ -398,44 +422,6 @@ class HomeVm with ChangeNotifierEx {
   /// rebuild the widget tree
   void rebuild() async {
     notifyListeners();
-  }
-
-  Future<void> currentUpdateDialog(BuildContext context) async {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: Text(
-          tr!.hintsCurrentUpdate,
-          style: const TextStyle(
-            fontSize: 22,
-            color: ThemeColors.primaryDark,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        content: Text(
-          tr!.hintsCurrentUpdateText + tr!.donationRequest,
-          style: const TextStyle(fontSize: 18),
-        ),
-        actions: <Widget>[
-          SimpleButton(
-            title: tr!.donate,
-            onPressed: () {
-              Navigator.pop(context);
-              localStorage.setPrefBool(currentUpdate, true);
-              navigator.goToDonation();
-            },
-          ),
-          const Spacer(),
-          SimpleButton(
-            title: tr!.okay,
-            onPressed: () {
-              Navigator.pop(context);
-              localStorage.setPrefBool(currentUpdate, true);
-            },
-          ),
-        ],
-      ),
-    );
   }
 }
 

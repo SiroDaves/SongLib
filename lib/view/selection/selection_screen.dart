@@ -6,6 +6,7 @@ import '../../navigator/main_navigator.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/utilities.dart';
 import '../../vm/selection/selection_vm.dart';
+import '../../widget/action/app_dialog.dart';
 import '../../widget/action/buttons.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
@@ -30,16 +31,14 @@ class SelectionScreenState extends State<SelectionScreen>
   Widget build(BuildContext context) {
     var tr = AppLocalizations.of(context)!;
     size = MediaQuery.of(context).size;
-
+    bool isTabletOrIpad = size!.shortestSide > 550;
     return ProviderWidget<SelectionVm>(
       create: () => GetIt.I()..init(this),
       childBuilderWithViewModel: (context, vm, theme, localization) {
         vm.tr = AppLocalizations.of(context)!;
         var topContainer = AppBar(
           title: Text(
-            vm.isLoading
-                ? tr.booksTitleLoading
-                : tr.booksTitle,
+            vm.isLoading ? tr.booksTitleLoading : tr.booksTitle,
           ),
           actions: <Widget>[
             vm.isLoading
@@ -55,33 +54,38 @@ class SelectionScreenState extends State<SelectionScreen>
                 ? Container()
                 : vm.hasError
                     ? Container()
-                    : TextButton(
+                    : IconTextBtn(
                         onPressed: () => areYouDoneDialog(context, vm),
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(5),
-                            ),
-                          ),
-                          child: Row(
-                            children: <Widget>[
-                              const Icon(Icons.check),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 10),
-                                child: Text(
-                                  tr.proceed,
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        title: tr.proceed,
                       ),
           ],
+        );
+
+        var bigScreenLayout = LayoutBuilder(
+          builder: (context, dimens) {
+            int axisCount = (dimens.maxWidth / 450).round();
+            return GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: axisCount,
+                childAspectRatio: 4,
+              ),
+              itemCount: vm.books!.length,
+              itemBuilder: (context, index) => BookItem(
+                book: vm.books![index],
+                selected: vm.listedBooks[index]!.isSelected,
+                onTap: () => vm.onBookSelected(index),
+              ),
+            );
+          },
+        );
+        var smallScreenLayout = ListView.builder(
+          padding: const EdgeInsets.all(5),
+          itemCount: vm.books!.length,
+          itemBuilder: (context, index) => BookItem(
+            book: vm.books![index],
+            selected: vm.listedBooks[index]!.isSelected,
+            onTap: () => vm.onBookSelected(index),
+          ),
         );
 
         return Scaffold(
@@ -94,36 +98,9 @@ class SelectionScreenState extends State<SelectionScreen>
                   vm.isLoading
                       ? const CircularProgress()
                       : vm.books!.isNotEmpty
-                          ? isDesktop
-                              ? LayoutBuilder(
-                                  builder: (context, dimens) {
-                                    int axisCount =
-                                        (dimens.maxWidth / 450).round();
-                                    return GridView.builder(
-                                      gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: axisCount,
-                                        childAspectRatio: 4,
-                                      ),
-                                      itemCount: vm.books!.length,
-                                      itemBuilder: (context, index) => BookItem(
-                                        book: vm.books![index],
-                                        selected:
-                                            vm.listedBooks[index]!.isSelected,
-                                        onTap: () => vm.onBookSelected(index),
-                                      ),
-                                    );
-                                  },
-                                )
-                              : ListView.builder(
-                                  padding: const EdgeInsets.all(5),
-                                  itemCount: vm.books!.length,
-                                  itemBuilder: (context, index) => BookItem(
-                                    book: vm.books![index],
-                                    selected: vm.listedBooks[index]!.isSelected,
-                                    onTap: () => vm.onBookSelected(index),
-                                  ),
-                                )
+                          ? isDesktop || isMobile && isTabletOrIpad
+                              ? bigScreenLayout
+                              : smallScreenLayout
                           : Container(),
                   vm.hasError
                       ? NoDataToShow(
@@ -152,59 +129,35 @@ class SelectionScreenState extends State<SelectionScreen>
   Future<void> areYouDoneDialog(BuildContext context, SelectionVm vm) async {
     var tr = AppLocalizations.of(context)!;
     if (vm.selectables.isNotEmpty) {
-      return showDialog(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: Text(
-            tr.doneSelecting,
-            style: const TextStyle(
-              fontSize: 22,
-              color: ThemeColors.primaryDark,
-              fontWeight: FontWeight.bold,
-            ),
+      return appDialog(
+        context,
+        tr.doneSelecting,
+        tr.doneSelectingBody,
+        [
+          TextButton(
+            child: Text(tr.cancel),
+            onPressed: () => Navigator.pop(context),
           ),
-          content: Text(
-            tr.doneSelectingBody,
-            style: const TextStyle(fontSize: 18),
+          TextButton(
+            child: Text(tr.proceed),
+            onPressed: () {
+              Navigator.pop(context);
+              vm.saveBooks();
+            },
           ),
-          actions: <Widget>[
-            SimpleButton(
-              title: tr.cancel,
-              onPressed: () => Navigator.pop(context),
-            ),
-            SimpleButton(
-              title: tr.proceed,
-              onPressed: () {
-                Navigator.pop(context);
-                vm.saveBooks();
-              },
-            ),
-          ],
-        ),
+        ],
       );
     } else {
-      return showDialog(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: Text(
-            tr.noSelection,
-            style: const TextStyle(
-              fontSize: 22,
-              color: ThemeColors.primaryDark,
-              fontWeight: FontWeight.bold,
-            ),
+      return appDialog(
+        context,
+        tr.noSelection,
+        tr.noSelectionBody,
+        [
+          TextButton(
+            child: Text(tr.okay),
+            onPressed: () => Navigator.pop(context),
           ),
-          content: Text(
-            tr.noSelectionBody,
-            style: const TextStyle(fontSize: 18),
-          ),
-          actions: <Widget>[
-            SimpleButton(
-              title: tr.okay,
-              onPressed: () => Navigator.pop(context),
-            ),
-          ],
-        ),
+        ],
       );
     }
   }

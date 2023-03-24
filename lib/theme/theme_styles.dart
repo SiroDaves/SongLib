@@ -20,7 +20,7 @@ class ThemeFonts {
   static const String emoji = "OpenSansEmoji";
 }
 
-class PageBreaks {
+class PageBreaks {//1366,1024
   static double get LargePhone => 550;
 
   static double get TabletPortrait => 768;
