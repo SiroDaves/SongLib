@@ -49,7 +49,6 @@ class DraftPresentorVm with ChangeNotifierEx {
     navigator = screenNavigator;
 
     draft = localStorage.draft;
-    draft = localStorage.draft;
 
     enableWakeLock = localStorage.getPrefBool(PrefConstants.wakeLockCheckKey);
     shownPcHints = localStorage.getPrefBool(PrefConstants.pcHintsKey);

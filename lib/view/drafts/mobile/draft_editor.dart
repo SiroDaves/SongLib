@@ -27,11 +27,12 @@ class DraftEditorState extends State<DraftEditor>
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
+    final args = ModalRoute.of(context)!.settings.arguments as Map;
     return ProviderWidget<DraftEditorVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
           (context, vm, child, theme, localization) {
-        //vm.context = context;
+        vm.notEmpty = args['not_empty'];
         var mainContainer = SingleChildScrollView(
           padding: const EdgeInsets.all(5),
           child: Card(

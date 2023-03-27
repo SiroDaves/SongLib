@@ -129,7 +129,7 @@ class HomeScreenState extends State<HomeScreen>
               Tab(text: 'Lists'.toUpperCase()),
               Tab(text: 'Search'.toUpperCase()),
               Tab(text: 'Likes'.toUpperCase()),
-              Tab(text: 'Notes'.toUpperCase()),
+              Tab(text: 'Drafts'.toUpperCase()),
             ],
           ),
         );
