@@ -13,7 +13,7 @@ import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/pref_constants.dart';
-import '../../util/constants/utilities.dart';
+import '../../util/utilities.dart';
 import '../../widget/action/buttons.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/toast.dart';

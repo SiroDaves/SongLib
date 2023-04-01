@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
-import '../../util/constants/utilities.dart';
+import '../../util/utilities.dart';
 
 class Book {
   int? id;

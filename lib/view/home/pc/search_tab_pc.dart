@@ -11,20 +11,37 @@ class SearchTabPc extends StatelessWidget {
 
     var booksContainer = Container(
       height: 100,
+      width: double.infinity,
       padding: const EdgeInsets.only(left: 5),
-      child: ListView.builder(
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.all(5),
-        itemBuilder: (context, index) {
-          final Book book = vm.books![index];
-          return SongBook(
-            book: book,
-            isSelected: vm.setBook == book,
-            onPressed: () => vm.selectSongbook(book),
-          );
-        },
-        itemCount: vm.books!.length,
+      decoration: const BoxDecoration(
+        color: ThemeColors.backgroundGrey,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey,
+            spreadRadius: 2,
+            blurRadius: 2,
+            offset: Offset(0, 1),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          ListView.builder(
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.all(5),
+            itemBuilder: (context, index) {
+              final Book book = vm.books![index];
+              return SongBook(
+                book: book,
+                isSelected: vm.setBook == book,
+                onPressed: () => vm.selectSongbook(book),
+              );
+            },
+            itemCount: vm.books!.length,
+          ).expanded(),
+          ManageBooksBtn(vm),
+        ],
       ),
     );
     var listContainer = Container(
@@ -85,26 +102,15 @@ class SearchTabPc extends StatelessWidget {
               isSelected: vm.setSong == song,
               isSearching: vm.isSearching,
               height: size.height,
-              onPressed: () {
-                vm.localStorage.song = vm.setSong = song;
-                vm.verses = song.content!.split("##");
-                vm.songTitle = songItemTitle(song.songNo!, song.title!);
-                vm.localStorage.setPrefBool(PrefConstants.notDraftKey, true);
-                vm.rebuild();
-              },
+              onPressed: () => vm.chooseSong(song),
             ),
           );
         },
       ),
     );
-    var songViewer = Scaffold(
-      backgroundColor: Colors.transparent,
+    var itemViewer = Scaffold(
+      backgroundColor: ThemeColors.backgroundGrey,
       appBar: AppBar(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10),
-          ),
-        ),
         elevation: 8,
         title: Text(vm.songTitle),
         actions: <Widget>[
@@ -125,37 +131,23 @@ class SearchTabPc extends StatelessWidget {
           const SizedBox(width: 10),
         ],
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Colors.white,
-              Colors.orange,
-              ThemeColors.accent,
-              ThemeColors.primary,
-              Colors.black,
-            ],
-          ),
-        ),
-        child: ListView.builder(
-          itemCount: vm.verses.length,
-          itemBuilder: (context, index) {
-            return Card(
-              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-              child: Text(
-                vm.verses[index].replaceAll("#", "\n"),
-                style: TextStyle(fontSize: size.height * 0.03),
-              ).padding(all: 10),
-            );
-          },
-        ),
+      body: ListView.builder(
+        itemCount: vm.verses.length,
+        itemBuilder: (context, index) {
+          return Card(
+            elevation: 5,
+            margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            child: Text(
+              vm.verses[index].replaceAll("#", "\n"),
+              style: TextStyle(fontSize: size.height * 0.03),
+            ).padding(all: 10),
+          );
+        },
       ),
     );
-    return Column(
+
+    return Stack(
       children: [
-        vm.books!.isNotEmpty ? booksContainer : Container(),
         SizedBox(
           height: size.height - 160,
           child: Row(
@@ -163,10 +155,21 @@ class SearchTabPc extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               listContainer.expanded(),
-              if (vm.verses.isNotEmpty) songViewer.expanded(),
+              if (vm.setSong.title != null)
+                itemViewer.decorated(
+                  boxShadow: [
+                    const BoxShadow(
+                      color: Colors.grey,
+                      spreadRadius: 2,
+                      blurRadius: 2,
+                      offset: Offset(0, 1),
+                    ),
+                  ],
+                ).expanded(),
             ],
           ),
-        ),
+        ).padding(top: 100),
+        booksContainer,
       ],
     );
   }

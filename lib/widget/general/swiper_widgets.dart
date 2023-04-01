@@ -101,7 +101,7 @@ class PageSwiperControl extends SwiperPlugin {
           config: config,
           color: prevColor,
           indicator: config.activeIndex == 0
-              ? Container()
+              ? const SizedBox.shrink()
               : icons![config.activeIndex - 1],
           quarterTurns: 0,
           previous: true,
@@ -110,7 +110,7 @@ class PageSwiperControl extends SwiperPlugin {
           config: config,
           color: nextColor,
           indicator: config.activeIndex == (icons!.length - 1)
-              ? Container()
+              ? const SizedBox.shrink()
               : icons![config.activeIndex + 1],
           quarterTurns: 0,
           previous: false,

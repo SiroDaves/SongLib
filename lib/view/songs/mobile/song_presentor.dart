@@ -99,7 +99,7 @@ class SongPresentorState extends State<SongPresentor>
                               ? Axis.horizontal
                               : Axis.vertical,
                         )
-                      : Container(),
+                      : const SizedBox.shrink(),
             ),
           ),
           floatingActionButton: ExpandableFab(

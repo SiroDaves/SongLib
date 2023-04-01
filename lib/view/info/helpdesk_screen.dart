@@ -6,6 +6,7 @@ import '../../navigator/main_navigator.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
+import '../../util/utilities.dart';
 import '../../vm/home/info_vm.dart';
 import '../../widget/provider/provider_widget.dart';
 
@@ -72,7 +73,8 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
                 onTap: () => viewModel.goToSms(),
               ),
               ListTile(
-                leading: const Icon(IconData(0xf05a6, fontFamily: 'MaterialIcons')),
+                leading:
+                    const Icon(IconData(0xf05a6, fontFamily: 'MaterialIcons')),
                 title: const Text('WhatsApp'),
                 onTap: () => viewModel.goToWhatsapp(),
               ),
@@ -84,47 +86,53 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
             ],
           ),
         );
-        return Scaffold(
-          backgroundColor: ThemeColors.accent,
-          appBar: AppBar(
-            title: Text(tr.helpdeskTitle),
-          ),
-          body: ListView(
-            padding: const EdgeInsets.all(5),
-            children: [
-              merchandise,
-              Card(
-                child: ListTile(
-                  leading: const Icon(Icons.settings),
-                  title: const Text('How it works'),
-                  subtitle:
-                      const Text('Revisit the onboarding screen once again'),
-                  onTap: () => viewModel.goToHowItWorks(),
-                ),
+        var mainView = ListView(
+          padding: const EdgeInsets.all(5),
+          children: [
+            merchandise,
+            Card(
+              child: ListTile(
+                leading: const Icon(Icons.settings),
+                title: const Text('How it works'),
+                subtitle:
+                    const Text('Revisit the onboarding screen once again'),
+                onTap: () => viewModel.goToHowItWorks(),
               ),
-              Card(
-                child: ListTile(
-                  leading: const Icon(Icons.link),
-                  title: const Text('This app on Google PlayStore'),
-                  subtitle:
-                      const Text('Go to Play Store or Long Press to copy link'),
-                  onTap: () => viewModel.goToPlayStore(),
-                  onLongPress: () => viewModel.copyText(0),
-                ),
+            ),
+            Card(
+              child: ListTile(
+                leading: const Icon(Icons.link),
+                title: const Text('This app on Google PlayStore'),
+                subtitle:
+                    const Text('Go to Play Store or Long Press to copy link'),
+                onTap: () => viewModel.goToPlayStore(),
+                onLongPress: () => viewModel.copyText(0),
               ),
-              Card(
-                child: ListTile(
-                  leading: const Icon(Icons.email),
-                  title: const Text('Email Address'),
-                  subtitle: const Text('songlibke(at)gmail[.]com'),
-                  onTap: () => viewModel.goToEmail(),
-                  onLongPress: () => viewModel.copyText(1),
-                ),
+            ),
+            Card(
+              child: ListTile(
+                leading: const Icon(Icons.email),
+                title: const Text('Email Address'),
+                subtitle: const Text('songlibke(at)gmail[.]com'),
+                onTap: () => viewModel.goToEmail(),
+                onLongPress: () => viewModel.copyText(1),
               ),
-              telegram,
-            ],
-          ),
+            ),
+            telegram,
+          ],
         );
+        return isDesktop
+            ? Scaffold(
+                backgroundColor: ThemeColors.backgroundGrey,
+                body: mainView,
+              )
+            : Scaffold(
+                backgroundColor: ThemeColors.backgroundGrey,
+                appBar: AppBar(
+                  title: Text(tr.helpdeskTitle),
+                ),
+                body: mainView,
+              );
       },
     );
   }

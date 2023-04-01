@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:styled_widget/styled_widget.dart';
+import 'package:textstyle_extensions/textstyle_extensions.dart';
 
 import '../../model/base/book.dart';
 import '../../model/base/draft.dart';
@@ -15,8 +16,7 @@ import '../../theme/theme_assets.dart';
 import '../../theme/theme_colors.dart';
 import '../../theme/theme_styles.dart';
 import '../../util/constants/app_constants.dart';
-import '../../util/constants/pref_constants.dart';
-import '../../util/constants/utilities.dart';
+import '../../util/utilities.dart';
 import '../../vm/home/home_vm.dart';
 import '../../widget/action/sidebar.dart';
 import '../../widget/general/app_bar.dart';
@@ -28,8 +28,10 @@ import '../../widget/general/toast.dart';
 import '../../widget/progress/circular_progress.dart';
 import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
+import '../../widget/search/floating_search.dart';
 import '../../widget/search/search_list.dart';
 import '../../widget/search/search_songs.dart';
+import '../info/helpdesk_screen.dart';
 import '../manage/settings_screen.dart';
 
 part '../../widget/search/pc_headers.dart';
@@ -41,7 +43,6 @@ part 'mobile/list_popup.dart';
 part 'mobile/likes_tab.dart';
 part 'mobile/list_tab.dart';
 part 'pc/drafts_tab_pc.dart';
-part 'pc/help_desk_pc.dart';
 part 'pc/likes_tab_pc.dart';
 part 'pc/list_tab_pc.dart';
 part 'pc/search_tab_pc.dart';
@@ -171,11 +172,10 @@ class HomeScreenState extends State<HomeScreen>
                 SearchTabPc(vm),
                 LikesTabPc(vm),
                 DraftsTabPc(vm),
-                HelpDeskPc(vm),
+                const HelpDeskScreen(),
                 const SettingsScreen(),
               ],
             )
-                .decorated(color: ThemeColors.accentLight)
                 .positioned(
                     left: 300, right: 0, bottom: 0, top: 0, animate: true)
                 .animate(.35.seconds, Curves.bounceIn),
@@ -250,4 +250,7 @@ class HomeScreenState extends State<HomeScreen>
 
   @override
   void goToSettings() => MainNavigator.of(context).goToSettings();
+
+  @override
+  void goToSelection() => MainNavigator.of(context).goToSelection();
 }

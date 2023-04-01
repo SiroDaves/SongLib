@@ -1,13 +1,12 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:songlib/util/utilities.dart';
 
 void showToast({
   String? text,
   ToastStates? state,
 }) {
-  Platform.isWindows
+  isDesktop
       ? null
       : Fluttertoast.showToast(
           msg: text!,

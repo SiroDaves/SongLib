@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_platform_alert/flutter_platform_alert.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:share_plus/share_plus.dart';
@@ -14,7 +15,7 @@ import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/pref_constants.dart';
-import '../../util/constants/utilities.dart';
+import '../../util/utilities.dart';
 import '../../widget/action/buttons.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/toast.dart';
@@ -180,40 +181,20 @@ class SongPresentorVm with ChangeNotifierEx {
   }
 
   Future<void> hintsDialog(BuildContext context) async {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: Text(
-          tr!.keyboardShortcuts,
-          style: const TextStyle(
-            fontSize: 22,
-            color: ThemeColors.primaryDark,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        content: Text(
-          tr!.keyboardShortcutsTexts + tr!.donationRequest,
-          style: const TextStyle(fontSize: 18),
-        ),
-        actions: <Widget>[
-          SimpleButton(
-            title: tr!.donate,
-            onPressed: () {
-              Navigator.pop(context);
-              navigator.goToDonation();
-            },
-          ),
-          const Spacer(),
-          SimpleButton(
-            title: tr!.okay,
-            onPressed: () {
-              Navigator.pop(context);
-              localStorage.setPrefBool(PrefConstants.pcHintsKey, true);
-            },
-          ),
-        ],
-      ),
+    var result = await FlutterPlatformAlert.showCustomAlert(
+      windowTitle: tr!.keyboardShortcuts,
+      text: tr!.keyboardShortcutsTexts,
+      iconStyle: IconStyle.information,
+      neutralButtonTitle: tr!.donate,
+      positiveButtonTitle: tr!.okay,
     );
+    if (result == CustomButton.neutralButton) {
+      localStorage.setPrefBool(PrefConstants.pcHintsKey, true);
+      navigator.goToDonation();
+    }
+    if (result == CustomButton.positiveButton) {
+      localStorage.setPrefBool(PrefConstants.pcHintsKey, true);
+    }
   }
 
   Future<void> onBackPressed() async {

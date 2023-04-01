@@ -5,7 +5,7 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../../navigator/main_navigator.dart';
 import '../../theme/theme_colors.dart';
-import '../../util/constants/utilities.dart';
+import '../../util/utilities.dart';
 import '../../vm/selection/progress_vm.dart';
 import '../../widget/progress/advanced/advanced_progress.dart';
 import '../../widget/progress/circular_progress.dart';

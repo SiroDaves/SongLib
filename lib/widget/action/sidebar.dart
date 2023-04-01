@@ -23,74 +23,72 @@ class SidebarState extends State<Sidebar> {
     var tr = AppLocalizations.of(context)!;
     vm = widget.viewModel;
 
-    return FocusTraversalGroup(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        decoration: const BoxDecoration(
-          color: ThemeColors.accent,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey,
-              spreadRadius: 2,
-              blurRadius: 2,
-              offset: Offset(0, 1),
-            ),
-          ],
-        ),
-        child: Column(
-          children: <Widget>[
-            SidebarBtn(
-              Icons.list,
-              tr.listTitle,
-              pageType: PageType.lists,
-              isSelected: vm!.setPage == PageType.lists,
-              onPressed: () => handlePageSelected(PageType.lists),
-            ),
-            const Divider(color: ThemeColors.primaryDark),
-            SidebarBtn(
-              Icons.search,
-              tr.searchTitle,
-              pageType: PageType.search,
-              isSelected: vm!.setPage == PageType.search,
-              onPressed: () => handlePageSelected(PageType.search),
-            ),
-            const Divider(color: ThemeColors.primaryDark),
-            SidebarBtn(
-              Icons.favorite,
-              tr.likesTitle,
-              pageType: PageType.likes,
-              isSelected: vm!.setPage == PageType.likes,
-              onPressed: () => handlePageSelected(PageType.likes),
-            ),
-            const Divider(color: ThemeColors.primaryDark),
-            SidebarBtn(
-              Icons.edit,
-              tr.draftTitle,
-              pageType: PageType.drafts,
-              isSelected: vm!.setPage == PageType.drafts,
-              onPressed: () => handlePageSelected(PageType.drafts),
-            ),
-            const Divider(color: ThemeColors.primaryDark),
-            const Spacer(),
-            const Divider(color: ThemeColors.primaryDark),
-            SidebarBtn(
-              Icons.support,
-              tr.helpdeskTitle,
-              pageType: PageType.helpdesk,
-              isSelected: vm!.setPage == PageType.helpdesk,
-              onPressed: () => handlePageSelected(PageType.helpdesk),
-            ),
-            const Divider(color: ThemeColors.primaryDark),
-            SidebarBtn(
-              Icons.settings,
-              tr.settingsTitle,
-              pageType: PageType.settings,
-              isSelected: vm!.setPage == PageType.settings,
-              onPressed: () => handlePageSelected(PageType.settings),
-            ),
-          ],
-        ).padding(bottom: 20).constrained(maxWidth: 280),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: const BoxDecoration(
+        color: ThemeColors.accent,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey,
+            spreadRadius: 2,
+            blurRadius: 2,
+            offset: Offset(0, 1),
+          ),
+        ],
       ),
+      child: Column(
+        children: <Widget>[
+          SidebarBtn(
+            Icons.list,
+            tr.listTitle,
+            pageType: PageType.lists,
+            isSelected: vm!.setPage == PageType.lists,
+            onPressed: () => handlePageSelected(PageType.lists),
+          ),
+          const Divider(color: ThemeColors.primaryDark),
+          SidebarBtn(
+            Icons.search,
+            tr.searchTitle,
+            pageType: PageType.search,
+            isSelected: vm!.setPage == PageType.search,
+            onPressed: () => handlePageSelected(PageType.search),
+          ),
+          const Divider(color: ThemeColors.primaryDark),
+          SidebarBtn(
+            Icons.favorite,
+            tr.likesTitle,
+            pageType: PageType.likes,
+            isSelected: vm!.setPage == PageType.likes,
+            onPressed: () => handlePageSelected(PageType.likes),
+          ),
+          const Divider(color: ThemeColors.primaryDark),
+          SidebarBtn(
+            Icons.edit,
+            tr.draftTitle,
+            pageType: PageType.drafts,
+            isSelected: vm!.setPage == PageType.drafts,
+            onPressed: () => handlePageSelected(PageType.drafts),
+          ),
+          const Divider(color: ThemeColors.primaryDark),
+          const Spacer(),
+          const Divider(color: ThemeColors.primaryDark),
+          SidebarBtn(
+            Icons.support,
+            tr.helpdeskTitle,
+            pageType: PageType.helpdesk,
+            isSelected: vm!.setPage == PageType.helpdesk,
+            onPressed: () => handlePageSelected(PageType.helpdesk),
+          ),
+          const Divider(color: ThemeColors.primaryDark),
+          SidebarBtn(
+            Icons.settings,
+            tr.settingsTitle,
+            pageType: PageType.settings,
+            isSelected: vm!.setPage == PageType.settings,
+            onPressed: () => handlePageSelected(PageType.settings),
+          ),
+        ],
+      ).padding(bottom: 20).constrained(maxWidth: 280),
     );
   }
 }

@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../model/base/edit.dart';
 import '../../model/tables/db_edit_table.dart';
-import '../../util/constants/utilities.dart';
+import '../../util/utilities.dart';
 import '../songlib_db.dart';
 
 part 'edit_dao.g.dart';

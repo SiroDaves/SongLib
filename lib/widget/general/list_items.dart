@@ -9,7 +9,7 @@ import '../../model/base/listed.dart';
 import '../../model/base/songext.dart';
 import '../../theme/theme_colors.dart';
 import '../../theme/theme_styles.dart';
-import '../../util/constants/utilities.dart';
+import '../../util/utilities.dart';
 import 'labels.dart';
 
 var locale = 'en';
@@ -97,7 +97,7 @@ class SongBook extends StatelessWidget {
         hoverColor: isSelected ? ThemeColors.primary : Colors.white,
         hoverElevation: 1,
         highlightElevation: 0,
-        elevation: 0,
+        elevation: 3,
         padding: const EdgeInsets.all(10),
         shape: const RoundedRectangleBorder(
           side: BorderSide(color: ThemeColors.primary),
@@ -139,7 +139,7 @@ class ListedItem extends StatelessWidget {
     final String lastUpdate = timeago.format(dateValue);
 
     return Padding(
-      padding: const EdgeInsets.only(right: 5, bottom: 5),
+      padding: const EdgeInsets.only(right: 5, bottom: 5, top: 5),
       child: RawMaterialButton(
         fillColor: isSelected ? ThemeColors.primary : Colors.white,
         highlightColor: Colors.white.withOpacity(.1),
@@ -175,7 +175,7 @@ class ListedItem extends StatelessWidget {
                       fontSize: height * 0.015,
                     ),
                   )
-                : Container(),
+                : const SizedBox.shrink(),
             Row(
               children: <Widget>[
                 const Spacer(),
@@ -230,7 +230,7 @@ class SongItem extends StatelessWidget {
 
     versesText = verses.length == 1 ? versesText : '${versesText}s';
     return Padding(
-      padding: const EdgeInsets.only(right: 5, bottom: 5),
+      padding: const EdgeInsets.only(right: 5, bottom: 5, top: 5),
       child: RawMaterialButton(
         fillColor: isSelected ? ThemeColors.primary : Colors.white,
         highlightColor: Colors.white.withOpacity(.1),
@@ -239,6 +239,7 @@ class SongItem extends StatelessWidget {
         hoverElevation: 1,
         highlightElevation: 0,
         padding: const EdgeInsets.all(5),
+        elevation: 5,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(5),
@@ -354,7 +355,7 @@ class DraftItem extends StatelessWidget {
                     TagView(tagText: versesText, height: height),
                     hasChorus
                         ? TagView(tagText: chorusText, height: height)
-                        : Container(),
+                        : const SizedBox.shrink(),
                   ],
                 ),
               ],

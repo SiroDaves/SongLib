@@ -114,7 +114,7 @@ class SearchTab extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                vm.books!.isNotEmpty ? booksContainer : Container(),
+                vm.books!.isNotEmpty ? booksContainer : const SizedBox.shrink(),
                 SizedBox(
                   child: vm.isLoading
                       ? const ListLoading()

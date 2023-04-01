@@ -94,7 +94,7 @@ class DraftPresentorState extends State<DraftPresentor>
                               ? Axis.horizontal
                               : Axis.vertical,
                         )
-                      : Container(),
+                      : const SizedBox.shrink(),
             ),
           ),
           floatingActionButton: ExpandableFab(

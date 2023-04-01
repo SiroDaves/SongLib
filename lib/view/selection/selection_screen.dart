@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_platform_alert/flutter_platform_alert.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../navigator/main_navigator.dart';
 import '../../theme/theme_colors.dart';
-import '../../util/constants/utilities.dart';
+import '../../util/utilities.dart';
 import '../../vm/selection/selection_vm.dart';
 import '../../widget/action/app_dialog.dart';
 import '../../widget/action/buttons.dart';
@@ -42,7 +43,7 @@ class SelectionScreenState extends State<SelectionScreen>
           ),
           actions: <Widget>[
             vm.isLoading
-                ? Container()
+                ? const SizedBox.shrink()
                 : InkWell(
                     onTap: vm.fetchBooks,
                     child: const Padding(
@@ -51,9 +52,9 @@ class SelectionScreenState extends State<SelectionScreen>
                     ),
                   ),
             vm.isLoading
-                ? Container()
+                ? const SizedBox.shrink()
                 : vm.hasError
-                    ? Container()
+                    ? const SizedBox.shrink()
                     : IconTextBtn(
                         onPressed: () => areYouDoneDialog(context, vm),
                         title: tr.proceed,
@@ -101,21 +102,21 @@ class SelectionScreenState extends State<SelectionScreen>
                           ? isDesktop || isMobile && isTabletOrIpad
                               ? bigScreenLayout
                               : smallScreenLayout
-                          : Container(),
+                          : const SizedBox.shrink(),
                   vm.hasError
                       ? NoDataToShow(
                           title: vm.errorTitle,
                           description: vm.errorBody,
                         )
-                      : Container(),
+                      : const SizedBox.shrink(),
                 ],
               ),
             ),
           ),
           floatingActionButton: vm.isLoading
-              ? Container()
+              ? const SizedBox.shrink()
               : vm.hasError
-                  ? Container()
+                  ? const SizedBox.shrink()
                   : FloatingActionButton(
                       backgroundColor: ThemeColors.primary,
                       onPressed: () => areYouDoneDialog(context, vm),
@@ -129,35 +130,20 @@ class SelectionScreenState extends State<SelectionScreen>
   Future<void> areYouDoneDialog(BuildContext context, SelectionVm vm) async {
     var tr = AppLocalizations.of(context)!;
     if (vm.selectables.isNotEmpty) {
-      return appDialog(
-        context,
-        tr.doneSelecting,
-        tr.doneSelectingBody,
-        [
-          TextButton(
-            child: Text(tr.cancel),
-            onPressed: () => Navigator.pop(context),
-          ),
-          TextButton(
-            child: Text(tr.proceed),
-            onPressed: () {
-              Navigator.pop(context);
-              vm.saveBooks();
-            },
-          ),
-        ],
+      var result = await FlutterPlatformAlert.showCustomAlert(
+        windowTitle: tr.doneSelecting,
+        text: tr.doneSelectingBody,
+        iconStyle: IconStyle.information,
+        neutralButtonTitle: tr.cancel,
+        positiveButtonTitle: tr.proceed,
       );
+      if (result == CustomButton.positiveButton) vm.saveBooks();
     } else {
-      return appDialog(
-        context,
-        tr.noSelection,
-        tr.noSelectionBody,
-        [
-          TextButton(
-            child: Text(tr.okay),
-            onPressed: () => Navigator.pop(context),
-          ),
-        ],
+      await FlutterPlatformAlert.showCustomAlert(
+        windowTitle: tr.noSelection,
+        text: tr.noSelectionBody,
+        iconStyle: IconStyle.warning,
+        neutralButtonTitle: tr.okay,
       );
     }
   }
