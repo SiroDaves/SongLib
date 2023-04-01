@@ -46,7 +46,7 @@ part 'pc/likes_tab_pc.dart';
 part 'pc/list_tab_pc.dart';
 part 'pc/search_tab_pc.dart';
 
-// Home screen with 3 tabs of list, search and notes screens
+/// Home screen with 3 tabs of list, search and notes screens
 class HomeScreen extends StatefulWidget {
   static const String routeName = RouteNames.homeScreen;
   const HomeScreen({Key? key}) : super(key: key);
