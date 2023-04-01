@@ -69,6 +69,8 @@ class OnboardingScreenState extends State<OnboardingScreen>
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     onboardingPages = [
+      
+      // Introduction and guide screens when opening the application for the first time
       PageModel(
         widget: OnboardingWidget(
           size: size!,
@@ -182,6 +184,7 @@ class OnboardingScreenState extends State<OnboardingScreen>
     );
   }
 
+  // Navigates to home screen
   @override
   void goToHome() => MainNavigator.of(context).goToHome();
 }
