@@ -224,5 +224,4 @@ class DraftPresentorVm with ChangeNotifierEx {
 
 abstract class DraftPresentorNavigator implements BackNavigator {
   void goToDraftEditor(bool notEmpty);
-  void goToDraftEditorPc(bool notEmpty);
 }

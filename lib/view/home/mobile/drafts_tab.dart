@@ -21,7 +21,7 @@ class DraftsTab extends StatelessWidget {
         return DraftItem(
           draft: draft,
           height: size!.height,
-          onTap: () {
+          onPressed: () {
             vm.localStorage.draft = vm.setDraft = draft;
             vm.navigator.goToDraftPresentor();
           },

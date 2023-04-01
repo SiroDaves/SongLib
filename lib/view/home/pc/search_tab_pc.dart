@@ -122,6 +122,14 @@ class SearchTabPc extends StatelessWidget {
             ),
           ),
           InkWell(
+            onTap: () => vm.likeSong(vm.setSong),
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Icon(
+                  vm.setSong.liked! ? Icons.favorite : Icons.favorite_border),
+            ),
+          ),
+          InkWell(
             onTap: vm.navigator.goToSongPresentorPc,
             child: Padding(
                 padding: const EdgeInsets.all(10),

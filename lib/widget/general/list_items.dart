@@ -17,13 +17,13 @@ var locale = 'en';
 class BookItem extends StatelessWidget {
   final Book book;
   final bool selected;
-  final Function()? onTap;
+  final Function()? onPressed;
 
   const BookItem({
     Key? key,
     required this.book,
     this.selected = false,
-    this.onTap,
+    this.onPressed,
   }) : super(key: key);
 
   @override
@@ -35,7 +35,7 @@ class BookItem extends StatelessWidget {
         elevation: 5,
         child: Center(
           child: ListTile(
-            onTap: onTap,
+            onTap: onPressed,
             leading: Padding(
               padding: const EdgeInsets.all(15),
               child: Icon(
@@ -294,13 +294,13 @@ class SongItem extends StatelessWidget {
 class DraftItem extends StatelessWidget {
   final Draft draft;
   final double height;
-  final Function()? onTap;
+  final Function()? onPressed;
 
   DraftItem({
     Key? key,
     required this.draft,
     required this.height,
-    this.onTap,
+    this.onPressed,
   }) : super(key: key);
 
   bool hasChorus = false;
@@ -324,7 +324,7 @@ class DraftItem extends StatelessWidget {
     return Hero(
       tag: 'DraftIndex_${draft.id}',
       child: GestureDetector(
-        onTap: onTap,
+        onTap: onPressed,
         child: Card(
           elevation: 2,
           margin: EdgeInsets.only(bottom: height * 0.0049),

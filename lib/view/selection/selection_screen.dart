@@ -74,7 +74,7 @@ class SelectionScreenState extends State<SelectionScreen>
               itemBuilder: (context, index) => BookItem(
                 book: vm.books![index],
                 selected: vm.listedBooks[index]!.isSelected,
-                onTap: () => vm.onBookSelected(index),
+                onPressed: () => vm.onBookSelected(index),
               ),
             );
           },
@@ -85,7 +85,7 @@ class SelectionScreenState extends State<SelectionScreen>
           itemBuilder: (context, index) => BookItem(
             book: vm.books![index],
             selected: vm.listedBooks[index]!.isSelected,
-            onTap: () => vm.onBookSelected(index),
+            onPressed: () => vm.onBookSelected(index),
           ),
         );
 

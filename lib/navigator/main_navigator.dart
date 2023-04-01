@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../view/drafts/mobile/draft_editor.dart';
+import '../view/drafts/draft_editor.dart';
 import '../view/drafts/mobile/draft_presentor.dart';
-import '../view/drafts/pc/draft_editor_pc.dart';
 import '../view/drafts/pc/draft_presentor_pc.dart';
 import '../view/home/home_screen.dart';
 import '../view/info/donation_screen.dart';
@@ -138,11 +137,6 @@ class MainNavigatorState extends State<MainNavigator> with MainNavigationMixin {
           builder: (context) => const DraftEditor(),
           settings: settings,
         );
-      case DraftEditorPc.routeName:
-        return MaterialPageRoute<void>(
-          builder: (context) => const DraftEditorPc(),
-          settings: settings,
-        );
 
       case ListViewScreen.routeName:
         return MaterialPageRoute<void>(
@@ -216,12 +210,6 @@ class MainNavigatorState extends State<MainNavigator> with MainNavigationMixin {
   @override
   void goToDraftEditor(bool notEmpty) => navigator.pushNamed(
         DraftEditor.routeName,
-        arguments: {'not_empty': notEmpty},
-      );
-
-  @override
-  void goToDraftEditorPc(bool notEmpty) => navigator.pushNamed(
-        DraftEditorPc.routeName,
         arguments: {'not_empty': notEmpty},
       );
 

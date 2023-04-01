@@ -70,7 +70,7 @@ class SearchDrafts extends SearchDelegate<List> {
         return DraftItem(
           draft: result,
           height: height!,
-          onTap: () {
+          onPressed: () {
             vm.localStorage.draft = vm.setDraft = result;
             vm.navigator.goToDraftPresentor();
           },
@@ -96,7 +96,7 @@ class SearchDrafts extends SearchDelegate<List> {
         return DraftItem(
           draft: result,
           height: height!,
-          onTap: () {
+          onPressed: () {
             vm.localStorage.draft = vm.setDraft = result;
             vm.navigator.goToDraftPresentor();
           },

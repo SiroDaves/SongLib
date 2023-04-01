@@ -21,10 +21,10 @@ import '../../vm/home/home_vm.dart';
 import '../../widget/action/sidebar.dart';
 import '../../widget/general/app_bar.dart';
 import '../../widget/general/fading_index_stack.dart';
-import '../../widget/general/inputs.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
 import '../../widget/general/toast.dart';
+import '../../widget/inputs/form_input.dart';
 import '../../widget/progress/circular_progress.dart';
 import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
@@ -234,10 +234,6 @@ class HomeScreenState extends State<HomeScreen>
   @override
   void goToDraftEditor(bool notEmpty) =>
       MainNavigator.of(context).goToDraftEditor(notEmpty);
-
-  @override
-  void goToDraftEditorPc(bool notEmpty) =>
-      MainNavigator.of(context).goToDraftEditorPc(notEmpty);
 
   @override
   void goToListView() => MainNavigator.of(context).goToListView();

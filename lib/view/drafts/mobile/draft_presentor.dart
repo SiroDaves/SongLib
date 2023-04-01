@@ -134,7 +134,4 @@ class DraftPresentorState extends State<DraftPresentor>
   void goToDraftEditor(bool notEmpty) =>
       MainNavigator.of(context).goToDraftEditor(notEmpty);
 
-  @override
-  void goToDraftEditorPc(bool notEmpty) =>
-      MainNavigator.of(context).goToDraftEditorPc(notEmpty);
 }

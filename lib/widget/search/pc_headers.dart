@@ -37,32 +37,12 @@ class PcSearch extends StatelessWidget {
     );
     switch (vm!.setPage) {
       case PageType.lists:
-        return vm!.isLoading
-            ? const ListLoading()
-            : vm!.listeds!.isNotEmpty
-                ? searchWidget
-                : const SizedBox.shrink();
-
       case PageType.search:
+      case PageType.likes:
+      case PageType.drafts:
         return searchWidget;
 
-      case PageType.likes:
-        return vm!.isLoading
-            ? const ListLoading()
-            : vm!.likes!.isNotEmpty
-                ? searchWidget
-                : const SizedBox.shrink();
-
-      case PageType.drafts:
-        return vm!.isLoading
-            ? const ListLoading()
-            : vm!.drafts!.isNotEmpty
-                ? searchWidget
-                : const SizedBox.shrink();
-
       case PageType.helpdesk:
-        return const SizedBox.shrink();
-
       case PageType.settings:
         return const SizedBox.shrink();
     }
@@ -94,7 +74,7 @@ class PcActionBtn1 extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
-                    'ADD A LIST', //vm!.tr!.proceed,
+                    'ADD A LIST',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -104,23 +84,36 @@ class PcActionBtn1 extends StatelessWidget {
         );
 
       case PageType.search:
-        return const SizedBox.shrink();
-
       case PageType.likes:
-      case PageType.drafts:
-        return InkWell(
-          onTap: () {},
-          child: const Padding(
-            padding: EdgeInsets.all(10),
-            child: Icon(Icons.add),
-          ),
-        );
-
       case PageType.helpdesk:
-        return const SizedBox.shrink();
-
       case PageType.settings:
         return const SizedBox.shrink();
+
+      case PageType.drafts:
+        return TextButton(
+          onPressed: () => vm!.navigator.goToDraftEditor(true),
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(
+                Radius.circular(5),
+              ),
+            ),
+            child: Row(
+              children: const <Widget>[
+                Icon(Icons.add),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Text(
+                    'DRAFT A SONG',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
     }
   }
 }

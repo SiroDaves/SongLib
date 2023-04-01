@@ -36,9 +36,10 @@ class HomeVm with ChangeNotifierEx {
 
   List<Book>? books = [];
 
-  String songTitle = 'Song Title', currentUpdate = 'update68';
+  String songTitle = 'Song Title', songTitleL = 'Song Title';
+  String currentUpdate = 'update68';
   List<SongExt>? filtered = [], songs = [], likes = [], listSongs = [];
-  List<String> verses = [];
+  List<String> verses = [], versesLike = [], versesDraft = [];
 
   List<ListedExt>? listedSongs = [];
   List<Listed>? listeds = [];
@@ -110,17 +111,29 @@ class HomeVm with ChangeNotifierEx {
     notifyListeners();
   }
 
+  void chooseListed(Listed listed) {
+    localStorage.listed = setListed = listed;
+    fetchListedSongs();
+    notifyListeners();
+  }
+
   void chooseSong(SongExt song) {
     localStorage.song = setSong = song;
     verses = song.content!.split("##");
     songTitle = songItemTitle(song.songNo!, song.title!);
-    localStorage.setPrefBool(PrefConstants.notDraftKey, true);
     notifyListeners();
   }
 
-  void chooseListed(Listed listed) {
-    localStorage.listed = setListed = listed;
-    fetchListedSongs();
+  void chooseLiked(SongExt song) {
+    localStorage.song = setLiked = song;
+    versesLike = song.content!.split("##");
+    songTitleL = songItemTitle(song.songNo!, song.title!);
+    notifyListeners();
+  }
+
+  void chooseDraft(Draft draft) {
+    localStorage.draft = setDraft = draft;
+    versesDraft = draft.content!.split("##");
     notifyListeners();
   }
 
@@ -231,13 +244,29 @@ class HomeVm with ChangeNotifierEx {
   }
 
   /// Add a song to liked songs
-  Future<void> likeSong(SongExt song) async {
+  Future<void> likeSongx(SongExt song) async {
     bool isLiked = song.liked!;
     isLiked = !isLiked;
     song.liked = isLiked;
     await dbRepo.editSong(song);
     await fetchLikedSongs(showLoading: false);
     if (isLiked) {
+      showToast(
+        text: '${song.title} ${tr!.songLiked}',
+        state: ToastStates.success,
+      );
+    }
+    notifyListeners();
+  }
+
+  /// Add a song to liked songs
+  Future<void> likeSong(SongExt song) async {
+    bool isLiked = false;
+    isLiked = !isLiked;
+    song.liked = isLiked;
+    await dbRepo.editSong(song);
+    likes = await dbRepo.fetchLikedSongs();
+    if (setSong.liked!) {
       showToast(
         text: '${song.title} ${tr!.songLiked}',
         state: ToastStates.success,
@@ -343,7 +372,7 @@ class HomeVm with ChangeNotifierEx {
       text: '${song.title}${tr!.songAddedToList}${setListed.title} list',
       state: ToastStates.success,
     );
-    
+
     isMiniLoading = false;
     notifyListeners();
   }
@@ -384,7 +413,6 @@ abstract class HomeNavigator {
   void goToSongEditor();
   void goToSongEditorPc();
   void goToDraftEditor(bool notEmpty);
-  void goToDraftEditorPc(bool notEmpty);
   void goToListView();
   void goToHelpDesk();
   void goToDonation();

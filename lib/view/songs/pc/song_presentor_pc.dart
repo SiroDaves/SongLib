@@ -36,7 +36,7 @@ class SongPresentorPcState extends State<SongPresentorPc>
   }
 
   Future<void> init() async {
-    //await DesktopWindow.setFullScreen(true);
+    await DesktopWindow.setFullScreen(true);
   }
 
   @override

@@ -15,7 +15,6 @@ abstract class MainNavigation {
   void goToSongEditor();
   void goToSongEditorPc();
   void goToDraftEditor(bool notEmpty);
-  void goToDraftEditorPc(bool notEmpty);
   void closeDialog();
   void goToListView();
   void goToSettings();

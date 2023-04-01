@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:styled_widget/styled_widget.dart';
 
 import '../../../navigator/mixin/back_navigator.dart';
 import '../../../navigator/route_names.dart';
 import '../../../theme/theme_colors.dart';
 import '../../../vm/songs/song_editor_vm.dart';
-import '../../../widget/general/inputs.dart';
+import '../../../widget/inputs/form_input.dart';
 import '../../../widget/progress/circular_progress.dart';
 import '../../../widget/provider/provider_widget.dart';
 
@@ -45,7 +46,6 @@ class SongEditorState extends State<SongEditor>
                     iLabel: 'Song Title',
                     iController: vm.titleController!,
                     prefix: const Icon(Icons.text_fields),
-                    iOptions: const <String>[],
                   ),
                   FormInput(
                     iLabel: 'Song Content',
@@ -53,19 +53,17 @@ class SongEditorState extends State<SongEditor>
                     prefix: const Icon(Icons.list),
                     isMultiline: true,
                     iType: TextInputType.multiline,
-                    iOptions: const <String>[],
-                  ),
+                    maxInput: 20000,
+                  ).expanded(),
                   FormInput(
                     iLabel: 'Song Key (Optional)',
                     iController: vm.keyController!,
                     prefix: const Icon(Icons.key),
-                    iOptions: const <String>[],
                   ),
                   FormInput(
                     iLabel: 'Song Alias (Optional)',
                     iController: vm.aliasController!,
                     prefix: const Icon(Icons.text_format),
-                    iOptions: const <String>[],
                   ),
                 ],
               ),

@@ -21,12 +21,10 @@ Future<void> newListForm(BuildContext context, HomeVm vm) async {
             FormInput(
               iLabel: 'Title',
               iController: vm.titleController!,
-              iOptions: const <String>[],
             ),
             FormInput(
               iLabel: 'Description (Optional)',
               iController: vm.contentController!,
-              iOptions: const <String>[],
             ),
           ],
         ),
@@ -71,12 +69,10 @@ Future<void> editListForm(BuildContext context, HomeVm vm) async {
             FormInput(
               iLabel: 'Title',
               iController: vm.titleController!,
-              iOptions: const <String>[],
             ),
             FormInput(
               iLabel: 'Description (Optional)',
               iController: vm.contentController!,
-              iOptions: const <String>[],
             ),
           ],
         ),

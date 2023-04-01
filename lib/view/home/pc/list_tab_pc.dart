@@ -77,7 +77,7 @@ class ListTabPcState extends State<ListTabPc> {
           height: size.height,
           onPressed: () {
             vm.localStorage.song = vm.setSong = song;
-            vm.navigator.goToSongPresentor();
+            vm.navigator.goToSongPresentorPc();
           },
         );
       },
@@ -117,11 +117,13 @@ class ListTabPcState extends State<ListTabPc> {
                       title: tr.itsEmptyHere,
                       description: tr.itsEmptyHereBody,
                     ),
-          FloatingSearch(
-            items: vm.songs!,
-            focus: focusNode,
-            onPressed: (song) => vm.addSongToList(song),
-          ).opacity(isSearching ? 1 : 0),
+          isSearching
+              ? FloatingSearch(
+                  items: vm.songs!,
+                  focus: focusNode,
+                  onPressed: (song) => vm.addSongToList(song),
+                )
+              : const SizedBox.shrink(),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -171,12 +173,10 @@ class ListTabPcState extends State<ListTabPc> {
               FormInput(
                 iLabel: 'Title',
                 iController: vm.titleController!,
-                iOptions: const <String>[],
               ),
               FormInput(
                 iLabel: 'Description (Optional)',
                 iController: vm.contentController!,
-                iOptions: const <String>[],
               ),
             ],
           ),
