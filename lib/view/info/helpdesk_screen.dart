@@ -9,7 +9,7 @@ import '../../theme/theme_colors.dart';
 import '../../vm/home/info_vm.dart';
 import '../../widget/provider/provider_widget.dart';
 
-// Help desk screen
+/// Help desk screen
 class HelpDeskScreen extends StatefulWidget {
   static const String routeName = RouteNames.helpdeskScreen;
 
