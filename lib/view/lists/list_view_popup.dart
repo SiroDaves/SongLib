@@ -9,9 +9,9 @@ import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
 import '../../vm/lists/list_popup_vm.dart';
-import '../../widget/general/inputs.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
+import '../../widget/inputs/form_input.dart';
 import '../../widget/progress/circular_progress.dart';
 import '../../widget/provider/provider_widget.dart';
 
@@ -137,12 +137,10 @@ class ListViewPopupState extends State<ListViewPopup>
               FormInput(
                 iLabel: 'Title',
                 iController: vm!.titleController!,
-                iOptions: const <String>[],
               ),
               FormInput(
                 iLabel: 'Description (Optional)',
                 iController: vm!.contentController!,
-                iOptions: const <String>[],
               ),
             ],
           ),

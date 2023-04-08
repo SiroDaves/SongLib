@@ -1,8 +1,8 @@
 name: songlib
 description: A new Flutter project.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: 'none'
 
-version: 1.0.0+1
+version: 0.0.6
 
 environment:
   sdk: '>=2.19.0 <3.0.0'
@@ -26,6 +26,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_secure_storage: ^5.0.2
+  flutter_platform_alert: ^0.3.0
   fluttertoast: ^8.0.9
   get_it: ^7.2.0
   http: ^0.13.5

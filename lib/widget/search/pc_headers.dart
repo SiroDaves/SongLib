@@ -37,30 +37,14 @@ class PcSearch extends StatelessWidget {
     );
     switch (vm!.setPage) {
       case PageType.lists:
-        return vm!.isLoading
-            ? const ListLoading()
-            : vm!.listeds!.isNotEmpty
-                ? searchWidget
-                : Container();
-
       case PageType.search:
-        return searchWidget;
-
       case PageType.likes:
       case PageType.drafts:
-        return InkWell(
-          onTap: () {},
-          child: const Padding(
-            padding: EdgeInsets.all(10),
-            child: Icon(Icons.add),
-          ),
-        );
+        return searchWidget;
 
       case PageType.helpdesk:
-        return Container();
-
       case PageType.settings:
-        return Container();
+        return const SizedBox.shrink();
     }
   }
 }
@@ -90,7 +74,7 @@ class PcActionBtn1 extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
-                    'ADD A LIST', //vm!.tr!.proceed,
+                    'ADD A LIST',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -100,23 +84,89 @@ class PcActionBtn1 extends StatelessWidget {
         );
 
       case PageType.search:
-        return Container();
-
       case PageType.likes:
+      case PageType.helpdesk:
+      case PageType.settings:
+        return const SizedBox.shrink();
+
       case PageType.drafts:
-        return InkWell(
-          onTap: () {},
-          child: const Padding(
-            padding: EdgeInsets.all(10),
-            child: Icon(Icons.add),
+        return TextButton(
+          onPressed: () => vm!.navigator.goToDraftEditor(true),
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(
+                Radius.circular(5),
+              ),
+            ),
+            child: Row(
+              children: const <Widget>[
+                Icon(Icons.add),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Text(
+                    'DRAFT A SONG',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
-
-      case PageType.helpdesk:
-        return Container();
-
-      case PageType.settings:
-        return Container();
     }
+  }
+}
+
+/// Manage Song Books
+class ManageBooksBtn extends StatelessWidget {
+  final HomeVm? vm;
+  final bool isClicked;
+  const ManageBooksBtn(
+    this.vm, {
+    Key? key,
+    this.isClicked = false,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: RawMaterialButton(
+        textStyle: TextStyles.Btn.bold.size(16).textColor(Colors.white),
+        fillColor: ThemeColors.primary,
+        highlightColor: Colors.white.withOpacity(.1),
+        focusElevation: 0,
+        hoverColor: ThemeColors.accent,
+        hoverElevation: 1,
+        highlightElevation: 0,
+        elevation: 3,
+        padding: const EdgeInsets.all(10),
+        shape: const RoundedRectangleBorder(
+          side: BorderSide(color: ThemeColors.primary),
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+        ),
+        onPressed: () => vm!.navigator.goToSelection(),
+        child: SizedBox(
+          width: 160,
+          height: 90,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(10),
+                child: Icon(Icons.check_box),
+              ),
+              const Text(
+                'Manage Your SongBooks',
+                maxLines: 3,
+              ).expanded(),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

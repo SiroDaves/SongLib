@@ -23,7 +23,7 @@ class ListPopup extends StatelessWidget {
           listed: listed,
           height: size!.height,
           onPressed: () {
-            vm.addSongToList(listed, song);
+            vm.addSongToList(song);
             Navigator.pop(context);
           },
         );
@@ -102,12 +102,10 @@ class ListPopup extends StatelessWidget {
               FormInput(
                 iLabel: 'Title',
                 iController: vm.titleController!,
-                iOptions: const <String>[],
               ),
               FormInput(
                 iLabel: 'Description (Optional)',
                 iController: vm.contentController!,
-                iOptions: const <String>[],
               ),
             ],
           ),

@@ -8,6 +8,8 @@ PODS:
     - FlutterMacOS
   - flutter_local_notifications (0.0.1):
     - FlutterMacOS
+  - flutter_platform_alert (0.0.1):
+    - FlutterMacOS
   - flutter_secure_storage_macos (3.3.1):
     - FlutterMacOS
   - FlutterMacOS (1.0.0)
@@ -58,6 +60,7 @@ DEPENDENCIES:
   - desktop_window (from `Flutter/ephemeral/.symlinks/plugins/desktop_window/macos`)
   - device_info_plus_macos (from `Flutter/ephemeral/.symlinks/plugins/device_info_plus_macos/macos`)
   - flutter_local_notifications (from `Flutter/ephemeral/.symlinks/plugins/flutter_local_notifications/macos`)
+  - flutter_platform_alert (from `Flutter/ephemeral/.symlinks/plugins/flutter_platform_alert/macos`)
   - flutter_secure_storage_macos (from `Flutter/ephemeral/.symlinks/plugins/flutter_secure_storage_macos/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
   - package_info_plus_macos (from `Flutter/ephemeral/.symlinks/plugins/package_info_plus_macos/macos`)
@@ -86,6 +89,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/device_info_plus_macos/macos
   flutter_local_notifications:
     :path: Flutter/ephemeral/.symlinks/plugins/flutter_local_notifications/macos
+  flutter_platform_alert:
+    :path: Flutter/ephemeral/.symlinks/plugins/flutter_platform_alert/macos
   flutter_secure_storage_macos:
     :path: Flutter/ephemeral/.symlinks/plugins/flutter_secure_storage_macos/macos
   FlutterMacOS:
@@ -114,6 +119,7 @@ SPEC CHECKSUMS:
   desktop_window: fb7c4f12c1129f947ac482296b6f14059d57a3c3
   device_info_plus_macos: 1ad388a1ef433505c4038e7dd9605aadd1e2e9c7
   flutter_local_notifications: 3805ca215b2fb7f397d78b66db91f6a747af52e4
+  flutter_platform_alert: b21b2b7d801e71c12ce9ffab618ff114ca9fc903
   flutter_secure_storage_macos: 6ceee8fbc7f484553ad17f79361b556259df89aa
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a

@@ -9,9 +9,9 @@ import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
 import '../../vm/lists/list_view_vm.dart';
-import '../../widget/general/inputs.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
+import '../../widget/inputs/form_input.dart';
 import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
 import '../../widget/search/add_songs.dart';
@@ -148,12 +148,10 @@ class ListViewScreenState extends State<ListViewScreen>
               FormInput(
                 iLabel: 'Title',
                 iController: vm.titleController!,
-                iOptions: const <String>[],
               ),
               FormInput(
                 iLabel: 'Description (Optional)',
                 iController: vm.contentController!,
-                iOptions: const <String>[],
               ),
             ],
           ),

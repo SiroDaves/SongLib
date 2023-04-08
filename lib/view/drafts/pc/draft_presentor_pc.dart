@@ -36,7 +36,7 @@ class DraftPresentorPcState extends State<DraftPresentorPc>
   }
 
   Future<void> init() async {
-    //await DesktopWindow.setFullScreen(true);
+    await DesktopWindow.setFullScreen(true);
   }
 
   @override
@@ -255,7 +255,4 @@ class DraftPresentorPcState extends State<DraftPresentorPc>
   void goToDraftEditor(bool notEmpty) =>
       MainNavigator.of(context).goToDraftEditor(notEmpty);
 
-  @override
-  void goToDraftEditorPc(bool notEmpty) =>
-      MainNavigator.of(context).goToDraftEditorPc(notEmpty);
 }

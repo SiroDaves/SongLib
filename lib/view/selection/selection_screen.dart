@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_platform_alert/flutter_platform_alert.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../navigator/main_navigator.dart';
 import '../../theme/theme_colors.dart';
-import '../../util/constants/utilities.dart';
+import '../../util/utilities.dart';
 import '../../vm/selection/selection_vm.dart';
+import '../../widget/action/app_dialog.dart';
 import '../../widget/action/buttons.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';
@@ -30,20 +32,18 @@ class SelectionScreenState extends State<SelectionScreen>
   Widget build(BuildContext context) {
     var tr = AppLocalizations.of(context)!;
     size = MediaQuery.of(context).size;
-
+    bool isTabletOrIpad = size!.shortestSide > 550;
     return ProviderWidget<SelectionVm>(
       create: () => GetIt.I()..init(this),
       childBuilderWithViewModel: (context, vm, theme, localization) {
         vm.tr = AppLocalizations.of(context)!;
         var topContainer = AppBar(
           title: Text(
-            vm.isLoading
-                ? tr.booksTitleLoading
-                : tr.booksTitle,
+            vm.isLoading ? tr.booksTitleLoading : tr.booksTitle,
           ),
           actions: <Widget>[
             vm.isLoading
-                ? Container()
+                ? const SizedBox.shrink()
                 : InkWell(
                     onTap: vm.fetchBooks,
                     child: const Padding(
@@ -52,36 +52,41 @@ class SelectionScreenState extends State<SelectionScreen>
                     ),
                   ),
             vm.isLoading
-                ? Container()
+                ? const SizedBox.shrink()
                 : vm.hasError
-                    ? Container()
-                    : TextButton(
+                    ? const SizedBox.shrink()
+                    : IconTextBtn(
                         onPressed: () => areYouDoneDialog(context, vm),
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(5),
-                            ),
-                          ),
-                          child: Row(
-                            children: <Widget>[
-                              const Icon(Icons.check),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 10),
-                                child: Text(
-                                  tr.proceed,
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        title: tr.proceed,
                       ),
           ],
+        );
+
+        var bigScreenLayout = LayoutBuilder(
+          builder: (context, dimens) {
+            int axisCount = (dimens.maxWidth / 450).round();
+            return GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: axisCount,
+                childAspectRatio: 4,
+              ),
+              itemCount: vm.books!.length,
+              itemBuilder: (context, index) => BookItem(
+                book: vm.books![index],
+                selected: vm.listedBooks[index]!.isSelected,
+                onPressed: () => vm.onBookSelected(index),
+              ),
+            );
+          },
+        );
+        var smallScreenLayout = ListView.builder(
+          padding: const EdgeInsets.all(5),
+          itemCount: vm.books!.length,
+          itemBuilder: (context, index) => BookItem(
+            book: vm.books![index],
+            selected: vm.listedBooks[index]!.isSelected,
+            onPressed: () => vm.onBookSelected(index),
+          ),
         );
 
         return Scaffold(
@@ -94,51 +99,24 @@ class SelectionScreenState extends State<SelectionScreen>
                   vm.isLoading
                       ? const CircularProgress()
                       : vm.books!.isNotEmpty
-                          ? isDesktop
-                              ? LayoutBuilder(
-                                  builder: (context, dimens) {
-                                    int axisCount =
-                                        (dimens.maxWidth / 450).round();
-                                    return GridView.builder(
-                                      gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: axisCount,
-                                        childAspectRatio: 4,
-                                      ),
-                                      itemCount: vm.books!.length,
-                                      itemBuilder: (context, index) => BookItem(
-                                        book: vm.books![index],
-                                        selected:
-                                            vm.listedBooks[index]!.isSelected,
-                                        onTap: () => vm.onBookSelected(index),
-                                      ),
-                                    );
-                                  },
-                                )
-                              : ListView.builder(
-                                  padding: const EdgeInsets.all(5),
-                                  itemCount: vm.books!.length,
-                                  itemBuilder: (context, index) => BookItem(
-                                    book: vm.books![index],
-                                    selected: vm.listedBooks[index]!.isSelected,
-                                    onTap: () => vm.onBookSelected(index),
-                                  ),
-                                )
-                          : Container(),
+                          ? isDesktop || isMobile && isTabletOrIpad
+                              ? bigScreenLayout
+                              : smallScreenLayout
+                          : const SizedBox.shrink(),
                   vm.hasError
                       ? NoDataToShow(
                           title: vm.errorTitle,
                           description: vm.errorBody,
                         )
-                      : Container(),
+                      : const SizedBox.shrink(),
                 ],
               ),
             ),
           ),
           floatingActionButton: vm.isLoading
-              ? Container()
+              ? const SizedBox.shrink()
               : vm.hasError
-                  ? Container()
+                  ? const SizedBox.shrink()
                   : FloatingActionButton(
                       backgroundColor: ThemeColors.primary,
                       onPressed: () => areYouDoneDialog(context, vm),
@@ -152,59 +130,20 @@ class SelectionScreenState extends State<SelectionScreen>
   Future<void> areYouDoneDialog(BuildContext context, SelectionVm vm) async {
     var tr = AppLocalizations.of(context)!;
     if (vm.selectables.isNotEmpty) {
-      return showDialog(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: Text(
-            tr.doneSelecting,
-            style: const TextStyle(
-              fontSize: 22,
-              color: ThemeColors.primaryDark,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          content: Text(
-            tr.doneSelectingBody,
-            style: const TextStyle(fontSize: 18),
-          ),
-          actions: <Widget>[
-            SimpleButton(
-              title: tr.cancel,
-              onPressed: () => Navigator.pop(context),
-            ),
-            SimpleButton(
-              title: tr.proceed,
-              onPressed: () {
-                Navigator.pop(context);
-                vm.saveBooks();
-              },
-            ),
-          ],
-        ),
+      var result = await FlutterPlatformAlert.showCustomAlert(
+        windowTitle: tr.doneSelecting,
+        text: tr.doneSelectingBody,
+        iconStyle: IconStyle.information,
+        neutralButtonTitle: tr.cancel,
+        positiveButtonTitle: tr.proceed,
       );
+      if (result == CustomButton.positiveButton) vm.saveBooks();
     } else {
-      return showDialog(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: Text(
-            tr.noSelection,
-            style: const TextStyle(
-              fontSize: 22,
-              color: ThemeColors.primaryDark,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          content: Text(
-            tr.noSelectionBody,
-            style: const TextStyle(fontSize: 18),
-          ),
-          actions: <Widget>[
-            SimpleButton(
-              title: tr.okay,
-              onPressed: () => Navigator.pop(context),
-            ),
-          ],
-        ),
+      await FlutterPlatformAlert.showCustomAlert(
+        windowTitle: tr.noSelection,
+        text: tr.noSelectionBody,
+        iconStyle: IconStyle.warning,
+        neutralButtonTitle: tr.okay,
       );
     }
   }

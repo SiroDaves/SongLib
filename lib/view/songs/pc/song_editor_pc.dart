@@ -5,7 +5,7 @@ import '../../../navigator/mixin/back_navigator.dart';
 import '../../../navigator/route_names.dart';
 import '../../../theme/theme_colors.dart';
 import '../../../vm/songs/song_editor_vm.dart';
-import '../../../widget/general/inputs.dart';
+import '../../../widget/inputs/form_input.dart';
 import '../../../widget/progress/circular_progress.dart';
 import '../../../widget/provider/provider_widget.dart';
 
@@ -45,7 +45,6 @@ class SongEditorPcState extends State<SongEditorPc>
                     iLabel: 'Song Title',
                     iController: viewModel.titleController!,
                     prefix: const Icon(Icons.text_fields),
-                    iOptions: const <String>[],
                   ),
                   FormInput(
                     iLabel: 'Song Content',
@@ -53,19 +52,16 @@ class SongEditorPcState extends State<SongEditorPc>
                     prefix: const Icon(Icons.list),
                     isMultiline: true,
                     iType: TextInputType.multiline,
-                    iOptions: const <String>[],
                   ),
                   FormInput(
                     iLabel: 'Song Key (Optional)',
                     iController: viewModel.keyController!,
                     prefix: const Icon(Icons.key),
-                    iOptions: const <String>[],
                   ),
                   FormInput(
                     iLabel: 'Song Alias (Optional)',
                     iController: viewModel.aliasController!,
                     prefix: const Icon(Icons.text_format),
-                    iOptions: const <String>[],
                   ),
                 ],
               ),

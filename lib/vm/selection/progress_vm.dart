@@ -7,7 +7,7 @@ import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
 import '../../util/constants/event_constants.dart';
 import '../../util/constants/pref_constants.dart';
-import '../../util/constants/utilities.dart';
+import '../../util/utilities.dart';
 import '../../webservice/app_web_service.dart';
 
 @injectable
@@ -130,10 +130,15 @@ class ProgressVm with ChangeNotifierEx {
     localStorage.setPrefString(PrefConstants.dateInstalledKey, dateNow());
     localStorage.setPrefBool(PrefConstants.wakeLockCheckKey, true);
 
-    navigator.goToHome();
+    if (onBoarded) {
+      navigator.goToHome();
+    } else {
+      navigator.goToOnboarding();
+    }
   }
 }
 
 abstract class ProgressNavigator {
   void goToHome();
+  void goToOnboarding();
 }

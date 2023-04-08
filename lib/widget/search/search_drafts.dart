@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../model/base/draft.dart';
-import '../../../../util/constants/utilities.dart';
+import '../../util/utilities.dart';
 import '../../../../vm/home/home_vm.dart';
 import '../../../../widget/general/list_items.dart';
 
@@ -70,7 +70,7 @@ class SearchDrafts extends SearchDelegate<List> {
         return DraftItem(
           draft: result,
           height: height!,
-          onTap: () {
+          onPressed: () {
             vm.localStorage.draft = vm.setDraft = result;
             vm.navigator.goToDraftPresentor();
           },
@@ -96,7 +96,7 @@ class SearchDrafts extends SearchDelegate<List> {
         return DraftItem(
           draft: result,
           height: height!,
-          onTap: () {
+          onPressed: () {
             vm.localStorage.draft = vm.setDraft = result;
             vm.navigator.goToDraftPresentor();
           },

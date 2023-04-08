@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../theme/theme_colors.dart';
-import '../../util/constants/utilities.dart';
+import '../../util/utilities.dart';
 
 class TextLabel extends StatelessWidget {
   final String? label;
@@ -108,7 +108,7 @@ class CustomCard extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.bold, color: txColor),
         ),
         subtitle: description!.isEmpty
-            ? Container()
+            ? const SizedBox.shrink()
             : Text(
                 description!,
                 style: TextStyle(color: txColor),
@@ -194,10 +194,10 @@ class TagView extends StatelessWidget {
           ),
         );
       } else {
-        return Container();
+        return const SizedBox.shrink();
       }
     } on Exception {
-      return Container();
+      return const SizedBox.shrink();
     }
   }
 }

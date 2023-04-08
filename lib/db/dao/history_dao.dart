@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 import '../../model/base/history.dart';
 import '../../model/base/historyext.dart';
 import '../../model/tables/db_history_table.dart';
-import '../../util/constants/utilities.dart';
+import '../../util/utilities.dart';
 import '../songlib_db.dart';
 
 part 'history_dao.g.dart';

@@ -5,7 +5,7 @@ import '../../model/base/listed.dart';
 import '../../model/base/listedext.dart';
 import '../../model/base/songext.dart';
 import '../../model/tables/db_listed_table.dart';
-import '../../util/constants/utilities.dart';
+import '../../util/utilities.dart';
 import '../songlib_db.dart';
 
 part 'listed_dao.g.dart';

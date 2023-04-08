@@ -13,7 +13,7 @@ import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/pref_constants.dart';
-import '../../util/constants/utilities.dart';
+import '../../util/utilities.dart';
 import '../../widget/action/buttons.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/toast.dart';
@@ -48,7 +48,6 @@ class DraftPresentorVm with ChangeNotifierEx {
   Future<void> init(DraftPresentorNavigator screenNavigator) async {
     navigator = screenNavigator;
 
-    draft = localStorage.draft;
     draft = localStorage.draft;
 
     enableWakeLock = localStorage.getPrefBool(PrefConstants.wakeLockCheckKey);
@@ -225,5 +224,4 @@ class DraftPresentorVm with ChangeNotifierEx {
 
 abstract class DraftPresentorNavigator implements BackNavigator {
   void goToDraftEditor(bool notEmpty);
-  void goToDraftEditorPc(bool notEmpty);
 }

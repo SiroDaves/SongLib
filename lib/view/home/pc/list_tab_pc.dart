@@ -1,17 +1,48 @@
 part of '../home_screen.dart';
 
-class ListTabPc extends StatelessWidget {
+class ListTabPc extends StatefulWidget {
   final HomeVm vm;
-  const ListTabPc(this.vm, {Key? key}) : super(key: key);
+  const ListTabPc(this.vm, {super.key});
+
+  @override
+  ListTabPcState createState() => ListTabPcState();
+}
+
+class ListTabPcState extends State<ListTabPc> {
+  TextEditingController qryController = TextEditingController();
+  final FocusNode focusNode = FocusNode();
+  bool isSearching = false;
+
+  @override
+  void initState() {
+    super.initState();
+    focusNode.addListener(onFocusChange);
+  }
+
+  @override
+  void dispose() {
+    focusNode.removeListener(onFocusChange);
+    focusNode.dispose();
+    super.dispose();
+  }
+
+  void onFocusChange() {
+    setState(() => isSearching = focusNode.hasFocus);
+  }
 
   @override
   Widget build(BuildContext context) {
     var tr = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
+    HomeVm vm = widget.vm;
+
     var listContainer = ListView.builder(
-      itemCount: vm.listeds!.length,
-      padding: EdgeInsets.all(
-        size.height * 0.015,
+      physics: const ClampingScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: widget.vm.listeds!.length,
+      padding: EdgeInsets.only(
+        left: size.height * 0.0082,
+        right: size.height * 0.0082,
       ),
       itemBuilder: (context, index) {
         final Listed listed = vm.listeds![index];
@@ -28,89 +59,144 @@ class ListTabPc extends StatelessWidget {
           child: ListedItem(
             listed: listed,
             height: size.height,
-            onPressed: () {
-              vm.localStorage.listed = vm.setListed = listed;
-              vm.fetchSetListedData();
-              vm.rebuild();
-            },
+            onPressed: () => vm.chooseListed(listed),
           ),
         );
       },
     );
-
-    var listViewer = Scaffold(
-      backgroundColor: Colors.transparent,
+    var subListContainer = ListView.builder(
+      itemCount: vm.listSongs!.length,
+      padding: EdgeInsets.all(
+        size.height * 0.0082,
+      ),
+      itemBuilder: (ctx, index) {
+        final SongExt song = vm.listSongs![index];
+        return SongItem(
+          song: song,
+          isSearching: true,
+          height: size.height,
+          onPressed: () {
+            vm.localStorage.song = vm.setSong = song;
+            vm.navigator.goToSongPresentorPc();
+          },
+        );
+      },
+    );
+    var itemViewer = Scaffold(
+      backgroundColor: ThemeColors.backgroundGrey,
       appBar: AppBar(
-        title: Text(vm.setListed.title!),
+        elevation: 8,
+        title: Text(vm.setListed.title != null
+            ? vm.setListed.title!
+            : 'No Selected List'),
         actions: <Widget>[
           InkWell(
-            onTap: () {},//=> editListForm(context, vm),
+            onTap: () {},
             child: const Padding(
               padding: EdgeInsets.all(10),
               child: Icon(Icons.edit),
             ),
           ),
           InkWell(
-            onTap: () {},//=> vm.confirmDelete(context),
+            onTap: () => vm.deleteList(context, vm.setListed),
             child: const Padding(
               padding: EdgeInsets.all(10),
               child: Icon(Icons.delete),
             ),
           ),
+          const SizedBox(width: 10),
         ],
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Colors.white,
-              Colors.orange,
-              ThemeColors.accent,
-              ThemeColors.primary,
-              Colors.black,
+      body: Stack(
+        children: [
+          vm.isMiniLoading
+              ? Container()
+              : vm.listedSongs!.isNotEmpty
+                  ? subListContainer
+                  : NoDataToShow(
+                      title: tr.itsEmptyHere,
+                      description: tr.itsEmptyHereBody,
+                    ),
+          isSearching
+              ? FloatingSearch(
+                  items: vm.songs!,
+                  focus: focusNode,
+                  onPressed: (song) => vm.addSongToList(song),
+                )
+              : const SizedBox.shrink(),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: ThemeColors.primary,
+        onPressed: () => setState(() => isSearching = !isSearching),
+        child: const Icon(Icons.add, color: Colors.white),
+      ),
+    ).decorated(
+      boxShadow: [
+        const BoxShadow(
+          color: Colors.grey,
+          spreadRadius: 2,
+          blurRadius: 2,
+          offset: Offset(0, 1),
+        ),
+      ],
+    );
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        listContainer.expanded(),
+        if (vm.setListed.title != null) itemViewer.expanded(),
+      ],
+    );
+  }
+
+  Future<void> editListForm(BuildContext context, HomeVm vm) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text(
+          'Update This List',
+          style: TextStyle(
+            fontSize: 22,
+            color: ThemeColors.primaryDark,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: SizedBox(
+          height: 150,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              FormInput(
+                iLabel: 'Title',
+                iController: vm.titleController!,
+              ),
+              FormInput(
+                iLabel: 'Description (Optional)',
+                iController: vm.contentController!,
+              ),
             ],
           ),
         ),
-        /*child: ListView.builder(
-          itemCount: vm.verses.length,
-          itemBuilder: (context, index) {
-            return Card(
-              margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-              child: Text(
-                vm.verses[index].replaceAll("#", "\n"),
-                style: TextStyle(fontSize: size.height * 0.03),
-              ).padding(all: 10),
-            );
-          },
-        ),*/
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              vm.saveListChanges();
+              vm.titleController!.clear();
+              vm.contentController!.clear();
+              Navigator.pop(context);
+            },
+            child: const Text("SAVE CHANGES"),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("CANCEL"),
+          ),
+        ],
       ),
-    );
-    return ContextMenuOverlay(
-      cardBuilder: (_, children) => Container(
-        decoration: const BoxDecoration(
-          color: ThemeColors.accent,
-          boxShadow: [BoxShadow(blurRadius: 5)],
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-        ),
-        child: Column(children: children),
-      ),
-      child: vm.isLoading
-          ? const ListLoading()
-          : vm.listeds!.isNotEmpty
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    listContainer.expanded(),
-                    if (vm.setListed.title!.isNotEmpty) listViewer.expanded(),
-                  ],
-                )
-              : NoDataToShow(
-                  title: tr.itsEmptyHere1,
-                  description: tr.itsEmptyHereBody4,
-                ),
     );
   }
 }

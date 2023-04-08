@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_platform_alert/flutter_platform_alert.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -13,9 +14,8 @@ import '../../model/base/listedext.dart';
 import '../../model/base/songext.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
-import '../../theme/theme_colors.dart';
-import '../../util/constants/utilities.dart';
-import '../../widget/action/buttons.dart';
+import '../../util/constants/pref_constants.dart';
+import '../../util/utilities.dart';
 import '../../widget/general/toast.dart';
 
 enum PageType { lists, search, likes, drafts, helpdesk, settings }
@@ -29,25 +29,27 @@ class HomeVm with ChangeNotifierEx {
   HomeVm(this.dbRepo, this.localStorage);
   AppLocalizations? tr;
 
-  bool isLoading = false, isSearching = false, shownUpdateHint = false;
+  bool isLoading = false, isMiniLoading = false;
+  bool isSearching = false, shownUpdateHint = false;
   int currentPage = 1;
   BuildContext? context;
 
-  Book setBook = Book();
   List<Book>? books = [];
 
-  String songTitle = 'Song Title', currentUpdate = 'update68';
-  SongExt setSong = SongExt();
-  SongExt setLiked = SongExt();
+  String songTitle = 'Song Title', songTitleL = 'Song Title';
+  String currentUpdate = 'update68';
   List<SongExt>? filtered = [], songs = [], likes = [], listSongs = [];
-  List<String> verses = [];
+  List<String> verses = [], versesLike = [], versesDraft = [];
 
-  Listed setListed = Listed();
   List<ListedExt>? listedSongs = [];
   List<Listed>? listeds = [];
-
-  Draft setDraft = Draft();
   List<Draft>? drafts = [];
+
+  Book setBook = Book();
+  Draft setDraft = Draft();
+  SongExt setSong = SongExt();
+  SongExt setLiked = SongExt();
+  Listed setListed = Listed();
 
   TextEditingController? searchController = TextEditingController();
   TextEditingController? titleController, contentController;
@@ -69,7 +71,22 @@ class HomeVm with ChangeNotifierEx {
     shownUpdateHint = localStorage.getPrefBool(currentUpdate);
 
     await fetchData();
-    if (!shownUpdateHint) currentUpdateDialog(context!);
+    if (!shownUpdateHint) {
+      var result = await FlutterPlatformAlert.showCustomAlert(
+        windowTitle: tr!.hintsCurrentUpdate,
+        text: tr!.hintsCurrentUpdateText,
+        iconStyle: IconStyle.information,
+        neutralButtonTitle: tr!.donate,
+        positiveButtonTitle: tr!.okay,
+      );
+      if (result == CustomButton.neutralButton) {
+        localStorage.setPrefBool(currentUpdate, true);
+        navigator.goToDonation();
+      }
+      if (result == CustomButton.positiveButton) {
+        localStorage.setPrefBool(currentUpdate, true);
+      }
+    }
   }
 
   void setCurrentPage(PageType page) async {
@@ -84,18 +101,39 @@ class HomeVm with ChangeNotifierEx {
     notifyListeners();
 
     books = await dbRepo.fetchBooks();
-
     songs = await dbRepo.fetchSongs();
-
     likes = await dbRepo.fetchLikedSongs();
-
     listeds = await dbRepo.fetchListeds();
-
     drafts = await dbRepo.fetchDrafts();
-
     await selectSongbook(books![0]);
 
     isLoading = false;
+    notifyListeners();
+  }
+
+  void chooseListed(Listed listed) {
+    localStorage.listed = setListed = listed;
+    fetchListedSongs();
+    notifyListeners();
+  }
+
+  void chooseSong(SongExt song) {
+    localStorage.song = setSong = song;
+    verses = song.content!.split("##");
+    songTitle = songItemTitle(song.songNo!, song.title!);
+    notifyListeners();
+  }
+
+  void chooseLiked(SongExt song) {
+    localStorage.song = setLiked = song;
+    versesLike = song.content!.split("##");
+    songTitleL = songItemTitle(song.songNo!, song.title!);
+    notifyListeners();
+  }
+
+  void chooseDraft(Draft draft) {
+    localStorage.draft = setDraft = draft;
+    versesDraft = draft.content!.split("##");
     notifyListeners();
   }
 
@@ -110,11 +148,12 @@ class HomeVm with ChangeNotifierEx {
   }
 
   /// Get the data from the DB
-  Future<void> fetchSetListedData() async {
-    isLoading = true;
+  Future<void> fetchListedSongs() async {
+    isMiniLoading = true;
     notifyListeners();
 
     listedSongs = await dbRepo.fetchListedSongs(setListed.id!);
+    listSongs!.clear();
     for (var listed in listedSongs!) {
       listSongs!.add(
         SongExt(
@@ -134,7 +173,7 @@ class HomeVm with ChangeNotifierEx {
       );
     }
 
-    isLoading = false;
+    isMiniLoading = false;
     notifyListeners();
   }
 
@@ -173,7 +212,7 @@ class HomeVm with ChangeNotifierEx {
           filtered!.add(songs![i]);
         }
       }
-      setSong = filtered![0];
+      chooseSong(filtered![0]);
     } catch (exception, stackTrace) {
       await Sentry.captureException(
         exception,
@@ -205,13 +244,29 @@ class HomeVm with ChangeNotifierEx {
   }
 
   /// Add a song to liked songs
-  Future<void> likeSong(SongExt song) async {
+  Future<void> likeSongx(SongExt song) async {
     bool isLiked = song.liked!;
     isLiked = !isLiked;
     song.liked = isLiked;
     await dbRepo.editSong(song);
     await fetchLikedSongs(showLoading: false);
     if (isLiked) {
+      showToast(
+        text: '${song.title} ${tr!.songLiked}',
+        state: ToastStates.success,
+      );
+    }
+    notifyListeners();
+  }
+
+  /// Add a song to liked songs
+  Future<void> likeSong(SongExt song) async {
+    bool isLiked = false;
+    isLiked = !isLiked;
+    song.liked = isLiked;
+    await dbRepo.editSong(song);
+    likes = await dbRepo.fetchLikedSongs();
+    if (setSong.liked!) {
       showToast(
         text: '${song.title} ${tr!.songLiked}',
         state: ToastStates.success,
@@ -240,115 +295,24 @@ class HomeVm with ChangeNotifierEx {
     );
   }
 
-  Future<void> deleteList(BuildContext context, Listed listed) async {
-    return showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: const Text(
-          'Just a Minute',
-          style: TextStyle(fontSize: 18),
-        ),
-        content: Text(
-          'Are you sure you want to delete the song list: ${listed.title}?',
-          style: const TextStyle(fontSize: 14),
-        ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              dbRepo.removeListed(listed);
-              fetchListedData();
-              showToast(
-                text: '${listed.title} ${tr!.deleted}',
-                state: ToastStates.success,
-              );
-            },
-            child: const Text("DELETE"),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text("CANCEL"),
-          ),
-        ],
-      ),
-    );
-  }
-
   void onSearch(String query) async {
-    switch (setPage) {
-      case PageType.lists:
-        if (query.isNotEmpty) {
-          /*list = notes
-              .where(
-                  (e) => e.title!.toLowerCase().contains(query.toLowerCase()))
-              .toList();*/
-        }
-        break;
-      case PageType.search:
-        isSearching = true;
-        if (query.isNotEmpty) {
-          final qry = query.toLowerCase();
-
-          filtered = songs!.where((s) {
-            // Check if the song number matches the query (if query is numeric)
-            if (isNumeric(query) && s.songNo == int.parse(query)) {
-              return true;
-            }
-
-            // Create a regular expression pattern to match "," and "!" characters
-            RegExp charsPtn = RegExp(r'[!,]');
-
-            // Split the query into words if it contains commas
-            List<String> words;
-            if (query.contains(',')) {
-              words = query.split(',');
-              // Trim whitespace from each word
-              words = words.map((w) => w.trim()).toList();
-            } else {
-              words = [qry];
-            }
-
-            // Create a regular expression pattern to match the words in the query
-            RegExp queryPtn = RegExp(words.map((w) => '($w)').join('.*'));
-
-            // Remove "," and "!" characters from s.title, s.alias, and s.content
-            String title = s.title!.replaceAll(charsPtn, '').toLowerCase();
-            String alias = s.alias!.replaceAll(charsPtn, '').toLowerCase();
-            String content = s.content!.replaceAll(charsPtn, '').toLowerCase();
-
-            // Check if the song title matches the query, ignoring "," and "!" characters
-            if (queryPtn.hasMatch(title)) {
-              return true;
-            }
-
-            // Check if the song alias matches the query, ignoring "," and "!" characters
-            if (queryPtn.hasMatch(alias)) {
-              return true;
-            }
-
-            // Check if the song content matches the query, ignoring "," and "!" characters
-            if (queryPtn.hasMatch(content)) {
-              return true;
-            }
-
-            return false;
-          }).toList();
-          /*filtered = songs!.where((s) {
-            return (isNumeric(query) && s.songNo == int.parse(query)) ||
-                s.title!.toLowerCase().contains(query.toLowerCase()) ||
-                s.alias!.toLowerCase().contains(query.toLowerCase()) ||
-                s.content!.toLowerCase().contains(query.toLowerCase());
-          }).toList();*/
-        }
-        break;
-      case PageType.likes:
-        if (query.isNotEmpty) {}
-        break;
-      case PageType.drafts:
-        if (query.isNotEmpty) {}
-        break;
-      default:
-        break;
+    if (query.isNotEmpty) {
+      switch (setPage) {
+        case PageType.lists:
+          break;
+        case PageType.search:
+          isSearching = true;
+          filtered = seachSongByQuery(query, songs!);
+          break;
+        case PageType.likes:
+          if (query.isNotEmpty) {}
+          break;
+        case PageType.drafts:
+          if (query.isNotEmpty) {}
+          break;
+        default:
+          break;
+      }
     }
     notifyListeners();
   }
@@ -359,17 +323,57 @@ class HomeVm with ChangeNotifierEx {
     notifyListeners();
   }
 
+  /// Save changes for a listed be it a new one or simply updating an old one
+  Future<void> saveListChanges() async {
+    if (titleController!.text.isNotEmpty) {
+      isLoading = true;
+      notifyListeners();
+      setListed.title = titleController!.text;
+      setListed.description = contentController!.text;
+      await dbRepo.editListed(setListed);
+      showToast(
+        text: '${setListed.title} ${tr!.listUpdated}',
+        state: ToastStates.success,
+      );
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> deleteList(BuildContext context, Listed listed) async {
+    var result = await FlutterPlatformAlert.showCustomAlert(
+      windowTitle: 'Just a Minute',
+      text: 'Are you sure you want to delete the song list: ${listed.title}?',
+      iconStyle: IconStyle.information,
+      neutralButtonTitle: 'Cancel',
+      positiveButtonTitle: 'Delete',
+    );
+
+    if (result == CustomButton.positiveButton) {
+      localStorage.listed = setListed = Listed();
+      listSongs!.clear();
+      dbRepo.removeListed(listed);
+      await fetchListedData(showLoading: false);
+      showToast(
+        text: '${listed.title} ${tr!.deleted}',
+        state: ToastStates.success,
+      );
+    }
+  }
+
   /// Add a song to a list
-  Future<void> addSongToList(Listed listed, SongExt song) async {
-    isLoading = true;
+  Future<void> addSongToList(SongExt song) async {
+    isMiniLoading = true;
     notifyListeners();
-    await dbRepo.saveListedSong(listed, song);
+
+    await dbRepo.saveListedSong(setListed, song);
+    await fetchListedSongs();
     showToast(
-      text: '${song.title}${tr!.songAddedToList}${listed.title} list',
+      text: '${song.title}${tr!.songAddedToList}${setListed.title} list',
       state: ToastStates.success,
     );
-    listeds = await dbRepo.fetchListeds();
-    isLoading = false;
+
+    isMiniLoading = false;
     notifyListeners();
   }
 
@@ -384,7 +388,7 @@ class HomeVm with ChangeNotifierEx {
         description: contentController!.text,
       );
       await dbRepo.saveListed(listed);
-      await fetchListedData();
+      await fetchListedData(showLoading: false);
       showToast(
         text: '${listed.title} ${tr!.listCreated}',
         state: ToastStates.success,
@@ -399,44 +403,6 @@ class HomeVm with ChangeNotifierEx {
   void rebuild() async {
     notifyListeners();
   }
-
-  Future<void> currentUpdateDialog(BuildContext context) async {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: Text(
-          tr!.hintsCurrentUpdate,
-          style: const TextStyle(
-            fontSize: 22,
-            color: ThemeColors.primaryDark,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        content: Text(
-          tr!.hintsCurrentUpdateText + tr!.donationRequest,
-          style: const TextStyle(fontSize: 18),
-        ),
-        actions: <Widget>[
-          SimpleButton(
-            title: tr!.donate,
-            onPressed: () {
-              Navigator.pop(context);
-              localStorage.setPrefBool(currentUpdate, true);
-              navigator.goToDonation();
-            },
-          ),
-          const Spacer(),
-          SimpleButton(
-            title: tr!.okay,
-            onPressed: () {
-              Navigator.pop(context);
-              localStorage.setPrefBool(currentUpdate, true);
-            },
-          ),
-        ],
-      ),
-    );
-  }
 }
 
 abstract class HomeNavigator {
@@ -447,9 +413,9 @@ abstract class HomeNavigator {
   void goToSongEditor();
   void goToSongEditorPc();
   void goToDraftEditor(bool notEmpty);
-  void goToDraftEditorPc(bool notEmpty);
   void goToListView();
   void goToHelpDesk();
   void goToDonation();
   void goToSettings();
+  void goToSelection();
 }

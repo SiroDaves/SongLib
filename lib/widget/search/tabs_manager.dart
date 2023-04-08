@@ -80,9 +80,9 @@ class TabsIcons extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          controller.index == 0 ? Container() : icons[controller.index - 1],
+          controller.index == 0 ? const SizedBox.shrink() : icons[controller.index - 1],
           controller.index == (icons.length - 1)
-              ? Container()
+              ? const SizedBox.shrink()
               : icons[controller.index + 1],
         ],
       ),

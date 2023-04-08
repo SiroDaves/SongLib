@@ -44,7 +44,7 @@ class SongPresentorState extends State<SongPresentor>
           title: Text(vm.songTitle),
           actions: <Widget>[
             InkWell(
-              //onTap: vm.notDraft ? vm.likeSong : vm.navigator.goToEditor,
+              onTap: vm.likeSong,
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Icon(vm.likeIcon),
@@ -99,7 +99,7 @@ class SongPresentorState extends State<SongPresentor>
                               ? Axis.horizontal
                               : Axis.vertical,
                         )
-                      : Container(),
+                      : const SizedBox.shrink(),
             ),
           ),
           floatingActionButton: ExpandableFab(
@@ -111,7 +111,7 @@ class SongPresentorState extends State<SongPresentor>
                 onPressed: () {
                   Share.share(
                     '${vm.songTitle}\n${vm.songBook}\n\n${vm.songContent}',
-                    subject: tr.shareVerse,
+                    subject: 'Share Song',
                   );
                 },
                 child: const Icon(Icons.share, color: Colors.white),

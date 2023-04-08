@@ -8,6 +8,7 @@
 
 #include <connectivity_plus_windows/connectivity_plus_windows_plugin.h>
 #include <desktop_window/desktop_window_plugin.h>
+#include <flutter_platform_alert/flutter_platform_alert_plugin.h>
 #include <flutter_secure_storage_windows/flutter_secure_storage_windows_plugin.h>
 #include <sentry_flutter/sentry_flutter_plugin.h>
 #include <sqlite3_flutter_libs/sqlite3_flutter_libs_plugin.h>
@@ -18,6 +19,8 @@ void RegisterPlugins(flutter::PluginRegistry* registry) {
       registry->GetRegistrarForPlugin("ConnectivityPlusWindowsPlugin"));
   DesktopWindowPluginRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("DesktopWindowPlugin"));
+  FlutterPlatformAlertPluginRegisterWithRegistrar(
+      registry->GetRegistrarForPlugin("FlutterPlatformAlertPlugin"));
   FlutterSecureStorageWindowsPluginRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("FlutterSecureStorageWindowsPlugin"));
   SentryFlutterPluginRegisterWithRegistrar(

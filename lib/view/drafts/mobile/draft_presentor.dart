@@ -42,9 +42,9 @@ class DraftPresentorState extends State<DraftPresentor>
         var appBarWidget = AppBar(
           title: Text(vm.draftTitle),
           actions: <Widget>[
-            const InkWell(
-              //onTap: vm.notDraft ? vm.likeDraft : vm.navigator.goToEditor,
-              child: Padding(
+            InkWell(
+              onTap: () => vm.navigator.goToDraftEditor(true),
+              child: const Padding(
                 padding: EdgeInsets.all(10),
                 child: Icon(Icons.edit),
               ),
@@ -55,7 +55,7 @@ class DraftPresentorState extends State<DraftPresentor>
               },
               child: const Padding(
                 padding: EdgeInsets.all(10),
-                child: Icon(Icons.list),
+                child: Icon(Icons.delete),
               ),
             ),
           ],
@@ -94,7 +94,7 @@ class DraftPresentorState extends State<DraftPresentor>
                               ? Axis.horizontal
                               : Axis.vertical,
                         )
-                      : Container(),
+                      : const SizedBox.shrink(),
             ),
           ),
           floatingActionButton: ExpandableFab(
@@ -106,7 +106,7 @@ class DraftPresentorState extends State<DraftPresentor>
                 onPressed: () {
                   Share.share(
                     '${vm.draftTitle}\n${vm.draftBook}\n\n${vm.draftContent}',
-                    subject: tr.shareVerse,
+                    subject: 'Share Draft',
                   );
                 },
                 child: const Icon(Icons.share, color: Colors.white),
@@ -120,7 +120,7 @@ class DraftPresentorState extends State<DraftPresentor>
               FloatingActionButton(
                 heroTag: 'edit_fab',
                 backgroundColor: ThemeColors.primary,
-                onPressed: () => vm.navigator.goToDraftEditor(false),
+                onPressed: () => vm.navigator.goToDraftEditor(true),
                 child: const Icon(Icons.edit, color: Colors.white),
               ),
             ],
@@ -134,7 +134,4 @@ class DraftPresentorState extends State<DraftPresentor>
   void goToDraftEditor(bool notEmpty) =>
       MainNavigator.of(context).goToDraftEditor(notEmpty);
 
-  @override
-  void goToDraftEditorPc(bool notEmpty) =>
-      MainNavigator.of(context).goToDraftEditorPc(notEmpty);
 }

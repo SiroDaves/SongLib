@@ -539,6 +539,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_platform_alert:
+    dependency: "direct main"
+    description:
+      name: flutter_platform_alert
+      sha256: "49175cf8f5d2bd3bced84465046aeadb031c74b9cb50820bf5c7e9db5c35a1a9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.0"
   flutter_secure_storage:
     dependency: "direct main"
     description:

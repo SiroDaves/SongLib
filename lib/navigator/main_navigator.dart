@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:icapps_architecture/icapps_architecture.dart';
 
-import '../view/drafts/mobile/draft_editor.dart';
+import '../view/drafts/draft_editor.dart';
 import '../view/drafts/mobile/draft_presentor.dart';
-import '../view/drafts/pc/draft_editor_pc.dart';
 import '../view/drafts/pc/draft_presentor_pc.dart';
 import '../view/home/home_screen.dart';
 import '../view/info/donation_screen.dart';
@@ -48,8 +46,7 @@ class MainNavigator extends StatefulWidget {
   }
 }
 
-class MainNavigatorState extends State<MainNavigator>
-    with MainNavigationMixin {
+class MainNavigatorState extends State<MainNavigator> with MainNavigationMixin {
   static final GlobalKey<NavigatorState> _navigationKey =
       GlobalKey<NavigatorState>();
   static final List<NavigatorObserver> _navigatorObservers = [];
@@ -72,6 +69,9 @@ class MainNavigatorState extends State<MainNavigator>
 
   static Route? onGenerateRoute(RouteSettings settings) {
     final strippedPath = settings.name?.replaceFirst('/', '');
+    //final args = settings.arguments as Map;
+    //print(args[0]);
+
     switch (strippedPath) {
       case '':
       case SplashScreen.routeName:
@@ -95,73 +95,67 @@ class MainNavigatorState extends State<MainNavigator>
           settings: settings,
         );
       case HomeScreen.routeName:
-        return FadeInRoute<void>(
-          child: const HomeScreen(),
+        return MaterialPageRoute<void>(
+          builder: (context) => const HomeScreen(),
           settings: settings,
         );
-
       case SongPresentor.routeName:
-        return FadeInRoute<void>(
-          child: const SongPresentor(),
+        return MaterialPageRoute<void>(
+          builder: (context) => const SongPresentor(),
           settings: settings,
         );
       case SongPresentorPc.routeName:
-        return FadeInRoute<void>(
-          child: const SongPresentorPc(),
+        return MaterialPageRoute<void>(
+          builder: (context) => const SongPresentorPc(),
           settings: settings,
         );
 
       case DraftPresentor.routeName:
-        return FadeInRoute<void>(
-          child: const DraftPresentor(),
+        return MaterialPageRoute<void>(
+          builder: (context) => const DraftPresentor(),
           settings: settings,
         );
       case DraftPresentorPc.routeName:
-        return FadeInRoute<void>(
-          child: const DraftPresentorPc(),
+        return MaterialPageRoute<void>(
+          builder: (context) => const DraftPresentorPc(),
           settings: settings,
         );
 
       case SongEditor.routeName:
-        return FadeInRoute<void>(
-          child: const SongEditor(),
+        return MaterialPageRoute<void>(
+          builder: (context) => const SongEditor(),
           settings: settings,
         );
       case SongEditorPc.routeName:
-        return FadeInRoute<void>(
-          child: const SongEditorPc(),
+        return MaterialPageRoute<void>(
+          builder: (context) => const SongEditorPc(),
           settings: settings,
         );
 
       case DraftEditor.routeName:
-        return FadeInRoute<void>(
-          child: const DraftEditor(),
-          settings: settings,
-        );
-      case DraftEditorPc.routeName:
-        return FadeInRoute<void>(
-          child: const DraftEditorPc(),
+        return MaterialPageRoute<void>(
+          builder: (context) => const DraftEditor(),
           settings: settings,
         );
 
       case ListViewScreen.routeName:
-        return FadeInRoute<void>(
-          child: const ListViewScreen(),
+        return MaterialPageRoute<void>(
+          builder: (context) => const ListViewScreen(),
           settings: settings,
         );
       case SettingsScreen.routeName:
-        return FadeInRoute<void>(
-          child: const SettingsScreen(),
+        return MaterialPageRoute<void>(
+          builder: (context) => const SettingsScreen(),
           settings: settings,
         );
       case HelpDeskScreen.routeName:
-        return FadeInRoute<void>(
-          child: const HelpDeskScreen(),
+        return MaterialPageRoute<void>(
+          builder: (context) => const HelpDeskScreen(),
           settings: settings,
         );
       case DonationScreen.routeName:
-        return FadeInRoute<void>(
-          child: const DonationScreen(),
+        return MaterialPageRoute<void>(
+          builder: (context) => const DonationScreen(),
           settings: settings,
         );
       case 'test_route':
@@ -204,7 +198,8 @@ class MainNavigatorState extends State<MainNavigator>
   void goToDraftPresentor() => navigator.pushNamed(DraftPresentor.routeName);
 
   @override
-  void goToDraftPresentorPc() => navigator.pushNamed(DraftPresentorPc.routeName);
+  void goToDraftPresentorPc() =>
+      navigator.pushNamed(DraftPresentorPc.routeName);
 
   @override
   void goToSongEditor() => navigator.pushNamed(SongEditor.routeName);
@@ -215,13 +210,7 @@ class MainNavigatorState extends State<MainNavigator>
   @override
   void goToDraftEditor(bool notEmpty) => navigator.pushNamed(
         DraftEditor.routeName,
-        arguments: notEmpty,
-      );
-
-  @override
-  void goToDraftEditorPc(bool notEmpty) => navigator.pushNamed(
-        DraftEditorPc.routeName,
-        arguments: notEmpty,
+        arguments: {'not_empty': notEmpty},
       );
 
   @override

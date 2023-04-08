@@ -143,12 +143,10 @@ class HistoryTab extends StatelessWidget {
               FormInput(
                 iLabel: 'Title',
                 iController: vm.titleController!,
-                iOptions: const <String>[],
               ),
               FormInput(
                 iLabel: 'Description (Optional)',
                 iController: vm.contentController!,
-                iOptions: const <String>[],
               ),
             ],
           ),

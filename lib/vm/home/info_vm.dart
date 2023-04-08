@@ -77,7 +77,7 @@ class InfoVm with ChangeNotifierEx {
         break;
 
       case 1:
-        text1 = 'songlibke' '@' 'gmail.com';
+        text1 = 'futuristicken' '@' 'gmail.com';
         text2 = 'Email address';
         break;
 
