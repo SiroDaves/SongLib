@@ -137,12 +137,15 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
     );
   }
 
+  // Navigates to Home screen
   @override
   void goToHome() => MainNavigator.of(context).goToHome();
 
+  // Navigates to Donation screen
   @override
   void goToDonation() => MainNavigator.of(context).goToDonation();
 
+  // Navigates to Onboarding screen
   @override
   void goToOnboarding() => MainNavigator.of(context).goToOnboarding();
 }
