@@ -1,5 +1,5 @@
 name: songlib
-description: A new Flutter project.
+description: Your SongLib is Your SongBook.
 publish_to: 'none'
 
 version: 0.0.6
@@ -70,6 +70,7 @@ dev_dependencies:
   injectable_generator: ^1.5.4
   json_serializable: ^6.3.1
   mockito: ^5.0.15
+  msix: ^3.7.0
   model_generator: ^5.8.1
   retrofit_generator: ^4.0.3+1
 
@@ -108,3 +109,21 @@ targets:
           ignore_unannotated: false
           include_if_null: true
           nullable: true
+
+msix_config:
+  display_name: SongLib - Songs of Worship
+  publisher_display_name: Jackson Siro
+  identity_name: 49927JackonSiro.SongLib-SongsofWorship
+  publisher: CN=FF945805-BB5A-4BF1-8668-776816B557C6
+  msix_version: 1.0.0.0
+  logo_path: assets\icon\app_icon.png
+  architecture: x64
+  capabilities: internetClient
+  app_installer:
+    publish_folder_path: D:\Dev\Flutter\Projects\SongLib\build\windows
+    hours_between_update_checks: 0
+    automatic_background_task: true
+    update_blocks_activation: true
+    show_prompt: false
+    force_update_from_any_version: false
+  
