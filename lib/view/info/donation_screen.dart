@@ -9,7 +9,7 @@ import '../../theme/theme_colors.dart';
 import '../../vm/home/info_vm.dart';
 import '../../widget/provider/provider_widget.dart';
 
-/// Help desk screen
+// Donation screen
 class DonationScreen extends StatefulWidget {
   static const String routeName = RouteNames.donationScreen;
 
@@ -69,12 +69,15 @@ class DonationScreenState extends State<DonationScreen>
     );
   }
 
+  // Navigates to home screen
   @override
   void goToHome() => MainNavigator.of(context).goToHome();
 
+  // Navigates to onboarding screen
   @override
   void goToOnboarding() => MainNavigator.of(context).goToOnboarding();
 
+  // Navigates to donation screen
   @override
   void goToDonation() => MainNavigator.of(context).goToDonation();
 }
