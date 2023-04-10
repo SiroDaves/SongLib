@@ -1,8 +1,7 @@
 name: songlib
 description: A new Flutter project.
 publish_to: 'none'
-
-version: 0.0.6
+version: 0.0.7
 
 environment:
   sdk: '>=2.19.0 <3.0.0'
