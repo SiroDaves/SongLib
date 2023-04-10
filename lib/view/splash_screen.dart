@@ -45,6 +45,7 @@ class SplashScreenState extends State<SplashScreen> implements SplashNavigator {
               ),
               const SizedBox(height: 5),
               const Text(
+                // Shows app version on splash screen
                 AppConstants.appVersion,
                 style: TextStyle(
                   fontSize: 25,
@@ -88,6 +89,7 @@ class SplashScreenState extends State<SplashScreen> implements SplashNavigator {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
+                  // Names app developers in splash screen
                   Text(
                     AppConstants.appCredits1,
                     style: TextStyle(
@@ -122,11 +124,14 @@ class SplashScreenState extends State<SplashScreen> implements SplashNavigator {
   }
 
   @override
+  // Navigates to onboarding screen
   void goToOnboarding() => MainNavigator.of(context).goToOnboarding();
-
+  
+  // Navigates to Home screen
   @override
   void goToHome() => MainNavigator.of(context).goToHome();
 
+  // Navigates to Selection of songs screen
   @override
   void goToSelection() => MainNavigator.of(context).goToSelection();
 }
