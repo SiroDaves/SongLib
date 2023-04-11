@@ -11,7 +11,7 @@ class SearchTab extends StatelessWidget {
   Widget build(BuildContext context) {
     var tr = AppLocalizations.of(context)!;
     size = MediaQuery.of(context).size;
-
+  // creates a horizontal list of books to display
     var booksContainer = SizedBox(
       height: 80,
       child: ListView.builder(
@@ -32,6 +32,7 @@ class SearchTab extends StatelessWidget {
     var listContainer = ListView.builder(
       physics: const ClampingScrollPhysics(),
       shrinkWrap: true,
+      // limits number of songs displayed to thirty
       itemCount: vm.filtered!.length > 30 ? 30 : vm.filtered!.length,
       padding: EdgeInsets.only(
         left: size!.height * 0.0082,
@@ -42,6 +43,7 @@ class SearchTab extends StatelessWidget {
         return ContextMenuRegion(
           contextMenu: GenericContextMenu(
             buttonConfigs: [
+              // Provides a way to like a song and add it to liked songs tab
               ContextMenuButtonConfig(
                 tr.likeSong,
                 icon: Icon(
@@ -50,16 +52,19 @@ class SearchTab extends StatelessWidget {
                 ),
                 onPressed: () => vm.likeSong(song),
               ),
+              // Provides a way to copy the song title and number to clipboard
               ContextMenuButtonConfig(
                 tr.copySong,
                 icon: const Icon(Icons.copy, size: 20),
                 onPressed: () => vm.copySong(song),
               ),
+              // Displays a context menu to share the song title and number
               ContextMenuButtonConfig(
                 tr.shareSong,
                 icon: const Icon(Icons.share, size: 20),
                 onPressed: () => vm.shareSong(song),
               ),
+              // Displays an option to edit the song
               ContextMenuButtonConfig(
                 tr.editSong,
                 icon: const Icon(Icons.edit, size: 20),
@@ -68,6 +73,7 @@ class SearchTab extends StatelessWidget {
                   vm.navigator.goToSongEditor();
                 },
               ),
+              // Diplays a context menu to share, edit and copy a song
               ContextMenuButtonConfig(
                 tr.addtoList,
                 icon: const Icon(Icons.add, size: 20),
@@ -80,6 +86,7 @@ class SearchTab extends StatelessWidget {
               ),
             ],
           ),
+          // displays song item and navigates to song presenter
           child: SongItem(
             song: song,
             height: size!.height,

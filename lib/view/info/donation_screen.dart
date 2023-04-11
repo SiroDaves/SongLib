@@ -9,7 +9,7 @@ import '../../theme/theme_colors.dart';
 import '../../vm/home/info_vm.dart';
 import '../../widget/provider/provider_widget.dart';
 
-// Donation screen
+/// Donation screen
 class DonationScreen extends StatefulWidget {
   static const String routeName = RouteNames.donationScreen;
 
@@ -39,6 +39,7 @@ class DonationScreenState extends State<DonationScreen>
         body: ListView(
           padding: const EdgeInsets.all(5),
           children: [
+            // Implement mpesa number for donation
             Card(
               child: ListTile(
                 leading: const Icon(Icons.money),
@@ -47,6 +48,7 @@ class DonationScreenState extends State<DonationScreen>
                 onTap: () => viewModel.copyNumber(),
               ),
             ),
+            // Implement paypal for donation
             Card(
               child: ListTile(
                 leading: const Icon(Icons.money),
@@ -55,6 +57,7 @@ class DonationScreenState extends State<DonationScreen>
                 onTap: () => viewModel.donateViaPaypal(),
               ),
             ),
+            // Implement patreon for donation
             Card(
               child: ListTile(
                 leading: const Icon(Icons.money),
