@@ -86,7 +86,7 @@ class SearchTab extends StatelessWidget {
               ),
             ],
           ),
-          // displays song item and navigates to song presenter
+          // displays song item and navigates to song presenter upon pressing
           child: SongItem(
             song: song,
             height: size!.height,
