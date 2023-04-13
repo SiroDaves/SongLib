@@ -97,6 +97,7 @@ class HomeScreenState extends State<HomeScreen>
             ],
           ),
           actions: <Widget>[
+            // Provide search functionality of songs
             InkWell(
               onTap: () async {
                 await showSearch(
@@ -109,6 +110,7 @@ class HomeScreenState extends State<HomeScreen>
                 child: Icon(Icons.search),
               ),
             ),
+            // Open up help desk screen
             InkWell(
               onTap: goToHelpDesk,
               child: const Padding(
@@ -116,6 +118,7 @@ class HomeScreenState extends State<HomeScreen>
                 child: Icon(Icons.help),
               ),
             ),
+            // Open up settings screen
             InkWell(
               onTap: goToSettings,
               child: const Padding(
@@ -127,6 +130,7 @@ class HomeScreenState extends State<HomeScreen>
           bottom: TabBar(
             controller: tabController,
             tabs: <Widget>[
+              // Show tabs screen titles
               Tab(text: 'Lists'.toUpperCase()),
               Tab(text: 'Search'.toUpperCase()),
               Tab(text: 'Likes'.toUpperCase()),
@@ -187,6 +191,7 @@ class HomeScreenState extends State<HomeScreen>
         );
 
         return Scaffold(
+          // Check whether device is desktop or mobile and display the appropriate app bar
           appBar: isDesktop ? desktopAppbar : mobileAppbar,
           body: TweenAnimationBuilder<double>(
             duration: Durations.slow,
@@ -211,42 +216,42 @@ class HomeScreenState extends State<HomeScreen>
       },
     );
   }
-
+  // Navigates to song presentor
   @override
   void goToSongPresentor() => MainNavigator.of(context).goToSongPresentor();
 
   @override
   void goToSongPresentorPc() => MainNavigator.of(context).goToSongPresentorPc();
-
+  // Navigates to draft presenter
   @override
   void goToDraftPresentor() => MainNavigator.of(context).goToDraftPresentor();
 
   @override
   void goToDraftPresentorPc() =>
       MainNavigator.of(context).goToDraftPresentorPc();
-
+  // Navigates to song editor
   @override
   void goToSongEditor() => MainNavigator.of(context).goToSongEditor();
 
   @override
   void goToSongEditorPc() => MainNavigator.of(context).goToSongEditorPc();
-
+  // Navigates to draft editor
   @override
   void goToDraftEditor(bool notEmpty) =>
       MainNavigator.of(context).goToDraftEditor(notEmpty);
 
   @override
   void goToListView() => MainNavigator.of(context).goToListView();
-
+  // Navigates to help desk screen
   @override
   void goToHelpDesk() => MainNavigator.of(context).goToHelpDesk();
-
+  // Navigates to donation screen
   @override
   void goToDonation() => MainNavigator.of(context).goToDonation();
-
+  // Navigates to settings screen
   @override
   void goToSettings() => MainNavigator.of(context).goToSettings();
-
+  // Navigates to selection screen
   @override
   void goToSelection() => MainNavigator.of(context).goToSelection();
 }
