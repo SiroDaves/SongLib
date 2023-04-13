@@ -6,7 +6,7 @@ import '../../util/utilities.dart';
 import '../../../../vm/home/home_vm.dart';
 import '../../../../vm/lists/list_view_vm.dart';
 import '../../../../widget/general/list_items.dart';
-
+/// Search for songs screen
 class AddSongs extends SearchDelegate<List> {
   final HomeVm homeVm;
   final ListViewVm listVm;
@@ -31,6 +31,7 @@ class AddSongs extends SearchDelegate<List> {
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
+      // Clear search query
       IconButton(
         onPressed: () => query = '',
         icon: const Icon(Icons.clear),
@@ -41,6 +42,7 @@ class AddSongs extends SearchDelegate<List> {
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
+      // Return to search tab
       onPressed: () => close(context, homeVm.songs!),
       icon: const Icon(Icons.arrow_back),
     );
