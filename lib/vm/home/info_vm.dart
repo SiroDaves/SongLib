@@ -1,20 +1,16 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../repository/shared_prefs/local_storage.dart';
 import '../../util/constants/app_constants.dart';
 import '../../widget/general/toast.dart';
 
 @injectable
 class InfoVm with ChangeNotifierEx {
-  final LocalStorage localStorage;
   late final InfoNavigator navigator;
-
-  InfoVm(this.localStorage);
 
   BuildContext? context;
   AppLocalizations? tr;
@@ -72,7 +68,7 @@ class InfoVm with ChangeNotifierEx {
       case 0:
         text1 =
             'SongLib is an easy to use app that gives you offline access to your church hymns. '
-            'Install it today ${AppConstants.playstoreLink}';
+            'Install it today ${AppConstants.siteLink}';
         text2 = 'App link';
         break;
 
@@ -122,7 +118,6 @@ class InfoVm with ChangeNotifierEx {
 }
 
 abstract class InfoNavigator {
-  void goToHome();
   void goToOnboarding();
   void goToDonation();
 }

@@ -12,13 +12,11 @@ import '../../model/base/draft.dart';
 import '../../model/base/listed.dart';
 import '../../model/base/listedext.dart';
 import '../../model/base/songext.dart';
+import '../../model/general/general.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
-import '../../util/constants/pref_constants.dart';
 import '../../util/utilities.dart';
 import '../../widget/general/toast.dart';
-
-enum PageType { lists, search, likes, drafts, helpdesk, settings }
 
 @singleton
 class HomeVm with ChangeNotifierEx {
@@ -76,7 +74,7 @@ class HomeVm with ChangeNotifierEx {
         windowTitle: tr!.hintsCurrentUpdate,
         text: tr!.hintsCurrentUpdateText,
         iconStyle: IconStyle.information,
-        neutralButtonTitle: tr!.donate,
+        //neutralButtonTitle: tr!.donate,
         positiveButtonTitle: tr!.okay,
       );
       if (result == CustomButton.neutralButton) {
@@ -318,7 +316,7 @@ class HomeVm with ChangeNotifierEx {
   }
 
   void onClear() async {
-    //filteredTeachers = teachers;
+    filtered = songs;
     searchController!.clear();
     notifyListeners();
   }

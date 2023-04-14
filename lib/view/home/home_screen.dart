@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:styled_widget/styled_widget.dart';
-import 'package:textstyle_extensions/textstyle_extensions.dart';
 
 import '../../model/base/book.dart';
 import '../../model/base/draft.dart';
 import '../../model/base/listed.dart';
 import '../../model/base/songext.dart';
+import '../../model/general/general.dart';
 import '../../navigator/main_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_assets.dart';
@@ -29,12 +29,12 @@ import '../../widget/progress/circular_progress.dart';
 import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
 import '../../widget/search/floating_search.dart';
+import '../../widget/search/headers.dart';
 import '../../widget/search/search_list.dart';
 import '../../widget/search/search_songs.dart';
 import '../info/helpdesk_screen.dart';
 import '../manage/settings_screen.dart';
 
-part '../../widget/search/pc_headers.dart';
 part 'home_screen_helpers.dart';
 part 'mobile/drafts_tab.dart';
 part 'mobile/history_tab.dart';
@@ -134,6 +134,7 @@ class HomeScreenState extends State<HomeScreen>
             ],
           ),
         );
+
         var desktopAppbar = AppBar(
           title: Row(
             children: [
@@ -145,12 +146,17 @@ class HomeScreenState extends State<HomeScreen>
                 style: TextStyle(fontSize: 25),
               ),
               const SizedBox(width: 60),
-              PcSearch(vm),
+              vm.setPage == PageType.helpdesk || vm.setPage == PageType.settings
+                  ? const SizedBox.shrink()
+                  : SearchWidget(
+                      onSearch: (query) => vm.onSearch(query),
+                      searchController: vm.searchController,
+                    ),
               const SizedBox(width: 10),
             ],
           ),
           actions: <Widget>[
-            PcActionBtn1(vm),
+            ActionBtn1(vm),
             /*const SizedBox(width: 0),
             InkWell(
               onTap: () {},
@@ -179,7 +185,10 @@ class HomeScreenState extends State<HomeScreen>
                 .positioned(
                     left: 300, right: 0, bottom: 0, top: 0, animate: true)
                 .animate(.35.seconds, Curves.bounceIn),
-            Sidebar(vm)
+            Sidebar(
+              pageType: vm.setPage,
+              onPageSelect: (page) => vm.setCurrentPage(page),
+            )
                 .positioned(
                     left: 0, top: 0, bottom: 0, width: 300, animate: true)
                 .animate(.35.seconds, Curves.easeOut),

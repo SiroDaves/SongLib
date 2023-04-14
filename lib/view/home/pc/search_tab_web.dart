@@ -1,8 +1,8 @@
-part of '../home_screen.dart';
+part of '../home_screen_web.dart';
 
-class SearchTabPc extends StatelessWidget {
-  final HomeVm vm;
-  const SearchTabPc(this.vm, {Key? key}) : super(key: key);
+class SearchTabWeb extends StatelessWidget {
+  final HomeWebVm vm;
+  const SearchTabWeb(this.vm, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,6 @@ class SearchTabPc extends StatelessWidget {
             },
             itemCount: vm.books!.length,
           ).expanded(),
-          //ManageBooksBtn(vm),
         ],
       ),
     );
@@ -60,14 +59,6 @@ class SearchTabPc extends StatelessWidget {
             contextMenu: GenericContextMenu(
               buttonConfigs: [
                 ContextMenuButtonConfig(
-                  tr.likeSong,
-                  icon: Icon(
-                    song.liked! ? Icons.favorite : Icons.favorite_border,
-                    size: 20,
-                  ),
-                  onPressed: () => vm.likeSong(song),
-                ),
-                ContextMenuButtonConfig(
                   tr.copySong,
                   icon: const Icon(Icons.copy, size: 20),
                   onPressed: () => vm.copySong(song),
@@ -76,24 +67,6 @@ class SearchTabPc extends StatelessWidget {
                   tr.shareSong,
                   icon: const Icon(Icons.share, size: 20),
                   onPressed: () => vm.shareSong(song),
-                ),
-                ContextMenuButtonConfig(
-                  tr.editSong,
-                  icon: const Icon(Icons.edit, size: 20),
-                  onPressed: () {
-                    vm.localStorage.song = vm.setSong = song;
-                    vm.navigator.goToSongEditorPc();
-                  },
-                ),
-                ContextMenuButtonConfig(
-                  tr.addtoList,
-                  icon: const Icon(Icons.add, size: 20),
-                  onPressed: () => showModalBottomSheet<void>(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return ListPopup(vm: vm, song: song);
-                    },
-                  ),
                 ),
               ],
             ),
@@ -121,21 +94,6 @@ class SearchTabPc extends StatelessWidget {
               child: Icon(Icons.copy),
             ),
           ),
-          InkWell(
-            onTap: () => vm.likeSong(vm.setSong),
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Icon(
-                  vm.setSong.liked! ? Icons.favorite : Icons.favorite_border),
-            ),
-          ),
-          InkWell(
-            onTap: vm.navigator.goToSongPresentorPc,
-            child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Image.asset(ThemeAssets.iconProject,
-                    height: 30, width: 30)),
-          ),
           const SizedBox(width: 10),
         ],
       ),
@@ -154,31 +112,33 @@ class SearchTabPc extends StatelessWidget {
       ),
     );
 
-    return Stack(
-      children: [
-        SizedBox(
-          height: size.height - 160,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return vm.isLoading
+        ? const ListLoading()
+        : Stack(
             children: [
-              listContainer.expanded(),
-              if (vm.setSong.title != null)
-                itemViewer.decorated(
-                  boxShadow: [
-                    const BoxShadow(
-                      color: Colors.grey,
-                      spreadRadius: 2,
-                      blurRadius: 2,
-                      offset: Offset(0, 1),
-                    ),
+              SizedBox(
+                height: size.height - 160,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    listContainer.expanded(),
+                    if (vm.setSong.title != null)
+                      itemViewer.decorated(
+                        boxShadow: [
+                          const BoxShadow(
+                            color: Colors.grey,
+                            spreadRadius: 2,
+                            blurRadius: 2,
+                            offset: Offset(0, 1),
+                          ),
+                        ],
+                      ).expanded(),
                   ],
-                ).expanded(),
+                ),
+              ).padding(top: 100),
+              booksContainer,
             ],
-          ),
-        ).padding(top: 100),
-        booksContainer,
-      ],
-    );
+          );
   }
 }

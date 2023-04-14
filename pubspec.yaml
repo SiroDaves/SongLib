@@ -1,5 +1,5 @@
 name: songlib
-description: Your SongLib is Your SongBook.
+description: SongLib gives you access to your church songbook/hymns seamlessly that you don't have to worry about even being online once you have set up the app on your device.
 publish_to: 'none'
 version: 0.0.7
 
@@ -16,6 +16,7 @@ dependencies:
   dartx: ^0.7.1
   drift: ^1.7.1
   desktop_window: ^0.4.0
+  firebase_core: ^2.9.0
   flutter:
     sdk: flutter
   flutter_cache_manager: ^3.3.0
