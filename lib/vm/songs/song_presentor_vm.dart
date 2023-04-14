@@ -183,7 +183,7 @@ class SongPresentorVm with ChangeNotifierEx {
       windowTitle: tr!.keyboardShortcuts,
       text: tr!.keyboardShortcutsTexts,
       iconStyle: IconStyle.information,
-      neutralButtonTitle: tr!.donate,
+      //neutralButtonTitle: tr!.donate,
       positiveButtonTitle: tr!.okay,
     );
     if (result == CustomButton.neutralButton) {

@@ -8,13 +8,14 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../util/env/flavor_config.dart';
+import '../../util/utilities.dart';
 
 Future<DatabaseConnection> createDriftDatabaseConnection(String name) async {
   if (FlavorConfig.isInTest()) {
     return DatabaseConnection.fromExecutor(NativeDatabase.memory());
   }
   Directory dbFolder = await getApplicationDocumentsDirectory();
-  if (Platform.isWindows) {
+  if (isDesktop) {
     dbFolder = await getApplicationSupportDirectory();
   }
 

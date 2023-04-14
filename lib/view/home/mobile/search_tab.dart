@@ -32,7 +32,7 @@ class SearchTab extends StatelessWidget {
     var listContainer = ListView.builder(
       physics: const ClampingScrollPhysics(),
       shrinkWrap: true,
-      itemCount: vm.filtered!.length > 30 ? 30 : vm.filtered!.length,
+      itemCount: vm.filtered!.length,
       padding: EdgeInsets.only(
         left: size!.height * 0.0082,
         right: size!.height * 0.0082,

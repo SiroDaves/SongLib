@@ -3,7 +3,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../navigator/main_navigator.dart';
-import '../../navigator/mixin/back_navigator.dart';
 import '../../navigator/route_names.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/utilities.dart';
@@ -24,7 +23,6 @@ class HelpDeskScreen extends StatefulWidget {
 
 @visibleForTesting
 class HelpDeskScreenState extends State<HelpDeskScreen>
-    with BackNavigatorMixin
     implements InfoNavigator {
   @override
   Widget build(BuildContext context) {
@@ -32,8 +30,8 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
     return ProviderWidget<InfoVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
-          (context, viewModel, child, theme, localization) {
-        //vm.tr = AppLocalizations.of(context)!;
+          (context, vm, child, theme, localization) {
+        vm.tr = AppLocalizations.of(context)!;
         Card merchandise = Card(
           child: ExpansionTile(
             leading: const Icon(Icons.display_settings),
@@ -50,7 +48,7 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
                 leading: const Icon(Icons.shopping_basket),
                 title: const Text('Buy our Merchandise'),
                 subtitle: const Text('Order our branded T-Shirts (Kenya Only)'),
-                onTap: () => viewModel.goToMerchandise(),
+                onTap: () => vm.goToMerchandise(),
               ),
             ],
           ),
@@ -64,24 +62,24 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
               ListTile(
                 leading: const Icon(Icons.call),
                 title: const Text('Call'),
-                onTap: () => viewModel.goToCalling(),
-                onLongPress: () => viewModel.copyText(2),
+                onTap: () => vm.goToCalling(),
+                onLongPress: () => vm.copyText(2),
               ),
               ListTile(
                 leading: const Icon(Icons.sms),
                 title: const Text('SMS'),
-                onTap: () => viewModel.goToSms(),
+                onTap: () => vm.goToSms(),
               ),
               ListTile(
                 leading:
                     const Icon(IconData(0xf05a6, fontFamily: 'MaterialIcons')),
                 title: const Text('WhatsApp'),
-                onTap: () => viewModel.goToWhatsapp(),
+                onTap: () => vm.goToWhatsapp(),
               ),
               ListTile(
                 leading: const Icon(Icons.telegram),
                 title: const Text('TeleGram'),
-                onTap: () => viewModel.goToTelegram(),
+                onTap: () => vm.goToTelegram(),
               ),
             ],
           ),
@@ -96,7 +94,7 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
                 title: const Text('How it works'),
                 subtitle:
                     const Text('Revisit the onboarding screen once again'),
-                onTap: () => viewModel.goToHowItWorks(),
+                onTap: () => vm.goToHowItWorks(),
               ),
             ),
             Card(
@@ -105,8 +103,8 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
                 title: const Text('This app on Google PlayStore'),
                 subtitle:
                     const Text('Go to Play Store or Long Press to copy link'),
-                onTap: () => viewModel.goToPlayStore(),
-                onLongPress: () => viewModel.copyText(0),
+                onTap: () => vm.goToPlayStore(),
+                onLongPress: () => vm.copyText(0),
               ),
             ),
             Card(
@@ -114,14 +112,18 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
                 leading: const Icon(Icons.email),
                 title: const Text('Email Address'),
                 subtitle: const Text('songlibke(at)gmail[.]com'),
-                onTap: () => viewModel.goToEmail(),
-                onLongPress: () => viewModel.copyText(1),
+                onTap: () => vm.goToEmail(),
+                onLongPress: () => vm.copyText(1),
               ),
             ),
             telegram,
           ],
         );
-        return isDesktop
+        return Scaffold(
+          backgroundColor: ThemeColors.backgroundGrey,
+          body: mainView,
+        );
+        /*return isDesktop
             ? Scaffold(
                 backgroundColor: ThemeColors.backgroundGrey,
                 body: mainView,
@@ -132,14 +134,10 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
                   title: Text(tr.helpdeskTitle),
                 ),
                 body: mainView,
-              );
+              );*/
       },
     );
   }
-
-  // Navigates to Home screen
-  @override
-  void goToHome() => MainNavigator.of(context).goToHome();
 
   // Navigates to Donation screen
   @override

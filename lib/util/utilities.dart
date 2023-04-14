@@ -172,7 +172,7 @@ List<SongExt> seachSongByQuery(String query, List<SongExt> songs) {
 
     // Remove "," and "!" characters from s.title, s.alias, and s.content
     String title = s.title!.replaceAll(charsPtn, '').toLowerCase();
-    String alias = s.alias!.replaceAll(charsPtn, '').toLowerCase();
+    //String alias = s.alias!.replaceAll(charsPtn, '').toLowerCase();
     String content = s.content!.replaceAll(charsPtn, '').toLowerCase();
 
     // Check if the song title matches the query, ignoring "," and "!" characters
@@ -181,9 +181,9 @@ List<SongExt> seachSongByQuery(String query, List<SongExt> songs) {
     }
 
     // Check if the song alias matches the query, ignoring "," and "!" characters
-    if (queryPtn.hasMatch(alias)) {
+    /*if (queryPtn.hasMatch(alias)) {
       return true;
-    }
+    }*/
 
     // Check if the song content matches the query, ignoring "," and "!" characters
     if (queryPtn.hasMatch(content)) {

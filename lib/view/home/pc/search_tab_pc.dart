@@ -40,7 +40,7 @@ class SearchTabPc extends StatelessWidget {
             },
             itemCount: vm.books!.length,
           ).expanded(),
-          ManageBooksBtn(vm),
+          //ManageBooksBtn(vm),
         ],
       ),
     );

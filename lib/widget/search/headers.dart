@@ -1,20 +1,32 @@
-part of '../../view/home/home_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:styled_widget/styled_widget.dart';
+import 'package:textstyle_extensions/textstyle_extensions.dart';
 
-/// Search songs widget for big screen
-class PcSearch extends StatelessWidget {
-  final HomeVm? vm;
-  const PcSearch(this.vm, {Key? key}) : super(key: key);
+import '../../model/general/general.dart';
+import '../../theme/theme_colors.dart';
+import '../../theme/theme_styles.dart';
+import '../../view/home/home_screen.dart';
+import '../../vm/home/home_vm.dart';
+
+class SearchWidget extends StatelessWidget {
+  final Function(String) onSearch;
+  final TextEditingController? searchController;
+  const SearchWidget({
+    Key? key,
+    required this.onSearch,
+    required this.searchController,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var searchWidget = Expanded(
+    return Expanded(
       child: TextFormField(
-        controller: vm!.searchController,
+        controller: searchController,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         decoration: InputDecoration(
           prefixIcon: const Icon(Icons.search, color: ThemeColors.primaryDark),
           suffixIcon: InkWell(
-            onTap: () => vm!.onClear(),
+            onTap: () => searchController!.clear(),
             child: const Icon(Icons.clear, color: ThemeColors.primaryDark),
           ),
           isDense: true,
@@ -29,30 +41,19 @@ class PcSearch extends StatelessWidget {
         ),
         style: const TextStyle(fontSize: 18, color: ThemeColors.primaryDark),
         textInputAction: TextInputAction.done,
-        onChanged: (String query) => vm!.onSearch(query),
+        onChanged: (String query) => onSearch(query),
       ).decorated(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
       ),
     );
-    switch (vm!.setPage) {
-      case PageType.lists:
-      case PageType.search:
-      case PageType.likes:
-      case PageType.drafts:
-        return searchWidget;
-
-      case PageType.helpdesk:
-      case PageType.settings:
-        return const SizedBox.shrink();
-    }
   }
 }
 
 /// Action button 1
-class PcActionBtn1 extends StatelessWidget {
+class ActionBtn1 extends StatelessWidget {
   final HomeVm? vm;
-  const PcActionBtn1(this.vm, {Key? key}) : super(key: key);
+  const ActionBtn1(this.vm, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
