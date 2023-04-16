@@ -33,7 +33,7 @@ class SearchTab extends StatelessWidget {
       physics: const ClampingScrollPhysics(),
       shrinkWrap: true,
       // limits number of songs displayed to thirty
-      itemCount: vm.filtered!.length > 30 ? 30 : vm.filtered!.length,
+      itemCount: vm.filtered!.length,
       padding: EdgeInsets.only(
         left: size!.height * 0.0082,
         right: size!.height * 0.0082,
