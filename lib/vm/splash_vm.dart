@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 
@@ -14,11 +15,15 @@ class SplashVm with ChangeNotifierEx {
 
   Future<void> init(SplashNavigator screenNavigator) async {
     navigator = screenNavigator;
-    isLoaded = localStorage.getPrefBool(PrefConstants.dataLoadedCheckKey);
-    onBoarded = localStorage.getPrefBool(PrefConstants.onboardedCheckKey);
-
     await Future.delayed(const Duration(seconds: 3), () {});
-    await nextActions();
+
+    if (kIsWeb) {
+      navigator.goToHome();
+    } else {
+      isLoaded = localStorage.getPrefBool(PrefConstants.dataLoadedCheckKey);
+      onBoarded = localStorage.getPrefBool(PrefConstants.onboardedCheckKey);
+      await nextActions();
+    }
   }
 
   Future<void> nextActions() async {

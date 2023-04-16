@@ -10,3 +10,5 @@ class HomeSlider {
   String title;
   HomeSlider(this.id, this.image, this.title);
 }
+
+enum PageType { lists, search, likes, drafts, helpdesk, settings }

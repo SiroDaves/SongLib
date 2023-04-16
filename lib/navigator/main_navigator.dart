@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../view/drafts/draft_editor.dart';
 import '../view/drafts/mobile/draft_presentor.dart';
 import '../view/drafts/pc/draft_presentor_pc.dart';
 import '../view/home/home_screen.dart';
+import '../view/home/home_screen_web.dart';
 import '../view/info/donation_screen.dart';
 import '../view/info/helpdesk_screen.dart';
 import '../view/lists/list_view_screen.dart';
@@ -96,7 +98,8 @@ class MainNavigatorState extends State<MainNavigator> with MainNavigationMixin {
         );
       case HomeScreen.routeName:
         return MaterialPageRoute<void>(
-          builder: (context) => const HomeScreen(),
+          builder: (context) =>
+              kIsWeb ? const HomeScreenWeb() : const HomeScreen(),
           settings: settings,
         );
       case SongPresentor.routeName:

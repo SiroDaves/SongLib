@@ -2,26 +2,101 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:styled_widget/styled_widget.dart';
 
+import '../../model/general/general.dart';
 import '../../theme/theme_colors.dart';
-import '../../vm/home/home_vm.dart';
 import 'sidebar_btn.dart';
 
-class Sidebar extends StatefulWidget {
-  final HomeVm? viewModel;
-  const Sidebar(this.viewModel, {Key? key}) : super(key: key);
+class Sidebar extends StatelessWidget {
+  final Function(PageType) onPageSelect;
+  final PageType? pageType;
+  final bool isWeb;
 
-  @override
-  SidebarState createState() => SidebarState();
-}
-
-class SidebarState extends State<Sidebar> {
-  HomeVm? vm;
-  void handlePageSelected(PageType pageType) => vm!.setCurrentPage(pageType);
+  const Sidebar({
+    Key? key,
+    required this.pageType,
+    required this.onPageSelect,
+    this.isWeb = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var tr = AppLocalizations.of(context)!;
-    vm = widget.viewModel;
+
+    var isWebColumn = Column(
+      children: <Widget>[
+        SidebarBtn(
+          Icons.search,
+          tr.searchTitle,
+          pageType: PageType.search,
+          isSelected: pageType == PageType.search,
+          onPressed: () => onPageSelect(PageType.search),
+        ),
+        const Divider(color: ThemeColors.primaryDark),
+        const Spacer(),
+        const Divider(color: ThemeColors.primaryDark),
+        SidebarBtn(
+          Icons.support,
+          tr.helpdeskTitle,
+          pageType: PageType.helpdesk,
+          isSelected: pageType == PageType.helpdesk,
+          onPressed: () => onPageSelect(PageType.helpdesk),
+        ),
+      ],
+    );
+
+    var notWebColumn = Column(
+      children: <Widget>[
+        SidebarBtn(
+          Icons.list,
+          tr.listTitle,
+          pageType: PageType.lists,
+          isSelected: pageType == PageType.lists,
+          onPressed: () => onPageSelect(PageType.lists),
+        ),
+        const Divider(color: ThemeColors.primaryDark),
+        SidebarBtn(
+          Icons.search,
+          tr.searchTitle,
+          pageType: PageType.search,
+          isSelected: pageType == PageType.search,
+          onPressed: () => onPageSelect(PageType.search),
+        ),
+        const Divider(color: ThemeColors.primaryDark),
+        SidebarBtn(
+          Icons.favorite,
+          tr.likesTitle,
+          pageType: PageType.likes,
+          isSelected: pageType == PageType.likes,
+          onPressed: () => onPageSelect(PageType.likes),
+        ),
+        const Divider(color: ThemeColors.primaryDark),
+        SidebarBtn(
+          Icons.edit,
+          tr.draftTitle,
+          pageType: PageType.drafts,
+          isSelected: pageType == PageType.drafts,
+          onPressed: () => onPageSelect(PageType.drafts),
+        ),
+        const Divider(color: ThemeColors.primaryDark),
+        const Spacer(),
+        const Divider(color: ThemeColors.primaryDark),
+        SidebarBtn(
+          Icons.support,
+          tr.helpdeskTitle,
+          pageType: PageType.helpdesk,
+          isSelected: pageType == PageType.helpdesk,
+          onPressed: () => onPageSelect(PageType.helpdesk),
+        ),
+        const Divider(color: ThemeColors.primaryDark),
+        SidebarBtn(
+          Icons.settings,
+          tr.settingsTitle,
+          pageType: PageType.settings,
+          isSelected: pageType == PageType.settings,
+          onPressed: () => onPageSelect(PageType.settings),
+        ),
+      ],
+    );
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -36,59 +111,9 @@ class SidebarState extends State<Sidebar> {
           ),
         ],
       ),
-      child: Column(
-        children: <Widget>[
-          SidebarBtn(
-            Icons.list,
-            tr.listTitle,
-            pageType: PageType.lists,
-            isSelected: vm!.setPage == PageType.lists,
-            onPressed: () => handlePageSelected(PageType.lists),
-          ),
-          const Divider(color: ThemeColors.primaryDark),
-          SidebarBtn(
-            Icons.search,
-            tr.searchTitle,
-            pageType: PageType.search,
-            isSelected: vm!.setPage == PageType.search,
-            onPressed: () => handlePageSelected(PageType.search),
-          ),
-          const Divider(color: ThemeColors.primaryDark),
-          SidebarBtn(
-            Icons.favorite,
-            tr.likesTitle,
-            pageType: PageType.likes,
-            isSelected: vm!.setPage == PageType.likes,
-            onPressed: () => handlePageSelected(PageType.likes),
-          ),
-          const Divider(color: ThemeColors.primaryDark),
-          SidebarBtn(
-            Icons.edit,
-            tr.draftTitle,
-            pageType: PageType.drafts,
-            isSelected: vm!.setPage == PageType.drafts,
-            onPressed: () => handlePageSelected(PageType.drafts),
-          ),
-          const Divider(color: ThemeColors.primaryDark),
-          const Spacer(),
-          const Divider(color: ThemeColors.primaryDark),
-          SidebarBtn(
-            Icons.support,
-            tr.helpdeskTitle,
-            pageType: PageType.helpdesk,
-            isSelected: vm!.setPage == PageType.helpdesk,
-            onPressed: () => handlePageSelected(PageType.helpdesk),
-          ),
-          const Divider(color: ThemeColors.primaryDark),
-          SidebarBtn(
-            Icons.settings,
-            tr.settingsTitle,
-            pageType: PageType.settings,
-            isSelected: vm!.setPage == PageType.settings,
-            onPressed: () => handlePageSelected(PageType.settings),
-          ),
-        ],
-      ).padding(bottom: 20).constrained(maxWidth: 280),
+      child: (isWeb ? isWebColumn : notWebColumn)
+          .padding(bottom: 20)
+          .constrained(maxWidth: 280),
     );
   }
 }
