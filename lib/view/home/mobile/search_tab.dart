@@ -32,7 +32,6 @@ class SearchTab extends StatelessWidget {
     var listContainer = ListView.builder(
       physics: const ClampingScrollPhysics(),
       shrinkWrap: true,
-      // limits number of songs displayed to thirty
       itemCount: vm.filtered!.length,
       padding: EdgeInsets.only(
         left: size!.height * 0.0082,
