@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -5,32 +7,55 @@ import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../repository/shared_prefs/local_storage.dart';
 import '../../util/constants/app_constants.dart';
+import '../../util/constants/pref_constants.dart';
+import '../../util/date_util.dart';
 import '../../widget/general/toast.dart';
 
 @injectable
 class InfoVm with ChangeNotifierEx {
   late final InfoNavigator navigator;
+  final LocalStorage localStorage;
+
+  InfoVm(this.localStorage);
 
   BuildContext? context;
   AppLocalizations? tr;
+  String timeInstalled = "";
+  int dateDiff = 0;
+  final dateUtility = DateUtil();
 
   Future<void> init(InfoNavigator screenNavigator) async {
     navigator = screenNavigator;
     tr = AppLocalizations.of(context!)!;
+    timeInstalled = localStorage.getPrefString(PrefConstants.dateInstalledKey);
+    var dateValue = DateTime.parse(timeInstalled);
+    dateDiff = DateTime.now().difference(dateValue).inDays;
   }
 
   Future<void> goToHowItWorks() async {
     navigator.goToOnboarding();
   }
 
-  Future<void> goToPlayStore() async {
-    final Uri url = Uri.parse(AppConstants.playstoreLink);
-    if (await canLaunchUrl(url)) await launchUrl(url);
+  Future<void> goToApptore() async {
+    final Uri andyUrl = Uri.parse(AppConstants.playstoreLink);
+    final Uri iosUrl = Uri.parse(AppConstants.applestoreLink);
+    final Uri msUrl = Uri.parse(AppConstants.microsoftstoreLink);
+
+    if (Platform.isAndroid && await canLaunchUrl(andyUrl)) {
+      await launchUrl(andyUrl);
+    } else if (Platform.isIOS && await canLaunchUrl(iosUrl)) {
+      await launchUrl(iosUrl);
+    } else if (Platform.isMacOS && await canLaunchUrl(iosUrl)) {
+      await launchUrl(iosUrl);
+    } else if (Platform.isWindows && await canLaunchUrl(msUrl)) {
+      await launchUrl(msUrl);
+    }
   }
 
   Future<void> goToEmail() async {
-    final Uri url = Uri.parse('mailto:songlibke' '@' 'gmail.com');
+    final Uri url = Uri.parse('mailto:futuristicken' '@' 'gmail.com');
     if (await canLaunchUrl(url)) await launchUrl(url);
   }
 
@@ -48,7 +73,7 @@ class InfoVm with ChangeNotifierEx {
   }
 
   Future<void> goToWhatsapp() async {
-    final Uri url = Uri.parse('https://wa.me/+' '254115' '586529');
+    final Uri url = Uri.parse('https://wa.me/message/CUDWSUFSUJPHN1');
     if (await canLaunchUrl(url)) await launchUrl(url);
   }
 

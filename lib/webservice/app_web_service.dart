@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:injectable/injectable.dart';
-import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 import '../../util/constants/api_constants.dart';
 import '../model/responses/parse_resp.dart';

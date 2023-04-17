@@ -30,6 +30,7 @@ class GlobalVm with ChangeNotifierEx {
   bool wakeLockStatus = false;
   bool slideHorizontal = false;
   bool get isDarkMode => localStorage.getPrefBool(PrefConstants.darkModeKey);
+  String get timeInstalled => localStorage.getPrefString(PrefConstants.dateInstalledKey);
 
   Future<void> init(BuildContext context) async {
     targetPlat = settingsRepository.getTargetPlatform();

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 import '../../navigator/main_navigator.dart';
 import '../../navigator/mixin/back_navigator.dart';
@@ -37,20 +38,20 @@ class SettingsScreenState extends State<SettingsScreen>
     return ProviderWidget<SettingsVm>(
       create: () => GetIt.I()..init(this),
       childBuilderWithViewModel: (context, value, _, localization) {
-        var mainView = Consumer<GlobalVm>(builder: (context, viewModel, child) {
-          if (viewModel.wakeLockStatus) {
+        var mainView = Consumer<GlobalVm>(builder: (context, vm, child) {
+          if (vm.wakeLockStatus) {
             wakeLock = 'Enabled';
           } else {
             wakeLock = 'Disabled';
           }
-          if (viewModel.slideHorizontal) {
+          if (vm.slideHorizontal) {
             slideDirection = 'Horizontal (Left, Right)';
           } else {
             slideDirection = 'Vertical (Up, Down)';
           }
-          if (viewModel.themeMode == ThemeMode.light) {
+          if (vm.themeMode == ThemeMode.light) {
             theme = tr.themeLight;
-          } else if (viewModel.themeMode == ThemeMode.dark) {
+          } else if (vm.themeMode == ThemeMode.dark) {
             theme = tr.themeDark;
           }
 
@@ -70,13 +71,13 @@ class SettingsScreenState extends State<SettingsScreen>
               children: [
                 SelectorItem(
                   title: 'Enable',
-                  onClick: () => viewModel.updateWakeLockStatus(true),
-                  selected: viewModel.wakeLockStatus == true,
+                  onClick: () => vm.updateWakeLockStatus(true),
+                  selected: vm.wakeLockStatus == true,
                 ),
                 SelectorItem(
                   title: 'Disable',
-                  onClick: () => viewModel.updateWakeLockStatus(false),
-                  selected: viewModel.wakeLockStatus == false,
+                  onClick: () => vm.updateWakeLockStatus(false),
+                  selected: vm.wakeLockStatus == false,
                 ),
               ],
             ),
@@ -89,13 +90,13 @@ class SettingsScreenState extends State<SettingsScreen>
               children: [
                 SelectorItem(
                   title: 'Vertical (Up, Down)',
-                  onClick: () => viewModel.updateSlideHorizontal(false),
-                  selected: viewModel.slideHorizontal == false,
+                  onClick: () => vm.updateSlideHorizontal(false),
+                  selected: vm.slideHorizontal == false,
                 ),
                 SelectorItem(
                   title: 'Horizontal (Left, Right)',
-                  onClick: () => viewModel.updateSlideHorizontal(true),
-                  selected: viewModel.slideHorizontal == true,
+                  onClick: () => vm.updateSlideHorizontal(true),
+                  selected: vm.slideHorizontal == true,
                 ),
               ],
             ),
@@ -108,22 +109,33 @@ class SettingsScreenState extends State<SettingsScreen>
               children: [
                 SelectorItem(
                   title: 'Default',
-                  onClick: () => viewModel.updateThemeMode(ThemeMode.system),
-                  selected: viewModel.themeMode == ThemeMode.system,
+                  onClick: () => vm.updateThemeMode(ThemeMode.system),
+                  selected: vm.themeMode == ThemeMode.system,
                 ),
                 SelectorItem(
                   title: 'Light',
-                  onClick: () => viewModel.updateThemeMode(ThemeMode.light),
-                  selected: viewModel.themeMode == ThemeMode.light,
+                  onClick: () => vm.updateThemeMode(ThemeMode.light),
+                  selected: vm.themeMode == ThemeMode.light,
                 ),
                 SelectorItem(
                   title: 'Dark',
-                  onClick: () => viewModel.updateThemeMode(ThemeMode.dark),
-                  selected: viewModel.themeMode == ThemeMode.dark,
+                  onClick: () => vm.updateThemeMode(ThemeMode.dark),
+                  selected: vm.themeMode == ThemeMode.dark,
                 ),
               ],
             ),
           );
+
+          final dateValue = DateTime.parse(vm.timeInstalled);
+          final String lastInstalled = timeago.format(dateValue);
+          var timeInstalled = Card(
+            child: ListTile(
+              leading: const Icon(Icons.info),
+              title: const Text('Time Installed'),
+              subtitle: Text(lastInstalled),
+            ),
+          );
+
           return ListView(
             padding: const EdgeInsets.all(5),
             children: [
@@ -131,6 +143,7 @@ class SettingsScreenState extends State<SettingsScreen>
               if (isMobile) screenAwake,
               if (isMobile) sliderDirection,
               //themes,
+              timeInstalled,
             ],
           );
         });

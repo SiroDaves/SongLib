@@ -3,7 +3,7 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-  connectivity_plus_windows
+  connectivity_plus
   desktop_window
   flutter_platform_alert
   flutter_secure_storage_windows

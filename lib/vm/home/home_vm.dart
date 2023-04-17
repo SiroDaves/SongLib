@@ -69,7 +69,7 @@ class HomeVm with ChangeNotifierEx {
     shownUpdateHint = localStorage.getPrefBool(currentUpdate);
 
     await fetchData();
-    if (!shownUpdateHint) {
+    /*if (!shownUpdateHint) {
       var result = await FlutterPlatformAlert.showCustomAlert(
         windowTitle: tr!.hintsCurrentUpdate,
         text: tr!.hintsCurrentUpdateText,
@@ -84,7 +84,7 @@ class HomeVm with ChangeNotifierEx {
       if (result == CustomButton.positiveButton) {
         localStorage.setPrefBool(currentUpdate, true);
       }
-    }
+    }*/
   }
 
   void setCurrentPage(PageType page) async {
