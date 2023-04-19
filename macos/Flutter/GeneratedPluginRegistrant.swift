@@ -5,14 +5,14 @@
 import FlutterMacOS
 import Foundation
 
-import connectivity_plus_macos
+import connectivity_plus
 import desktop_window
-import device_info_plus_macos
+import device_info_plus
 import firebase_core
 import flutter_local_notifications
 import flutter_platform_alert
 import flutter_secure_storage_macos
-import package_info_plus_macos
+import package_info_plus
 import path_provider_foundation
 import sentry_flutter
 import share_plus_macos

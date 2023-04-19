@@ -32,7 +32,7 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
       consumerWithThemeAndLocalization:
           (context, vm, child, theme, localization) {
         vm.tr = AppLocalizations.of(context)!;
-        Card merchandise = Card(
+        Card support = Card(
           child: ExpansionTile(
             // Display more ways to support the project
             leading: const Icon(Icons.display_settings),
@@ -83,20 +83,19 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
                 title: const Text('WhatsApp'),
                 onTap: () => vm.goToWhatsapp(),
               ),
-              // Open telegram
-              ListTile(
+
+              /*ListTile(
                 leading: const Icon(Icons.telegram),
                 title: const Text('TeleGram'),
                 onTap: () => vm.goToTelegram(),
-              ),
+              ),*/
             ],
           ),
         );
         var mainView = ListView(
           padding: const EdgeInsets.all(5),
           children: [
-            merchandise,
-            // Reopen the onboarding screen
+            if (vm.dateDiff > 2) support,
             Card(
               child: ListTile(
                 leading: const Icon(Icons.settings),
@@ -110,10 +109,10 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
             Card(
               child: ListTile(
                 leading: const Icon(Icons.link),
-                title: const Text('This app on Google PlayStore'),
+                title: const Text('Rate us & Leave us a Review'),
                 subtitle:
-                    const Text('Go to Play Store or Long Press to copy link'),
-                onTap: () => vm.goToPlayStore(),
+                    const Text('Go to App Store or Long Press to copy link'),
+                onTap: () => vm.goToApptore(),
                 onLongPress: () => vm.copyText(0),
               ),
             ),
@@ -122,7 +121,7 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
               child: ListTile(
                 leading: const Icon(Icons.email),
                 title: const Text('Email Address'),
-                subtitle: const Text('songlibke(at)gmail[.]com'),
+                subtitle: const Text('futuristicken(at)gmail[.]com'),
                 onTap: () => vm.goToEmail(),
                 onLongPress: () => vm.copyText(1),
               ),
@@ -130,11 +129,7 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
             telegram,
           ],
         );
-        return Scaffold(
-          backgroundColor: ThemeColors.backgroundGrey,
-          body: mainView,
-        );
-        /*return isDesktop
+        return isDesktop
             ? Scaffold(
                 backgroundColor: ThemeColors.backgroundGrey,
                 body: mainView,
@@ -145,7 +140,7 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
                   title: Text(tr.helpdeskTitle),
                 ),
                 body: mainView,
-              );*/
+              );
       },
     );
   }

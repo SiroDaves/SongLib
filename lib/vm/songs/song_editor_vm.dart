@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -20,6 +22,9 @@ class SongEditorVm with ChangeNotifierEx {
 
   HomeVm? homeVm;
   SongExt? song;
+
+  BuildContext? context;
+  AppLocalizations? tr;
 
   bool isLoading = false, notEmpty = false;
   String? title, content, alias, key;

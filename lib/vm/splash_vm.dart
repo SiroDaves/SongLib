@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 
 import '../repository/shared_prefs/local_storage.dart';
 import '../util/constants/pref_constants.dart';
+import '../util/utilities.dart';
 
 @injectable
 class SplashVm with ChangeNotifierEx {
@@ -34,6 +35,7 @@ class SplashVm with ChangeNotifierEx {
         navigator.goToOnboarding();
       }
     } else {
+      localStorage.setPrefString(PrefConstants.dateInstalledKey, dateNow());
       navigator.goToSelection();
     }
   }

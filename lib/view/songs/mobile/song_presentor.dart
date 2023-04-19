@@ -29,7 +29,7 @@ class SongPresentorState extends State<SongPresentor>
     implements SongPresentorNavigator {
   Size? size;
 
-  @override 
+  @override
   Widget build(BuildContext context) {
     var tr = AppLocalizations.of(context)!;
     size = MediaQuery.of(context).size;
@@ -67,40 +67,26 @@ class SongPresentorState extends State<SongPresentor>
         );
 
         return Scaffold(
+          backgroundColor: ThemeColors.backgroundGrey,
           appBar: appBarWidget,
-          body: Container(
+          body: SizedBox(
             height: size!.height,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Colors.white,
-                  Colors.orange,
-                  ThemeColors.accent,
-                  ThemeColors.primary,
-                  Colors.black,
-                ],
-              ),
-            ),
-            child: SizedBox(
-              child: vm.isLoading
-                  ? const CircularProgress()
-                  : vm.widgetTabs.isNotEmpty
-                      ? PresentOnMobile(
-                          index: vm.curSlide,
-                          tabsElevation: 5,
-                          songbook: vm.songBook,
-                          tabs: vm.widgetTabs,
-                          contents: vm.widgetContent,
-                          tabsWidth: size!.height * 0.08156,
-                          indicatorWidth: size!.height * 0.08156,
-                          contentScrollAxis: vm.slideHorizontal
-                              ? Axis.horizontal
-                              : Axis.vertical,
-                        )
-                      : const SizedBox.shrink(),
-            ),
+            child: vm.isLoading
+                ? const CircularProgress()
+                : vm.widgetTabs.isNotEmpty
+                    ? PresentOnMobile(
+                        index: vm.curSlide,
+                        tabsElevation: 5,
+                        songbook: vm.songBook,
+                        tabs: vm.widgetTabs,
+                        contents: vm.widgetContent,
+                        tabsWidth: size!.height * 0.08156,
+                        indicatorWidth: size!.height * 0.08156,
+                        contentScrollAxis: vm.slideHorizontal
+                            ? Axis.horizontal
+                            : Axis.vertical,
+                      )
+                    : const SizedBox.shrink(),
           ),
           floatingActionButton: ExpandableFab(
             distance: 112.0,
@@ -140,8 +126,7 @@ class SongPresentorState extends State<SongPresentor>
 
   @override
   void goToSongEditorPc() => MainNavigator.of(context).goToSongEditorPc();
-  
+
   @override
   void goToDonation() => MainNavigator.of(context).goToDonation();
-
 }

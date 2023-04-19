@@ -7,7 +7,6 @@ import '../../navigator/main_navigator.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/utilities.dart';
 import '../../vm/selection/selection_vm.dart';
-import '../../widget/action/app_dialog.dart';
 import '../../widget/action/buttons.dart';
 import '../../widget/general/labels.dart';
 import '../../widget/general/list_items.dart';

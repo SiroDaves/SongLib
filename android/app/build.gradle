@@ -58,7 +58,7 @@ android {
         compileSdkVersion 33
         multiDexEnabled true
         versionCode 19
-        versionName "0.0.7.1" 
+        versionName "0.0.7.5" 
     }
     
     signingConfigs {

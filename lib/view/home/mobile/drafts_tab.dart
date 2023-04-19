@@ -31,15 +31,9 @@ class DraftsTab extends StatelessWidget {
     );
 
     return Scaffold(
-      body: Container(
+      backgroundColor: ThemeColors.backgroundGrey,
+      body: SizedBox(
         height: size!.height,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Colors.white, ThemeColors.accent, Colors.black],
-          ),
-        ),
         child: vm.isLoading
             ? const ListLoading()
             : vm.drafts!.isNotEmpty
@@ -49,7 +43,6 @@ class DraftsTab extends StatelessWidget {
                     description: tr.itsEmptyHereBody2,
                   ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         backgroundColor: ThemeColors.primary,
         onPressed: () => vm.navigator.goToDraftEditor(true),

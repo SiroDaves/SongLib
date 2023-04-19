@@ -78,9 +78,61 @@ class HomeScreenState extends State<HomeScreen>
     return ProviderWidget<HomeVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
-          (context, vm, child, theme, localization) {
-        vm.context = context;
-        vm.tr = AppLocalizations.of(context)!;
+          (ctx, vm, child, theme, localization) {
+        vm.context = ctx;
+        vm.tr = AppLocalizations.of(ctx)!;
+        int? selectedMenu;
+        var appBarMenu = PopupMenuButton<int>(
+          initialValue: selectedMenu,
+          // Callback that sets the selected popup menu item.
+          onSelected: (int menu) {
+            switch (menu) {
+              case 1:
+                goToHelpDesk();
+                break;
+
+              case 2:
+                goToOnboarding();
+                break;
+
+              case 3:
+                goToDonation();
+                break;
+
+              case 4:
+                goToSelection();
+                break;
+
+              case 5:
+                goToSettings();
+                break;
+            }
+          },
+          itemBuilder: (BuildContext context) => <PopupMenuEntry<int>>[
+            const PopupMenuItem<int>(
+              value: 1,
+              child: Text('Our HelpDesk'),
+            ),
+            const PopupMenuItem<int>(
+              value: 2,
+              child: Text('How it Works'),
+            ),
+            if (vm.dateDiff > 2)
+              const PopupMenuItem<int>(
+                value: 3,
+                child: Text('Make a Donation'),
+              ),
+            const PopupMenuItem<int>(
+              value: 4,
+              child: Text('Manage SongBooks'),
+            ),
+            const PopupMenuItem<int>(
+              value: 5,
+              child: Text('Manage Settings'),
+            ),
+          ],
+        );
+
         var mobileAppbar = AppBar(
           title: Row(
             children: [
@@ -97,12 +149,11 @@ class HomeScreenState extends State<HomeScreen>
             ],
           ),
           actions: <Widget>[
-            // Provide search functionality of songs
             InkWell(
               onTap: () async {
                 await showSearch(
-                  context: context,
-                  delegate: SearchSongs(context, vm, size!.height),
+                  context: ctx,
+                  delegate: SearchSongs(ctx, vm, size!.height),
                 );
               },
               child: const Padding(
@@ -110,27 +161,24 @@ class HomeScreenState extends State<HomeScreen>
                 child: Icon(Icons.search),
               ),
             ),
-            // Open up help desk screen
-            InkWell(
-              onTap: goToHelpDesk,
+            /*InkWell(
+              onTap: () {
+                if (vm.isLoggedIn) {
+                  goToUser();
+                } else {
+                  goToSignin();
+                }
+              },
               child: const Padding(
                 padding: EdgeInsets.all(10),
-                child: Icon(Icons.help),
+                child: Icon(Icons.person),
               ),
-            ),
-            // Open up settings screen
-            InkWell(
-              onTap: goToSettings,
-              child: const Padding(
-                padding: EdgeInsets.all(10),
-                child: Icon(Icons.settings),
-              ),
-            ),
+            ),*/
+            appBarMenu,
           ],
           bottom: TabBar(
             controller: tabController,
             tabs: <Widget>[
-              // Show tabs screen titles
               Tab(text: 'Lists'.toUpperCase()),
               Tab(text: 'Search'.toUpperCase()),
               Tab(text: 'Likes'.toUpperCase()),
@@ -200,7 +248,6 @@ class HomeScreenState extends State<HomeScreen>
         );
 
         return Scaffold(
-          // Check whether device is desktop or mobile and display the appropriate app bar
           appBar: isDesktop ? desktopAppbar : mobileAppbar,
           body: TweenAnimationBuilder<double>(
             duration: Durations.slow,
@@ -225,42 +272,56 @@ class HomeScreenState extends State<HomeScreen>
       },
     );
   }
-  // Navigates to song presentor
+
   @override
   void goToSongPresentor() => MainNavigator.of(context).goToSongPresentor();
 
   @override
   void goToSongPresentorPc() => MainNavigator.of(context).goToSongPresentorPc();
-  // Navigates to draft presenter
+
   @override
   void goToDraftPresentor() => MainNavigator.of(context).goToDraftPresentor();
 
   @override
   void goToDraftPresentorPc() =>
       MainNavigator.of(context).goToDraftPresentorPc();
-  // Navigates to song editor
+
   @override
   void goToSongEditor() => MainNavigator.of(context).goToSongEditor();
 
   @override
   void goToSongEditorPc() => MainNavigator.of(context).goToSongEditorPc();
-  // Navigates to draft editor
+
   @override
   void goToDraftEditor(bool notEmpty) =>
       MainNavigator.of(context).goToDraftEditor(notEmpty);
 
   @override
   void goToListView() => MainNavigator.of(context).goToListView();
-  // Navigates to help desk screen
-  @override
-  void goToHelpDesk() => MainNavigator.of(context).goToHelpDesk();
-  // Navigates to donation screen
-  @override
-  void goToDonation() => MainNavigator.of(context).goToDonation();
-  // Navigates to settings screen
+
   @override
   void goToSettings() => MainNavigator.of(context).goToSettings();
-  // Navigates to selection screen
+
   @override
   void goToSelection() => MainNavigator.of(context).goToSelection();
+
+  @override
+  void goToHelpDesk() => MainNavigator.of(context).goToHelpDesk();
+
+  // Navigates to Donation screen
+  @override
+  void goToDonation() => MainNavigator.of(context).goToDonation();
+
+  // Navigates to Onboarding screen
+  @override
+  void goToOnboarding() => MainNavigator.of(context).goToOnboarding();
+
+  @override
+  void goToUser() => MainNavigator.of(context).goToUser();
+
+  @override
+  void goToSignin() => MainNavigator.of(context).goToSignin();
+
+  @override
+  void goToSignup() => MainNavigator.of(context).goToSignup();
 }

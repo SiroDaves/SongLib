@@ -127,7 +127,6 @@ class ProgressVm with ChangeNotifierEx {
     }
 
     localStorage.setPrefBool(PrefConstants.dataLoadedCheckKey, true);
-    localStorage.setPrefString(PrefConstants.dateInstalledKey, dateNow());
     localStorage.setPrefBool(PrefConstants.wakeLockCheckKey, true);
 
     if (onBoarded) {

@@ -14,21 +14,23 @@ import '../../util/date_util.dart';
 import '../../widget/general/toast.dart';
 
 @injectable
-class InfoVm with ChangeNotifierEx {
-  late final InfoNavigator navigator;
+class UserVm with ChangeNotifierEx {
+  late final UserNavigator navigator;
   final LocalStorage localStorage;
 
-  InfoVm(this.localStorage);
+  UserVm(this.localStorage);
 
   BuildContext? context;
   AppLocalizations? tr;
+  bool isLoggedIn = false;
   String timeInstalled = "";
   int dateDiff = 0;
   final dateUtility = DateUtil();
 
-  Future<void> init(InfoNavigator screenNavigator) async {
+  Future<void> init(UserNavigator screenNavigator) async {
     navigator = screenNavigator;
     tr = AppLocalizations.of(context!)!;
+    isLoggedIn = localStorage.getPrefBool(PrefConstants.isLoggedIn);
     timeInstalled = localStorage.getPrefString(PrefConstants.dateInstalledKey);
     var dateValue = DateTime.parse(timeInstalled);
     dateDiff = DateTime.now().difference(dateValue).inDays;
@@ -142,7 +144,7 @@ class InfoVm with ChangeNotifierEx {
   }
 }
 
-abstract class InfoNavigator {
+abstract class UserNavigator {
   void goToOnboarding();
   void goToDonation();
 }

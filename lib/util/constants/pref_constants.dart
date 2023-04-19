@@ -9,7 +9,13 @@ class PrefConstants {
   static const selectedBooksKey = 'selectedBooks';
   static const slideHorizontalKey = 'slideHorizontal';
   static const pcHintsKey = 'pcHints';
+  static const accountsHintsKey = 'accountHints';
   static const uninstallCheckKey = 'uninstallCheck';
   static const donationCheckKey = 'donationCheck';
   static const wakeLockCheckKey = 'wakeLockCheck';
+
+  static const isLoggedIn = 'isLoggedIn';
+  static const userEmail = 'emailAddress';
+  static const userName = 'username';
+  static const passWord = 'password';
 }
