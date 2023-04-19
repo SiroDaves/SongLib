@@ -128,15 +128,17 @@ class SongPresentorVm with ChangeNotifierEx {
       );
     }
     for (final verse in verseTexts) {
-      widgetContent.add(PresentorText(
-        lyrics: verse,
-        size: size!,
-        onDoubleTap: () => Share.share(
-          '${verse.replaceAll("#", "\n")}\n\n$songTitle,\n$songBook',
-          subject: tr!.shareVerse,
+      widgetContent.add(
+        PresentorText(
+          lyrics: verse,
+          size: size!,
+          onDoubleTap: () => Share.share(
+            '${verse.replaceAll("#", "\n")}\n\n$songTitle,\n$songBook',
+            subject: tr!.shareVerse,
+          ),
+          onLongPress: () => copyVerse(verse),
         ),
-        onLongPress: () => copyVerse(verse),
-      ));
+      );
     }
   }
 

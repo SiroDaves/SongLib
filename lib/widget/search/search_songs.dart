@@ -74,7 +74,7 @@ class SearchSongs extends SearchDelegate<List> {
       }
 
       // Create a regular expression pattern to match the words in the query
-      RegExp queryPtn = RegExp(words.map((w) => '(' + w + ')').join('.*'));
+      RegExp queryPtn = RegExp(words.map((w) => '($w)').join('.*'));
 
       // Remove "," and "!" characters from s.title, s.alias, and s.content
       String title = s.title!.replaceAll(charsPtn, '').toLowerCase();
@@ -99,43 +99,26 @@ class SearchSongs extends SearchDelegate<List> {
       return false;
     }).toList();
 
-    /*List<SongExt> matchQuery = vm.songs!.where((s) {
-      return (isNumeric(query) && s.songNo == int.parse(query)) ||
-          s.title!.toLowerCase().contains(qry) ||
-          s.alias!.toLowerCase().contains(qry) ||
-          s.content!.toLowerCase().contains(qry);
-    }).toList();*/
-
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Colors.white, ThemeColors.accent, Colors.black],
-        ),
+    return ListView.builder(
+      physics: const ClampingScrollPhysics(),
+      shrinkWrap: true,
+      padding: EdgeInsets.only(
+        left: height! * 0.0082,
+        right: height! * 0.0082,
       ),
-      child: ListView.builder(
-        //padding: EdgeInsets.all(height! * 0.015),
-        physics: const ClampingScrollPhysics(),
-        shrinkWrap: true,
-        padding: EdgeInsets.only(
-          left: height! * 0.0082,
-          right: height! * 0.0082,
-        ),
-        itemCount: matchQuery.length,
-        itemBuilder: (context, index) {
-          var result = matchQuery[index];
-          return SongItem(
-            song: result,
-            height: height!,
-            isSearching: true,
-            onPressed: () {
-              vm.localStorage.song = vm.setSong = result;
-              vm.navigator.goToSongPresentor();
-            },
-          );
-        },
-      ),
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return SongItem(
+          song: result,
+          height: height!,
+          isSearching: true,
+          onPressed: () {
+            vm.localStorage.song = vm.setSong = result;
+            vm.navigator.goToSongPresentor();
+          },
+        );
+      },
     );
   }
 }

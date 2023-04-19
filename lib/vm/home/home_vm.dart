@@ -15,6 +15,7 @@ import '../../model/base/songext.dart';
 import '../../model/general/general.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/shared_prefs/local_storage.dart';
+import '../../util/constants/pref_constants.dart';
 import '../../util/utilities.dart';
 import '../../widget/general/toast.dart';
 
@@ -29,13 +30,14 @@ class HomeVm with ChangeNotifierEx {
 
   bool isLoading = false, isMiniLoading = false;
   bool isSearching = false, shownUpdateHint = false;
-  int currentPage = 1;
+  bool isLoggedIn = false;
+  int currentPage = 1, dateDiff = 0;
   BuildContext? context;
 
   List<Book>? books = [];
 
   String songTitle = 'Song Title', songTitleL = 'Song Title';
-  String currentUpdate = 'update68';
+  String currentUpdate = 'update68', timeInstalled = "";
   List<SongExt>? filtered = [], songs = [], likes = [], listSongs = [];
   List<String> verses = [], versesLike = [], versesDraft = [];
 
@@ -69,6 +71,10 @@ class HomeVm with ChangeNotifierEx {
     shownUpdateHint = localStorage.getPrefBool(currentUpdate);
 
     await fetchData();
+    isLoggedIn = localStorage.getPrefBool(PrefConstants.isLoggedIn);
+    timeInstalled = localStorage.getPrefString(PrefConstants.dateInstalledKey);
+    var dateValue = DateTime.parse(timeInstalled);
+    dateDiff = DateTime.now().difference(dateValue).inDays;
     /*if (!shownUpdateHint) {
       var result = await FlutterPlatformAlert.showCustomAlert(
         windowTitle: tr!.hintsCurrentUpdate,
@@ -412,8 +418,12 @@ abstract class HomeNavigator {
   void goToSongEditorPc();
   void goToDraftEditor(bool notEmpty);
   void goToListView();
+  void goToOnboarding();
   void goToHelpDesk();
   void goToDonation();
   void goToSettings();
   void goToSelection();
+  void goToUser();
+  void goToSignin();
+  void goToSignup();
 }

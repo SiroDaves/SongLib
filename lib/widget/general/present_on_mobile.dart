@@ -163,9 +163,33 @@ class PresentOnMobileState extends State<PresentOnMobile>
 
           return Stack(
             children: <Widget>[
+              GestureDetector(
+                onTap: () {
+                  changePageByTapView = true;
+                  setState(() => selectTab(index));
+
+                  pageController!.animateToPage(index,
+                      duration: widget.changePageDuration!,
+                      curve: widget.changePageCurve!);
+                },
+                child: Container(
+                  width: widget.indicatorWidth,
+                  margin: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: itemBGColor,
+                    boxShadow: const [BoxShadow(blurRadius: 5)],
+                    borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(10),
+                      bottomLeft: Radius.circular(10),
+                    ),
+                  ),
+                  alignment: alignment,
+                  child: tab.child,
+                ),
+              ),
               Positioned(
-                top: 2,
-                bottom: 2,
+                top: 0,
+                bottom: 0,
                 width: widget.indicatorWidth,
                 left: left,
                 right: right,
@@ -178,38 +202,15 @@ class PresentOnMobileState extends State<PresentOnMobile>
                   ),
                   child: Container(
                     decoration: const BoxDecoration(
+                      boxShadow: [BoxShadow(blurRadius: 5)],
                       color: ThemeColors.accent,
                       borderRadius: BorderRadius.only(
                         topRight: Radius.circular(10),
                         bottomLeft: Radius.circular(10),
                       ),
                     ),
+                    child: tab.child,
                   ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  changePageByTapView = true;
-                  setState(() {
-                    selectTab(index);
-                  });
-
-                  pageController!.animateToPage(index,
-                      duration: widget.changePageDuration!,
-                      curve: widget.changePageCurve!);
-                },
-                child: Container(
-                  width: widget.indicatorWidth,
-                  margin: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: itemBGColor,
-                    borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(10),
-                      bottomLeft: Radius.circular(10),
-                    ),
-                  ),
-                  alignment: alignment,
-                  child: tab.child,
                 ),
               ),
             ],
@@ -225,11 +226,13 @@ class PresentOnMobileState extends State<PresentOnMobile>
           indicatorContainer,
           Container(
             width: double.infinity,
-            margin: const EdgeInsets.symmetric(vertical: 20),
+            margin: const EdgeInsets.all(20),
             child: Text(
-              '  ${widget.songbook!}',
+              widget.songbook!,
               style: TextStyle(
-                  fontSize: widget.tabsWidth! / 2, color: Colors.white),
+                fontSize: widget.tabsWidth! / 2,
+                color: ThemeColors.primary,
+              ),
             ),
           ),
         ],

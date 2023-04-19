@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import '../../theme/theme_colors.dart';
@@ -241,28 +242,22 @@ class PresentorText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double nfontsize = getFontSize(
-      lyrics.length + 20,
-      size.height - 500,
-      size.width,
-    );
+    final lineCount = '#'.allMatches(lyrics).length;
+
     return GestureDetector(
       onDoubleTap: onDoubleTap,
       onLongPress: onLongPress,
-      child: Container(
-        height: size.height * 0.755,
+      child: Padding(
         padding: const EdgeInsets.all(10),
         child: Card(
           elevation: 5,
-          child: Center(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: Text(
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Center(
+              child: AutoSizeText(
                 lyrics.replaceAll("#", "\n"),
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: nfontsize,
-                ),
+                style: const TextStyle(fontSize: 60),
+                maxLines: (lineCount + 1) * 2,
               ),
             ),
           ),

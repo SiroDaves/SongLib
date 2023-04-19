@@ -40,6 +40,7 @@ class ListTab extends StatelessWidget {
     );
 
     return Scaffold(
+      backgroundColor: ThemeColors.backgroundGrey,
       body: ContextMenuOverlay(
         cardBuilder: (_, children) => Container(
           decoration: const BoxDecoration(
@@ -49,15 +50,8 @@ class ListTab extends StatelessWidget {
           ),
           child: Column(children: children),
         ),
-        child: Container(
+        child: SizedBox(
           height: size.height,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [Colors.white, ThemeColors.accent, Colors.black],
-            ),
-          ),
           child: vm.isLoading
               ? const ListLoading()
               : vm.listeds!.isNotEmpty
@@ -68,7 +62,6 @@ class ListTab extends StatelessWidget {
                     ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         backgroundColor: ThemeColors.primary,
         onPressed: () => newListForm(context, vm),

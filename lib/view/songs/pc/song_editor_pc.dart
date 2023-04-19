@@ -70,6 +70,7 @@ class SongEditorPcState extends State<SongEditorPc>
         );
 
         return Scaffold(
+          backgroundColor: ThemeColors.backgroundGrey,
           appBar: AppBar(
             title: const Text('Edit Your Song'),
             actions: <Widget>[
@@ -89,21 +90,8 @@ class SongEditorPcState extends State<SongEditorPc>
               ),
             ],
           ),
-          body: Container(
+          body: SizedBox(
             height: size!.height,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                  Colors.white,
-                  Colors.orange,
-                  ThemeColors.accent,
-                  ThemeColors.primary,
-                  Colors.black,
-                ],
-              ),
-            ),
             child:
                 viewModel.isLoading ? const CircularProgress() : mainContainer,
           ),

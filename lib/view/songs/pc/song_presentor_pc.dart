@@ -59,10 +59,10 @@ class SongPresentorPcState extends State<SongPresentorPc>
     return ProviderWidget<SongPresentorVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
-          (context, vm, child, theme, localization) {
+          (ctx, vm, child, theme, localization) {
         vm.size = size;
-        vm.context = context;
-        vm.tr = AppLocalizations.of(context)!;
+        vm.context = ctx;
+        vm.tr = AppLocalizations.of(ctx)!;
 
         var projection = Scaffold(
           appBar: AppBar(
@@ -73,7 +73,7 @@ class SongPresentorPcState extends State<SongPresentorPc>
             ),
             actions: <Widget>[
               InkWell(
-                onTap: () => vm.hintsDialog(context),
+                onTap: () => vm.hintsDialog(ctx),
                 child: const Padding(
                   padding: EdgeInsets.all(10),
                   child: Icon(Icons.info),

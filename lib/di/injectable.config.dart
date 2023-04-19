@@ -29,23 +29,26 @@ import '../repository/settings_repository.dart' as _i27;
 import '../repository/shared_prefs/local_storage.dart' as _i21;
 import '../util/cache/cache_controller.dart' as _i5;
 import '../util/cache/cache_controlling.dart' as _i4;
-import '../vm/drafts/draft_editor_vm.dart' as _i32;
-import '../vm/drafts/draft_presentor_vm.dart' as _i33;
-import '../vm/global_vm.dart' as _i34;
-import '../vm/home/home_vm.dart' as _i35;
-import '../vm/home/home_web_vm.dart' as _i36;
-import '../vm/home/info_vm.dart' as _i37;
+import '../vm/drafts/draft_editor_vm.dart' as _i35;
+import '../vm/drafts/draft_presentor_vm.dart' as _i36;
+import '../vm/global_vm.dart' as _i37;
+import '../vm/home/home_vm.dart' as _i38;
+import '../vm/home/home_web_vm.dart' as _i39;
+import '../vm/home/info_vm.dart' as _i40;
 import '../vm/home/onboarding_vm.dart' as _i23;
-import '../vm/lists/list_popup_vm.dart' as _i38;
-import '../vm/lists/list_view_vm.dart' as _i39;
+import '../vm/lists/list_popup_vm.dart' as _i41;
+import '../vm/lists/list_view_vm.dart' as _i42;
 import '../vm/manage/settings_vm.dart' as _i28;
 import '../vm/selection/progress_vm.dart' as _i24;
 import '../vm/selection/selection_vm.dart' as _i26;
-import '../vm/songs/song_editor_vm.dart' as _i29;
-import '../vm/songs/song_presentor_vm.dart' as _i30;
-import '../vm/splash_vm.dart' as _i31;
+import '../vm/songs/song_editor_vm.dart' as _i31;
+import '../vm/songs/song_presentor_vm.dart' as _i32;
+import '../vm/splash_vm.dart' as _i33;
+import '../vm/user/signin_vm.dart' as _i29;
+import '../vm/user/signup_vm.dart' as _i30;
+import '../vm/user/user_vm.dart' as _i34;
 import '../webservice/app_web_service.dart' as _i3;
-import 'injectable.dart' as _i40; // ignore_for_file: unnecessary_lambdas
+import 'injectable.dart' as _i43; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
 /// initializes the registration of provided dependencies inside of [GetIt]
@@ -128,47 +131,50 @@ Future<_i1.GetIt> $initGetIt(
         get<_i20.DbRepository>(),
         get<_i21.LocalStorage>(),
       ));
-  gh.factory<_i29.SongEditorVm>(() => _i29.SongEditorVm(
+  gh.factory<_i29.SigninVm>(() => _i29.SigninVm(get<_i21.LocalStorage>()));
+  gh.factory<_i30.SignupVm>(() => _i30.SignupVm(get<_i21.LocalStorage>()));
+  gh.factory<_i31.SongEditorVm>(() => _i31.SongEditorVm(
         get<_i20.DbRepository>(),
         get<_i21.LocalStorage>(),
       ));
-  gh.factory<_i30.SongPresentorVm>(() => _i30.SongPresentorVm(
+  gh.factory<_i32.SongPresentorVm>(() => _i32.SongPresentorVm(
         get<_i20.DbRepository>(),
         get<_i21.LocalStorage>(),
       ));
-  gh.factory<_i31.SplashVm>(() => _i31.SplashVm(get<_i21.LocalStorage>()));
-  gh.factory<_i32.DraftEditorVm>(() => _i32.DraftEditorVm(
+  gh.factory<_i33.SplashVm>(() => _i33.SplashVm(get<_i21.LocalStorage>()));
+  gh.factory<_i34.UserVm>(() => _i34.UserVm(get<_i21.LocalStorage>()));
+  gh.factory<_i35.DraftEditorVm>(() => _i35.DraftEditorVm(
         get<_i20.DbRepository>(),
         get<_i21.LocalStorage>(),
       ));
-  gh.factory<_i33.DraftPresentorVm>(() => _i33.DraftPresentorVm(
+  gh.factory<_i36.DraftPresentorVm>(() => _i36.DraftPresentorVm(
         get<_i20.DbRepository>(),
         get<_i21.LocalStorage>(),
       ));
-  gh.singleton<_i34.GlobalVm>(_i34.GlobalVm(
+  gh.singleton<_i37.GlobalVm>(_i37.GlobalVm(
     get<_i22.LocaleRepository>(),
     get<_i27.SettingsRepository>(),
     get<_i21.LocalStorage>(),
   ));
-  gh.singleton<_i35.HomeVm>(_i35.HomeVm(
+  gh.singleton<_i38.HomeVm>(_i38.HomeVm(
     get<_i20.DbRepository>(),
     get<_i21.LocalStorage>(),
   ));
-  gh.factory<_i36.HomeWebVm>(() => _i36.HomeWebVm(
+  gh.factory<_i39.HomeWebVm>(() => _i39.HomeWebVm(
         get<_i3.AppWebService>(),
         get<_i20.DbRepository>(),
         get<_i21.LocalStorage>(),
       ));
-  gh.factory<_i37.InfoVm>(() => _i37.InfoVm(get<_i21.LocalStorage>()));
-  gh.factory<_i38.ListPopupVm>(() => _i38.ListPopupVm(
+  gh.factory<_i40.InfoVm>(() => _i40.InfoVm(get<_i21.LocalStorage>()));
+  gh.factory<_i41.ListPopupVm>(() => _i41.ListPopupVm(
         get<_i20.DbRepository>(),
         get<_i21.LocalStorage>(),
       ));
-  gh.factory<_i39.ListViewVm>(() => _i39.ListViewVm(
+  gh.factory<_i42.ListViewVm>(() => _i42.ListViewVm(
         get<_i20.DbRepository>(),
         get<_i21.LocalStorage>(),
       ));
   return get;
 }
 
-class _$RegisterModule extends _i40.RegisterModule {}
+class _$RegisterModule extends _i43.RegisterModule {}

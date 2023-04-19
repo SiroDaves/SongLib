@@ -38,6 +38,7 @@ class LikesTab extends StatelessWidget {
     );
 
     return Scaffold(
+      backgroundColor: ThemeColors.backgroundGrey,
       body: ContextMenuOverlay(
         cardBuilder: (_, children) => Container(
           decoration: const BoxDecoration(
@@ -47,15 +48,8 @@ class LikesTab extends StatelessWidget {
           ),
           child: Column(children: children),
         ),
-        child: Container(
+        child: SizedBox(
           height: size!.height,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [Colors.white, ThemeColors.accent, Colors.black],
-            ),
-          ),
           child: vm.isLoading
               ? const ListLoading()
               : vm.likes!.isNotEmpty
