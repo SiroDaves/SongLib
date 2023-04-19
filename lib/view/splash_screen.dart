@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:upgrader/upgrader.dart';
 
 import '../navigator/main_navigator.dart';
 import '../navigator/route_names.dart';
@@ -25,108 +26,118 @@ class SplashScreenState extends State<SplashScreen> implements SplashNavigator {
   Widget build(BuildContext context) {
     return ProviderWidget<SplashVm>(
       create: () => GetIt.I()..init(this),
-      consumerWithThemeAndLocalization:
-          (context, viewModel, child, theme, localization) => Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Spacer(),
-              Image.asset(ThemeAssets.appIcon, height: 200, width: 200),
-              const SizedBox(height: 10),
-              const Text(
-                AppConstants.appTitle,
-                style: TextStyle(
-                  fontSize: 50,
-                  letterSpacing: 5,
-                  fontWeight: FontWeight.bold,
-                  color: ThemeColors.primary,
-                ),
+      consumerWithThemeAndLocalization: (ctx, vm, child, theme, localization) {
+        var withLoveFromRow = Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Text(
+              'with ',
+              style: TextStyle(
+                fontSize: 30,
+                letterSpacing: 5,
+                fontWeight: FontWeight.bold,
+                color: ThemeColors.primary,
               ),
-              const SizedBox(height: 5),
-              const Text(
-                // Shows app version on splash screen
-                AppConstants.appVersion,
-                style: TextStyle(
-                  fontSize: 25,
-                  letterSpacing: 2,
-                  color: ThemeColors.primaryDark,
-                ),
+            ),
+            Icon(
+              Icons.favorite_rounded,
+              color: ThemeColors.primaryDark,
+            ),
+            Text(
+              ' from',
+              style: TextStyle(
+                fontSize: 30,
+                letterSpacing: 5,
+                fontWeight: FontWeight.bold,
+                color: ThemeColors.primary,
               ),
-              const Spacer(),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 50),
-                child: Divider(
-                    color: ThemeColors.primaryDark, thickness: 2, height: 50),
+            ),
+          ],
+        );
+
+        var appDevelopers = Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            // Names app developers in splash screen
+            Text(
+              AppConstants.appCredits1,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: ThemeColors.primaryDark,
               ),
-              Row(
+            ),
+            Text(
+              ' & ',
+              style: TextStyle(
+                fontSize: 20,
+                color: ThemeColors.primary,
+              ),
+            ),
+            Text(
+              AppConstants.appCredits2,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: ThemeColors.primaryDark,
+              ),
+            ),
+          ],
+        );
+
+        return UpgradeAlert(
+          child: Scaffold(
+            body: Center(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text(
-                    'with ',
+                children: <Widget>[
+                  const Spacer(),
+                  // Shows app icon on splash screen
+                  Image.asset(ThemeAssets.appIcon, height: 200, width: 200),
+                  const SizedBox(height: 10),
+                  const Text(
+                    AppConstants.appTitle,
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 50,
                       letterSpacing: 5,
                       fontWeight: FontWeight.bold,
                       color: ThemeColors.primary,
                     ),
                   ),
-                  Icon(
-                    Icons.favorite_rounded,
-                    color: ThemeColors.primaryDark,
-                  ),
-                  Text(
-                    ' from',
+                  const SizedBox(height: 5),
+                  // Shows app version on splash screen
+                  const Text(
+                    AppConstants.appVersion,
                     style: TextStyle(
-                      fontSize: 30,
-                      letterSpacing: 5,
-                      fontWeight: FontWeight.bold,
-                      color: ThemeColors.primary,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  // Names app developers in splash screen
-                  Text(
-                    AppConstants.appCredits1,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                      letterSpacing: 2,
                       color: ThemeColors.primaryDark,
                     ),
                   ),
-                  Text(
-                    ' & ',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: ThemeColors.primary,
-                    ),
+                  const Spacer(),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 50),
+                    child: Divider(
+                        color: ThemeColors.primaryDark,
+                        thickness: 2,
+                        height: 50),
                   ),
-                  Text(
-                    AppConstants.appCredits2,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: ThemeColors.primaryDark,
-                    ),
-                  ),
+                  withLoveFromRow,
+                  appDevelopers,
+                  const SizedBox(height: 20),
                 ],
               ),
-              const SizedBox(height: 20),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
   @override
   // Navigates to onboarding screen
   void goToOnboarding() => MainNavigator.of(context).goToOnboarding();
-  
+
   // Navigates to Home screen
   @override
   void goToHome() => MainNavigator.of(context).goToHome();

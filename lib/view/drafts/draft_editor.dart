@@ -37,12 +37,12 @@ class DraftEditorState extends State<DraftEditor>
         var mainContainer = Column(
           children: <Widget>[
             FormInput(
-              iLabel: 'Song Title',
+              iLabel: 'Title',
               iController: vm.titleController!,
               prefix: const Icon(Icons.text_fields),
             ),
             FormInput(
-              iLabel: 'Song Content',
+              iLabel: 'Content',
               iController: vm.contentController!,
               prefix: const Icon(Icons.list),
               isMultiline: true,
@@ -51,12 +51,12 @@ class DraftEditorState extends State<DraftEditor>
             ).expanded(),
             [
               FormInput(
-                iLabel: 'Song Key (Optional)',
+                iLabel: 'Key (Optional)',
                 iController: vm.keyController!,
                 prefix: const Icon(Icons.key),
               ).expanded(),
               FormInput(
-                iLabel: 'Song Alias (Optional)',
+                iLabel: 'Alias (Optional)',
                 iController: vm.aliasController!,
                 prefix: const Icon(Icons.text_format),
               ).expanded(),

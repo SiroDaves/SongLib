@@ -93,6 +93,7 @@ class SearchTab extends StatelessWidget {
     );
 
     return Scaffold(
+      backgroundColor: ThemeColors.backgroundGrey,
       body: ContextMenuOverlay(
         cardBuilder: (_, children) => Container(
           decoration: const BoxDecoration(
@@ -102,15 +103,8 @@ class SearchTab extends StatelessWidget {
           ),
           child: Column(children: children),
         ),
-        child: Container(
+        child: SizedBox(
           height: size!.height,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Colors.white, ThemeColors.accent, Colors.black],
-            ),
-          ),
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -129,6 +123,16 @@ class SearchTab extends StatelessWidget {
             ),
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: ThemeColors.primary,
+        onPressed: () async {
+          await showSearch(
+            context: context,
+            delegate: SearchSongs(context, vm, size!.height),
+          );
+        },
+        child: const Icon(Icons.search, color: Colors.white),
       ),
     );
   }

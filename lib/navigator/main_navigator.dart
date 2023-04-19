@@ -19,6 +19,9 @@ import '../view/songs/pc/song_presentor_pc.dart';
 import '../view/songs/mobile/song_presentor.dart';
 import '../view/splash_screen.dart';
 import '../util/env/flavor_config.dart';
+import '../view/user/signin_screen.dart';
+import '../view/user/signup_screen.dart';
+import '../view/user/user_screen.dart';
 import '../widget/general/text_scale_factor.dart';
 import 'main_navigation.dart';
 
@@ -161,6 +164,23 @@ class MainNavigatorState extends State<MainNavigator> with MainNavigationMixin {
           builder: (context) => const DonationScreen(),
           settings: settings,
         );
+
+      case UserScreen.routeName:
+        return MaterialPageRoute<void>(
+          builder: (context) => const UserScreen(),
+          settings: settings,
+        );
+      case SigninScreen.routeName:
+        return MaterialPageRoute<void>(
+          builder: (context) => const SigninScreen(),
+          settings: settings,
+        );
+      case SignupScreen.routeName:
+        return MaterialPageRoute<void>(
+          builder: (context) => const SignupScreen(),
+          settings: settings,
+        );
+
       case 'test_route':
         if (!FlavorConfig.isInTest()) return null;
         return MaterialPageRoute<void>(
@@ -227,6 +247,15 @@ class MainNavigatorState extends State<MainNavigator> with MainNavigationMixin {
 
   @override
   void goToDonation() => navigator.pushNamed(DonationScreen.routeName);
+
+  @override
+  void goToUser() => navigator.pushNamed(UserScreen.routeName);
+
+  @override
+  void goToSignin() => navigator.pushNamed(SigninScreen.routeName);
+
+  @override
+  void goToSignup() => navigator.pushNamed(SignupScreen.routeName);
 
   @override
   void closeDialog() => navigator.pop();

@@ -78,9 +78,61 @@ class HomeScreenState extends State<HomeScreen>
     return ProviderWidget<HomeVm>(
       create: () => GetIt.I()..init(this),
       consumerWithThemeAndLocalization:
-          (context, vm, child, theme, localization) {
-        vm.context = context;
-        vm.tr = AppLocalizations.of(context)!;
+          (ctx, vm, child, theme, localization) {
+        vm.context = ctx;
+        vm.tr = AppLocalizations.of(ctx)!;
+        int? selectedMenu;
+        var appBarMenu = PopupMenuButton<int>(
+          initialValue: selectedMenu,
+          // Callback that sets the selected popup menu item.
+          onSelected: (int menu) {
+            switch (menu) {
+              case 1:
+                goToHelpDesk();
+                break;
+
+              case 2:
+                goToOnboarding();
+                break;
+
+              case 3:
+                goToDonation();
+                break;
+
+              case 4:
+                goToSelection();
+                break;
+
+              case 5:
+                goToSettings();
+                break;
+            }
+          },
+          itemBuilder: (BuildContext context) => <PopupMenuEntry<int>>[
+            const PopupMenuItem<int>(
+              value: 1,
+              child: Text('Our HelpDesk'),
+            ),
+            const PopupMenuItem<int>(
+              value: 2,
+              child: Text('How it Works'),
+            ),
+            if (vm.dateDiff > 2)
+              const PopupMenuItem<int>(
+                value: 3,
+                child: Text('Make a Donation'),
+              ),
+            const PopupMenuItem<int>(
+              value: 4,
+              child: Text('Manage SongBooks'),
+            ),
+            const PopupMenuItem<int>(
+              value: 5,
+              child: Text('Manage Settings'),
+            ),
+          ],
+        );
+
         var mobileAppbar = AppBar(
           title: Row(
             children: [
@@ -100,8 +152,8 @@ class HomeScreenState extends State<HomeScreen>
             InkWell(
               onTap: () async {
                 await showSearch(
-                  context: context,
-                  delegate: SearchSongs(context, vm, size!.height),
+                  context: ctx,
+                  delegate: SearchSongs(ctx, vm, size!.height),
                 );
               },
               child: const Padding(
@@ -109,20 +161,20 @@ class HomeScreenState extends State<HomeScreen>
                 child: Icon(Icons.search),
               ),
             ),
-            InkWell(
-              onTap: goToHelpDesk,
+            /*InkWell(
+              onTap: () {
+                if (vm.isLoggedIn) {
+                  goToUser();
+                } else {
+                  goToSignin();
+                }
+              },
               child: const Padding(
                 padding: EdgeInsets.all(10),
-                child: Icon(Icons.help),
+                child: Icon(Icons.person),
               ),
-            ),
-            InkWell(
-              onTap: goToSettings,
-              child: const Padding(
-                padding: EdgeInsets.all(10),
-                child: Icon(Icons.settings),
-              ),
-            ),
+            ),*/
+            appBarMenu,
           ],
           bottom: TabBar(
             controller: tabController,
@@ -248,14 +300,28 @@ class HomeScreenState extends State<HomeScreen>
   void goToListView() => MainNavigator.of(context).goToListView();
 
   @override
-  void goToHelpDesk() => MainNavigator.of(context).goToHelpDesk();
-
-  @override
-  void goToDonation() => MainNavigator.of(context).goToDonation();
-
-  @override
   void goToSettings() => MainNavigator.of(context).goToSettings();
 
   @override
   void goToSelection() => MainNavigator.of(context).goToSelection();
+
+  @override
+  void goToHelpDesk() => MainNavigator.of(context).goToHelpDesk();
+
+  // Navigates to Donation screen
+  @override
+  void goToDonation() => MainNavigator.of(context).goToDonation();
+
+  // Navigates to Onboarding screen
+  @override
+  void goToOnboarding() => MainNavigator.of(context).goToOnboarding();
+
+  @override
+  void goToUser() => MainNavigator.of(context).goToUser();
+
+  @override
+  void goToSignin() => MainNavigator.of(context).goToSignin();
+
+  @override
+  void goToSignup() => MainNavigator.of(context).goToSignup();
 }
