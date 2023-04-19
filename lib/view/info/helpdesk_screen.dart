@@ -34,16 +34,19 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
         vm.tr = AppLocalizations.of(context)!;
         Card support = Card(
           child: ExpansionTile(
+            // Display more ways to support the project
             leading: const Icon(Icons.display_settings),
             title: const Text('Support SongLib'),
             subtitle: const Text('Tap for more actions'),
             children: [
+              // Display context menu to donate towards the project
               ListTile(
                 leading: const Icon(Icons.money),
                 title: const Text('Donate for the Project'),
                 subtitle: const Text('Give Once, Weekly, Monthly or Quartely'),
                 onTap: () => goToDonation(),
               ),
+              // Display context menu to buy merchandise
               ListTile(
                 leading: const Icon(Icons.shopping_basket),
                 title: const Text('Buy our Merchandise'),
@@ -53,29 +56,34 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
             ],
           ),
         );
+        // Display context menu to call, sms, whatsapp or telegram
         Card telegram = Card(
           child: ExpansionTile(
             leading: const Icon(Icons.display_settings),
             title: const Text('Mobile Phone'),
             subtitle: const Text('Tap for more actions'),
             children: [
+              // Open phone dialer and paste the number
               ListTile(
                 leading: const Icon(Icons.call),
                 title: const Text('Call'),
                 onTap: () => vm.goToCalling(),
                 onLongPress: () => vm.copyText(2),
               ),
+              // Open sms 
               ListTile(
                 leading: const Icon(Icons.sms),
                 title: const Text('SMS'),
                 onTap: () => vm.goToSms(),
               ),
+              // Open whatsapp
               ListTile(
                 leading:
                     const Icon(IconData(0xf05a6, fontFamily: 'MaterialIcons')),
                 title: const Text('WhatsApp'),
                 onTap: () => vm.goToWhatsapp(),
               ),
+
               /*ListTile(
                 leading: const Icon(Icons.telegram),
                 title: const Text('TeleGram'),
@@ -97,6 +105,7 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
                 onTap: () => vm.goToHowItWorks(),
               ),
             ),
+            // Redirect to playstore
             Card(
               child: ListTile(
                 leading: const Icon(Icons.link),
@@ -107,6 +116,7 @@ class HelpDeskScreenState extends State<HelpDeskScreen>
                 onLongPress: () => vm.copyText(0),
               ),
             ),
+            // Redirect to email
             Card(
               child: ListTile(
                 leading: const Icon(Icons.email),
