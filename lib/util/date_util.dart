@@ -9,12 +9,14 @@ class DateUtil {
     var yearLength = 0;
     for (int counter = 1; counter < year; counter++) {
       if (counter >= 4) {
-        if (leapYear(counter) == true)
+        if (leapYear(counter) == true) {
           yearLength += 366;
-        else
+        } else {
           yearLength += 365;
-      } else
+        }
+      } else {
         yearLength += 365;
+      }
     }
     return yearLength;
   }
@@ -44,10 +46,11 @@ class DateUtil {
         count++;
       }
     }
-    if (count == 1)
+    if (count == 1) {
       dayOfWeek = 7;
-    else
+    } else {
       dayOfWeek = (count - 1);
+    }
     return resultDay;
   }
 
@@ -86,10 +89,11 @@ class DateUtil {
     monthLength[5] = 30;
     monthLength[10] = 30;
 
-    if (leapYear(year) == true)
+    if (leapYear(year) == true) {
       monthLength[1] = 29;
-    else
+    } else {
       monthLength[1] = 28;
+    }
 
     return monthLength[monthNum - 1];
   }
@@ -121,7 +125,9 @@ class DateUtil {
             stdout.write('${dayDays}\t');
           }
           ++dayDays;
-        } else if (dayNum < dayOfWeek) stdout.write('\t');
+        } else if (dayNum < dayOfWeek) {
+          stdout.write('\t');
+        }
 
         dayNum++;
       }
@@ -137,9 +143,11 @@ class DateUtil {
   bool leapYear(int year) {
     bool leapYear = false;
     bool leap = ((year % 100 == 0) && (year % 400 != 0));
-    if (leap == true)
+    if (leap == true) {
       leapYear = false;
-    else if (year % 4 == 0) leapYear = true;
+    } else if (year % 4 == 0) {
+      leapYear = true;
+    }
 
     return leapYear;
   }
