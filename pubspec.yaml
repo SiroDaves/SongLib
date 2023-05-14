@@ -36,6 +36,7 @@ dependencies:
         url: https://github.com/Oyonde/icapps-architecture.git
   injectable: ^1.5.3
   intl: ^0.17.0
+  jumping_dot: ^0.0.6
   json_annotation: ^4.6.0
   niddler_dart: ^1.5.0
   onboarding: ^3.1.0

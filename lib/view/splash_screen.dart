@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:upgrader/upgrader.dart';
+import 'package:jumping_dot/jumping_dot.dart';
 
 import '../navigator/main_navigator.dart';
 import '../navigator/route_names.dart';
@@ -113,6 +114,13 @@ class SplashScreenState extends State<SplashScreen> implements SplashNavigator {
                       letterSpacing: 2,
                       color: ThemeColors.primaryDark,
                     ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  JumpingDots(
+                    color: ThemeColors.primaryDark,
+                    numberOfDots: 3,
                   ),
                   const Spacer(),
                   const Padding(
