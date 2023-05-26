@@ -58,6 +58,7 @@ class InternalApp extends StatelessWidget {
       lazy: FlavorConfig.isInTest(),
       create: () => GetIt.I()..init(context),
       consumer: (context, vm, consumerChild) => MaterialApp(
+        title: 'SongLib',
         debugShowCheckedModeBanner: false,
         localizationsDelegates: const [
           AppLocalizations.delegate,
