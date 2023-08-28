@@ -1,27 +1,15 @@
 class ApiConstants {
-  static const secondaryBaseUrl = 'http://localhost:4000/';
-  static const baseUrl = 'http://songlive.vercel.app/';
+  static const basicAuthPrefixHeader = 'Basic';
+  static const protectedAuthenticationHeaderPrefix = 'Bearer';
+  static const authorizationHeader = 'Authorization';
 
-  // Books urls
-  static const book = 'api/book';
+  static const parseApiUrl = 'https://parseapi.back4app.com';
+  static const baseUrl = 'https://parseapi.back4app.com/classes/';
+  static const applicationID = 'vuzJgKGqPqx7HUhx2dgjokgZinPUppmygSOfYBSg';
+  static const restApikey = '9s9zQYmaNMGf9BXWRfuWmgpIJAGxdVqqdSk67Vao';
+  static const clientKey = '75fSlpgtaGAk8ky7EpkNqa8wyDbnayDEYEaKRdtE';
 
-  // Drafts urls
-  static const draft = 'api/draft';
-
-  // Edits urls
-  static const edit = 'api/edit';
-
-  // Listeds urls
-  static const listed = 'api/listed';
-
-  // Orgs urls
-  static const org = 'api/org';
-
-  // Songs urls
-  static const song = 'api/song';
-  static const songByBook = 'api/song/book';
-
-  // Users urls
-  static const user = 'api/user';
-
+  static const book = 'Book';
+  static const edit = 'Edit';
+  static const song = 'Song';
 }
