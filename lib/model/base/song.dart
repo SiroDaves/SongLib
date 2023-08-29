@@ -1,6 +1,7 @@
 class Song {
   int? id;
   int? songId;
+  int? user;
   int? book;
   int? songNo;
   String? title;
@@ -17,6 +18,7 @@ class Song {
   Song({
     this.id,
     this.songId,
+    this.user,
     this.book,
     this.songNo,
     this.title,
@@ -34,6 +36,7 @@ class Song {
   Song.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     songId = json['songId'];
+    user = json['user'];
     book = json['book'];
     songNo = json['songNo'];
     title = json['title'];
@@ -51,6 +54,7 @@ class Song {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['songId'] = songId;
+    data['user'] = user;
     data['book'] = book;
     data['songNo'] = songNo;
     data['title'] = title;

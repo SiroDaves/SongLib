@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 
-import '../../../../model/base/draft.dart';
-import '../../utils/utilities.dart';
+import '../../../../model/base/listed.dart';
 import '../../viewmodels/home/home_vm.dart';
-import '../../../../widget/general/list_items.dart';
+import '../../../../widgets/general/list_items.dart';
 
-class SearchDrafts extends SearchDelegate<List> {
-  List<Draft> itemList = [], filtered = [];
+class SearchList extends SearchDelegate<List> {
+  List<Listed> itemList = [], filtered = [];
   final HomeVm vm;
   final double? height;
 
-  SearchDrafts(BuildContext context, this.vm, this.height, this.itemList) {
+  SearchList(BuildContext context, this.vm, this.height, this.itemList) {
     filtered = itemList;
   }
 
   @override
-  String get searchFieldLabel => "Search a Song";
+  String get searchFieldLabel => "Search a List";
 
   @override
   ThemeData appBarTheme(BuildContext context) {
@@ -52,37 +51,31 @@ class SearchDrafts extends SearchDelegate<List> {
 
   @override
   Widget buildResults(BuildContext context) {
-    List<Draft> matchQuery = [];
+    List<Listed> matchQuery = [];
     for (var item in itemList) {
-      if (isNumeric(query)) {
-        matchQuery.add(item);
-      } else if (item.title!.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(item);
-      } else if (item.alias!.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(item);
-      } else if (item.content!.toLowerCase().contains(query.toLowerCase())) {
+      if (item.title!.toLowerCase().contains(query.toLowerCase())) {
         matchQuery.add(item);
       }
     }
     return ListView.builder(
       itemBuilder: (context, index) {
-        var result = vm.drafts![index];
-        return DraftItem(
-          draft: result,
+        var result = vm.listeds![index];
+        return ListedItem(
+          listed: result,
           height: height!,
           onPressed: () {
-            vm.localStorage.draft = vm.setDraft = result;
-            vm.navigator.goToDraftPresentor();
+            vm.localStorage.listed = result;
+            vm.navigator.goToListView();
           },
         );
       },
-      itemCount: vm.drafts!.length,
+      itemCount: vm.listeds!.length,
     );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    List<Draft> matchQuery = [];
+    List<Listed> matchQuery = [];
 
     for (var item in itemList) {
       if (item.title!.toLowerCase().startsWith(query.toLowerCase())) {
@@ -93,12 +86,12 @@ class SearchDrafts extends SearchDelegate<List> {
     return ListView.builder(
       itemBuilder: (context, index) {
         var result = matchQuery[index];
-        return DraftItem(
-          draft: result,
+        return ListedItem(
+          listed: result,
           height: height!,
           onPressed: () {
-            vm.localStorage.draft = vm.setDraft = result;
-            vm.navigator.goToDraftPresentor();
+            vm.localStorage.listed = result;
+            vm.navigator.goToListView();
           },
         );
       },

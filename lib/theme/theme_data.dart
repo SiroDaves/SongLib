@@ -6,7 +6,7 @@ import 'theme_colors.dart';
 class AppThemeData {
   AppThemeData._();
 
-  static final britamTheme = ThemeData(
+  static final mainTheme = ThemeData(
     primaryColor: ThemeColors.primary,
     colorScheme: const ColorScheme(
       primary: ThemeColors.primary,
@@ -23,11 +23,11 @@ class AppThemeData {
       brightness: Brightness.light,
       error: ThemeColors.error,
     ),
-    appBarTheme: const AppBarTheme(
+    /*appBarTheme: const AppBarTheme(
       iconTheme: IconThemeData(color: ThemeColors.primary),
-      color: Colors.white,
-      toolbarTextStyle: TextStyle(color: ThemeColors.primary),
-    ),
+      color: ThemeColors.primary,
+      toolbarTextStyle: TextStyle(color: Colors.white),
+    ),*/
     textSelectionTheme: TextSelectionThemeData(
       cursorColor: ThemeColors.accent,
       selectionHandleColor: ThemeColors.accent,
@@ -43,7 +43,7 @@ class AppThemeData {
   );
 
   static ThemeData lightTheme(TargetPlatform? targetPlatform) {
-    return britamTheme.copyWith(platform: targetPlatform);
+    return mainTheme.copyWith(platform: targetPlatform);
   }
 }
 

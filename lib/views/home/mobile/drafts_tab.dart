@@ -34,7 +34,7 @@ class DraftsTab extends StatelessWidget {
       backgroundColor: ThemeColors.backgroundGrey,
       body: SizedBox(
         height: size!.height,
-        child: vm.isLoading
+        child: vm.isBusy
             ? const ListLoading()
             : vm.drafts!.isNotEmpty
                 ? listContainer

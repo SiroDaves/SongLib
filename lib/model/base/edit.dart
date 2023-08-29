@@ -1,6 +1,7 @@
 class Edit {
   int? id;
   int? editId;
+  int? user;
   String? song;
   int? book;
   int? songNo;
@@ -14,6 +15,7 @@ class Edit {
   Edit({
     this.id,
     this.editId,
+    this.user,
     this.song,
     this.book,
     this.songNo,
@@ -28,6 +30,7 @@ class Edit {
   Edit.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     editId = json['editId'];
+    user = json['user'];
     song = json['song'];
     book = json['book'];
     songNo = json['songNo'];
@@ -43,6 +46,7 @@ class Edit {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['editId'] = editId;
+    data['user'] = user;
     data['song'] = song;
     data['book'] = book;
     data['songNo'] = songNo;

@@ -8,11 +8,11 @@ import '../../model/base/songext.dart';
 import '../../navigator/main_navigator.dart';
 import '../../theme/theme_colors.dart';
 import '../../viewmodels/lists/list_view_vm.dart';
-import '../../widget/general/labels.dart';
-import '../../widget/general/list_items.dart';
-import '../../widget/inputs/form_input.dart';
-import '../../widget/progress/line_progress.dart';
-import '../../widget/search/add_songs.dart';
+import '../../widgets/general/labels.dart';
+import '../../widgets/general/list_items.dart';
+import '../../widgets/inputs/form_input.dart';
+import '../../widgets/progress/line_progress.dart';
+import '../../widgets/search/add_songs.dart';
 
 /// Screen for viewing a song list
 class ListViewScreen extends StatefulWidget {
@@ -76,7 +76,7 @@ class ListViewScreenState extends State<ListViewScreen>
                 ),
               ),
               child: SingleChildScrollView(
-                child: vm.isLoading
+                child: vm.isBusy
                     ? const ListLoading()
                     : vm.listeds!.isNotEmpty
                         ? listContainer

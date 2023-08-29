@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../repository/local_storage.dart';
 import '../../utils/constants/pref_constants.dart';
-import '../../widget/general/toast.dart';
+import '../../widgets/general/toast.dart';
 
 @injectable
 class SignupVm with ChangeNotifier {

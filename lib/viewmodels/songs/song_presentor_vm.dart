@@ -13,8 +13,8 @@ import '../../repository/db_repository.dart';
 import '../../repository/local_storage.dart';
 import '../../utils/constants/pref_constants.dart';
 import '../../utils/utilities.dart';
-import '../../widget/general/labels.dart';
-import '../../widget/general/toast.dart';
+import '../../widgets/general/labels.dart';
+import '../../widgets/general/toast.dart';
 import '../home/home_vm.dart';
 
 @injectable
@@ -28,7 +28,7 @@ class SongPresentorVm with ChangeNotifier {
   late HomeVm homeVm;
   SongExt? song;
 
-  bool isLoading = false, enableWakeLock = false, slideHorizontal = false;
+  bool isBusy = false, enableWakeLock = false, slideHorizontal = false;
   bool isLiked = false, hasChorus = false, shownPcHints = false;
 
   String pageTitle = '...', songTitle = '', songBook = '', songContent = '';
@@ -54,7 +54,7 @@ class SongPresentorVm with ChangeNotifier {
         localStorage.getPrefBool(PrefConstants.slideHorizontalKey);
     if (enableWakeLock) await Wakelock.enable();
 
-    isLoading = true;
+    isBusy = true;
     notifyListeners();
     homeVm = HomeVm(dbRepo, localStorage);
     homeVm = getIt.get<HomeVm>();
@@ -65,7 +65,7 @@ class SongPresentorVm with ChangeNotifier {
 
   /// Prepare song lyrics to be shown in slide format
   Future<void> loadPresentor() async {
-    isLoading = true;
+    isBusy = true;
     notifyListeners();
 
     verseInfos.clear();
@@ -74,7 +74,7 @@ class SongPresentorVm with ChangeNotifier {
     await loadSong();
     await dbRepo.saveHistory(History(song: song!.id));
     pageTitle = '$songTitle - $songBook';
-    isLoading = false;
+    isBusy = false;
     notifyListeners();
   }
 

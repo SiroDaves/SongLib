@@ -5,7 +5,7 @@ import '../../../../theme/theme_colors.dart';
 import '../../utils/utilities.dart';
 import '../../viewmodels/home/home_vm.dart';
 import '../../viewmodels/lists/list_view_vm.dart';
-import '../../../../widget/general/list_items.dart';
+import '../../../../widgets/general/list_items.dart';
 /// Search for songs screen
 class AddSongs extends SearchDelegate<List> {
   final HomeVm homeVm;

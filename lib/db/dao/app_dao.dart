@@ -33,6 +33,7 @@ class _AppDao extends DatabaseAccessor<AppDatabase> implements AppDao {
 
   /// Check if Books Table exists
   Future<void> checkBooks() async {
+    logger.log('* * * * * * * * * * *');
     logger.log('Checking if ${db.booksTable.actualTableName} table exists');
     try {
       await customSelect(
@@ -75,6 +76,7 @@ class _AppDao extends DatabaseAccessor<AppDatabase> implements AppDao {
 
   /// Check if Drafts Table exists
   Future<void> checkDrafts() async {
+    logger.log('* * * * * * * * * * *');
     logger.log('Checking if ${db.draftsTable.actualTableName} table exists');
     try {
       await customSelect(
@@ -117,6 +119,7 @@ class _AppDao extends DatabaseAccessor<AppDatabase> implements AppDao {
 
   /// Check if Edits Table exists
   Future<void> checkEdits() async {
+    logger.log('* * * * * * * * * * *');
     logger.log('Checking if ${db.editsTable.actualTableName} table exists');
     try {
       await customSelect(
@@ -159,6 +162,7 @@ class _AppDao extends DatabaseAccessor<AppDatabase> implements AppDao {
 
   /// Check if Historys Table exists
   Future<void> checkHistorys() async {
+    logger.log('* * * * * * * * * * *');
     logger.log('Checking if ${db.historysTable.actualTableName} table exists');
     try {
       await customSelect(
@@ -195,6 +199,7 @@ class _AppDao extends DatabaseAccessor<AppDatabase> implements AppDao {
 
   /// Check if Listeds Table exists
   Future<void> checkListeds() async {
+    logger.log('* * * * * * * * * * *');
     logger.log('Checking if ${db.listedsTable.actualTableName} table exists');
     try {
       await customSelect(
@@ -237,6 +242,7 @@ class _AppDao extends DatabaseAccessor<AppDatabase> implements AppDao {
 
   /// Check if Searchs Table exists
   Future<void> checkSearchs() async {
+    logger.log('* * * * * * * * * * *');
     logger.log('Checking if ${db.searchsTable.actualTableName} table exists');
     try {
       await customSelect(
@@ -273,6 +279,7 @@ class _AppDao extends DatabaseAccessor<AppDatabase> implements AppDao {
 
   /// Check if Songs Table exists
   Future<void> checkSongs() async {
+    logger.log('* * * * * * * * * * *');
     logger.log('Checking if ${db.songsTable.actualTableName} table exists');
     try {
       await customSelect(

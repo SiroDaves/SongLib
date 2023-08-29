@@ -3,6 +3,7 @@ import 'package:drift/drift.dart';
 class Book {
   int? id;
   int? bookId;
+  int? user;
   String? title;
   String? subTitle;
   int? songs;
@@ -15,6 +16,7 @@ class Book {
   Book({
     this.id,
     this.bookId,
+    this.user,
     this.title,
     this.subTitle,
     this.songs,
@@ -28,6 +30,7 @@ class Book {
   Book.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     bookId = json['bookId'];
+    user = json['user'];
     title = json['title'];
     subTitle = json['subTitle'];
     songs = json['songs'];
@@ -42,6 +45,7 @@ class Book {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['bookId'] = bookId;
+    data['user'] = user;
     data['title'] = title;
     data['subTitle'] = subTitle;
     data['songs'] = songs;

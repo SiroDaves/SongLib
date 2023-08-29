@@ -8,10 +8,10 @@ import '../../model/base/songext.dart';
 import '../../navigator/main_navigator.dart';
 import '../../theme/theme_colors.dart';
 import '../../viewmodels/lists/list_popup_vm.dart';
-import '../../widget/general/labels.dart';
-import '../../widget/general/list_items.dart';
-import '../../widget/inputs/form_input.dart';
-import '../../widget/progress/circular_progress.dart';
+import '../../widgets/general/labels.dart';
+import '../../widgets/general/list_items.dart';
+import '../../widgets/inputs/form_input.dart';
+import '../../widgets/progress/circular_progress.dart';
 
 /// Popup for selecting a song list on which to add a song to
 class ListViewPopup extends StatefulWidget {

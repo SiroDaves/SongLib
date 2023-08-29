@@ -7,6 +7,7 @@ import '../base/draft.dart';
 class DraftsTable extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get draftId => integer().withDefault(const Constant(0))();
+  IntColumn get user => integer().withDefault(const Constant(0))();
   IntColumn get book => integer().withDefault(const Constant(0))();
   IntColumn get songNo => integer().withDefault(const Constant(0))();
   TextColumn get title => text().withDefault(const Constant(''))();
@@ -24,6 +25,7 @@ extension DraftsExtension on Drafts {
   Draft getModel() => Draft(
         id: id,
         draftId: draftId,
+        user: user,
         book: book,
         songNo: songNo,
         title: title,
@@ -44,6 +46,7 @@ extension DraftExtension on Draft {
     return DraftsTableCompanion.insert(
       id: id == null ? const Value.absent() : Value(id),
           draftId: Value(draftId!),
+          user: Value(user!),
           book: Value(book!),
           songNo: Value(songNo!),
           title: Value(title!),

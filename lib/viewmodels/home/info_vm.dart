@@ -10,7 +10,7 @@ import '../../repository/local_storage.dart';
 import '../../utils/constants/app_constants.dart';
 import '../../utils/constants/pref_constants.dart';
 import '../../utils/date_util.dart';
-import '../../widget/general/toast.dart';
+import '../../widgets/general/toast.dart';
 
 @injectable
 class InfoVm with ChangeNotifier {

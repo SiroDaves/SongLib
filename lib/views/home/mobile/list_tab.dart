@@ -52,7 +52,7 @@ class ListTab extends StatelessWidget {
         ),
         child: SizedBox(
           height: size.height,
-          child: vm.isLoading
+          child: vm.isBusy
               ? const ListLoading()
               : vm.listeds!.isNotEmpty
                   ? listContainer

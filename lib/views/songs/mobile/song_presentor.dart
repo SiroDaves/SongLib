@@ -7,9 +7,9 @@ import 'package:share_plus/share_plus.dart';
 import '../../../navigator/main_navigator.dart';
 import '../../../theme/theme_colors.dart';
 import '../../../viewmodels/songs/song_presentor_vm.dart';
-import '../../../widget/action/fab_widget.dart';
-import '../../../widget/general/present_on_mobile.dart';
-import '../../../widget/progress/circular_progress.dart';
+import '../../../widgets/action/fab_widget.dart';
+import '../../../widgets/general/present_on_mobile.dart';
+import '../../../widgets/progress/circular_progress.dart';
 import '../../lists/list_view_popup.dart';
 
 /// Screen to present a song in slide format
@@ -67,7 +67,7 @@ class SongPresentorState extends State<SongPresentor>
             appBar: appBarWidget,
             body: SizedBox(
               height: size!.height,
-              child: vm.isLoading
+              child: vm.isBusy
                   ? const CircularProgress()
                   : vm.widgetTabs.isNotEmpty
                       ? PresentOnMobile(

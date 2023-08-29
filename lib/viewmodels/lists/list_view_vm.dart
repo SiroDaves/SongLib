@@ -8,7 +8,7 @@ import '../../model/base/listedext.dart';
 import '../../model/base/songext.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/local_storage.dart';
-import '../../widget/general/toast.dart';
+import '../../widgets/general/toast.dart';
 import '../home/home_vm.dart';
 
 @injectable
@@ -27,7 +27,7 @@ class ListViewVm with ChangeNotifier {
   List<ListedExt>? listeds = [];
   List<SongExt>? songs = [], listSongs = [];
 
-  bool isLoading = false, showSearch = false;
+  bool isBusy = false, showSearch = false;
   TextEditingController? titleController, contentController;
 
   Future<void> init(ListViewNavigator screenNavigator) async {
@@ -50,7 +50,7 @@ class ListViewVm with ChangeNotifier {
 
   /// Get the data from the DB
   Future<void> fetchData() async {
-    isLoading = true;
+    isBusy = true;
     notifyListeners();
     listTitle = listed!.title!;
 
@@ -75,14 +75,14 @@ class ListViewVm with ChangeNotifier {
       );
     }
     setSong = songs![0];
-    isLoading = false;
+    isBusy = false;
     notifyListeners();
   }
 
   /// Save changes for a listed be it a new one or simply updating an old one
   Future<void> saveChanges() async {
     if (titleController!.text.isNotEmpty) {
-      isLoading = true;
+      isBusy = true;
       notifyListeners();
       listed!.title = titleController!.text;
       listed!.description = contentController!.text;
@@ -91,7 +91,7 @@ class ListViewVm with ChangeNotifier {
         text: '${listed!.title} ${tr!.listUpdated}',
         state: ToastStates.success,
       );
-      isLoading = false;
+      isBusy = false;
       notifyListeners();
     }
   }
@@ -133,7 +133,7 @@ class ListViewVm with ChangeNotifier {
 
   /// Add a song to a list
   Future<void> addSongToList(SongExt song) async {
-    isLoading = true;
+    isBusy = true;
     notifyListeners();
     await dbRepo.saveListedSong(listed!, song);
     await showSearchWidget(false);
@@ -142,7 +142,7 @@ class ListViewVm with ChangeNotifier {
       text: '${song.title} ${tr!.songAddedToList}',
       state: ToastStates.success,
     );
-    isLoading = false;
+    isBusy = false;
     notifyListeners();
   }
 

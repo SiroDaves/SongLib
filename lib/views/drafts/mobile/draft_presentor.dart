@@ -7,9 +7,9 @@ import 'package:share_plus/share_plus.dart';
 import '../../../navigator/main_navigator.dart';
 import '../../../theme/theme_colors.dart';
 import '../../../viewmodels/drafts/draft_presentor_vm.dart';
-import '../../../widget/action/fab_widget.dart';
-import '../../../widget/general/present_on_mobile.dart';
-import '../../../widget/progress/circular_progress.dart';
+import '../../../widgets/action/fab_widget.dart';
+import '../../../widgets/general/present_on_mobile.dart';
+import '../../../widgets/progress/circular_progress.dart';
 
 /// Screen to present a draft in slide format
 class DraftPresentor extends StatefulWidget {
@@ -76,7 +76,7 @@ class DraftPresentorState extends State<DraftPresentor>
                 ),
               ),
               child: SizedBox(
-                child: vm.isLoading
+                child: vm.isBusy
                     ? const CircularProgress()
                     : vm.widgetTabs.isNotEmpty
                         ? PresentOnMobile(

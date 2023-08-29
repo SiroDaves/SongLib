@@ -8,6 +8,7 @@ import '../base/book.dart';
 class BooksTable extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get bookId => integer().withDefault(const Constant(0))();
+  IntColumn get user => integer().withDefault(const Constant(0))();
   BoolColumn get enabled => boolean().withDefault(const Constant(false))();
   IntColumn get bookNo => integer().withDefault(const Constant(0))();
   TextColumn get title => text().withDefault(const Constant(''))();
@@ -22,6 +23,7 @@ extension BooksExtension on Books {
   Book getModel() => Book(
         id: id,
         bookId: bookId,
+        user: user,
         enabled: enabled,
         bookNo: bookNo,
         title: title,
@@ -39,6 +41,7 @@ extension BookExtension on Book {
     return BooksTableCompanion.insert(
       id: id == null ? const Value.absent() : Value(id),
       bookId: Value(bookId!),
+      user: Value(user!),
       enabled: Value(enabled!),
       bookNo: Value(bookNo!),
       title: Value(title!),

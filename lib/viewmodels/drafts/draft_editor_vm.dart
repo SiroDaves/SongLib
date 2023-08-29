@@ -18,7 +18,7 @@ class DraftEditorVm with ChangeNotifier {
   HomeVm? homeVm;
   Draft? draft;
 
-  bool isLoading = false, notEmpty = false;
+  bool isBusy = false, notEmpty = false;
   String? title, content, alias, key;
   String? pageTitle = 'Draft a New Song';
   TextEditingController? titleController = TextEditingController();
@@ -35,7 +35,7 @@ class DraftEditorVm with ChangeNotifier {
   }
 
   Future<void> loadEditor() async {
-    isLoading = true;
+    isBusy = true;
     notifyListeners();
 
     if (notEmpty) {
@@ -47,7 +47,7 @@ class DraftEditorVm with ChangeNotifier {
       contentController!.text = draft!.content!;
     }
 
-    isLoading = false;
+    isBusy = false;
     notifyListeners();
   }
 
@@ -70,7 +70,7 @@ class DraftEditorVm with ChangeNotifier {
   /// Save changes for a song be it a new one or simply updating an old one
   Future<void> saveChanges() async {
     if (validateInput()) {
-      isLoading = true;
+      isBusy = true;
       notifyListeners();
 
       if (draft != null) {
@@ -89,7 +89,7 @@ class DraftEditorVm with ChangeNotifier {
         await dbRepo.saveDraft(draft!);
       }
       homeVm!.drafts = await dbRepo.fetchDrafts();
-      isLoading = false;
+      isBusy = false;
       notifyListeners();
       //await onBackPressed();
     }
@@ -100,12 +100,12 @@ class DraftEditorVm with ChangeNotifier {
     bool? success;
 
     if (validateInput()) {
-      isLoading = true;
+      isBusy = true;
       notifyListeners();
 
       //await dbRepo.d(draft!);
 
-      isLoading = true;
+      isBusy = true;
       notifyListeners();
     }
     return success;

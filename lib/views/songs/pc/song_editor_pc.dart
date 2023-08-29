@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 
 import '../../../theme/theme_colors.dart';
 import '../../../viewmodels/songs/song_editor_vm.dart';
-import '../../../widget/inputs/form_input.dart';
-import '../../../widget/progress/circular_progress.dart';
+import '../../../widgets/inputs/form_input.dart';
+import '../../../widgets/progress/circular_progress.dart';
 
 /// Song editor screen to draft a new song or edit an existing one
 class SongEditorPc extends StatefulWidget {
@@ -88,7 +88,7 @@ class SongEditorPcState extends State<SongEditorPc>
             ),
             body: SizedBox(
               height: size!.height,
-              child: vm.isLoading ? const CircularProgress() : mainContainer,
+              child: vm.isBusy ? const CircularProgress() : mainContainer,
             ),
           );
         },

@@ -68,7 +68,7 @@ class ListPopup extends StatelessWidget {
               colors: [Colors.white, ThemeColors.accent, Colors.black],
             ),
           ),
-          child: vm.isLoading
+          child: vm.isBusy
               ? const CircularProgress()
               : vm.listeds!.isNotEmpty
                   ? listContainer

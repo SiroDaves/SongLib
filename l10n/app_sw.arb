@@ -101,6 +101,10 @@
   },
   "defaultMode": "Default",
   "lightMode": "Angavu",
-  "darkMode": "Giza"
-
+  "darkMode": "Giza",
+  "labelInvalidInput": "Invalid input",
+  "labelInvalidInputText": "The input you entered is invalid",
+  "labelError500": "Internal Server Error.",
+  "labelError504": "Request Timeout",
+  "labelErrorConnectionText": "Please check if you are behind a firewall before trying again."
 }

@@ -3,6 +3,7 @@ import 'package:drift/drift.dart';
 class Listed {
   int? id;
   int? listedId;
+  int? user;
   int? parentid;
   int? song;
   String? title;
@@ -14,6 +15,7 @@ class Listed {
   Listed({
     this.id,
     this.listedId,
+    this.user,
     this.parentid,
     this.song,
     this.title,
@@ -26,6 +28,7 @@ class Listed {
   Listed.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     listedId = json['listedId'];
+    user = json['user'];
     parentid = json['parentid'];
     song = json['song'];
     title = json['title'];
@@ -39,6 +42,7 @@ class Listed {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['listedId'] = listedId;
+    data['user'] = user;
     data['parentid'] = parentid;
     data['song'] = song;
     data['title'] = title;
@@ -53,6 +57,7 @@ class Listed {
     return Listed(
       id: const IntType().mapFromDatabaseResponse(data['id'])!,
       listedId: const IntType().mapFromDatabaseResponse(data['listed_id'])!,
+      user: const IntType().mapFromDatabaseResponse(data['user'])!,
       parentid: const IntType().mapFromDatabaseResponse(data['parentid'])!,
       song: const IntType().mapFromDatabaseResponse(data['songCount'])!,
       title: const StringType().mapFromDatabaseResponse(data['title'])!,

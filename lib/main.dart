@@ -49,7 +49,7 @@ class MyApplication extends StatelessWidget {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: const [Locale('en'), Locale('sw')],
-        theme: AppThemeData.britamTheme,
+        theme: AppThemeData.mainTheme,
         navigatorKey: MainNavigatorState.navigationKey,
         initialRoute: MainNavigatorState.initialRoute,
         onGenerateRoute: MainNavigatorState.onGenerateRoute,

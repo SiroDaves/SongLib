@@ -15,7 +15,7 @@ import '../../repository/db_repository.dart';
 import '../../repository/local_storage.dart';
 import '../../utils/constants/pref_constants.dart';
 import '../../utils/utilities.dart';
-import '../../widget/general/toast.dart';
+import '../../widgets/general/toast.dart';
 
 @singleton
 class HomeVm with ChangeNotifier {
@@ -26,7 +26,7 @@ class HomeVm with ChangeNotifier {
   HomeVm(this.dbRepo, this.localStorage);
   AppLocalizations? tr;
 
-  bool isLoading = false, isMiniLoading = false;
+  bool isBusy = false, isMiniLoading = false;
   bool isSearching = false, shownUpdateHint = false;
   bool isLoggedIn = false;
   int currentPage = 1, dateDiff = 0;
@@ -99,7 +99,7 @@ class HomeVm with ChangeNotifier {
 
   /// Get the data from the DB
   Future<void> fetchData({bool showLoading = true}) async {
-    if (showLoading) isLoading = true;
+    if (showLoading) isBusy = true;
     notifyListeners();
 
     books = await dbRepo.fetchBooks();
@@ -109,7 +109,7 @@ class HomeVm with ChangeNotifier {
     drafts = await dbRepo.fetchDrafts();
     await selectSongbook(books![0]);
 
-    isLoading = false;
+    isBusy = false;
     notifyListeners();
   }
 
@@ -141,11 +141,11 @@ class HomeVm with ChangeNotifier {
 
   /// Get the listed data from the DB
   Future<void> fetchListedData({bool showLoading = true}) async {
-    if (showLoading) isLoading = true;
+    if (showLoading) isBusy = true;
     notifyListeners();
     listeds = await dbRepo.fetchListeds();
     setListed = listeds![0];
-    isLoading = false;
+    isBusy = false;
     notifyListeners();
   }
 
@@ -181,29 +181,29 @@ class HomeVm with ChangeNotifier {
 
   /// Get the song data from the DB
   Future<void> fetchSearchData({bool showLoading = true}) async {
-    if (showLoading) isLoading = true;
+    if (showLoading) isBusy = true;
     notifyListeners();
     books = await dbRepo.fetchBooks();
     songs = await dbRepo.fetchSongs();
     await selectSongbook(books![0]);
-    isLoading = false;
+    isBusy = false;
     notifyListeners();
   }
 
   /// Get the notes data from the DB
   Future<void> fetchDraftsData({bool showLoading = true}) async {
-    if (showLoading) isLoading = true;
+    if (showLoading) isBusy = true;
     notifyListeners();
     drafts = await dbRepo.fetchDrafts();
     setDraft = drafts![0];
-    isLoading = false;
+    isBusy = false;
     notifyListeners();
   }
 
   /// Set songbook
   Future<void> selectSongbook(Book book, {bool showLoading = true}) async {
     isSearching = false;
-    if (showLoading) isLoading = true;
+    if (showLoading) isBusy = true;
     notifyListeners();
     setBook = book;
 
@@ -217,13 +217,13 @@ class HomeVm with ChangeNotifier {
       chooseSong(filtered![0]);
     } catch (exception) {}
 
-    isLoading = false;
+    isBusy = false;
     notifyListeners();
   }
 
   /// Get the data from the DB
   Future<void> fetchLikedSongs({bool showLoading = true}) async {
-    if (showLoading) isLoading = true;
+    if (showLoading) isBusy = true;
     notifyListeners();
 
     try {
@@ -231,7 +231,7 @@ class HomeVm with ChangeNotifier {
       setLiked = likes![0];
     } catch (exception) {}
 
-    isLoading = false;
+    isBusy = false;
     notifyListeners();
   }
 
@@ -318,7 +318,7 @@ class HomeVm with ChangeNotifier {
   /// Save changes for a listed be it a new one or simply updating an old one
   Future<void> saveListChanges() async {
     if (titleController!.text.isNotEmpty) {
-      isLoading = true;
+      isBusy = true;
       notifyListeners();
       setListed.title = titleController!.text;
       setListed.description = contentController!.text;
@@ -327,7 +327,7 @@ class HomeVm with ChangeNotifier {
         text: '${setListed.title} ${tr!.listUpdated}',
         state: ToastStates.success,
       );
-      isLoading = false;
+      isBusy = false;
       notifyListeners();
     }
   }
@@ -372,7 +372,7 @@ class HomeVm with ChangeNotifier {
   /// Save changes for a listed be it a new one or simply updating an old one
   Future<void> saveNewList() async {
     if (titleController!.text.isNotEmpty) {
-      isLoading = true;
+      isBusy = true;
       notifyListeners();
       final Listed listed = Listed(
         listedId: 0,
@@ -386,7 +386,7 @@ class HomeVm with ChangeNotifier {
         state: ToastStates.success,
       );
 
-      isLoading = false;
+      isBusy = false;
       notifyListeners();
     }
   }

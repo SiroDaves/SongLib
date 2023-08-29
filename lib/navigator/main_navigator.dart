@@ -9,7 +9,6 @@ import '../views/info/donation_screen.dart';
 import '../views/info/helpdesk_screen.dart';
 import '../views/info/onboarding_screen.dart';
 import '../views/lists/list_view_screen.dart';
-import '../views/selection/progress_screen.dart';
 import '../views/selection/selection_screen.dart';
 import '../views/songs/mobile/song_editor.dart';
 import '../views/songs/mobile/song_presentor.dart';
@@ -19,7 +18,7 @@ import '../views/splash_screen.dart';
 import '../views/user/signin_screen.dart';
 import '../views/user/signup_screen.dart';
 import '../views/user/user_screen.dart';
-import '../widget/general/text_scale_factor.dart';
+import '../widgets/general/text_scale_factor.dart';
 import 'route_names.dart';
 
 class MainNavigator extends StatefulWidget {
@@ -77,7 +76,6 @@ class MainNavigatorState extends State<MainNavigator> with MainNavigationMixin {
       '': (context) => const SplashScreen(),
       RouteNames.splash: (context) => const SplashScreen(),
       RouteNames.selection: (context) => const SelectionScreen(),
-      RouteNames.progress: (context) => const ProgressScreen(),
       RouteNames.onboarding: (context) => const OnboardingScreen(),
       RouteNames.home: (context) => const HomeScreen(),
       RouteNames.presentSong: (context) => const SongPresentor(),
@@ -127,9 +125,6 @@ class MainNavigatorState extends State<MainNavigator> with MainNavigationMixin {
 
   @override
   void goToSelection() => navigator.pushReplacementNamed(RouteNames.selection);
-
-  @override
-  void goToProgress() => navigator.pushReplacementNamed(RouteNames.progress);
 
   @override
   void goToOnboarding() =>

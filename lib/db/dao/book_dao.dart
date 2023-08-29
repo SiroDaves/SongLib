@@ -77,7 +77,6 @@ class _BookDao extends DatabaseAccessor<AppDatabase>
           songs: Value(book.songs!),
           position: Value(book.position!),
           created: Value(book.created!),
-          updated: Value(book.updated!),
         ),
       );
 

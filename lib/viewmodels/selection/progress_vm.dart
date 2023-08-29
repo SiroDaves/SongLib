@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:injectable/injectable.dart';
@@ -7,14 +5,14 @@ import 'package:injectable/injectable.dart';
 import '../../model/base/song.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/local_storage.dart';
+import '../../repository/web_repository.dart';
 import '../../utils/constants/pref_constants.dart';
 import '../../utils/utilities.dart';
-import '../../webservice/app_web_service.dart';
 
 @injectable
 class ProgressVm with ChangeNotifier {
   late final ProgressNavigator navigator;
-  final AppWebService api;
+  final WebRepository api;
   final DbRepository db;
   final LocalStorage localStorage;
 
@@ -25,7 +23,7 @@ class ProgressVm with ChangeNotifier {
   ProgressVm(this.api, this.db, this.localStorage);
 
   AppLocalizations? tr;
-  bool isLoading = false, hasError = false, onBoarded = false;
+  bool isBusy = false, hasError = false, onBoarded = false;
   String errorTitle = "", errorBody = "";
   String selectedBooks = "", predistinatedBooks = "";
   List<Song>? songs = [];
@@ -41,7 +39,7 @@ class ProgressVm with ChangeNotifier {
         localStorage.getPrefString(PrefConstants.predistinatedBooksKey);
 
     if (predistinatedBooks.isNotEmpty) {
-      isLoading = true;
+      isBusy = true;
       notifyListeners();
       await db.majorCleanUp(selectedBooks);
     }
@@ -51,7 +49,7 @@ class ProgressVm with ChangeNotifier {
 
   /// Get the list of songs and save theme
   Future<void> fetchSongs() async {
-    isLoading = true;
+    isBusy = true;
     notifyListeners();
 
     selected = selectedBooks.split(",");
@@ -61,12 +59,12 @@ class ProgressVm with ChangeNotifier {
     //songs = await api.fetchSongs(bookNos);
 
     if (await isConnected()) {
-      var response = await api.fetchSongs(bookNos);
+      /*var response = await api.fetchSongs(bookNos);
       var resp = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
         //payslipResp = PaySlipResponse.fromJson(resp['response']);
-      }
+      }*/
 
       /*if (response.id == EventConstants.requestSuccessful) {
         Song song = Song();
@@ -86,13 +84,13 @@ class ProgressVm with ChangeNotifier {
       errorBody = tr!.noConnectionBody;
     }
 
-    isLoading = false;
+    isBusy = false;
     notifyListeners();
   }
 
   /// Get the list of songs and save theme
   Future<void> saveSongs() async {
-    isLoading = false;
+    isBusy = false;
     notifyListeners();
 
     if (songs!.isNotEmpty) {

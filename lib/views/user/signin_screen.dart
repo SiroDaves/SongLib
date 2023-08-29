@@ -6,10 +6,10 @@ import 'package:provider/provider.dart';
 import '../../navigator/main_navigator.dart';
 import '../../theme/theme_colors.dart';
 import '../../viewmodels/user/signin_vm.dart';
-import '../../widget/action/primary_btn.dart';
-import '../../widget/inputs/form_input.dart';
-import '../../widget/inputs/password_input.dart';
-import '../../widget/progress/circular_progress.dart';
+import '../../widgets/action/primary_btn.dart';
+import '../../widgets/inputs/form_input.dart';
+import '../../widgets/inputs/password_input.dart';
+import '../../widgets/progress/circular_progress.dart';
 
 /// Signin screen
 class SigninScreen extends StatefulWidget {

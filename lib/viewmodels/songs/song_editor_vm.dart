@@ -22,7 +22,7 @@ class SongEditorVm with ChangeNotifier {
   BuildContext? context;
   AppLocalizations? tr;
 
-  bool isLoading = false, notEmpty = false;
+  bool isBusy = false, notEmpty = false;
   String? title, content, alias, key;
   TextEditingController? titleController = TextEditingController();
   TextEditingController? contentController = TextEditingController();
@@ -40,7 +40,7 @@ class SongEditorVm with ChangeNotifier {
   }
 
   Future<void> loadEditor() async {
-    isLoading = true;
+    isBusy = true;
     notifyListeners();
 
     titleController!.text = song!.title!;
@@ -48,7 +48,7 @@ class SongEditorVm with ChangeNotifier {
     keyController!.text = song!.key!;
     contentController!.text = song!.content!.replaceAll('#', '\n');
 
-    isLoading = false;
+    isBusy = false;
     notifyListeners();
   }
 
@@ -71,7 +71,7 @@ class SongEditorVm with ChangeNotifier {
   /// Save changes for a song be it a new one or simply updating an old one
   Future<void> saveChanges() async {
     if (validateInput()) {
-      isLoading = true;
+      isBusy = true;
       notifyListeners();
 
       try {
@@ -85,7 +85,7 @@ class SongEditorVm with ChangeNotifier {
     } catch (exception) {}
 
       await onBackPressed();
-      isLoading = false;
+      isBusy = false;
       notifyListeners();
     }
   }

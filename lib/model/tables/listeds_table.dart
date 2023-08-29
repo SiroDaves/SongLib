@@ -7,6 +7,7 @@ import '../base/listed.dart';
 class ListedsTable extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get listedId => integer().withDefault(const Constant(0))();
+  IntColumn get user => integer().withDefault(const Constant(0))();
   IntColumn get parentid => integer().withDefault(const Constant(0))();
   IntColumn get song => integer().withDefault(const Constant(0))();
   TextColumn get title => text().withDefault(const Constant(''))();
@@ -20,6 +21,7 @@ extension ListedsExtension on Listeds {
   Listed getModel() => Listed(
         id: id,
         listedId: listedId,
+        user: user,
         song: song,
         parentid: parentid,
         title: title,
@@ -36,6 +38,7 @@ extension ListedExtension on Listed {
     return ListedsTableCompanion.insert(
       id: id == null ? const Value.absent() : Value(id),
       listedId: Value(listedId!),
+      user: Value(user!),
       song: Value(song!),
       parentid: Value(parentid!),
       title: Value(title!),

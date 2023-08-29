@@ -5,8 +5,8 @@ import 'package:styled_widget/styled_widget.dart';
 
 import '../../theme/theme_colors.dart';
 import '../../viewmodels/drafts/draft_editor_vm.dart';
-import '../../widget/inputs/form_input.dart';
-import '../../widget/progress/circular_progress.dart';
+import '../../widgets/inputs/form_input.dart';
+import '../../widgets/progress/circular_progress.dart';
 
 /// Song editor screen to draft a new song or edit an existing one
 class DraftEditor extends StatefulWidget {
@@ -81,7 +81,7 @@ class DraftEditorState extends State<DraftEditor>
                 ),
               ],
             ),
-            body: vm.isLoading
+            body: vm.isBusy
                 ? const CircularProgress()
                 : Container(
                     padding: const EdgeInsets.all(10),

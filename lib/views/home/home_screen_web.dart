@@ -13,11 +13,11 @@ import '../../theme/theme_colors.dart';
 import '../../theme/theme_styles.dart';
 import '../../utils/constants/app_constants.dart';
 import '../../viewmodels/home/home_web_vm.dart';
-import '../../widget/action/sidebar.dart';
-import '../../widget/general/fading_index_stack.dart';
-import '../../widget/general/list_items.dart';
-import '../../widget/progress/line_progress.dart';
-import '../../widget/search/headers.dart';
+import '../../widgets/action/sidebar.dart';
+import '../../widgets/general/fading_index_stack.dart';
+import '../../widgets/general/list_items.dart';
+import '../../widgets/progress/line_progress.dart';
+import '../../widgets/search/headers.dart';
 import '../info/helpdesk_screen.dart';
 
 part 'pc/search_tab_web.dart';

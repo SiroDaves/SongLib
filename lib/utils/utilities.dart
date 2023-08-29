@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
@@ -8,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'dart:developer' as logger show log;
 
 import '../model/base/songext.dart';
+import 'constants/api_constants.dart';
 
 bool isDesktop = Platform.isWindows || Platform.isLinux || Platform.isMacOS;
 bool isMobile = Platform.isAndroid || Platform.isIOS || Platform.isFuchsia;
@@ -199,35 +201,82 @@ List<SongExt> seachSongByQuery(String query, List<SongExt> songs) {
   return filtered;
 }
 
+Future<http.Response> makeApiPostRequest(
+  String endpoint,
+  Map<String, String> headers,
+  dynamic requestBody,
+) async {
+  if (await isConnected()) {
+    try {
+      logger.log('Api Request: ${ApiConstants.baseUrl}$endpoint');
+      logger.log('JsonData: ${json.encode(requestBody)}');
+
+      final response = await http
+          .post(
+        Uri.parse('${ApiConstants.baseUrl}$endpoint'),
+        headers: headers,
+        body: json.encode(requestBody),
+      )
+          .timeout(
+        const Duration(seconds: 60),
+        onTimeout: () {
+          logger.log('Timeout occurred. Please try again later.');
+          return http.Response('Timeout occurred', 504);
+        },
+      );
+
+      logger.log('Api Response: [${response.statusCode}] ${response.body}');
+
+      return response;
+    } catch (e) {
+      if (e is TimeoutException) {
+        logger.log('Timeout occurred. Please try again later.');
+        return http.Response('Timeout occurred', 504);
+      } else {
+        logger.log('An error occurred during the HTTP request: $e');
+        return http.Response('Internal server error', 500);
+      }
+    }
+  } else {
+    logger.log('No internet connection. Please try again later.');
+    return http.Response('No internet connection', 500);
+  }
+}
+
 Future<http.Response> makeApiGetRequest(
   String endpoint,
   Map<String, String> headers,
 ) async {
-  try {
-    final response = await http
-        .get(
-      Uri.parse(endpoint),
-      headers: headers,
-    )
-        .timeout(
-      const Duration(seconds: 30),
-      onTimeout: () {
+  if (await isConnected()) {
+    try {
+      final response = await http
+          .get(
+        Uri.parse('${ApiConstants.baseUrl}$endpoint'),
+        headers: headers,
+      )
+          .timeout(
+        const Duration(seconds: 60),
+        onTimeout: () {
+          logger.log('Timeout occurred. Please try again later.');
+          return http.Response('Timeout occurred', 504);
+        },
+      );
+
+      logger.log('Api Request: ${ApiConstants.baseUrl}$endpoint');
+      logger.log('Api Response: [${response.statusCode}] ${response.body}');
+
+      return response;
+    } catch (e) {
+      if (e is TimeoutException) {
         logger.log('Timeout occurred. Please try again later.');
         return http.Response('Timeout occurred', 504);
-      },
-    );
-
-    logger.log('Api Request: $endpoint');
-    logger.log('Api Response: [${response.statusCode}] ${response.body}');
-
-    return response;
-  } catch (e) {
-    if (e is TimeoutException) {
-      logger.log('Timeout occurred. Please try again later.');
-      return http.Response('Timeout occurred', 504);
-    } else {
-      logger.log('An error occurred during the HTTP request: $e');
-      return http.Response('Internal server error', 500);
+      } else {
+        logger.log('An error occurred during the HTTP request: $e');
+        return http.Response('Internal server error', 500);
+      }
     }
+  } else {
+    logger.log('No internet connection. Please try again later.');
+    return http.Response('No internet connection', 500);
   }
 }

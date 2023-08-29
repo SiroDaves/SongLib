@@ -7,6 +7,7 @@ import '../base/song.dart';
 class SongsTable extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get songId => integer().withDefault(const Constant(0))();
+  IntColumn get user => integer().withDefault(const Constant(0))();
   IntColumn get book => integer().withDefault(const Constant(0))();
   IntColumn get songNo => integer().withDefault(const Constant(0))();
   TextColumn get title => text().withDefault(const Constant(''))();
@@ -25,6 +26,7 @@ extension SongsExtension on Songs {
   Song getModel() => Song(
         id: id,
         songId: songId,
+        user: user,
         book: book,
         songNo: songNo,
         title: title,
@@ -46,6 +48,7 @@ extension SongExtension on Song {
     return SongsTableCompanion.insert(
       id: id == null ? const Value.absent() : Value(id),
           songId: Value(songId!),
+          user: Value(user!),
           book: Value(book!),
           songNo: Value(songNo!),
           title: Value(title!),

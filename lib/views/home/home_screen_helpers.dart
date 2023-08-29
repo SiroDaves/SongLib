@@ -81,7 +81,7 @@ Future<void> editListForm(BuildContext context, HomeVm vm) async {
         TextButton(
           onPressed: () async {
             if (vm.titleController!.text.isNotEmpty) {
-              vm.isLoading = true;
+              vm.isBusy = true;
               vm.rebuild();
               vm.setListed.title = vm.titleController!.text;
               vm.setListed.description = vm.contentController!.text;
@@ -90,7 +90,7 @@ Future<void> editListForm(BuildContext context, HomeVm vm) async {
                 text: '${vm.setListed.title} ${vm.tr!.listUpdated}',
                 state: ToastStates.success,
               );
-              vm.isLoading = false;
+              vm.isBusy = false;
               vm.rebuild();
             }
             vm.titleController!.clear();
@@ -144,7 +144,7 @@ Future<void> confirmDelete(BuildContext context, HomeVm vm) async {
 
 /// Add a song to a list
 Future<void> addSongToList(SongExt song, HomeVm vm) async {
-  vm.isLoading = true;
+  vm.isBusy = true;
   vm.rebuild();
   await vm.dbRepo.saveListedSong(vm.setListed, song);
 
@@ -153,6 +153,6 @@ Future<void> addSongToList(SongExt song, HomeVm vm) async {
     text: '${song.title} ${vm.tr!.songAddedToList}',
     state: ToastStates.success,
   );
-  vm.isLoading = false;
+  vm.isBusy = false;
   vm.rebuild();
 }

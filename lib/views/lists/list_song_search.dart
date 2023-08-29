@@ -2,7 +2,7 @@ import 'package:context_menus/context_menus.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/base/songext.dart';
-import '../../../widget/general/list_items.dart';
+import '../../../widgets/general/list_items.dart';
 import '../../viewmodels/lists/list_view_vm.dart';
 
 class ListSearchSongs extends SearchDelegate<List> {

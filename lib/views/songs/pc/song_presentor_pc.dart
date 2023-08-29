@@ -11,8 +11,8 @@ import '../../../navigator/main_navigator.dart';
 import '../../../theme/theme_colors.dart';
 import '../../../utils/big_screen_intents.dart';
 import '../../../viewmodels/songs/song_presentor_vm.dart';
-import '../../../widget/general/present_on_pc.dart';
-import '../../../widget/progress/circular_progress.dart';
+import '../../../widgets/general/present_on_pc.dart';
+import '../../../widgets/progress/circular_progress.dart';
 
 /// Screen to present a song in slide format
 class SongPresentorPc extends StatefulWidget {
@@ -98,7 +98,7 @@ class SongPresentorPcState extends State<SongPresentorPc>
                 child: LayoutBuilder(
                   builder: (context, dimens) {
                     vm.size = size = Size(dimens.maxWidth, dimens.maxHeight);
-                    return vm.isLoading
+                    return vm.isBusy
                         ? const CircularProgress()
                         : PresentOnPc(
                             index: vm.curSlide,

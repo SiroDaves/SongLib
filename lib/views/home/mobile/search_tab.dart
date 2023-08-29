@@ -116,7 +116,7 @@ class SearchTab extends StatelessWidget {
               children: [
                 vm.books!.isNotEmpty ? booksContainer : const SizedBox.shrink(),
                 SizedBox(
-                  child: vm.isLoading
+                  child: vm.isBusy
                       ? const ListLoading()
                       : vm.songs!.isNotEmpty
                           ? listContainer

@@ -12,9 +12,9 @@ import '../../repository/local_storage.dart';
 import '../../theme/theme_colors.dart';
 import '../../utils/constants/pref_constants.dart';
 import '../../utils/utilities.dart';
-import '../../widget/action/buttons.dart';
-import '../../widget/general/labels.dart';
-import '../../widget/general/toast.dart';
+import '../../widgets/action/buttons.dart';
+import '../../widgets/general/labels.dart';
+import '../../widgets/general/toast.dart';
 import '../home/home_vm.dart';
 
 @injectable
@@ -30,7 +30,7 @@ class DraftPresentorVm with ChangeNotifier {
 
   BuildContext? context;
   AppLocalizations? tr;
-  bool isLoading = false, enableWakeLock = false, slideHorizontal = false;
+  bool isBusy = false, enableWakeLock = false, slideHorizontal = false;
   bool isLiked = false, hasChorus = false, shownPcHints = false;
 
   String draftTitle = '', draftBook = '', draftContent = '';
@@ -62,7 +62,7 @@ class DraftPresentorVm with ChangeNotifier {
 
   /// Prepare draft lyrics to be shown in slide format
   Future<void> loadPresentor() async {
-    isLoading = true;
+    isBusy = true;
     notifyListeners();
 
     verseInfos.clear();
@@ -70,7 +70,7 @@ class DraftPresentorVm with ChangeNotifier {
 
     await loadDraft();
 
-    isLoading = false;
+    isBusy = false;
     notifyListeners();
   }
 

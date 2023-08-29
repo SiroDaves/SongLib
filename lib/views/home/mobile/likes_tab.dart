@@ -50,7 +50,7 @@ class LikesTab extends StatelessWidget {
         ),
         child: SizedBox(
           height: size!.height,
-          child: vm.isLoading
+          child: vm.isBusy
               ? const ListLoading()
               : vm.likes!.isNotEmpty
                   ? listContainer

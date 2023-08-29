@@ -112,7 +112,7 @@ class SearchTabWeb extends StatelessWidget {
       ),
     );
 
-    return vm.isLoading
+    return vm.isBusy
         ? const ListLoading()
         : Stack(
             children: [

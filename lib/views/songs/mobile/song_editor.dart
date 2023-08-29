@@ -6,8 +6,8 @@ import 'package:styled_widget/styled_widget.dart';
 
 import '../../../theme/theme_colors.dart';
 import '../../../viewmodels/songs/song_editor_vm.dart';
-import '../../../widget/inputs/form_input.dart';
-import '../../../widget/progress/circular_progress.dart';
+import '../../../widgets/inputs/form_input.dart';
+import '../../../widgets/progress/circular_progress.dart';
 
 /// Screen to present a song in slide format
 class SongEditor extends StatefulWidget {
@@ -86,7 +86,7 @@ class SongEditorState extends State<SongEditor>
             appBar: appBarWidget,
             body: SizedBox(
               height: size!.height,
-              child: vm.isLoading
+              child: vm.isBusy
                   ? const CircularProgress()
                   : Container(
                       padding: const EdgeInsets.all(10),

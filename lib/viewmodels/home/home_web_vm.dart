@@ -5,20 +5,18 @@ import 'package:injectable/injectable.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../model/base/book.dart';
-import '../../model/base/song.dart';
 import '../../model/base/songext.dart';
 import '../../model/general/general.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/local_storage.dart';
-import '../../utils/constants/event_constants.dart';
+import '../../repository/web_repository.dart';
 import '../../utils/utilities.dart';
-import '../../webservice/app_web_service.dart';
-import '../../widget/general/toast.dart';
+import '../../widgets/general/toast.dart';
 
 @injectable
 class HomeWebVm with ChangeNotifier {
   late final HomeWebNavigator navigator;
-  final AppWebService api;
+  final WebRepository api;
   final DbRepository db;
   final LocalStorage localStorage;
 
@@ -27,7 +25,7 @@ class HomeWebVm with ChangeNotifier {
   AppLocalizations? tr;
   BuildContext? context;
 
-  bool isLoading = false, isMiniLoading = false, hasError = false;
+  bool isBusy = false, isMiniLoading = false, hasError = false;
   bool isSearching = false, shownUpdateHint = false;
   List<Book>? books = [];
 
@@ -59,20 +57,20 @@ class HomeWebVm with ChangeNotifier {
 
   /// Get the data from the DB
   Future<void> fetchData({bool showLoading = true}) async {
-    if (showLoading) isLoading = true;
+    if (showLoading) isBusy = true;
     notifyListeners();
 
     await fetchBooks();
     await fetchSongs();
     await selectSongbook(books![0]);
 
-    isLoading = false;
+    isBusy = false;
     notifyListeners();
   }
 
   /// Get the list of books
   Future<List<Book>?> fetchBooks() async {
-    isLoading = true;
+    isBusy = true;
     notifyListeners();
 
     if (await isConnected()) {
@@ -92,18 +90,18 @@ class HomeWebVm with ChangeNotifier {
       errorBody = tr!.noConnectionBody;
     }
 
-    isLoading = false;
+    isBusy = false;
     notifyListeners();
     return books;
   }
 
   /// Get the list of songs and save theme
   Future<void> fetchSongs() async {
-    isLoading = true;
+    isBusy = true;
     notifyListeners();
 
     if (await isConnected()) {
-      var response = await api.fetchSongs(bookNos);
+      //var response = await api.fetchSongs(bookNos);
       /*if (response.id == EventConstants.requestSuccessful) {
         Song webSong = Song();
         List<Song> webSongs = webSong.fromData(response.data);
@@ -136,14 +134,14 @@ class HomeWebVm with ChangeNotifier {
       errorBody = tr!.noConnectionBody;
     }
 
-    isLoading = false;
+    isBusy = false;
     notifyListeners();
   }
 
   /// Set songbook
   Future<void> selectSongbook(Book book, {bool showLoading = true}) async {
     isSearching = false;
-    if (showLoading) isLoading = true;
+    if (showLoading) isBusy = true;
     notifyListeners();
     setBook = book;
 
@@ -157,7 +155,7 @@ class HomeWebVm with ChangeNotifier {
       chooseSong(filtered![0]);
     } catch (exception) {}
 
-    isLoading = false;
+    isBusy = false;
     notifyListeners();
   }
 

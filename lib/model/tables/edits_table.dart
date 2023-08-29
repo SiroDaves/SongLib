@@ -7,6 +7,7 @@ import '../base/edit.dart';
 class EditsTable extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get editId => integer().withDefault(const Constant(0))();
+  IntColumn get user => integer().withDefault(const Constant(0))();
   TextColumn get song => text().withDefault(const Constant(''))();
   IntColumn get book => integer().withDefault(const Constant(0))();
   IntColumn get songNo => integer().withDefault(const Constant(0))();
@@ -22,6 +23,7 @@ extension EditsExtension on Edits {
   Edit getModel() => Edit(
         id: id,
         editId: editId,
+        user: user,
         song: song,
         book: book,
         songNo: songNo,
@@ -40,6 +42,7 @@ extension EditExtension on Edit {
     return EditsTableCompanion.insert(
       id: id == null ? const Value.absent() : Value(id),
           editId: Value(editId!),
+          user: Value(user!),
           song: Value(song!),
           book: Value(book!),
           songNo: Value(songNo!),

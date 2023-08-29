@@ -25,7 +25,7 @@ class SplashVm with ChangeNotifier {
       isLoaded = localStorage.getPrefBool(PrefConstants.dataLoadedCheckKey);
       onBoarded = localStorage.getPrefBool(PrefConstants.onboardedCheckKey);
       //await nextActions();
-      await dbRepo.checkAppDatabase();
+      navigator.goToSelection();
     }
   }
 

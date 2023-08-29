@@ -11,7 +11,7 @@ class HistoryTab extends StatelessWidget {
   Widget build(BuildContext context) {
     var tr = AppLocalizations.of(context)!;
     size = MediaQuery.of(context).size;
-    var titleContainer = vm.isLoading
+    var titleContainer = vm.isBusy
         ? PageTitle(label: tr.listTitle, size: size)
         : vm.books!.isNotEmpty
             ? PageSearch(
@@ -70,7 +70,7 @@ class HistoryTab extends StatelessWidget {
     );
 
     var mainContainer = SizedBox(
-      child: vm.isLoading
+      child: vm.isBusy
           ? const ListLoading()
           : vm.listeds!.isNotEmpty
               ? listContainer

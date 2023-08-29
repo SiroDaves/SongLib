@@ -8,7 +8,7 @@ import '../../model/base/listedext.dart';
 import '../../model/base/songext.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/local_storage.dart';
-import '../../widget/general/toast.dart';
+import '../../widgets/general/toast.dart';
 import '../home/home_vm.dart';
 
 @injectable
@@ -25,7 +25,7 @@ class ListPopupVm with ChangeNotifier {
   HomeVm? homeVm;
   List<ListedExt>? listeds = [];
 
-  bool isLoading = false;
+  bool isBusy = false;
 
   Future<void> init(ListPopupNavigator screenNavigator) async {
     navigator = screenNavigator;
@@ -46,7 +46,7 @@ class ListPopupVm with ChangeNotifier {
 
   /// Add a song to a list
   Future<void> addSongToList(Listed listed, SongExt song) async {
-    isLoading = true;
+    isBusy = true;
     notifyListeners();
     await dbRepo.saveListedSong(listed, song);
     showToast(
@@ -54,7 +54,7 @@ class ListPopupVm with ChangeNotifier {
       state: ToastStates.success,
     );
     try {
-      isLoading = false;
+      isBusy = false;
       notifyListeners();
     // ignore: empty_catches
     } catch (e) {
@@ -64,7 +64,7 @@ class ListPopupVm with ChangeNotifier {
   /// Save changes for a listed be it a new one or simply updating an old one
   Future<void> saveNewList() async {
     if (titleController!.text.isNotEmpty) {
-      isLoading = true;
+      isBusy = true;
       notifyListeners();
       final Listed listed = Listed(
         listedId: 0,
@@ -78,7 +78,7 @@ class ListPopupVm with ChangeNotifier {
         state: ToastStates.success,
       );
 
-      isLoading = false;
+      isBusy = false;
       notifyListeners();
     }
   }

@@ -3,6 +3,7 @@ import 'package:drift/drift.dart';
 class Draft {
   int? id;
   int? draftId;
+  int? user;
   int? book;
   int? songNo;
   String? title;
@@ -19,6 +20,7 @@ class Draft {
   Draft({
     this.id,
     this.draftId,
+    this.user,
     this.book,
     this.songNo,
     this.title,
@@ -53,6 +55,7 @@ class Draft {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['draftId'] = draftId;
+    data['user'] = user;
     data['book'] = book;
     data['songNo'] = songNo;
     data['title'] = title;
@@ -71,6 +74,7 @@ class Draft {
     return Draft(
       id: const IntType().mapFromDatabaseResponse(data['id'])!,
       draftId: const IntType().mapFromDatabaseResponse(data['draft_id'])!,
+      user: const IntType().mapFromDatabaseResponse(data['user'])!,
       book: const IntType().mapFromDatabaseResponse(data['book'])!,
       songNo: const IntType().mapFromDatabaseResponse(data['song_no'])!,
       title: const StringType().mapFromDatabaseResponse(data['title'])!,

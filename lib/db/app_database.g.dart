@@ -10,6 +10,7 @@ part of 'app_database.dart';
 class Books extends DataClass implements Insertable<Books> {
   final int id;
   final int bookId;
+  final int user;
   final bool enabled;
   final int bookNo;
   final String title;
@@ -21,6 +22,7 @@ class Books extends DataClass implements Insertable<Books> {
   Books(
       {required this.id,
       required this.bookId,
+      required this.user,
       required this.enabled,
       required this.bookNo,
       required this.title,
@@ -36,6 +38,8 @@ class Books extends DataClass implements Insertable<Books> {
           .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
       bookId: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}book_id'])!,
+      user: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}user'])!,
       enabled: const BoolType()
           .mapFromDatabaseResponse(data['${effectivePrefix}enabled'])!,
       bookNo: const IntType()
@@ -59,6 +63,7 @@ class Books extends DataClass implements Insertable<Books> {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['book_id'] = Variable<int>(bookId);
+    map['user'] = Variable<int>(user);
     map['enabled'] = Variable<bool>(enabled);
     map['book_no'] = Variable<int>(bookNo);
     map['title'] = Variable<String>(title);
@@ -74,6 +79,7 @@ class Books extends DataClass implements Insertable<Books> {
     return BooksTableCompanion(
       id: Value(id),
       bookId: Value(bookId),
+      user: Value(user),
       enabled: Value(enabled),
       bookNo: Value(bookNo),
       title: Value(title),
@@ -91,6 +97,7 @@ class Books extends DataClass implements Insertable<Books> {
     return Books(
       id: serializer.fromJson<int>(json['id']),
       bookId: serializer.fromJson<int>(json['bookId']),
+      user: serializer.fromJson<int>(json['user']),
       enabled: serializer.fromJson<bool>(json['enabled']),
       bookNo: serializer.fromJson<int>(json['bookNo']),
       title: serializer.fromJson<String>(json['title']),
@@ -107,6 +114,7 @@ class Books extends DataClass implements Insertable<Books> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'bookId': serializer.toJson<int>(bookId),
+      'user': serializer.toJson<int>(user),
       'enabled': serializer.toJson<bool>(enabled),
       'bookNo': serializer.toJson<int>(bookNo),
       'title': serializer.toJson<String>(title),
@@ -121,6 +129,7 @@ class Books extends DataClass implements Insertable<Books> {
   Books copyWith(
           {int? id,
           int? bookId,
+          int? user,
           bool? enabled,
           int? bookNo,
           String? title,
@@ -132,6 +141,7 @@ class Books extends DataClass implements Insertable<Books> {
       Books(
         id: id ?? this.id,
         bookId: bookId ?? this.bookId,
+        user: user ?? this.user,
         enabled: enabled ?? this.enabled,
         bookNo: bookNo ?? this.bookNo,
         title: title ?? this.title,
@@ -146,6 +156,7 @@ class Books extends DataClass implements Insertable<Books> {
     return (StringBuffer('Books(')
           ..write('id: $id, ')
           ..write('bookId: $bookId, ')
+          ..write('user: $user, ')
           ..write('enabled: $enabled, ')
           ..write('bookNo: $bookNo, ')
           ..write('title: $title, ')
@@ -159,14 +170,15 @@ class Books extends DataClass implements Insertable<Books> {
   }
 
   @override
-  int get hashCode => Object.hash(id, bookId, enabled, bookNo, title, subTitle,
-      songs, position, created, updated);
+  int get hashCode => Object.hash(id, bookId, user, enabled, bookNo, title,
+      subTitle, songs, position, created, updated);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is Books &&
           other.id == this.id &&
           other.bookId == this.bookId &&
+          other.user == this.user &&
           other.enabled == this.enabled &&
           other.bookNo == this.bookNo &&
           other.title == this.title &&
@@ -180,6 +192,7 @@ class Books extends DataClass implements Insertable<Books> {
 class BooksTableCompanion extends UpdateCompanion<Books> {
   final Value<int> id;
   final Value<int> bookId;
+  final Value<int> user;
   final Value<bool> enabled;
   final Value<int> bookNo;
   final Value<String> title;
@@ -191,6 +204,7 @@ class BooksTableCompanion extends UpdateCompanion<Books> {
   const BooksTableCompanion({
     this.id = const Value.absent(),
     this.bookId = const Value.absent(),
+    this.user = const Value.absent(),
     this.enabled = const Value.absent(),
     this.bookNo = const Value.absent(),
     this.title = const Value.absent(),
@@ -203,6 +217,7 @@ class BooksTableCompanion extends UpdateCompanion<Books> {
   BooksTableCompanion.insert({
     this.id = const Value.absent(),
     this.bookId = const Value.absent(),
+    this.user = const Value.absent(),
     this.enabled = const Value.absent(),
     this.bookNo = const Value.absent(),
     this.title = const Value.absent(),
@@ -215,6 +230,7 @@ class BooksTableCompanion extends UpdateCompanion<Books> {
   static Insertable<Books> custom({
     Expression<int>? id,
     Expression<int>? bookId,
+    Expression<int>? user,
     Expression<bool>? enabled,
     Expression<int>? bookNo,
     Expression<String>? title,
@@ -227,6 +243,7 @@ class BooksTableCompanion extends UpdateCompanion<Books> {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (bookId != null) 'book_id': bookId,
+      if (user != null) 'user': user,
       if (enabled != null) 'enabled': enabled,
       if (bookNo != null) 'book_no': bookNo,
       if (title != null) 'title': title,
@@ -241,6 +258,7 @@ class BooksTableCompanion extends UpdateCompanion<Books> {
   BooksTableCompanion copyWith(
       {Value<int>? id,
       Value<int>? bookId,
+      Value<int>? user,
       Value<bool>? enabled,
       Value<int>? bookNo,
       Value<String>? title,
@@ -252,6 +270,7 @@ class BooksTableCompanion extends UpdateCompanion<Books> {
     return BooksTableCompanion(
       id: id ?? this.id,
       bookId: bookId ?? this.bookId,
+      user: user ?? this.user,
       enabled: enabled ?? this.enabled,
       bookNo: bookNo ?? this.bookNo,
       title: title ?? this.title,
@@ -271,6 +290,9 @@ class BooksTableCompanion extends UpdateCompanion<Books> {
     }
     if (bookId.present) {
       map['book_id'] = Variable<int>(bookId.value);
+    }
+    if (user.present) {
+      map['user'] = Variable<int>(user.value);
     }
     if (enabled.present) {
       map['enabled'] = Variable<bool>(enabled.value);
@@ -304,6 +326,7 @@ class BooksTableCompanion extends UpdateCompanion<Books> {
     return (StringBuffer('BooksTableCompanion(')
           ..write('id: $id, ')
           ..write('bookId: $bookId, ')
+          ..write('user: $user, ')
           ..write('enabled: $enabled, ')
           ..write('bookNo: $bookNo, ')
           ..write('title: $title, ')
@@ -334,6 +357,13 @@ class $BooksTableTable extends BooksTable
   @override
   late final GeneratedColumn<int?> bookId = GeneratedColumn<int?>(
       'book_id', aliasedName, false,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
+  final VerificationMeta _userMeta = const VerificationMeta('user');
+  @override
+  late final GeneratedColumn<int?> user = GeneratedColumn<int?>(
+      'user', aliasedName, false,
       type: const IntType(),
       requiredDuringInsert: false,
       defaultValue: const Constant(0));
@@ -398,6 +428,7 @@ class $BooksTableTable extends BooksTable
   List<GeneratedColumn> get $columns => [
         id,
         bookId,
+        user,
         enabled,
         bookNo,
         title,
@@ -422,6 +453,10 @@ class $BooksTableTable extends BooksTable
     if (data.containsKey('book_id')) {
       context.handle(_bookIdMeta,
           bookId.isAcceptableOrUnknown(data['book_id']!, _bookIdMeta));
+    }
+    if (data.containsKey('user')) {
+      context.handle(
+          _userMeta, user.isAcceptableOrUnknown(data['user']!, _userMeta));
     }
     if (data.containsKey('enabled')) {
       context.handle(_enabledMeta,
@@ -475,6 +510,7 @@ class $BooksTableTable extends BooksTable
 class Drafts extends DataClass implements Insertable<Drafts> {
   final int id;
   final int draftId;
+  final int user;
   final int book;
   final int songNo;
   final String title;
@@ -489,6 +525,7 @@ class Drafts extends DataClass implements Insertable<Drafts> {
   Drafts(
       {required this.id,
       required this.draftId,
+      required this.user,
       required this.book,
       required this.songNo,
       required this.title,
@@ -507,6 +544,8 @@ class Drafts extends DataClass implements Insertable<Drafts> {
           .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
       draftId: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}draft_id'])!,
+      user: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}user'])!,
       book: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}book'])!,
       songNo: const IntType()
@@ -536,6 +575,7 @@ class Drafts extends DataClass implements Insertable<Drafts> {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['draft_id'] = Variable<int>(draftId);
+    map['user'] = Variable<int>(user);
     map['book'] = Variable<int>(book);
     map['song_no'] = Variable<int>(songNo);
     map['title'] = Variable<String>(title);
@@ -554,6 +594,7 @@ class Drafts extends DataClass implements Insertable<Drafts> {
     return DraftsTableCompanion(
       id: Value(id),
       draftId: Value(draftId),
+      user: Value(user),
       book: Value(book),
       songNo: Value(songNo),
       title: Value(title),
@@ -574,6 +615,7 @@ class Drafts extends DataClass implements Insertable<Drafts> {
     return Drafts(
       id: serializer.fromJson<int>(json['id']),
       draftId: serializer.fromJson<int>(json['draftId']),
+      user: serializer.fromJson<int>(json['user']),
       book: serializer.fromJson<int>(json['book']),
       songNo: serializer.fromJson<int>(json['songNo']),
       title: serializer.fromJson<String>(json['title']),
@@ -593,6 +635,7 @@ class Drafts extends DataClass implements Insertable<Drafts> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'draftId': serializer.toJson<int>(draftId),
+      'user': serializer.toJson<int>(user),
       'book': serializer.toJson<int>(book),
       'songNo': serializer.toJson<int>(songNo),
       'title': serializer.toJson<String>(title),
@@ -610,6 +653,7 @@ class Drafts extends DataClass implements Insertable<Drafts> {
   Drafts copyWith(
           {int? id,
           int? draftId,
+          int? user,
           int? book,
           int? songNo,
           String? title,
@@ -624,6 +668,7 @@ class Drafts extends DataClass implements Insertable<Drafts> {
       Drafts(
         id: id ?? this.id,
         draftId: draftId ?? this.draftId,
+        user: user ?? this.user,
         book: book ?? this.book,
         songNo: songNo ?? this.songNo,
         title: title ?? this.title,
@@ -641,6 +686,7 @@ class Drafts extends DataClass implements Insertable<Drafts> {
     return (StringBuffer('Drafts(')
           ..write('id: $id, ')
           ..write('draftId: $draftId, ')
+          ..write('user: $user, ')
           ..write('book: $book, ')
           ..write('songNo: $songNo, ')
           ..write('title: $title, ')
@@ -657,7 +703,7 @@ class Drafts extends DataClass implements Insertable<Drafts> {
   }
 
   @override
-  int get hashCode => Object.hash(id, draftId, book, songNo, title, alias,
+  int get hashCode => Object.hash(id, draftId, user, book, songNo, title, alias,
       content, key, author, views, created, updated, liked);
   @override
   bool operator ==(Object other) =>
@@ -665,6 +711,7 @@ class Drafts extends DataClass implements Insertable<Drafts> {
       (other is Drafts &&
           other.id == this.id &&
           other.draftId == this.draftId &&
+          other.user == this.user &&
           other.book == this.book &&
           other.songNo == this.songNo &&
           other.title == this.title &&
@@ -681,6 +728,7 @@ class Drafts extends DataClass implements Insertable<Drafts> {
 class DraftsTableCompanion extends UpdateCompanion<Drafts> {
   final Value<int> id;
   final Value<int> draftId;
+  final Value<int> user;
   final Value<int> book;
   final Value<int> songNo;
   final Value<String> title;
@@ -695,6 +743,7 @@ class DraftsTableCompanion extends UpdateCompanion<Drafts> {
   const DraftsTableCompanion({
     this.id = const Value.absent(),
     this.draftId = const Value.absent(),
+    this.user = const Value.absent(),
     this.book = const Value.absent(),
     this.songNo = const Value.absent(),
     this.title = const Value.absent(),
@@ -710,6 +759,7 @@ class DraftsTableCompanion extends UpdateCompanion<Drafts> {
   DraftsTableCompanion.insert({
     this.id = const Value.absent(),
     this.draftId = const Value.absent(),
+    this.user = const Value.absent(),
     this.book = const Value.absent(),
     this.songNo = const Value.absent(),
     this.title = const Value.absent(),
@@ -725,6 +775,7 @@ class DraftsTableCompanion extends UpdateCompanion<Drafts> {
   static Insertable<Drafts> custom({
     Expression<int>? id,
     Expression<int>? draftId,
+    Expression<int>? user,
     Expression<int>? book,
     Expression<int>? songNo,
     Expression<String>? title,
@@ -740,6 +791,7 @@ class DraftsTableCompanion extends UpdateCompanion<Drafts> {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (draftId != null) 'draft_id': draftId,
+      if (user != null) 'user': user,
       if (book != null) 'book': book,
       if (songNo != null) 'song_no': songNo,
       if (title != null) 'title': title,
@@ -757,6 +809,7 @@ class DraftsTableCompanion extends UpdateCompanion<Drafts> {
   DraftsTableCompanion copyWith(
       {Value<int>? id,
       Value<int>? draftId,
+      Value<int>? user,
       Value<int>? book,
       Value<int>? songNo,
       Value<String>? title,
@@ -771,6 +824,7 @@ class DraftsTableCompanion extends UpdateCompanion<Drafts> {
     return DraftsTableCompanion(
       id: id ?? this.id,
       draftId: draftId ?? this.draftId,
+      user: user ?? this.user,
       book: book ?? this.book,
       songNo: songNo ?? this.songNo,
       title: title ?? this.title,
@@ -793,6 +847,9 @@ class DraftsTableCompanion extends UpdateCompanion<Drafts> {
     }
     if (draftId.present) {
       map['draft_id'] = Variable<int>(draftId.value);
+    }
+    if (user.present) {
+      map['user'] = Variable<int>(user.value);
     }
     if (book.present) {
       map['book'] = Variable<int>(book.value);
@@ -835,6 +892,7 @@ class DraftsTableCompanion extends UpdateCompanion<Drafts> {
     return (StringBuffer('DraftsTableCompanion(')
           ..write('id: $id, ')
           ..write('draftId: $draftId, ')
+          ..write('user: $user, ')
           ..write('book: $book, ')
           ..write('songNo: $songNo, ')
           ..write('title: $title, ')
@@ -868,6 +926,13 @@ class $DraftsTableTable extends DraftsTable
   @override
   late final GeneratedColumn<int?> draftId = GeneratedColumn<int?>(
       'draft_id', aliasedName, false,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
+  final VerificationMeta _userMeta = const VerificationMeta('user');
+  @override
+  late final GeneratedColumn<int?> user = GeneratedColumn<int?>(
+      'user', aliasedName, false,
       type: const IntType(),
       requiredDuringInsert: false,
       defaultValue: const Constant(0));
@@ -953,6 +1018,7 @@ class $DraftsTableTable extends DraftsTable
   List<GeneratedColumn> get $columns => [
         id,
         draftId,
+        user,
         book,
         songNo,
         title,
@@ -980,6 +1046,10 @@ class $DraftsTableTable extends DraftsTable
     if (data.containsKey('draft_id')) {
       context.handle(_draftIdMeta,
           draftId.isAcceptableOrUnknown(data['draft_id']!, _draftIdMeta));
+    }
+    if (data.containsKey('user')) {
+      context.handle(
+          _userMeta, user.isAcceptableOrUnknown(data['user']!, _userMeta));
     }
     if (data.containsKey('book')) {
       context.handle(
@@ -1045,6 +1115,7 @@ class $DraftsTableTable extends DraftsTable
 class Edits extends DataClass implements Insertable<Edits> {
   final int id;
   final int editId;
+  final int user;
   final String song;
   final int book;
   final int songNo;
@@ -1057,6 +1128,7 @@ class Edits extends DataClass implements Insertable<Edits> {
   Edits(
       {required this.id,
       required this.editId,
+      required this.user,
       required this.song,
       required this.book,
       required this.songNo,
@@ -1073,6 +1145,8 @@ class Edits extends DataClass implements Insertable<Edits> {
           .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
       editId: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}edit_id'])!,
+      user: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}user'])!,
       song: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}song'])!,
       book: const IntType()
@@ -1098,6 +1172,7 @@ class Edits extends DataClass implements Insertable<Edits> {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['edit_id'] = Variable<int>(editId);
+    map['user'] = Variable<int>(user);
     map['song'] = Variable<String>(song);
     map['book'] = Variable<int>(book);
     map['song_no'] = Variable<int>(songNo);
@@ -1114,6 +1189,7 @@ class Edits extends DataClass implements Insertable<Edits> {
     return EditsTableCompanion(
       id: Value(id),
       editId: Value(editId),
+      user: Value(user),
       song: Value(song),
       book: Value(book),
       songNo: Value(songNo),
@@ -1132,6 +1208,7 @@ class Edits extends DataClass implements Insertable<Edits> {
     return Edits(
       id: serializer.fromJson<int>(json['id']),
       editId: serializer.fromJson<int>(json['editId']),
+      user: serializer.fromJson<int>(json['user']),
       song: serializer.fromJson<String>(json['song']),
       book: serializer.fromJson<int>(json['book']),
       songNo: serializer.fromJson<int>(json['songNo']),
@@ -1149,6 +1226,7 @@ class Edits extends DataClass implements Insertable<Edits> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'editId': serializer.toJson<int>(editId),
+      'user': serializer.toJson<int>(user),
       'song': serializer.toJson<String>(song),
       'book': serializer.toJson<int>(book),
       'songNo': serializer.toJson<int>(songNo),
@@ -1164,6 +1242,7 @@ class Edits extends DataClass implements Insertable<Edits> {
   Edits copyWith(
           {int? id,
           int? editId,
+          int? user,
           String? song,
           int? book,
           int? songNo,
@@ -1176,6 +1255,7 @@ class Edits extends DataClass implements Insertable<Edits> {
       Edits(
         id: id ?? this.id,
         editId: editId ?? this.editId,
+        user: user ?? this.user,
         song: song ?? this.song,
         book: book ?? this.book,
         songNo: songNo ?? this.songNo,
@@ -1191,6 +1271,7 @@ class Edits extends DataClass implements Insertable<Edits> {
     return (StringBuffer('Edits(')
           ..write('id: $id, ')
           ..write('editId: $editId, ')
+          ..write('user: $user, ')
           ..write('song: $song, ')
           ..write('book: $book, ')
           ..write('songNo: $songNo, ')
@@ -1205,14 +1286,15 @@ class Edits extends DataClass implements Insertable<Edits> {
   }
 
   @override
-  int get hashCode => Object.hash(id, editId, song, book, songNo, title, alias,
-      content, key, created, updated);
+  int get hashCode => Object.hash(id, editId, user, song, book, songNo, title,
+      alias, content, key, created, updated);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is Edits &&
           other.id == this.id &&
           other.editId == this.editId &&
+          other.user == this.user &&
           other.song == this.song &&
           other.book == this.book &&
           other.songNo == this.songNo &&
@@ -1227,6 +1309,7 @@ class Edits extends DataClass implements Insertable<Edits> {
 class EditsTableCompanion extends UpdateCompanion<Edits> {
   final Value<int> id;
   final Value<int> editId;
+  final Value<int> user;
   final Value<String> song;
   final Value<int> book;
   final Value<int> songNo;
@@ -1239,6 +1322,7 @@ class EditsTableCompanion extends UpdateCompanion<Edits> {
   const EditsTableCompanion({
     this.id = const Value.absent(),
     this.editId = const Value.absent(),
+    this.user = const Value.absent(),
     this.song = const Value.absent(),
     this.book = const Value.absent(),
     this.songNo = const Value.absent(),
@@ -1252,6 +1336,7 @@ class EditsTableCompanion extends UpdateCompanion<Edits> {
   EditsTableCompanion.insert({
     this.id = const Value.absent(),
     this.editId = const Value.absent(),
+    this.user = const Value.absent(),
     this.song = const Value.absent(),
     this.book = const Value.absent(),
     this.songNo = const Value.absent(),
@@ -1265,6 +1350,7 @@ class EditsTableCompanion extends UpdateCompanion<Edits> {
   static Insertable<Edits> custom({
     Expression<int>? id,
     Expression<int>? editId,
+    Expression<int>? user,
     Expression<String>? song,
     Expression<int>? book,
     Expression<int>? songNo,
@@ -1278,6 +1364,7 @@ class EditsTableCompanion extends UpdateCompanion<Edits> {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (editId != null) 'edit_id': editId,
+      if (user != null) 'user': user,
       if (song != null) 'song': song,
       if (book != null) 'book': book,
       if (songNo != null) 'song_no': songNo,
@@ -1293,6 +1380,7 @@ class EditsTableCompanion extends UpdateCompanion<Edits> {
   EditsTableCompanion copyWith(
       {Value<int>? id,
       Value<int>? editId,
+      Value<int>? user,
       Value<String>? song,
       Value<int>? book,
       Value<int>? songNo,
@@ -1305,6 +1393,7 @@ class EditsTableCompanion extends UpdateCompanion<Edits> {
     return EditsTableCompanion(
       id: id ?? this.id,
       editId: editId ?? this.editId,
+      user: user ?? this.user,
       song: song ?? this.song,
       book: book ?? this.book,
       songNo: songNo ?? this.songNo,
@@ -1325,6 +1414,9 @@ class EditsTableCompanion extends UpdateCompanion<Edits> {
     }
     if (editId.present) {
       map['edit_id'] = Variable<int>(editId.value);
+    }
+    if (user.present) {
+      map['user'] = Variable<int>(user.value);
     }
     if (song.present) {
       map['song'] = Variable<String>(song.value);
@@ -1361,6 +1453,7 @@ class EditsTableCompanion extends UpdateCompanion<Edits> {
     return (StringBuffer('EditsTableCompanion(')
           ..write('id: $id, ')
           ..write('editId: $editId, ')
+          ..write('user: $user, ')
           ..write('song: $song, ')
           ..write('book: $book, ')
           ..write('songNo: $songNo, ')
@@ -1392,6 +1485,13 @@ class $EditsTableTable extends EditsTable
   @override
   late final GeneratedColumn<int?> editId = GeneratedColumn<int?>(
       'edit_id', aliasedName, false,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
+  final VerificationMeta _userMeta = const VerificationMeta('user');
+  @override
+  late final GeneratedColumn<int?> user = GeneratedColumn<int?>(
+      'user', aliasedName, false,
       type: const IntType(),
       requiredDuringInsert: false,
       defaultValue: const Constant(0));
@@ -1462,6 +1562,7 @@ class $EditsTableTable extends EditsTable
   List<GeneratedColumn> get $columns => [
         id,
         editId,
+        user,
         song,
         book,
         songNo,
@@ -1487,6 +1588,10 @@ class $EditsTableTable extends EditsTable
     if (data.containsKey('edit_id')) {
       context.handle(_editIdMeta,
           editId.isAcceptableOrUnknown(data['edit_id']!, _editIdMeta));
+    }
+    if (data.containsKey('user')) {
+      context.handle(
+          _userMeta, user.isAcceptableOrUnknown(data['user']!, _userMeta));
     }
     if (data.containsKey('song')) {
       context.handle(
@@ -1788,6 +1893,7 @@ class $HistorysTableTable extends HistorysTable
 class Listeds extends DataClass implements Insertable<Listeds> {
   final int id;
   final int listedId;
+  final int user;
   final int parentid;
   final int song;
   final String title;
@@ -1798,6 +1904,7 @@ class Listeds extends DataClass implements Insertable<Listeds> {
   Listeds(
       {required this.id,
       required this.listedId,
+      required this.user,
       required this.parentid,
       required this.song,
       required this.title,
@@ -1812,6 +1919,8 @@ class Listeds extends DataClass implements Insertable<Listeds> {
           .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
       listedId: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}listed_id'])!,
+      user: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}user'])!,
       parentid: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}parentid'])!,
       song: const IntType()
@@ -1833,6 +1942,7 @@ class Listeds extends DataClass implements Insertable<Listeds> {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['listed_id'] = Variable<int>(listedId);
+    map['user'] = Variable<int>(user);
     map['parentid'] = Variable<int>(parentid);
     map['song'] = Variable<int>(song);
     map['title'] = Variable<String>(title);
@@ -1847,6 +1957,7 @@ class Listeds extends DataClass implements Insertable<Listeds> {
     return ListedsTableCompanion(
       id: Value(id),
       listedId: Value(listedId),
+      user: Value(user),
       parentid: Value(parentid),
       song: Value(song),
       title: Value(title),
@@ -1863,6 +1974,7 @@ class Listeds extends DataClass implements Insertable<Listeds> {
     return Listeds(
       id: serializer.fromJson<int>(json['id']),
       listedId: serializer.fromJson<int>(json['listedId']),
+      user: serializer.fromJson<int>(json['user']),
       parentid: serializer.fromJson<int>(json['parentid']),
       song: serializer.fromJson<int>(json['song']),
       title: serializer.fromJson<String>(json['title']),
@@ -1878,6 +1990,7 @@ class Listeds extends DataClass implements Insertable<Listeds> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'listedId': serializer.toJson<int>(listedId),
+      'user': serializer.toJson<int>(user),
       'parentid': serializer.toJson<int>(parentid),
       'song': serializer.toJson<int>(song),
       'title': serializer.toJson<String>(title),
@@ -1891,6 +2004,7 @@ class Listeds extends DataClass implements Insertable<Listeds> {
   Listeds copyWith(
           {int? id,
           int? listedId,
+          int? user,
           int? parentid,
           int? song,
           String? title,
@@ -1901,6 +2015,7 @@ class Listeds extends DataClass implements Insertable<Listeds> {
       Listeds(
         id: id ?? this.id,
         listedId: listedId ?? this.listedId,
+        user: user ?? this.user,
         parentid: parentid ?? this.parentid,
         song: song ?? this.song,
         title: title ?? this.title,
@@ -1914,6 +2029,7 @@ class Listeds extends DataClass implements Insertable<Listeds> {
     return (StringBuffer('Listeds(')
           ..write('id: $id, ')
           ..write('listedId: $listedId, ')
+          ..write('user: $user, ')
           ..write('parentid: $parentid, ')
           ..write('song: $song, ')
           ..write('title: $title, ')
@@ -1926,7 +2042,7 @@ class Listeds extends DataClass implements Insertable<Listeds> {
   }
 
   @override
-  int get hashCode => Object.hash(id, listedId, parentid, song, title,
+  int get hashCode => Object.hash(id, listedId, user, parentid, song, title,
       description, position, created, updated);
   @override
   bool operator ==(Object other) =>
@@ -1934,6 +2050,7 @@ class Listeds extends DataClass implements Insertable<Listeds> {
       (other is Listeds &&
           other.id == this.id &&
           other.listedId == this.listedId &&
+          other.user == this.user &&
           other.parentid == this.parentid &&
           other.song == this.song &&
           other.title == this.title &&
@@ -1946,6 +2063,7 @@ class Listeds extends DataClass implements Insertable<Listeds> {
 class ListedsTableCompanion extends UpdateCompanion<Listeds> {
   final Value<int> id;
   final Value<int> listedId;
+  final Value<int> user;
   final Value<int> parentid;
   final Value<int> song;
   final Value<String> title;
@@ -1956,6 +2074,7 @@ class ListedsTableCompanion extends UpdateCompanion<Listeds> {
   const ListedsTableCompanion({
     this.id = const Value.absent(),
     this.listedId = const Value.absent(),
+    this.user = const Value.absent(),
     this.parentid = const Value.absent(),
     this.song = const Value.absent(),
     this.title = const Value.absent(),
@@ -1967,6 +2086,7 @@ class ListedsTableCompanion extends UpdateCompanion<Listeds> {
   ListedsTableCompanion.insert({
     this.id = const Value.absent(),
     this.listedId = const Value.absent(),
+    this.user = const Value.absent(),
     this.parentid = const Value.absent(),
     this.song = const Value.absent(),
     this.title = const Value.absent(),
@@ -1978,6 +2098,7 @@ class ListedsTableCompanion extends UpdateCompanion<Listeds> {
   static Insertable<Listeds> custom({
     Expression<int>? id,
     Expression<int>? listedId,
+    Expression<int>? user,
     Expression<int>? parentid,
     Expression<int>? song,
     Expression<String>? title,
@@ -1989,6 +2110,7 @@ class ListedsTableCompanion extends UpdateCompanion<Listeds> {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (listedId != null) 'listed_id': listedId,
+      if (user != null) 'user': user,
       if (parentid != null) 'parentid': parentid,
       if (song != null) 'song': song,
       if (title != null) 'title': title,
@@ -2002,6 +2124,7 @@ class ListedsTableCompanion extends UpdateCompanion<Listeds> {
   ListedsTableCompanion copyWith(
       {Value<int>? id,
       Value<int>? listedId,
+      Value<int>? user,
       Value<int>? parentid,
       Value<int>? song,
       Value<String>? title,
@@ -2012,6 +2135,7 @@ class ListedsTableCompanion extends UpdateCompanion<Listeds> {
     return ListedsTableCompanion(
       id: id ?? this.id,
       listedId: listedId ?? this.listedId,
+      user: user ?? this.user,
       parentid: parentid ?? this.parentid,
       song: song ?? this.song,
       title: title ?? this.title,
@@ -2030,6 +2154,9 @@ class ListedsTableCompanion extends UpdateCompanion<Listeds> {
     }
     if (listedId.present) {
       map['listed_id'] = Variable<int>(listedId.value);
+    }
+    if (user.present) {
+      map['user'] = Variable<int>(user.value);
     }
     if (parentid.present) {
       map['parentid'] = Variable<int>(parentid.value);
@@ -2060,6 +2187,7 @@ class ListedsTableCompanion extends UpdateCompanion<Listeds> {
     return (StringBuffer('ListedsTableCompanion(')
           ..write('id: $id, ')
           ..write('listedId: $listedId, ')
+          ..write('user: $user, ')
           ..write('parentid: $parentid, ')
           ..write('song: $song, ')
           ..write('title: $title, ')
@@ -2089,6 +2217,13 @@ class $ListedsTableTable extends ListedsTable
   @override
   late final GeneratedColumn<int?> listedId = GeneratedColumn<int?>(
       'listed_id', aliasedName, false,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
+  final VerificationMeta _userMeta = const VerificationMeta('user');
+  @override
+  late final GeneratedColumn<int?> user = GeneratedColumn<int?>(
+      'user', aliasedName, false,
       type: const IntType(),
       requiredDuringInsert: false,
       defaultValue: const Constant(0));
@@ -2146,6 +2281,7 @@ class $ListedsTableTable extends ListedsTable
   List<GeneratedColumn> get $columns => [
         id,
         listedId,
+        user,
         parentid,
         song,
         title,
@@ -2169,6 +2305,10 @@ class $ListedsTableTable extends ListedsTable
     if (data.containsKey('listed_id')) {
       context.handle(_listedIdMeta,
           listedId.isAcceptableOrUnknown(data['listed_id']!, _listedIdMeta));
+    }
+    if (data.containsKey('user')) {
+      context.handle(
+          _userMeta, user.isAcceptableOrUnknown(data['user']!, _userMeta));
     }
     if (data.containsKey('parentid')) {
       context.handle(_parentidMeta,
@@ -2464,6 +2604,7 @@ class $SearchsTableTable extends SearchsTable
 class Songs extends DataClass implements Insertable<Songs> {
   final int id;
   final int songId;
+  final int user;
   final int book;
   final int songNo;
   final String title;
@@ -2479,6 +2620,7 @@ class Songs extends DataClass implements Insertable<Songs> {
   Songs(
       {required this.id,
       required this.songId,
+      required this.user,
       required this.book,
       required this.songNo,
       required this.title,
@@ -2498,6 +2640,8 @@ class Songs extends DataClass implements Insertable<Songs> {
           .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
       songId: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}song_id'])!,
+      user: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}user'])!,
       book: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}book'])!,
       songNo: const IntType()
@@ -2529,6 +2673,7 @@ class Songs extends DataClass implements Insertable<Songs> {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['song_id'] = Variable<int>(songId);
+    map['user'] = Variable<int>(user);
     map['book'] = Variable<int>(book);
     map['song_no'] = Variable<int>(songNo);
     map['title'] = Variable<String>(title);
@@ -2548,6 +2693,7 @@ class Songs extends DataClass implements Insertable<Songs> {
     return SongsTableCompanion(
       id: Value(id),
       songId: Value(songId),
+      user: Value(user),
       book: Value(book),
       songNo: Value(songNo),
       title: Value(title),
@@ -2569,6 +2715,7 @@ class Songs extends DataClass implements Insertable<Songs> {
     return Songs(
       id: serializer.fromJson<int>(json['id']),
       songId: serializer.fromJson<int>(json['songId']),
+      user: serializer.fromJson<int>(json['user']),
       book: serializer.fromJson<int>(json['book']),
       songNo: serializer.fromJson<int>(json['songNo']),
       title: serializer.fromJson<String>(json['title']),
@@ -2589,6 +2736,7 @@ class Songs extends DataClass implements Insertable<Songs> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'songId': serializer.toJson<int>(songId),
+      'user': serializer.toJson<int>(user),
       'book': serializer.toJson<int>(book),
       'songNo': serializer.toJson<int>(songNo),
       'title': serializer.toJson<String>(title),
@@ -2607,6 +2755,7 @@ class Songs extends DataClass implements Insertable<Songs> {
   Songs copyWith(
           {int? id,
           int? songId,
+          int? user,
           int? book,
           int? songNo,
           String? title,
@@ -2622,6 +2771,7 @@ class Songs extends DataClass implements Insertable<Songs> {
       Songs(
         id: id ?? this.id,
         songId: songId ?? this.songId,
+        user: user ?? this.user,
         book: book ?? this.book,
         songNo: songNo ?? this.songNo,
         title: title ?? this.title,
@@ -2640,6 +2790,7 @@ class Songs extends DataClass implements Insertable<Songs> {
     return (StringBuffer('Songs(')
           ..write('id: $id, ')
           ..write('songId: $songId, ')
+          ..write('user: $user, ')
           ..write('book: $book, ')
           ..write('songNo: $songNo, ')
           ..write('title: $title, ')
@@ -2657,7 +2808,7 @@ class Songs extends DataClass implements Insertable<Songs> {
   }
 
   @override
-  int get hashCode => Object.hash(id, songId, book, songNo, title, alias,
+  int get hashCode => Object.hash(id, songId, user, book, songNo, title, alias,
       content, key, author, views, likes, created, updated, liked);
   @override
   bool operator ==(Object other) =>
@@ -2665,6 +2816,7 @@ class Songs extends DataClass implements Insertable<Songs> {
       (other is Songs &&
           other.id == this.id &&
           other.songId == this.songId &&
+          other.user == this.user &&
           other.book == this.book &&
           other.songNo == this.songNo &&
           other.title == this.title &&
@@ -2682,6 +2834,7 @@ class Songs extends DataClass implements Insertable<Songs> {
 class SongsTableCompanion extends UpdateCompanion<Songs> {
   final Value<int> id;
   final Value<int> songId;
+  final Value<int> user;
   final Value<int> book;
   final Value<int> songNo;
   final Value<String> title;
@@ -2697,6 +2850,7 @@ class SongsTableCompanion extends UpdateCompanion<Songs> {
   const SongsTableCompanion({
     this.id = const Value.absent(),
     this.songId = const Value.absent(),
+    this.user = const Value.absent(),
     this.book = const Value.absent(),
     this.songNo = const Value.absent(),
     this.title = const Value.absent(),
@@ -2713,6 +2867,7 @@ class SongsTableCompanion extends UpdateCompanion<Songs> {
   SongsTableCompanion.insert({
     this.id = const Value.absent(),
     this.songId = const Value.absent(),
+    this.user = const Value.absent(),
     this.book = const Value.absent(),
     this.songNo = const Value.absent(),
     this.title = const Value.absent(),
@@ -2729,6 +2884,7 @@ class SongsTableCompanion extends UpdateCompanion<Songs> {
   static Insertable<Songs> custom({
     Expression<int>? id,
     Expression<int>? songId,
+    Expression<int>? user,
     Expression<int>? book,
     Expression<int>? songNo,
     Expression<String>? title,
@@ -2745,6 +2901,7 @@ class SongsTableCompanion extends UpdateCompanion<Songs> {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (songId != null) 'song_id': songId,
+      if (user != null) 'user': user,
       if (book != null) 'book': book,
       if (songNo != null) 'song_no': songNo,
       if (title != null) 'title': title,
@@ -2763,6 +2920,7 @@ class SongsTableCompanion extends UpdateCompanion<Songs> {
   SongsTableCompanion copyWith(
       {Value<int>? id,
       Value<int>? songId,
+      Value<int>? user,
       Value<int>? book,
       Value<int>? songNo,
       Value<String>? title,
@@ -2778,6 +2936,7 @@ class SongsTableCompanion extends UpdateCompanion<Songs> {
     return SongsTableCompanion(
       id: id ?? this.id,
       songId: songId ?? this.songId,
+      user: user ?? this.user,
       book: book ?? this.book,
       songNo: songNo ?? this.songNo,
       title: title ?? this.title,
@@ -2801,6 +2960,9 @@ class SongsTableCompanion extends UpdateCompanion<Songs> {
     }
     if (songId.present) {
       map['song_id'] = Variable<int>(songId.value);
+    }
+    if (user.present) {
+      map['user'] = Variable<int>(user.value);
     }
     if (book.present) {
       map['book'] = Variable<int>(book.value);
@@ -2846,6 +3008,7 @@ class SongsTableCompanion extends UpdateCompanion<Songs> {
     return (StringBuffer('SongsTableCompanion(')
           ..write('id: $id, ')
           ..write('songId: $songId, ')
+          ..write('user: $user, ')
           ..write('book: $book, ')
           ..write('songNo: $songNo, ')
           ..write('title: $title, ')
@@ -2880,6 +3043,13 @@ class $SongsTableTable extends SongsTable
   @override
   late final GeneratedColumn<int?> songId = GeneratedColumn<int?>(
       'song_id', aliasedName, false,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
+  final VerificationMeta _userMeta = const VerificationMeta('user');
+  @override
+  late final GeneratedColumn<int?> user = GeneratedColumn<int?>(
+      'user', aliasedName, false,
       type: const IntType(),
       requiredDuringInsert: false,
       defaultValue: const Constant(0));
@@ -2972,6 +3142,7 @@ class $SongsTableTable extends SongsTable
   List<GeneratedColumn> get $columns => [
         id,
         songId,
+        user,
         book,
         songNo,
         title,
@@ -3000,6 +3171,10 @@ class $SongsTableTable extends SongsTable
     if (data.containsKey('song_id')) {
       context.handle(_songIdMeta,
           songId.isAcceptableOrUnknown(data['song_id']!, _songIdMeta));
+    }
+    if (data.containsKey('user')) {
+      context.handle(
+          _userMeta, user.isAcceptableOrUnknown(data['user']!, _userMeta));
     }
     if (data.containsKey('book')) {
       context.handle(
