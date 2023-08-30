@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer' as logger show log;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -133,11 +134,11 @@ class SelectionVm with ChangeNotifier {
     notifyListeners();
 
     localStorage.setPrefString(PrefConstants.selectedBooksKey, selectedBooks);
-    fetchSongs();
+    fetchAndSaveSongs();
   }
 
   /// Get the list of songs and save them
-  Future<void> fetchSongs() async {
+  Future<void> fetchAndSaveSongs() async {
     currentPage = 1;
     isBusy = true;
     notifyListeners();
@@ -153,7 +154,6 @@ class SelectionVm with ChangeNotifier {
 
       if (songs!.isNotEmpty) {
         for (int i = 0; i < songs!.length; i++) {
-          Song song = songs![i];
           try {
             progress = (i / songs!.length * 100).toInt();
 
@@ -180,13 +180,15 @@ class SelectionVm with ChangeNotifier {
                 state = "Finishing up";
                 break;
               case 95:
-                state = "Almost done";
+                state = "Almost done ...";
                 break;
             }
             notifyListeners();
 
-            await db.saveSong(song);
-          } catch (_) {}
+            await db.saveSong(songs![i]);
+          } catch (e) {
+            logger.log(e.toString());
+          }
         }
       }
     } else if (response.statusCode == 404) {
@@ -201,49 +203,6 @@ class SelectionVm with ChangeNotifier {
     } else {
       manageFeedBack(false, true, '', resp['statusMessage']);
     }
-  }
-
-  /// Get the list of songs and save theme
-  Future<void> saveSongs() async {
-    isBusy = false;
-    notifyListeners();
-
-    if (songs!.isNotEmpty) {
-      for (int i = 0; i < songs!.length; i++) {
-        try {
-          progress = (i / songs!.length * 100).toInt();
-          switch (progress) {
-            case 1:
-              state = "On your\nmarks ...";
-              break;
-            case 5:
-              state = "Set,\nReady ...";
-              break;
-            case 10:
-              state = "Loading\nsongs ...";
-              break;
-            case 20:
-              state = "Patience\npays ...";
-              break;
-            case 40:
-              state = "Loading\nsongs ...";
-              break;
-            case 75:
-              state = "Thanks for\nyour patience!";
-              break;
-            case 85:
-              state = "Finishing up";
-              break;
-            case 95:
-              state = "Almost done";
-              break;
-          }
-          notifyListeners();
-
-          await db.saveSong(songs![i]);
-        } catch (_) {}
-      }
-    }
 
     localStorage.setPrefBool(PrefConstants.dataLoadedCheckKey, true);
     localStorage.setPrefBool(PrefConstants.wakeLockCheckKey, true);
@@ -253,7 +212,7 @@ class SelectionVm with ChangeNotifier {
     } else {
       navigator.goToOnboarding();
     }*/
-    navigator.goToHome();
+    //navigator.goToHome();
   }
 }
 
