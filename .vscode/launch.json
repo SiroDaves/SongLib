@@ -5,9 +5,9 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "songs",
+            "name": "songlib",
             "request": "launch",
             "type": "dart"
-        },
+        }
     ]
 }

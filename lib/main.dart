@@ -10,7 +10,7 @@ import 'di/environments.dart';
 import 'di/injectable.dart';
 import 'navigator/main_navigator.dart';
 import 'theme/theme_data.dart';
-import 'viewmodels/app_viewmodel.dart';
+import 'viewmodels/global_vm.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,19 +25,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MyApplication();
-    /*return FutureBuilder<SharedPreferences>(
-      future: SharedPreferences.getInstance(),
-      builder:
-          (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
-        if (!snapshot.hasData) {
-          return const SizedBox();
-        }
-        return ChangeNotifierProvider<AppViewModel>.value(
-          value: AppViewModel(snapshot.data!),
-          child: const MyApplication(),
-        );
-      },
-    );*/
   }
 }
 
@@ -50,7 +37,7 @@ class MyApplication extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<AppViewModel>(
+    return ChangeNotifierProvider<AppVm>(
       lazy: false,
       create: (_) => GetIt.I()..init(context),
       builder: (context, child) => MaterialApp(
@@ -62,9 +49,7 @@ class MyApplication extends StatelessWidget {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: const [Locale('en'), Locale('sw')],
-        theme: Provider.of<AppViewModel>(context).isDarkMode
-            ? asDarkTheme
-            : asLightTheme,
+        theme: AppThemeData.mainTheme,
         navigatorKey: MainNavigatorState.navigationKey,
         initialRoute: MainNavigatorState.initialRoute,
         onGenerateRoute: MainNavigatorState.onGenerateRoute,
