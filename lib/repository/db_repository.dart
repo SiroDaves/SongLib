@@ -1,5 +1,3 @@
-import 'dart:developer' as logger show log;
-
 import 'package:injectable/injectable.dart';
 
 import '../db/dao/app_dao.dart';
@@ -88,247 +86,107 @@ class DbRepo implements DbRepository {
   );
 
   @override
-  Future<void> checkAppDatabase() async {
-    await appDao.checkAppDatabase();
-  }
+  Future<void> checkAppDatabase() async => await appDao.checkAppDatabase();
 
   @override
-  Future<List<Book>> fetchBooks() async {
-    try {
-      return await bookDao.getAllBooks();
-    } catch (e) {
-      logger.log(e.toString());
-      return [];
-    }
-  }
+  Future<List<Book>> fetchBooks() async => await bookDao.getAllBooks();
 
   @override
-  Future<List<Draft>> fetchDrafts() async {
-    try {
-      return await draftDao.getAllDrafts();
-    } catch (e) {
-      logger.log(e.toString());
-      return [];
-    }
-  }
+  Future<List<Draft>> fetchDrafts() async => await draftDao.getAllDrafts();
 
   @override
-  Future<List<HistoryExt>> fetchHistories() async {
-    try {
-      return await historyDao.getAllHistories();
-    } catch (e) {
-      logger.log(e.toString());
-      return [];
-    }
-  }
+  Future<List<HistoryExt>> fetchHistories() async =>
+      await historyDao.getAllHistories();
 
   @override
-  Future<List<Listed>> fetchListeds() async {
-    try {
-      return await listedDao.getAllListeds();
-    } catch (e) {
-      logger.log(e.toString());
-      return [];
-    }
-  }
+  Future<List<Listed>> fetchListeds() async => await listedDao.getAllListeds();
 
   @override
-  Future<List<ListedExt>> fetchListedSongs(int parentid) async {
-    try {
-      return await listedDao.getListedSongs(parentid);
-    } catch (e) {
-      logger.log(e.toString());
-      return [];
-    }
-  }
+  Future<List<ListedExt>> fetchListedSongs(int parentid) async =>
+      await listedDao.getListedSongs(parentid);
 
   @override
-  Future<List<Search>> fetchSearches() async {
-    try {
-      return await searchDao.getAllSearches();
-    } catch (e) {
-      logger.log(e.toString());
-      return [];
-    }
-  }
+  Future<List<Search>> fetchSearches() async =>
+      await searchDao.getAllSearches();
 
   @override
-  Future<List<SongExt>> fetchSongs() async {
-    try {
-      return await songDao.getAllSongs();
-    } catch (e) {
-      logger.log(e.toString());
-      return [];
-    }
-  }
+  Future<List<SongExt>> fetchSongs() async => await songDao.getAllSongs();
 
   @override
-  Future<List<Edit>> fetchEdits() async {
-    try {
-      return await editDao.getAllEdits();
-    } catch (e) {
-      logger.log(e.toString());
-      return [];
-    }
-  }
+  Future<List<Edit>> fetchEdits() async => await editDao.getAllEdits();
 
   @override
-  Future<List<SongExt>> fetchLikedSongs() async {
-    try {
-      return await songDao.getLikedSongs();
-    } catch (e) {
-      logger.log(e.toString());
-      return [];
-    }
-  }
+  Future<List<SongExt>> fetchLikedSongs() async =>
+      await songDao.getLikedSongs();
 
   @override
-  Future<void> saveBook(Book book) async {
-    try {
-      await bookDao.createBook(book);
-    } catch (e) {
-      logger.log(e.toString());
-    }
-  }
+  Future<void> saveBook(Book book) async => await bookDao.createBook(book);
 
   @override
-  Future<void> saveSong(Song song) async {
-    try {
-      await songDao.createSong(song);
-    } catch (e) {
-      logger.log(e.toString());
-    }
-  }
+  Future<void> saveSong(Song song) async => await songDao.createSong(song);
 
   @override
-  Future<void> saveDraft(Draft draft) async {
-    try {
+  Future<void> saveDraft(Draft draft) async =>
       await draftDao.createDraft(draft: draft, isSimple: true);
-    } catch (e) {
-      logger.log(e.toString());
-    }
-  }
 
   @override
-  Future<int> saveListed(Listed listed) async {
-    try {
-      return await listedDao.createListed(listed);
-    } catch (e) {
-      logger.log(e.toString());
-      return 0;
-    }
-  }
+  Future<int> saveListed(Listed listed) async =>
+      await listedDao.createListed(listed);
 
   @override
-  Future<void> saveEdit(Edit edit) async {
-    try {
-      await editDao.createEdit(edit);
-    } catch (e) {
-      logger.log(e.toString());
-    }
-  }
+  Future<void> saveEdit(Edit edit) async => await editDao.createEdit(edit);
 
   @override
   Future<void> saveListedSong(Listed listed, SongExt song) async {
-    try {
-      await listedDao.updateListed(listed);
-      return await listedDao.createListedSong(listed, song);
-    } catch (e) {
-      logger.log(e.toString());
-    }
+    await listedDao.updateListed(listed);
+    return await listedDao.createListedSong(listed, song);
   }
 
   @override
-  Future<void> saveHistory(History history) async {
-    try {
-      return await historyDao.createHistory(history);
-    } catch (e) {
-      logger.log(e.toString());
-    }
-  }
+  Future<void> saveHistory(History history) async =>
+      await historyDao.createHistory(history);
 
   @override
   Future<void> editSong(SongExt song) async {
-    try {
-      await editDao.createEdit(
-        Edit(
-          song: song.objectId,
-          book: song.book,
-          songNo: song.songNo,
-          title: song.title,
-          content: song.content,
-          key: song.key,
-          alias: song.alias,
-        ),
-      );
-      await songDao.updateSong(song);
-    } catch (e) {
-      logger.log(e.toString());
-    }
+    await editDao.createEdit(
+      Edit(
+        song: song.objectId,
+        book: song.book,
+        songNo: song.songNo,
+        title: song.title,
+        content: song.content,
+        key: song.key,
+        alias: song.alias,
+      ),
+    );
+    await songDao.updateSong(song);
   }
 
   @override
-  Future<void> editDraft(Draft draft) async {
-    try {
+  Future<void> editDraft(Draft draft) async =>
       await draftDao.updateDraft(draft);
-    } catch (e) {
-      logger.log(e.toString());
-    }
-  }
 
   @override
-  Future<void> editListed(Listed listed) async {
-    try {
+  Future<void> editListed(Listed listed) async =>
       await listedDao.updateListed(listed);
-    } catch (e) {
-      logger.log(e.toString());
-    }
-  }
 
   @override
-  Future<void> removeBooks() async {
-    try {
-      await bookDao.deleteBooks();
-    } catch (e) {
-      logger.log(e.toString());
-    }
-  }
+  Future<void> removeBooks() async => await bookDao.deleteBooks();
 
   @override
-  Future<void> removeDraft(Draft draft) async {
-    try {
+  Future<void> removeDraft(Draft draft) async =>
       await draftDao.deleteDraft(draft);
-    } catch (e) {
-      logger.log(e.toString());
-    }
-  }
 
   @override
-  Future<void> removeEdit(Edit edit) async {
-    try {
-      await editDao.deleteEdit(edit);
-    } catch (e) {
-      logger.log(e.toString());
-    }
-  }
+  Future<void> removeEdit(Edit edit) async => await editDao.deleteEdit(edit);
 
   @override
-  Future<void> removeListed(Listed listed) async {
-    try {
+  Future<void> removeListed(Listed listed) async =>
       await listedDao.deleteListed(listed);
-    } catch (e) {
-      logger.log(e.toString());
-    }
-  }
 
   @override
-  Future<void> removeListedSongs(Listed listed) async {
-    try {
+  Future<void> removeListedSongs(Listed listed) async =>
       await listedDao.deleteListedSongs(listed);
-    } catch (e) {
-      logger.log(e.toString());
-    }
-  }
 
   @override
   Future<void> majorCleanUp(String selectedBooks) async {

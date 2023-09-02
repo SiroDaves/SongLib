@@ -1,5 +1,5 @@
-import 'package:drift/drift.dart';
 import 'dart:developer' as logger show log;
+import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../model/base/book.dart';
@@ -66,7 +66,7 @@ class _BookDao extends DatabaseAccessor<AppDatabase>
     ).first;
   }
 
-  @override
+  /*@override
   Future<void> createBook(Book book) => into(db.booksTable).insert(
         BooksTableCompanion.insert(
           bookId: Value(book.bookId!),
@@ -77,8 +77,36 @@ class _BookDao extends DatabaseAccessor<AppDatabase>
           songs: Value(book.songs!),
           position: Value(book.position!),
           created: Value(book.created!),
+          updated: Value(book.updated!),
         ),
+      );*/
+
+  @override
+  Future<int> createBook(Book book) async {
+    int result = 0;
+    String sqlString = "INSERT INTO ${db.booksTable.actualTableName} "
+        "(${db.booksTable.bookId.name}, ${db.booksTable.bookNo.name}, ${db.booksTable.enabled.name}, ${db.booksTable.title.name}, "
+        "${db.booksTable.subTitle.name}, ${db.booksTable.songs.name}, ${db.booksTable.position.name}, ${db.booksTable.created.name}, ${db.booksTable.updated.name}) "
+        "VALUES (${book.bookId}, ${book.bookNo}, ${book.enabled}, ${book.title}, ${book.subTitle}, ${book.songs}, ${book.position}, ${book.created}, ${book.updated});";
+    logger.log('Generated SQL: $sqlString');
+    try {
+      final sqlStatement = BooksTableCompanion.insert(
+        bookId: Value(book.bookId!),
+        bookNo: Value(book.bookNo!),
+        enabled: Value(book.enabled!),
+        title: Value(book.title!),
+        subTitle: Value(book.subTitle!),
+        songs: Value(book.songs!),
+        position: Value(book.position!),
+        created: Value(book.created!),
+        updated: Value(book.updated ?? ''),
       );
+      result = await into(db.booksTable).insert(sqlStatement);
+    } catch (e) {
+      logger.log(e.toString());
+    }
+    return result;
+  }
 
   @override
   Future<void> updateBook(Book book) =>

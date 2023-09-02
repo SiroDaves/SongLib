@@ -73,6 +73,7 @@ class HomeVm with ChangeNotifier {
     timeInstalled = localStorage.getPrefString(PrefConstants.dateInstalledKey);
     var dateValue = DateTime.parse(timeInstalled);
     dateDiff = DateTime.now().difference(dateValue).inDays;
+    
     /*if (!shownUpdateHint) {
       var result = await FlutterPlatformAlert.showCustomAlert(
         windowTitle: tr!.hintsCurrentUpdate,

@@ -53,9 +53,9 @@ class SplashScreenState extends State<SplashScreen> implements SplashNavigator {
             ],
           );
 
-          var appDevelopers = Row(
+          var appDevelopers = const Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               // Names app developers in splash screen
               Text(
                 AppConstants.appCredits1,

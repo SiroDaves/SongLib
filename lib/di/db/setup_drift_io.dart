@@ -1,3 +1,4 @@
+import 'dart:developer' as logger show log;
 import 'dart:io';
 import 'dart:isolate';
 
@@ -23,7 +24,7 @@ Future<DatabaseConnection> createDriftDatabaseConnection(String name) async {
     _startBackground,
     _IsolateStartRequest(receivePort.sendPort, file.path),
   );
-
+  logger.log('Opening DB $file');
   final isolate = await receivePort.first as DriftIsolate;
   return isolate.connect();
 }

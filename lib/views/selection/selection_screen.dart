@@ -74,11 +74,10 @@ Future<void> areYouDoneDialog(BuildContext context, SelectionVm vm) async {
     );
     if (result == CustomButton.positiveButton) vm.saveBooks();
   } else {
-    await FlutterPlatformAlert.showCustomAlert(
+    await FlutterPlatformAlert.showAlert(
       windowTitle: tr.noSelection,
       text: tr.noSelectionBody,
       iconStyle: IconStyle.warning,
-      neutralButtonTitle: tr.okay,
     );
   }
 }

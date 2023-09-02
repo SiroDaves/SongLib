@@ -4,13 +4,13 @@ import 'dart:developer' as logger show log;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:injectable/injectable.dart';
-import 'package:songlib/repository/web_repository.dart';
 
 import '../../model/base/book.dart';
 import '../../model/base/song.dart';
 import '../../model/general/general.dart';
 import '../../repository/db_repository.dart';
 import '../../repository/local_storage.dart';
+import '../../repository/web_repository.dart';
 import '../../utils/constants/pref_constants.dart';
 
 @injectable
@@ -42,7 +42,7 @@ class SelectionVm with ChangeNotifier {
 
     selectedBooks = localStorage.getPrefString(PrefConstants.selectedBooksKey);
     if (selectedBooks.isNotEmpty) {
-      //bookNos = selectedBooks.split(",");
+      bookNos = selectedBooks.split(",").cast<int>();
     }
     await fetchBooks();
   }
@@ -112,29 +112,31 @@ class SelectionVm with ChangeNotifier {
     isBusy = true;
     notifyListeners();
 
-    try {
-      if (selectedBooks.isNotEmpty) {
-        await db.removeBooks();
-        localStorage.setPrefString(
-            PrefConstants.predistinatedBooksKey, selectedBooks);
-        selectedBooks = "";
-      }
-      for (int i = 0; i < selectables.length; i++) {
-        final Book book = selectables[i]!.data;
-        selectedBooks = "$selectedBooks${book.bookNo},";
-        await db.saveBook(book);
-      }
-    } catch (_) {}
+    //try {
+    if (selectedBooks.isNotEmpty) {
+      await db.removeBooks();
+      localStorage.setPrefString(
+          PrefConstants.predistinatedBooksKey, selectedBooks);
+      selectedBooks = "";
+    }
+    for (int i = 0; i < selectables.length; i++) {
+      final Book book = selectables[i]!.data;
+      selectedBooks = "$selectedBooks${book.bookNo},";
+      await db.saveBook(book);
+    }
+    //} catch (_) {}
 
     try {
       selectedBooks = selectedBooks.substring(0, selectedBooks.length - 1);
-    } catch (_) {}
+    } catch (e) {
+      logger.log('Error while sorting $selectedBooks: $e');
+    }
 
     isBusy = false;
     notifyListeners();
 
     localStorage.setPrefString(PrefConstants.selectedBooksKey, selectedBooks);
-    fetchAndSaveSongs();
+    //fetchAndSaveSongs();
   }
 
   /// Get the list of songs and save them
@@ -153,10 +155,10 @@ class SelectionVm with ChangeNotifier {
       songs = dataList.map((item) => Song.fromJson(item)).toList();
 
       if (songs!.isNotEmpty) {
+        logger.log('Savings songs to the db');
         for (int i = 0; i < songs!.length; i++) {
           try {
             progress = (i / songs!.length * 100).toInt();
-
             switch (progress) {
               case 1:
                 state = "On your\nmarks ...";
@@ -189,6 +191,7 @@ class SelectionVm with ChangeNotifier {
           } catch (e) {
             logger.log(e.toString());
           }
+          logger.log(state);
         }
       }
     } else if (response.statusCode == 404) {
@@ -212,7 +215,7 @@ class SelectionVm with ChangeNotifier {
     } else {
       navigator.goToOnboarding();
     }*/
-    //navigator.goToHome();
+    navigator.goToHome();
   }
 }
 

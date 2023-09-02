@@ -1,5 +1,5 @@
 #define MyAppName "SongLib"
-#define MyAppVersion "0.0.7"
+#define MyAppVersion "0.0.8.1"
 #define MyAppPublisher "Futuristic Ke"
 #define MyAppExeName "SongLib.exe"
 

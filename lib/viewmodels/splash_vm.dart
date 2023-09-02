@@ -24,19 +24,19 @@ class SplashVm with ChangeNotifier {
     } else {
       isLoaded = localStorage.getPrefBool(PrefConstants.dataLoadedCheckKey);
       onBoarded = localStorage.getPrefBool(PrefConstants.onboardedCheckKey);
-      //await nextActions();
-      navigator.goToSelection();
+      await nextActions();
     }
   }
 
   Future<void> nextActions() async {
     if (isLoaded) {
       await dbRepo.checkAppDatabase();
-      if (onBoarded) {
+      navigator.goToHome();
+      /*if (onBoarded) {
         navigator.goToHome();
       } else {
         navigator.goToOnboarding();
-      }
+      }*/
     } else {
       localStorage.setPrefString(PrefConstants.dateInstalledKey, dateNow());
       navigator.goToSelection();

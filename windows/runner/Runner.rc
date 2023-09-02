@@ -69,7 +69,7 @@ IDI_APP_ICON            ICON                    "resources\\app_icon.ico"
 #if defined(FLUTTER_VERSION)
 #define VERSION_AS_STRING FLUTTER_VERSION
 #else
-#define VERSION_AS_STRING "0.0.7"
+#define VERSION_AS_STRING "0.0.8.1"
 #endif
 
 VS_VERSION_INFO VERSIONINFO
@@ -89,7 +89,7 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "Futuristic Ke" "\0"
+            VALUE "CompanyName", "Futuristick" "\0"
             VALUE "FileDescription", "SongLib" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "SongLib" "\0"

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:songlib/utils/utilities.dart';
+
+import '../../utils/utilities.dart';
 
 void showToast({
   String? text,

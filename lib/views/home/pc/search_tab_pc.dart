@@ -125,8 +125,9 @@ class SearchTabPc extends StatelessWidget {
             onTap: () => vm.likeSong(vm.setSong),
             child: Padding(
               padding: const EdgeInsets.all(10),
-              child: Icon(
-                  vm.setSong.liked! ? Icons.favorite : Icons.favorite_border),
+              child: Icon(vm.setSong.liked ?? false
+                  ? Icons.favorite
+                  : Icons.favorite_border),
             ),
           ),
           InkWell(
