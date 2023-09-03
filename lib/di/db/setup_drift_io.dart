@@ -24,7 +24,7 @@ Future<DatabaseConnection> createDriftDatabaseConnection(String name) async {
     _startBackground,
     _IsolateStartRequest(receivePort.sendPort, file.path),
   );
-  logger.log('Opening DB $file');
+  logger.log('Database $file');
   final isolate = await receivePort.first as DriftIsolate;
   return isolate.connect();
 }
