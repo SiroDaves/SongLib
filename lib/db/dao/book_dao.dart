@@ -82,14 +82,14 @@ class _BookDao extends DatabaseAccessor<AppDatabase>
     logger.log('Insert Query: $sqlQry');
     try {
       final sqlStatement = BooksTableCompanion.insert(
-        bookId: Value(book.bookId!),
-        bookNo: Value(book.bookNo!),
-        enabled: Value(book.enabled!),
-        title: Value(book.title!),
-        subTitle: Value(book.subTitle!),
-        songs: Value(book.songs!),
-        position: Value(book.position!),
-        created: Value(book.created!),
+        bookId: Value(book.bookId ?? 0),
+        bookNo: Value(book.bookNo ?? 0),
+        enabled: Value(book.enabled ?? false),
+        title: Value(book.title ?? ''),
+        subTitle: Value(book.subTitle ?? ''),
+        songs: Value(book.songs ?? 0),
+        position: Value(book.position ?? 0),
+        created: Value(book.created ?? ''),
         updated: Value(book.updated ?? ''),
       );
       result = await into(db.booksTable).insert(sqlStatement);

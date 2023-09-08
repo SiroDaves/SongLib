@@ -8,6 +8,7 @@ class Draft {
   String? alias;
   String? content;
   String? key;
+  bool? liked;
   String? created;
   String? updated;
 
@@ -19,6 +20,7 @@ class Draft {
     this.alias,
     this.content,
     this.key,
+    this.liked,
     this.created,
     this.updated,
   });
@@ -30,6 +32,7 @@ class Draft {
     alias = json['alias'];
     content = json['content'];
     key = json['key'];
+    liked = json['liked'];
     created = json['created'];
     updated = json['updated'];
   }
@@ -43,6 +46,7 @@ class Draft {
     data['alias'] = alias;
     data['content'] = content;
     data['key'] = key;
+    data['liked'] = liked;
     data['created'] = created;
     data['updated'] = updated;
     return data;
@@ -57,6 +61,7 @@ class Draft {
       alias: const StringType().mapFromDatabaseResponse(data['alias'])!,
       content: const StringType().mapFromDatabaseResponse(data['content'])!,
       key: const StringType().mapFromDatabaseResponse(data['key'])!,
+      liked: const BoolType().mapFromDatabaseResponse(data['liked'])!,
       created:
           const StringType().mapFromDatabaseResponse(data['created'])!,
       updated:

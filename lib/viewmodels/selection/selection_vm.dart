@@ -136,7 +136,7 @@ class SelectionVm with ChangeNotifier {
     notifyListeners();
 
     localStorage.setPrefString(PrefConstants.selectedBooksKey, selectedBooks);
-    //fetchAndSaveSongs();
+    fetchAndSaveSongs();
   }
 
   /// Get the list of songs and save them

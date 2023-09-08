@@ -97,16 +97,19 @@ class _SongDao extends DatabaseAccessor<AppDatabase>
     logger.log('Insert Query: $sqlQry');
     try {
       final sqlStatement = SongsTableCompanion.insert(
-        songId: Value(song.songId!),
-        book: Value(song.book!),
-        songNo: Value(song.songNo!),
-        title: Value(song.title!),
-        alias: Value(song.alias!),
-        content: Value(song.content!),
-        key: Value(song.key!),
-        author: Value(song.author!),
-        views: Value(song.views!),
-        created: Value(song.created!),
+        songId: Value(song.songId ?? 0),
+        book: Value(song.book ?? 0),
+        songNo: Value(song.songNo ?? 0),
+        title: Value(song.title ?? ''),
+        alias: Value(song.alias ?? ''),
+        content: Value(song.content ?? ''),
+        key: Value(song.key ?? ''),
+        author: Value(song.author ?? ''),
+        likes: Value(song.likes ?? 0),
+        views: Value(song.views ?? 0),
+        liked: Value(song.liked ?? false),
+        created: Value(song.created ?? ''),
+        updated: Value(song.updated ?? ''),
       );
       result = await into(db.songsTable).insert(sqlStatement);
     } catch (e) {

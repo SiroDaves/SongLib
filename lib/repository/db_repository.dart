@@ -36,10 +36,10 @@ abstract class DbRepository {
   Future<void> checkAppDatabase();
   Future<List<Book>> fetchBooks();
   Future<List<Draft>> fetchDrafts();
-  Future<List<HistoryExt>> fetchHistories();
+  Future<List<HistoryExt>> fetchHistorys();
   Future<List<Listed>> fetchListeds();
   Future<List<ListedExt>> fetchListedSongs(int listed);
-  Future<List<Search>> fetchSearches();
+  Future<List<Search>> fetchSearchs();
   Future<List<SongExt>> fetchSongs();
   Future<List<SongExt>> fetchLikedSongs();
   Future<List<Edit>> fetchEdits();
@@ -95,29 +95,36 @@ class DbRepo implements DbRepository {
   Future<List<Draft>> fetchDrafts() async => await draftDao.getAllDrafts();
 
   @override
-  Future<List<HistoryExt>> fetchHistories() async =>
-      await historyDao.getAllHistories();
+  Future<List<HistoryExt>> fetchHistorys() async {
+    return [];
+    await historyDao.getAllHistorys();
+  }
 
   @override
   Future<List<Listed>> fetchListeds() async => await listedDao.getAllListeds();
 
   @override
-  Future<List<ListedExt>> fetchListedSongs(int parentid) async =>
-      await listedDao.getListedSongs(parentid);
+  Future<List<ListedExt>> fetchListedSongs(int parentid) async {
+    return []; //await listedDao.getListedSongs(parentid);
+  }
 
   @override
-  Future<List<Search>> fetchSearches() async =>
-      await searchDao.getAllSearches();
+  Future<List<Search>> fetchSearchs() async => await searchDao.getAllSearchs();
 
   @override
-  Future<List<SongExt>> fetchSongs() async => await songDao.getAllSongs();
+  Future<List<SongExt>> fetchSongs() async {
+    return [];
+    await songDao.getAllSongs();
+  }
 
   @override
   Future<List<Edit>> fetchEdits() async => await editDao.getAllEdits();
 
   @override
-  Future<List<SongExt>> fetchLikedSongs() async =>
-      await songDao.getLikedSongs();
+  Future<List<SongExt>> fetchLikedSongs() async {
+    //await songDao.getLikedSongs();
+    return [];
+  }
 
   @override
   Future<void> saveBook(Book book) async => await bookDao.createBook(book);
@@ -130,8 +137,10 @@ class DbRepo implements DbRepository {
       await draftDao.createDraft(draft: draft, isSimple: true);
 
   @override
-  Future<int> saveListed(Listed listed) async =>
-      await listedDao.createListed(listed);
+  Future<int> saveListed(Listed listed) async {
+    return 0;
+    //await listedDao.createListed(listed);
+  }
 
   @override
   Future<void> saveEdit(Edit edit) async => await editDao.createEdit(edit);
@@ -139,7 +148,7 @@ class DbRepo implements DbRepository {
   @override
   Future<void> saveListedSong(Listed listed, SongExt song) async {
     await listedDao.updateListed(listed);
-    return await listedDao.createListedSong(listed, song);
+    //return await listedDao.createListedSong(listed, song);
   }
 
   @override
@@ -159,7 +168,7 @@ class DbRepo implements DbRepository {
         alias: song.alias,
       ),
     );
-    await songDao.updateSong(song);
+    //await songDao.updateSong(song);
   }
 
   @override
@@ -185,13 +194,14 @@ class DbRepo implements DbRepository {
       await listedDao.deleteListed(listed);
 
   @override
-  Future<void> removeListedSongs(Listed listed) async =>
-      await listedDao.deleteListedSongs(listed);
+  Future<void> removeListedSongs(Listed listed) async {
+    //await listedDao.deleteListedSongs(listed);
+  }
 
   @override
   Future<void> majorCleanUp(String selectedBooks) async {
     final List<String> books = selectedBooks.split(",");
-    final List<SongExt> songs = await songDao.getAllSongs();
+    /*final List<SongExt> songs = await songDao.getAllSongs();
     final List<History> histories = await historyDao.getHistories();
     final List<Listed> listeds = await listedDao.getAllListeds();
     //final List<Edit> edits = await editDao.getAllEdits();
@@ -205,6 +215,6 @@ class DbRepo implements DbRepository {
         }
         await songDao.deleteSong(song);
       }
-    }
+    }*/
   }
 }
