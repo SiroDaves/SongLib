@@ -1,5 +1,3 @@
-import 'package:drift/drift.dart';
-
 class Listed {
   int? id;
   int? listedId;
@@ -55,19 +53,19 @@ class Listed {
 
   factory Listed.fromData(Map<String, dynamic> data) {
     return Listed(
-      id: const IntType().mapFromDatabaseResponse(data['id'])!,
-      listedId: const IntType().mapFromDatabaseResponse(data['listed_id'])!,
-      user: const IntType().mapFromDatabaseResponse(data['user'])!,
-      parentid: const IntType().mapFromDatabaseResponse(data['parentid'])!,
-      song: const IntType().mapFromDatabaseResponse(data['songCount'])!,
-      title: const StringType().mapFromDatabaseResponse(data['title'])!,
+      id: data['id'],
+      listedId: data['listed_id'],
+      user: data['user'],
+      parentid: data['parentid'],
+      song: data['songCount'],
+      title: data['title'],
       description:
-          const StringType().mapFromDatabaseResponse(data['description'])!,
-      position: const IntType().mapFromDatabaseResponse(data['position'])!,
+          data['description'],
+      position: data['position'],
       created:
-          const StringType().mapFromDatabaseResponse(data['created'])!,
+          data['created'],
       updated:
-          const StringType().mapFromDatabaseResponse(data['updated'])!,
+          data['updated'],
     );
   }
 }

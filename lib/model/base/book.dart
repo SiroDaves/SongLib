@@ -1,5 +1,3 @@
-import 'package:drift/drift.dart';
-
 class Book {
   int? id;
   int? bookId;
@@ -57,41 +55,18 @@ class Book {
     return data;
   }
 
- /* List<Book> fromParse(List<ParseObject?> data) {
-    return data
-        .map(
-          (object) => Book(
-            bookId: object!.get<String>('bookId'),
-            id: object.get<int>('id'),
-            bookNo: object.get<int>('bookNo'),
-            title: object.get<String>('title'),
-            subTitle: object.get<String>('subTitle'),
-            position: object.get<int>('position'),
-            songs: object.get<int>('songs'),
-            enabled: object.get<bool>('enabled'),
-            created: dateToString(object.get<DateTime>('created')!),
-            updated: dateToString(object.get<DateTime>('updated')!),
-          ),
-        )
-        .toList();
-  }*/
-
   factory Book.fromData(Map<String, dynamic> data) {
     return Book(
-      id: const IntType().mapFromDatabaseResponse(data['id'])!,
-      bookId:
-          const IntType().mapFromDatabaseResponse(data['object_id'])!,
-      title: const StringType().mapFromDatabaseResponse(data['title'])!,
-      subTitle:
-          const StringType().mapFromDatabaseResponse(data['sub_title'])!,
-      songs: const IntType().mapFromDatabaseResponse(data['songs'])!,
-      position: const IntType().mapFromDatabaseResponse(data['position'])!,
-      bookNo: const IntType().mapFromDatabaseResponse(data['book_no'])!,
-      enabled: const BoolType().mapFromDatabaseResponse(data['enabled'])!,
-      created:
-          const StringType().mapFromDatabaseResponse(data['created'])!,
-      updated:
-          const StringType().mapFromDatabaseResponse(data['updated'])!,
+      id: data['id'],
+      bookId: data['object_id'],
+      title: data['title'],
+      subTitle: data['sub_title'],
+      songs: data['songs'],
+      position: data['position'],
+      bookNo: data['book_no'],
+      enabled: data['enabled'] == 1 ? true : false,
+      created: data['created'],
+      updated: data['updated'],
     );
   }
 }

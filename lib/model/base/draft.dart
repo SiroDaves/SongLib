@@ -1,5 +1,3 @@
-import 'package:drift/drift.dart';
-
 class Draft {
   int? id;
   int? draftId;
@@ -32,7 +30,7 @@ class Draft {
     alias = json['alias'];
     content = json['content'];
     key = json['key'];
-    liked = json['liked'];
+    liked = json['liked'] == 1 ? true : false;
     created = json['created'];
     updated = json['updated'];
   }
@@ -54,18 +52,16 @@ class Draft {
 
   factory Draft.fromData(Map<String, dynamic> data) {
     return Draft(
-      id: const IntType().mapFromDatabaseResponse(data['id'])!,
-      draftId: const IntType().mapFromDatabaseResponse(data['draft_id'])!,
-      user: const IntType().mapFromDatabaseResponse(data['user'])!,
-      title: const StringType().mapFromDatabaseResponse(data['title'])!,
-      alias: const StringType().mapFromDatabaseResponse(data['alias'])!,
-      content: const StringType().mapFromDatabaseResponse(data['content'])!,
-      key: const StringType().mapFromDatabaseResponse(data['key'])!,
-      liked: const BoolType().mapFromDatabaseResponse(data['liked'])!,
-      created:
-          const StringType().mapFromDatabaseResponse(data['created'])!,
-      updated:
-          const StringType().mapFromDatabaseResponse(data['updated'])!,
+      id: data['id'],
+      draftId: data['draft_id'],
+      user: data['user'],
+      title: data['title'],
+      alias: data['alias'],
+      content: data['content'],
+      key: data['key'],
+      liked: data['liked'],
+      created: data['created'],
+      updated: data['updated'],
     );
   }
 }
