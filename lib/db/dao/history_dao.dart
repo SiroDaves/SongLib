@@ -18,7 +18,7 @@ abstract class HistoryDao {
   Future<List<History>> getAllHistorys();
   Future<int> createHistory(History history);
   Future<void> updateHistory(History history);
-  Future<void> deleteHistory(History history);
+  Future<void> deleteHistory(int id);
   Future<void> deleteHistorys();
   Future<void> dropHistorysTable();
 }
@@ -126,14 +126,12 @@ class _HistoryDao extends DatabaseAccessor<AppDatabase>
   }
 
   @override
-  Future<void> deleteHistory(History history) async {
+  Future<void> deleteHistory(int id) async {
     try {
       String sqlQry =
-          'DELETE FROM ${db.historysTable.actualTableName} WHERE ${db.historysTable.id.name} = ${history.id};';
+          'DELETE FROM ${db.historysTable.actualTableName} WHERE ${db.historysTable.id.name} = $id;';
       logger.log('Delete Query: $sqlQry');
-      await (delete(db.historysTable)
-            ..where((row) => row.id.equals(history.id)))
-          .go();
+      await (delete(db.historysTable)..where((row) => row.id.equals(id))).go();
     } catch (e) {
       logger.log('Query Error: $e');
     }

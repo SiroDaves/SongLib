@@ -229,8 +229,8 @@ class HomeScreenState extends State<HomeScreen>
                   SearchTabPc(vm),
                   LikesTabPc(vm),
                   DraftsTabPc(vm),
-                  const HelpDeskScreen(),
-                  const SettingsScreen(),
+                  //const HelpDeskScreen(),
+                  //const SettingsScreen(),
                 ],
               )
                   .positioned(

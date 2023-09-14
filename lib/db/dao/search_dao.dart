@@ -18,7 +18,7 @@ abstract class SearchDao {
   Future<List<Search>> getAllSearchs();
   Future<int> createSearch(Search search);
   Future<void> updateSearch(Search search);
-  Future<void> deleteSearch(Search search);
+  Future<void> deleteSearch(int id);
   Future<void> deleteSearchs();
   Future<void> dropSearchsTable();
 }
@@ -39,8 +39,7 @@ class _SearchDao extends DatabaseAccessor<AppDatabase>
           'SELECT * FROM ${db.searchsTable.actualTableName} ORDER BY ${db.searchsTable.id.name} ASC;';
       logger.log('Select Query: $sqlQry');
       await customSelect(sqlQry).watch().first;
-      logger
-          .log('${db.searchsTable.actualTableName} table exists as expected');
+      logger.log('${db.searchsTable.actualTableName} table exists as expected');
     } catch (e) {
       logger.log('Query Error: $e');
       try {
@@ -115,8 +114,7 @@ class _SearchDao extends DatabaseAccessor<AppDatabase>
         searchId: Value(search.searchId!),
         title: Value(search.title!),
       );
-      await (update(db.searchsTable)
-            ..where((row) => row.id.equals(search.id)))
+      await (update(db.searchsTable)..where((row) => row.id.equals(search.id)))
           .write(sqlStatement);
     } catch (e) {
       logger.log('Query Error: $e');
@@ -126,14 +124,12 @@ class _SearchDao extends DatabaseAccessor<AppDatabase>
   }
 
   @override
-  Future<void> deleteSearch(Search search) async {
+  Future<void> deleteSearch(int id) async {
     try {
       String sqlQry =
-          'DELETE FROM ${db.searchsTable.actualTableName} WHERE ${db.searchsTable.id.name} = ${search.id};';
+          'DELETE FROM ${db.searchsTable.actualTableName} WHERE ${db.searchsTable.id.name} = $id;';
       logger.log('Delete Query: $sqlQry');
-      await (delete(db.searchsTable)
-            ..where((row) => row.id.equals(search.id)))
-          .go();
+      await (delete(db.searchsTable)..where((row) => row.id.equals(id))).go();
     } catch (e) {
       logger.log('Query Error: $e');
     }

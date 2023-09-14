@@ -57,9 +57,9 @@ abstract class DbRepository {
   Future<void> editListed(Listed listed);
 
   Future<void> removeBooks();
-  Future<void> removeDraft(Draft draft);
-  Future<void> removeEdit(Edit edit);
-  Future<void> removeListed(Listed listed);
+  Future<void> removeDraft(int id);
+  Future<void> removeEdit(int id);
+  Future<void> removeListed(int id);
   Future<void> removeListedSongs(Listed listed);
   Future<void> majorCleanUp(String selectedBooks);
 }
@@ -96,8 +96,7 @@ class DbRepo implements DbRepository {
 
   @override
   Future<List<HistoryExt>> fetchHistorys() async {
-    return [];
-    await historyDao.getAllHistorys();
+    return []; //await historyDao.getAllHistorys();
   }
 
   @override
@@ -113,8 +112,7 @@ class DbRepo implements DbRepository {
 
   @override
   Future<List<SongExt>> fetchSongs() async {
-    return [];
-    await songDao.getAllSongs();
+    return await songDao.getAllSongs();
   }
 
   @override
@@ -183,38 +181,35 @@ class DbRepo implements DbRepository {
   Future<void> removeBooks() async => await bookDao.deleteBooks();
 
   @override
-  Future<void> removeDraft(Draft draft) async =>
-      await draftDao.deleteDraft(draft);
+  Future<void> removeDraft(int id) async => await draftDao.deleteDraft(id);
 
   @override
-  Future<void> removeEdit(Edit edit) async => await editDao.deleteEdit(edit);
+  Future<void> removeEdit(int id) async => await editDao.deleteEdit(id);
 
   @override
-  Future<void> removeListed(Listed listed) async =>
-      await listedDao.deleteListed(listed);
+  Future<void> removeListed(int id) async => await listedDao.deleteListed(id);
 
   @override
-  Future<void> removeListedSongs(Listed listed) async {
-    //await listedDao.deleteListedSongs(listed);
-  }
+  Future<void> removeListedSongs(
+      Listed listed) async {} //await listedDao.deleteListedSongs(listed);
 
   @override
   Future<void> majorCleanUp(String selectedBooks) async {
     final List<String> books = selectedBooks.split(",");
-    /*final List<SongExt> songs = await songDao.getAllSongs();
-    final List<History> histories = await historyDao.getHistories();
+    final List<SongExt> songs = await songDao.getAllSongs();
+    /*final List<History> histories = await historyDao.getHistories();
     final List<Listed> listeds = await listedDao.getAllListeds();
-    //final List<Edit> edits = await editDao.getAllEdits();
+    //final List<Edit> edits = await editDao.getAllEdits();*/
     for (final song in songs) {
       if (!books.contains(song.book.toString())) {
-        for (final history in histories) {
+        /*for (final history in histories) {
           if (history.song == song.id) await historyDao.deleteHistory(history);
         }
         for (final listed in listeds) {
           if (listed.song == song.id) await listedDao.deleteListed(listed);
-        }
-        await songDao.deleteSong(song);
+        }*/
+        await songDao.deleteSong(song.id!);
       }
-    }*/
+    }
   }
 }

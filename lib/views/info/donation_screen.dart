@@ -9,9 +9,7 @@ import '../../viewmodels/home/info_vm.dart';
 
 /// Donation screen
 class DonationScreen extends StatefulWidget {
-  const DonationScreen({
-    Key? key,
-  }) : super(key: key);
+  const DonationScreen({Key? key}) : super(key: key);
 
   @override
   DonationScreenState createState() => DonationScreenState();

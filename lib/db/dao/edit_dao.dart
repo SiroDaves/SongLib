@@ -18,7 +18,7 @@ abstract class EditDao {
   Future<List<Edit>> getAllEdits();
   Future<int> createEdit(Edit edit);
   Future<void> updateEdit(Edit edit);
-  Future<void> deleteEdit(Edit edit);
+  Future<void> deleteEdit(int id);
   Future<void> deleteEdits();
   Future<void> dropEditsTable();
 }
@@ -143,13 +143,12 @@ class _EditDao extends DatabaseAccessor<AppDatabase>
   }
 
   @override
-  Future<void> deleteEdit(Edit edit) async {
+  Future<void> deleteEdit(int id) async {
     try {
       String sqlQry =
-          'DELETE FROM ${db.editsTable.actualTableName} WHERE ${db.editsTable.id.name} = ${edit.id};';
+          'DELETE FROM ${db.editsTable.actualTableName} WHERE ${db.editsTable.id.name} = $id;';
       logger.log('Delete Query: $sqlQry');
-      await (delete(db.editsTable)..where((row) => row.id.equals(edit.id)))
-          .go();
+      await (delete(db.editsTable)..where((row) => row.id.equals(id))).go();
     } catch (e) {
       logger.log('Query Error: $e');
     }

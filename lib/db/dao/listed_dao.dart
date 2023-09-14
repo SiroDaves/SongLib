@@ -19,7 +19,7 @@ abstract class ListedDao {
   Future<List<Listed>> getAllListeds();
   Future<int> createListed(Listed listed, SongExt song);
   Future<void> updateListed(Listed listed);
-  Future<void> deleteListed(Listed listed);
+  Future<void> deleteListed(int id);
   Future<void> deleteListeds();
   Future<void> dropListedsTable();
 }
@@ -145,13 +145,12 @@ class _ListedDao extends DatabaseAccessor<AppDatabase>
   }
 
   @override
-  Future<void> deleteListed(Listed listed) async {
+  Future<void> deleteListed(int id) async {
     try {
       String sqlQry =
-          'DELETE FROM ${db.listedsTable.actualTableName} WHERE ${db.listedsTable.id.name} = ${listed.id};';
+          'DELETE FROM ${db.listedsTable.actualTableName} WHERE ${db.listedsTable.id.name} = $id;';
       logger.log('Delete Query: $sqlQry');
-      await (delete(db.listedsTable)..where((row) => row.id.equals(listed.id)))
-          .go();
+      await (delete(db.listedsTable)..where((row) => row.id.equals(id))).go();
     } catch (e) {
       logger.log('Query Error: $e');
     }

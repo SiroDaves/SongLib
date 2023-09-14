@@ -18,7 +18,7 @@ abstract class DraftDao {
   Future<List<Draft>> getAllDrafts();
   Future<int> createDraft({required Draft draft, bool isSimple = true});
   Future<void> updateDraft(Draft draft);
-  Future<void> deleteDraft(Draft draft);
+  Future<void> deleteDraft(int id);
   Future<void> deleteDrafts();
   Future<void> dropDraftsTable();
 }
@@ -124,13 +124,12 @@ class _DraftDao extends DatabaseAccessor<AppDatabase>
   }
 
   @override
-  Future<void> deleteDraft(Draft draft) async {
+  Future<void> deleteDraft(int id) async {
     try {
       String sqlQry =
-          'DELETE FROM ${db.draftsTable.actualTableName} WHERE ${db.draftsTable.id.name} = ${draft.id};';
+          'DELETE FROM ${db.draftsTable.actualTableName} WHERE ${db.draftsTable.id.name} = $id;';
       logger.log('Delete Query: $sqlQry');
-      await (delete(db.draftsTable)..where((row) => row.id.equals(draft.id)))
-          .go();
+      await (delete(db.draftsTable)..where((row) => row.id.equals(id))).go();
     } catch (e) {
       logger.log('Query Error: $e');
     }

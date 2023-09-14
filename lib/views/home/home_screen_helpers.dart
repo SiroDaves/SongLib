@@ -128,7 +128,7 @@ Future<void> confirmDelete(BuildContext context, HomeVm vm) async {
               state: ToastStates.success,
             );
             Navigator.pop(context);
-            vm.dbRepo.removeListed(vm.setListed);
+            vm.dbRepo.removeListed(vm.setListed.id!);
             vm.fetchListedData();
           },
           child: const Text("DELETE"),

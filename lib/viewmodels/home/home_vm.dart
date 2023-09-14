@@ -58,8 +58,8 @@ class HomeVm with ChangeNotifier {
     PageType.search,
     PageType.likes,
     PageType.drafts,
-    PageType.helpdesk,
-    PageType.settings,
+    //PageType.helpdesk,
+    //PageType.settings,
   ];
   Future<void> init(HomeNavigator screenNavigator) async {
     navigator = screenNavigator;
@@ -345,7 +345,7 @@ class HomeVm with ChangeNotifier {
     if (result == CustomButton.positiveButton) {
       localStorage.listed = setListed = Listed();
       listSongs!.clear();
-      dbRepo.removeListed(listed);
+      dbRepo.removeListed(listed.id!);
       await fetchListedData(showLoading: false);
       showToast(
         text: '${listed.title} ${tr!.deleted}',

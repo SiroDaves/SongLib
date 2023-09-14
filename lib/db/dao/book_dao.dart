@@ -17,7 +17,7 @@ abstract class BookDao {
   Future<List<Book>> getAllBooks();
   Future<int> createBook(Book book);
   Future<void> updateBook(Book book);
-  Future<void> deleteBook(Book book);
+  Future<void> deleteBook(int id);
   Future<void> deleteBooks();
   Future<void> dropBooksTable();
 }
@@ -129,13 +129,12 @@ class _BookDao extends DatabaseAccessor<AppDatabase>
   }
 
   @override
-  Future<void> deleteBook(Book book) async {
+  Future<void> deleteBook(int id) async {
     try {
       String sqlQry =
-          'DELETE FROM ${db.booksTable.actualTableName} WHERE ${db.booksTable.id.name} = ${book.id};';
+          'DELETE FROM ${db.booksTable.actualTableName} WHERE ${db.booksTable.id.name} = $id;';
       logger.log('Delete Query: $sqlQry');
-      await (delete(db.booksTable)..where((row) => row.id.equals(book.id)))
-          .go();
+      await (delete(db.booksTable)..where((row) => row.id.equals(id))).go();
     } catch (e) {
       logger.log('Query Error: $e');
     }

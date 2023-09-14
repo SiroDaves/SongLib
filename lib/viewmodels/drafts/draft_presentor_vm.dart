@@ -170,7 +170,7 @@ class DraftPresentorVm with ChangeNotifier {
           TextButton(
             onPressed: () {
               Navigator.pop(context);
-              dbRepo.removeDraft(draft!);
+              dbRepo.removeDraft(draft!.id!);
               Navigator.pop(context, true);
             },
             child: const Text("DELETE"),

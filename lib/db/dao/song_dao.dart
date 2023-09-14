@@ -4,6 +4,7 @@ import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../model/base/song.dart';
+import '../../model/base/songext.dart';
 import '../../model/tables/songs_table.dart';
 import '../../utils/utilities.dart';
 import '../app_database.dart';
@@ -16,10 +17,10 @@ abstract class SongDao {
   factory SongDao(AppDatabase db) = _SongDao;
 
   Future<void> checkSongs();
-  Future<List<Song>> getAllSongs();
+  Future<List<SongExt>> getAllSongs();
   Future<int> createSong(Song song);
   Future<void> updateSong(Song song);
-  Future<void> deleteSong(Song song);
+  Future<void> deleteSong(int id);
   Future<void> deleteSongs();
   Future<void> dropSongsTable();
 }
@@ -57,31 +58,29 @@ class _SongDao extends DatabaseAccessor<AppDatabase>
   }
 
   @override
-  Future<List<Song>> getAllSongs() async {
-    List<Song> items = [];
-    String sqlQry =
-        'SELECT * FROM ${db.songsTable.actualTableName} ORDER BY ${db.songsTable.id.name} ASC;';
+  Future<List<SongExt>> getAllSongs() async {
+    List<SongExt> items = [];
+    String sqlQry = 'SELECT '
+        'songs.${db.songsTable.id.name}, songs.${db.songsTable.book.name}, songs.${db.songsTable.songNo.name}, '
+        'songs.${db.songsTable.title.name}, songs.${db.songsTable.alias.name}, songs.${db.songsTable.content.name}, '
+        'songs.${db.songsTable.key.name}, songs.${db.songsTable.author.name}, songs.${db.songsTable.views.name}, '
+        'songs.${db.songsTable.likes.name}, songs.${db.songsTable.liked.name}, songs.${db.songsTable.created.name}, '
+        'songs.${db.songsTable.updated.name}, books.${db.booksTable.title.name} AS songbook '
+        'FROM ${db.songsTable.actualTableName} AS songs LEFT JOIN ${db.booksTable.actualTableName} AS books '
+        'ON songs.${db.songsTable.book.name}=books.${db.booksTable.bookNo.name} '
+        'ORDER BY ${db.songsTable.songNo.name} ASC;';
     logger.log('Select Query: $sqlQry');
 
     try {
-      final List<Songs> results = await select(db.songsTable).get();
-      items = results
-          .map(
-            (result) => Song(
-              id: const IntType().mapFromDatabaseResponse(result.id)!,
-              songId: const IntType().mapFromDatabaseResponse(result.songId)!,
-              book: const IntType().mapFromDatabaseResponse(result.book)!,
-              songNo: const IntType().mapFromDatabaseResponse(result.songNo)!,
-              title: const StringType().mapFromDatabaseResponse(result.title)!,
-              content:
-                  const StringType().mapFromDatabaseResponse(result.content)!,
-              alias: const StringType().mapFromDatabaseResponse(result.alias)!,
-              key: const StringType().mapFromDatabaseResponse(result.key)!,
-              created:
-                  const StringType().mapFromDatabaseResponse(result.created)!,
-            ),
-          )
-          .toList();
+      final Stream<List<SongExt>> streams = customSelect(
+        sqlQry,
+        readsFrom: {db.songsTable},
+      ).watch().map(
+        (rows) {
+          return rows.map((row) => SongExt.fromData(row.data)).toList();
+        },
+      );
+      items = await streams.first;
     } catch (e) {
       logger.log('Query Error: $e');
     }
@@ -153,13 +152,12 @@ class _SongDao extends DatabaseAccessor<AppDatabase>
   }
 
   @override
-  Future<void> deleteSong(Song song) async {
+  Future<void> deleteSong(int id) async {
     try {
       String sqlQry =
-          'DELETE FROM ${db.songsTable.actualTableName} WHERE ${db.songsTable.id.name} = ${song.id};';
+          'DELETE FROM ${db.songsTable.actualTableName} WHERE ${db.songsTable.id.name} = $id;';
       logger.log('Delete Query: $sqlQry');
-      await (delete(db.songsTable)..where((row) => row.id.equals(song.id)))
-          .go();
+      await (delete(db.songsTable)..where((row) => row.id.equals(id))).go();
     } catch (e) {
       logger.log('Query Error: $e');
     }
