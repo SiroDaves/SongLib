@@ -10,9 +10,7 @@ import '../../viewmodels/home/info_vm.dart';
 
 /// Help desk screen
 class HelpDeskScreen extends StatefulWidget {
-  const HelpDeskScreen({
-    Key? key,
-  }) : super(key: key);
+  const HelpDeskScreen({Key? key}) : super(key: key);
 
   @override
   HelpDeskScreenState createState() => HelpDeskScreenState();

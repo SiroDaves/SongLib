@@ -33,18 +33,17 @@ import '../viewmodels/home/info_vm.dart' as _i30;
 import '../viewmodels/home/onboarding_vm.dart' as _i16;
 import '../viewmodels/lists/list_popup_vm.dart' as _i31;
 import '../viewmodels/lists/list_view_vm.dart' as _i32;
-import '../viewmodels/manage/settings_vm.dart' as _i35;
-import '../viewmodels/selection/progress_vm.dart' as _i33;
-import '../viewmodels/selection/selection_vm.dart' as _i34;
-import '../viewmodels/songs/song_editor_vm.dart' as _i36;
-import '../viewmodels/songs/song_presentor_vm.dart' as _i37;
-import '../viewmodels/splash_vm.dart' as _i38;
+import '../viewmodels/manage/settings_vm.dart' as _i34;
+import '../viewmodels/selection/selection_vm.dart' as _i33;
+import '../viewmodels/songs/song_editor_vm.dart' as _i35;
+import '../viewmodels/songs/song_presentor_vm.dart' as _i36;
+import '../viewmodels/splash_vm.dart' as _i37;
 import '../viewmodels/user/signin_vm.dart' as _i18;
 import '../viewmodels/user/signup_vm.dart' as _i19;
 import '../viewmodels/user/user_vm.dart' as _i21;
 import '../webservice/book_web_service.dart' as _i3;
 import '../webservice/song_web_service.dart' as _i8;
-import 'injectable.dart' as _i39; // ignore_for_file: unnecessary_lambdas
+import 'injectable.dart' as _i38; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
 /// initializes the registration of provided dependencies inside of [GetIt]
@@ -132,33 +131,28 @@ Future<_i1.GetIt> $initGetIt(
         get<_i25.DbRepository>(),
         get<_i15.LocalStorage>(),
       ));
-  gh.factory<_i33.ProgressVm>(() => _i33.ProgressVm(
+  gh.factory<_i33.SelectionVm>(() => _i33.SelectionVm(
         get<_i22.WebRepository>(),
         get<_i25.DbRepository>(),
         get<_i15.LocalStorage>(),
       ));
-  gh.factory<_i34.SelectionVm>(() => _i34.SelectionVm(
-        get<_i22.WebRepository>(),
+  gh.factory<_i34.SettingsVm>(() => _i34.SettingsVm(
         get<_i25.DbRepository>(),
         get<_i15.LocalStorage>(),
       ));
-  gh.factory<_i35.SettingsVm>(() => _i35.SettingsVm(
+  gh.factory<_i35.SongEditorVm>(() => _i35.SongEditorVm(
         get<_i25.DbRepository>(),
         get<_i15.LocalStorage>(),
       ));
-  gh.factory<_i36.SongEditorVm>(() => _i36.SongEditorVm(
+  gh.factory<_i36.SongPresentorVm>(() => _i36.SongPresentorVm(
         get<_i25.DbRepository>(),
         get<_i15.LocalStorage>(),
       ));
-  gh.factory<_i37.SongPresentorVm>(() => _i37.SongPresentorVm(
-        get<_i25.DbRepository>(),
-        get<_i15.LocalStorage>(),
-      ));
-  gh.factory<_i38.SplashVm>(() => _i38.SplashVm(
+  gh.factory<_i37.SplashVm>(() => _i37.SplashVm(
         get<_i25.DbRepository>(),
         get<_i15.LocalStorage>(),
       ));
   return get;
 }
 
-class _$RegisterModule extends _i39.RegisterModule {}
+class _$RegisterModule extends _i38.RegisterModule {}

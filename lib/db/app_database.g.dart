@@ -511,32 +511,22 @@ class Drafts extends DataClass implements Insertable<Drafts> {
   final int id;
   final int draftId;
   final int user;
-  final int book;
-  final int songNo;
   final String title;
   final String alias;
   final String content;
   final String key;
-  final String author;
-  final int views;
   final String created;
   final String updated;
-  final bool liked;
   Drafts(
       {required this.id,
       required this.draftId,
       required this.user,
-      required this.book,
-      required this.songNo,
       required this.title,
       required this.alias,
       required this.content,
       required this.key,
-      required this.author,
-      required this.views,
       required this.created,
-      required this.updated,
-      required this.liked});
+      required this.updated});
   factory Drafts.fromData(Map<String, dynamic> data, {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     return Drafts(
@@ -546,10 +536,6 @@ class Drafts extends DataClass implements Insertable<Drafts> {
           .mapFromDatabaseResponse(data['${effectivePrefix}draft_id'])!,
       user: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}user'])!,
-      book: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}book'])!,
-      songNo: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}song_no'])!,
       title: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}title'])!,
       alias: const StringType()
@@ -558,16 +544,10 @@ class Drafts extends DataClass implements Insertable<Drafts> {
           .mapFromDatabaseResponse(data['${effectivePrefix}content'])!,
       key: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}key'])!,
-      author: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}author'])!,
-      views: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}views'])!,
       created: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}created'])!,
       updated: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}updated'])!,
-      liked: const BoolType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}liked'])!,
     );
   }
   @override
@@ -576,17 +556,12 @@ class Drafts extends DataClass implements Insertable<Drafts> {
     map['id'] = Variable<int>(id);
     map['draft_id'] = Variable<int>(draftId);
     map['user'] = Variable<int>(user);
-    map['book'] = Variable<int>(book);
-    map['song_no'] = Variable<int>(songNo);
     map['title'] = Variable<String>(title);
     map['alias'] = Variable<String>(alias);
     map['content'] = Variable<String>(content);
     map['key'] = Variable<String>(key);
-    map['author'] = Variable<String>(author);
-    map['views'] = Variable<int>(views);
     map['created'] = Variable<String>(created);
     map['updated'] = Variable<String>(updated);
-    map['liked'] = Variable<bool>(liked);
     return map;
   }
 
@@ -595,17 +570,12 @@ class Drafts extends DataClass implements Insertable<Drafts> {
       id: Value(id),
       draftId: Value(draftId),
       user: Value(user),
-      book: Value(book),
-      songNo: Value(songNo),
       title: Value(title),
       alias: Value(alias),
       content: Value(content),
       key: Value(key),
-      author: Value(author),
-      views: Value(views),
       created: Value(created),
       updated: Value(updated),
-      liked: Value(liked),
     );
   }
 
@@ -616,17 +586,12 @@ class Drafts extends DataClass implements Insertable<Drafts> {
       id: serializer.fromJson<int>(json['id']),
       draftId: serializer.fromJson<int>(json['draftId']),
       user: serializer.fromJson<int>(json['user']),
-      book: serializer.fromJson<int>(json['book']),
-      songNo: serializer.fromJson<int>(json['songNo']),
       title: serializer.fromJson<String>(json['title']),
       alias: serializer.fromJson<String>(json['alias']),
       content: serializer.fromJson<String>(json['content']),
       key: serializer.fromJson<String>(json['key']),
-      author: serializer.fromJson<String>(json['author']),
-      views: serializer.fromJson<int>(json['views']),
       created: serializer.fromJson<String>(json['created']),
       updated: serializer.fromJson<String>(json['updated']),
-      liked: serializer.fromJson<bool>(json['liked']),
     );
   }
   @override
@@ -636,17 +601,12 @@ class Drafts extends DataClass implements Insertable<Drafts> {
       'id': serializer.toJson<int>(id),
       'draftId': serializer.toJson<int>(draftId),
       'user': serializer.toJson<int>(user),
-      'book': serializer.toJson<int>(book),
-      'songNo': serializer.toJson<int>(songNo),
       'title': serializer.toJson<String>(title),
       'alias': serializer.toJson<String>(alias),
       'content': serializer.toJson<String>(content),
       'key': serializer.toJson<String>(key),
-      'author': serializer.toJson<String>(author),
-      'views': serializer.toJson<int>(views),
       'created': serializer.toJson<String>(created),
       'updated': serializer.toJson<String>(updated),
-      'liked': serializer.toJson<bool>(liked),
     };
   }
 
@@ -654,32 +614,22 @@ class Drafts extends DataClass implements Insertable<Drafts> {
           {int? id,
           int? draftId,
           int? user,
-          int? book,
-          int? songNo,
           String? title,
           String? alias,
           String? content,
           String? key,
-          String? author,
-          int? views,
           String? created,
-          String? updated,
-          bool? liked}) =>
+          String? updated}) =>
       Drafts(
         id: id ?? this.id,
         draftId: draftId ?? this.draftId,
         user: user ?? this.user,
-        book: book ?? this.book,
-        songNo: songNo ?? this.songNo,
         title: title ?? this.title,
         alias: alias ?? this.alias,
         content: content ?? this.content,
         key: key ?? this.key,
-        author: author ?? this.author,
-        views: views ?? this.views,
         created: created ?? this.created,
         updated: updated ?? this.updated,
-        liked: liked ?? this.liked,
       );
   @override
   String toString() {
@@ -687,24 +637,19 @@ class Drafts extends DataClass implements Insertable<Drafts> {
           ..write('id: $id, ')
           ..write('draftId: $draftId, ')
           ..write('user: $user, ')
-          ..write('book: $book, ')
-          ..write('songNo: $songNo, ')
           ..write('title: $title, ')
           ..write('alias: $alias, ')
           ..write('content: $content, ')
           ..write('key: $key, ')
-          ..write('author: $author, ')
-          ..write('views: $views, ')
           ..write('created: $created, ')
-          ..write('updated: $updated, ')
-          ..write('liked: $liked')
+          ..write('updated: $updated')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, draftId, user, book, songNo, title, alias,
-      content, key, author, views, created, updated, liked);
+  int get hashCode => Object.hash(
+      id, draftId, user, title, alias, content, key, created, updated);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -712,97 +657,67 @@ class Drafts extends DataClass implements Insertable<Drafts> {
           other.id == this.id &&
           other.draftId == this.draftId &&
           other.user == this.user &&
-          other.book == this.book &&
-          other.songNo == this.songNo &&
           other.title == this.title &&
           other.alias == this.alias &&
           other.content == this.content &&
           other.key == this.key &&
-          other.author == this.author &&
-          other.views == this.views &&
           other.created == this.created &&
-          other.updated == this.updated &&
-          other.liked == this.liked);
+          other.updated == this.updated);
 }
 
 class DraftsTableCompanion extends UpdateCompanion<Drafts> {
   final Value<int> id;
   final Value<int> draftId;
   final Value<int> user;
-  final Value<int> book;
-  final Value<int> songNo;
   final Value<String> title;
   final Value<String> alias;
   final Value<String> content;
   final Value<String> key;
-  final Value<String> author;
-  final Value<int> views;
   final Value<String> created;
   final Value<String> updated;
-  final Value<bool> liked;
   const DraftsTableCompanion({
     this.id = const Value.absent(),
     this.draftId = const Value.absent(),
     this.user = const Value.absent(),
-    this.book = const Value.absent(),
-    this.songNo = const Value.absent(),
     this.title = const Value.absent(),
     this.alias = const Value.absent(),
     this.content = const Value.absent(),
     this.key = const Value.absent(),
-    this.author = const Value.absent(),
-    this.views = const Value.absent(),
     this.created = const Value.absent(),
     this.updated = const Value.absent(),
-    this.liked = const Value.absent(),
   });
   DraftsTableCompanion.insert({
     this.id = const Value.absent(),
     this.draftId = const Value.absent(),
     this.user = const Value.absent(),
-    this.book = const Value.absent(),
-    this.songNo = const Value.absent(),
     this.title = const Value.absent(),
     this.alias = const Value.absent(),
     this.content = const Value.absent(),
     this.key = const Value.absent(),
-    this.author = const Value.absent(),
-    this.views = const Value.absent(),
     this.created = const Value.absent(),
     this.updated = const Value.absent(),
-    this.liked = const Value.absent(),
   });
   static Insertable<Drafts> custom({
     Expression<int>? id,
     Expression<int>? draftId,
     Expression<int>? user,
-    Expression<int>? book,
-    Expression<int>? songNo,
     Expression<String>? title,
     Expression<String>? alias,
     Expression<String>? content,
     Expression<String>? key,
-    Expression<String>? author,
-    Expression<int>? views,
     Expression<String>? created,
     Expression<String>? updated,
-    Expression<bool>? liked,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (draftId != null) 'draft_id': draftId,
       if (user != null) 'user': user,
-      if (book != null) 'book': book,
-      if (songNo != null) 'song_no': songNo,
       if (title != null) 'title': title,
       if (alias != null) 'alias': alias,
       if (content != null) 'content': content,
       if (key != null) 'key': key,
-      if (author != null) 'author': author,
-      if (views != null) 'views': views,
       if (created != null) 'created': created,
       if (updated != null) 'updated': updated,
-      if (liked != null) 'liked': liked,
     });
   }
 
@@ -810,32 +725,22 @@ class DraftsTableCompanion extends UpdateCompanion<Drafts> {
       {Value<int>? id,
       Value<int>? draftId,
       Value<int>? user,
-      Value<int>? book,
-      Value<int>? songNo,
       Value<String>? title,
       Value<String>? alias,
       Value<String>? content,
       Value<String>? key,
-      Value<String>? author,
-      Value<int>? views,
       Value<String>? created,
-      Value<String>? updated,
-      Value<bool>? liked}) {
+      Value<String>? updated}) {
     return DraftsTableCompanion(
       id: id ?? this.id,
       draftId: draftId ?? this.draftId,
       user: user ?? this.user,
-      book: book ?? this.book,
-      songNo: songNo ?? this.songNo,
       title: title ?? this.title,
       alias: alias ?? this.alias,
       content: content ?? this.content,
       key: key ?? this.key,
-      author: author ?? this.author,
-      views: views ?? this.views,
       created: created ?? this.created,
       updated: updated ?? this.updated,
-      liked: liked ?? this.liked,
     );
   }
 
@@ -851,12 +756,6 @@ class DraftsTableCompanion extends UpdateCompanion<Drafts> {
     if (user.present) {
       map['user'] = Variable<int>(user.value);
     }
-    if (book.present) {
-      map['book'] = Variable<int>(book.value);
-    }
-    if (songNo.present) {
-      map['song_no'] = Variable<int>(songNo.value);
-    }
     if (title.present) {
       map['title'] = Variable<String>(title.value);
     }
@@ -869,20 +768,11 @@ class DraftsTableCompanion extends UpdateCompanion<Drafts> {
     if (key.present) {
       map['key'] = Variable<String>(key.value);
     }
-    if (author.present) {
-      map['author'] = Variable<String>(author.value);
-    }
-    if (views.present) {
-      map['views'] = Variable<int>(views.value);
-    }
     if (created.present) {
       map['created'] = Variable<String>(created.value);
     }
     if (updated.present) {
       map['updated'] = Variable<String>(updated.value);
-    }
-    if (liked.present) {
-      map['liked'] = Variable<bool>(liked.value);
     }
     return map;
   }
@@ -893,17 +783,12 @@ class DraftsTableCompanion extends UpdateCompanion<Drafts> {
           ..write('id: $id, ')
           ..write('draftId: $draftId, ')
           ..write('user: $user, ')
-          ..write('book: $book, ')
-          ..write('songNo: $songNo, ')
           ..write('title: $title, ')
           ..write('alias: $alias, ')
           ..write('content: $content, ')
           ..write('key: $key, ')
-          ..write('author: $author, ')
-          ..write('views: $views, ')
           ..write('created: $created, ')
-          ..write('updated: $updated, ')
-          ..write('liked: $liked')
+          ..write('updated: $updated')
           ..write(')'))
         .toString();
   }
@@ -936,20 +821,6 @@ class $DraftsTableTable extends DraftsTable
       type: const IntType(),
       requiredDuringInsert: false,
       defaultValue: const Constant(0));
-  final VerificationMeta _bookMeta = const VerificationMeta('book');
-  @override
-  late final GeneratedColumn<int?> book = GeneratedColumn<int?>(
-      'book', aliasedName, false,
-      type: const IntType(),
-      requiredDuringInsert: false,
-      defaultValue: const Constant(0));
-  final VerificationMeta _songNoMeta = const VerificationMeta('songNo');
-  @override
-  late final GeneratedColumn<int?> songNo = GeneratedColumn<int?>(
-      'song_no', aliasedName, false,
-      type: const IntType(),
-      requiredDuringInsert: false,
-      defaultValue: const Constant(0));
   final VerificationMeta _titleMeta = const VerificationMeta('title');
   @override
   late final GeneratedColumn<String?> title = GeneratedColumn<String?>(
@@ -978,20 +849,6 @@ class $DraftsTableTable extends DraftsTable
       type: const StringType(),
       requiredDuringInsert: false,
       defaultValue: const Constant(''));
-  final VerificationMeta _authorMeta = const VerificationMeta('author');
-  @override
-  late final GeneratedColumn<String?> author = GeneratedColumn<String?>(
-      'author', aliasedName, false,
-      type: const StringType(),
-      requiredDuringInsert: false,
-      defaultValue: const Constant(''));
-  final VerificationMeta _viewsMeta = const VerificationMeta('views');
-  @override
-  late final GeneratedColumn<int?> views = GeneratedColumn<int?>(
-      'views', aliasedName, false,
-      type: const IntType(),
-      requiredDuringInsert: false,
-      defaultValue: const Constant(0));
   final VerificationMeta _createdMeta = const VerificationMeta('created');
   @override
   late final GeneratedColumn<String?> created = GeneratedColumn<String?>(
@@ -1006,31 +863,9 @@ class $DraftsTableTable extends DraftsTable
       type: const StringType(),
       requiredDuringInsert: false,
       defaultValue: const Constant(''));
-  final VerificationMeta _likedMeta = const VerificationMeta('liked');
   @override
-  late final GeneratedColumn<bool?> liked = GeneratedColumn<bool?>(
-      'liked', aliasedName, false,
-      type: const BoolType(),
-      requiredDuringInsert: false,
-      defaultConstraints: 'CHECK (liked IN (0, 1))',
-      defaultValue: const Constant(false));
-  @override
-  List<GeneratedColumn> get $columns => [
-        id,
-        draftId,
-        user,
-        book,
-        songNo,
-        title,
-        alias,
-        content,
-        key,
-        author,
-        views,
-        created,
-        updated,
-        liked
-      ];
+  List<GeneratedColumn> get $columns =>
+      [id, draftId, user, title, alias, content, key, created, updated];
   @override
   String get aliasedName => _alias ?? 'drafts_table';
   @override
@@ -1051,14 +886,6 @@ class $DraftsTableTable extends DraftsTable
       context.handle(
           _userMeta, user.isAcceptableOrUnknown(data['user']!, _userMeta));
     }
-    if (data.containsKey('book')) {
-      context.handle(
-          _bookMeta, book.isAcceptableOrUnknown(data['book']!, _bookMeta));
-    }
-    if (data.containsKey('song_no')) {
-      context.handle(_songNoMeta,
-          songNo.isAcceptableOrUnknown(data['song_no']!, _songNoMeta));
-    }
     if (data.containsKey('title')) {
       context.handle(
           _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
@@ -1075,14 +902,6 @@ class $DraftsTableTable extends DraftsTable
       context.handle(
           _keyMeta, key.isAcceptableOrUnknown(data['key']!, _keyMeta));
     }
-    if (data.containsKey('author')) {
-      context.handle(_authorMeta,
-          author.isAcceptableOrUnknown(data['author']!, _authorMeta));
-    }
-    if (data.containsKey('views')) {
-      context.handle(
-          _viewsMeta, views.isAcceptableOrUnknown(data['views']!, _viewsMeta));
-    }
     if (data.containsKey('created')) {
       context.handle(_createdMeta,
           created.isAcceptableOrUnknown(data['created']!, _createdMeta));
@@ -1090,10 +909,6 @@ class $DraftsTableTable extends DraftsTable
     if (data.containsKey('updated')) {
       context.handle(_updatedMeta,
           updated.isAcceptableOrUnknown(data['updated']!, _updatedMeta));
-    }
-    if (data.containsKey('liked')) {
-      context.handle(
-          _likedMeta, liked.isAcceptableOrUnknown(data['liked']!, _likedMeta));
     }
     return context;
   }

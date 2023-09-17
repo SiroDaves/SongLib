@@ -5,15 +5,20 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
+import 'package:window_manager/window_manager.dart';
 
 import 'di/environments.dart';
 import 'di/injectable.dart';
 import 'navigator/main_navigator.dart';
 import 'theme/theme_data.dart';
+import 'utils/utilities.dart';
 import 'viewmodels/global_vm.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  if (isDesktop) {
+    await windowManager.ensureInitialized();
+  }
   logger.log('Starting app from main.dart');
   await configureDependencies(Environments.dev);
   runApp(const MyApp());

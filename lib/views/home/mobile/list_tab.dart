@@ -32,7 +32,7 @@ class ListTab extends StatelessWidget {
             height: size.height,
             onPressed: () {
               vm.localStorage.listed = vm.setListed = listed;
-              vm.navigator.goToListView();
+              MainNavigator.of(context).goToListView();
             },
           ),
         );

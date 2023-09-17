@@ -58,8 +58,8 @@ class HomeVm with ChangeNotifier {
     PageType.search,
     PageType.likes,
     PageType.drafts,
-    PageType.helpdesk,
-    PageType.settings,
+    //PageType.helpdesk,
+    //PageType.settings,
   ];
   Future<void> init(HomeNavigator screenNavigator) async {
     navigator = screenNavigator;
@@ -73,6 +73,7 @@ class HomeVm with ChangeNotifier {
     timeInstalled = localStorage.getPrefString(PrefConstants.dateInstalledKey);
     var dateValue = DateTime.parse(timeInstalled);
     dateDiff = DateTime.now().difference(dateValue).inDays;
+    
     /*if (!shownUpdateHint) {
       var result = await FlutterPlatformAlert.showCustomAlert(
         windowTitle: tr!.hintsCurrentUpdate,
@@ -344,7 +345,7 @@ class HomeVm with ChangeNotifier {
     if (result == CustomButton.positiveButton) {
       localStorage.listed = setListed = Listed();
       listSongs!.clear();
-      dbRepo.removeListed(listed);
+      dbRepo.removeListed(listed.id!);
       await fetchListedData(showLoading: false);
       showToast(
         text: '${listed.title} ${tr!.deleted}',
@@ -405,13 +406,4 @@ abstract class HomeNavigator {
   void goToSongEditor();
   void goToSongEditorPc();
   void goToDraftEditor(bool notEmpty);
-  void goToListView();
-  void goToOnboarding();
-  void goToHelpDesk();
-  void goToDonation();
-  void goToSettings();
-  void goToSelection();
-  void goToUser();
-  void goToSignin();
-  void goToSignup();
 }

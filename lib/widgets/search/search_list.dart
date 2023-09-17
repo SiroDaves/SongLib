@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../model/base/listed.dart';
+import '../../navigator/main_navigator.dart';
 import '../../viewmodels/home/home_vm.dart';
 import '../../../../widgets/general/list_items.dart';
 
@@ -65,7 +66,7 @@ class SearchList extends SearchDelegate<List> {
           height: height!,
           onPressed: () {
             vm.localStorage.listed = result;
-            vm.navigator.goToListView();
+            MainNavigator.of(context).goToListView();
           },
         );
       },
@@ -91,7 +92,7 @@ class SearchList extends SearchDelegate<List> {
           height: height!,
           onPressed: () {
             vm.localStorage.listed = result;
-            vm.navigator.goToListView();
+            MainNavigator.of(context).goToListView();
           },
         );
       },

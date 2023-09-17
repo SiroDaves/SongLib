@@ -74,8 +74,8 @@ class HomeWebVm with ChangeNotifier {
     notifyListeners();
 
     if (await isConnected()) {
-      var response = await api.fetchBooks();
-      /*if (response.id == EventConstants.requestSuccessful) {
+      /*var response = await api.fetchBooks();
+      if (response.id == EventConstants.requestSuccessful) {
         Book book = Book();
         books = book.fromParse(response.data);
         for (var getBook in books!) {

@@ -21,13 +21,10 @@ class ThemeFonts {
 }
 
 class PageBreaks {//1366,1024
-  static double get LargePhone => 550;
-
-  static double get TabletPortrait => 768;
-
-  static double get TabletLandscape => 1024;
-
-  static double get Desktop => 1440;
+  static double get largePhone => 550;
+  static double get tabletPortrait => 768;
+  static double get tabletLandscape => 1024;
+  static double get desktop => 1440;
 }
 
 class Insets {

@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:styled_widget/styled_widget.dart';
+import 'package:textstyle_extensions/textstyle_extensions.dart';
 
 import '../../model/base/book.dart';
 import '../../model/base/draft.dart';
@@ -31,10 +32,9 @@ import '../../widgets/search/floating_search.dart';
 import '../../widgets/search/headers.dart';
 import '../../widgets/search/search_list.dart';
 import '../../widgets/search/search_songs.dart';
-import '../info/helpdesk_screen.dart';
-import '../manage/settings_screen.dart';
 
 part 'home_screen_helpers.dart';
+part 'home_widgets.dart';
 part 'mobile/drafts_tab.dart';
 part 'mobile/history_tab.dart';
 part 'mobile/search_tab.dart';
@@ -59,6 +59,8 @@ class HomeScreenState extends State<HomeScreen>
     implements HomeNavigator {
   late TabController tabController;
   Size? size;
+  int? selectedMenu;
+  bool isBigView = false;
 
   @override
   void initState() {
@@ -79,146 +81,8 @@ class HomeScreenState extends State<HomeScreen>
         builder: (ctx, vm, child) {
           vm.context = ctx;
           vm.tr = AppLocalizations.of(ctx)!;
-          int? selectedMenu;
-          var appBarMenu = PopupMenuButton<int>(
-            initialValue: selectedMenu,
-            // Callback that sets the selected popup menu item.
-            onSelected: (int menu) {
-              switch (menu) {
-                case 1:
-                  goToHelpDesk();
-                  break;
+          isBigView = size!.width > PageBreaks.tabletLandscape;
 
-                case 2:
-                  goToOnboarding();
-                  break;
-
-                case 3:
-                  goToDonation();
-                  break;
-
-                case 4:
-                  goToSelection();
-                  break;
-
-                case 5:
-                  goToSettings();
-                  break;
-              }
-            },
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<int>>[
-              const PopupMenuItem<int>(
-                value: 1,
-                child: Text('Our HelpDesk'),
-              ),
-              const PopupMenuItem<int>(
-                value: 2,
-                child: Text('How it Works'),
-              ),
-              if (vm.dateDiff > 2)
-                const PopupMenuItem<int>(
-                  value: 3,
-                  child: Text('Make a Donation'),
-                ),
-              const PopupMenuItem<int>(
-                value: 4,
-                child: Text('Manage SongBooks'),
-              ),
-              const PopupMenuItem<int>(
-                value: 5,
-                child: Text('Manage Settings'),
-              ),
-            ],
-          );
-
-          var mobileAppbar = AppBar(
-            title: Row(
-              children: [
-                Image.asset(ThemeAssets.appIcon, height: 35, width: 35),
-                const SizedBox(width: 10),
-                const Text(
-                  AppConstants.appTitle,
-                  style: TextStyle(
-                    fontSize: 25,
-                    letterSpacing: 3,
-                    fontWeight: FontWeight.bold,
-                  ),
-                )
-              ],
-            ),
-            actions: <Widget>[
-              InkWell(
-                onTap: () async {
-                  await showSearch(
-                    context: ctx,
-                    delegate: SearchSongs(ctx, vm, size!.height),
-                  );
-                },
-                child: const Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Icon(Icons.search),
-                ),
-              ),
-              /*InkWell(
-              onTap: () {
-                if (vm.isLoggedIn) {
-                  goToUser();
-                } else {
-                  goToSignin();
-                }
-              },
-              child: const Padding(
-                padding: EdgeInsets.all(10),
-                child: Icon(Icons.person),
-              ),
-            ),*/
-              appBarMenu,
-            ],
-            bottom: TabBar(
-              controller: tabController,
-              tabs: <Widget>[
-                Tab(text: 'Lists'.toUpperCase()),
-                Tab(text: 'Search'.toUpperCase()),
-                Tab(text: 'Likes'.toUpperCase()),
-                Tab(text: 'Drafts'.toUpperCase()),
-              ],
-            ),
-          );
-
-          var desktopAppbar = AppBar(
-            title: Row(
-              children: [
-                const SizedBox(width: 10),
-                Image.asset(ThemeAssets.appIcon, height: 35, width: 35),
-                const SizedBox(width: 10),
-                const Text(
-                  '${AppConstants.appTitle} ${AppConstants.appVersion}',
-                  style: TextStyle(fontSize: 25),
-                ),
-                const SizedBox(width: 60),
-                vm.setPage == PageType.helpdesk ||
-                        vm.setPage == PageType.settings
-                    ? const SizedBox.shrink()
-                    : SearchWidget(
-                        onSearch: (query) => vm.onSearch(query),
-                        searchController: vm.searchController,
-                      ),
-                const SizedBox(width: 10),
-              ],
-            ),
-            actions: <Widget>[
-              ActionBtn1(vm),
-              /*const SizedBox(width: 0),
-            InkWell(
-              onTap: () {},
-              child: const Padding(
-                padding: EdgeInsets.all(10),
-                child: Icon(Icons.notifications),
-              ),
-            ),*/
-              const SizedBox(width: 20),
-            ],
-          );
           var desktopBody = Stack(
             children: [
               FadingIndexedStack(
@@ -229,8 +93,8 @@ class HomeScreenState extends State<HomeScreen>
                   SearchTabPc(vm),
                   LikesTabPc(vm),
                   DraftsTabPc(vm),
-                  const HelpDeskScreen(),
-                  const SettingsScreen(),
+                  //const HelpDeskScreen(),
+                  //const SettingsScreen(),
                 ],
               )
                   .positioned(
@@ -245,25 +109,38 @@ class HomeScreenState extends State<HomeScreen>
                   .animate(.35.seconds, Curves.easeOut),
             ],
           );
+          var tabBar = TabBar(
+            controller: tabController,
+            tabs: <Widget>[
+              Tab(text: 'Lists'.toUpperCase()),
+              Tab(text: 'Search'.toUpperCase()),
+              Tab(text: 'Likes'.toUpperCase()),
+              Tab(text: 'Drafts'.toUpperCase()),
+            ],
+          );
+          var mobileBody = TabBarView(
+            controller: tabController,
+            children: <Widget>[
+              ListTab(vm),
+              SearchTab(vm),
+              LikesTab(vm),
+              DraftsTab(vm),
+            ],
+          );
 
           return Scaffold(
-            appBar: isDesktop ? desktopAppbar : mobileAppbar,
+            appBar: HomeAppbar(
+              isDesktop: isDesktop && isBigView,
+              vm: vm,
+              size: size!,
+              bottom: tabBar,
+            ),
             body: TweenAnimationBuilder<double>(
               duration: Durations.slow,
               tween: Tween(begin: 0, end: 1),
               builder: (_, value, ___) {
                 return FocusTraversalGroup(
-                  child: isDesktop
-                      ? desktopBody
-                      : TabBarView(
-                          controller: tabController,
-                          children: <Widget>[
-                            ListTab(vm),
-                            SearchTab(vm),
-                            LikesTab(vm),
-                            DraftsTab(vm),
-                          ],
-                        ),
+                  child: isDesktop && isBigView ? desktopBody : mobileBody,
                 );
               },
             ),
@@ -295,33 +172,4 @@ class HomeScreenState extends State<HomeScreen>
   @override
   void goToDraftEditor(bool notEmpty) =>
       MainNavigator.of(context).goToDraftEditor(notEmpty);
-
-  @override
-  void goToListView() => MainNavigator.of(context).goToListView();
-
-  @override
-  void goToSettings() => MainNavigator.of(context).goToSettings();
-
-  @override
-  void goToSelection() => MainNavigator.of(context).goToSelection();
-
-  @override
-  void goToHelpDesk() => MainNavigator.of(context).goToHelpDesk();
-
-  // Navigates to Donation screen
-  @override
-  void goToDonation() => MainNavigator.of(context).goToDonation();
-
-  // Navigates to Onboarding screen
-  @override
-  void goToOnboarding() => MainNavigator.of(context).goToOnboarding();
-
-  @override
-  void goToUser() => MainNavigator.of(context).goToUser();
-
-  @override
-  void goToSignin() => MainNavigator.of(context).goToSignin();
-
-  @override
-  void goToSignup() => MainNavigator.of(context).goToSignup();
 }
