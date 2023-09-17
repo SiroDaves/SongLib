@@ -406,13 +406,4 @@ abstract class HomeNavigator {
   void goToSongEditor();
   void goToSongEditorPc();
   void goToDraftEditor(bool notEmpty);
-  void goToListView();
-  void goToOnboarding();
-  void goToHelpDesk();
-  void goToDonation();
-  void goToSettings();
-  void goToSelection();
-  void goToUser();
-  void goToSignin();
-  void goToSignup();
 }

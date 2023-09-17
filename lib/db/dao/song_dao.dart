@@ -30,7 +30,7 @@ abstract class SongDao {
 ])
 class _SongDao extends DatabaseAccessor<AppDatabase>
     with _$_SongDaoMixin
-    implements SongDao {
+    implements SongDao { 
   _SongDao(AppDatabase db) : super(db);
 
   @override

@@ -9,41 +9,6 @@ class SearchTabPc extends StatelessWidget {
     var tr = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
 
-    var booksContainer = Container(
-      height: 100,
-      width: double.infinity,
-      padding: const EdgeInsets.only(left: 5),
-      decoration: const BoxDecoration(
-        color: ThemeColors.backgroundGrey,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey,
-            spreadRadius: 2,
-            blurRadius: 2,
-            offset: Offset(0, 1),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          ListView.builder(
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.all(5),
-            itemBuilder: (context, index) {
-              final Book book = vm.books![index];
-              return SongBook(
-                book: book,
-                isSelected: vm.setBook == book,
-                onPressed: () => vm.selectSongbook(book),
-              );
-            },
-            itemCount: vm.books!.length,
-          ).expanded(),
-          //ManageBooksBtn(vm),
-        ],
-      ),
-    );
     var listContainer = Container(
       padding: const EdgeInsets.symmetric(horizontal: 5),
       child: ListView.builder(
@@ -178,7 +143,7 @@ class SearchTabPc extends StatelessWidget {
             ],
           ),
         ).padding(top: 100),
-        booksContainer,
+        vm.books!.isNotEmpty ? BooksContainer(vm) : ManageBooksBtn(vm),
       ],
     );
   }

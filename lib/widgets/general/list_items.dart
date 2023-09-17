@@ -86,7 +86,7 @@ class SongBook extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
+      padding: const EdgeInsets.all(5),
       child: RawMaterialButton(
         textStyle: TextStyles.Btn.bold
             .size(16)

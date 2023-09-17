@@ -11,24 +11,6 @@ class SearchTab extends StatelessWidget {
   Widget build(BuildContext context) {
     var tr = AppLocalizations.of(context)!;
     size = MediaQuery.of(context).size;
-  // creates a horizontal list of books to display
-    var booksContainer = SizedBox(
-      height: 80,
-      child: ListView.builder(
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.all(5),
-        itemBuilder: (context, index) {
-          final Book book = vm.books![index];
-          return SongBook(
-            book: book,
-            isSelected: vm.setBook == book,
-            onPressed: () => vm.selectSongbook(book),
-          );
-        },
-        itemCount: vm.books!.length,
-      ),
-    );
     var listContainer = ListView.builder(
       physics: const ClampingScrollPhysics(),
       shrinkWrap: true,
@@ -114,7 +96,7 @@ class SearchTab extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                vm.books!.isNotEmpty ? booksContainer : const SizedBox.shrink(),
+                vm.books!.isNotEmpty ? BooksContainer(vm) : ManageBooksBtn(vm),
                 SizedBox(
                   child: vm.isBusy
                       ? const ListLoading()
