@@ -1,33 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../navigator/main_navigation.dart';
-import '../views/drafts/draft_editor.dart';
-import '../views/drafts/mobile/draft_presentor.dart';
-import '../views/drafts/pc/draft_presentor_pc.dart';
-import '../views/home/home_screen.dart';
-import '../views/info/donation_screen.dart';
-import '../views/info/helpdesk_screen.dart';
-import '../views/info/onboarding_screen.dart';
-import '../views/lists/list_view_screen.dart';
-import '../views/selection/selection_screen.dart';
-import '../views/songs/mobile/song_editor.dart';
-import '../views/songs/mobile/song_presentor.dart';
-import '../views/songs/pc/song_editor_pc.dart';
-import '../views/songs/pc/song_presentor_pc.dart';
-import '../views/splash_screen.dart';
-import '../views/user/signin_screen.dart';
-import '../views/user/signup_screen.dart';
-import '../views/user/user_screen.dart';
-import '../widgets/general/text_scale_factor.dart';
+import '../common/widgets/text_scale_factor.dart';
+import '../home/ui/home_screen.dart';
+import '../login/ui/login_screen.dart';
+import '../common/ui/splash_screen.dart';
 import 'route_names.dart';
 
 class MainNavigator extends StatefulWidget {
   final Widget? child;
 
-  const MainNavigator({
-    this.child,
-    Key? key,
-  }) : super(key: key);
+  const MainNavigator({this.child, super.key});
 
   @override
   MainNavigatorState createState() => MainNavigatorState();
@@ -75,23 +57,8 @@ class MainNavigatorState extends State<MainNavigator> with MainNavigationMixin {
     final Map<String, WidgetBuilder> routes = {
       '': (context) => const SplashScreen(),
       RouteNames.splash: (context) => const SplashScreen(),
-      RouteNames.selection: (context) => const SelectionScreen(),
-      RouteNames.onboarding: (context) => const OnboardingScreen(),
+      RouteNames.login: (context) => const LoginScreen(),
       RouteNames.home: (context) => const HomeScreen(),
-      RouteNames.presentSong: (context) => const SongPresentor(),
-      RouteNames.presentSongPc: (context) => const SongPresentorPc(),
-      RouteNames.presentDraft: (context) => const DraftPresentor(),
-      RouteNames.presentDraftPc: (context) => const DraftPresentorPc(),
-      RouteNames.editSong: (context) => const SongEditor(),
-      RouteNames.editSongPc: (context) => const SongEditorPc(),
-      RouteNames.editDraft: (context) => const DraftEditor(),
-      RouteNames.editDraftPc: (context) => const DraftEditor(),
-      RouteNames.list: (context) => const ListViewScreen(),
-      RouteNames.helpdesk: (context) => const HelpDeskScreen(),
-      RouteNames.donation: (context) => const DonationScreen(),
-      RouteNames.user: (context) => const UserScreen(),
-      RouteNames.signin: (context) => const SigninScreen(),
-      RouteNames.signup: (context) => const SignupScreen(),
     };
 
     defaultRoute(context) => const SplashScreen();
@@ -119,72 +86,9 @@ class MainNavigatorState extends State<MainNavigator> with MainNavigationMixin {
       return null;
     }
   }
-
-  @override
-  void goToSplash() => navigator.pushReplacementNamed(RouteNames.splash);
-
-  @override
-  void goToSelection() => navigator.pushReplacementNamed(RouteNames.selection);
-
-  @override
-  void goToOnboarding() =>
-      navigator.pushReplacementNamed(RouteNames.onboarding);
-
-  @override
-  void goToHome() =>
-      navigator.pushNamedAndRemoveUntil(RouteNames.home, (route) => false);
-
-  @override
-  void goToSongPresentor() => navigator.pushNamed(RouteNames.presentSong);
-
-  @override
-  void goToSongPresentorPc() => navigator.pushNamed(RouteNames.presentSongPc);
-
-  @override
-  void goToDraftPresentor() => navigator.pushNamed(RouteNames.presentDraft);
-
-  @override
-  void goToDraftPresentorPc() => navigator.pushNamed(RouteNames.presentDraftPc);
-
-  @override
-  void goToSongEditor() => navigator.pushNamed(RouteNames.editDraftPc);
-
-  @override
-  void goToSongEditorPc() => navigator.pushNamed(RouteNames.editDraftPc);
-
-  @override
-  void goToDraftEditor(bool notEmpty) => navigator.pushNamed(
-        RouteNames.editDraft,
-        arguments: {'not_empty': notEmpty},
-      );
-
-  @override
-  void goToListView() => navigator.pushNamed(RouteNames.list);
-
-  @override
-  void goToSettings() => navigator.pushNamed(RouteNames.settings);
-
-  @override
-  void goToHelpDesk() => navigator.pushNamed(RouteNames.helpdesk);
-
-  @override
-  void goToDonation() => navigator.pushNamed(RouteNames.donation);
-
-  @override
-  void goToUser() => navigator.pushNamed(RouteNames.user);
-
-  @override
-  void goToSignin() => navigator.pushNamed(RouteNames.signin);
-
-  @override
-  void goToSignup() => navigator.pushNamed(RouteNames.signup);
-
-  @override
-  void goBack<T>({T? result}) => navigator.pop(result);
-
-  @override
-  void showCustomDialog<T>({required WidgetBuilder builder}) => showDialog<T>(
-      context: _navigationKey.currentContext!,
-      builder: builder,
-      useRootNavigator: true);
 }
+
+abstract class MainNavigation {}
+
+mixin MainNavigationMixin<T extends StatefulWidget> on State<T>
+    implements MainNavigation {}

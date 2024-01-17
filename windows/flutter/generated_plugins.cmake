@@ -3,15 +3,10 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-  connectivity_plus
   desktop_window
   flutter_platform_alert
-  flutter_secure_storage_windows
-  screen_retriever
-  sqlite3_flutter_libs
-  tray_manager
+  share_plus
   url_launcher_windows
-  window_manager
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
