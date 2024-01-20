@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'common/bloc/auth/auth_bloc.dart';
-import 'navigator/main_navigator.dart';
-import 'navigator/route_names.dart';
-import 'repository/auth_repository.dart';
-import 'repository/user_repository.dart';
+import 'common/domain/auth_repository.dart';
+import 'common/navigator/main_navigator.dart';
+import 'common/navigator/route_names.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -15,31 +14,26 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  late final AuthRepository _authRepository;
-  late final UserRepository _userRepository;
+  late final AuthRepository _authRepo;
 
   @override
   void initState() {
     super.initState();
-    _authRepository = AuthRepository();
-    _userRepository = UserRepository();
+    _authRepo = AuthRepository();
   }
 
   @override
   void dispose() {
-    _authRepository.dispose();
+    _authRepo.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
-      value: _authRepository,
+      value: _authRepo,
       child: BlocProvider(
-        create: (_) => AuthBloc(
-          authRepository: _authRepository,
-          userRepository: _userRepository,
-        ),
+        create: (_) => AuthBloc(authRepository: _authRepo),
         child: const AppView(),
       ),
     );
@@ -79,7 +73,11 @@ class _AppViewState extends State<AppView> {
                   RouteNames.login,
                   (route) => false,
                 );
-              case AuthStatus.quest:
+              case AuthStatus.guest:
+                /*navigator.pushNamedAndRemoveUntil<void>(
+                  RouteNames.home,
+                  (route) => false,
+                );*/
                 break;
             }
           },

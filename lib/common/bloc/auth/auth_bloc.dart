@@ -3,23 +3,18 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../repository/auth_repository.dart';
-import '../../../repository/models/user.dart';
-import '../../../repository/user_repository.dart';
+import '../../domain/auth_repository.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 part 'auth_bloc.freezed.dart';
 
-class AuthBloc
-    extends Bloc<AuthEvent, AuthState> {
+class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({
     required AuthRepository authRepository,
-    required UserRepository userRepository,
   })  : _authRepository = authRepository,
-        _userRepository = userRepository,
-        super(XAuthState.unknown()) {
+        super(XAuthState.guest()) {
     on<AuthStatusChanged>(_onAuthStatusChanged);
     on<AuthLogoutRequested>(_onAuthLogoutRequested);
     _authStatusSubscription = _authRepository.status.listen(
@@ -28,9 +23,7 @@ class AuthBloc
   }
 
   final AuthRepository _authRepository;
-  final UserRepository _userRepository;
-  late StreamSubscription<AuthStatus>
-      _authStatusSubscription;
+  late StreamSubscription<AuthStatus> _authStatusSubscription;
 
   @override
   Future<void> close() {
@@ -43,17 +36,12 @@ class AuthBloc
     Emitter<AuthState> emit,
   ) async {
     switch (event.status) {
+      case AuthStatus.guest:
+        return emit(XAuthState.guest());
       case AuthStatus.unauthenticated:
         return emit(XAuthState.unauthenticated());
       case AuthStatus.authenticated:
-        final user = await _tryGetUser();
-        return emit(
-          user != null
-              ? XAuthState.authenticated(user)
-              : XAuthState.unauthenticated(),
-        );
-      case AuthStatus.quest:
-        return emit(XAuthState.unknown());
+        return emit(XAuthState.authenticated());
     }
   }
 
@@ -62,14 +50,5 @@ class AuthBloc
     Emitter<AuthState> emit,
   ) {
     _authRepository.logOut();
-  }
-
-  Future<User?> _tryGetUser() async {
-    try {
-      final user = await _userRepository.getUser();
-      return user;
-    } catch (_) {
-      return null;
-    }
   }
 }

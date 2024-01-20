@@ -314,7 +314,6 @@ abstract class AuthLogoutRequested implements AuthEvent {
 /// @nodoc
 mixin _$AuthState {
   AuthStatus get status => throw _privateConstructorUsedError;
-  User get user => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AuthStateCopyWith<AuthState> get copyWith =>
@@ -326,9 +325,7 @@ abstract class $AuthStateCopyWith<$Res> {
   factory $AuthStateCopyWith(AuthState value, $Res Function(AuthState) then) =
       _$AuthStateCopyWithImpl<$Res, AuthState>;
   @useResult
-  $Res call({AuthStatus status, User user});
-
-  $UserCopyWith<$Res> get user;
+  $Res call({AuthStatus status});
 }
 
 /// @nodoc
@@ -345,26 +342,13 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
   @override
   $Res call({
     Object? status = null,
-    Object? user = null,
   }) {
     return _then(_value.copyWith(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as AuthStatus,
-      user: null == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as User,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $UserCopyWith<$Res> get user {
-    return $UserCopyWith<$Res>(_value.user, (value) {
-      return _then(_value.copyWith(user: value) as $Val);
-    });
   }
 }
 
@@ -376,10 +360,7 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       __$$AuthStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({AuthStatus status, User user});
-
-  @override
-  $UserCopyWith<$Res> get user;
+  $Res call({AuthStatus status});
 }
 
 /// @nodoc
@@ -394,17 +375,12 @@ class __$$AuthStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? status = null,
-    Object? user = null,
   }) {
     return _then(_$AuthStateImpl(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as AuthStatus,
-      user: null == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as User,
     ));
   }
 }
@@ -412,18 +388,15 @@ class __$$AuthStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$AuthStateImpl implements _AuthState {
-  _$AuthStateImpl({this.status = AuthStatus.quest, this.user = User.empty});
+  _$AuthStateImpl({this.status = AuthStatus.guest});
 
   @override
   @JsonKey()
   final AuthStatus status;
-  @override
-  @JsonKey()
-  final User user;
 
   @override
   String toString() {
-    return 'AuthState._(status: $status, user: $user)';
+    return 'AuthState._(status: $status)';
   }
 
   @override
@@ -431,12 +404,11 @@ class _$AuthStateImpl implements _AuthState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AuthStateImpl &&
-            (identical(other.status, status) || other.status == status) &&
-            (identical(other.user, user) || other.user == user));
+            (identical(other.status, status) || other.status == status));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status, user);
+  int get hashCode => Object.hash(runtimeType, status);
 
   @JsonKey(ignore: true)
   @override
@@ -446,13 +418,10 @@ class _$AuthStateImpl implements _AuthState {
 }
 
 abstract class _AuthState implements AuthState {
-  factory _AuthState({final AuthStatus status, final User user}) =
-      _$AuthStateImpl;
+  factory _AuthState({final AuthStatus status}) = _$AuthStateImpl;
 
   @override
   AuthStatus get status;
-  @override
-  User get user;
   @override
   @JsonKey(ignore: true)
   _$$AuthStateImplCopyWith<_$AuthStateImpl> get copyWith =>

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 
-import '../../repository/auth_repository.dart';
+import '../../common/domain/auth_repository.dart';
 import '../bloc/login_bloc.dart';
 
 part 'login_form.dart';

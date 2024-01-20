@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:formz/formz.dart';
 
-import '../../repository/auth_repository.dart';
+import '../../common/domain/auth_repository.dart';
 import '../data/models/password.dart';
 import '../data/models/username.dart';
 
@@ -56,10 +56,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (state.isValid) {
       emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
       try {
-        await _authRepository.logIn(
-          username: state.username.value,
-          password: state.password.value,
-        );
+        await _authRepository.logIn();
         emit(state.copyWith(status: FormzSubmissionStatus.success));
       } catch (_) {
         emit(state.copyWith(status: FormzSubmissionStatus.failure));

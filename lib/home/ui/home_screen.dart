@@ -14,20 +14,10 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Builder(
-              builder: (context) {
-                final userId = context.select(
-                  (AuthBloc bloc) => bloc.state.user.id,
-                );
-                return Text('UserID: $userId');
-              },
-            ),
             ElevatedButton(
               child: const Text('Logout'),
               onPressed: () {
-                context
-                    .read<AuthBloc>()
-                    .add(const AuthLogoutRequested());
+                context.read<AuthBloc>().add(const AuthLogoutRequested());
               },
             ),
           ],
