@@ -1,6 +1,5 @@
 import 'package:drift/drift.dart';
 
-import 'connection/connection.dart' as impl;
 import 'tables/tables.dart';
 
 part 'app_database.g.dart';
@@ -12,10 +11,11 @@ part 'app_database.g.dart';
   ],
 )
 class AppDatabase extends _$AppDatabase {
-  AppDatabase() : super(impl.connect());
+  AppDatabase(QueryExecutor db) : super(db);
 
-  AppDatabase.forTesting(DatabaseConnection connection) : super(connection);
+  AppDatabase.connect(DatabaseConnection connection) : super(connection);
 
+  @override
   int get schemaVersion => 3;
 
 }
