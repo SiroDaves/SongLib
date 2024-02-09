@@ -16,6 +16,7 @@ Future<File> get databaseFile async {
   if (isDesktop) {
     dbFolder = await getApplicationSupportDirectory();
   }
+  print('Db Path: ${dbFolder.path}');
   return File(join(dbFolder.path, 'songlibDatabase.sqlite'));
 }
 

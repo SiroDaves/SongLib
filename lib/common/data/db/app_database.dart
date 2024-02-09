@@ -1,14 +1,15 @@
 import 'package:drift/drift.dart';
 
-import 'tables/tables.dart';
+import 'dao/book_dao.dart';
+import 'tables/books_table.dart';
 
 part 'app_database.g.dart';
 
 @DriftDatabase(
   tables: [
-    TodoEntries,
-    Categories,
+    BooksTable,
   ],
+  daos: [BookDao],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase(QueryExecutor db) : super(db);
@@ -17,5 +18,4 @@ class AppDatabase extends _$AppDatabase {
 
   @override
   int get schemaVersion => 3;
-
 }

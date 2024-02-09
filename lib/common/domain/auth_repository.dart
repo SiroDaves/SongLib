@@ -6,7 +6,7 @@ import '../../../common/utils/logger.dart';
 
 enum AuthStatus { authenticated, guest,  unauthenticated }
 
-@lazySingleton
+@singleton
 class AuthRepository {
   final _controller = StreamController<AuthStatus>();
 

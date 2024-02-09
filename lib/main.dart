@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
 import 'app.dart';
+import 'common/utils/constants/environments.dart';
 import 'common/utils/logger.dart';
+import 'di/injectable.dart';
 
 /// Main App Bloc Observer
 class AppBlocObserver extends BlocObserver {
@@ -33,8 +35,8 @@ class AppBlocObserver extends BlocObserver {
 /// App entry point: all global declarations are initialized here
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  logger.i('Starting app from main.dart');
-
   Bloc.observer = AppBlocObserver();
+  logger.i('Starting app from main.dart');
+  await configureDependencies(Environments.dev);
   runApp(const App());
 }

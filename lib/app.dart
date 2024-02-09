@@ -74,10 +74,10 @@ class _AppViewState extends State<AppView> {
                   (route) => false,
                 );
               case AuthStatus.guest:
-                /*navigator.pushNamedAndRemoveUntil<void>(
+                navigator.pushNamedAndRemoveUntil<void>(
                   RouteNames.home,
                   (route) => false,
-                );*/
+                );
                 break;
             }
           },
