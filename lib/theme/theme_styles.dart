@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:textstyle_extensions/textstyle_extensions.dart';
 
-class Durations {
+class AppDurations {
   static const Duration fastest = Duration(milliseconds: 150);
 
   static const Duration fast = Duration(milliseconds: 250);

@@ -53,7 +53,7 @@ class HomeScreenWebState extends State<HomeScreenWeb>
         var desktopBody = Stack(
           children: [
             FadingIndexedStack(
-              duration: Durations.slow,
+              duration: AppDurations.slow,
               index: vm.pages.indexOf(vm.setPage),
               children: <Widget>[
                 SearchTabWeb(vm),
@@ -95,7 +95,7 @@ class HomeScreenWebState extends State<HomeScreenWeb>
             ),
           ),
           body: TweenAnimationBuilder<double>(
-            duration: Durations.slow,
+            duration: AppDurations.slow,
             tween: Tween(begin: 0, end: 1),
             builder: (_, value, ___) {
               return FocusTraversalGroup(child: desktopBody);

@@ -34,7 +34,7 @@ dependencies:
       git:
         url: https://github.com/Oyonde/icapps-architecture.git
   injectable: ^1.5.3
-  intl: ^0.17.0
+  intl: ^0.18.1
   json_annotation: ^4.6.0
   niddler_dart: ^1.5.0
   onboarding: ^3.1.0
@@ -71,7 +71,6 @@ dev_dependencies:
   license_generator: ^1.0.5
   injectable_generator: ^1.5.4
   json_serializable: ^6.3.1
-  mockito: ^5.0.15
   msix: ^3.7.0
   model_generator: ^5.8.1
 

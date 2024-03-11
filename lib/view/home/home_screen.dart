@@ -171,7 +171,7 @@ class HomeScreenState extends State<HomeScreen>
         var desktopBody = Stack(
           children: [
             FadingIndexedStack(
-              duration: Durations.slow,
+              duration: AppDurations.slow,
               index: vm.pages.indexOf(vm.setPage),
               children: <Widget>[
                 ListTabPc(vm),
@@ -198,7 +198,7 @@ class HomeScreenState extends State<HomeScreen>
         return Scaffold(
           appBar: isDesktop ? desktopAppbar : mobileAppbar,
           body: TweenAnimationBuilder<double>(
-            duration: Durations.slow,
+            duration: AppDurations.slow,
             tween: Tween(begin: 0, end: 1),
             builder: (_, value, ___) {
               return FocusTraversalGroup(
