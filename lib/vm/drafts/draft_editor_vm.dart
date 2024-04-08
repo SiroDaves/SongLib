@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../di/injectable.dart';
 import '../../model/base/draft.dart';

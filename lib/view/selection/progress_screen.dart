@@ -72,7 +72,7 @@ class ProgressScreenState extends State<ProgressScreen>
             ),
           );
 
-          var timeLeft = Padding(
+          /*var timeLeft = Padding(
             padding: const EdgeInsets.only(
               top: 10,
             ),
@@ -99,7 +99,7 @@ class ProgressScreenState extends State<ProgressScreen>
                 ),
               ],
             ),
-          );
+          );*/
 
           var foregroundProgress = Center(
             child: AdvancedProgress(

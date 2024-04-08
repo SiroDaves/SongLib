@@ -33,7 +33,7 @@ class SettingsScreenState extends State<SettingsScreen>
   @override
   Widget build(BuildContext context) {
     var tr = AppLocalizations.of(context)!;
-    String theme = "System Default";
+    //String theme = "System Default";
     String wakeLock = 'Disabled', slideDirection = 'Vertical (Up, Down)';
     return ProviderWidget<SettingsVm>(
       create: () => GetIt.I()..init(this),
@@ -49,11 +49,11 @@ class SettingsScreenState extends State<SettingsScreen>
           } else {
             slideDirection = 'Vertical (Up, Down)';
           }
-          if (vm.themeMode == ThemeMode.light) {
+          /*if (vm.themeMode == ThemeMode.light) {
             theme = tr.themeLight;
           } else if (vm.themeMode == ThemeMode.dark) {
             theme = tr.themeDark;
-          }
+          }*/
 
           var songbooks = Card(
             child: ListTile(
@@ -101,7 +101,7 @@ class SettingsScreenState extends State<SettingsScreen>
               ],
             ),
           );
-          var themes = Card(
+          /*var themes = Card(
             child: ExpansionTile(
               leading: const Icon(Icons.display_settings),
               title: const Text('Theme Mode'),
@@ -124,7 +124,7 @@ class SettingsScreenState extends State<SettingsScreen>
                 ),
               ],
             ),
-          );
+          );*/
 
           final dateValue = DateTime.parse(vm.timeInstalled);
           final String lastInstalled = timeago.format(dateValue);

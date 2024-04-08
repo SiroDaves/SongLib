@@ -69,10 +69,6 @@ class DonationScreenState extends State<DonationScreen>
     );
   }
 
-  // Navigates to home screen
-  @override
-  void goToHome() => MainNavigator.of(context).goToHome();
-
   // Navigates to onboarding screen
   @override
   void goToOnboarding() => MainNavigator.of(context).goToOnboarding();

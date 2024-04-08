@@ -30,7 +30,6 @@ class DraftPresentorState extends State<DraftPresentor>
 
   @override
   Widget build(BuildContext context) {
-    var tr = AppLocalizations.of(context)!;
     size = MediaQuery.of(context).size;
     return ProviderWidget<DraftPresentorVm>(
       create: () => GetIt.I()..init(this),

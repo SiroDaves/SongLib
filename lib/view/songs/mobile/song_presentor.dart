@@ -31,7 +31,6 @@ class SongPresentorState extends State<SongPresentor>
 
   @override 
   Widget build(BuildContext context) {
-    var tr = AppLocalizations.of(context)!;
     size = MediaQuery.of(context).size;
     return ProviderWidget<SongPresentorVm>(
       create: () => GetIt.I()..init(this),

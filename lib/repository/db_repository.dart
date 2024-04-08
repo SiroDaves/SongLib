@@ -218,7 +218,7 @@ class DbRepo implements DbRepository {
     final List<SongExt> songs = await songDao.getAllSongs();
     final List<History> histories = await historyDao.getHistories();
     final List<Listed> listeds = await listedDao.getAllListeds();
-    final List<Edit> edits = await editDao.getAllEdits();
+    //final List<Edit> edits = await editDao.getAllEdits();
     for (final song in songs) {
       if (!books.contains(song.book.toString())) {
         for (final history in histories) {

@@ -20,7 +20,6 @@ import '../../widget/progress/line_progress.dart';
 import '../../widget/provider/provider_widget.dart';
 import '../../widget/search/headers.dart';
 import '../info/helpdesk_screen.dart';
-import '../manage/settings_screen.dart';
 
 part 'pc/search_tab_web.dart';
 
