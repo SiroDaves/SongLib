@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../model/base/song.dart';
 import '../../repository/db_repository.dart';
-import '../../repository/shared_prefs/local_storage.dart';
+import '../../repository/local_storage.dart';
 import '../../util/constants/event_constants.dart';
 import '../../util/constants/pref_constants.dart';
 import '../../util/utilities.dart';

@@ -2,14 +2,12 @@ import 'dart:convert';
 
 import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../db/songlib_db.dart';
-import '../repository/secure_storage/secure_storage.dart';
 import '../util/env/flavor_config.dart';
 import 'db/setup_drift_none.dart'
     if (dart.library.io) 'db/setup_drift_io.dart'
@@ -52,16 +50,6 @@ abstract class RegisterModule {
   @preResolve
   Future<DatabaseConnection> provideDatabaseConnection() {
     return createDriftDatabaseConnection('songlibDatabase');
-  }
-
-  @lazySingleton
-  FlutterSecureStorage storage() => const FlutterSecureStorage();
-
-  @lazySingleton
-  SimpleKeyValueStorage keyValueStorage(
-      SharedPreferenceStorage preferences, SecureStorage secure) {
-    if (kIsWeb) return preferences;
-    return secure;
   }
 
   @lazySingleton

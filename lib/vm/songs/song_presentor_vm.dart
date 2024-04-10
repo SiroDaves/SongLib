@@ -12,7 +12,7 @@ import '../../model/base/history.dart';
 import '../../model/base/songext.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../repository/db_repository.dart';
-import '../../repository/shared_prefs/local_storage.dart';
+import '../../repository/local_storage.dart';
 import '../../util/constants/pref_constants.dart';
 import '../../util/utilities.dart';
 import '../../widget/general/labels.dart';

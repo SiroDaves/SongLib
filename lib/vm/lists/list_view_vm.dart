@@ -9,7 +9,7 @@ import '../../model/base/listedext.dart';
 import '../../model/base/songext.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../repository/db_repository.dart';
-import '../../repository/shared_prefs/local_storage.dart';
+import '../../repository/local_storage.dart';
 import '../../widget/general/toast.dart';
 import '../home/home_vm.dart';
 

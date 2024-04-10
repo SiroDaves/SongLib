@@ -6,7 +6,6 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:drift/drift.dart' as _i7;
-import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i8;
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:icapps_architecture/icapps_architecture.dart' as _i6;
 import 'package:injectable/injectable.dart' as _i2;
@@ -22,11 +21,8 @@ import '../db/dao/song_dao.dart' as _i18;
 import '../db/songlib_db.dart' as _i11;
 import '../repository/db_repository.dart' as _i20;
 import '../repository/locale_repository.dart' as _i22;
-import '../repository/refresh_repository.dart' as _i25;
-import '../repository/secure_storage/auth_storage.dart' as _i19;
-import '../repository/secure_storage/secure_storage.dart' as _i9;
 import '../repository/settings_repository.dart' as _i27;
-import '../repository/shared_prefs/local_storage.dart' as _i21;
+import '../repository/local_storage.dart' as _i21;
 import '../util/cache/cache_controller.dart' as _i5;
 import '../util/cache/cache_controlling.dart' as _i4;
 import '../vm/drafts/draft_editor_vm.dart' as _i32;
@@ -67,9 +63,6 @@ Future<_i1.GetIt> $initGetIt(
     () => registerModule.provideDatabaseConnection(),
     preResolve: true,
   );
-  gh.lazySingleton<_i8.FlutterSecureStorage>(() => registerModule.storage());
-  gh.lazySingleton<_i9.SecureStorage>(
-      () => _i9.SecureStorage(get<_i8.FlutterSecureStorage>()));
   await gh.singletonAsync<_i10.SharedPreferences>(
     () => registerModule.prefs(),
     preResolve: true,
@@ -85,14 +78,7 @@ Future<_i1.GetIt> $initGetIt(
   gh.lazySingleton<_i17.SearchDao>(() => _i17.SearchDao(get<_i11.SongLibDB>()));
   gh.lazySingleton<_i6.SharedPreferenceStorage>(
       () => registerModule.sharedPreferences(get<_i10.SharedPreferences>()));
-  gh.lazySingleton<_i6.SimpleKeyValueStorage>(
-      () => registerModule.keyValueStorage(
-            get<_i6.SharedPreferenceStorage>(),
-            get<_i9.SecureStorage>(),
-          ));
   gh.lazySingleton<_i18.SongDao>(() => _i18.SongDao(get<_i11.SongLibDB>()));
-  gh.lazySingleton<_i19.AuthStorage>(
-      () => _i19.AuthStorage(get<_i6.SimpleKeyValueStorage>()));
   gh.lazySingleton<_i20.DbRepository>(() => _i20.DbRepository(
         get<_i12.BookDao>(),
         get<_i13.DraftDao>(),
@@ -103,7 +89,6 @@ Future<_i1.GetIt> $initGetIt(
         get<_i18.SongDao>(),
       ));
   gh.lazySingleton<_i21.LocalStorage>(() => _i21.LocalStorage(
-        get<_i19.AuthStorage>(),
         get<_i6.SharedPreferenceStorage>(),
       ));
   gh.lazySingleton<_i22.LocaleRepository>(
@@ -115,8 +100,6 @@ Future<_i1.GetIt> $initGetIt(
         get<_i20.DbRepository>(),
         get<_i21.LocalStorage>(),
       ));
-  gh.lazySingleton<_i25.RefreshRepository>(
-      () => _i25.RefreshRepository(get<_i19.AuthStorage>()));
   gh.factory<_i26.SelectionVm>(() => _i26.SelectionVm(
         get<_i3.AppWebService>(),
         get<_i20.DbRepository>(),

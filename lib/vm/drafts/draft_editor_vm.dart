@@ -6,7 +6,7 @@ import '../../di/injectable.dart';
 import '../../model/base/draft.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../repository/db_repository.dart';
-import '../../repository/shared_prefs/local_storage.dart';
+import '../../repository/local_storage.dart';
 import '../home/home_vm.dart';
 
 @injectable

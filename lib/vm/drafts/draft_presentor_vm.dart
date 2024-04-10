@@ -10,7 +10,7 @@ import '../../di/injectable.dart';
 import '../../model/base/draft.dart';
 import '../../navigator/mixin/back_navigator.dart';
 import '../../repository/db_repository.dart';
-import '../../repository/shared_prefs/local_storage.dart';
+import '../../repository/local_storage.dart';
 import '../../theme/theme_colors.dart';
 import '../../util/constants/pref_constants.dart';
 import '../../util/utilities.dart';

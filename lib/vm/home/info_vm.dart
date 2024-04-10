@@ -7,7 +7,7 @@ import 'package:icapps_architecture/icapps_architecture.dart';
 import 'package:injectable/injectable.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../repository/shared_prefs/local_storage.dart';
+import '../../repository/local_storage.dart';
 import '../../util/constants/app_constants.dart';
 import '../../util/constants/pref_constants.dart';
 import '../../util/date_util.dart';

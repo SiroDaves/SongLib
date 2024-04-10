@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../navigator/mixin/back_navigator.dart';
 import '../../repository/db_repository.dart';
-import '../../repository/shared_prefs/local_storage.dart';
+import '../../repository/local_storage.dart';
 
 @injectable
 class SettingsVm with ChangeNotifierEx {

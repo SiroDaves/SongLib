@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../repository/settings_repository.dart';
 import '../../repository/locale_repository.dart';
-import '../../repository/shared_prefs/local_storage.dart';
+import '../repository/local_storage.dart';
 import '../../util/env/flavor_config.dart';
 import '../util/constants/pref_constants.dart';
 

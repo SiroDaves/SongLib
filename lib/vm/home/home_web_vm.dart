@@ -11,7 +11,7 @@ import '../../model/base/song.dart';
 import '../../model/base/songext.dart';
 import '../../model/general/general.dart';
 import '../../repository/db_repository.dart';
-import '../../repository/shared_prefs/local_storage.dart';
+import '../../repository/local_storage.dart';
 import '../../util/constants/event_constants.dart';
 import '../../util/utilities.dart';
 import '../../webservice/app_web_service.dart';
