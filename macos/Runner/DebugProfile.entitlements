@@ -10,5 +10,10 @@
 	<true/>
 	<key>com.apple.security.network.client</key>
 	<true/>
+    <key>com.apple.security.assets.downloads.read-write</key>
+    <true/>
+    <true/>
+    <key>com.apple.security.assets.downloads.read-write</key>
+    <true/>
 </dict>
 </plist>

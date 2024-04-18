@@ -3,11 +3,7 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-  desktop_window
-  flutter_platform_alert
-  flutter_secure_storage_linux
-  sentry_flutter
-  sqlite3_flutter_libs
+  file_selector_linux
   url_launcher_linux
 )
 

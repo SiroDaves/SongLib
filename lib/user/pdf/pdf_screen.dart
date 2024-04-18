@@ -1,0 +1,56 @@
+import 'dart:io';
+import 'dart:developer' as logger show log;
+
+import 'package:flutter/material.dart';
+import 'package:path/path.dart';
+import 'package:pdf_viewer/pdf_viewer.dart';
+
+import '../../common/widgets/action/navigations.dart';
+import '../../common/widgets/general/labels.dart';
+import '../../common/widgets/progress/circular_progress.dart';
+
+/// Pdf Viewer Screen
+class PdfScreen extends StatefulWidget {
+  final File pdf;
+  const PdfScreen({Key? key, required this.pdf}) : super(key: key);
+
+  @override
+  PdfScreenState createState() => PdfScreenState();
+}
+
+@visibleForTesting
+class PdfScreenState extends State<PdfScreen> {
+  Future<PDFViewer> preparePdfDocument() async {
+    try {
+      final pdfDoc = await PDFDocument.fromFile(widget.pdf);
+      return PDFViewer(
+        document: pdfDoc,
+        scrollDirection: Axis.vertical,
+        showNavigation: false,
+      );
+    } catch (e) {
+      logger.log('We are unable to open that PDF. We ran into an $e');
+      return PDFViewer(document: PDFDocument());
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    String pdfTitle = basename(widget.pdf.path);
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBarWidget(title: pdfTitle),
+      body: FutureBuilder(
+        future: preparePdfDocument(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Center(child: snapshot.data);
+          } else {
+            return const EmptyState();
+          }
+        },
+      ),
+      bottomNavigationBar: const BottomNavigation(),
+    );
+  }
+}

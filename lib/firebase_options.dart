@@ -44,40 +44,38 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAizoQ-WrQycolmwch-OWAqO9WiTiss42k',
-    appId: '1:1086992574189:web:7f7a00e5db4a0dfe38cee4',
-    messagingSenderId: '1086992574189',
-    projectId: 'thesonglib',
-    authDomain: 'thesonglib.firebaseapp.com',
-    storageBucket: 'thesonglib.appspot.com',
-    measurementId: 'G-KJG8ZEM63X',
+    apiKey: 'AIzaSyBxRR1eXRt64WiDzzuk9vj0g54pB0VEpuc',
+    appId: '1:726072268756:web:a5b12fd6b1c5d5a16ba841',
+    messagingSenderId: '726072268756',
+    projectId: 'britam-agent',
+    authDomain: 'britam-agent.firebaseapp.com',
+    storageBucket: 'britam-agent.appspot.com',
+    measurementId: 'G-B1BJVX2PBM',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCwK-GqTSAI5jSJ3niRe3jX-tyjd_iwN_w',
-    appId: '1:1086992574189:android:6dadf48acae4f39738cee4',
-    messagingSenderId: '1086992574189',
-    projectId: 'thesonglib',
-    storageBucket: 'thesonglib.appspot.com',
+    apiKey: 'AIzaSyDRaYZK1Z17EyX6braSOLObSDeKbGtW4UU',
+    appId: '1:726072268756:android:a670cf5c4e38799b6ba841',
+    messagingSenderId: '726072268756',
+    projectId: 'britam-agent',
+    storageBucket: 'britam-agent.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyC3mXB55MxmPssH5Tlf4X8R-LGI5drCtKw',
-    appId: '1:1086992574189:ios:fcda8ca8c937ed6038cee4',
-    messagingSenderId: '1086992574189',
-    projectId: 'thesonglib',
-    storageBucket: 'thesonglib.appspot.com',
-    iosClientId: '1086992574189-h8n2i0ti8e25vqrsrhiage3qv7bb4fqh.apps.googleusercontent.com',
+    apiKey: 'AIzaSyD9QJOd5dlpXd7oTI2KPzMKGxgcS7RxzIs',
+    appId: '1:726072268756:ios:a7dff2be3afaa78a6ba841',
+    messagingSenderId: '726072268756',
+    projectId: 'britam-agent',
+    storageBucket: 'britam-agent.appspot.com',
     iosBundleId: 'com.songlib',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyC3mXB55MxmPssH5Tlf4X8R-LGI5drCtKw',
-    appId: '1:1086992574189:ios:fcda8ca8c937ed6038cee4',
-    messagingSenderId: '1086992574189',
-    projectId: 'thesonglib',
-    storageBucket: 'thesonglib.appspot.com',
-    iosClientId: '1086992574189-h8n2i0ti8e25vqrsrhiage3qv7bb4fqh.apps.googleusercontent.com',
+    apiKey: 'AIzaSyD9QJOd5dlpXd7oTI2KPzMKGxgcS7RxzIs',
+    appId: '1:726072268756:ios:a7dff2be3afaa78a6ba841',
+    messagingSenderId: '726072268756',
+    projectId: 'britam-agent',
+    storageBucket: 'britam-agent.appspot.com',
     iosBundleId: 'com.songlib',
   );
 }
