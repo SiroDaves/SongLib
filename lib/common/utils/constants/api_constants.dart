@@ -3,6 +3,6 @@ class ApiConstants {
   static String songliveApi = 'https://songlive.vercel.app/api';
 
   // basic urls
-  /// books route: '/books'
-  static const String books = '/books';
+  /// books route: '/book'
+  static const String books = '/book';
 }

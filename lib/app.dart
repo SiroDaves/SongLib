@@ -5,7 +5,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'common/auth/auth_bloc.dart';
 import 'common/theme/theme_cubit.dart';
+import 'common/utils/constants/pref_constants.dart';
+import 'common/utils/date_util.dart';
 import 'data/repository/auth_repository.dart';
+import 'data/repository/local_storage.dart';
+import 'di/injectable.dart';
 import 'navigator/main_navigator.dart';
 import 'navigator/route_names.dart';
 
@@ -58,6 +62,9 @@ class AppViewState extends State<AppView> {
 
   @override
   Widget build(BuildContext context) {
+    var localStorage = getIt<LocalStorage>();
+    bool isLoaded = localStorage.getPrefBool(PrefConstants.dataLoadedCheckKey);
+
     return BlocProvider(
       create: (context) => ThemeCubit(),
       child: BlocBuilder<ThemeCubit, ThemeData>(
@@ -84,10 +91,20 @@ class AppViewState extends State<AppView> {
                   case AuthStatus.unverified:
                     navigator.pushNamed<void>(RouteNames.login);
                   case AuthStatus.authenticated:
-                    navigator.pushNamedAndRemoveUntil<void>(
-                      RouteNames.home,
-                      (route) => false,
-                    );
+                    if (isLoaded) {
+                      navigator.pushNamedAndRemoveUntil<void>(
+                        RouteNames.home,
+                        (route) => false,
+                      );
+                    } else {
+                      localStorage.setPrefString(
+                          PrefConstants.dateInstalledKey, dateNow());
+
+                      navigator.pushNamedAndRemoveUntil<void>(
+                        RouteNames.selecting,
+                        (route) => false,
+                      );
+                    }
                 }
               },
               child: child,

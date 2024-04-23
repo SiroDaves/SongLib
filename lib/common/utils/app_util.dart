@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-
-import 'logger.dart';
 
 bool isDesktop = Platform.isWindows || Platform.isLinux || Platform.isMacOS;
 bool isMobile = Platform.isAndroid || Platform.isIOS || Platform.isFuchsia;
@@ -29,36 +28,41 @@ String? filterString(String input) {
   return input; // Return original string if no match found
 }
 
-String feedbackMessage(String feedback, AppLocalizations tr) {
-  switch (feedback) {
+String feedbackMessage(String code, AppLocalizations tr) {
+  switch (code) {
     case '0':
-      return 'An unknown error occured';
-    case '100':
-      return 'Your mobile number is invalid. Please contact support to have it corrected.';
-    case '117':
-      return 'Invalid Entity ID';
-    case '118':
-      return 'Invalid FA Contacts';
-    case '119':
-      return 'Agent is suspended or not active';
-    case '120':
-      return 'Agent not found';
-    case '401':
-      return 'Your session has expired';
-    case '404FA':
-      return 'Checking FA Details failed with code 404';
-    case '404CP':
-      return 'Fetching client portfolio failed with code 404';
+      return tr.labelError0;
+    case '404':
+      return tr.labelError404;
     case '500':
-      return tr.labelErrorConnectionText;
+      return tr.labelError500;
     case '504':
-      return tr.labelErrorConnectionText504;
+      return tr.labelError504;
     case '999':
-      return 'Invalid response from the server';
+      return tr.labelError999;
     case '1000':
-      return 'Unable to submit your request';
+      return tr.labelError1000;
     default:
-      return feedback;
+      return code;
+  }
+}
+
+String emptyStateMessage(String code, AppLocalizations tr) {
+  switch (code) {
+    case '0':
+      return tr.labelFeedback0;
+    case '404':
+      return tr.labelFeedback404;
+    case '500':
+      return tr.labelFeedback500;
+    case '504':
+      return tr.labelFeedback504;
+    case '999':
+      return tr.labelFeedback999;
+    case '1000':
+      return tr.labelFeedback1000;
+    default:
+      return code;
   }
 }
 
@@ -133,41 +137,6 @@ bool isNumeric(String s) {
   return double.tryParse(s) != null;
 }
 
-String truncateString(int cutoff, String myString) {
-  var words = myString.split(' ');
-  try {
-    if (myString.length > cutoff) {
-      if ((myString.length - words[words.length - 1].length) < cutoff) {
-        return myString.replaceAll(words[words.length - 1], '');
-      } else {
-        return (myString.length <= cutoff)
-            ? myString
-            : myString.substring(0, cutoff);
-      }
-    } else {
-      return myString.trim();
-    }
-  } catch (e) {
-    logger(e.toString());
-    return myString.trim();
-  }
-}
-
-String truncateWithEllipsis(int cutoff, String myString) {
-  return (myString.length <= cutoff)
-      ? myString
-      : '${myString.substring(0, cutoff)}...';
-}
-
-String sanitizeResp(String str) {
-  return str
-      .replaceAll('_', ' ')
-      .replaceAll('{"error":"', '')
-      .replaceAll('"}', '')
-      .replaceAll('SOAP ', '')
-      .camelCase();
-}
-
 extension StringExtension on String {
   String camelCase() {
     return "${this[0].toUpperCase()}${substring(1).toLowerCase().replaceAll('_', '')}";
@@ -214,3 +183,142 @@ String capitalize(String? str) {
   }
   return str.substring(0, 1).toUpperCase() + str.substring(1);
 }
+
+String truncateString(int cutoff, String myString) {
+  var words = myString.split(' ');
+  try {
+    if (myString.length > cutoff) {
+      if ((myString.length - words[words.length - 1].length) < cutoff) {
+        return myString.replaceAll(words[words.length - 1], '');
+      } else {
+        return (myString.length <= cutoff)
+            ? myString
+            : myString.substring(0, cutoff);
+      }
+    } else {
+      return myString.trim();
+    }
+  } catch (e) {
+    // ignore: avoid_print
+    print(e);
+    return myString.trim();
+  }
+}
+
+String truncateWithEllipsis(int cutoff, String myString) {
+  return (myString.length <= cutoff)
+      ? myString
+      : '${myString.substring(0, cutoff)}...';
+}
+
+String refineTitle(String textTitle) {
+  return textTitle.replaceAll("''", "'");
+}
+
+String refineContent(String contentText) {
+  return contentText.replaceAll("''", "'").replaceAll("#", " ");
+}
+
+String songItemTitle(int number, String title) {
+  if (number != 0) {
+    return "$number. ${refineTitle(title)}";
+  } else {
+    return refineTitle(title);
+  }
+}
+
+List<String> songVerses(String songContent) {
+  List<String> verseList = [];
+  var verses = songContent.split("##");
+
+  for (final verse in verses) {
+    verseList.add(verse.replaceAll("#", "\n"));
+  }
+  return verseList;
+}
+
+String songCopyString(String title, String content) {
+  return "$title\n\n$content";
+}
+
+String bookCountString(String title, int count) {
+  return '$title ($count)';
+}
+
+String lyricsString(String lyrics) {
+  return lyrics.replaceAll("#", "\n").replaceAll("''", "'");
+}
+
+String songViewerTitle(int number, String title, String alias) {
+  String songtitle = "$number. ${refineTitle(title)}";
+
+  if (alias.length > 2 && title != alias) {
+    songtitle = "$songtitle (${refineTitle(alias)})";
+  }
+
+  return songtitle;
+}
+
+String songShareString(String title, String content) {
+  return "$title\n\n$content\n\nvia #vSongBook https://Appsmata.com/vSongBook";
+}
+
+String verseOfString(String number, int count) {
+  return 'VERSE $number of $count';
+}
+
+double getFontSize(int characters, double height, double width) {
+  return sqrt((height * width) / characters);
+}
+
+/*List<SongExt> seachSongByQuery(String query, List<SongExt> songs) {
+  List<SongExt> filtered = [];
+  final qry = query.toLowerCase();
+
+  filtered = songs.where((s) {
+    // Check if the song number matches the query (if query is numeric)
+    if (isNumeric(query) && s.songNo == int.parse(query)) {
+      return true;
+    }
+
+    // Create a regular expression pattern to match "," and "!" characters
+    RegExp charsPtn = RegExp(r'[!,]');
+
+    // Split the query into words if it contains commas
+    List<String> words;
+    if (query.contains(',')) {
+      words = query.split(',');
+      // Trim whitespace from each word
+      words = words.map((w) => w.trim()).toList();
+    } else {
+      words = [qry];
+    }
+
+    // Create a regular expression pattern to match the words in the query
+    RegExp queryPtn = RegExp(words.map((w) => '($w)').join('.*'));
+
+    // Remove "," and "!" characters from s.title, s.alias, and s.content
+    String title = s.title!.replaceAll(charsPtn, '').toLowerCase();
+    //String alias = s.alias!.replaceAll(charsPtn, '').toLowerCase();
+    String content = s.content!.replaceAll(charsPtn, '').toLowerCase();
+
+    // Check if the song title matches the query, ignoring "," and "!" characters
+    if (queryPtn.hasMatch(title)) {
+      return true;
+    }
+
+    // Check if the song alias matches the query, ignoring "," and "!" characters
+    / *if (queryPtn.hasMatch(alias)) {
+      return true;
+    }* /
+
+    // Check if the song content matches the query, ignoring "," and "!" characters
+    if (queryPtn.hasMatch(content)) {
+      return true;
+    }
+
+    return false;
+  }).toList();
+
+  return filtered;
+}*/

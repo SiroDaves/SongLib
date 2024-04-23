@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 import '../../theme/theme_colors.dart';
 
-class FormInput extends StatefulWidget {
+class PasswordInput extends StatefulWidget {
   final String? iLabel;
   final TextEditingController? iController;
   final TextInputType iType;
@@ -16,15 +16,14 @@ class FormInput extends StatefulWidget {
   final Function(String)? onChanged;
   final Function()? onValueChanged;
   final Function()? onTap;
-  final Widget? prefix;
+  final IconData? prefix;
   final bool? isActive;
-  final bool? isMultiline;
   final double bdRadius;
   final int maxInput;
 
-  const FormInput({
+  const PasswordInput({
     Key? key,
-    this.iLabel = "",
+    this.iLabel = 'Password',
     this.iType = TextInputType.text,
     this.iController,
     this.validationMode = AutovalidateMode.disabled,
@@ -36,18 +35,18 @@ class FormInput extends StatefulWidget {
     this.onChanged,
     this.onValueChanged,
     this.onTap,
-    this.prefix,
+    this.prefix = Icons.lock_outline,
     this.isActive = true,
-    this.isMultiline = false,
     this.bdRadius = 5,
-    this.maxInput = 20000,
+    this.maxInput = 10,
   }) : super(key: key);
 
   @override
-  FormInputState createState() => FormInputState();
+  PasswordInputState createState() => PasswordInputState();
 }
 
-class FormInputState extends State<FormInput> {
+class PasswordInputState extends State<PasswordInput> {
+  bool isPassword = true;
   @override
   Widget build(BuildContext context) {
     Color foreColor = widget.isLight! ? Colors.white : ThemeColors.primary;
@@ -55,28 +54,45 @@ class FormInputState extends State<FormInput> {
     return Container(
       margin: const EdgeInsets.all(10),
       child: TextFormField(
-        controller: widget.iController, 
+        controller: widget.iController,
         keyboardType: widget.iType,
         autovalidateMode: widget.validationMode,
         validator: widget.iValidator,
-        minLines: widget.isMultiline! ? 50 : 1,
-        maxLines: widget.isMultiline! ? null : 1,
         enabled: widget.isEnabled,
         readOnly: widget.isReadOnly!,
         onTap: widget.onTap,
         inputFormatters: [
           LengthLimitingTextInputFormatter(widget.maxInput),
         ],
+        obscureText: isPassword,
         decoration: InputDecoration(
           labelText: widget.iLabel,
-          prefixIcon: widget.prefix,
-          suffixIcon: InkWell(
-            onTap: () => widget.iController!.clear(),
-            child: Icon(Icons.clear, color: foreColor),
+          prefixIcon: Icon(widget.prefix, color: foreColor),
+          suffixIcon: Container(
+            width: 70,
+            padding: const EdgeInsets.only(right: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                InkWell(
+                  onTap: () => widget.iController!.clear(),
+                  child: Icon(Icons.clear, color: foreColor),
+                ),
+                const SizedBox(width: 10),
+                InkWell(
+                  onTap: () => setState(() => isPassword = !isPassword),
+                  child: Icon(
+                    isPassword
+                        ? Icons.visibility_outlined
+                        : Icons.visibility_off_outlined,
+                    color: foreColor,
+                  ),
+                ),
+              ],
+            ),
           ),
           labelStyle: TextStyle(fontSize: 16, color: foreColor),
-          isDense: widget.isMultiline! ? true : false,
-          contentPadding: widget.isMultiline! ? null : const EdgeInsets.all(5),
+          contentPadding: const EdgeInsets.all(5),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(widget.bdRadius),
             borderSide: BorderSide(color: foreColor),
@@ -86,11 +102,7 @@ class FormInputState extends State<FormInput> {
             borderSide: BorderSide(color: foreColor),
           ),
         ),
-        style: TextStyle(
-          fontSize: 18,
-          color: foreColor,
-        ),
-        //textInputAction: widget.isMultiline! ? TextInputAction.newline : TextInputAction.next,
+        style: TextStyle(fontSize: 18, color: foreColor),
         onChanged: widget.onChanged,
       ),
     );

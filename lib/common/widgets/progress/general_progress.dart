@@ -23,6 +23,22 @@ class CircularProgress extends StatelessWidget {
   }
 }
 
+class SmallCircularProgress extends StatelessWidget {
+  const SmallCircularProgress({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: CircularProgressIndicator(
+        color: ThemeColors.primary,
+        strokeWidth: 3,
+        backgroundColor: Colors.white.withOpacity(0.3),
+      ),
+    );
+  }
+}
+
 class EmptyState extends StatelessWidget {
   final String title;
   const EmptyState({
@@ -50,4 +66,3 @@ class EmptyState extends StatelessWidget {
     );
   }
 }
-

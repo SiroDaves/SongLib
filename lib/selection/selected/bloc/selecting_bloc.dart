@@ -3,26 +3,27 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 
-import '../../../common/utils/logger.dart';
+import '../../../../common/utils/logger.dart';
 import '../../../data/models/book.dart';
 import '../../common/domain/selection_repository.dart';
-import '../models/password.dart';
-import '../models/username.dart';
 
 part 'selecting_event.dart';
 part 'selecting_state.dart';
+part 'selecting_bloc.freezed.dart';
 
+@injectable
 class SelectingBloc extends Bloc<SelectingEvent, SelectingState> {
   SelectingBloc() : super(const SelectingState()) {
     on<SelectingBooksFetch>(_onFetchData);
-    on<SelectingChanged>(_onSelected);
-    on<SelectingSubmitted>(_onSubmitted);
+    on<SelectingSubmit>(_onSubmit);
   }
-  
+
   final _selectingRepo = SelectionRepository();
 
-  Future<void> _onFetchData(
+  void _onFetchData(
     SelectingBooksFetch event,
     Emitter<SelectingState> emit,
   ) async {
@@ -62,31 +63,16 @@ class SelectingBloc extends Bloc<SelectingEvent, SelectingState> {
     }
   }
 
-  void _onSelected(
-    SelectingChanged event,
+  void _onSubmit(
+    SelectingSubmit event,
     Emitter<SelectingState> emit,
   ) {
-    final username = Username.dirty(event.username);
+    /*final username = Username.dirty(event.username);
     emit(
       state.copyWith(
         username: username,
         isValid: Formz.validate([state.password, username]),
       ),
-    );
-  }
-
-  Future<void> _onSubmitted(
-    SelectingSubmitted event,
-    Emitter<SelectingState> emit,
-  ) async {
-    if (state.isValid) {
-      emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
-      try {
-      await Future.delayed(const Duration(seconds: 3), () {});
-        emit(state.copyWith(status: FormzSubmissionStatus.success));
-      } catch (_) {
-        emit(state.copyWith(status: FormzSubmissionStatus.failure));
-      }
-    }
+    );*/
   }
 }

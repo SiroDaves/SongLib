@@ -273,3 +273,43 @@ class DropDownWidget extends StatelessWidget {
     return inputWidget;
   }
 }
+
+class IconTextBtn extends StatelessWidget {
+  final String? title;
+  final Function()? onPressed;
+
+  const IconTextBtn({
+    Key? key,
+    required this.title,
+    required this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: onPressed,
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(
+            Radius.circular(5),
+          ),
+        ),
+        child: Row(
+          children: <Widget>[
+            const Icon(Icons.check),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Text(
+                title!,
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -14,4 +14,17 @@ class PrefConstants {
   static const accessTokenKey = 'access_token';
   static const refreshTokenKey = 'refresh_token';
   static const expiresInKey = 'expires_in';
+
+
+  static const dataLoadedCheckKey = 'dataLoaded';
+  static const dateInstalledKey = 'dateInstalled';
+  static const notDraftKey = 'notDraft';
+  static const onboardedCheckKey = 'onBoarded';
+  static const predistinatedBooksKey = 'predestinatedBooks';
+  static const selectedBooksKey = 'selectedBooks';
+  static const slideHorizontalKey = 'slideHorizontal';
+  static const pcHintsKey = 'pcHints';
+  static const uninstallCheckKey = 'uninstallCheck';
+  static const donationCheckKey = 'donationCheck';
+  static const wakeLockCheckKey = 'wakeLockCheck';
 }

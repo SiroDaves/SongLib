@@ -8,13 +8,13 @@ import 'package:textstyle_extensions/textstyle_extensions.dart';
 
 import '../../../common/theme/theme_colors.dart';
 import '../../../common/utils/app_util.dart';
-import '../../../common/widgets/progress/circular_progress.dart';
+import '../../widgets/progress/general_progress.dart';
 import '../../../di/injectable.dart';
 import '../../../navigator/route_names.dart';
 import '../../theme/theme_fonts.dart';
 import '../../utils/env/flavor_config.dart';
 import '../../widgets/action/base_buttons.dart';
-import '../../widgets/progress/response_feedback.dart';
+import '../../widgets/progress/custom_snackbar.dart';
 import '../bloc/home_bloc.dart';
 
 part 'home_widgets.dart';
@@ -97,9 +97,9 @@ class HomeScreenState extends State<HomeScreen> {
       backgroundColor: ThemeColors.gray,
       appBar: AppBar(
         centerTitle: false,
-        title: Text(
-          tr.labelWelcomeUser(username),
-          style: const TextStyle(
+        title: const Text(
+          'Home',
+          style: TextStyle(
             color: ThemeColors.primary,
             fontSize: 24,
             fontWeight: FontWeight.w600,

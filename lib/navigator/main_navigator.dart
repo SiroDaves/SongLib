@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../common/home/ui/home_screen.dart';
 import '../common/widgets/text_scale_factor.dart';
-import '../user/coming_soon/coming_soon_screen.dart';
+import '../selection/selecting/ui/selecting_screen.dart';
 import '../user/splash/splash_screen.dart';
 import 'route_names.dart';
 
@@ -60,8 +60,8 @@ class MainNavigatorState extends State<MainNavigator> with MainNavigationMixin {
     final Map<String, WidgetBuilder> routes = {
       '': (context) => const SplashScreen(),
       RouteNames.splash: (context) => const SplashScreen(),
+      RouteNames.selecting: (context) => const SelectingScreen(),
       RouteNames.home: (context) => const HomeScreen(),
-      RouteNames.comingSoon: (context) => const ComingSoonScreen(),
     };
 
     defaultRoute(context) => const SplashScreen();

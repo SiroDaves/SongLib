@@ -1,5 +1,5 @@
-import '../models/rider.dart';
-import '../repository/database_repository.dart';
+import '../models/book.dart';
+import '../repository/db_repository.dart';
 import 'app_database.dart';
 
 class DatabaseRepositoryImpl implements DatabaseRepository {
@@ -8,22 +8,22 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   DatabaseRepositoryImpl(this._appDatabase);
 
   @override
-  Future<List<Rider>> getSavedRiders() async {
-    return _appDatabase.riderDao.getAllRiders();
+  Future<List<Book>> getSavedBooks() async {
+    return _appDatabase.bookDao.getAllBooks();
   }
 
   @override
-  Future<void> removeRider(Rider rider) async {
-    return _appDatabase.riderDao.deleteRider(rider);
+  Future<void> removeBook(Book book) async {
+    return _appDatabase.bookDao.deleteBook(book);
   }
 
   @override
-  Future<void> saveRider(Rider rider) async {
-    return _appDatabase.riderDao.insertRider(rider);
+  Future<void> saveBook(Book book) async {
+    return _appDatabase.bookDao.insertBook(book);
   }
 
   @override
-  Future<void> removeAllRiders() async {
-    return _appDatabase.riderDao.deleteAllRiders();
+  Future<void> removeAllBooks() async {
+    return _appDatabase.bookDao.deleteAllBooks();
   }
 }

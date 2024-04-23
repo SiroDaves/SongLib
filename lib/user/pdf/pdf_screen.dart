@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:pdf_viewer/pdf_viewer.dart';
 
-import '../../common/widgets/action/navigations.dart';
-import '../../common/widgets/general/labels.dart';
-import '../../common/widgets/progress/circular_progress.dart';
+import '../../common/widgets/progress/general_progress.dart';
 
 /// Pdf Viewer Screen
 class PdfScreen extends StatefulWidget {
@@ -39,7 +37,9 @@ class PdfScreenState extends State<PdfScreen> {
     String pdfTitle = basename(widget.pdf.path);
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBarWidget(title: pdfTitle),
+      appBar: AppBar(
+        title: Text(pdfTitle),
+      ),
       body: FutureBuilder(
         future: preparePdfDocument(),
         builder: (context, snapshot) {
@@ -50,7 +50,6 @@ class PdfScreenState extends State<PdfScreen> {
           }
         },
       ),
-      bottomNavigationBar: const BottomNavigation(),
     );
   }
 }

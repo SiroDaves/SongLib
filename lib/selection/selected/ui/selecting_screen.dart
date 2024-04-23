@@ -7,17 +7,19 @@ import '../../../common/theme/theme_colors.dart';
 import '../../../common/utils/app_util.dart';
 import '../../../common/widgets/action/base_buttons.dart';
 import '../../../common/widgets/general/list_items.dart';
+import '../../../common/widgets/progress/custom_snackbar.dart';
 import '../../../common/widgets/progress/general_progress.dart';
 import '../bloc/selecting_bloc.dart';
 
-part 'selecting_screen_body.dart';
-part 'selecting_screen_details.dart';
+part 'selecting_body.dart';
+part 'selecting_body_details.dart';
 
 class SelectingScreen extends StatelessWidget {
   const SelectingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations? tr = AppLocalizations.of(context)!;
     return BlocProvider(
       create: (context) {
         return SelectingBloc();
@@ -25,14 +27,13 @@ class SelectingScreen extends StatelessWidget {
       child: BlocListener<SelectingBloc, SelectingState>(
         listener: (context, state) {
           if (state.status.isFailure) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                const SnackBar(content: Text('Authentication Failure')),
-              );
+            CustomSnackbar.show(
+              context,
+              feedbackMessage(state.feedback, tr),
+            );
           }
         },
-        child: const SelectingScreenBody(),
+        child: const SelectingBody(),
       ),
     );
   }

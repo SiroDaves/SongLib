@@ -21,7 +21,7 @@ void showToast({
 }
 
 // enum states
-enum ToastStates { success, error, warning, info }
+enum ToastStates { success, error, warning }
 
 Color chooseToastColor(ToastStates state) {
   Color color;
@@ -32,10 +32,6 @@ Color chooseToastColor(ToastStates state) {
 
     case ToastStates.error:
       color = Colors.red;
-      break;
-
-    case ToastStates.info:
-      color = Colors.blue;
       break;
 
     case ToastStates.warning:

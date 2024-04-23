@@ -98,7 +98,10 @@ class SplashScreen extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 50),
               child: Divider(
-                  color: ThemeColors.primaryDark, thickness: 2, height: 50),
+                color: ThemeColors.primaryDark,
+                thickness: 2,
+                height: 50,
+              ),
             ),
             withLoveFromRow,
             appDevelopers,
