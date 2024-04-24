@@ -1,13 +1,13 @@
 part of 'selecting_screen.dart';
 
-class SelectingScreenBody extends StatefulWidget {
-  const SelectingScreenBody({super.key});
+class SelectingBody extends StatefulWidget {
+  const SelectingBody({super.key});
 
   @override
-  State<SelectingScreenBody> createState() => _SelectingBodyState();
+  State<SelectingBody> createState() => _SelectingBodyState();
 }
 
-class _SelectingBodyState extends State<SelectingScreenBody> {
+class _SelectingBodyState extends State<SelectingBody> {
   late SelectingBloc _bloc;
 
   @override
@@ -22,7 +22,6 @@ class _SelectingBodyState extends State<SelectingScreenBody> {
     AppLocalizations? tr = AppLocalizations.of(context)!;
 
     return BlocBuilder<SelectingBloc, SelectingState>(
-      buildWhen: (previous, current) => previous.books != current.books,
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
@@ -31,7 +30,7 @@ class _SelectingBodyState extends State<SelectingScreenBody> {
             ),
             actions: [
               state.status.isInProgress
-                  ? const SmallCircularProgress()
+                  ? const SizedBox.shrink()
                   : InkWell(
                       onTap: () => _bloc.add(const SelectingBooksFetch()),
                       child: const Padding(
@@ -49,7 +48,7 @@ class _SelectingBodyState extends State<SelectingScreenBody> {
                         ),
             ],
           ),
-          body: _SelectingBodyDetails(),
+          body: const SelectingBodyDetails(),
           floatingActionButton: state.status.isInProgress
               ? const SizedBox.shrink()
               : FloatingActionButton(

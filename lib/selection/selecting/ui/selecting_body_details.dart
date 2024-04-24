@@ -1,6 +1,13 @@
 part of 'selecting_screen.dart';
 
-class _SelectingBodyDetails extends StatelessWidget {
+class SelectingBodyDetails extends StatefulWidget {
+  const SelectingBodyDetails({super.key});
+
+  @override
+  State<SelectingBodyDetails> createState() => _SelectingBodyDetailsState();
+}
+
+class _SelectingBodyDetailsState extends State<SelectingBodyDetails> {
   @override
   Widget build(BuildContext context) {
     AppLocalizations? tr = AppLocalizations.of(context)!;
@@ -9,7 +16,7 @@ class _SelectingBodyDetails extends StatelessWidget {
 
     return BlocBuilder<SelectingBloc, SelectingState>(
       builder: (context, state) {
-        var contentWidget = (isDesktop || isMobile) && isTabletOrIpad
+        var booksList = isDesktop || isMobile && isTabletOrIpad
             ? LayoutBuilder(
                 builder: (context, dimens) {
                   int axisCount = (dimens.maxWidth / 450).round();
@@ -43,10 +50,11 @@ class _SelectingBodyDetails extends StatelessWidget {
             child: Stack(
               children: [
                 state.status.isInProgress
-                    ? const CircularProgress()
-                    : (state.books.isNotEmpty
-                        ? contentWidget
-                        : const SizedBox.shrink()),state.status.isFailure
+                    ? const BooksLoading()
+                    : state.books.isNotEmpty
+                        ? booksList
+                        : const SizedBox.shrink(),
+                state.status.isFailure
                     ? EmptyState(
                         title: emptyStateMessage(state.feedback, tr),
                       )
@@ -56,6 +64,56 @@ class _SelectingBodyDetails extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class BooksLoading extends StatelessWidget {
+  const BooksLoading({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    
+    var rowWidget = ListTile(
+      onTap: () {},
+      leading: Padding(
+        padding: const EdgeInsets.all(15),
+        child: Container(
+          width: 20,
+          height: 20,
+          color: Colors.black,
+        ),
+      ),
+      title: Padding(
+        padding: const EdgeInsets.only(top: 10, bottom: 5),
+        child: Container(
+          width: 50,
+          height: 20,
+          color: Colors.black,
+        ),
+      ),
+      subtitle: Padding(
+        padding: const EdgeInsets.only(top: 5, bottom: 10),
+        child: Container(
+          width: 50,
+          height: 20,
+          color: Colors.black,
+        ),
+      ),
+    );
+
+    return SingleChildScrollView(
+      child: SkeletonLoader(
+        builder: Container(
+          height: 80,
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          child: rowWidget,
+        ),
+        items: 10,
+        period: const Duration(seconds: 3),
+        highlightColor: ThemeColors.primary,
+        direction: SkeletonDirection.ltr,
+      ),
     );
   }
 }

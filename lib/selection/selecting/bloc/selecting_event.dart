@@ -1,30 +1,8 @@
 part of 'selecting_bloc.dart';
 
-sealed class SelectingEvent extends Equatable {
-  const SelectingEvent();
+@freezed
+sealed class SelectingEvent with _$SelectingEvent {
+  const factory SelectingEvent.fetch() = SelectingBooksFetch;
 
-  @override
-  List<Object> get props => [];
-}
-
-final class SelectingBooksFetch extends SelectingEvent {
-  const SelectingBooksFetch();
-}
-
-final class SelectingChanged extends SelectingEvent {
-  const SelectingChanged(this.username);
-
-  final String username;
-
-  @override
-  List<Object> get props => [username];
-}
-
-final class SelectingSubmitted extends SelectingEvent {
-  const SelectingSubmitted(this.books);
-
-  final List<Book> books;
-
-  @override
-  List<Object> get props => [books];
+  const factory SelectingEvent.submit(List<Book> books) = SelectingSubmit;
 }

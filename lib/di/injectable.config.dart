@@ -17,7 +17,7 @@ import 'package:songlib/data/repository/auth_repository.dart' as _i4;
 import 'package:songlib/data/repository/db_repository.dart' as _i5;
 import 'package:songlib/data/repository/local_storage.dart' as _i9;
 import 'package:songlib/di/injectable.dart' as _i10;
-import 'package:songlib/selection/selected/bloc/selecting_bloc.dart' as _i7;
+import 'package:songlib/selection/selecting/bloc/selecting_bloc.dart' as _i7;
 
 extension GetItInjectableX on _i1.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
