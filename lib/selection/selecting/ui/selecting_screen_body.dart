@@ -1,19 +1,28 @@
 part of 'selecting_screen.dart';
 
-class SelectingBody extends StatefulWidget {
-  const SelectingBody({super.key});
+class SelectingScreenBody extends StatefulWidget {
+  const SelectingScreenBody({super.key});
 
   @override
-  State<SelectingBody> createState() => _SelectingBodyState();
+  State<SelectingScreenBody> createState() => _SelectingScreenBodyState();
 }
 
-class _SelectingBodyState extends State<SelectingBody> {
+class _SelectingScreenBodyState extends State<SelectingScreenBody> {
   late SelectingBloc _bloc;
+  late LocalStorage _prefs;
+  String selectedBooks = "";
+  List<String> bookNos = [];
 
   @override
   void initState() {
     super.initState();
+    _prefs = getIt<LocalStorage>();
     _bloc = context.read<SelectingBloc>();
+
+    selectedBooks = _prefs.getPrefString(PrefConstants.selectedBooksKey);
+    if (selectedBooks.isNotEmpty) {
+      bookNos = selectedBooks.split(",");
+    }
     _bloc.add(const SelectingBooksFetch());
   }
 
@@ -48,7 +57,7 @@ class _SelectingBodyState extends State<SelectingBody> {
                         ),
             ],
           ),
-          body: const SelectingBodyDetails(),
+          body: const SelectingScreenBodyDetails(),
           floatingActionButton: state.status.isInProgress
               ? const SizedBox.shrink()
               : FloatingActionButton(

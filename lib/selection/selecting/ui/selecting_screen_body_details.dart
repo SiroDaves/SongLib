@@ -1,13 +1,8 @@
 part of 'selecting_screen.dart';
 
-class SelectingBodyDetails extends StatefulWidget {
-  const SelectingBodyDetails({super.key});
+class SelectingScreenBodyDetails extends StatelessWidget {
+  const SelectingScreenBodyDetails({super.key});
 
-  @override
-  State<SelectingBodyDetails> createState() => _SelectingBodyDetailsState();
-}
-
-class _SelectingBodyDetailsState extends State<SelectingBodyDetails> {
   @override
   Widget build(BuildContext context) {
     AppLocalizations? tr = AppLocalizations.of(context)!;

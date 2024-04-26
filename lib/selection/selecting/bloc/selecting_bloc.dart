@@ -7,6 +7,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../common/utils/logger.dart';
+import '../../../data/models/basic_model.dart';
 import '../../../data/models/book.dart';
 import '../../common/domain/selection_repository.dart';
 
