@@ -15,7 +15,7 @@ Follow this guide to set up and run Songlib:
 2. **Clone the Repository:** Clone Songlib repository from GitHub using Git:
 
     ```bash
-    git clone https://github.com/SiroDevs/SonglibApp.git
+    git clone https://github.com/SiroDaves/SonglibApp.git
     ```
 
 3. **Install Packages:** Navigate to the project directory and run:
