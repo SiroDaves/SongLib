@@ -1,14 +1,17 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+    id "com.google.firebase.crashlytics"
+    id "com.google.firebase.firebase-perf"
+}
+
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
     localPropertiesFile.withReader('UTF-8') { reader ->
         localProperties.load(reader)
     }
-}
-
-def flutterRoot = localProperties.getProperty('flutter.sdk')
-if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
@@ -20,13 +23,6 @@ def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
-
-apply plugin: 'com.android.application'
-// START: FlutterFire Configuration
-apply plugin: 'com.google.gms.google-services'
-// END: FlutterFire Configuration
-apply plugin: 'kotlin-android'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file('keystore/key.properties')
@@ -54,25 +50,25 @@ android {
     defaultConfig {
         applicationId "com.songlib"
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 33
         compileSdkVersion 33
         multiDexEnabled true
         versionCode 19
-        versionName "0.0.7.5" 
+        versionName "0.0.7.5"
     }
-    
+
     signingConfigs {
         debug {
             keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']
-            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
             storePassword keystoreProperties['storePassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
         }
         release {
             keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']
-            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
             storePassword keystoreProperties['storePassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
         }
     }
     buildTypes {
@@ -85,23 +81,40 @@ android {
         }
     }
 
-    /*flavorDimensions "flavors"
+    flavorDimensions "flavors"
     productFlavors {
         dev {
             dimension "flavors"
             applicationIdSuffix ".debug"
             versionNameSuffix "-debug"
         }
+        apptester {
+            dimension "flavors"
+            versionNameSuffix "-apptester"
+            applicationId "com.songlib.apptester"
+            minSdkVersion 21
+            targetSdkVersion 33
+            compileSdkVersion 33
+            multiDexEnabled true
+            versionCode 200
+            versionName "0.0.7.55"
+        }
         prod {
             dimension "flavors"
+            applicationId "com.songlib"
+            minSdkVersion 21
+            targetSdkVersion 33
+            compileSdkVersion 33
+            multiDexEnabled true
+            versionCode 200
+            versionName "0.0.7.55"
         }
-    }*/
+    }
 }
 
 flutter {
     source '../..'
-}
+} 
+dependencies {}
 
-dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-}
+apply plugin: 'com.google.gms.google-services'

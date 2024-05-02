@@ -1,0 +1,36 @@
+feat: add persistency dashboard
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# Author:    Brian Kibiku <kibikukimani2@gmail.com>
+# Committer: Solomon M. Festus <fmunene@BRITAMGROUP.COM>
+#
+# interactive rebase in progress; onto ce4c317
+# Last command done (1 command done):
+#    pick 61f49ff feat: add persistency dashboard
+# Next commands to do (4 remaining commands):
+#    pick 57105f3 Persistency Changes
+#    pick ca8affb Data Integration
+# You are currently rebasing branch 'persistency_dashboard' on 'ce4c317'.
+#
+# Changes to be committed:
+#	modified:   lib/main.dart
+#	modified:   lib/navigator/main_navigator.dart
+#	new file:   lib/views/subsidiary/life/dashboards/persistance_dashboard/bloc/persistency_bloc.dart
+#	new file:   lib/views/subsidiary/life/dashboards/persistance_dashboard/bloc/persistency_bloc.freezed.dart
+#	new file:   lib/views/subsidiary/life/dashboards/persistance_dashboard/bloc/persistency_event.dart
+#	new file:   lib/views/subsidiary/life/dashboards/persistance_dashboard/bloc/persistency_state.dart
+#	new file:   lib/views/subsidiary/life/dashboards/persistance_dashboard/data/models/data_model.dart
+#	new file:   lib/views/subsidiary/life/dashboards/persistance_dashboard/data/models/data_model.g.dart
+#	new file:   lib/views/subsidiary/life/dashboards/persistance_dashboard/data/peristency_api_client.dart
+#	new file:   lib/views/subsidiary/life/dashboards/persistance_dashboard/di/persistency_di.dart
+#	new file:   lib/views/subsidiary/life/dashboards/persistance_dashboard/domain/models/data_model.dart
+#	new file:   lib/views/subsidiary/life/dashboards/persistance_dashboard/domain/models/data_model.g.dart
+#	new file:   lib/views/subsidiary/life/dashboards/persistance_dashboard/domain/repository.dart
+#	deleted:    lib/views/subsidiary/life/dashboards/persistance_dashboard/persistency_form.dart
+#	modified:   lib/views/subsidiary/life/dashboards/persistance_dashboard/persistency_screen.dart
+#	renamed:    lib/views/subsidiary/life/dashboards/persistance_dashboard/persistency_dashboard_card.dart -> lib/views/subsidiary/life/dashboards/persistance_dashboard/ui/persistency_dashboard_card.dart
+#	new file:   lib/views/subsidiary/life/dashboards/persistance_dashboard/ui/persistency_form.dart
+#	modified:   lib/views/subsidiary/life/reports_dashboards_screen.dart
+#

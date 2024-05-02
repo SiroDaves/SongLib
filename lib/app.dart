@@ -1,83 +1,116 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:get_it/get_it.dart';
-import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
-import 'package:provider/provider.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 
+import 'common/auth/auth_bloc.dart';
+import 'common/theme/theme_cubit.dart';
+import 'common/utils/constants/pref_constants.dart';
+import 'common/utils/date_util.dart';
+import 'data/repository/auth_repository.dart';
+import 'data/repository/local_storage.dart';
+import 'di/injectable.dart';
 import 'navigator/main_navigator.dart';
-import 'theme/theme_data.dart';
-import 'util/constants/api_constants.dart';
-import 'util/env/flavor_config.dart';
-import 'vm/global_vm.dart';
-import 'widget/provider/provider_widget.dart';
+import 'navigator/route_names.dart';
 
-void startApp() async {
-  WidgetsFlutterBinding.ensureInitialized();
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
 
-  await Parse().initialize(
-    ApiConstants.applicationID,
-    ApiConstants.parseApiUrl,
-    clientKey: ApiConstants.clientKey,
-    autoSendSessionId: true,
-  );
-
-  await SentryFlutter.init(
-    (options) {
-      options.dsn =
-          'https://704a7eba4e654566beb30a98e786da51@o1365314.ingest.sentry.io/6660908';
-      options.tracesSampleRate = 1.0;
-    },
-    appRunner: () => runApp(const MyApp()),
-  );
+  @override
+  State<MyApp> createState() => MyAppState();
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class MyAppState extends State<MyApp> {
+  late final AuthRepository _authRepo;
+
+  @override
+  void initState() {
+    super.initState();
+    _authRepo = AuthRepository();
+  }
+
+  @override
+  void dispose() {
+    _authRepo.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return const InternalApp();
+    return RepositoryProvider.value(
+      value: _authRepo,
+      child: BlocProvider(
+        create: (_) => AuthBloc(authRepository: _authRepo),
+        child: const AppView(),
+      ),
+    );
   }
 }
 
-class InternalApp extends StatelessWidget {
+class AppView extends StatefulWidget {
   final Widget? home;
+  const AppView({super.key, this.home});
 
-  const InternalApp({Key? key})
-      : home = null,
-        super(key: key);
+  @override
+  State<AppView> createState() => AppViewState();
+}
 
-  @visibleForTesting
-  const InternalApp.test({required this.home, Key? key}) : super(key: key);
+class AppViewState extends State<AppView> {
+  final navigatorKey = MainNavigatorState.navigationKey;
+  NavigatorState get navigator =>
+      MainNavigatorState.navigationKey.currentState!;
 
   @override
   Widget build(BuildContext context) {
-    return ProviderWidget<GlobalVm>(
-      lazy: FlavorConfig.isInTest(),
-      create: () => GetIt.I()..init(context),
-      consumer: (context, vm, consumerChild) => MaterialApp(
-        debugShowCheckedModeBanner: false,
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: const [Locale('en'), Locale('sw')],
-        theme: Provider.of<GlobalVm>(context).isDarkMode
-            ? AppThemeData.lightTheme(vm.targetPlatform)
-            : AppThemeData.darkTheme(vm.targetPlatform),
-        navigatorKey: MainNavigatorState.navigationKey,
-        initialRoute:
-            home == null ? MainNavigatorState.initialRoute : null,
-        onGenerateRoute: MainNavigatorState.onGenerateRoute,
-        navigatorObservers: MainNavigatorState.navigatorObservers,
-        builder: home == null
-            ? (context, child) => MainNavigator(child: child)
-            : null,
-        home: home,
+    var localStorage = getIt<LocalStorage>();
+    bool isLoaded = localStorage.getPrefBool(PrefConstants.dataLoadedCheckKey);
+
+    return BlocProvider(
+      create: (context) => ThemeCubit(),
+      child: BlocBuilder<ThemeCubit, ThemeData>(
+        builder: (ctx, theme) {
+          return MaterialApp(
+            home: widget.home,
+            theme: theme,
+            supportedLocales: const [Locale('en'), Locale('sw')],
+            debugShowCheckedModeBanner: false,
+            navigatorKey: navigatorKey,
+            initialRoute: MainNavigatorState.initialRoute,
+            onGenerateRoute: MainNavigatorState.onGenerateRoute,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            builder: (context, child) => BlocListener<AuthBloc, AuthState>(
+              listener: (context, state) {
+                switch (state.status) {
+                  case AuthStatus.unauthenticated:
+                    navigator.pushNamed<void>(RouteNames.signup);
+                  case AuthStatus.unverified:
+                    navigator.pushNamed<void>(RouteNames.login);
+                  case AuthStatus.authenticated:
+                    if (isLoaded) {
+                      navigator.pushNamedAndRemoveUntil<void>(
+                        RouteNames.home,
+                        (route) => false,
+                      );
+                    } else {
+                      localStorage.setPrefString(
+                          PrefConstants.dateInstalledKey, dateNow());
+
+                      navigator.pushNamedAndRemoveUntil<void>(
+                        RouteNames.selecting,
+                        (route) => false,
+                      );
+                    }
+                }
+              },
+              child: child,
+            ),
+          );
+        },
       ),
     );
   }

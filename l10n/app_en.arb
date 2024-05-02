@@ -1,5 +1,8 @@
 {
-  "listTitle": "Song Lists",
+  "@@locale": "en",
+
+  "appName": "Songlib",
+"listTitle": "Song Lists",
   "@listTitle": { "description": "" },
   "searchTitle": "Song Search",
   "@searchTitle": { "description": "" },
@@ -190,6 +193,21 @@
   "lightMode": "Light",
   "@lightMode": { "description": "" },
   "darkMode": "Dark",
-  "@darkMode": { "description": "" }
+  "@darkMode": { "description": "" },
 
+  "labelError0": "An unknown error occured.",
+  "labelError404": "We're unable to connect you to our server at the moment.",
+  "labelError500": "You're unable to connect to our server at the moment.",
+  "labelError504": "Your request to our server has timed out.",
+  "labelError999": "Our server returned an invalid response.",
+  "labelError1000": "We're unable to submit your request.",
+
+  "labelFeedback0": "An unknown error occured.",
+  "labelFeedback404": "We can't connect you to our server at the moment due to a technical issue on our end. Please try connecting again, if the issue persists contact us on: thesonglibapp@gmail.com",
+  "labelFeedback500": "We can't connect you to our server at the moment due to a technical issue on your end. Please try switching to a reliable internet service and trying again. If the issue persists contact us on: thesonglibapp@gmail.com",
+  "labelFeedback504": "Your request to our server has timed out.",
+  "labelFeedback999": "Our server returned an invalid response.",
+  "labelFeedback1000": "We're unable to submit your request.",
+
+  "misc": "misc"
 }
