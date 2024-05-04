@@ -1,4 +1,5 @@
 import '../models/book.dart';
+import '../models/song.dart';
 import '../repository/db_repository.dart';
 import 'app_database.dart';
 
@@ -25,5 +26,25 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   @override
   Future<void> removeAllBooks() async {
     return _appDatabase.bookDao.deleteAllBooks();
+  }
+
+  @override
+  Future<List<Song>> getSavedSongs() async {
+    return _appDatabase.songDao.getAllSongs();
+  }
+
+  @override
+  Future<void> removeSong(Song song) async {
+    return _appDatabase.songDao.deleteSong(song);
+  }
+
+  @override
+  Future<void> saveSong(Song song) async {
+    return _appDatabase.songDao.insertSong(song);
+  }
+
+  @override
+  Future<void> removeAllSongs() async {
+    return _appDatabase.songDao.deleteAllSongs();
   }
 }

@@ -5,12 +5,15 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../app_util.dart';
+import '../logger.dart';
 
 class AppConstants {
   AppConstants._();
   static String dbName = 'songlibDatabase.sqlite';
   static const String ridersTable = 'riders';
   static const String booksTable = 'books';
+  static const String songsTable = 'songs';
+  static const String listsTable = 'listeds';
 
   static const siteLink = "https://songlib.vercel.app/";
   static const applestoreLink = "https://apps.apple.com/app/id6446771305";
@@ -26,8 +29,8 @@ class AppConstants {
 
   static const appTitle = "SongLib";
   static const appVersion = "v0.0.7.1";
-  static const appCredits1 = "Jack Siro";
-  static const appCredits2 = "Titus Thumbi";
+  static const appCredits1 = "Siro Dave";
+  static const appCredits2 = "Titus Gik";
   static const IconData whatsapp =
       IconData(0xf05a6, fontFamily: 'MaterialIcons');
 
@@ -38,6 +41,7 @@ class AppConstants {
     }
 
     var dbPath = join(dbFolder.path, AppConstants.dbName);
+    logger('Opening database from: $dbPath');
     return dbPath;
   }
 

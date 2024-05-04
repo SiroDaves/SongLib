@@ -5,7 +5,7 @@ import '../../common/utils/constants/app_constants.dart';
 
 part 'book.g.dart';
 
-@Entity(tableName: AppConstants.ridersTable)
+@Entity(tableName: AppConstants.booksTable)
 @JsonSerializable()
 
 class Book {

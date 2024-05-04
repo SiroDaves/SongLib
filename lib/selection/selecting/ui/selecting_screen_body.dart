@@ -4,25 +4,17 @@ class SelectingScreenBody extends StatefulWidget {
   const SelectingScreenBody({super.key});
 
   @override
-  State<SelectingScreenBody> createState() => _SelectingScreenBodyState();
+  State<SelectingScreenBody> createState() => SelectingScreenBodyState();
 }
 
-class _SelectingScreenBodyState extends State<SelectingScreenBody> {
+class SelectingScreenBodyState extends State<SelectingScreenBody> {
   late SelectingBloc _bloc;
-  late LocalStorage _prefs;
-  String selectedBooks = "";
-  List<String> bookNos = [];
+  List<Book> booksSelected = [];
 
   @override
   void initState() {
     super.initState();
-    _prefs = getIt<LocalStorage>();
     _bloc = context.read<SelectingBloc>();
-
-    selectedBooks = _prefs.getPrefString(PrefConstants.selectedBooksKey);
-    if (selectedBooks.isNotEmpty) {
-      bookNos = selectedBooks.split(",");
-    }
     _bloc.add(const SelectingBooksFetch());
   }
 
@@ -30,59 +22,23 @@ class _SelectingScreenBodyState extends State<SelectingScreenBody> {
   Widget build(BuildContext context) {
     AppLocalizations? tr = AppLocalizations.of(context)!;
 
-    BlocBuilder<SelectingBloc, SelectingState>(
-      builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(
-              state.status.isInProgress ? tr.booksTitleLoading : tr.booksTitle,
-            ),
-            actions: [
-              state.status.isInProgress
-                  ? const SizedBox.shrink()
-                  : InkWell(
-                      onTap: () => _bloc.add(const SelectingBooksFetch()),
-                      child: const Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Icon(Icons.refresh),
-                      ),
-                    ),
-              state.status.isInProgress
-                  ? const SizedBox.shrink()
-                  : state.status.isFailure
-                      ? const SizedBox.shrink()
-                      : IconTextBtn(
-                          onPressed: () =>
-                              areYouDoneDialog(context, state.isValid),
-                          title: tr.proceed,
-                        ),
-            ],
-          ),
-          body: const SelectingScreenBodyDetails(),
-          floatingActionButton: state.status.isInProgress
-              ? const SizedBox.shrink()
-              : FloatingActionButton(
-                  backgroundColor: ThemeColors.primary,
-                  onPressed: () => areYouDoneDialog(context, state.isValid),
-                  child: const Icon(Icons.check, color: Colors.white),
-                ),
-        );
-      },
-    );
-
     return BlocConsumer<SelectingBloc, SelectingState>(
       bloc: _bloc,
       listener: (context, state) {
-        //
+        if (state.status == Status.booksSaved) {
+          Navigator.pushNamed(context, RouteNames.saving);
+        }
       },
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
             title: Text(
-              state.status.isInProgress ? tr.booksTitleLoading : tr.booksTitle,
+              state.status == Status.inProgress
+                  ? tr.booksTitleLoading
+                  : tr.booksTitle,
             ),
             actions: [
-              state.status.isInProgress
+              state.status == Status.inProgress
                   ? const SizedBox.shrink()
                   : InkWell(
                       onTap: () => _bloc.add(const SelectingBooksFetch()),
@@ -91,23 +47,28 @@ class _SelectingScreenBodyState extends State<SelectingScreenBody> {
                         child: Icon(Icons.refresh),
                       ),
                     ),
-              state.status.isInProgress
+              state.status == Status.inProgress
                   ? const SizedBox.shrink()
-                  : state.status.isFailure
+                  : state.status == Status.failure
                       ? const SizedBox.shrink()
                       : IconTextBtn(
-                          onPressed: () =>
-                              areYouDoneDialog(context, state.isValid),
+                          onPressed: () => areYouDoneDialog(
+                            context,
+                            booksSelected.isNotEmpty,
+                          ),
                           title: tr.proceed,
                         ),
             ],
           ),
-          body: const SelectingScreenBodyDetails(),
-          floatingActionButton: state.status.isInProgress
+          body: SelectingScreenBodyDetails(parent: this),
+          floatingActionButton: state.status == Status.inProgress
               ? const SizedBox.shrink()
               : FloatingActionButton(
                   backgroundColor: ThemeColors.primary,
-                  onPressed: () => areYouDoneDialog(context, state.isValid),
+                  onPressed: () => areYouDoneDialog(
+                    context,
+                    booksSelected.isNotEmpty,
+                  ),
                   child: const Icon(Icons.check, color: Colors.white),
                 ),
         );
@@ -126,7 +87,7 @@ class _SelectingScreenBodyState extends State<SelectingScreenBody> {
         positiveButtonTitle: tr.proceed,
       );
       if (result == CustomButton.positiveButton) {
-        _bloc.add(const SelectingSubmit());
+        _bloc.add(SelectingSubmitData(booksSelected));
       }
     } else {
       await FlutterPlatformAlert.showCustomAlert(

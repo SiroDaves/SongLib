@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:songlib/common/theme/theme_styles.dart';
 //import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 //import 'package:textstyle_extensions/textstyle_extensions.dart';
 //import 'package:timeago/timeago.dart' as timeago;
 
+import '../../../data/models/basic_model.dart';
 import '../../../data/models/book.dart';
 //import '../../theme/theme_colors.dart';
 //import '../../theme/theme_styles.dart';
@@ -11,14 +13,12 @@ import '../../utils/app_util.dart';
 var locale = 'en';
 
 class BookItem extends StatelessWidget {
-  final Book book;
-  final bool selected;
+  final Selectable<Book> item;
   final Function()? onPressed;
 
   const BookItem({
     Key? key,
-    required this.book,
-    this.selected = false,
+    required this.item,
     this.onPressed,
   }) : super(key: key);
 
@@ -27,36 +27,36 @@ class BookItem extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(5),
       child: Card(
-        color: selected ? Colors.deepOrange : Colors.white,
+        color: item.isSelected ? Colors.deepOrange : Colors.white,
         elevation: 5,
         child: Center(
           child: ListTile(
             onTap: onPressed,
             leading: Padding(
-              padding: const EdgeInsets.all(15),
+              padding: const EdgeInsets.all(Sizes.m),
               child: Icon(
-                selected ? Icons.check_box : Icons.check_box_outline_blank,
-                color: selected ? Colors.white : Colors.black,
+                item.isSelected ? Icons.check_box : Icons.check_box_outline_blank,
+                color: item.isSelected ? Colors.white : Colors.black,
               ),
             ),
             title: Padding(
-              padding: const EdgeInsets.only(top: 10, bottom: 5),
+              padding: const EdgeInsets.symmetric(vertical: Sizes.xs),
               child: Text(
-                refineTitle(book.title!),
+                refineTitle(item.data.title!),
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: selected ? Colors.white : Colors.black,
+                  color: item.isSelected ? Colors.white : Colors.black,
                 ),
               ),
             ),
             subtitle: Padding(
-              padding: const EdgeInsets.only(top: 5, bottom: 10),
+              padding: const EdgeInsets.only(bottom: Sizes.xs),
               child: Text(
-                "${book.songs!} ${book.subTitle} songs",
+                "${item.data.songs!} ${item.data.subTitle} songs",
                 style: TextStyle(
                   fontSize: 18,
-                  color: selected ? Colors.white : Colors.black,
+                  color: item.isSelected ? Colors.white : Colors.black,
                 ),
               ),
             ),

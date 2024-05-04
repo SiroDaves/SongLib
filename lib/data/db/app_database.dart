@@ -4,14 +4,17 @@ import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
 import '../models/book.dart';
+import '../models/song.dart';
 import 'dao/books_dao.dart';
+import 'dao/songs_dao.dart';
 
 part 'app_database.g.dart';
 
 @Database(
   version: 1,
-  entities: [Book],
+  entities: [Book, Song],
 )
 abstract class AppDatabase extends FloorDatabase {
   BooksDao get bookDao;
+  SongsDao get songDao;
 }
