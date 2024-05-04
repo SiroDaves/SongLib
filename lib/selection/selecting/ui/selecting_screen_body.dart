@@ -63,14 +63,16 @@ class SelectingScreenBodyState extends State<SelectingScreenBody> {
           body: SelectingScreenBodyDetails(parent: this),
           floatingActionButton: state.status == Status.inProgress
               ? const SizedBox.shrink()
-              : FloatingActionButton(
-                  backgroundColor: ThemeColors.primary,
-                  onPressed: () => areYouDoneDialog(
-                    context,
-                    booksSelected.isNotEmpty,
-                  ),
-                  child: const Icon(Icons.check, color: Colors.white),
-                ),
+              : state.status == Status.failure
+                  ? const SizedBox.shrink()
+                  : FloatingActionButton(
+                      backgroundColor: ThemeColors.primary,
+                      onPressed: () => areYouDoneDialog(
+                        context,
+                        booksSelected.isNotEmpty,
+                      ),
+                      child: const Icon(Icons.check, color: Colors.white),
+                    ),
         );
       },
     );

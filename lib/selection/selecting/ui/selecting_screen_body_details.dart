@@ -35,7 +35,7 @@ class SelectingScreenBodyDetailsState
 
     return BlocBuilder<SelectingBloc, SelectingState>(
       builder: (context, state) {
-        var booksList = isDesktop || isMobile && isTabletOrIpad
+        var booksListWidget = isDesktop || isMobile && isTabletOrIpad
             ? LayoutBuilder(
                 builder: (context, dimens) {
                   int axisCount = (dimens.maxWidth / 450).round();
@@ -54,7 +54,6 @@ class SelectingScreenBodyDetailsState
                 },
               )
             : ListView.builder(
-                padding: const EdgeInsets.all(5),
                 itemCount: state.booksListing.length,
                 itemBuilder: (context, index) => BookItem(
                   item: state.booksListing[index],
@@ -64,18 +63,22 @@ class SelectingScreenBodyDetailsState
 
         return SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(Sizes.xs),
             child: Stack(
               children: [
                 state.status == Status.inProgress
                     ? const BooksLoading()
                     : (state.status == Status.booksFetched &&
                             state.booksListing.isNotEmpty)
-                        ? booksList
+                        ? booksListWidget
                         : const SizedBox.shrink(),
                 state.status == Status.failure
                     ? EmptyState(
                         title: emptyStateMessage(state.feedback, tr),
+                        showRetry: true,
+                        onRetry: () => context
+                            .read<SelectingBloc>()
+                            .add(const SelectingBooksFetch()),
                       )
                     : const SizedBox.shrink(),
               ],

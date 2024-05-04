@@ -18,7 +18,7 @@ class ThemeCubit extends Cubit<ThemeData> {
       secondary: ThemeColors.accent,
       secondaryContainer: ThemeColors.accent,
       onSecondary: ThemeColors.white,
-      surface: ThemeColors.white,
+      surface: ThemeColors.primary,
       onBackground: ThemeColors.primary,
       onSurface: ThemeColors.primary,
       background: ThemeColors.white,
@@ -27,9 +27,10 @@ class ThemeCubit extends Cubit<ThemeData> {
       error: ThemeColors.error,
     ),
     appBarTheme: const AppBarTheme(
-      iconTheme: IconThemeData(color: ThemeColors.primary),
-      color: Colors.white,
-      toolbarTextStyle: TextStyle(color: ThemeColors.primary),
+      iconTheme: IconThemeData(color: Colors.white),
+      foregroundColor: Colors.white,
+      elevation: 5,
+      toolbarTextStyle: TextStyle(color: Colors.white),
     ),
     textSelectionTheme: TextSelectionThemeData(
       cursorColor: ThemeColors.accent,

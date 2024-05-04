@@ -28,8 +28,8 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
   late HomeBloc _bloc;
-  String username = "Guest";
   bool updateFound = false;
+  int currentPageIndex = 0;
 
   @override
   void initState() {
@@ -60,10 +60,38 @@ class HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  Future<void> showPermanentlyDeniedDialog() async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Permission Required'),
+          content: const Text(
+              'This app requires storage permission to function properly.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                openAppSettings(); // Open app settings manually
+              },
+              child: const Text('Open Settings'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var tr = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
+    bool isTabletOrIpad = size.shortestSide > 550;
 
     var homeBody = BlocConsumer(
       bloc: _bloc,
@@ -91,6 +119,35 @@ class HomeScreenState extends State<HomeScreen> {
           return const EmptyState();
         }
       },
+    );
+
+    var bottomNavigation = NavigationBar(
+      onDestinationSelected: (int index) {
+        setState(() => currentPageIndex = index);
+      },
+      height: 50,
+      indicatorColor: ThemeColors.primary,
+      selectedIndex: currentPageIndex,
+      labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+      destinations: const <Widget>[
+        NavigationDestination(
+          selectedIcon: Icon(Icons.home),
+          icon: Icon(Icons.home_outlined),
+          label: 'HOME',
+        ),
+        NavigationDestination(
+          icon: Badge(child: Icon(Icons.list)),
+          label: 'LIST',
+        ),
+        NavigationDestination(
+          icon: Badge(child: Icon(Icons.favorite)),
+          label: 'LIKES',
+        ),
+        NavigationDestination(
+          icon: Badge(child: Icon(Icons.edit)),
+          label: 'DRAFTS',
+        ),
+      ],
     );
 
     return Scaffold(
@@ -128,33 +185,8 @@ class HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: homeBody,
-    );
-  }
-
-  Future<void> showPermanentlyDeniedDialog() async {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Permission Required'),
-          content: const Text(
-              'This app requires storage permission to function properly.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                openAppSettings(); // Open app settings manually
-              },
-              child: const Text('Open Settings'),
-            ),
-          ],
-        );
-      },
+      bottomNavigationBar:
+          isDesktop || isMobile && isTabletOrIpad ? null : bottomNavigation,
     );
   }
 }

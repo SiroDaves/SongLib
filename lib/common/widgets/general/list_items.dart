@@ -25,7 +25,8 @@ class BookItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(5),
+      margin: const EdgeInsets.only(
+          bottom: Sizes.xs, left: Sizes.xs, right: Sizes.xs),
       child: Card(
         color: item.isSelected ? Colors.deepOrange : Colors.white,
         elevation: 5,
@@ -35,7 +36,9 @@ class BookItem extends StatelessWidget {
             leading: Padding(
               padding: const EdgeInsets.all(Sizes.m),
               child: Icon(
-                item.isSelected ? Icons.check_box : Icons.check_box_outline_blank,
+                item.isSelected
+                    ? Icons.check_box
+                    : Icons.check_box_outline_blank,
                 color: item.isSelected ? Colors.white : Colors.black,
               ),
             ),

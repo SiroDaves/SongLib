@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_platform_alert/flutter_platform_alert.dart';
 
 import '../../../common/theme/theme_colors.dart';
+import '../../../common/theme/theme_styles.dart';
 import '../../../common/utils/app_util.dart';
 import '../../../common/utils/logger.dart';
 import '../../../common/widgets/action/base_buttons.dart';
