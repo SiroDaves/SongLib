@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "Britam" "\0"
-            VALUE "FileDescription", "Songlib" "\0"
+            VALUE "CompanyName", "com.example" "\0"
+            VALUE "FileDescription", "songlib" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "britam_agent" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2023 Britam. All rights reserved." "\0"
-            VALUE "OriginalFilename", "britam_agent.exe" "\0"
-            VALUE "ProductName", "britam_agent" "\0"
+            VALUE "InternalName", "songlib" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
+            VALUE "OriginalFilename", "songlib.exe" "\0"
+            VALUE "ProductName", "songlib" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

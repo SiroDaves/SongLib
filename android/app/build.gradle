@@ -2,8 +2,6 @@ plugins {
     id "com.android.application"
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
-    id "com.google.firebase.crashlytics"
-    id "com.google.firebase.firebase-perf"
 }
 
 def localProperties = new Properties()
@@ -31,7 +29,8 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion flutter.compileSdkVersion
+    namespace "com.songlib"
+    compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -50,8 +49,8 @@ android {
     defaultConfig {
         applicationId "com.songlib"
         minSdkVersion 21
-        targetSdkVersion 33
-        compileSdkVersion 33
+        targetSdkVersion 34
+        compileSdkVersion 34
         multiDexEnabled true
         versionCode 19
         versionName "0.0.7.5"
@@ -93,20 +92,20 @@ android {
             versionNameSuffix "-apptester"
             applicationId "com.songlib.apptester"
             minSdkVersion 21
-            targetSdkVersion 33
-            compileSdkVersion 33
+            targetSdkVersion 34
+            compileSdkVersion 34
             multiDexEnabled true
-            versionCode 200
+            versionCode 19
             versionName "0.0.7.55"
         }
         prod {
             dimension "flavors"
             applicationId "com.songlib"
             minSdkVersion 21
-            targetSdkVersion 33
-            compileSdkVersion 33
+            targetSdkVersion 34
+            compileSdkVersion 34
             multiDexEnabled true
-            versionCode 200
+            versionCode 19
             versionName "0.0.7.55"
         }
     }
@@ -114,7 +113,8 @@ android {
 
 flutter {
     source '../..'
-} 
+}
+
 dependencies {}
 
 apply plugin: 'com.google.gms.google-services'
