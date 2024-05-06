@@ -14,6 +14,14 @@ class AppConstants {
   static const String booksTable = 'books';
   static const String songsTable = 'songs';
   static const String listsTable = 'listeds';
+  
+  static const String songExtSql = 'SELECT s.rid, s.book, s.songId, s.songNo, s.title, s.alias, '
+  's.content, s.views, s.likes, s.liked, b.title AS songbook '
+  'FROM $songsTable AS s '
+  'LEFT JOIN $booksTable AS b '
+  'ON s.book=b.bookNo '
+  'ORDER BY songNo ASC;';
+  static const String viewTableSongs = 'viewsongs';
 
   static const siteLink = "https://songlib.vercel.app/";
   static const applestoreLink = "https://apps.apple.com/app/id6446771305";

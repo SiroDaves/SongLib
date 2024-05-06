@@ -12,7 +12,7 @@ abstract class SongsDao {
   @Query('SELECT * FROM ${AppConstants.songsTable}')
   Future<List<Song>> fetchSongs();
 
-  @Query('SELECT * FROM songExt')
+  @Query('SELECT * FROM ${AppConstants.viewTableSongs}')
   Stream<List<SongExt>> fetchSongExts();
 
   @Insert(onConflict: OnConflictStrategy.replace)

@@ -76,7 +76,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) async {
     emit(state.copyWith(status: Status.inProgress));
-    _dbRepo.fetchBooks();
+    var books = await _dbRepo.fetchBooks();
+    var songs = await _dbRepo.fetchSongExts();
+
+    emit(
+      state.copyWith(
+        status: Status.dataFetched,
+        books: books,
+        songs: songs,
+      ),
+    );
   }
 
   Future<void> _onSelectBook(

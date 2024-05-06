@@ -11,36 +11,30 @@ part 'song.g.dart';
 class Song {
   @PrimaryKey(autoGenerate: true)
   int? rid;
-  int? id;
-  String? objectId;
   int? book;
+  int? songId;
   int? songNo;
   String? title;
   String? alias;
   String? content;
-  String? key;
-  String? author;
   int? views;
   int? likes;
   bool? liked;
-  String? createdAt;
-  String? updatedAt;
+  String? created;
+  String? updated;
 
   Song({
-    this.id,
-    this.objectId,
     this.book,
+    this.songId,
     this.songNo,
     this.title,
     this.alias,
     this.content,
-    this.key,
-    this.author,
     this.views,
     this.likes,
     this.liked,
-    this.createdAt,
-    this.updatedAt,
+    this.created,
+    this.updated,
   });
 
   factory Song.fromJson(Map<String, dynamic> json) => _$SongFromJson(json);
