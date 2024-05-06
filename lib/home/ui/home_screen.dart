@@ -1,3 +1,4 @@
+import 'package:context_menus/context_menus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -6,18 +7,22 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:textstyle_extensions/textstyle_extensions.dart';
 
-import '../../../common/theme/theme_colors.dart';
-import '../../../common/utils/app_util.dart';
-import '../../widgets/progress/general_progress.dart';
-import '../../../di/injectable.dart';
-import '../../../navigator/route_names.dart';
-import '../../theme/theme_fonts.dart';
-import '../../utils/env/flavor_config.dart';
-import '../../widgets/action/base_buttons.dart';
-import '../../widgets/progress/custom_snackbar.dart';
+import '../../common/theme/theme_colors.dart';
+import '../../common/utils/app_util.dart';
+import '../../common/widgets/general/list_items.dart';
+import '../../data/models/book.dart';
+import '../../data/models/songext.dart';
+import '../../navigator/route_names.dart';
+import '../../common/theme/theme_fonts.dart';
+import '../../common/utils/env/flavor_config.dart';
+import '../../common/widgets/action/base_buttons.dart';
+import '../../common/widgets/progress/custom_snackbar.dart';
+import '../../common/widgets/progress/general_progress.dart';
+import '../../common/widgets/progress/line_progress.dart';
 import '../bloc/home_bloc.dart';
 
-part 'home_widgets.dart';
+part 'home_screen_widgets.dart';
+part 'mobile/search_tab.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -29,11 +34,11 @@ class HomeScreen extends StatefulWidget {
 class HomeScreenState extends State<HomeScreen> {
   late HomeBloc _bloc;
   bool updateFound = false;
-  int currentPageIndex = 0;
+  int currentPage = 0;
 
   @override
   void initState() {
-    _bloc = getIt<HomeBloc>();
+    _bloc = context.read<HomeBloc>();
 
     if (isMobile) {
       checkPermissions();
@@ -41,6 +46,7 @@ class HomeScreenState extends State<HomeScreen> {
         _bloc.add(const HomeCheckUpdates());
       }
     }
+    _bloc.add(const HomeFetchData());
     super.initState();
   }
 
@@ -93,41 +99,42 @@ class HomeScreenState extends State<HomeScreen> {
     Size size = MediaQuery.of(context).size;
     bool isTabletOrIpad = size.shortestSide > 550;
 
-    var homeBody = BlocConsumer(
+    var homeBody = BlocConsumer<HomeBloc, HomeState>(
       bloc: _bloc,
       listener: (context, state) {
-        if (state is HomeUpdateState) {
+        if (state.status == Status.updateFound) {
           setState(() => updateFound = true);
           CustomSnackbar.show(context, feedbackMessage(state.feedback, tr),
               isSuccess: true);
         }
-        if (state is HomeSuccessState) {
+        if (state.status == Status.success) {
           setState(() => updateFound = false);
         }
       },
       builder: (context, state) {
-        if (state is HomeProgressState) {
+        if (state.status == Status.inProgress) {
           return const CircularProgress();
-        } else if (state is HomeUpdateState) {
+        } else if (state.status == Status.updateFound) {
           return UpdateWidget(
             size: size.width / 3,
             onPressed: () => _bloc.add(const HomeUpdateApp()),
           );
-        } else if (state is HomeSuccessState) {
-          return const EmptyState();
+        } else if (state.status == Status.success) {
+          return HomeScreenBody(parent: this);
         } else {
-          return const EmptyState();
+          return HomeScreenBody(parent: this);
         }
       },
     );
 
     var bottomNavigation = NavigationBar(
       onDestinationSelected: (int index) {
-        setState(() => currentPageIndex = index);
+        setState(() => currentPage = index);
       },
       height: 50,
-      indicatorColor: ThemeColors.primary,
-      selectedIndex: currentPageIndex,
+      indicatorColor: ThemeColors.primaryDark,
+      backgroundColor: Colors.white,
+      selectedIndex: currentPage,
       labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
       destinations: const <Widget>[
         NavigationDestination(
@@ -153,17 +160,7 @@ class HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: ThemeColors.gray,
       appBar: AppBar(
-        centerTitle: false,
-        title: const Text(
-          'Home',
-          style: TextStyle(
-            color: ThemeColors.primary,
-            fontSize: 24,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        automaticallyImplyLeading: false,
-        elevation: 0,
+        title: const Text('Home'),
         actions: [
           InkWell(
             onTap: () {
@@ -177,8 +174,6 @@ class HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.only(right: 10),
               child: Icon(
                 updateFound ? Icons.system_update : Iconsax.profile_circle,
-                size: 50,
-                color: ThemeColors.primary,
               ),
             ),
           ),

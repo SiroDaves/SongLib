@@ -8,7 +8,7 @@ import 'package:injectable/injectable.dart';
 import '../../../../common/utils/logger.dart';
 import '../../../common/utils/constants/pref_constants.dart';
 import '../../../data/models/song.dart';
-import '../../../data/repository/db_repository.dart';
+import '../../../data/repository/database_repository.dart';
 import '../../../data/repository/local_storage.dart';
 import '../../../di/injectable.dart';
 import '../../common/domain/selection_repository.dart';

@@ -1,11 +1,9 @@
-import 'package:injectable/injectable.dart';
-
 import '../models/book.dart';
 import '../models/song.dart';
+import '../models/songext.dart';
 
-@injectable
-abstract class DatabaseRepository {
-  Future<List<Book>> getSavedBooks();
+abstract class DatabaseRepository{
+  Future<List<Book>> fetchBooks();
 
   Future<void> saveBook(Book book);
 
@@ -13,7 +11,9 @@ abstract class DatabaseRepository {
 
   Future<void> removeAllBooks();
 
-  Future<List<Song>> getSavedSongs();
+  Future<List<Song>> fetchSongs();
+
+  Future<List<SongExt>> fetchSongExts();
 
   Future<void> saveSong(Song song);
 

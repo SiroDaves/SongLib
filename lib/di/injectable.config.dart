@@ -11,12 +11,12 @@
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 import 'package:shared_preferences/shared_preferences.dart' as _i9;
-import 'package:songlib/common/home/bloc/home_bloc.dart' as _i6;
 import 'package:songlib/data/db/app_database.dart' as _i3;
 import 'package:songlib/data/repository/auth_repository.dart' as _i4;
-import 'package:songlib/data/repository/db_repository.dart' as _i5;
+import 'package:songlib/data/repository/database_repository.dart' as _i5;
 import 'package:songlib/data/repository/local_storage.dart' as _i10;
 import 'package:songlib/di/injectable.dart' as _i11;
+import 'package:songlib/home/bloc/home_bloc.dart' as _i6;
 import 'package:songlib/selection/saving/bloc/saving_bloc.dart' as _i7;
 import 'package:songlib/selection/selecting/bloc/selecting_bloc.dart' as _i8;
 
@@ -47,7 +47,7 @@ extension GetItInjectableX on _i1.GetIt {
       preResolve: true,
     );
     gh.singleton<_i10.LocalStorage>(
-        _i10.LocalStorage(gh<_i9.SharedPreferences>()));
+        () => _i10.LocalStorage(gh<_i9.SharedPreferences>()));
     return this;
   }
 }

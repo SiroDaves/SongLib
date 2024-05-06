@@ -9,7 +9,7 @@ import '../common/utils/constants/app_constants.dart';
 import '../common/utils/logger.dart';
 import '../data/db/app_database.dart';
 import '../data/db/database_repository_impl.dart';
-import '../data/repository/db_repository.dart';
+import '../data/repository/database_repository.dart';
 import '../di/injectable.config.dart';
 
 final getIt = GetIt.instance;

@@ -1,16 +1,18 @@
 import '../models/book.dart';
 import '../models/song.dart';
-import '../repository/db_repository.dart';
+import '../models/songext.dart';
+import '../repository/database_repository.dart';
 import 'app_database.dart';
 
+/// Implementor of Database Repository
 class DatabaseRepositoryImpl implements DatabaseRepository {
   final AppDatabase _appDatabase;
 
   DatabaseRepositoryImpl(this._appDatabase);
 
   @override
-  Future<List<Book>> getSavedBooks() async {
-    return _appDatabase.bookDao.getAllBooks();
+  Future<List<Book>> fetchBooks() async {
+    return _appDatabase.bookDao.fetchBooks();
   }
 
   @override
@@ -29,8 +31,14 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
-  Future<List<Song>> getSavedSongs() async {
-    return _appDatabase.songDao.getAllSongs();
+  Future<List<Song>> fetchSongs() async {
+    return _appDatabase.songDao.fetchSongs();
+  }
+
+  @override
+  Future<List<SongExt>> fetchSongExts() async {
+    final Stream<List<SongExt>> streams = _appDatabase.songDao.fetchSongExts();
+    return await streams.first;
   }
 
   @override

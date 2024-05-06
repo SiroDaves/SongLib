@@ -48,3 +48,23 @@ class UpdateWidget extends StatelessWidget {
     );
   }
 }
+
+class HomeScreenBody extends StatefulWidget {
+  final HomeScreenState parent;
+  const HomeScreenBody({super.key, required this.parent});
+
+  @override
+  State<HomeScreenBody> createState() => HomeScreenBodyState();
+}
+
+class HomeScreenBodyState extends State<HomeScreenBody> {
+  @override
+  Widget build(BuildContext context) {
+    return <Widget>[
+      MobileSearchTab(),
+      const SizedBox.expand(child: Center(child: Text('Page 2'))),
+      const SizedBox.expand(child: Center(child: Text('Page 3'))),
+      const SizedBox.expand(child: Center(child: Text('Page 4'))),
+    ][widget.parent.currentPage];
+  }
+}

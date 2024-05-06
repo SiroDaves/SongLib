@@ -9,7 +9,7 @@ import '../../../../common/utils/logger.dart';
 import '../../../common/utils/constants/pref_constants.dart';
 import '../../../data/models/basic_model.dart';
 import '../../../data/models/book.dart';
-import '../../../data/repository/db_repository.dart';
+import '../../../data/repository/database_repository.dart';
 import '../../../data/repository/local_storage.dart';
 import '../../../di/injectable.dart';
 import '../../common/domain/selection_repository.dart';

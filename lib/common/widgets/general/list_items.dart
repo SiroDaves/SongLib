@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:songlib/common/theme/theme_styles.dart';
-//import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 //import 'package:textstyle_extensions/textstyle_extensions.dart';
 //import 'package:timeago/timeago.dart' as timeago;
 
@@ -8,6 +8,9 @@ import '../../../data/models/basic_model.dart';
 import '../../../data/models/book.dart';
 //import '../../theme/theme_colors.dart';
 //import '../../theme/theme_styles.dart';
+import '../../../data/models/songext.dart';
+import '../../theme/theme_colors.dart';
+//import '../../theme/theme_fonts.dart';
 import '../../utils/app_util.dart';
 
 var locale = 'en';
@@ -70,7 +73,7 @@ class BookItem extends StatelessWidget {
   }
 }
 
-/*class SongBook extends StatelessWidget {
+class SongBook extends StatelessWidget {
   final Book book;
   final bool isSelected;
   final Function()? onPressed;
@@ -87,9 +90,9 @@ class BookItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5),
       child: RawMaterialButton(
-        textStyle: TextStyles.Btn.bold
-            .size(16)
-            .textColor(isSelected ? Colors.white : ThemeColors.primary),
+        //textStyle: TextStyles.Btn.bold
+          //  .size(16)
+        //    .textColor(isSelected ? Colors.white : ThemeColors.primary),
         fillColor: isSelected ? ThemeColors.primary : ThemeColors.accent,
         highlightColor: Colors.white.withOpacity(.1),
         focusElevation: 0,
@@ -118,7 +121,7 @@ class BookItem extends StatelessWidget {
   }
 }
 
-class ListedItem extends StatelessWidget {
+/*class ListedItem extends StatelessWidget {
   final Listed listed;
   final double height;
   final bool isSelected;
@@ -192,7 +195,7 @@ class ListedItem extends StatelessWidget {
       ),
     );
   }
-}
+}*/
 
 // ignore: must_be_immutable
 class SongItem extends StatelessWidget {
@@ -251,18 +254,18 @@ class SongItem extends StatelessWidget {
             Text(
               songItemTitle(song.songNo!, song.title!),
               maxLines: 1,
-              style: TextStyles.Body1.size(height * 0.0261)
+              /*style: TextStyles.Body1.size(height * 0.0261)
                   .bold
                   .textColor(isSelected ? Colors.white : Colors.black)
-                  .textHeight(1.5),
+                  .textHeight(1.5),*/
             ),
             Divider(color: ThemeColors.accent, height: height * 0.0049),
             Text(
               refineContent(verses[0]),
               maxLines: 2,
-              style: TextStyles.Body1.size(height * 0.0228)
-                  .textColor(isSelected ? Colors.white : Colors.black)
-                  .textHeight(1.5),
+              //style: TextStyles.Body1.size(height * 0.0228)
+              //    .textColor(isSelected ? Colors.white : Colors.black)
+              //    .textHeight(1.5),
             ),
             Container(
               height: height * 0.035,
@@ -271,11 +274,11 @@ class SongItem extends StatelessWidget {
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: <Widget>[
-                  if (isSearching)
-                    TagView(
-                        tagText: refineTitle(song.songbook!), height: height),
-                  TagView(tagText: versesText, height: height),
-                  if (hasChorus) TagView(tagText: chorusText, height: height),
+                  //if (isSearching)
+                  //  TagView(
+                  //      tagText: refineTitle(song.songbook!), height: height),
+                  //TagView(tagText: versesText, height: height),
+                  //if (hasChorus) TagView(tagText: chorusText, height: height),
                   Container(
                     width: 10,
                   ),
@@ -290,7 +293,7 @@ class SongItem extends StatelessWidget {
 }
 
 // ignore: must_be_immutable
-class DraftItem extends StatelessWidget {
+/*class DraftItem extends StatelessWidget {
   final Draft draft;
   final double height;
   final Function()? onPressed;
