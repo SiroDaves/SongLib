@@ -3,8 +3,8 @@ import 'package:floor/floor.dart';
 import '../../common/utils/constants/app_constants.dart';
 
 @DatabaseView(
-  AppConstants.songExtSql,
-  viewName: AppConstants.viewTableSongs,
+  '${AppConstants.songExtSql};',
+  viewName: AppConstants.songsTableViews,
 )
 class SongExt {
   int rid;

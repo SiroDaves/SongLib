@@ -11,6 +11,7 @@ import '../../../common/utils/app_util.dart';
 import '../../../common/widgets/progress/custom_snackbar.dart';
 import '../../common/theme/theme_colors.dart';
 import '../../common/theme/theme_fonts.dart';
+import '../../common/utils/env/flavor_config.dart';
 import '../../common/widgets/action/base_buttons.dart';
 import '../../common/widgets/general/list_items.dart';
 import '../../common/widgets/progress/general_progress.dart';
@@ -21,6 +22,7 @@ import '../../navigator/route_names.dart';
 import '../bloc/home_bloc.dart';
 
 part 'home_screen_body.dart';
+part 'home_screen_details.dart';
 part 'mobile/search_tab.dart';
 
 class HomeScreen extends StatelessWidget {

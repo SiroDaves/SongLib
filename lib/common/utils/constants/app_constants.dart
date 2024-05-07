@@ -9,19 +9,39 @@ import '../logger.dart';
 
 class AppConstants {
   AppConstants._();
-  static String dbName = 'songlibDatabase.sqlite';
-  static const String ridersTable = 'riders';
+  static String dbName = 'Songlib.db';
+  static const String editsTable = 'edits';
+  static const String draftsTable = 'drafts';
   static const String booksTable = 'books';
   static const String songsTable = 'songs';
-  static const String listsTable = 'listeds';
+  static const String listedsTable = 'listeds';
+  static const String searchesTable = 'searches';
+  static const String historiesTable = 'histories';
   
   static const String songExtSql = 'SELECT s.rid, s.book, s.songId, s.songNo, s.title, s.alias, '
   's.content, s.views, s.likes, s.liked, b.title AS songbook '
   'FROM $songsTable AS s '
   'LEFT JOIN $booksTable AS b '
   'ON s.book=b.bookNo '
-  'ORDER BY songNo ASC;';
-  static const String viewTableSongs = 'viewsongs';
+  'ORDER BY songNo ASC';
+
+  static const String historyExtSql = 'SELECT s.rid, s.book, s.songId, s.songNo, s.title, s.alias, '
+  's.content, s.views, s.likes, s.liked, b.title AS songbook '
+  'FROM $songsTable AS s '
+  'LEFT JOIN $booksTable AS b '
+  'ON s.book=b.bookNo '
+  'ORDER BY songNo ASC';
+  
+  static const String listedExtSql = 'SELECT s.rid, s.book, s.songId, s.songNo, s.title, s.alias, '
+  's.content, s.views, s.likes, s.liked, b.title AS songbook '
+  'FROM $songsTable AS s '
+  'LEFT JOIN $booksTable AS b '
+  'ON s.book=b.bookNo '
+  'ORDER BY songNo ASC';
+  
+  static const String songsTableViews = 'viewsongs';
+  static const String listsTableViews = 'viewlisteds';
+  static const String historiesTableViews = 'viewhistories';
 
   static const siteLink = "https://songlib.vercel.app/";
   static const applestoreLink = "https://apps.apple.com/app/id6446771305";
@@ -53,73 +73,4 @@ class AppConstants {
     return dbPath;
   }
 
-  static const months = <String>[
-    'MM',
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-  ];
-
-  static const years = <String>[
-    'YYYY',
-    '2014',
-    '2015',
-    '2016',
-    '2017',
-    '2018',
-    '2019',
-    '2020',
-    '2021',
-    '2022',
-    '2023',
-  ];
-
-  static const emails = <String>[
-    '@britam.com',
-    '@gmail.com',
-    '@yahoo.com',
-    '@outlook.com',
-    '@hotmail.live',
-  ];
-
-  static const getCommissionStatementPdf = "generate_commission_statement_pdf";
-
-  static int getFrequency(String frequencyValue) {
-    switch (frequencyValue) {
-      case 'Quarterly':
-        return 3;
-      case 'Semi-Annually':
-        return 6;
-      case 'Annually':
-        return 12;
-      case 'Single Premium':
-        return 99;
-      default:
-        return 1;
-    }
-  }
-
-  static String getFrequencyStr(int frequencyValue) {
-    switch (frequencyValue) {
-      case 3:
-        return 'Quarterly';
-      case 6:
-        return 'Semi-Annually';
-      case 12:
-        return 'Annually';
-      case 99:
-        return 'Single Premium';
-      default:
-        return 'Monthly';
-    }
-  }
 }

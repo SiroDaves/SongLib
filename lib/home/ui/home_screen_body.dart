@@ -11,18 +11,19 @@ class HomeScreenBodyState extends State<HomeScreenBody> {
   late HomeBloc _bloc;
   bool updateFound = false;
   int currentPage = 0;
+  bool isTabletOrIpad = false;
   late AppLocalizations tr;
 
   @override
   void initState() {
     _bloc = context.read<HomeBloc>();
 
-    /*if (isMobile) {
+    if (isMobile) {
       checkPermissions();
       if (FlavorConfig.isProd()) {
         _bloc.add(const HomeCheckUpdates());
       }
-    }*/
+    }
     _bloc.add(const HomeFetchData());
     super.initState();
   }
@@ -69,15 +70,18 @@ class HomeScreenBodyState extends State<HomeScreenBody> {
   Widget build(BuildContext context) {
     tr = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
-    bool isTabletOrIpad = size.shortestSide > 550;
+    isTabletOrIpad = size.shortestSide > 550;
 
-    var homeBody = BlocConsumer<HomeBloc, HomeState>(
+    var bodyWidget = BlocConsumer<HomeBloc, HomeState>(
       bloc: _bloc,
       listener: (context, state) {
         if (state.status == Status.updateFound) {
           setState(() => updateFound = true);
-          CustomSnackbar.show(context, feedbackMessage(state.feedback, tr),
-              isSuccess: true);
+          CustomSnackbar.show(
+            context,
+            feedbackMessage(state.feedback, tr),
+            isSuccess: true,
+          );
         }
         if (state.status == Status.success) {
           setState(() => updateFound = false);
@@ -92,44 +96,18 @@ class HomeScreenBodyState extends State<HomeScreenBody> {
             onPressed: () => _bloc.add(const HomeUpdateApp()),
           );
         } else {
-          return <Widget>[
-            MobileSearchTab(),
-            const SizedBox.expand(child: Center(child: Text('Page 2'))),
-            const SizedBox.expand(child: Center(child: Text('Page 3'))),
-            const SizedBox.expand(child: Center(child: Text('Page 4'))),
-          ][currentPage];
+          return state.songs.isNotEmpty
+              ? <Widget>[
+                  MobileSearchTab(),
+                  const SizedBox.expand(child: Center(child: Text('Page 2'))),
+                  const SizedBox.expand(child: Center(child: Text('Page 3'))),
+                  const SizedBox.expand(child: Center(child: Text('Page 4'))),
+                ][currentPage]
+              : EmptyState(
+                  title: tr.itsEmptyHere,
+                );
         }
       },
-    );
-
-    var bottomNavigation = NavigationBar(
-      onDestinationSelected: (int index) {
-        setState(() => currentPage = index);
-      },
-      height: 50,
-      indicatorColor: ThemeColors.primaryDark,
-      backgroundColor: Colors.white,
-      selectedIndex: currentPage,
-      labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
-      destinations: const <Widget>[
-        NavigationDestination(
-          selectedIcon: Icon(Icons.home),
-          icon: Icon(Icons.home_outlined),
-          label: 'HOME',
-        ),
-        NavigationDestination(
-          icon: Badge(child: Icon(Icons.list)),
-          label: 'LIST',
-        ),
-        NavigationDestination(
-          icon: Badge(child: Icon(Icons.favorite)),
-          label: 'LIKES',
-        ),
-        NavigationDestination(
-          icon: Badge(child: Icon(Icons.edit)),
-          label: 'DRAFTS',
-        ),
-      ],
     );
 
     return Scaffold(
@@ -154,9 +132,8 @@ class HomeScreenBodyState extends State<HomeScreenBody> {
           ),
         ],
       ),
-      body: homeBody,
-      bottomNavigationBar:
-          isDesktop || isMobile && isTabletOrIpad ? null : bottomNavigation,
+      body: bodyWidget,
+      bottomNavigationBar: HomeScreenBottomNavigation(parent: this),
     );
   }
 }

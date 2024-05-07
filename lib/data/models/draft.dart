@@ -3,11 +3,11 @@ import 'package:json_annotation/json_annotation.dart';
 
 import '../../common/utils/constants/app_constants.dart';
 
-part 'song.g.dart';
+part 'draft.g.dart';
 
-@Entity(tableName: AppConstants.songsTable)
+@Entity(tableName: AppConstants.booksTable)
 @JsonSerializable()
-class Song {
+class Draft {
   @PrimaryKey(autoGenerate: true)
   int? rid;
   int? book;
@@ -16,19 +16,24 @@ class Song {
   String? title;
   String? alias;
   String? content;
+  String? key;
+  String? author;
   int? views;
   int? likes;
   bool? liked;
   String? created;
   String? updated;
 
-  Song({
+  Draft({
+    this.rid,
     this.book,
     this.songId,
     this.songNo,
     this.title,
     this.alias,
     this.content,
+    this.key,
+    this.author,
     this.views,
     this.likes,
     this.liked,
@@ -36,7 +41,7 @@ class Song {
     this.updated,
   });
 
-  factory Song.fromJson(Map<String, dynamic> json) => _$SongFromJson(json);
+  factory Draft.fromJson(Map<String, dynamic> json) => _$DraftFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SongToJson(this);
+  Map<String, dynamic> toJson() => _$DraftToJson(this);
 }

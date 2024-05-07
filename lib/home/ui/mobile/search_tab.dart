@@ -125,12 +125,7 @@ class MobileSearchTab extends StatelessWidget {
                     SizedBox(
                       child: state.status == Status.inProgress
                           ? const ListLoading()
-                          : state.songs.isNotEmpty
-                              ? listContainer
-                              : EmptyState(
-                                  title: tr.itsEmptyHere,
-                                  //description: tr.itsEmptyHereBody,
-                                ),
+                          : listContainer,
                     ),
                   ],
                 ),
