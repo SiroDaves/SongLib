@@ -11,8 +11,8 @@ class Listed {
   String? title;
   String? description;
   int? position;
-  String? createdAt;
-  String? updatedAt;
+  String? created;
+  String? updated;
 
   Listed({
     this.rid,
@@ -21,7 +21,7 @@ class Listed {
     this.title,
     this.description,
     this.position,
-    this.createdAt,
-    this.updatedAt,
+    this.created,
+    this.updated,
   });
 }

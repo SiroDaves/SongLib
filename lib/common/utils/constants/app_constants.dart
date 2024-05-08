@@ -17,30 +17,33 @@ class AppConstants {
   static const String listedsTable = 'listeds';
   static const String searchesTable = 'searches';
   static const String historiesTable = 'histories';
-  
-  static const String songExtSql = 'SELECT s.rid, s.book, s.songId, s.songNo, s.title, s.alias, '
-  's.content, s.views, s.likes, s.liked, b.title AS songbook '
-  'FROM $songsTable AS s '
-  'LEFT JOIN $booksTable AS b '
-  'ON s.book=b.bookNo '
-  'ORDER BY songNo ASC';
 
-  static const String historyExtSql = 'SELECT s.rid, s.book, s.songId, s.songNo, s.title, s.alias, '
-  's.content, s.views, s.likes, s.liked, b.title AS songbook '
-  'FROM $songsTable AS s '
-  'LEFT JOIN $booksTable AS b '
-  'ON s.book=b.bookNo '
-  'ORDER BY songNo ASC';
-  
-  static const String listedExtSql = 'SELECT s.rid, s.book, s.songId, s.songNo, s.title, s.alias, '
-  's.content, s.views, s.likes, s.liked, b.title AS songbook '
-  'FROM $songsTable AS s '
-  'LEFT JOIN $booksTable AS b '
-  'ON s.book=b.bookNo '
-  'ORDER BY songNo ASC';
-  
+  static const String songExtSql =
+      'SELECT s.rid, s.book, s.songId, s.songNo, s.title, s.alias, '
+      's.content, s.views, s.likes, s.liked, b.title AS songbook '
+      'FROM $songsTable AS s '
+      'LEFT JOIN $booksTable AS b '
+      'ON s.book=b.bookNo '
+      'ORDER BY songNo ASC';
+
+  static const String historyExtSql =
+      'SELECT s.rid, s.book, s.songId, s.songNo, s.title, s.alias, '
+      's.content, s.views, s.likes, s.liked, b.title AS songbook '
+      'FROM $songsTable AS s '
+      'LEFT JOIN $booksTable AS b ON s.book=b.bookNo '
+      'ORDER BY songNo ASC';
+
+  static const String listedExtSql =
+      'SELECT l.parentid, l.id, l.position, l.id, l.created, l.updated, '
+      'l.song, s.book, s.songNo, s.title, s.alias, s.content, s.views, '
+      's.likes, s.liked, s.id AS songId, b.title AS songbook '
+      'FROM $listedsTable AS l '
+      'LEFT JOIN $songsTable AS s ON l.song=s.id '
+      'LEFT JOIN $booksTable AS b ON s.book=b.bookNo '
+      'ORDER BY l.updated DESC';
+
   static const String songsTableViews = 'viewsongs';
-  static const String listsTableViews = 'viewlisteds';
+  static const String listedsTableViews = 'viewlisteds';
   static const String historiesTableViews = 'viewhistories';
 
   static const siteLink = "https://songlib.vercel.app/";
@@ -72,5 +75,4 @@ class AppConstants {
     logger('Opening database from: $dbPath');
     return dbPath;
   }
-
 }

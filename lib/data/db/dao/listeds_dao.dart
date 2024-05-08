@@ -9,7 +9,7 @@ abstract class ListedsDao {
   @Query('SELECT * FROM ${AppConstants.listedsTable}')
   Future<List<Listed>> fetchListeds();
 
-  @Query('SELECT * FROM ${AppConstants.listsTableViews}')
+  @Query('SELECT * FROM ${AppConstants.listedsTableViews}')
   Stream<List<ListedExt>> fetchListedExts();
 
   @Insert(onConflict: OnConflictStrategy.replace)

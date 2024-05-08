@@ -4,46 +4,40 @@ import '../../common/utils/constants/app_constants.dart';
 
 @DatabaseView(
   '${AppConstants.listedExtSql};',
-  viewName: AppConstants.listsTableViews,
+  viewName: AppConstants.listedsTableViews,
 )
 class ListedExt {
-  int? parentid;
-  int? position;
-  String? createdAt;
-  String? updatedAt;
-  int? id;
-  int? song;
-  int? book;
-  int? songNo;
-  String? title;
-  String? alias;
-  String? content;
-  String? key;
-  String? author;
-  int? views;
-  int? likes;
-  bool? liked;
-  int? songId;
-  String? songbook;
+  int rid;
+  int parentid;
+  int position;
+  String created;
+  String updated;
+  int book;
+  int songId;
+  int songNo;
+  String title;
+  String alias;
+  String content;
+  int views;
+  int likes;
+  bool liked;
+  String songbook;
 
-  ListedExt({
+  ListedExt(
+    this.rid,
     this.parentid,
     this.position,
-    this.createdAt,
-    this.updatedAt,
-    this.id,
-    this.song,
+    this.created,
+    this.updated,
     this.book,
+    this.songId,
     this.songNo,
     this.title,
     this.alias,
     this.content,
-    this.key,
-    this.author,
     this.views,
     this.likes,
     this.liked,
-    this.songId,
     this.songbook,
-  });
+  );
 }

@@ -10,14 +10,11 @@ part 'draft.g.dart';
 class Draft {
   @PrimaryKey(autoGenerate: true)
   int? rid;
-  int? book;
   int? songId;
   int? songNo;
   String? title;
   String? alias;
   String? content;
-  String? key;
-  String? author;
   int? views;
   int? likes;
   bool? liked;
@@ -26,14 +23,11 @@ class Draft {
 
   Draft({
     this.rid,
-    this.book,
     this.songId,
     this.songNo,
     this.title,
     this.alias,
     this.content,
-    this.key,
-    this.author,
     this.views,
     this.likes,
     this.liked,
