@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../home/ui/home_screen.dart';
 import '../common/widgets/text_scale_factor.dart';
+import '../lists/search/ui/search_screen.dart';
 import '../selection/saving/ui/saving_screen.dart';
 import '../selection/selecting/ui/selecting_screen.dart';
 import '../user/splash/splash_screen.dart';
@@ -64,6 +65,7 @@ class MainNavigatorState extends State<MainNavigator> with MainNavigationMixin {
       RouteNames.selecting: (context) => const SelectingScreen(),
       RouteNames.saving: (context) => const SavingScreen(),
       RouteNames.home: (context) => const HomeScreen(),
+      RouteNames.search: (context) => const SearchScreen(),
     };
 
     defaultRoute(context) => const SplashScreen();

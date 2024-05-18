@@ -68,7 +68,7 @@ class EmptyState extends StatelessWidget {
         Text(
           title,
           textAlign: TextAlign.center,
-          style: TextStyles.bodyStyleOne.size(16).textHeight(1.2),
+          style: TextStyles.bodyStyle1.size(16).textHeight(1.2),
         ).center().padding(all: Sizes.l),
         const SizedBox(height: Sizes.l),
         if (showRetry) ...[
@@ -85,6 +85,21 @@ class EmptyState extends StatelessWidget {
           ].toRow().padding(all: Sizes.l),
         ]
       ],
+    );
+  }
+}
+
+class BottomLoader extends StatelessWidget {
+  const BottomLoader({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: SizedBox(
+        height: 24,
+        width: 24,
+        child: CircularProgressIndicator(strokeWidth: 1.5),
+      ),
     );
   }
 }

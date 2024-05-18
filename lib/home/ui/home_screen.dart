@@ -1,99 +1,107 @@
-import 'package:context_menus/context_menus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:textstyle_extensions/textstyle_extensions.dart';
 
-import '../../../common/utils/app_util.dart';
-import '../../../common/widgets/progress/custom_snackbar.dart';
 import '../../common/theme/theme_colors.dart';
 import '../../common/theme/theme_fonts.dart';
+import '../../common/utils/app_util.dart';
+import '../../common/utils/constants/app_constants.dart';
 import '../../common/utils/env/flavor_config.dart';
 import '../../common/widgets/action/base_buttons.dart';
-import '../../common/widgets/general/list_items.dart';
-import '../../common/widgets/progress/general_progress.dart';
-import '../../common/widgets/progress/line_progress.dart';
-import '../../data/models/book.dart';
-import '../../data/models/songext.dart';
-import '../../navigator/route_names.dart';
+import '../../common/widgets/progress/custom_snackbar.dart';
+import '../../lists/search/ui/search_screen.dart';
 import '../bloc/home_bloc.dart';
 
 part 'home_screen_body.dart';
-part 'home_screen_details.dart';
-part 'mobile/search_tab.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) {
-        return HomeBloc();
-      },
-      child: BlocListener<HomeBloc, HomeState>(
-        listener: (context, state) {
-          if (state.status == Status.failure) {
-            CustomSnackbar.show(
-              context,
-              feedbackMessage(state.feedback, AppLocalizations.of(context)!),
-            );
-          }
-        },
-        child: const HomeScreenBody(),
-      ),
-    );
-  }
+  State<HomeScreen> createState() => HomeScreenState();
 }
 
-class UpdateWidget extends StatelessWidget {
-  final VoidCallback? onPressed;
-  final double? size;
+class HomeScreenState extends State<HomeScreen> {
+  bool updateFound = false;
+  int _currentPage = 0;
+  bool isTabletOrIpad = false;
+  late AppLocalizations tr;
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
-  const UpdateWidget({
-    Key? key,
-    this.onPressed,
-    this.size,
-  }) : super(key: key);
+  void _onItemTapped(int index) {
+    setState(() {
+      _currentPage = index;
+    });
+  }
+
+  final List<Widget> homePages = <Widget>[
+    const SearchScreen(),
+    const Center(
+      child: Text(
+        'Index 1: Business',
+        style: optionStyle,
+      ),
+    ),
+    const Center(
+      child: Text(
+        'Index 2: School',
+        style: optionStyle,
+      ),
+    ),
+    const Center(
+      child: Text(
+        'Index 3: Settings',
+        style: optionStyle,
+      ),
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(
-          Icons.system_update,
-          size: size,
-          color: ThemeColors.primary,
-        ),
-        const Center(
-          child: Text(
-            'Update Found',
-            style: TextStyle(
-              color: ThemeColors.britamRed,
-              fontSize: 29,
-              fontWeight: FontWeight.w600,
-            ),
+    tr = AppLocalizations.of(context)!;
+    Size size = MediaQuery.of(context).size;
+    isTabletOrIpad = size.shortestSide > 550;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(AppConstants.appTitle),
+      ),
+      body: BlocProvider(
+        create: (context) {
+          return HomeBloc();
+        },
+        child: HomeScreenBody(parent: this),
+      ),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _currentPage,
+        onDestinationSelected: _onItemTapped,
+        height: 50,
+        indicatorColor: ThemeColors.primaryDark,
+        backgroundColor: Colors.white,
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.home_outlined),
+            label: 'HOME',
           ),
-        ),
-        Text(
-          'We have a new update of the app',
-          textAlign: TextAlign.center,
-          style: TextStyles.bodyStyleOne.size(20).textHeight(1.2),
-        ).center().padding(all: 20),
-        AppButton(
-          label: 'Update',
-          onPressed: onPressed,
-          bgColor: ThemeColors.primary,
-          foreColor: Colors.white,
-          hoverColor: Colors.red,
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-        ).center()
-      ],
+          NavigationDestination(
+            icon: Icon(Icons.list),
+            label: 'LIST',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.favorite),
+            label: 'LIKES',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.edit),
+            label: 'DRAFTS',
+          ),
+        ],
+      ),
     );
   }
 }

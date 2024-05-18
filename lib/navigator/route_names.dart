@@ -9,4 +9,5 @@ class RouteNames {
   static const saving = 'saving';
   static const account = 'account';
   static const home = 'home';
+  static const search = 'search';
 }

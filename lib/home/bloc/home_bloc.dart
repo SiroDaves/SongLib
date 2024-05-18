@@ -4,10 +4,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../data/models/book.dart';
-import '../../data/models/songext.dart';
-import '../../data/repository/database_repository.dart';
-import '../../di/injectable.dart';
 import '../../common/utils/env/flavor_config.dart';
 
 part 'home_event.dart';
@@ -20,12 +16,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc() : super(const HomeState()) {
     on<HomeCheckUpdates>(_onCheckUpdates);
     on<HomeUpdateApp>(_onUpdateApp);
-    on<HomeFetchData>(_onFetchData);
-    on<HomeSelectBook>(_onSelectBook);
-    on<HomeSearchSongs>(_onSearchSongs);
   }
-
-  final _dbRepo = getIt<DatabaseRepository>();
 
   Future<void> _onCheckUpdates(
     HomeCheckUpdates event,
@@ -71,29 +62,4 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     });
   }
 
-  Future<void> _onFetchData(
-    HomeFetchData event,
-    Emitter<HomeState> emit,
-  ) async {
-    emit(state.copyWith(status: Status.inProgress));
-    var books = await _dbRepo.fetchBooks();
-    var songs = await _dbRepo.fetchSongExts();
-
-    emit(
-      state.copyWith(
-        status: Status.dataFetched,
-        books: books,
-        songs: songs,
-      ),
-    );
-  }
-
-  Future<void> _onSelectBook(
-    HomeSelectBook event,
-    Emitter<HomeState> emit,
-  ) async {}
-  Future<void> _onSearchSongs(
-    HomeSearchSongs event,
-    Emitter<HomeState> emit,
-  ) async {}
 }

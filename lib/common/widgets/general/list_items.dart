@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:songlib/common/theme/theme_styles.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 //import 'package:textstyle_extensions/textstyle_extensions.dart';
 //import 'package:timeago/timeago.dart' as timeago;
 
@@ -8,8 +7,6 @@ import '../../../data/models/basic_model.dart';
 import '../../../data/models/book.dart';
 //import '../../theme/theme_colors.dart';
 //import '../../theme/theme_styles.dart';
-import '../../../data/models/songext.dart';
-import '../../theme/theme_colors.dart';
 //import '../../theme/theme_fonts.dart';
 import '../../utils/app_util.dart';
 
@@ -66,54 +63,6 @@ class BookItem extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class SongBook extends StatelessWidget {
-  final Book book;
-  final bool isSelected;
-  final Function()? onPressed;
-
-  const SongBook({
-    Key? key,
-    required this.book,
-    this.isSelected = false,
-    this.onPressed,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
-      child: RawMaterialButton(
-        //textStyle: TextStyles.Btn.bold
-          //  .size(16)
-        //    .textColor(isSelected ? Colors.white : ThemeColors.primary),
-        fillColor: isSelected ? ThemeColors.primary : ThemeColors.accent,
-        highlightColor: Colors.white.withOpacity(.1),
-        focusElevation: 0,
-        hoverColor: isSelected ? ThemeColors.primary : Colors.white,
-        hoverElevation: 1,
-        highlightElevation: 0,
-        elevation: 3,
-        padding: const EdgeInsets.all(10),
-        shape: const RoundedRectangleBorder(
-          side: BorderSide(color: ThemeColors.primary),
-          borderRadius: BorderRadius.all(
-            Radius.circular(10),
-          ),
-        ),
-        onPressed: onPressed,
-        child: SizedBox(
-          width: 100,
-          child: Text(
-            truncateString(19, refineTitle(book.title!)),
-            textAlign: TextAlign.center,
-            maxLines: 2,
           ),
         ),
       ),
@@ -198,99 +147,6 @@ class SongBook extends StatelessWidget {
 }*/
 
 // ignore: must_be_immutable
-class SongItem extends StatelessWidget {
-  final SongExt song;
-  final double height;
-  final bool isSelected;
-  final bool isSearching;
-  final Function()? onPressed;
-
-  SongItem({
-    Key? key,
-    required this.song,
-    required this.height,
-    this.isSelected = false,
-    this.isSearching = false,
-    this.onPressed,
-  }) : super(key: key);
-
-  bool hasChorus = false;
-  String chorusText = '', versesText = '';
-
-  @override
-  Widget build(BuildContext context) {
-    var tr = AppLocalizations.of(context)!;
-    final verses = song.content!.split("##");
-
-    if (song.content!.contains("CHORUS")) {
-      hasChorus = true;
-      chorusText = tr.hasChorus;
-      versesText = '${verses.length - 1} ${tr.verses}';
-    } else {
-      versesText = '${verses.length} ${tr.verses}';
-    }
-
-    versesText = verses.length == 1 ? versesText : '${versesText}s';
-    return Padding(
-      padding: const EdgeInsets.only(right: 5, bottom: 5, top: 5),
-      child: RawMaterialButton(
-        fillColor: isSelected ? ThemeColors.primary : Colors.white,
-        highlightColor: Colors.white.withOpacity(.1),
-        focusElevation: 0,
-        hoverColor: isSelected ? ThemeColors.primary : ThemeColors.accent,
-        hoverElevation: 1,
-        highlightElevation: 0,
-        padding: const EdgeInsets.all(5),
-        elevation: 5,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(5),
-          ),
-        ),
-        onPressed: onPressed,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              songItemTitle(song.songNo!, song.title!),
-              maxLines: 1,
-              /*style: TextStyles.Body1.size(height * 0.0261)
-                  .bold
-                  .textColor(isSelected ? Colors.white : Colors.black)
-                  .textHeight(1.5),*/
-            ),
-            Divider(color: ThemeColors.accent, height: height * 0.0049),
-            Text(
-              refineContent(verses[0]),
-              maxLines: 2,
-              //style: TextStyles.Body1.size(height * 0.0228)
-              //    .textColor(isSelected ? Colors.white : Colors.black)
-              //    .textHeight(1.5),
-            ),
-            Container(
-              height: height * 0.035,
-              width: MediaQuery.of(context).size.width - 30,
-              margin: const EdgeInsets.only(right: 5, bottom: 5),
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: <Widget>[
-                  //if (isSearching)
-                  //  TagView(
-                  //      tagText: refineTitle(song.songbook!), height: height),
-                  //TagView(tagText: versesText, height: height),
-                  //if (hasChorus) TagView(tagText: chorusText, height: height),
-                  Container(
-                    width: 10,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 // ignore: must_be_immutable
 /*class DraftItem extends StatelessWidget {
