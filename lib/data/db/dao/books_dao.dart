@@ -5,11 +5,11 @@ import '../../models/book.dart';
 
 @dao
 abstract class BooksDao {
-  @Query('SELECT * FROM books WHERE rid = :rid')
+  @Query('SELECT * FROM ${AppConstants.booksTable} WHERE rid = :rid')
   Future<Book?> findBookById(int rid);
 
   @Query('SELECT * FROM ${AppConstants.booksTable}')
-  Future<List<Book>> getAllBooks();
+  Future<List<Book>> fetchBooks();
 
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertBook(Book book);

@@ -4,7 +4,9 @@ import 'package:textstyle_extensions/textstyle_extensions.dart';
 
 import '../../theme/theme_colors.dart';
 import '../../theme/theme_fonts.dart';
+import '../../theme/theme_styles.dart';
 import '../../utils/constants/app_assets.dart';
+import '../action/base_buttons.dart';
 
 class CircularProgress extends StatelessWidget {
   const CircularProgress({Key? key}) : super(key: key);
@@ -41,10 +43,16 @@ class SmallCircularProgress extends StatelessWidget {
 
 class EmptyState extends StatelessWidget {
   final String title;
+  final String titleRetry;
+  final bool showRetry;
+  final VoidCallback? onRetry;
   const EmptyState({
     Key? key,
     this.title =
         'Sorry, no data is available at the moment. Please check back later.',
+    this.titleRetry = 'RETRY',
+    this.showRetry = false,
+    this.onRetry,
   }) : super(key: key);
 
   @override
@@ -60,9 +68,38 @@ class EmptyState extends StatelessWidget {
         Text(
           title,
           textAlign: TextAlign.center,
-          style: TextStyles.bodyStyleOne.size(16).textHeight(1.2),
-        ).center().padding(all: 20),
+          style: TextStyles.bodyStyle1.size(16).textHeight(1.2),
+        ).center().padding(all: Sizes.l),
+        const SizedBox(height: Sizes.l),
+        if (showRetry) ...[
+          [
+            AppButton(
+              label: titleRetry,
+              onPressed: onRetry,
+              bgColor: Colors.white,
+              foreColor: ThemeColors.primary,
+              hoverColor: ThemeColors.primary,
+              border: Border.all(width: 2, color: ThemeColors.primary),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+            ).expanded(),
+          ].toRow().padding(all: Sizes.l),
+        ]
       ],
+    );
+  }
+}
+
+class BottomLoader extends StatelessWidget {
+  const BottomLoader({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: SizedBox(
+        height: 24,
+        width: 24,
+        child: CircularProgressIndicator(strokeWidth: 1.5),
+      ),
     );
   }
 }

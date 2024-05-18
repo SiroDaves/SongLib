@@ -8,8 +8,6 @@ class ThemeColors {
   static const accent = Color(0XFFF4B183);
   static const accentDark = Color.fromARGB(255, 208, 116, 54);
   static const accentLight = Color.fromARGB(255, 232, 143, 83);
-  static const white = Color(0xFFFFFFFF);
-  static const black = Color(0xFF000000);
   static const grey = Color(0xB3000000); //black 70%
   static const mediumGrey = Color(0x80000000); //black 50%
   static const lightGrey = Color(0x33000000); //black 20%

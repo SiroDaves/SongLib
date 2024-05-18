@@ -6,6 +6,7 @@ import 'package:songlib/common/utils/constants/api_constants.dart';
 
 import 'logger.dart';
 
+/// Http get request
 Future<http.Response> makeApiGetRequest(
   String endpoint,
   Map<String, String> headers,
@@ -42,6 +43,7 @@ Future<http.Response> makeApiGetRequest(
   }
 }
 
+/// Http patch request
 Future<http.Response> makeApiPatchRequest(
   String endpoint,
   Map<String, String> headers,
@@ -80,6 +82,7 @@ Future<http.Response> makeApiPatchRequest(
   }
 }
 
+/// Http post resquest
 Future<http.Response> makeApiPostRequest(
   String endpoint,
   Map<String, String> headers,
@@ -118,6 +121,7 @@ Future<http.Response> makeApiPostRequest(
   }
 }
 
+/// Http put request
 Future<http.Response> makeApiPutRequest(
   String endpoint,
   Map<String, String> headers,
@@ -156,6 +160,7 @@ Future<http.Response> makeApiPutRequest(
   }
 }
 
+/// Http delete request
 Future<http.Response> makeApiDeleteRequest(
   String endpoint,
   Map<String, String> headers,

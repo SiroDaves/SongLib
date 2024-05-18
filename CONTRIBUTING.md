@@ -4,11 +4,11 @@ Thank you for contributing to our Songlib app! Please follow the guidelines belo
 
 ## Branching
 
-- Always checkout from the `develop` branch for your new tasks to ensure your branch has the latest updates.
+- Always checkout from the `stable` branch for your new tasks to ensure your branch has the latest updates.
 
 ```bash
-git checkout develop
-git pull origin develop
+git checkout stable
+git pull origin stable
 git checkout -b your-task-branch
 ```
 
@@ -26,10 +26,10 @@ git checkout -b feature/your-task
 
 - Add a clear description of the specific changes introduced by your PR.
 
-- Ensure there are no conflicts with the `develop` branch before sending your PR.
+- Ensure there are no conflicts with the `stable` branch before sending your PR.
 
 ```bash
-git pull origin develop
+git pull origin stable
 ```
 
 - After resolving conflicts or rebasing, run the app to verify that everything works properly.

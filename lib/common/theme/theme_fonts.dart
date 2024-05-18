@@ -41,7 +41,7 @@ class FontSizes {
 }
 
 class TextStyles {
-  static const TextStyle poppins = TextStyle(
+  static const TextStyle trebuchetMS = TextStyle(
     fontFamily: ThemeFonts.themeFonts,
     fontWeight: FontWeight.w400,
     letterSpacing: 0,
@@ -51,36 +51,40 @@ class TextStyles {
     ],
   );
 
-  static TextStyle get titleStyleOne =>
-      poppins.bold.size(FontSizes.s14).letterSpace(.7);
+  static TextStyle get headingStyle1 =>
+      trebuchetMS.bold.size(FontSizes.s22).letterSpace(.5);
 
-  static TextStyle get titleStyleTwo =>
-      poppins.bold.size(FontSizes.s12).letterSpace(.4);
+  static TextStyle get headingStyle2 =>
+      trebuchetMS.bold.size(FontSizes.s20).letterSpace(.3);
 
-  static TextStyle get headingStyleOne => poppins.bold.size(FontSizes.s14);
+  static TextStyle get headingStyle3 => trebuchetMS.bold.size(FontSizes.s18);
 
-  static TextStyle get headingStyleTwo => poppins.bold.size(FontSizes.s12);
+  static TextStyle get headingStyle4 => trebuchetMS.bold.size(FontSizes.s16);
 
-  static TextStyle get bodyStyleOne => poppins.size(FontSizes.s14);
+  static TextStyle get headingStyle5 => trebuchetMS.bold.size(FontSizes.s14);
 
-  static TextStyle get bodyStyleTwo => poppins.size(FontSizes.s12);
+  static TextStyle get headingStyle6 => trebuchetMS.bold.size(FontSizes.s12);
 
-  static TextStyle get bodyStyleThree => poppins.size(FontSizes.s10);
+  static TextStyle get bodyStyle1 => trebuchetMS.size(FontSizes.s16);
 
-  static TextStyle get callOut => poppins.size(FontSizes.s20).letterSpace(1.5).bold;
+  static TextStyle get bodyStyle2 => trebuchetMS.size(FontSizes.s14);
+
+  static TextStyle get bodyStyle3 => trebuchetMS.size(FontSizes.s12);
+
+  static TextStyle get callOut => trebuchetMS.size(FontSizes.s20).letterSpace(1.5).bold;
 
   static TextStyle get callOutFocus => callOut.bold;
 
   static TextStyle get buttonTextStyle =>
-      poppins.bold.size(FontSizes.s14).letterSpace(1.75);
+      trebuchetMS.bold.size(FontSizes.s14).letterSpace(1.75);
 
   static TextStyle get buttonSelected =>
-      poppins.size(FontSizes.s14).letterSpace(1.75);
+      trebuchetMS.size(FontSizes.s14).letterSpace(1.75);
 
-  static TextStyle get footNote => poppins.bold.size(FontSizes.s10);
+  static TextStyle get footNote => trebuchetMS.bold.size(FontSizes.s10);
 
   static TextStyle get captionText =>
-      poppins.size(FontSizes.s10).letterSpace(.3);
+      trebuchetMS.size(FontSizes.s10).letterSpace(.3);
 
   static TextStyle get titleStyle12 =>
       const TextStyle(fontWeight: FontWeight.bold, fontSize: 12);

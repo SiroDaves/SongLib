@@ -1,6 +1,6 @@
 {
-    "name": "songlib",
-    "short_name": "songlib",
+    "name": "Songlib",
+    "short_name": "Songlib",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

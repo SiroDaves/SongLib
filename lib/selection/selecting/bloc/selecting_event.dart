@@ -4,5 +4,5 @@ part of 'selecting_bloc.dart';
 sealed class SelectingEvent with _$SelectingEvent {
   const factory SelectingEvent.fetch() = SelectingBooksFetch;
 
-  const factory SelectingEvent.submit() = SelectingSubmit;
+  const factory SelectingEvent.submit(List<Book> books) = SelectingSubmitData;
 }

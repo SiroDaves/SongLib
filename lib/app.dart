@@ -63,6 +63,8 @@ class AppViewState extends State<AppView> {
   @override
   Widget build(BuildContext context) {
     var localStorage = getIt<LocalStorage>();
+    bool isSelected =
+        localStorage.getPrefBool(PrefConstants.dataSelectedCheckKey);
     bool isLoaded = localStorage.getPrefBool(PrefConstants.dataLoadedCheckKey);
 
     return BlocProvider(
@@ -97,13 +99,22 @@ class AppViewState extends State<AppView> {
                         (route) => false,
                       );
                     } else {
-                      localStorage.setPrefString(
-                          PrefConstants.dateInstalledKey, dateNow());
+                      if (isSelected) {
+                        navigator.pushNamedAndRemoveUntil<void>(
+                          RouteNames.saving,
+                          (route) => false,
+                        );
+                      } else {
+                        localStorage.setPrefString(
+                          PrefConstants.dateInstalledKey,
+                          dateNow(),
+                        );
 
-                      navigator.pushNamedAndRemoveUntil<void>(
-                        RouteNames.selecting,
-                        (route) => false,
-                      );
+                        navigator.pushNamedAndRemoveUntil<void>(
+                          RouteNames.selecting,
+                          (route) => false,
+                        );
+                      }
                     }
                 }
               },

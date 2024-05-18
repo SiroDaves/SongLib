@@ -5,34 +5,32 @@ import '../../common/utils/constants/app_constants.dart';
 
 part 'book.g.dart';
 
-@Entity(tableName: AppConstants.ridersTable)
+@Entity(tableName: AppConstants.booksTable)
 @JsonSerializable()
 
 class Book {
   @PrimaryKey(autoGenerate: true)
   int? rid;
-  int? id;
-  String? objectId;
+  int? bookId;
   String? title;
   String? subTitle;
   int? songs;
   int? position;
   int? bookNo;
   bool? enabled;
-  String? createdAt;
-  String? updatedAt;
+  String? created;
+  String? updated;
 
   Book({
-    this.id,
-    this.objectId,
+    this.bookId,
     this.title,
     this.subTitle,
     this.songs,
     this.position,
     this.bookNo,
     this.enabled,
-    this.createdAt,
-    this.updatedAt,
+    this.created,
+    this.updated,
   });
 
   factory Book.fromJson(Map<String, dynamic> json) => _$BookFromJson(json);

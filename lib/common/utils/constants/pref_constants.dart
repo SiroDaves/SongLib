@@ -16,6 +16,7 @@ class PrefConstants {
   static const expiresInKey = 'expires_in';
 
 
+  static const dataSelectedCheckKey = 'dataSelected';
   static const dataLoadedCheckKey = 'dataLoaded';
   static const dateInstalledKey = 'dateInstalled';
   static const notDraftKey = 'notDraft';
