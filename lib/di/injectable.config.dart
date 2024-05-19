@@ -11,15 +11,15 @@
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 import 'package:shared_preferences/shared_preferences.dart' as _i10;
-import 'package:songlib/data/db/app_database.dart' as _i3;
-import 'package:songlib/data/repository/auth_repository.dart' as _i4;
-import 'package:songlib/data/repository/database_repository.dart' as _i5;
+import 'package:songlib/data/db/app_database.dart' as _i4;
+import 'package:songlib/data/repository/auth_repository.dart' as _i5;
+import 'package:songlib/data/repository/database_repository.dart' as _i6;
 import 'package:songlib/data/repository/local_storage.dart' as _i11;
 import 'package:songlib/di/injectable.dart' as _i12;
-import 'package:songlib/home/bloc/home_bloc.dart' as _i6;
-import 'package:songlib/lists/search/bloc/search_bloc.dart' as _i8;
-import 'package:songlib/selection/saving/bloc/saving_bloc.dart' as _i7;
+import 'package:songlib/home/bloc/home_bloc.dart' as _i7;
+import 'package:songlib/selection/saving/bloc/saving_bloc.dart' as _i8;
 import 'package:songlib/selection/selecting/bloc/selecting_bloc.dart' as _i9;
+import 'package:songlib/user/app_checker/bloc/app_checker_bloc.dart' as _i3;
 
 extension GetItInjectableX on _i1.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -33,16 +33,16 @@ extension GetItInjectableX on _i1.GetIt {
       environmentFilter,
     );
     final registerModule = _$RegisterModule();
-    await gh.singletonAsync<_i3.AppDatabase>(
+    gh.factory<_i3.AppCheckerBloc>(() => _i3.AppCheckerBloc());
+    await gh.singletonAsync<_i4.AppDatabase>(
       () => registerModule.provideAppDatabase(),
       preResolve: true,
     );
-    gh.lazySingleton<_i4.AuthRepository>(() => _i4.AuthRepository());
-    gh.lazySingleton<_i5.DatabaseRepository>(
-        () => registerModule.provideDatabaseRepository(gh<_i3.AppDatabase>()));
-    gh.factory<_i6.HomeBloc>(() => _i6.HomeBloc());
-    gh.factory<_i7.SavingBloc>(() => _i7.SavingBloc());
-    gh.factory<_i8.SearchBloc>(() => _i8.SearchBloc());
+    gh.lazySingleton<_i5.AuthRepository>(() => _i5.AuthRepository());
+    gh.lazySingleton<_i6.DatabaseRepository>(
+        () => registerModule.provideDatabaseRepository(gh<_i4.AppDatabase>()));
+    gh.factory<_i7.HomeBloc>(() => _i7.HomeBloc());
+    gh.factory<_i8.SavingBloc>(() => _i8.SavingBloc());
     gh.factory<_i9.SelectingBloc>(() => _i9.SelectingBloc());
     await gh.singletonAsync<_i10.SharedPreferences>(
       () => registerModule.localStorage(),

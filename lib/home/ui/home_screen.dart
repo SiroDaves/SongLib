@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:styled_widget/styled_widget.dart';
-import 'package:textstyle_extensions/textstyle_extensions.dart';
 
 import '../../common/theme/theme_colors.dart';
-import '../../common/theme/theme_fonts.dart';
-import '../../common/utils/app_util.dart';
 import '../../common/utils/constants/app_constants.dart';
-import '../../common/utils/env/flavor_config.dart';
-import '../../common/widgets/action/base_buttons.dart';
-import '../../common/widgets/progress/custom_snackbar.dart';
 import '../../lists/search/ui/search_screen.dart';
 import '../bloc/home_bloc.dart';
 
@@ -25,7 +17,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
-  bool updateFound = false;
   int _currentPage = 0;
   bool isTabletOrIpad = false;
   late AppLocalizations tr;

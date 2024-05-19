@@ -5,6 +5,7 @@ import '../common/widgets/text_scale_factor.dart';
 import '../lists/search/ui/search_screen.dart';
 import '../selection/saving/ui/saving_screen.dart';
 import '../selection/selecting/ui/selecting_screen.dart';
+import '../user/app_checker/ui/app_checker_screen.dart';
 import '../user/splash/splash_screen.dart';
 import 'route_names.dart';
 
@@ -62,6 +63,7 @@ class MainNavigatorState extends State<MainNavigator> with MainNavigationMixin {
     final Map<String, WidgetBuilder> routes = {
       '': (context) => const SplashScreen(),
       RouteNames.splash: (context) => const SplashScreen(),
+      RouteNames.appChecker: (context) => const AppCheckerScreen(),
       RouteNames.selecting: (context) => const SelectingScreen(),
       RouteNames.saving: (context) => const SavingScreen(),
       RouteNames.home: (context) => const HomeScreen(),
