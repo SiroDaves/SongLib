@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:textstyle_extensions/textstyle_extensions.dart';
 
 import '../../theme/theme_colors.dart';
+import '../../theme/theme_fonts.dart';
 
 class TagItem extends StatelessWidget {
   final String tagText;
@@ -17,20 +19,16 @@ class TagItem extends StatelessWidget {
     try {
       if (tagText.isNotEmpty) {
         return Container(
-          padding:
-              EdgeInsets.symmetric(horizontal: 10, vertical: height * 0.0049),
-          margin: EdgeInsets.only(top: 2, right: height * 0.008),
-          decoration: BoxDecoration(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          margin: EdgeInsets.only(right: height * 0.008),
+          decoration: const BoxDecoration(
             color: ThemeColors.primary,
-            border: Border.all(color: Colors.white),
-            borderRadius: const BorderRadius.all(Radius.circular(5)),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
           child: Text(
             tagText,
-            style: TextStyle(
-              fontSize: height * 0.0195,
-              color: Colors.white,
-            ),
+            style:
+                TextStyles.headingStyle5.textColor(Colors.white).letterSpace(1).italic,
           ),
         );
       } else {

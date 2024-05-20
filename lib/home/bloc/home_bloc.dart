@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -7,6 +10,7 @@ import '../../data/models/book.dart';
 import '../../data/models/songext.dart';
 import '../../data/repository/database_repository.dart';
 import '../../di/injectable.dart';
+import '../common/sorting_utils.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -40,14 +44,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     emit(state.copyWith(status: Status.inProgress));
 
-    List<SongExt> tempList = [];
-    for (int i = 0; i < state.songs.length; i++) {
-      if (state.songs[i].book == event.book.bookNo) {
-        tempList.add(state.songs[i]);
-      }
-    }
+    var filtered = await compute(
+      sortSongsByBook,
+      SongExtSort(event.book.bookNo!, state.songs),
+    );
 
-    emit(state.copyWith(status: Status.selected, filtered: tempList));
+    emit(state.copyWith(status: Status.sorted, filtered: filtered));
   }
 
   Future<void> _onSearch(

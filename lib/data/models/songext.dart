@@ -33,3 +33,10 @@ class SongExt {
     this.songbook,
   );
 }
+
+class SongExtSort {
+  int bookNo;
+  List<SongExt> songs;
+
+  SongExtSort(this.bookNo, this.songs);
+}

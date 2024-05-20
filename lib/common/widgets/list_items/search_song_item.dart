@@ -53,7 +53,7 @@ class SearchSongItem extends StatelessWidget {
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
           ),
-          padding: const EdgeInsets.all(Sizes.sm),
+          padding: const EdgeInsets.all(Sizes.xs),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -64,7 +64,7 @@ class SearchSongItem extends StatelessWidget {
                     .textColor(isSelected ? Colors.white : Colors.black),
               ),
               const SizedBox(height: 3),
-              Divider(color: ThemeColors.accent, height: height * 0.0049),
+              Divider(color: ThemeColors.primary, height: height * 0.0049),
               const SizedBox(height: 3),
               Text(
                 refineContent(verses[0]),
@@ -74,7 +74,7 @@ class SearchSongItem extends StatelessWidget {
                     .textHeight(1.5),
               ),
               SizedBox(
-                height: height * 0.035,
+                height: 25,
                 width: MediaQuery.of(context).size.width - 30,
                 child: ListView(
                   scrollDirection: Axis.horizontal,

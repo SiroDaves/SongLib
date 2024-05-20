@@ -20,11 +20,8 @@ enum Status {
   /// Data loaded successfully.
   loaded,
 
-  /// Done selecting.
-  selected,
-
-  /// Done searching.
-  searched,
+  /// Done sorting.
+  sorted,
 }
 
 final class HomeState extends Equatable {
