@@ -22,8 +22,12 @@ abstract class DatabaseRepository{
 
   Future<List<SongExt>> fetchSongExts();
 
+  Future<Song?> findSongById(int rid);
+
   Future<void> saveSong(Song song);
 
+  Future<void> updateSong(Song song);
+  
   Future<void> removeSong(Song song);
 
   Future<void> removeAllSongs();

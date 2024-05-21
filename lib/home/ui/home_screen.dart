@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../common/theme/theme_colors.dart';
-import '../../lists/search/ui/search_screen.dart';
+import '../../lists/search/search_screen.dart';
 import '../bloc/home_bloc.dart';
 
 part 'home_screen_body.dart';

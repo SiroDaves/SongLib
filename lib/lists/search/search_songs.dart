@@ -9,7 +9,8 @@ import '../../common/widgets/list_items/search_book_item.dart';
 import '../../common/widgets/list_items/search_song_item.dart';
 import '../../data/models/book.dart';
 import '../../data/models/songext.dart';
-import '../bloc/home_bloc.dart';
+import '../../presentor/ui/presentor_screen.dart';
+import '../../home/bloc/home_bloc.dart';
 
 /// Small screen search
 class SearchSongs extends SearchDelegate<List> {
@@ -108,6 +109,7 @@ class SearchSongs extends SearchDelegate<List> {
 
       return false;
     }).toList();
+
     List<Widget> bookItems = <Widget>[
       SearchBookItem(
         text: 'All',
@@ -116,14 +118,12 @@ class SearchSongs extends SearchDelegate<List> {
       ),
     ];
     for (var book in bloc!.state.books) {
-      //int index = bloc!.state.books.indexOf(book);
       bookItems.add(
         SearchBookItem(
           text: book.title!,
           isSelected: setBook == book,
           onPressed: () {
-            //setState(() => setBook = index);
-            //_bloc.add(HomeSelect(state.books[setBook]));
+            setBook == book;
           },
         ),
       );
@@ -155,6 +155,18 @@ class SearchSongs extends SearchDelegate<List> {
                 return SearchSongItem(
                   song: result,
                   height: height!,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PresentorScreen(
+                          song: result,
+                          books: bloc!.state.books,
+                          songs: bloc!.state.songs,
+                        ),
+                      ),
+                    );
+                  },
                 );
               },
             ),
