@@ -128,6 +128,7 @@ class SearchSongs extends SearchDelegate<List> {
         ),
       );
     }
+    
     // ignore: unused_local_variable
     var booksList = SizedBox(
       height: 40,

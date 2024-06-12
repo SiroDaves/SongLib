@@ -1,5 +1,5 @@
 class PrefConstants {
-  static const appearanceThemeKey = 'appearance_theme';
+  static const appThemeKey = 'app_theme';
   static const darkModeKey = 'dark_mode';
 
   static const isLoggedInKey = 'is_logged_in';
@@ -16,8 +16,8 @@ class PrefConstants {
   static const expiresInKey = 'expires_in';
 
 
-  static const dataSelectedCheckKey = 'dataSelected';
-  static const dataLoadedCheckKey = 'dataLoaded';
+  static const dataIsSelectedKey = 'dataSelected';
+  static const dataIsLoadedKey = 'dataLoaded';
   static const dateInstalledKey = 'dateInstalled';
   static const notDraftKey = 'notDraft';
   static const onboardedCheckKey = 'onBoarded';

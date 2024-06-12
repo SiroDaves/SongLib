@@ -34,16 +34,23 @@ class LocalStorageImp implements LocalStorage {
   @override
   Future<void> updateThemeMode(ThemeMode themeMode) async {
     await sharedPrefs.setString(
-        PrefConstants.appearanceThemeKey, themeMode.toString());
+      PrefConstants.appThemeKey,
+      themeMode.toString(),
+    );
   }
 
   @override
   ThemeMode getThemeMode() {
-    final themeString =
-        sharedPrefs.getString(PrefConstants.appearanceThemeKey);
-    final theme = ThemeMode.values
-        .firstWhere((element) => element.toString() == themeString);
-    return theme;
+    switch (sharedPrefs.getString(PrefConstants.appThemeKey)) {
+      case 'ThemeMode.light':
+        return ThemeMode.light;
+
+      case 'ThemeMode.dark':
+        return ThemeMode.dark;
+
+      default:
+        return ThemeMode.system;
+    }
   }
 
   @override
@@ -103,5 +110,4 @@ class LocalStorageImp implements LocalStorage {
     }
     sharedPrefs.setString(settingsKey, settingsValue);
   }
-
 }

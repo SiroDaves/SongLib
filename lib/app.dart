@@ -4,7 +4,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'common/auth/auth_bloc.dart';
-import 'common/theme/theme_cubit.dart';
+import 'common/theme/bloc/theme_bloc.dart';
+import 'common/theme/theme_data.dart';
 import 'common/utils/constants/pref_constants.dart';
 import 'common/utils/date_util.dart';
 import 'data/repository/auth_repository.dart';
@@ -14,13 +15,17 @@ import 'navigator/main_navigator.dart';
 import 'navigator/route_names.dart';
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  final Widget? home;
+  const MyApp({super.key, this.home});
 
   @override
   State<MyApp> createState() => MyAppState();
 }
 
 class MyAppState extends State<MyApp> {
+  final navigatorKey = MainNavigatorState.navigationKey;
+  NavigatorState get navigator =>
+      MainNavigatorState.navigationKey.currentState!;
   late final AuthRepository _authRepo;
 
   @override
@@ -37,43 +42,30 @@ class MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: _authRepo,
-      child: BlocProvider(
-        create: (_) => AuthBloc(authRepository: _authRepo),
-        child: const AppView(),
-      ),
-    );
-  }
-}
-
-class AppView extends StatefulWidget {
-  final Widget? home;
-  const AppView({super.key, this.home});
-
-  @override
-  State<AppView> createState() => AppViewState();
-}
-
-class AppViewState extends State<AppView> {
-  final navigatorKey = MainNavigatorState.navigationKey;
-  NavigatorState get navigator =>
-      MainNavigatorState.navigationKey.currentState!;
-
-  @override
-  Widget build(BuildContext context) {
     var localStorage = getIt<LocalStorage>();
-    bool isSelected =
-        localStorage.getPrefBool(PrefConstants.dataSelectedCheckKey);
-    bool isLoaded = localStorage.getPrefBool(PrefConstants.dataLoadedCheckKey);
+    bool isSelected = localStorage.getPrefBool(PrefConstants.dataIsSelectedKey);
+    bool isLoaded = localStorage.getPrefBool(PrefConstants.dataIsLoadedKey);
 
-    return BlocProvider(
-      create: (context) => ThemeCubit(),
-      child: BlocBuilder<ThemeCubit, ThemeData>(
-        builder: (ctx, theme) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => ThemeBloc(),
+        ),
+        BlocProvider(
+          create: (context) => AuthBloc(authRepo: _authRepo),
+        ),
+      ],
+      child: BlocBuilder<ThemeBloc, ThemeState>(
+        builder: (context, state) {
+          if (state.status == ThemeStatus.initial) {
+            context.read<ThemeBloc>().add(ThemeChangeEvent());
+          }
+
           return MaterialApp(
             home: widget.home,
-            theme: theme,
+            themeMode: localStorage.getThemeMode(),
+            theme: AppTheme.lightTheme(),
+            darkTheme: AppTheme.darkTheme(),
             supportedLocales: const [Locale('en'), Locale('sw')],
             debugShowCheckedModeBanner: false,
             navigatorKey: navigatorKey,

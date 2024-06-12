@@ -114,7 +114,7 @@ class SavingBloc extends Bloc<SavingEvent, SavingState> {
       }
     }
 
-    _localStorage.setPrefBool(PrefConstants.dataLoadedCheckKey, true);
+    _localStorage.setPrefBool(PrefConstants.dataIsLoadedKey, true);
     _localStorage.setPrefBool(PrefConstants.wakeLockCheckKey, true);
 
     emit(state.copyWith(status: Status.songsSaved));

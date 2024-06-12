@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../common/theme/theme_styles.dart';
-import '../../common/utils/constants/app_constants.dart';
 import '../../common/widgets/list_items/search_book_item.dart';
 import '../../common/widgets/list_items/search_song_item.dart';
 import '../../common/widgets/progress/general_progress.dart';
@@ -14,10 +13,9 @@ import '../../data/models/songext.dart';
 import '../../home/bloc/home_bloc.dart';
 import '../../home/ui/home_screen.dart';
 import '../../presentor/ui/presentor_screen.dart';
-import 'search_songs.dart';
 
 class SearchScreen extends StatefulWidget {
-  final HomeScreenState parent;
+  final HomeScreenBodyState parent;
   const SearchScreen({super.key, required this.parent});
 
   @override
@@ -25,8 +23,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 class SearchScreenState extends State<SearchScreen> {
-  late HomeBloc _bloc;
-  late HomeScreenState parent;
+  late HomeScreenBodyState parent;
   int setBook = 0, setSong = 0;
   List<SongExt> filtered = [];
   static const _pageSize = 20;
@@ -42,8 +39,7 @@ class SearchScreenState extends State<SearchScreen> {
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
-    _bloc = context.read<HomeBloc>();
-    _bloc.add(const HomeFetchData());
+    //_bloc.add(const HomeFetchData());
   }
 
   void sortSongs(List<SongExt> songs, int bookNo) async {
@@ -86,7 +82,7 @@ class SearchScreenState extends State<SearchScreen> {
     Size size = MediaQuery.of(context).size;
 
     return BlocConsumer<HomeBloc, HomeState>(
-      bloc: _bloc,
+      bloc: parent.bloc,
       listener: (context, state) {
         if (state.status == Status.loaded) {
           setState(() => setBook = 0);
@@ -119,14 +115,14 @@ class SearchScreenState extends State<SearchScreen> {
           onRefresh: () => Future.sync(
             () => _pagingController.refresh(),
           ),
-          child: PagedListView<int, SongExt>(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            padding: const EdgeInsets.symmetric(horizontal: Sizes.xs),
-            pagingController: _pagingController,
-            builderDelegate: PagedChildBuilderDelegate<SongExt>(
-              animateTransitions: true,
-              itemBuilder: (context, song, index) {
+          child: Expanded(
+            child: ListView.builder(
+              physics: const ClampingScrollPhysics(),
+              shrinkWrap: true,
+              padding: const EdgeInsets.symmetric(horizontal: Sizes.xs),
+              itemCount: filtered.length,
+              itemBuilder: (context, index) {
+                final SongExt song = filtered[index];
                 return SearchSongItem(
                   song: song,
                   height: size.height,
@@ -150,37 +146,6 @@ class SearchScreenState extends State<SearchScreen> {
 
         return Scaffold(
           backgroundColor: Colors.grey,
-          appBar: AppBar(
-            title: const Text(AppConstants.appTitle),
-            actions: <Widget>[
-              InkWell(
-                onTap: () async {
-                  await showSearch(
-                    context: context,
-                    delegate: SearchSongs(context, _bloc, size.height),
-                  );
-                },
-                child: const Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Icon(Icons.search),
-                ),
-              ),
-              InkWell(
-                onTap: () {},
-                child: const Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Icon(Icons.help),
-                ),
-              ),
-              InkWell(
-                onTap: () {},
-                child: const Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Icon(Icons.settings),
-                ),
-              ),
-            ],
-          ),
           body: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

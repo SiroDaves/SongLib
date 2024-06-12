@@ -55,6 +55,8 @@ dependencies:
   textstyle_extensions: ^2.0.0-nullsafety
   timeago: ^3.6.1
   context_menus: ^1.0.2
+  bloc_concurrency: ^0.2.5
+  stream_transform: ^2.1.0
 
 dev_dependencies:
   build_runner: ^2.4.6

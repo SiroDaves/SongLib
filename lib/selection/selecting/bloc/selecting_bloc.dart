@@ -107,7 +107,7 @@ class SelectingBloc extends Bloc<SelectingEvent, SelectingState> {
         selectedBooks,
       );
 
-      _localStorage.setPrefBool(PrefConstants.dataSelectedCheckKey, true);
+      _localStorage.setPrefBool(PrefConstants.dataIsSelectedKey, true);
     } catch (e) {
       logger('Unable to save books: $e');
     }
