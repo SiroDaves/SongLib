@@ -18,7 +18,7 @@ class SavingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AppLocalizations? tr = AppLocalizations.of(context)!;
+    var l10n = AppLocalizations.of(context)!;
     return BlocProvider(
       create: (context) {
         return SavingBloc();
@@ -28,7 +28,7 @@ class SavingScreen extends StatelessWidget {
           if (state.status == Status.failure) {
             CustomSnackbar.show(
               context,
-              feedbackMessage(state.feedback, tr),
+              feedbackMessage(state.feedback, l10n),
             );
           }
         },

@@ -12,8 +12,8 @@ part 'auth_bloc.freezed.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({
-    required AuthRepository authRepository,
-  })  : _authRepository = authRepository,
+    required AuthRepository authRepo,
+  })  : _authRepository = authRepo,
         super(XAuthState.unauthenticated()) {
     on<AuthStatusChanged>(_onAuthStatusChanged);
     on<AuthLogoutRequested>(_onAuthLogoutRequested);

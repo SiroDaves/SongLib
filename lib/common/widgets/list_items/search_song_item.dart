@@ -28,32 +28,37 @@ class SearchSongItem extends StatelessWidget {
 
   bool hasChorus = false;
   String chorusText = '', versesText = '';
+  ThemeMode? themeMode;
 
   @override
   Widget build(BuildContext context) {
-    var tr = AppLocalizations.of(context)!;
+    var l10n = AppLocalizations.of(context)!;
     final verses = song.content.split("##");
 
     if (song.content.contains("CHORUS")) {
       hasChorus = true;
-      chorusText = tr.hasChorus;
-      versesText = '${verses.length - 1} ${tr.verses}';
+      chorusText = l10n.hasChorus;
+      versesText = '${verses.length - 1} ${l10n.verses}';
     } else {
-      versesText = '${verses.length} ${tr.verses}';
+      versesText = '${verses.length} ${l10n.verses}';
     }
 
     versesText = verses.length == 1 ? versesText : '${versesText}s';
+    
+    Color unSelectedColor = Theme.of(context).brightness == Brightness.light
+        ? Colors.white
+        : Colors.grey;
     return GestureDetector(
       onTap: onPressed,
       child: Card(
         elevation: 2,
-        color: Colors.white,
+        color: unSelectedColor,
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: unSelectedColor,
             borderRadius: BorderRadius.circular(10),
           ),
-          padding: const EdgeInsets.all(Sizes.sm),
+          padding: const EdgeInsets.all(Sizes.xs),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -63,8 +68,12 @@ class SearchSongItem extends StatelessWidget {
                 style: TextStyles.headingStyle1
                     .textColor(isSelected ? Colors.white : Colors.black),
               ),
-              const SizedBox(height: 3),
-              Divider(color: ThemeColors.accent, height: height * 0.0049),
+              const SizedBox(height: 5),
+              Divider(
+                  color: Theme.of(context).brightness == Brightness.light
+                      ? ThemeColors.primary
+                      : Colors.white,
+                  height: height * 0.0049),
               const SizedBox(height: 3),
               Text(
                 refineContent(verses[0]),
@@ -74,7 +83,7 @@ class SearchSongItem extends StatelessWidget {
                     .textHeight(1.5),
               ),
               SizedBox(
-                height: height * 0.035,
+                height: 25,
                 width: MediaQuery.of(context).size.width - 30,
                 child: ListView(
                   scrollDirection: Axis.horizontal,

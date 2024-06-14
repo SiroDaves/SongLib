@@ -9,6 +9,19 @@ import 'package:flutter/material.dart';
 bool isDesktop = Platform.isWindows || Platform.isLinux || Platform.isMacOS;
 bool isMobile = Platform.isAndroid || Platform.isIOS || Platform.isFuchsia;
 
+String getThemeModeString(ThemeMode themeMode) {
+  switch (themeMode) {
+    case ThemeMode.light:
+      return 'Light';
+
+    case ThemeMode.dark:
+      return 'Dark';
+
+    default:
+      return 'System Theme';
+  }
+}
+
 /// Function to update a dropdown value by checking if the new value exists in the current list of values in the dropdown
 dynamic updateValue(dynamic newValue, List<dynamic> values) {
   if (values.contains(newValue)) {

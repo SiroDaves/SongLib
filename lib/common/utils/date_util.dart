@@ -4,7 +4,13 @@ import 'dart:io';
 import 'package:intl/intl.dart';
 
 String dateNow() {
-  return DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+  return DateFormat('yyyy-MM-ddTHH:mm:ss').format(DateTime.now());
+  
+}
+
+String getCurrentDate() {
+  DateTime now = DateTime.now();
+  return DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(now.toUtc());
 }
 
 String getCurrentDayDate({String separator = '-', bool reverse = false}) {
@@ -67,23 +73,6 @@ String formatDatePendingApplication(String inputDate) {
 
 String dateToString(DateTime dateValue) {
   return DateFormat('yyyy-MM-dd HH:mm:ss').format(dateValue);
-}
-
-Map<String, String> getCurrentDate() {
-  // Get the current date
-  DateTime now = DateTime.now();
-
-  // Format the date components
-  String day = DateFormat('dd').format(now);
-  String month = DateFormat('MMMM').format(now);
-  String year = DateFormat('yyyy').format(now);
-
-  // Create and return the map object
-  return {
-    'day': day,
-    'month': month,
-    'year': year,
-  };
 }
 
 String dateFormatter(String date) {

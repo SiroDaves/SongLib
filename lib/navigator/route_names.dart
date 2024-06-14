@@ -2,6 +2,7 @@ class RouteNames {
   RouteNames._();
 
   static const splash = 'splash';
+  static const appChecker = 'app_checker';
   static const init = 'init';
   static const login = 'login';
   static const signup = 'signup';
@@ -10,4 +11,5 @@ class RouteNames {
   static const account = 'account';
   static const home = 'home';
   static const search = 'search';
+  static const settings = 'settings';
 }

@@ -2,19 +2,17 @@ import 'package:flutter/material.dart';
 
 import '../home/ui/home_screen.dart';
 import '../common/widgets/text_scale_factor.dart';
-import '../lists/search/ui/search_screen.dart';
 import '../selection/saving/ui/saving_screen.dart';
 import '../selection/selecting/ui/selecting_screen.dart';
+import '../settings/ui/settings_screen.dart';
+import '../user/app_checker/ui/app_checker_screen.dart';
 import '../user/splash/splash_screen.dart';
 import 'route_names.dart';
 
 class MainNavigator extends StatefulWidget {
   final Widget? child;
 
-  const MainNavigator({
-    this.child,
-    Key? key,
-  }) : super(key: key);
+  const MainNavigator({this.child, Key? key}) : super(key: key);
 
   @override
   MainNavigatorState createState() => MainNavigatorState();
@@ -62,10 +60,11 @@ class MainNavigatorState extends State<MainNavigator> with MainNavigationMixin {
     final Map<String, WidgetBuilder> routes = {
       '': (context) => const SplashScreen(),
       RouteNames.splash: (context) => const SplashScreen(),
+      RouteNames.appChecker: (context) => const AppCheckerScreen(),
       RouteNames.selecting: (context) => const SelectingScreen(),
       RouteNames.saving: (context) => const SavingScreen(),
       RouteNames.home: (context) => const HomeScreen(),
-      RouteNames.search: (context) => const SearchScreen(),
+      RouteNames.settings: (context) => const SettingsScreen(),
     };
 
     defaultRoute(context) => const SplashScreen();

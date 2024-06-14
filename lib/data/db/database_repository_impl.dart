@@ -44,6 +44,11 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
+  Future<Song?> findSongById(int rid) async {
+    return _appDatabase.songsDao.findSongById(rid);
+  }
+
+  @override
   Future<List<SongExt>> fetchSongExts() async {
     final Stream<List<SongExt>> streams = _appDatabase.songsDao.fetchSongExts();
     return await streams.first;
@@ -57,6 +62,11 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   @override
   Future<void> saveSong(Song song) async {
     return _appDatabase.songsDao.insertSong(song);
+  }
+
+  @override
+  Future<void> updateSong(Song song) async {
+    return _appDatabase.songsDao.updateSong(song);
   }
 
   @override

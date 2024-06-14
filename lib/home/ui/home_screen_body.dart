@@ -1,153 +1,85 @@
 part of 'home_screen.dart';
 
 class HomeScreenBody extends StatefulWidget {
-  final HomeScreenState parent;
-  const HomeScreenBody({super.key, required this.parent});
+  const HomeScreenBody({super.key});
 
   @override
-  State<HomeScreenBody> createState() => _HomeScreenBodyState();
+  State<HomeScreenBody> createState() => HomeScreenBodyState();
 }
 
-class _HomeScreenBodyState extends State<HomeScreenBody> {
-  late HomeBloc _bloc;
+class HomeScreenBodyState extends State<HomeScreenBody> {
+  late HomeBloc bloc;
   late HomeScreenState parent;
+  int _currentPage = 0;
 
   bool updateFound = false;
   bool isTabletOrIpad = false;
-  late AppLocalizations tr;
-
-  Future<void> checkPermissions() async {
-    final PermissionStatus permission = await Permission.storage.status;
-    if (permission != PermissionStatus.granted) {
-      await Permission.storage.request();
-      // access media location needed for android 10/Q
-      await Permission.accessMediaLocation.request();
-      // manage external storage needed for android 11/R
-      await Permission.manageExternalStorage.request();
-      //showToast(text: 'Permission granted', state: ToastStates.success);
-    } else if (permission != PermissionStatus.denied) {
-      //showToast(text: 'Permission denied', state: ToastStates.error);
-    } else if (permission != PermissionStatus.permanentlyDenied) {
-      showPermanentlyDeniedDialog();
-    }
-  }
-
-  Future<void> showPermanentlyDeniedDialog() async {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(tr.labelPermissionTitle),
-          content: Text(tr.labelPermissionText),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: Text(tr.cancel),
-            ),
-            TextButton(
-              onPressed: () => openAppSettings(),
-              child: Text(tr.openSettings),
-            ),
-          ],
-        );
-      },
-    );
-  }
+  late AppLocalizations l10n;
+  List<Widget> homePages = <Widget>[];
 
   @override
   void initState() {
     super.initState();
-    _bloc = context.read<HomeBloc>();
+    bloc = context.read<HomeBloc>();
+    bloc.add(const HomeFetchData());
+  }
 
-    if (isMobile) {
-      checkPermissions();
-      if (FlavorConfig.isProd()) {
-        _bloc.add(const HomeCheckUpdates());
-      }
-    }
+  void _onItemTapped(int index) {
+    setState(() {
+      _currentPage = index;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    parent = widget.parent;
-    tr = AppLocalizations.of(context)!;
+    l10n = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
     isTabletOrIpad = size.shortestSide > 550;
 
-    return BlocConsumer<HomeBloc, HomeState>(
-      bloc: _bloc,
-      listener: (context, state) {
-        if (state.status == Status.updateFound) {
-          setState(() => updateFound = true);
-          CustomSnackbar.show(
-            context,
-            feedbackMessage(state.feedback, tr),
-            isSuccess: true,
-          );
-        }
-        if (state.status == Status.success) {
-          setState(() => updateFound = false);
-        }
-      },
-      builder: (context, state) {
-        if (state.status == Status.updateFound) {
-          return UpdateWidget(
-            size: size.width / 3,
-            onPressed: () => _bloc.add(const HomeUpdateApp()),
-          );
-        } else {
-          return parent.homePages.elementAt(parent._currentPage);
-        }
-      },
-    );
-  }
-}
+    homePages = <Widget>[
+      SearchScreen(parent: this),
+      const Center(child: Text('Index 1: Business')),
+      const Center(child: Text('Index 2: School')),
+      const Center(child: Text('Index 3: Settings')),
+    ];
 
-class UpdateWidget extends StatelessWidget {
-  final VoidCallback? onPressed;
-  final double? size;
-
-  const UpdateWidget({
-    Key? key,
-    this.onPressed,
-    this.size,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(
-          Icons.system_update,
-          size: size,
-          color: ThemeColors.primary,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          AppConstants.appTitle,
+          style: TextStyles.pageTitle1,
         ),
-        const Center(
-          child: Text(
-            'Update Found',
-            style: TextStyle(
-              color: ThemeColors.britamRed,
-              fontSize: 29,
-              fontWeight: FontWeight.w600,
+        actions: <Widget>[
+          InkWell(
+            onTap: () async {
+              await showSearch(
+                context: context,
+                delegate: SearchSongs(context, bloc, size.height),
+              );
+            },
+            child: const Padding(
+              padding: EdgeInsets.all(10),
+              child: Icon(Icons.search),
             ),
           ),
-        ),
-        Text(
-          'We have a new update of the app',
-          textAlign: TextAlign.center,
-          style: TextStyles.bodyStyle1.size(20).textHeight(1.2),
-        ).center().padding(all: 20),
-        AppButton(
-          label: 'Update',
-          onPressed: onPressed,
-          bgColor: ThemeColors.primary,
-          foreColor: Colors.white,
-          hoverColor: Colors.red,
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-        ).center()
-      ],
+          /*InkWell(
+            onTap: () {},
+            child: const Padding(
+              padding: EdgeInsets.all(10),
+              child: Icon(Icons.help),
+            ),
+          ),*/
+          InkWell(
+            onTap: () => Navigator.pushNamed(context, RouteNames.settings),
+            child: const Padding(
+              padding: EdgeInsets.all(10),
+              child: Icon(Icons.settings),
+            ),
+          ),
+        ],
+      ),
+      body: SearchScreen(parent: this), //homePages.elementAt(_currentPage),
+      //bottomNavigationBar: HomeScreenBottomNavBar(parent: this),
     );
   }
 }

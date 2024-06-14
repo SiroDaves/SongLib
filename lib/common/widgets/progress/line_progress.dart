@@ -94,21 +94,6 @@ class LineProgress extends StatelessWidget {
                 ),
               ),
             ),
-            /*Container(
-      height: progressSize,
-      width: (progressSize / 2) - 20,
-      margin: EdgeInsets.only(left: progressSize * 2.55),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: progressColor),
-        borderRadius: BorderRadius.all(
-          Radius.elliptical(
-            progressSize / 4,
-            progressSize / 2,
-          ),
-        ),
-      ),
-    )*/
           ],
         ),
       ),
@@ -161,18 +146,16 @@ class ListLoading extends StatelessWidget {
         ),
       ],
     );
-    return SingleChildScrollView(
-      child: SkeletonLoader(
-        builder: Container(
-          height: 90,
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-          child: rowWidget,
-        ),
-        items: 10,
-        period: const Duration(seconds: 3),
-        highlightColor: ThemeColors.primary,
-        direction: SkeletonDirection.ltr,
+    return SkeletonLoader(
+      builder: Container(
+        height: 90,
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+        child: rowWidget,
       ),
+      items: 10,
+      period: const Duration(seconds: 3),
+      highlightColor: ThemeColors.primary,
+      direction: SkeletonDirection.ltr,
     );
   }
 }

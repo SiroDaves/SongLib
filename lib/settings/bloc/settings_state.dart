@@ -1,4 +1,4 @@
-part of 'search_bloc.dart';
+part of 'settings_bloc.dart';
 
 enum Status {
   // Generic statuses
@@ -19,45 +19,26 @@ enum Status {
 
   /// Data loaded successfully.
   loaded,
-
-  /// Done selecting.
-  selected,
-
-  /// Done searching.
-  searched,
 }
 
-final class SearchState extends Equatable {
-  const SearchState({
+final class SettingsState extends Equatable {
+  const SettingsState({
     this.status = Status.initial,
-    this.books = const <Book>[],
-    this.songs = const <SongExt>[],
-    this.filtered = const <SongExt>[],
     this.feedback = '',
     this.hasReachedMax = false,
   });
 
   final Status status;
-  final List<Book> books;
-  final List<SongExt> songs;
-  final List<SongExt> filtered;
   final String feedback;
   final bool hasReachedMax;
 
-  SearchState copyWith({
+  SettingsState copyWith({
     Status? status,
-    Book? setBook,
-    List<Book>? books,
-    List<SongExt>? songs,
-    List<SongExt>? filtered,
     String? feedback,
     bool? hasReachedMax,
   }) {
-    return SearchState(
+    return SettingsState(
       status: status ?? this.status,
-      books: books ?? this.books,
-      songs: songs ?? this.songs,
-      filtered: filtered ?? this.filtered,
       feedback: feedback ?? this.feedback,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
     );
@@ -65,5 +46,5 @@ final class SearchState extends Equatable {
 
   @override
   List<Object> get props =>
-      [status, books, songs, filtered, feedback, hasReachedMax];
+      [status, feedback, hasReachedMax];
 }

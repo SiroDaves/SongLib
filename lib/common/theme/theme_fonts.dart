@@ -51,6 +51,9 @@ class TextStyles {
     ],
   );
 
+  static TextStyle get pageTitle1 =>
+      trebuchetMS.bold.size(FontSizes.s30).letterSpace(2);
+
   static TextStyle get headingStyle1 =>
       trebuchetMS.bold.size(FontSizes.s22).letterSpace(.5);
 
