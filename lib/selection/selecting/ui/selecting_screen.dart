@@ -25,22 +25,11 @@ class SelectingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AppLocalizations? tr = AppLocalizations.of(context)!;
     return BlocProvider(
       create: (context) {
         return SelectingBloc();
       },
-      child: BlocListener<SelectingBloc, SelectingState>(
-        listener: (context, state) {
-          if (state.status == Status.failure) {
-            CustomSnackbar.show(
-              context,
-              feedbackMessage(state.feedback, tr),
-            );
-          }
-        },
-        child: const SelectingScreenBody(),
-      ),
+      child: const SelectingScreenBody(),
     );
   }
 }

@@ -18,22 +18,11 @@ class SavingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var l10n = AppLocalizations.of(context)!;
     return BlocProvider(
       create: (context) {
         return SavingBloc();
       },
-      child: BlocListener<SavingBloc, SavingState>(
-        listener: (context, state) {
-          if (state.status == Status.failure) {
-            CustomSnackbar.show(
-              context,
-              feedbackMessage(state.feedback, l10n),
-            );
-          }
-        },
-        child: const SavingScreenBody(),
-      ),
+      child: const SavingScreenBody(),
     );
   }
 }

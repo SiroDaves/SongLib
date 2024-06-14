@@ -290,9 +290,11 @@ class IconTextBtn extends StatelessWidget {
       onPressed: onPressed,
       child: Container(
         padding: const EdgeInsets.all(10),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(
+        decoration: BoxDecoration(
+          color: Theme.of(context).brightness == Brightness.light
+              ? ThemeColors.primary
+              : ThemeColors.kPrimaryDeepOrange,
+          borderRadius: const BorderRadius.all(
             Radius.circular(5),
           ),
         ),

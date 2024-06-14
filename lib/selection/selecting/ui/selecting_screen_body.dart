@@ -29,18 +29,25 @@ class SelectingScreenBodyState extends State<SelectingScreenBody> {
         if (state.status == Status.booksSaved) {
           Navigator.pushNamed(context, RouteNames.saving);
         }
+        if (state.status == Status.failure) {
+          CustomSnackbar.show(
+            context,
+            feedbackMessage(state.feedback, l10n),
+          );
+        }
         if (state.status == Status.booksFetched) {
           CustomSnackbar.show(
             context,
-            'Here are the available book, please select as much as you like to proceed',
+            'Here are the available books, please select as much as you like to proceed',
             isSuccess: true,
           );
-        }if (state.status == Status.failure) {
-            CustomSnackbar.show(
-              context,
-              feedbackMessage(state.feedback, l10n),
-            );
-          }
+        }
+        if (state.status == Status.failure) {
+          CustomSnackbar.show(
+            context,
+            feedbackMessage(state.feedback, l10n),
+          );
+        }
         if (state.status == Status.failure) {
           CustomSnackbar.show(
             context,
@@ -85,7 +92,10 @@ class SelectingScreenBodyState extends State<SelectingScreenBody> {
               : state.status == Status.failure
                   ? const SizedBox.shrink()
                   : FloatingActionButton(
-                      backgroundColor: ThemeColors.primary,
+                      backgroundColor:
+                          Theme.of(context).brightness == Brightness.light
+                              ? ThemeColors.primary
+                              : ThemeColors.kPrimaryDeepOrange,
                       onPressed: () => areYouDoneDialog(
                         context,
                         booksSelected.isNotEmpty,

@@ -8,6 +8,7 @@ import '../../../data/models/book.dart';
 //import '../../theme/theme_colors.dart';
 //import '../../theme/theme_styles.dart';
 //import '../../theme/theme_fonts.dart';
+import '../../theme/theme_colors.dart';
 import '../../utils/app_util.dart';
 
 var locale = 'en';
@@ -24,11 +25,17 @@ class BookItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color selectedColor = Theme.of(context).brightness == Brightness.light
+        ? ThemeColors.primary
+        : ThemeColors.kPrimaryDeepOrange;
+    Color unSelectedColor = Theme.of(context).brightness == Brightness.light
+        ? Colors.white
+        : Colors.grey;
     return Container(
       margin: const EdgeInsets.only(
           bottom: Sizes.xs, left: Sizes.xs, right: Sizes.xs),
       child: Card(
-        color: item.isSelected ? Colors.deepOrange : Colors.white,
+        color: item.isSelected ? selectedColor : unSelectedColor,
         elevation: 5,
         child: Center(
           child: ListTile(

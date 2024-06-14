@@ -1,7 +1,4 @@
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 import 'app.dart';
 import 'common/utils/app_util.dart';
@@ -9,7 +6,6 @@ import 'common/utils/env/flavor_config.dart';
 import 'common/utils/logger.dart';
 import 'common/utils/env/environments.dart';
 import 'di/injectable.dart';
-import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +23,7 @@ Future<void> main() async {
 
   if (isMobile) {
     //initialize firebase in the prod app
-    await Firebase.initializeApp(
+    /*await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
 
@@ -39,7 +35,7 @@ Future<void> main() async {
     PlatformDispatcher.instance.onError = (error, stack) {
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
       return true;
-    };
+    };*/
   }
 
   runApp(const MyApp());
