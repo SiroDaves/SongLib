@@ -17,53 +17,68 @@ enum Status {
   /// A process has been canceled.
   canceled,
 
-  /// Data loaded successfully.
+  /// Song loaded successfully.
   loaded,
 
-  /// Done liking.
+  /// Done liking song.
   liked,
 
-  /// Done unliking.
+  /// Done unliking song.
   unliked,
 }
 
 final class PresentorState extends Equatable {
   const PresentorState({
     this.status = Status.initial,
-    this.books = const <Book>[],
-    this.songs = const <SongExt>[],
-    this.filtered = const <SongExt>[],
+    this.songBook = '',
+    this.songTitle = '...',
+    this.hasChorus = false,
+    this.songVerses = const <String>[],
+    this.widgetTabs = const <Tab>[],
+    this.widgetContent = const <Widget>[],
     this.feedback = '',
-    this.hasReachedMax = false,
   });
 
   final Status status;
-  final List<Book> books;
-  final List<SongExt> songs;
-  final List<SongExt> filtered;
+  final String songBook;
+  final String songTitle;
+  final bool hasChorus;
+  final List<String> songVerses;
+  final List<Tab> widgetTabs;
+  final List<Widget> widgetContent;
   final String feedback;
-  final bool hasReachedMax;
 
   PresentorState copyWith({
     Status? status,
-    Book? setBook,
-    List<Book>? books,
-    List<SongExt>? songs,
-    List<SongExt>? filtered,
+    String? songBook,
+    String? songTitle,
+    bool? hasChorus,
+    List<String>? songVerses,
+    List<Tab>? widgetTabs,
+    List<Widget>? widgetContent,
     String? feedback,
-    bool? hasReachedMax,
   }) {
     return PresentorState(
       status: status ?? this.status,
-      books: books ?? this.books,
-      songs: songs ?? this.songs,
-      filtered: filtered ?? this.filtered,
+      songBook: songBook ?? this.songBook,
+      songTitle: songTitle ?? this.songTitle,
+      hasChorus: hasChorus ?? this.hasChorus,
+      songVerses: songVerses ?? this.songVerses,
+      widgetTabs: widgetTabs ?? this.widgetTabs,
+      widgetContent: widgetContent ?? this.widgetContent,
       feedback: feedback ?? this.feedback,
-      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
     );
   }
 
   @override
-  List<Object> get props =>
-      [status, books, songs, filtered, feedback, hasReachedMax];
+  List<Object> get props => [
+        status,
+        songBook,
+        songTitle,
+        hasChorus,
+        songVerses,
+        widgetTabs,
+        widgetContent,
+        feedback
+      ];
 }

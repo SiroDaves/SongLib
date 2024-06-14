@@ -9,6 +9,7 @@ class SelectingScreenBody extends StatefulWidget {
 
 class SelectingScreenBodyState extends State<SelectingScreenBody> {
   late SelectingBloc _bloc;
+  late AppLocalizations l10n;
   List<Book> booksSelected = [];
 
   @override
@@ -20,7 +21,7 @@ class SelectingScreenBodyState extends State<SelectingScreenBody> {
 
   @override
   Widget build(BuildContext context) {
-    AppLocalizations? tr = AppLocalizations.of(context)!;
+    l10n = AppLocalizations.of(context)!;
 
     return BlocConsumer<SelectingBloc, SelectingState>(
       bloc: _bloc,
@@ -28,14 +29,32 @@ class SelectingScreenBodyState extends State<SelectingScreenBody> {
         if (state.status == Status.booksSaved) {
           Navigator.pushNamed(context, RouteNames.saving);
         }
+        if (state.status == Status.booksFetched) {
+          CustomSnackbar.show(
+            context,
+            'Here are the available book, please select as much as you like to proceed',
+            isSuccess: true,
+          );
+        }if (state.status == Status.failure) {
+            CustomSnackbar.show(
+              context,
+              feedbackMessage(state.feedback, l10n),
+            );
+          }
+        if (state.status == Status.failure) {
+          CustomSnackbar.show(
+            context,
+            'We encountered an error while trying to perfom your request',
+          );
+        }
       },
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
             title: Text(
               state.status == Status.inProgress
-                  ? tr.booksTitleLoading
-                  : tr.booksTitle,
+                  ? l10n.booksTitleLoading
+                  : l10n.booksTitle,
             ),
             actions: [
               state.status == Status.inProgress
@@ -56,7 +75,7 @@ class SelectingScreenBodyState extends State<SelectingScreenBody> {
                             context,
                             booksSelected.isNotEmpty,
                           ),
-                          title: tr.proceed,
+                          title: l10n.proceed,
                         ),
             ],
           ),
@@ -79,24 +98,24 @@ class SelectingScreenBodyState extends State<SelectingScreenBody> {
   }
 
   Future<void> areYouDoneDialog(BuildContext context, bool isValid) async {
-    var tr = AppLocalizations.of(context)!;
+    var l10n = AppLocalizations.of(context)!;
     if (isValid) {
       var result = await FlutterPlatformAlert.showCustomAlert(
-        windowTitle: tr.doneSelecting,
-        text: tr.doneSelectingBody,
+        windowTitle: l10n.doneSelecting,
+        text: l10n.doneSelectingBody,
         iconStyle: IconStyle.information,
-        neutralButtonTitle: tr.cancel,
-        positiveButtonTitle: tr.proceed,
+        neutralButtonTitle: l10n.cancel,
+        positiveButtonTitle: l10n.proceed,
       );
       if (result == CustomButton.positiveButton) {
         _bloc.add(SelectingSubmitData(booksSelected));
       }
     } else {
       await FlutterPlatformAlert.showCustomAlert(
-        windowTitle: tr.noSelection,
-        text: tr.noSelectionBody,
+        windowTitle: l10n.noSelection,
+        text: l10n.noSelectionBody,
         iconStyle: IconStyle.warning,
-        neutralButtonTitle: tr.okay,
+        neutralButtonTitle: l10n.okay,
       );
     }
   }

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:textstyle_extensions/textstyle_extensions.dart';
 
-import '../../common/theme/theme_colors.dart';
-import '../../common/theme/theme_fonts.dart';
-import '../../common/theme/theme_styles.dart';
-import '../../common/utils/app_util.dart';
-import '../../common/widgets/list_items/search_book_item.dart';
-import '../../common/widgets/list_items/search_song_item.dart';
-import '../../data/models/book.dart';
-import '../../data/models/songext.dart';
-import '../../presentor/ui/presentor_screen.dart';
-import '../../home/bloc/home_bloc.dart';
+import '../common/theme/theme_colors.dart';
+import '../common/theme/theme_fonts.dart';
+import '../common/theme/theme_styles.dart';
+import '../common/utils/app_util.dart';
+import '../common/widgets/list_items/search_book_item.dart';
+import '../common/widgets/list_items/search_song_item.dart';
+import '../data/models/book.dart';
+import '../data/models/songext.dart';
+import '../presentor/ui/presentor_screen.dart';
+import '../home/bloc/home_bloc.dart';
 
 /// Small screen search
 class SearchSongs extends SearchDelegate<List> {
@@ -24,16 +24,23 @@ class SearchSongs extends SearchDelegate<List> {
 
   @override
   ThemeData appBarTheme(BuildContext context) {
+    Color foregroundColor = Theme.of(context).brightness == Brightness.light
+        ? ThemeColors.primary
+        : Colors.white;
+    Color backgroundColor = Theme.of(context).brightness == Brightness.light
+        ? Colors.white
+        : Colors.black;
     return ThemeData(
-      appBarTheme: const AppBarTheme(
-        backgroundColor: ThemeColors.primary,
-        iconTheme: IconThemeData(color: Colors.white),
+      appBarTheme: AppBarTheme(
+        backgroundColor: backgroundColor,
+        iconTheme: IconThemeData(color: foregroundColor),
+        elevation: 3,
       ),
       textTheme: TextTheme(
-        titleLarge: TextStyles.headingStyle2.textColor(Colors.white),
+        titleLarge: TextStyles.headingStyle2.textColor(foregroundColor),
       ),
       inputDecorationTheme: InputDecorationTheme(
-        hintStyle: TextStyles.headingStyle2.textColor(Colors.white),
+        hintStyle: TextStyles.headingStyle2.textColor(foregroundColor),
       ),
     );
   }
@@ -128,7 +135,7 @@ class SearchSongs extends SearchDelegate<List> {
         ),
       );
     }
-    
+
     // ignore: unused_local_variable
     var booksList = SizedBox(
       height: 40,
@@ -140,40 +147,37 @@ class SearchSongs extends SearchDelegate<List> {
       ),
     );
 
-    return Container(
-      color: Colors.grey,
-      child: Column(
-        children: [
-          //booksList,
-          Expanded(
-            child: ListView.builder(
-              physics: const ClampingScrollPhysics(),
-              shrinkWrap: true,
-              padding: const EdgeInsets.symmetric(horizontal: Sizes.xs),
-              itemCount: matchQuery.length,
-              itemBuilder: (context, index) {
-                final SongExt result = matchQuery[index];
-                return SearchSongItem(
-                  song: result,
-                  height: height!,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PresentorScreen(
-                          song: result,
-                          books: bloc!.state.books,
-                          songs: bloc!.state.songs,
-                        ),
+    return Column(
+      children: [
+        //booksList,
+        Expanded(
+          child: ListView.builder(
+            physics: const ClampingScrollPhysics(),
+            shrinkWrap: true,
+            padding: const EdgeInsets.symmetric(horizontal: Sizes.xs),
+            itemCount: matchQuery.length,
+            itemBuilder: (context, index) {
+              final SongExt result = matchQuery[index];
+              return SearchSongItem(
+                song: result,
+                height: height!,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PresentorScreen(
+                        song: result,
+                        books: bloc!.state.books,
+                        songs: bloc!.state.songs,
                       ),
-                    );
-                  },
-                );
-              },
-            ),
+                    ),
+                  );
+                },
+              );
+            },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

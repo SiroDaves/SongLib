@@ -55,12 +55,8 @@ class MyAppState extends State<MyApp> {
           create: (context) => AuthBloc(authRepo: _authRepo),
         ),
       ],
-      child: BlocBuilder<ThemeBloc, ThemeState>(
-        builder: (context, state) {
-          if (state.status == ThemeStatus.initial) {
-            context.read<ThemeBloc>().add(ThemeChangeEvent());
-          }
-
+      child: BlocBuilder<ThemeBloc, ThemeMode>(
+        builder: (context, themeMode) {
           return MaterialApp(
             home: widget.home,
             themeMode: localStorage.getThemeMode(),

@@ -8,6 +8,7 @@ class AppTheme {
   static ThemeData lightTheme() {
     return ThemeData(
       //fontFamily: ThemeFonts.lato,
+      scaffoldBackgroundColor: ThemeColors.kLightGray,
       colorScheme: const ColorScheme(
         brightness: Brightness.light,
         primary: ThemeColors.kPrimaryOrange,
@@ -17,7 +18,7 @@ class AppTheme {
         secondaryContainer: ThemeColors.kComplementaryOrange,
         onSecondary: ThemeColors.kDarkGrayBlack,
         surface: ThemeColors.kLightGray,
-        onSurface: ThemeColors.kDarkOrange,
+        onSurface: Colors.black,
         background: Colors.white,
         onBackground: ThemeColors.kDarkOrange,
         error: Colors.red,
@@ -57,7 +58,7 @@ class AppTheme {
         secondaryContainer: ThemeColors.kLightGrayDarkMode,
         onSecondary: ThemeColors.kDarkTealBrown,
         surface: Colors.grey,
-        onSurface: ThemeColors.kLightGrayDarkMode,
+        onSurface: Colors.black,
         background: ThemeColors.kMediumGray,
         onBackground: ThemeColors.kLightGrayDarkMode,
         error: Colors.red,

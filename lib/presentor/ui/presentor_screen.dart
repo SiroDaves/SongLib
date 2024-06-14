@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../common/utils/app_util.dart';
+import '../../common/widgets/progress/custom_snackbar.dart';
+import '../../common/widgets/progress/general_progress.dart';
 import '../../data/models/book.dart';
 import '../../data/models/songext.dart';
 import '../bloc/presentor_bloc.dart';
+import 'presentor_mobile.dart';
 
 part 'presentor_body.dart';
 
@@ -27,26 +31,19 @@ class PresentorScreenState extends State<PresentorScreen> {
   bool isTabletOrIpad = false;
   late AppLocalizations tr;
 
-  late SongExt song;
-  late List<Book> books;
-  late List<SongExt> songs;
-
   @override
   Widget build(BuildContext context) {
     tr = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
     isTabletOrIpad = size.shortestSide > 550;
-    
-    song = widget.song;
-    books = widget.books;
-    songs = widget.songs;
 
-    return Scaffold(
-      body: BlocProvider(
-        create: (context) {
-          return PresentorBloc();
-        },
-        child: PresentorScreenBody(parent: this),
+    return BlocProvider(
+      create: (context) {
+        return PresentorBloc();
+      },
+      child: PresentorScreenBody(
+        parent: this,
+        song: widget.song,
       ),
     );
   }

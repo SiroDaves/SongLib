@@ -59,9 +59,9 @@ class AppConstants {
   static const donationPatreaonLink = "https://www.patreon.com/SongLib";
 
   static const appTitle = "SongLib";
-  static const appVersion = "v0.0.7.1";
-  static const appCredits1 = "Siro Dave";
-  static const appCredits2 = "Titus Gik";
+  static const appVersion = "v0.0.7.55";
+  static const appCredits1 = "Siro";
+  static const appCredits2 = "Titus";
   static const IconData whatsapp =
       IconData(0xf05a6, fontFamily: 'MaterialIcons');
 

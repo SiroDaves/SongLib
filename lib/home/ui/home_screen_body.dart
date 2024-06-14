@@ -9,7 +9,6 @@ class HomeScreenBody extends StatefulWidget {
 
 class HomeScreenBodyState extends State<HomeScreenBody> {
   late HomeBloc bloc;
-  late LocalStorage _localStorage;
   late HomeScreenState parent;
   int _currentPage = 0;
 
@@ -21,7 +20,6 @@ class HomeScreenBodyState extends State<HomeScreenBody> {
   @override
   void initState() {
     super.initState();
-    _localStorage = getIt<LocalStorage>();
     bloc = context.read<HomeBloc>();
     bloc.add(const HomeFetchData());
   }
@@ -29,12 +27,6 @@ class HomeScreenBodyState extends State<HomeScreenBody> {
   void _onItemTapped(int index) {
     setState(() {
       _currentPage = index;
-    });
-  }
-
-  void onThemeChanged(ThemeMode themeMode) {
-    setState(() {
-      _localStorage.updateThemeMode(themeMode);
     });
   }
 
@@ -53,13 +45,10 @@ class HomeScreenBodyState extends State<HomeScreenBody> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.brightness_6),
-          onPressed: () {
-            selectThemeDialog(context);
-          },
+        title: Text(
+          AppConstants.appTitle,
+          style: TextStyles.pageTitle1,
         ),
-        title: const Text(AppConstants.appTitle),
         actions: <Widget>[
           InkWell(
             onTap: () async {
@@ -73,15 +62,15 @@ class HomeScreenBodyState extends State<HomeScreenBody> {
               child: Icon(Icons.search),
             ),
           ),
-          InkWell(
+          /*InkWell(
             onTap: () {},
             child: const Padding(
               padding: EdgeInsets.all(10),
               child: Icon(Icons.help),
             ),
-          ),
+          ),*/
           InkWell(
-            onTap: () {},
+            onTap: () => Navigator.pushNamed(context, RouteNames.settings),
             child: const Padding(
               padding: EdgeInsets.all(10),
               child: Icon(Icons.settings),
@@ -89,44 +78,8 @@ class HomeScreenBodyState extends State<HomeScreenBody> {
           ),
         ],
       ),
-      body: const SizedBox(),//homePages.elementAt(_currentPage),
-      bottomNavigationBar: HomeScreenBottomNavBar(parent: this),
-    );
-  }
-
-  Future<void> selectThemeDialog(BuildContext context) async {
-    String appTheme = getThemeModeString(_localStorage.getThemeMode());
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Choose Theme'),
-          content: SizedBox(
-            height: 135,
-            child: RadioInput(
-              initValue: appTheme,
-              options: const ['System Theme', 'Light', 'Dark'],
-              vertical: true,
-              onChanged: (String? newValue) {
-                setState(() {
-                  switch (newValue) {
-                    case 'Light':
-                      onThemeChanged(ThemeMode.light);
-                      break;
-                    case 'Dark':
-                      onThemeChanged(ThemeMode.dark);
-                      break;
-                    default:
-                      onThemeChanged(ThemeMode.system);
-                      break;
-                  }
-                  Navigator.of(context).pop();
-                });
-              },
-            ),
-          ),
-        );
-      },
+      body: SearchScreen(parent: this), //homePages.elementAt(_currentPage),
+      //bottomNavigationBar: HomeScreenBottomNavBar(parent: this),
     );
   }
 }

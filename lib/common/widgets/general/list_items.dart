@@ -166,7 +166,7 @@ class BookItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var tr = AppLocalizations.of(context)!;
+    var l10n = AppLocalizations.of(context)!;
     final verses = draft.content!.split("##");
 
     if (draft.content!.contains("CHORUS")) {

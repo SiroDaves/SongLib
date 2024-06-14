@@ -11,4 +11,5 @@ class RouteNames {
   static const account = 'account';
   static const home = 'home';
   static const search = 'search';
+  static const settings = 'settings';
 }

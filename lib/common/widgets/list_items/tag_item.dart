@@ -20,15 +20,19 @@ class TagItem extends StatelessWidget {
       if (tagText.isNotEmpty) {
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          margin: EdgeInsets.only(right: height * 0.008),
-          decoration: const BoxDecoration(
-            color: ThemeColors.primary,
-            borderRadius: BorderRadius.all(Radius.circular(10)),
+          margin: EdgeInsets.only(right: height * 0.05),
+          decoration: BoxDecoration(
+            color: Theme.of(context).brightness == Brightness.light
+                ? ThemeColors.primary
+                : ThemeColors.kPrimaryDeepOrange,
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
           ),
           child: Text(
             tagText,
-            style:
-                TextStyles.headingStyle5.textColor(Colors.white).letterSpace(1).italic,
+            style: TextStyles.headingStyle5
+                .textColor(Colors.white)
+                .letterSpace(1)
+                .italic,
           ),
         );
       } else {
