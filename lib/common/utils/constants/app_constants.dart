@@ -59,7 +59,7 @@ class AppConstants {
   static const donationPatreaonLink = "https://www.patreon.com/SongLib";
 
   static const appTitle = "SongLib";
-  static const appVersion = "v0.0.7.58";
+  static const appVersion = "v0.0.7.59";
   static const appCredits1 = "Siro";
   static const appCredits2 = "Titus";
   static const IconData whatsapp =
