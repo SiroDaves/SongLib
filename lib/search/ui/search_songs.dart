@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:textstyle_extensions/textstyle_extensions.dart';
 
-import '../common/theme/theme_colors.dart';
-import '../common/theme/theme_fonts.dart';
-import '../common/theme/theme_styles.dart';
-import '../common/utils/app_util.dart';
-import '../common/widgets/list_items/search_book_item.dart';
-import '../common/widgets/list_items/search_song_item.dart';
-import '../data/models/book.dart';
-import '../data/models/songext.dart';
-import '../presentor/ui/presentor_screen.dart';
-import '../home/bloc/home_bloc.dart';
+import '../../common/theme/theme_colors.dart';
+import '../../common/theme/theme_fonts.dart';
+import '../../common/theme/theme_styles.dart';
+import '../../common/utils/app_util.dart';
+import '../../common/widgets/list_items/search_book_item.dart';
+import '../../common/widgets/list_items/search_song_item.dart';
+import '../../data/models/book.dart';
+import '../../data/models/songext.dart';
+import '../../presentor/ui/presentor_screen.dart';
+import '../../home/bloc/home_bloc.dart';
 
 /// Small screen search
 class SearchSongs extends SearchDelegate<List> {
@@ -118,11 +118,7 @@ class SearchSongs extends SearchDelegate<List> {
     }).toList();
 
     List<Widget> bookItems = <Widget>[
-      SearchBookItem(
-        text: 'All',
-        isSelected: true,
-        onPressed: () {},
-      ),
+      SearchBookItem(text: 'All', isSelected: true, onPressed: () {}),
     ];
     for (var book in bloc!.state.books) {
       bookItems.add(
@@ -165,11 +161,7 @@ class SearchSongs extends SearchDelegate<List> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => PresentorScreen(
-                        song: result,
-                        books: bloc!.state.books,
-                        songs: bloc!.state.songs,
-                      ),
+                      builder: (context) => PresentorScreen(song: result),
                     ),
                   );
                 },

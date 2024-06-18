@@ -21,6 +21,13 @@ class HomeScreenBodyState extends State<HomeScreenBody> {
   void initState() {
     super.initState();
     bloc = context.read<HomeBloc>();
+
+    if (isMobile) {
+      checkPermissions(context, l10n);
+      if (FlavorConfig.isProd()) {
+        bloc.add(const HomeCheckUpdates());
+      }
+    }
     bloc.add(const HomeFetchData());
   }
 
@@ -43,43 +50,47 @@ class HomeScreenBodyState extends State<HomeScreenBody> {
       const Center(child: Text('Index 3: Settings')),
     ];
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          AppConstants.appTitle,
-          style: TextStyles.pageTitle1,
-        ),
-        actions: <Widget>[
-          InkWell(
-            onTap: () async {
-              await showSearch(
-                context: context,
-                delegate: SearchSongs(context, bloc, size.height),
-              );
-            },
-            child: const Padding(
-              padding: EdgeInsets.all(10),
-              child: Icon(Icons.search),
-            ),
-          ),
-          /*InkWell(
+    return bloc.state.status == Status.inProgress
+        ? const SkeletonLoading()
+        : Scaffold(
+            appBar: AppBar(
+              title: Text(
+                AppConstants.appTitle,
+                style: TextStyles.pageTitle1,
+              ),
+              actions: <Widget>[
+                InkWell(
+                  onTap: () async {
+                    await showSearch(
+                      context: context,
+                      delegate: SearchSongs(context, bloc, size.height),
+                    );
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Icon(Icons.search),
+                  ),
+                ),
+                /*InkWell(
             onTap: () {},
             child: const Padding(
               padding: EdgeInsets.all(10),
               child: Icon(Icons.help),
             ),
           ),*/
-          InkWell(
-            onTap: () => Navigator.pushNamed(context, RouteNames.settings),
-            child: const Padding(
-              padding: EdgeInsets.all(10),
-              child: Icon(Icons.settings),
+                InkWell(
+                  onTap: () =>
+                      Navigator.pushNamed(context, RouteNames.settings),
+                  child: const Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Icon(Icons.settings),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-      body: SearchScreen(parent: this), //homePages.elementAt(_currentPage),
-      //bottomNavigationBar: HomeScreenBottomNavBar(parent: this),
-    );
+            body:
+                SearchScreen(parent: this), //homePages.elementAt(_currentPage),
+            //bottomNavigationBar: HomeScreenBottomNavBar(parent: this),
+          );
   }
 }

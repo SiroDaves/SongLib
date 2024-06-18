@@ -3,8 +3,8 @@ import 'package:skeleton_loader/skeleton_loader.dart';
 
 import '../../theme/theme_colors.dart';
 
-class BooksLoading extends StatelessWidget {
-  const BooksLoading({Key? key}) : super(key: key);
+class SkeletonLoading extends StatelessWidget {
+  const SkeletonLoading({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

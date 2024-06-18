@@ -300,13 +300,15 @@ class IconTextBtn extends StatelessWidget {
         ),
         child: Row(
           children: <Widget>[
-            const Icon(Icons.check),
+            const Icon(Icons.check, color: Colors.white),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Text(
                 title!,
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
               ),
             ),
           ],

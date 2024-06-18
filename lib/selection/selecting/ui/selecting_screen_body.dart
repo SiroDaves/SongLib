@@ -63,70 +63,50 @@ class SelectingScreenBodyState extends State<SelectingScreenBody> {
                   ? l10n.booksTitleLoading
                   : l10n.booksTitle,
             ),
-            actions: [
-              state.status == Status.inProgress
-                  ? const SizedBox.shrink()
-                  : InkWell(
+            actions: state.status == Status.inProgress
+                ? []
+                : [
+                    InkWell(
                       onTap: () => _bloc.add(const SelectingBooksFetch()),
                       child: const Padding(
-                        padding: EdgeInsets.all(10),
+                        padding: EdgeInsets.all(Sizes.sm),
                         child: Icon(Icons.refresh),
                       ),
                     ),
-              state.status == Status.inProgress
-                  ? const SizedBox.shrink()
-                  : state.status == Status.failure
-                      ? const SizedBox.shrink()
-                      : IconTextBtn(
-                          onPressed: () => areYouDoneDialog(
-                            context,
-                            booksSelected.isNotEmpty,
-                          ),
-                          title: l10n.proceed,
-                        ),
-            ],
+                    InkWell(
+                      onTap: () =>
+                          Navigator.pushNamed(context, RouteNames.settings),
+                      child: const Padding(
+                        padding: EdgeInsets.all(Sizes.sm),
+                        child: Icon(Icons.settings),
+                      ),
+                    ),
+                  ],
           ),
           body: SelectingScreenBodyDetails(parent: this),
           floatingActionButton: state.status == Status.inProgress
               ? const SizedBox.shrink()
               : state.status == Status.failure
                   ? const SizedBox.shrink()
-                  : FloatingActionButton(
+                  : FloatingActionButton.extended(
                       backgroundColor:
                           Theme.of(context).brightness == Brightness.light
                               ? ThemeColors.primary
                               : ThemeColors.kPrimaryDeepOrange,
                       onPressed: () => areYouDoneDialog(
-                        context,
+                        this,
+                        l10n,
                         booksSelected.isNotEmpty,
                       ),
-                      child: const Icon(Icons.check, color: Colors.white),
+                      label: Text(
+                        l10n.proceed.toUpperCase(),
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      icon: const Icon(Icons.check, color: Colors.white),
                     ),
         );
       },
     );
-  }
-
-  Future<void> areYouDoneDialog(BuildContext context, bool isValid) async {
-    var l10n = AppLocalizations.of(context)!;
-    if (isValid) {
-      var result = await FlutterPlatformAlert.showCustomAlert(
-        windowTitle: l10n.doneSelecting,
-        text: l10n.doneSelectingBody,
-        iconStyle: IconStyle.information,
-        neutralButtonTitle: l10n.cancel,
-        positiveButtonTitle: l10n.proceed,
-      );
-      if (result == CustomButton.positiveButton) {
-        _bloc.add(SelectingSubmitData(booksSelected));
-      }
-    } else {
-      await FlutterPlatformAlert.showCustomAlert(
-        windowTitle: l10n.noSelection,
-        text: l10n.noSelectionBody,
-        iconStyle: IconStyle.warning,
-        neutralButtonTitle: l10n.okay,
-      );
-    }
   }
 }

@@ -83,11 +83,13 @@ android {
     flavorDimensions "flavors"
     productFlavors {
         dev {
+            manifestPlaceholders = [appLabel: "Songlib Dev"]
             dimension "flavors"
             applicationIdSuffix ".debug"
             versionNameSuffix "-debug"
         }
         apptester {
+            manifestPlaceholders = [appLabel: "Songlib AT"]
             dimension "flavors"
             versionNameSuffix "-apptester"
             applicationId "com.songlib.apptester"
@@ -99,14 +101,15 @@ android {
             versionName "0.0.7.55"
         }
         prod {
+            manifestPlaceholders = [appLabel: "Songlib"]
             dimension "flavors"
             applicationId "com.songlib"
             minSdkVersion 21
             targetSdkVersion 34
             compileSdkVersion 34
             multiDexEnabled true
-            versionCode 23
-            versionName "0.0.7.59"
+            versionCode 24
+            versionName "0.0.7.60"
         }
     }
 }
