@@ -18,6 +18,7 @@ class SongsListState extends State<SongsList> {
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.only(left: 5, right: 10),
       itemCount: parent.filtered.length + 1,
       itemBuilder: (context, index) {
         if (index == parent.filtered.length) {
@@ -25,7 +26,7 @@ class SongsListState extends State<SongsList> {
             parent.filterSongsByBook();
             return const SkeletonLoading();
           } else {
-            return  const Center(
+            return const Center(
               child: Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(''),

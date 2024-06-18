@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:textstyle_extensions/textstyle_extensions.dart';
 
-import '../../common/theme/theme_colors.dart';
-import '../../common/theme/theme_fonts.dart';
-import '../../common/theme/theme_styles.dart';
-import '../../common/utils/app_util.dart';
+import '../../common/theme/theme_data.dart';
 import '../../common/widgets/list_items/search_book_item.dart';
 import '../../common/widgets/list_items/search_song_item.dart';
 import '../../data/models/book.dart';
 import '../../data/models/songext.dart';
 import '../../presentor/ui/presentor_screen.dart';
 import '../../home/bloc/home_bloc.dart';
+import '../utils/search_songs_utils.dart';
 
 /// Small screen search
 class SearchSongs extends SearchDelegate<List> {
@@ -24,25 +21,9 @@ class SearchSongs extends SearchDelegate<List> {
 
   @override
   ThemeData appBarTheme(BuildContext context) {
-    Color foregroundColor = Theme.of(context).brightness == Brightness.light
-        ? ThemeColors.primary
-        : Colors.white;
-    Color backgroundColor = Theme.of(context).brightness == Brightness.light
-        ? Colors.white
-        : Colors.black;
-    return ThemeData(
-      appBarTheme: AppBarTheme(
-        backgroundColor: backgroundColor,
-        iconTheme: IconThemeData(color: foregroundColor),
-        elevation: 3,
-      ),
-      textTheme: TextTheme(
-        titleLarge: TextStyles.headingStyle2.textColor(foregroundColor),
-      ),
-      inputDecorationTheme: InputDecorationTheme(
-        hintStyle: TextStyles.headingStyle2.textColor(foregroundColor),
-      ),
-    );
+    return Theme.of(context).brightness == Brightness.light
+        ? AppTheme.lightTheme()
+        : AppTheme.darkTheme();
   }
 
   @override
@@ -70,53 +51,7 @@ class SearchSongs extends SearchDelegate<List> {
   Widget buildSuggestions(BuildContext context) => searchThis(context);
 
   Widget searchThis(BuildContext context) {
-    final qry = query.toLowerCase();
-
-    List<SongExt> matchQuery = bloc!.state.songs.where((s) {
-      // Check if the song number matches the query (if query is numeric)
-      if (isNumeric(query) && s.songNo == int.parse(query)) {
-        return true;
-      }
-
-      // Create a regular expression pattern to match "," and "!" characters
-      RegExp charsPtn = RegExp(r'[!,]');
-
-      // Split the query into words if it contains commas
-      List<String> words;
-      if (query.contains(',')) {
-        words = query.split(',');
-        // Trim whitespace from each word
-        words = words.map((w) => w.trim()).toList();
-      } else {
-        words = [qry];
-      }
-
-      // Create a regular expression pattern to match the words in the query
-      RegExp queryPtn = RegExp(words.map((w) => '($w)').join('.*'));
-
-      // Remove "," and "!" characters from s.title, s.alias, and s.content
-      String title = s.title.replaceAll(charsPtn, '').toLowerCase();
-      String alias = s.alias.replaceAll(charsPtn, '').toLowerCase();
-      String content = s.content.replaceAll(charsPtn, '').toLowerCase();
-
-      // Check if the song title matches the query, ignoring "," and "!" characters
-      if (queryPtn.hasMatch(title)) {
-        return true;
-      }
-
-      // Check if the song alias matches the query, ignoring "," and "!" characters
-      if (queryPtn.hasMatch(alias)) {
-        return true;
-      }
-
-      // Check if the song content matches the query, ignoring "," and "!" characters
-      if (queryPtn.hasMatch(content)) {
-        return true;
-      }
-
-      return false;
-    }).toList();
-
+    var matchQuery = filterSongsByQry(query.toLowerCase(), bloc!.state.songs);
     List<Widget> bookItems = <Widget>[
       SearchBookItem(text: 'All', isSelected: true, onPressed: () {}),
     ];
@@ -150,13 +85,14 @@ class SearchSongs extends SearchDelegate<List> {
           child: ListView.builder(
             physics: const ClampingScrollPhysics(),
             shrinkWrap: true,
-            padding: const EdgeInsets.symmetric(horizontal: Sizes.xs),
+            padding: const EdgeInsets.only(left: 5, right: 10),
             itemCount: matchQuery.length,
             itemBuilder: (context, index) {
               final SongExt result = matchQuery[index];
               return SearchSongItem(
                 song: result,
                 height: height!,
+                isSearching: true,
                 onPressed: () {
                   Navigator.push(
                     context,

@@ -93,15 +93,15 @@ android {
             dimension "flavors"
             versionNameSuffix "-uat"
             applicationId "com.songlib.uat"
-            versionCode 24
-            versionName "0.0.7.60"
+            versionCode 25
+            versionName "0.0.7.61"
         }
         prod {
             manifestPlaceholders = [appLabel: "Songlib"]
             dimension "flavors"
             applicationId "com.songlib"
-            versionCode 24
-            versionName "0.0.7.60"
+            versionCode 25
+            versionName "0.0.7.61"
         }
     }
 }

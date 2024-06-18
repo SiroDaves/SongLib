@@ -58,7 +58,7 @@ class AppTheme {
         secondaryContainer: ThemeColors.kLightGrayDarkMode,
         onSecondary: ThemeColors.kDarkTealBrown,
         surface: Colors.grey,
-        onSurface: Colors.black,
+        onSurface: Colors.white,
         background: ThemeColors.kMediumGray,
         onBackground: ThemeColors.kLightGrayDarkMode,
         error: Colors.red,

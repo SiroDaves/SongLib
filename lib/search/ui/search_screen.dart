@@ -30,7 +30,7 @@ class SearchScreenState extends State<SearchScreen> {
 
   int setBook = 0, setSong = 0;
   int pageSize = 20, currentPage = 0;
-  bool isLoading = false, hasMoreData = true;
+  bool hasMoreData = true;
   List<SongExt> filtered = [];
 
   final ScrollController _scrollController = ScrollController();
@@ -55,15 +55,8 @@ class SearchScreenState extends State<SearchScreen> {
 
   /// filter songs based on the selected book
   void filterSongsByBook() {
-    if (isLoading || !hasMoreData) return;
-
-    try {
-      setState(() => isLoading = true);
-    } catch (e) {
-      //
-    }
-
-    // Simulate loading from a remote source with a delay
+    if (!hasMoreData) return;
+    
     Future.delayed(const Duration(seconds: 2), () {
       setState(() {
         final nextPageItems = bloc.state.songs
@@ -77,7 +70,6 @@ class SearchScreenState extends State<SearchScreen> {
           filtered.addAll(nextPageItems);
           currentPage++;
         }
-        isLoading = false;
       });
     });
   }
