@@ -85,15 +85,6 @@ class SplashScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 5),
-            // Shows app version on splash screen
-            const Text(
-              AppConstants.appVersion,
-              style: TextStyle(
-                fontSize: 25,
-                letterSpacing: 2,
-                color: ThemeColors.primaryDark,
-              ),
-            ),
             const Spacer(),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 50),

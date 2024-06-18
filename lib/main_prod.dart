@@ -18,7 +18,7 @@ Future<void> main() async {
       showFullErrorMessages: false,
     ),
   );
-  logger('Starting app from main.dart');
+  logger('Starting app from main_prod.dart');
   await configureDependencies(Environments.prod);
 
   if (isMobile) {

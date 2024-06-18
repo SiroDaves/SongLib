@@ -85,31 +85,23 @@ android {
         dev {
             manifestPlaceholders = [appLabel: "Songlib Dev"]
             dimension "flavors"
-            applicationIdSuffix ".debug"
-            versionNameSuffix "-debug"
+            applicationIdSuffix ".dev"
+            versionNameSuffix "-dev"
         }
-        apptester {
-            manifestPlaceholders = [appLabel: "Songlib AT"]
+        uat {
+            manifestPlaceholders = [appLabel: "Songlib Uat"]
             dimension "flavors"
-            versionNameSuffix "-apptester"
-            applicationId "com.songlib.apptester"
-            minSdkVersion 21
-            targetSdkVersion 34
-            compileSdkVersion 34
-            multiDexEnabled true
-            versionCode 19
-            versionName "0.0.7.55"
+            versionNameSuffix "-uat"
+            applicationId "com.songlib.uat"
+            versionCode 25
+            versionName "0.0.7.61"
         }
         prod {
             manifestPlaceholders = [appLabel: "Songlib"]
             dimension "flavors"
             applicationId "com.songlib"
-            minSdkVersion 21
-            targetSdkVersion 34
-            compileSdkVersion 34
-            multiDexEnabled true
-            versionCode 24
-            versionName "0.0.7.60"
+            versionCode 25
+            versionName "0.0.7.61"
         }
     }
 }

@@ -20,7 +20,7 @@ class TagItem extends StatelessWidget {
       if (tagText.isNotEmpty) {
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          margin: EdgeInsets.only(right: height * 0.05),
+          margin: EdgeInsets.only(right: height * 0.005),
           decoration: BoxDecoration(
             color: Theme.of(context).brightness == Brightness.light
                 ? ThemeColors.primary

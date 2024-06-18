@@ -14,7 +14,6 @@ class HomeScreenBodyState extends State<HomeScreenBody> {
 
   bool updateFound = false;
   bool isTabletOrIpad = false;
-  late AppLocalizations l10n;
   List<Widget> homePages = <Widget>[];
 
   @override
@@ -23,7 +22,7 @@ class HomeScreenBodyState extends State<HomeScreenBody> {
     bloc = context.read<HomeBloc>();
 
     if (isMobile) {
-      checkPermissions(context, l10n);
+      checkPermissions(context);
       if (FlavorConfig.isProd()) {
         bloc.add(const HomeCheckUpdates());
       }
@@ -39,7 +38,6 @@ class HomeScreenBodyState extends State<HomeScreenBody> {
 
   @override
   Widget build(BuildContext context) {
-    l10n = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
     isTabletOrIpad = size.shortestSide > 550;
 
