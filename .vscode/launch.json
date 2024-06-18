@@ -5,14 +5,21 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "sl-uat",
+            "name": "dev",
             "request": "launch",
             "type": "dart",
             "program": "lib/main.dart",
             "args": [ "--flavor", "dev", "--target", "lib/main.dart" ]
         },
         {
-            "name": "sl-prod",
+            "name": "uat",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main_uat.dart",
+            "args": [ "--flavor", "uat", "--target", "lib/main_uat.dart" ]
+        },
+        {
+            "name": "prod",
             "request": "launch",
             "type": "dart",
             "program": "lib/main_prod.dart",

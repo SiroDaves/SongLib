@@ -59,7 +59,9 @@ class SearchScreenState extends State<SearchScreen> {
 
     try {
       setState(() => isLoading = true);
-    } catch (e) {}
+    } catch (e) {
+      //
+    }
 
     // Simulate loading from a remote source with a delay
     Future.delayed(const Duration(seconds: 2), () {

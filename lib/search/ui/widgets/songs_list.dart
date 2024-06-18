@@ -25,10 +25,10 @@ class SongsListState extends State<SongsList> {
             parent.filterSongsByBook();
             return const SkeletonLoading();
           } else {
-            return const Center(
+            return  const Center(
               child: Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Text('No more songs'),
+                child: Text(''),
               ),
             );
           }

@@ -43,9 +43,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1086992574189:android:fbcb4f71a241af3a38cee4",
+        "mobilesdk_app_id": "1:1086992574189:android:6d673ca0795ab69e38cee4",
         "android_client_info": {
-          "package_name": "com.songlib.apptester"
+          "package_name": "com.songlib.dev"
         }
       },
       "oauth_client": [
@@ -79,9 +79,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1086992574189:android:49a868a5a442be2c38cee4",
+        "mobilesdk_app_id": "1:1086992574189:android:0e7bf69f0f7fc34c38cee4",
         "android_client_info": {
-          "package_name": "com.songlib.debug"
+          "package_name": "com.songlib.uat"
         }
       },
       "oauth_client": [

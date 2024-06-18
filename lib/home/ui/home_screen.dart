@@ -39,7 +39,7 @@ class HomeScreenState extends State<HomeScreen> {
   }
 }
 
-Future<void> checkPermissions(BuildContext context, AppLocalizations l10n) async {
+Future<void> checkPermissions(BuildContext context) async {
   final PermissionStatus permission = await Permission.storage.status;
   if (permission != PermissionStatus.granted) {
     await Permission.storage.request();
@@ -51,11 +51,12 @@ Future<void> checkPermissions(BuildContext context, AppLocalizations l10n) async
   } else if (permission != PermissionStatus.denied) {
     //showToast(text: 'Permission denied', state: ToastStates.error);
   } else if (permission != PermissionStatus.permanentlyDenied) {
-    showPermanentlyDeniedDialog(context, l10n);
+    showPermanentlyDeniedDialog(context);
   }
 }
 
-Future<void> showPermanentlyDeniedDialog(BuildContext context, AppLocalizations l10n) async {
+Future<void> showPermanentlyDeniedDialog(BuildContext context) async {
+  late AppLocalizations l10n = AppLocalizations.of(context)!;
   showDialog(
     context: context,
     builder: (BuildContext context) {
