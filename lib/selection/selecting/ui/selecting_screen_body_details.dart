@@ -67,7 +67,7 @@ class SelectingScreenBodyDetailsState
             child: Stack(
               children: [
                 state.status == Status.inProgress
-                    ? const BooksLoading()
+                    ? const SkeletonLoading()
                     : (state.status == Status.booksFetched &&
                             state.booksListing.isNotEmpty)
                         ? booksListWidget

@@ -19,6 +19,16 @@ enum Status {
 
   /// Data loaded successfully.
   loaded,
+
+  /// Data filtered successfully.
+  filtered,
+
+  // status specific with this bloc
+  /// App update found.
+  updateFound,
+
+  /// App has been updated.
+  updated,
 }
 
 final class HomeState extends Equatable {
@@ -26,12 +36,14 @@ final class HomeState extends Equatable {
     this.status = Status.initial,
     this.books = const <Book>[],
     this.songs = const <SongExt>[],
+    this.filtered = const <SongExt>[],
     this.feedback = '',
   });
 
   final Status status;
   final List<Book> books;
   final List<SongExt> songs;
+  final List<SongExt> filtered;
   final String feedback;
 
   HomeState copyWith({
@@ -39,16 +51,18 @@ final class HomeState extends Equatable {
     Book? setBook,
     List<Book>? books,
     List<SongExt>? songs,
+    List<SongExt>? filtered,
     String? feedback,
   }) {
     return HomeState(
       status: status ?? this.status,
       books: books ?? this.books,
       songs: songs ?? this.songs,
+      filtered: filtered ?? this.filtered,
       feedback: feedback ?? this.feedback,
     );
   }
 
   @override
-  List<Object> get props => [status, books, songs, feedback];
+  List<Object> get props => [status, books, songs, filtered, feedback];
 }

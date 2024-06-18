@@ -7,7 +7,6 @@ import '../../../common/theme/theme_colors.dart';
 import '../../../common/theme/theme_styles.dart';
 import '../../../common/utils/app_util.dart';
 import '../../../common/utils/logger.dart';
-import '../../../common/widgets/action/base_buttons.dart';
 import '../../../common/widgets/general/list_items.dart';
 import '../../../common/widgets/progress/custom_snackbar.dart';
 import '../../../common/widgets/progress/general_progress.dart';
@@ -25,22 +24,37 @@ class SelectingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AppLocalizations? tr = AppLocalizations.of(context)!;
     return BlocProvider(
       create: (context) {
         return SelectingBloc();
       },
-      child: BlocListener<SelectingBloc, SelectingState>(
-        listener: (context, state) {
-          if (state.status == Status.failure) {
-            CustomSnackbar.show(
-              context,
-              feedbackMessage(state.feedback, tr),
-            );
-          }
-        },
-        child: const SelectingScreenBody(),
-      ),
+      child: const SelectingScreenBody(),
+    );
+  }
+}
+
+Future<void> areYouDoneDialog(
+  SelectingScreenBodyState parent,
+  AppLocalizations l10n,
+  bool isValid,
+) async {
+  if (isValid) {
+    var result = await FlutterPlatformAlert.showCustomAlert(
+      windowTitle: l10n.doneSelecting,
+      text: l10n.doneSelectingBody,
+      iconStyle: IconStyle.information,
+      neutralButtonTitle: l10n.cancel.toUpperCase(),
+      positiveButtonTitle: l10n.proceed.toUpperCase(),
+    );
+    if (result == CustomButton.positiveButton) {
+      parent._bloc.add(SelectingSubmitData(parent.booksSelected));
+    }
+  } else {
+    await FlutterPlatformAlert.showCustomAlert(
+      windowTitle: l10n.noSelection,
+      text: l10n.noSelectionBody,
+      iconStyle: IconStyle.warning,
+      neutralButtonTitle: l10n.okay.toUpperCase(),
     );
   }
 }

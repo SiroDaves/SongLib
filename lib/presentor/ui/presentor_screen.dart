@@ -5,7 +5,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../common/utils/app_util.dart';
 import '../../common/widgets/progress/custom_snackbar.dart';
 import '../../common/widgets/progress/general_progress.dart';
-import '../../data/models/book.dart';
 import '../../data/models/songext.dart';
 import '../bloc/presentor_bloc.dart';
 import 'presentor_mobile.dart';
@@ -14,14 +13,7 @@ part 'presentor_body.dart';
 
 class PresentorScreen extends StatefulWidget {
   final SongExt song;
-  final List<Book> books;
-  final List<SongExt> songs;
-  const PresentorScreen({
-    super.key,
-    required this.song,
-    required this.books,
-    required this.songs,
-  });
+  const PresentorScreen({super.key, required this.song});
 
   @override
   State<PresentorScreen> createState() => PresentorScreenState();

@@ -16,16 +16,16 @@ class PrefConstants {
   static const expiresInKey = 'expires_in';
 
 
-  static const dataIsSelectedKey = 'dataSelected';
-  static const dataIsLoadedKey = 'dataLoaded';
-  static const dateInstalledKey = 'dateInstalled';
-  static const notDraftKey = 'notDraft';
-  static const onboardedCheckKey = 'onBoarded';
-  static const predistinatedBooksKey = 'predestinatedBooks';
-  static const selectedBooksKey = 'selectedBooks';
-  static const slideHorizontalKey = 'slideHorizontal';
-  static const pcHintsKey = 'pcHints';
-  static const uninstallCheckKey = 'uninstallCheck';
-  static const donationCheckKey = 'donationCheck';
-  static const wakeLockCheckKey = 'wakeLockCheck';
+  static const dataIsSelectedKey = 'data_selected';
+  static const dataIsLoadedKey = 'data_loaded';
+  static const dateInstalledKey = 'date_installed';
+  static const notDraftKey = 'not_draft';
+  static const onboardedCheckKey = 'on_boarded';
+  static const predistinatedBooksKey = 'predestinated_books';
+  static const selectedBooksKey = 'selected_books';
+  static const slideHorizontalKey = 'slide_horizontal';
+  static const pcHintsKey = 'pc_hints';
+  static const uninstallCheckKey = 'uninstall_check';
+  static const donationCheckKey = 'donation_check';
+  static const wakeLockCheckKey = 'wake_lock_check';
 }
