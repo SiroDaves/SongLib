@@ -14,11 +14,13 @@ class SongsListState extends State<SongsList> {
   @override
   Widget build(BuildContext context) {
     parent = widget.parent;
+    ScrollController scrollController = ScrollController();
 
     return ListView.builder(
+      controller: scrollController,
+      physics: const ClampingScrollPhysics(),
       shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.only(left: 5, right: 10),
+      padding: const EdgeInsets.only(left: Sizes.xs, right: Sizes.m),
       itemCount: parent.filtered.length + 1,
       itemBuilder: (context, index) {
         if (index == parent.filtered.length) {

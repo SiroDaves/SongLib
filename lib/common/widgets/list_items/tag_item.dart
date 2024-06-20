@@ -3,6 +3,7 @@ import 'package:textstyle_extensions/textstyle_extensions.dart';
 
 import '../../theme/theme_colors.dart';
 import '../../theme/theme_fonts.dart';
+import '../../theme/theme_styles.dart';
 
 class TagItem extends StatelessWidget {
   final String tagText;
@@ -20,7 +21,7 @@ class TagItem extends StatelessWidget {
       if (tagText.isNotEmpty) {
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          margin: EdgeInsets.only(right: height * 0.005),
+          margin: const EdgeInsets.only(right: Sizes.xs),
           decoration: BoxDecoration(
             color: Theme.of(context).brightness == Brightness.light
                 ? ThemeColors.primary

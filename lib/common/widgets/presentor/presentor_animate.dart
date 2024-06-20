@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../theme/theme_colors.dart';
+import '../../theme/theme_styles.dart';
 
 class PresentorIndicator extends StatelessWidget {
   final double? width;
@@ -98,12 +99,19 @@ class PresentorSongBook extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var foreColor = Theme.of(context).brightness == Brightness.light
+        ? ThemeColors.primary
+        : Colors.white;
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.symmetric(vertical: 20),
+      margin: const EdgeInsets.all(Sizes.l),
       child: Text(
-        '  $songbook',
-        style: TextStyle(fontSize: tabsWidth / 2, color: Colors.white),
+        songbook,
+        style: TextStyle(
+          fontSize: tabsWidth / 2,
+          color: foreColor,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }

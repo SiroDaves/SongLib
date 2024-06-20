@@ -73,7 +73,7 @@ class SearchSongItem extends StatelessWidget {
                   color: Theme.of(context).brightness == Brightness.light
                       ? ThemeColors.primary
                       : Colors.white,
-                  height: height * 0.0049),
+                  height: 2),
               const SizedBox(height: 3),
               Text(
                 refineContent(verses[0]),

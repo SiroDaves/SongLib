@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../common/theme/theme_data.dart';
+import '../../common/theme/theme_styles.dart';
 import '../../common/widgets/list_items/search_book_item.dart';
 import '../../common/widgets/list_items/search_song_item.dart';
 import '../../data/models/book.dart';
@@ -67,6 +68,7 @@ class SearchSongs extends SearchDelegate<List> {
       );
     }
 
+    ScrollController scrollController = ScrollController();
     // ignore: unused_local_variable
     var booksList = SizedBox(
       height: 40,
@@ -82,27 +84,37 @@ class SearchSongs extends SearchDelegate<List> {
       children: [
         //booksList,
         Expanded(
-          child: ListView.builder(
-            physics: const ClampingScrollPhysics(),
-            shrinkWrap: true,
-            padding: const EdgeInsets.only(left: 5, right: 10),
-            itemCount: matchQuery.length,
-            itemBuilder: (context, index) {
-              final SongExt result = matchQuery[index];
-              return SearchSongItem(
-                song: result,
-                height: height!,
-                isSearching: true,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PresentorScreen(song: result),
-                    ),
+          child: Container(
+            padding: const EdgeInsets.only(right: Sizes.xs),
+            child: Scrollbar(
+              thickness: Sizes.m,
+              thumbVisibility: true,
+              radius: const Radius.circular(Sizes.sm),
+              controller: scrollController,
+              child: ListView.builder(
+                controller: scrollController,
+                physics: const ClampingScrollPhysics(),
+                shrinkWrap: true,
+                padding: const EdgeInsets.only(left: Sizes.xs, right: Sizes.m),
+                itemCount: matchQuery.length,
+                itemBuilder: (context, index) {
+                  final SongExt result = matchQuery[index];
+                  return SearchSongItem(
+                    song: result,
+                    height: height!,
+                    isSearching: true,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PresentorScreen(song: result),
+                        ),
+                      );
+                    },
                   );
                 },
-              );
-            },
+              ),
+            ),
           ),
         ),
       ],
