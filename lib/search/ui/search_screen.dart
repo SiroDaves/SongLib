@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../common/theme/theme_colors.dart';
+import '../../common/theme/theme_styles.dart';
 import '../../common/widgets/list_items/search_book_item.dart';
 import '../../common/widgets/list_items/search_song_item.dart';
 import '../../common/widgets/progress/skeleton.dart';

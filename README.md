@@ -79,7 +79,7 @@ Follow this guide to set up and run Songlib:
     - **AppTester (Firebase Distribution):**
 
         ```bash
-        flutter build apk --flavor apptester -t lib/main.dart --no-tree-shake-icons
+        flutter build apk --flavor uat -t lib/main_uat.dart --no-tree-shake-icons
         ```
 
     - **Production (For Play Store):**
@@ -88,4 +88,4 @@ Follow this guide to set up and run Songlib:
         flutter build appbundle --flavor prod -t lib/main_prod.dart --no-tree-shake-icons
         ```
 
-Congratulations! You've successfully set up and run or built Songlib. Explore the codebase, make modifications, and contribute to creating a seamless experience for field agents in the insurance industry. Happy coding!
+Congratulations! You've successfully set up and run or built Songlib. Explore the codebase, make modifications, and contribute to creating a seamless experience for the users. Happy coding!

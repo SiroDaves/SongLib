@@ -53,7 +53,7 @@ android {
         compileSdkVersion 34
         multiDexEnabled true
         versionCode 19
-        versionName "0.0.7.5"
+        versionName "0.0.7.61"
     }
 
     signingConfigs {
@@ -93,15 +93,15 @@ android {
             dimension "flavors"
             versionNameSuffix "-uat"
             applicationId "com.songlib.uat"
-            versionCode 25
-            versionName "0.0.7.61"
+            versionCode 26
+            versionName "0.0.7.62"
         }
         prod {
             manifestPlaceholders = [appLabel: "Songlib"]
             dimension "flavors"
             applicationId "com.songlib"
-            versionCode 25
-            versionName "0.0.7.61"
+            versionCode 26
+            versionName "0.0.7.62"
         }
     }
 }
