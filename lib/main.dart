@@ -23,7 +23,7 @@ Future<void> main(List<String> args) async {
   );
   logger('Starting app from main.dart');
   await configureDependencies(Environments.dev);
-  
+
   if (args.firstOrNull == 'multi_window') {
     final windowId = int.parse(args[1]);
     final argument = args[2].isEmpty

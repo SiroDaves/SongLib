@@ -19,6 +19,7 @@ import '../../data/models/basic_model.dart';
 import '../../search/ui/search_screen.dart';
 import '../../search/ui/search_songs.dart';
 import '../../navigator/route_names.dart';
+import '../../settings/ui/settings_screen.dart';
 import '../bloc/home_bloc.dart';
 import 'large_screen/sidebar.dart';
 

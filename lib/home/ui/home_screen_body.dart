@@ -41,6 +41,20 @@ class HomeScreenBodyState extends State<HomeScreenBody> {
     });
   }
 
+  Future<void> openSettingsWindow() async {
+    final window = await DesktopMultiWindow.createWindow(jsonEncode({
+      'args1': 'Sub window',
+      'args2': 100,
+      'args3': true,
+      'business': 'business_test',
+    }));
+    window
+      ..setFrame(const Offset(0, 0) & const Size(360, 720))
+      ..center()
+      ..setTitle('App Settings')
+      ..show();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -62,20 +76,22 @@ class HomeScreenBodyState extends State<HomeScreenBody> {
         Sidebar(
           pageType: setPage,
           onPageSelect: (page) => setState(() => setPage = page),
-          onSettingsSelect: () async {
-            /*final window = await DesktopMultiWindow.createWindow(jsonEncode({
-              'args1': 'Sub window',
-              'args2': 100,
-              'args3': true,
-              'business': 'business_test',
-            }));
-            window
-              ..setFrame(const Offset(0, 0) & const Size(1280, 720))
-              ..center()
-              ..setTitle('Songlib Settings')
-              //..resizable(false)
-              ..show();*/
-            Navigator.pushNamed(context, RouteNames.settings);
+          onSettingsSelect: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return Dialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(Sizes.l),
+                  ),
+                  child: const SizedBox(
+                    height: 350,
+                    width: 500,
+                    child: SettingsScreen(),
+                  ),
+                );
+              },
+            );
           },
         )
             .positioned(left: 0, top: 0, bottom: 0, width: 220, animate: true)
