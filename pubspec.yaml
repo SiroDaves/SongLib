@@ -12,6 +12,8 @@ dependencies:
   context_menus: ^1.0.2
   cupertino_icons: ^1.0.6
   dartx: ^0.7.1
+  desktop_lifecycle: ^0.1.1
+  desktop_multi_window: ^0.2.0
   equatable: ^2.0.5
   firebase_analytics: ^10.8.0
   firebase_core: ^2.24.2

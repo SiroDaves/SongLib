@@ -3,11 +3,11 @@
 
   "appName": "Songlib",
   "listTitle": "Song Lists",
-  "searchTitle": "Song Search",
+  "searchTitle": "Search",
   "likesTitle": "Liked Songs",
   "historiesTitle": "Histories",
   "draftTitle": "Song Drafts",
-  "settingsTitle": "App Settings",
+  "settingsTitle": "Settings",
   "helpdeskTitle": "Help Desk",
   "donateTitle": "How to Donate",
   "merchandiseTitle": "Buy our Merchandise",
