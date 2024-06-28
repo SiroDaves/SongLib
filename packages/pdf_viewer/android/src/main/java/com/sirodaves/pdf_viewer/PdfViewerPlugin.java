@@ -1,4 +1,4 @@
-package com.britam.pdf_viewer;
+package com.sirodaves.pdf_viewer;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
