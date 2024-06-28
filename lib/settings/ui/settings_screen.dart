@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../common/theme/bloc/theme_bloc.dart';
+import '../../common/theme/theme_styles.dart';
 import '../../common/utils/app_util.dart';
 import '../../common/widgets/inputs/radio_input.dart';
 import '../../data/models/book.dart';
@@ -14,7 +15,8 @@ import '../bloc/settings_bloc.dart';
 part 'settings_body.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key});
+  final bool isDialog;
+  const SettingsScreen({super.key, this.isDialog = false});
 
   @override
   State<SettingsScreen> createState() => SettingsScreenState();
@@ -36,7 +38,21 @@ class SettingsScreenState extends State<SettingsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        automaticallyImplyLeading: widget.isDialog,
+        title: const Text('SongLib Settings'),
+        actions: <Widget>[
+          widget.isDialog
+              ? const SizedBox()
+              : Padding(
+                  padding: const EdgeInsets.only(right: Sizes.m),
+                  child: IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+        ],
       ),
       body: BlocProvider(
         create: (context) {

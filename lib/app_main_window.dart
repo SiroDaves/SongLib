@@ -14,15 +14,15 @@ import 'di/injectable.dart';
 import 'navigator/main_navigator.dart';
 import 'navigator/route_names.dart';
 
-class MyApp extends StatefulWidget {
+class AppMainWindow extends StatefulWidget {
   final Widget? home;
-  const MyApp({super.key, this.home});
+  const AppMainWindow({super.key, this.home});
 
   @override
-  State<MyApp> createState() => MyAppState();
+  State<AppMainWindow> createState() => AppMainWindowState();
 }
 
-class MyAppState extends State<MyApp> {
+class AppMainWindowState extends State<AppMainWindow> {
   final navigatorKey = MainNavigatorState.navigationKey;
   NavigatorState get navigator =>
       MainNavigatorState.navigationKey.currentState!;

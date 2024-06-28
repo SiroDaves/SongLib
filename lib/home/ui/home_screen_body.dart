@@ -16,6 +16,11 @@ class HomeScreenBodyState extends State<HomeScreenBody> {
   bool isTabletOrIpad = false;
   List<Widget> homePages = <Widget>[];
 
+  List<PageType> pages = [
+    PageType.search,
+  ];
+  PageType setPage = PageType.search;
+
   @override
   void initState() {
     super.initState();
@@ -36,6 +41,20 @@ class HomeScreenBodyState extends State<HomeScreenBody> {
     });
   }
 
+  Future<void> openSettingsWindow() async {
+    final window = await DesktopMultiWindow.createWindow(jsonEncode({
+      'args1': 'Sub window',
+      'args2': 100,
+      'args3': true,
+      'business': 'business_test',
+    }));
+    window
+      ..setFrame(const Offset(0, 0) & const Size(360, 720))
+      ..center()
+      ..setTitle('App Settings')
+      ..show();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -43,51 +62,77 @@ class HomeScreenBodyState extends State<HomeScreenBody> {
 
     homePages = <Widget>[
       SearchScreen(parent: this),
-      const Center(child: Text('Index 1: Business')),
-      const Center(child: Text('Index 2: School')),
-      const Center(child: Text('Index 3: Settings')),
     ];
+    var mainContentBody = FadingIndexedStack(
+            duration: AppDurations.slow,
+            index: _currentPage,
+            children: homePages)
+        .positioned(left: 220, right: 0, bottom: 0, top: 0, animate: true)
+        .animate(.35.seconds, Curves.bounceIn);
+
+    var largeScreenBody = Stack(
+      children: [
+        mainContentBody,
+        Sidebar(
+          pageType: setPage,
+          onPageSelect: (page) => setState(() => setPage = page),
+          onSettingsSelect: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return Dialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(Sizes.l),
+                  ),
+                  child: const SizedBox(
+                    height: 350,
+                    width: 500,
+                    child: SettingsScreen(),
+                  ),
+                );
+              },
+            );
+          },
+        )
+            .positioned(left: 0, top: 0, bottom: 0, width: 220, animate: true)
+            .animate(.35.seconds, Curves.easeOut)
+      ],
+    );
 
     return bloc.state.status == Status.inProgress
         ? const SkeletonLoading()
         : Scaffold(
-            appBar: AppBar(
-              title: Text(
-                AppConstants.appTitle,
-                style: TextStyles.pageTitle1,
-              ),
-              actions: <Widget>[
-                InkWell(
-                  onTap: () async {
-                    await showSearch(
-                      context: context,
-                      delegate: SearchSongs(context, bloc, size.height),
-                    );
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Icon(Icons.search),
-                  ),
-                ),
-                /*InkWell(
-            onTap: () {},
-            child: const Padding(
-              padding: EdgeInsets.all(10),
-              child: Icon(Icons.help),
-            ),
-          ),*/
-                InkWell(
-                  onTap: () =>
-                      Navigator.pushNamed(context, RouteNames.settings),
-                  child: const Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Icon(Icons.settings),
-                  ),
-                ),
-              ],
-            ),
-            body:
-                SearchScreen(parent: this), //homePages.elementAt(_currentPage),
+            appBar: isMobile
+                ? AppBar(
+                    title: Text(
+                      AppConstants.appTitle,
+                      style: TextStyles.pageTitle1,
+                    ),
+                    actions: <Widget>[
+                      InkWell(
+                        onTap: () async {
+                          await showSearch(
+                            context: context,
+                            delegate: SearchSongs(context, bloc, size.height),
+                          );
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Icon(Icons.search),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () =>
+                            Navigator.pushNamed(context, RouteNames.settings),
+                        child: const Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Icon(Icons.settings),
+                        ),
+                      ),
+                    ],
+                  )
+                : null,
+            body: isMobile ? mainContentBody : largeScreenBody,
             //bottomNavigationBar: HomeScreenBottomNavBar(parent: this),
           );
   }
