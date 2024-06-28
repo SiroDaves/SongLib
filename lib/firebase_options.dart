@@ -47,9 +47,9 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyBxRR1eXRt64WiDzzuk9vj0g54pB0VEpuc',
     appId: '1:726072268756:web:a5b12fd6b1c5d5a16ba841',
     messagingSenderId: '726072268756',
-    projectId: 'britam-agent',
-    authDomain: 'britam-agent.firebaseapp.com',
-    storageBucket: 'britam-agent.appspot.com',
+    projectId: 'sirodaves-agent',
+    authDomain: 'sirodaves-agent.firebaseapp.com',
+    storageBucket: 'sirodaves-agent.appspot.com',
     measurementId: 'G-B1BJVX2PBM',
   );
 
@@ -57,16 +57,16 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyDRaYZK1Z17EyX6braSOLObSDeKbGtW4UU',
     appId: '1:726072268756:android:a670cf5c4e38799b6ba841',
     messagingSenderId: '726072268756',
-    projectId: 'britam-agent',
-    storageBucket: 'britam-agent.appspot.com',
+    projectId: 'sirodaves-agent',
+    storageBucket: 'sirodaves-agent.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyD9QJOd5dlpXd7oTI2KPzMKGxgcS7RxzIs',
     appId: '1:726072268756:ios:a7dff2be3afaa78a6ba841',
     messagingSenderId: '726072268756',
-    projectId: 'britam-agent',
-    storageBucket: 'britam-agent.appspot.com',
+    projectId: 'sirodaves-agent',
+    storageBucket: 'sirodaves-agent.appspot.com',
     iosBundleId: 'com.songlib',
   );
 
@@ -74,8 +74,8 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyD9QJOd5dlpXd7oTI2KPzMKGxgcS7RxzIs',
     appId: '1:726072268756:ios:a7dff2be3afaa78a6ba841',
     messagingSenderId: '726072268756',
-    projectId: 'britam-agent',
-    storageBucket: 'britam-agent.appspot.com',
+    projectId: 'sirodaves-agent',
+    storageBucket: 'sirodaves-agent.appspot.com',
     iosBundleId: 'com.songlib',
   );
 }

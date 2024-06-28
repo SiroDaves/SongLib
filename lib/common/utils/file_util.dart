@@ -49,7 +49,7 @@ Future<String> downloadDir() async {
 }
 
 /// Songlib directory
-Future<String> britamDirx() async {
+Future<String> sirodavesDirx() async {
   Directory directory = Directory('/');
   if (Platform.isMacOS) {
     directory = Directory(

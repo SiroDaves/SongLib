@@ -16,7 +16,7 @@ class CustomSnackbar {
         SnackBar(
           duration: duration,
           backgroundColor:
-              isSuccess ? ThemeColors.green : ThemeColors.britamRed,
+              isSuccess ? ThemeColors.green : ThemeColors.sirodavesRed,
           content: Text(feedback),
         ),
       );

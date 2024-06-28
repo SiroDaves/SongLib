@@ -74,7 +74,7 @@ class _ImageCauroselState extends State<ImageCaurosel> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: currentIndex == entry.key
-                      ? ThemeColors.britamRed
+                      ? ThemeColors.sirodavesRed
                       : ThemeColors.primary),
             ),
           );

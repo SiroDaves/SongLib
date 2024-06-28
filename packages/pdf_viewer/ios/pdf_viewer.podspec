@@ -9,9 +9,9 @@ Pod::Spec.new do |s|
   s.description      = <<-DESC
   Allows you to generate PNG&#x27;s of specified pages from a provided PDF file source.
                          DESC
-  s.homepage         = 'https://britam.com'
+  s.homepage         = 'https://github.com/sirodaves'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'devs' => 'info@britam.com' }
+  s.author           = { 'devs' => 'info@sirodaves.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'

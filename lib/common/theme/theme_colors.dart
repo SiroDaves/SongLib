@@ -13,9 +13,9 @@ class ThemeColors {
   static const shadow = Color(0x1e000000); //black 12%
   static const error = Color(0xFFE30000);
 
-  static const britamRed = Color(0xFFDC3444);
-  static PdfColor britamRedPdf = PdfColor(192, 0, 0, 255);
-  static PdfColor britamBluePdf = PdfColor(34, 65, 97, 255);
+  static const sirodavesRed = Color(0xFFDC3444);
+  static PdfColor sirodavesRedPdf = PdfColor(192, 0, 0, 255);
+  static PdfColor sirodavesBluePdf = PdfColor(34, 65, 97, 255);
   static const whiteGrey = Color(0xFF868B9B);
   static const gray = Color(0xFFEEEEEE);
   static const success = Color(0xff116d5a);
