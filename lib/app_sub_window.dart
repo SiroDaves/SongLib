@@ -19,7 +19,7 @@ class AppSubWindow extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Songlib'),
+          title: const Text('SongLib'),
         ),
         body: Column(
           children: [

@@ -91,12 +91,12 @@ Follow this guide to set up and run SongLib:
     - **Production (For Play Store):**
 
         ```bash
-        flutter build appbundle --flavor prod -t lib/main_prod.dart --no-tree-shake-icons
+        flutter build appbundle --flavor prod -t lib/main.dart --no-tree-shake-icons
         ```
 2. **Windows:**
 
     ```
-    flutter build windows
+    flutter build windows --target=lib/main_prod.dart
     ```
 
 ---

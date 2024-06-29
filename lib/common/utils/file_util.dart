@@ -48,20 +48,20 @@ Future<String> downloadDir() async {
   }
 }
 
-/// Songlib directory
+/// SongLib directory
 Future<String> sirodavesDirx() async {
   Directory directory = Directory('/');
   if (Platform.isMacOS) {
     directory = Directory(
-        '/Users/${Platform.environment['USER']}/Documents/Songlib');
+        '/Users/${Platform.environment['USER']}/Documents/SongLib');
   } else if (Platform.isWindows) {
     directory = Directory(
-        '${Platform.environment['USERPROFILE']}\\Documents\\Songlib');
+        '${Platform.environment['USERPROFILE']}\\Documents\\SongLib');
   } else if (Platform.isLinux) {
     directory = Directory(
-        '/home/${Platform.environment['USER']}/Documents/Songlib');
+        '/home/${Platform.environment['USER']}/Documents/SongLib');
   } else if (Platform.isAndroid) {
-    directory = Directory('/storage/emulated/0/Documents/Songlib');
+    directory = Directory('/storage/emulated/0/Documents/SongLib');
   }
   if (await directory.exists()) {
     //if folder already exists return path

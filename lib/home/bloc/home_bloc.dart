@@ -66,7 +66,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(
           state.copyWith(
             status: Status.updated,
-            feedback: 'Songlib successfully Updated',
+            feedback: 'SongLib successfully Updated',
           ),
         );
       }

@@ -15,10 +15,6 @@ dependencies:
   desktop_lifecycle: ^0.1.1
   desktop_multi_window: ^0.2.0
   equatable: ^2.0.5 
-  firebase_analytics: ^11.1.0
-  firebase_core: ^3.1.1
-  firebase_crashlytics: ^4.0.2
-  firebase_performance: ^0.10.0+2
   floor: ^1.5.0
   flutter:
     sdk: flutter
