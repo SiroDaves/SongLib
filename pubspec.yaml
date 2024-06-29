@@ -1,7 +1,7 @@
 name: songlib
 description: SongLib gives you access to your church songbook/hymns seamlessly that you don't have to worry about even being online once you have set up the app on your device.
 publish_to: 'none'
-version: 0.1.96
+version: 1.0.7
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
@@ -63,7 +63,8 @@ dev_dependencies:
     sdk: flutter
   freezed: ^2.3.5
   injectable_generator: ^2.6.1
-  json_serializable: ^6.7.0 
+  json_serializable: ^6.7.0
+  msix: ^3.16.7
   mockito: ^5.0.15
 
 flutter:
@@ -83,12 +84,11 @@ msix_config:
   publisher_display_name: Jackson Siro
   identity_name: 49927JackonSiro.SongLib-SongsofWorship
   publisher: CN=FF945805-BB5A-4BF1-8668-776816B557C6
-  msix_version: 1.0.0.1
-  logo_path: assets\icon\app_icon.png
+  msix_version: 1.0.7.65
+  logo_path: assets\icons\app_icon.png
   architecture: x64
   capabilities: internetClient
   app_installer:
-    publish_folder_path: D:\Dev\Flutter\Projects\SongLib\build\windows
     hours_between_update_checks: 0
     automatic_background_task: true
     update_blocks_activation: true
