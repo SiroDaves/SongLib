@@ -9,7 +9,7 @@ import '../logger.dart';
 
 class AppConstants {
   AppConstants._();
-  static String dbName = 'Songlib.db';
+  static String dbName = 'SongLib.db';
   static const String editsTable = 'edits';
   static const String draftsTable = 'drafts';
   static const String booksTable = 'books';

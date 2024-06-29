@@ -1,6 +1,6 @@
-# Contributing to the Songlib App
+# Contributing to the SongLib App
 
-Thank you for contributing to our Songlib app! Please follow the guidelines below to ensure a smooth contribution process.
+Thank you for contributing to our SongLib app! Please follow the guidelines below to ensure a smooth contribution process.
 
 ## Branching
 

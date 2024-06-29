@@ -1,7 +1,7 @@
 {
   "@@locale": "en",
 
-  "appName": "Songlib",
+  "appName": "SongLib",
   "listTitle": "Song Lists",
   "searchTitle": "Search",
   "likesTitle": "Liked Songs",
@@ -51,7 +51,7 @@
   "donate": "Donate",
   "proceed": "Proceed",
   "justAMinute": "Just a minute!",
-  "supportSonglib": "Support SongLib",
+  "supportSongLib": "Support SongLib",
   "notificationDialog": "Let's remind you",
   "donationRequest": "Donation Request",
   "donationRequestBody": "SongLib has a lot in the pipelines and will need your support to accomplish that.",

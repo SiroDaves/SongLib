@@ -1,4 +1,4 @@
-# Welcome to Songlib
+# Welcome to SongLib
 
 <a href='https://play.google.com/store/apps/details?id=com.songlib'>
   <img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width='200'/>
@@ -16,7 +16,7 @@
 
 ## Overview
 
-Songlib is a robust mobile solution tailored for our users who need to sing hymns, designed to streamline their operations and enhance productivity. This Flutter-based application facilitates their access to your church songbook/hymns seamlessly that you don't have to worry about even being online once you have set up the app on your device.
+SongLib is a robust mobile solution tailored for our users who need to sing hymns, designed to streamline their operations and enhance productivity. This Flutter-based application facilitates their access to your church songbook/hymns seamlessly that you don't have to worry about even being online once you have set up the app on your device.
 <table>
 <tr>
 <td><img src="screenshots/Droid/image1.png" width="200px" /></td>
@@ -30,16 +30,16 @@ Songlib is a robust mobile solution tailored for our users who need to sing hymn
 
 ## Getting Started
 
-Follow this guide to set up and run Songlib:
+Follow this guide to set up and run SongLib:
 
-### Setting Up Songlib:
+### Setting Up SongLib:
 
 1. **Install Flutter and Dependencies:** Ensure Flutter is installed on your system. Download the Flutter SDK from the official website and set up your preferred IDE (e.g., Android Studio or Visual Studio Code) with the Flutter plugin.
 
-2. **Clone the Repository:** Clone Songlib repository from GitHub using Git:
+2. **Clone the Repository:** Clone SongLib repository from GitHub using Git:
 
     ```bash
-    git clone git@github.com:SiroDaves/SonglibApp.git
+    git clone git@github.com:SiroDaves/SongLibApp.git
     ```
 
 3. **Install Packages:** Navigate to the project directory and run:
@@ -48,7 +48,7 @@ Follow this guide to set up and run Songlib:
     flutter pub get
     ```
 
-### Running Songlib:
+### Running SongLib:
 
 1. **Device Setup:** Connect an emulator or physical device to your development environment. Check connected devices:
 
@@ -56,27 +56,33 @@ Follow this guide to set up and run Songlib:
     flutter devices
     ```
 
-2. **Run the App:** Execute the following command from the project directory:
+2. **Update Dependencies:**
 
+    ```bash
+    flutter pub get
+    ```
+
+3. **Update Code Generated Files:**
+
+    ```bash
+    dart run build_runner build --delete-conflicting-outputs
+    ```
+
+4. **Update Localization Strings:**
+
+    ```bash
+    flutter gen-l10n
+    ```
+5. **Running SongLib:**
     ```bash
     flutter run
     ```
 
-    - **Update Dependencies:**
+### Building SongLib
 
-        ```bash
-        dart run build_runner build --delete-conflicting-outputs
-        ```
+1. **Android:**
 
-    - **Update Localization Strings:**
-
-        ```bash
-        flutter gen-l10n
-        ```
-
-3. **Build the App:**
-
-    - **AppTester (Firebase Distribution):**
+    - **UAT: AppTester (Firebase Distribution):**
 
         ```bash
         flutter build apk --flavor uat -t lib/main_uat.dart --no-tree-shake-icons
@@ -85,7 +91,14 @@ Follow this guide to set up and run Songlib:
     - **Production (For Play Store):**
 
         ```bash
-        flutter build appbundle --flavor prod -t lib/main_prod.dart --no-tree-shake-icons
+        flutter build appbundle --flavor prod -t lib/main.dart --no-tree-shake-icons
         ```
+2. **Windows:**
 
-Congratulations! You've successfully set up and run or built Songlib. Explore the codebase, make modifications, and contribute to creating a seamless experience for the users. Happy coding!
+    ```
+    flutter build windows --target=lib/main_prod.dart
+    ```
+
+---
+
+Congratulations! You've successfully set up and run or built SongLib. Explore the codebase, make modifications, and contribute to creating a seamless experience for the users. Happy coding!

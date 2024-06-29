@@ -5,7 +5,6 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   desktop_lifecycle
   desktop_multi_window
-  firebase_core
   flutter_platform_alert
   permission_handler_windows
   screen_retriever
