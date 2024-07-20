@@ -3,8 +3,6 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-  desktop_lifecycle
-  desktop_multi_window
   flutter_platform_alert
   screen_retriever
   url_launcher_linux

@@ -41,20 +41,6 @@ class HomeScreenBodyState extends State<HomeScreenBody> {
     });
   }
 
-  Future<void> openSettingsWindow() async {
-    final window = await DesktopMultiWindow.createWindow(jsonEncode({
-      'args1': 'Sub window',
-      'args2': 100,
-      'args3': true,
-      'business': 'business_test',
-    }));
-    window
-      ..setFrame(const Offset(0, 0) & const Size(360, 720))
-      ..center()
-      ..setTitle('App Settings')
-      ..show();
-  }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
