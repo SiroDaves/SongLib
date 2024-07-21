@@ -40,6 +40,7 @@ class PresentorBloc extends Bloc<PresentorEvent, PresentorState> {
       songBook: presentor.songBook,
       songTitle: presentor.songTitle,
       hasChorus: presentor.hasChorus,
+      isLiked: event.song.liked,
       songVerses: presentor.songVerses,
       widgetTabs: presentor.widgetTabs,
       widgetContent: presentor.widgetContent,

@@ -52,8 +52,8 @@ android {
         targetSdkVersion 34
         compileSdkVersion 34
         multiDexEnabled true
-        versionCode 19
-        versionName "1.0.7.65"
+        versionCode 28
+        versionName "1.0.7.66"
     }
 
     signingConfigs {
@@ -83,13 +83,13 @@ android {
     flavorDimensions "flavors"
     productFlavors {
         dev {
-            manifestPlaceholders = [appLabel: "SongLib Dev"]
+            manifestPlaceholders = [appLabel: "SonglibDev"]
             dimension "flavors"
             applicationIdSuffix ".dev"
             versionNameSuffix "-dev"
         }
         uat {
-            manifestPlaceholders = [appLabel: "SongLib Uat"]
+            manifestPlaceholders = [appLabel: "SonglibUat"]
             dimension "flavors"
             versionNameSuffix "-uat"
             applicationId "com.songlib.uat"
@@ -111,5 +111,3 @@ flutter {
 }
 
 dependencies {}
-
-apply plugin: 'com.google.gms.google-services'
