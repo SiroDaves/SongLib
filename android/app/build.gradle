@@ -100,8 +100,8 @@ android {
             manifestPlaceholders = [appLabel: "SongLib"]
             dimension "flavors"
             applicationId "com.songlib"
-            versionCode 27
-            versionName "1.0.7.65"
+            versionCode 28
+            versionName "1.0.7.66"
         }
     }
 }
