@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:window_manager/window_manager.dart';
 
 import 'app.dart';
 import 'common/utils/env/flavor_config.dart';
@@ -9,13 +8,6 @@ import 'di/injectable.dart';
 
 Future<void> main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  await windowManager.ensureInitialized();
-  WindowOptions windowOptions = const WindowOptions(center: true);
-  windowManager.waitUntilReadyToShow(windowOptions, () async {
-    await windowManager.show();
-    await windowManager.focus();
-  });
 
   FlavorConfig(
     flavor: Flavor.uat,
