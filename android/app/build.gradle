@@ -1,5 +1,10 @@
 plugins {
     id "com.android.application"
+    // START: FlutterFire Configuration
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.firebase-perf'
+    id 'com.google.firebase.crashlytics'
+    // END: FlutterFire Configuration
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
 }
@@ -100,8 +105,8 @@ android {
             manifestPlaceholders = [appLabel: "SongLib"]
             dimension "flavors"
             applicationId "com.songlib"
-            versionCode 28
-            versionName "1.0.7.66"
+            versionCode 29
+            versionName "1.0.7.67"
         }
     }
 }
