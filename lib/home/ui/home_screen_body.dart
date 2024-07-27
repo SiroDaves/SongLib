@@ -47,12 +47,14 @@ class HomeScreenBodyState extends State<HomeScreenBody> {
     isTabletOrIpad = size.shortestSide > 550;
 
     homePages = <Widget>[
-      SearchScreen(parent: this),
+      const SizedBox(),
+      //SearchScreen(parent: this),
     ];
     var mainContentBody = FadingIndexedStack(
-            duration: AppDurations.slow,
-            index: _currentPage,
-            children: homePages)
+      duration: AppDurations.slow,
+      index: _currentPage,
+      children: homePages,
+    )
         .positioned(left: 220, right: 0, bottom: 0, top: 0, animate: true)
         .animate(.35.seconds, Curves.bounceIn);
 
@@ -118,7 +120,7 @@ class HomeScreenBodyState extends State<HomeScreenBody> {
                     ],
                   )
                 : null,
-            body: isMobile ? mainContentBody : largeScreenBody,
+            body: isMobile ? SearchScreen(parent: this) : largeScreenBody,
             //bottomNavigationBar: HomeScreenBottomNavBar(parent: this),
           );
   }

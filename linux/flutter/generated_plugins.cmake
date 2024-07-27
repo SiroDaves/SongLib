@@ -5,6 +5,7 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   flutter_platform_alert
   screen_retriever
+  sentry_flutter
   url_launcher_linux
   window_manager
 )
