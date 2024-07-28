@@ -3,15 +3,12 @@
 *.log
 *.pyc
 *.swp
-*.exe
 .DS_Store
 .atom/
 .buildlog/
 .history
 .svn/
-.fvm/
 migrate_working_dir/
-.properties
 
 # IntelliJ related
 *.iml
@@ -22,10 +19,7 @@ migrate_working_dir/
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
-.vscode/
-
-# ignore fvm direcotry
-fvm/
+#.vscode/
 
 # Flutter/Dart/Pub related
 **/doc/api/
@@ -33,13 +27,13 @@ fvm/
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
-.packages
 .pub-cache/
 .pub/
 /build/
 *.config.dart
 *.freezed.dart
 *.g.dart
+*.lock
 
 # Symbolication related
 app.*.symbols
@@ -51,3 +45,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+
+# FVM Version Cache
+.fvm/
+.fvmrc
+.vscode/settings.json
