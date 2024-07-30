@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:fluttercon/common/utils/logger.dart';
-import 'package:fluttercon/core/app_extension.dart';
+import 'package:songlib/core/app_extension.dart';
+
+import '../utils/app_util.dart';
 
 class DioInterceptor extends Interceptor {
   @override

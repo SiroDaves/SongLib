@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="dev.flutterconke.fluttercon">
+    package="com.songlib">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <application

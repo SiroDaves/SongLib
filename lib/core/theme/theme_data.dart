@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:fluttercon/core/theme/theme_colors.dart';
+import 'package:songlib/core/theme/theme_colors.dart';
 
 class AppTheme {
   AppTheme._();
@@ -20,6 +20,8 @@ class AppTheme {
         onSurface: Colors.black,
         error: Colors.red,
         onError: Colors.white,
+        background: ThemeColors.blueDroidconColor,
+        onBackground: ThemeColors.blueDroidconColor,
       ),
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.white,
@@ -54,6 +56,8 @@ class AppTheme {
         onSurface: Colors.white,
         error: Colors.red,
         onError: Colors.white,
+        background: ThemeColors.blueDroidconColor,
+        onBackground: ThemeColors.blueDroidconColor,
       ),
       appBarTheme: const AppBarTheme(
         backgroundColor: ThemeColors.greyDarkThemeBackground,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fluttercon/common/widgets/bottom_nav/app_nav_icon.dart';
-import 'package:fluttercon/core/theme/theme_colors.dart';
+import 'package:songlib/common/widgets/bottom_nav/app_nav_icon.dart';
+import 'package:songlib/core/theme/theme_colors.dart';
 
 class UserProfileIcon extends StatefulWidget {
   const UserProfileIcon({super.key});

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart' show DioException, DioExceptionType;
 
-import 'package:fluttercon/common/utils/constants/api_constants.dart';
+import 'package:songlib/common/utils/constants/api_constants.dart';
 
 class DioExceptions implements Exception {
   DioExceptions.fromDioError(DioException dioException) {

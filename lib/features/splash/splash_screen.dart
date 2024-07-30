@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fluttercon/common/utils/constants/app_assets.dart';
-import 'package:fluttercon/core/navigator/route_names.dart';
+
+import '../../common/utils/constants/app_assets.dart';
+import '../../core/navigator/route_names.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

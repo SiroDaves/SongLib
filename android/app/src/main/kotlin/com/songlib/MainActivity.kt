@@ -1,4 +1,4 @@
-package dev.flutterconke.fluttercon
+package com.songlib
 
 import io.flutter.embedding.android.FlutterActivity
 

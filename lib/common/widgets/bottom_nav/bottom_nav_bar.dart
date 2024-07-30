@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fluttercon/common/widgets/bottom_nav/app_nav_icon.dart';
-import 'package:fluttercon/common/widgets/page_item.dart';
-import 'package:fluttercon/core/di/injectable.dart';
-import 'package:fluttercon/core/local_storage.dart';
-import 'package:fluttercon/core/theme/theme_colors.dart';
+import 'package:songlib/common/widgets/bottom_nav/app_nav_icon.dart';
+import 'package:songlib/common/widgets/page_item.dart';
+import 'package:songlib/core/di/injectable.dart';
+import 'package:songlib/core/local_storage.dart';
+import 'package:songlib/core/theme/theme_colors.dart';
 
 /// Custom Bottom Navigation Bar that will handles the page to be displayed on the dashboard
 class CustomBottomNavigationBar extends StatefulWidget {

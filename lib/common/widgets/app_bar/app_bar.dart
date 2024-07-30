@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fluttercon/common/utils/constants/app_assets.dart';
-import 'package:fluttercon/common/widgets/app_bar/feedback_button.dart';
-import 'package:fluttercon/common/widgets/app_bar/user_profile_icon.dart';
-import 'package:fluttercon/core/di/injectable.dart';
-import 'package:fluttercon/core/local_storage.dart';
+import 'package:songlib/common/utils/constants/app_assets.dart';
+import 'package:songlib/common/widgets/app_bar/feedback_button.dart';
+import 'package:songlib/common/widgets/app_bar/user_profile_icon.dart';
+import 'package:songlib/core/di/injectable.dart';
+import 'package:songlib/core/local_storage.dart';
 
 class CustomAppBar extends StatefulWidget {
   const CustomAppBar({required this.selectedIndex, super.key});

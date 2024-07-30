@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:fluttercon/common/network/dio_exception.dart';
-import 'package:fluttercon/core/app_extension.dart';
+import 'package:songlib/core/app_extension.dart';
+
+import 'dio_exception.dart';
 
 abstract mixin class ApiHelper<T> {
   late final T data;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:fluttercon/core/theme/theme_colors.dart';
+import '../../../core/theme/theme_colors.dart';
 
 class OrganizersCard extends StatefulWidget {
   const OrganizersCard({super.key});

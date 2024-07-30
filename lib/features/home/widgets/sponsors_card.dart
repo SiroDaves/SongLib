@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:fluttercon/core/theme/theme_colors.dart';
+import '../../../core/theme/theme_colors.dart';
 
 class SponsorsCard extends StatefulWidget {
   const SponsorsCard({super.key});

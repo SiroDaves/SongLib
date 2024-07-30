@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:fluttercon/common/widgets/text_scale_factor.dart';
-import 'package:fluttercon/core/navigator/main_navigation.dart';
-import 'package:fluttercon/core/navigator/route_names.dart';
-import 'package:fluttercon/features/dashboard/ui/dashboard_screen.dart';
-import 'package:fluttercon/features/splash/splash_screen.dart';
+
+import '../../common/widgets/text_scale_factor.dart';
+import '../../features/dashboard/ui/dashboard_screen.dart';
+import '../../features/splash/splash_screen.dart';
+import 'main_navigation.dart';
+import 'route_names.dart';
 
 part 'main_navigator_state.dart';
 

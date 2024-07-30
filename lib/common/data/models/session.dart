@@ -1,4 +1,4 @@
-import 'package:fluttercon/common/data/models/speaker.dart';
+import 'package:songlib/common/data/models/speaker.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'session.freezed.dart';

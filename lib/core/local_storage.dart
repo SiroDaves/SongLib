@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fluttercon/common/utils/constants/pref_constants.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../common/utils/constants/pref_constants.dart';
 
 /// A class based on Shared Preferences for managing basic stuff like themes
 @singleton

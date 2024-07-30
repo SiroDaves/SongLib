@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch dev",
+      "name": "dev",
       "request": "launch",
       "type": "dart",
       "program": "lib/main_dev.dart",
@@ -18,7 +18,7 @@
       ]
     },
     {
-      "name": "Launch staging",
+      "name": "stg",
       "request": "launch",
       "type": "dart",
       "program": "lib/main_stg.dart",
@@ -31,7 +31,7 @@
       ]
     },
     {
-      "name": "Launch prod",
+      "name": "prod",
       "request": "launch",
       "type": "dart",
       "program": "lib/main_prod.dart",

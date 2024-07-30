@@ -1,24 +1,45 @@
-class FlutterConValues {
-  FlutterConValues({
-    required this.urlScheme,
-    required this.baseDomain,
+import 'package:flutter/material.dart';
+
+enum Flavor { development, staging, production }
+
+class FlavorValues {
+  final bool logNetworkInfo;
+  final bool showFullErrorMessages;
+
+  const FlavorValues({
+    required this.logNetworkInfo,
+    required this.showFullErrorMessages,
   });
-
-  final String urlScheme;
-  final String baseDomain;
-
-  String get baseUrl => '$urlScheme://$baseDomain';
 }
 
-class FlutterConConfig {
-  factory FlutterConConfig({required FlutterConValues values}) {
-    return _instance ??= FlutterConConfig._internal(values);
-  }
+class FlavorConfig {
+  double devicePixelRatio = 1;
+  final Flavor flavor;
+  final String name;
+  final Color color;
+  final FlavorValues values;
+  ThemeMode themeMode;
+  static FlavorConfig? _instance;
 
-  FlutterConConfig._internal(this.values);
+  factory FlavorConfig({
+    required Flavor flavor,
+    required String name,
+    required Color color,
+    required FlavorValues values,
+    ThemeMode themeMode = ThemeMode.system,
+  }) =>
+      _instance =
+          FlavorConfig._internal(flavor, name, color, values, themeMode);
 
-  final FlutterConValues values;
-  static FlutterConConfig? _instance;
+  FlavorConfig._internal(
+      this.flavor, this.name, this.color, this.values, this.themeMode);
 
-  static FlutterConConfig? get instance => _instance;
+  static FlavorConfig get instance => _instance!;
+
+  static bool get hasInstance => _instance != null;
+
+  static bool isProd() =>
+      _instance!.flavor == Flavor.production || _instance!.flavor == Flavor.staging;
+
+  static bool isDev() => _instance!.flavor == Flavor.development;
 }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:fluttercon/common/utils/constants/app_assets.dart';
-import 'package:fluttercon/core/theme/theme_colors.dart';
-import 'package:fluttercon/features/home/widgets/organizers_card.dart';
-import 'package:fluttercon/features/home/widgets/sponsors_card.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../../common/utils/constants/app_assets.dart';
+import '../../../core/theme/theme_colors.dart';
+import '../widgets/organizers_card.dart';
+import '../widgets/sponsors_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

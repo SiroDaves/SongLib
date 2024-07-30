@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttercon/core/di/injectable.dart';
-import 'package:fluttercon/core/local_storage.dart';
-import 'package:fluttercon/core/navigator/main_navigator.dart';
-import 'package:fluttercon/core/theme/bloc/theme_bloc.dart';
-import 'package:fluttercon/core/theme/theme_data.dart';
-import 'package:fluttercon/l10n/l10n.dart';
 import 'package:sizer/sizer.dart';
+
+import 'core/di/injectable.dart';
+import 'core/l10n/l10n.dart';
+import 'core/local_storage.dart';
+import 'core/navigator/main_navigator.dart';
+import 'core/theme/bloc/theme_bloc.dart';
+import 'core/theme/theme_data.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});

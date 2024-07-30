@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fluttercon/common/widgets/bottom_nav/app_nav_icon.dart';
-import 'package:fluttercon/core/theme/theme_colors.dart';
-import 'package:fluttercon/l10n/l10n.dart';
+import 'package:songlib/common/widgets/bottom_nav/app_nav_icon.dart';
+import 'package:songlib/core/theme/theme_colors.dart';
+import 'package:songlib/core/l10n/l10n.dart';
 
 class FeedbackButton extends StatelessWidget {
   const FeedbackButton({required this.selectedIndex, super.key});
