@@ -1,5 +1,14 @@
 class ApiConstants {
   ApiConstants._();
+  /// 'https://songlive.vercel.app/api'
+  static String songliveApi = 'https://songlive.vercel.app/api';
+
+  // basic urls
+  /// books route: '/book'
+  static const String books = '/book';
+  static const String songs = '/song';
+  static const String songsByBook = '/song/book/';
+  
   static const Duration receiveTimeout = Duration(milliseconds: 15000);
   static const Duration connectionTimeout = Duration(milliseconds: 15000);
   static const String users = '/users';
@@ -21,7 +30,7 @@ class ApiConstants {
 
   //Status code
   static const badRequest = 'Bad request';
-  static const unauthorized = 'Unauthorized';
+  static const uninitorized = 'Uninitorized';
   static const forbidden = 'Forbidden';
   static const notFound = 'Not found';
   static const internalServerError = 'Internal server error';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../common/utils/constants/app_assets.dart';
 import '../../../core/theme/theme_colors.dart';
-import '../../home/widgets/organizers_card.dart';
+import '../../search/widgets/organizers_card.dart';
 
 class AboutScreen extends StatefulWidget {
   const AboutScreen({super.key});

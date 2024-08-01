@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../common/widgets/text_scale_factor.dart';
-import '../../features/dashboard/ui/dashboard_screen.dart';
-import '../../features/splash/splash_screen.dart';
+import '../../features/home/ui/home_screen.dart';
+import '../../features/splash/ui/splash_screen.dart';
 import 'main_navigation.dart';
 import 'route_names.dart';
 

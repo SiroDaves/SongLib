@@ -32,7 +32,7 @@ class DioExceptions implements Exception {
       case 400:
         return ApiConstants.badRequest;
       case 401:
-        return ApiConstants.unauthorized;
+        return ApiConstants.uninitorized;
       case 403:
         return ApiConstants.forbidden;
       case 404:

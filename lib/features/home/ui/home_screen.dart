@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
 
-import '../../../common/utils/constants/app_assets.dart';
-import '../../../core/theme/theme_colors.dart';
-import '../widgets/organizers_card.dart';
-import '../widgets/sponsors_card.dart';
+import '../../../common/widgets/app_bar/app_bar.dart';
+import '../../../common/widgets/bottom_nav/bottom_nav_bar.dart';
+import '../../../common/widgets/page_item.dart';
+import '../../about/ui/about_screen.dart';
+import '../../feed/ui/feed_screen.dart';
+import '../../search/ui/search_screen.dart';
+import '../../sessions/ui/sessions_screen.dart';
 
+/// Default Screen to handle all the UIs after the Splash Screen
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -14,89 +17,44 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  PageController pageController = PageController();
+  int selectedPageIndex = 0;
+
+  final List<PageItem> pages = [
+    const PageItem(title: 'Search', icon: 'search', screen: SearchScreen()),
+    const PageItem(title: 'Feed', icon: 'bell', screen: FeedScreen()),
+    const PageItem(title: 'Sessions', icon: 'time', screen: SessionsScreen()),
+    const PageItem(title: 'About', icon: 'flower', screen: AboutScreen()),
+  ];
+
   @override
   void initState() {
     super.initState();
+    selectedPageIndex = pageController.initialPage;
   }
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              const SizedBox(height: 15),
-              Text(
-                'Welcome to the largest Focused Android Developer community in Africa',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: isDark ? Colors.black : Colors.white,
-                      fontSize: 16,
-                    ),
-              ),
-              const SizedBox(height: 15),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.asset(AppAssets.droidconBanner),
-              ),
-              const SizedBox(height: 24),
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: ThemeColors.tealColor,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  children: [
-                    Image.asset(
-                      AppAssets.cfsBanner,
-                      width: 20.w,
-                      height: 10.h,
-                    ),
-                    const Spacer(),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Call for Speakers',
-                          style:
-                              Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                    fontSize: 17.sp,
-                                  ),
-                        ),
-                        Text(
-                          'Apply to be a speakers',
-                          style:
-                              Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.black,
-                                    fontSize: 10.sp,
-                                  ),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                    const ImageIcon(
-                      AssetImage(AppAssets.playIcon),
-                      color: Colors.white,
-                    ),
-                    const Spacer(),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 24),
-              const SponsorsCard(),
-              const SizedBox(height: 24),
-              const OrganizersCard(),
-              const SizedBox(height: 24),
-            ],
-          ),
-        ),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: CustomAppBar(selectedIndex: selectedPageIndex),
+      ),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        selectedIndex: selectedPageIndex,
+        onPageChange: (int index) {
+          setState(() {
+            selectedPageIndex = index;
+            pageController.jumpToPage(index);
+          });
+        },
+        pages: pages,
+      ),
+      body: PageView(
+        controller: pageController,
+        onPageChanged: (index) => setState(() => selectedPageIndex = index),
+        physics: const NeverScrollableScrollPhysics(),
+        children: pages.map<Widget>((item) => item.screen).toList(),
       ),
     );
   }

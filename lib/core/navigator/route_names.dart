@@ -10,6 +10,13 @@ class RouteNames {
 
   // user routes
   static const account = 'account';
-  static const dashboard = 'dashboard';
+
+
+  static const appCheckerx = 'app_checker';
+  static const init = 'init';
+  static const selecting = 'selecting';
+  static const saving = 'saving';
   static const home = 'home';
+  static const search = 'search';
+  static const settings = 'settings';
 }

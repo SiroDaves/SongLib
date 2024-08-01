@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-import '../models/models.dart';
+import '../model/models.dart';
 
 class Repository {
   Repository({required this.dio});
