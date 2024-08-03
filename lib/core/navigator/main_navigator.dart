@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../common/widgets/text_scale_factor.dart';
 import '../../features/home/ui/home_screen.dart';
+import '../../features/selection/saving/ui/saving_screen.dart';
+import '../../features/selection/selecting/ui/selecting_screen.dart';
+import '../../features/settings/ui/settings_screen.dart';
 import '../../features/splash/ui/splash_screen.dart';
 import 'main_navigation.dart';
 import 'route_names.dart';

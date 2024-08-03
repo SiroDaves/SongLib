@@ -1,103 +1,112 @@
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../common/utils/constants/app_assets.dart';
+import '../../../common/data/models/models.dart';
+import '../../../common/widgets/list_items/search_book_item.dart';
+import '../../../common/widgets/list_items/search_song_item.dart';
+import '../../../common/widgets/progress/skeleton.dart';
 import '../../../core/theme/theme_colors.dart';
-import '../widgets/organizers_card.dart';
-import '../widgets/sponsors_card.dart';
+import '../../../core/theme/theme_styles.dart';
+import '../../home/bloc/home_bloc.dart';
+import '../../home/ui/home_screen.dart';
+import '../../presentor/ui/presentor_screen.dart';
+import 'search_songs.dart';
+
+part 'widgets/books_list.dart';
+part 'widgets/fab_widget.dart';
+part 'widgets/songs_list.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  final HomeScreenBodyState parent;
+  const SearchScreen({super.key, required this.parent});
 
   @override
-  State<SearchScreen> createState() => _SearchScreenState();
+  State<SearchScreen> createState() => SearchScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class SearchScreenState extends State<SearchScreen> {
+  late HomeScreenBodyState parent;
+  late HomeBloc bloc;
+
+  int setBook = 0, setSong = 0;
+  int pageSize = 20, currentPage = 0;
+  bool hasMoreData = true;
+  List<SongExt> filtered = [];
+
+  final ScrollController _scrollController = ScrollController();
+  bool _showBackToTopButton = false;
+
   @override
   void initState() {
     super.initState();
+    bloc = context.read<HomeBloc>();
+    _scrollController.addListener(() {
+      if (_scrollController.offset > 200) {
+        if (!_showBackToTopButton) {
+          setState(() => _showBackToTopButton = true);
+        }
+      } else {
+        if (_showBackToTopButton) {
+          setState(() => _showBackToTopButton = false);
+        }
+      }
+    });
+  }
+
+  /// filter songs based on the selected book
+  void filterSongsByBook() {
+    if (!hasMoreData) return;
+    
+    Future.delayed(const Duration(seconds: 2), () {
+      setState(() {
+        final nextPageItems = bloc.state.songs
+            .where((song) => song.book == bloc.state.books[setBook].bookId)
+            .skip(currentPage * pageSize)
+            .take(pageSize)
+            .toList();
+        if (nextPageItems.isEmpty) {
+          hasMoreData = false;
+        } else {
+          filtered.addAll(nextPageItems);
+          currentPage++;
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              const SizedBox(height: 15),
-              Text(
-                'Welcome to the largest Focused Android Developer community in Africa',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: isDark ? Colors.black : Colors.white,
-                      fontSize: 16,
-                    ),
-              ),
-              const SizedBox(height: 15),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.asset(AppAssets.droidconBanner),
-              ),
-              const SizedBox(height: 24),
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: ThemeColors.tealColor,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  children: [
-                    Image.asset(
-                      AppAssets.cfsBanner,
-                      width: 20.w,
-                      height: 10.h,
-                    ),
-                    const Spacer(),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Call for Speakers',
-                          style:
-                              Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                    fontSize: 17.sp,
-                                  ),
-                        ),
-                        Text(
-                          'Apply to be a speakers',
-                          style:
-                              Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.black,
-                                    fontSize: 10.sp,
-                                  ),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                    const ImageIcon(
-                      AssetImage(AppAssets.playIcon),
-                      color: Colors.white,
-                    ),
-                    const Spacer(),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 24),
-              const SponsorsCard(),
-              const SizedBox(height: 24),
-              const OrganizersCard(),
-              const SizedBox(height: 24),
-            ],
+    parent = widget.parent;
+    return BlocConsumer<HomeBloc, HomeState>(
+      bloc: bloc,
+      listener: (context, state) {
+        if (state.status == Status.loaded) {
+          setState(() {
+            setBook = 0;
+            filterSongsByBook();
+          });
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          body: SingleChildScrollView(
+            controller: _scrollController,
+            child: Column(
+              children: <Widget>[
+                BooksList(parent: this),
+                SongsList(parent: this),
+              ],
+            ),
           ),
-        ),
-      ),
+          floatingActionButton: FabWidget(parent: this),
+        );
+      },
     );
   }
 }

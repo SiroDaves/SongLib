@@ -1,12 +1,15 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../common/data/db/app_database.dart';
+import '../../common/data/db/database_repository_impl.dart';
+import '../../common/repository/database_repository.dart';
 import '../../common/utils/app_util.dart';
+import '../../common/utils/constants/app_constants.dart';
 import 'injectable.config.dart';
 
 final getIt = GetIt.instance;
@@ -15,7 +18,6 @@ final getIt = GetIt.instance;
   initializerName: r'initGetIt',
   generateForDir: ['lib'],
 )
-
 Future<void> configureDependencies(String environment) async {
   logger('Using environment: $environment');
   await getIt.initGetIt(environment: environment);
@@ -29,7 +31,14 @@ abstract class RegisterModule {
   Future<SharedPreferences> prefs() => SharedPreferences.getInstance();
 
   @singleton
-  Dio dio() => Dio();
+  @preResolve
+  Future<AppDatabase> provideAppDatabase() async => await $FloorAppDatabase
+      .databaseBuilder(await AppConstants.databaseFile)
+      .build();
+
+  @lazySingleton
+  DatabaseRepository provideDatabaseRepository(AppDatabase appDatabase) =>
+      DatabaseRepositoryImpl(appDatabase);
 }
 
 dynamic _parseAndDecode(String response) => jsonDecode(response);

@@ -93,6 +93,12 @@ class ThemeColors {
         : ThemeColors.kPrimaryDeepOrange;
   }
 
+  static Color bgColorPrimary2(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.light
+        ? ThemeColors.primary
+        : ThemeColors.accent;
+  }
+
   static Color bgColorAccent(BuildContext context) {
     return Theme.of(context).brightness == Brightness.light
         ? ThemeColors.accent
@@ -103,5 +109,10 @@ class ThemeColors {
     return Theme.of(context).brightness == Brightness.light
         ? Colors.white
         : Colors.black;
+  }
+  static Color bgColorWB(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.light
+        ? Colors.black
+        : Colors.white;
   }
 }

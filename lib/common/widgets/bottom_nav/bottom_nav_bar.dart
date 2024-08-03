@@ -94,12 +94,10 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           : null,
       child: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: isDarkTheme ? Colors.black : Colors.white,
+        backgroundColor: ThemeColors.bgColorBW(context),
         currentIndex: widget.selectedIndex,
-        selectedItemColor: ThemeColors.orangeDroidconColor,
-        unselectedItemColor: isDarkTheme
-            ? ThemeColors.greyTextColor
-            : ThemeColors.greyDarkThemeBackground,
+        selectedItemColor: ThemeColors.bgColorPrimary2(context),
+        unselectedItemColor: ThemeColors.bgColorWB(context),
         unselectedLabelStyle: const TextStyle(fontSize: 12),
         selectedLabelStyle: const TextStyle(fontSize: 12),
         onTap: widget.onPageChange,
@@ -113,11 +111,11 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                 page.icon,
                 color: isActive
                     ? isDarkTheme
-                        ? ThemeColors.blueGreenDroidconColor
-                        : ThemeColors.blueDroidconColor
+                        ? ThemeColors.bgColorPrimary2(context)
+                        : ThemeColors.bgColorPrimary2(context)
                     : isDarkTheme
-                        ? ThemeColors.lightGreyTextColor
-                        : ThemeColors.greyTextColor,
+                        ? ThemeColors.bgColorBW(context)
+                        : ThemeColors.bgColorWB(context),
               ),
             ),
           );

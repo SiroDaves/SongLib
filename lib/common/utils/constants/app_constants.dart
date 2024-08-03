@@ -11,8 +11,11 @@ enum ListingType { list, thumbnail }
 class AppConstants {
   AppConstants._();
 
+  static const String playStoreUrl =
+      'https://play.google.com/store/apps/details?id=com.songlib';
+
   static ListingType defaultListingType = ListingType.list;
-  
+
   static String dbName = 'SongLib.db';
   static const String editsTable = 'edits';
   static const String draftsTable = 'drafts';
