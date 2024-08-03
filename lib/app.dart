@@ -1,12 +1,14 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttercon/core/di/injectable.dart';
-import 'package:fluttercon/core/local_storage.dart';
-import 'package:fluttercon/core/navigator/main_navigator.dart';
-import 'package:fluttercon/core/theme/bloc/theme_bloc.dart';
-import 'package:fluttercon/core/theme/theme_data.dart';
-import 'package:fluttercon/l10n/l10n.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sizer/sizer.dart';
+
+import 'core/di/injectable.dart';
+import 'core/l10n/l10n.dart';
+import 'core/local_storage.dart';
+import 'core/navigator/main_navigator.dart';
+import 'core/theme/bloc/theme_bloc.dart';
+import 'core/theme/theme_data.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -22,7 +24,7 @@ class MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    final localStorage = getIt<LocalStorage>();
+    var localStorage = getIt<LocalStorage>();
 
     return BlocProvider(
       create: (context) => ThemeBloc(),
@@ -38,8 +40,13 @@ class MyAppState extends State<MyApp> {
                 navigatorKey: navigatorKey,
                 initialRoute: MainNavigatorState.initialRoute,
                 onGenerateRoute: MainNavigatorState.onGenerateRoute,
-                localizationsDelegates: AppLocalizations.localizationsDelegates,
                 supportedLocales: AppLocalizations.supportedLocales,
+                localizationsDelegates: const [
+                  AppLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
               );
             },
           );

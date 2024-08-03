@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:fluttercon/common/widgets/bottom_nav/app_nav_icon.dart';
-import 'package:fluttercon/common/widgets/page_item.dart';
-import 'package:fluttercon/core/di/injectable.dart';
-import 'package:fluttercon/core/local_storage.dart';
-import 'package:fluttercon/core/theme/theme_colors.dart';
+import 'package:songlib/common/widgets/bottom_nav/app_nav_icon.dart';
+import 'package:songlib/common/widgets/page_item.dart';
+import 'package:songlib/core/di/injectable.dart';
+import 'package:songlib/core/local_storage.dart';
+import 'package:songlib/core/theme/theme_colors.dart';
 
 /// Custom Bottom Navigation Bar that will handles the page to be displayed on the dashboard
 class CustomBottomNavigationBar extends StatefulWidget {
@@ -94,12 +94,10 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           : null,
       child: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: isDarkTheme ? Colors.black : Colors.white,
+        backgroundColor: ThemeColors.bgColorBW(context),
         currentIndex: widget.selectedIndex,
-        selectedItemColor: ThemeColors.orangeDroidconColor,
-        unselectedItemColor: isDarkTheme
-            ? ThemeColors.greyTextColor
-            : ThemeColors.greyDarkThemeBackground,
+        selectedItemColor: ThemeColors.bgColorPrimary2(context),
+        unselectedItemColor: ThemeColors.bgColorWB(context),
         unselectedLabelStyle: const TextStyle(fontSize: 12),
         selectedLabelStyle: const TextStyle(fontSize: 12),
         onTap: widget.onPageChange,
@@ -113,11 +111,11 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                 page.icon,
                 color: isActive
                     ? isDarkTheme
-                        ? ThemeColors.blueGreenDroidconColor
-                        : ThemeColors.blueDroidconColor
+                        ? ThemeColors.bgColorPrimary2(context)
+                        : ThemeColors.bgColorPrimary2(context)
                     : isDarkTheme
-                        ? ThemeColors.lightGreyTextColor
-                        : ThemeColors.greyTextColor,
+                        ? ThemeColors.bgColorBW(context)
+                        : ThemeColors.bgColorWB(context),
               ),
             ),
           );

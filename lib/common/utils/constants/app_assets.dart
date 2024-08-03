@@ -2,7 +2,15 @@ class AppAssets {
   AppAssets._();
 
   // Icons
-  static const assetsIcons = 'assets/icons';
+  static const String assetsIcons = 'assets/icons';
+  static const String appIcon = '$assetsIcons/app_icon.png';
+  static const String imgMessage = '$assetsIcons/messages.png';
+  static const String imgProfile = '$assetsIcons/profile.png';
+  static const String otpIcon = '$assetsIcons/otp.png';
+  static const String imgGraduation = '$assetsIcons/graduation.png';
+  static const String imgCar = '$assetsIcons/car.png';
+  static const String imgCase = '$assetsIcons/case.png';
+  static const String imgTractor = '$assetsIcons/tructor.png';
   static const String iconAndela = '$assetsIcons/andela.png';
   static const String iconAndroid254 = '$assetsIcons/android254.svg';
   static const String iconAppslab = '$assetsIcons/appslab.svg';
@@ -21,6 +29,11 @@ class AppAssets {
 
   // Images
   static const assetsImages = 'assets/images';
+  static const String noImage = '$assetsImages/no-photo.png';
+  static const String imgZeroState = '$assetsImages/empty.png';
+  static const String imgConstruction = '$assetsImages/construction.png';
+  static const String imgBg = '$assetsImages/bg.jpg';
+  static const String imgBgBw = '$assetsImages/bgBW.jpg';
   static const String imgArtboard = '$assetsImages/Artboard_6@3x.png';
   static const String imgArtboardDark = '$assetsImages/Artboard_Dark.png';
   static const String imgDroidcon = '$assetsImages/droidcon.png';

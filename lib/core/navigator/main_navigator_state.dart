@@ -47,10 +47,16 @@ class MainNavigatorState extends State<MainNavigator> with MainNavigationMixin {
       // Auth Screens
       //RouteNames.login: (context) => const LoginScreen(),
       //RouteNames.signup: (context) => const SignupScreen(),
-      //RouteNames.otp: (context) => const OtpScreen(),
+
+      // Init Screens
+      RouteNames.selecting: (context) => const SelectingScreen(),
+      RouteNames.saving: (context) => const SavingScreen(),
 
       // Home Screens
-      RouteNames.dashboard: (context) => const DashboardScreen(),
+      RouteNames.home: (context) => const HomeScreen(),
+
+      // Utilities Screens
+      RouteNames.settings: (context) => const SettingsScreen(),
     };
 
     SplashScreen defaultRoute(context) => const SplashScreen();

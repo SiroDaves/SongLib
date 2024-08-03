@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 
-import 'package:fluttercon/common/data/models/models.dart';
+import '../data/model/models.dart';
+
 
 class Repository {
   Repository({required this.dio});

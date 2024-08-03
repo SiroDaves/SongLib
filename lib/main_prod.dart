@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:fluttercon/app.dart';
-import 'package:fluttercon/bootstrap.dart';
-import 'package:fluttercon/common/utils/env/flavor_config.dart';
-import 'package:fluttercon/core/di/injectable.dart';
+
+import 'app.dart';
+import 'bootstrap.dart';
+import 'common/utils/app_util.dart';
+import 'common/utils/env/environments.dart';
+import 'common/utils/env/flavor_config.dart';
+import 'core/di/injectable.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  FlutterConConfig(
-    values: FlutterConValues(
-      baseDomain: 'api.droidcon.co.ke',
-      urlScheme: 'https',
+  FlavorConfig(
+    flavor: Flavor.production,
+    name: 'PROD',
+    color: Colors.transparent,
+    values: const FlavorValues(
+      logNetworkInfo: false,
+      showFullErrorMessages: false,
     ),
   );
-
-  await configureDependencies();
+  logger('Starting app from main_prod.dart');
+  await configureDependencies(Environments.production);
 
   await bootstrap(() => const MyApp());
 }

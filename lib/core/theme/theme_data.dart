@@ -1,33 +1,37 @@
 import 'package:flutter/material.dart';
 
-import 'package:fluttercon/core/theme/theme_colors.dart';
+import 'theme_colors.dart';
 
 class AppTheme {
   AppTheme._();
 
   static ThemeData lightTheme() {
     return ThemeData(
-      scaffoldBackgroundColor: Colors.white,
+      scaffoldBackgroundColor: ThemeColors.kLightGray,
       colorScheme: const ColorScheme(
         brightness: Brightness.light,
-        primary: ThemeColors.blueDroidconColor,
-        primaryContainer: ThemeColors.blueDroidconColor,
+        primary: ThemeColors.kPrimaryOrange,
+        primaryContainer: ThemeColors.kPrimaryOrange,
         onPrimary: Colors.white,
-        secondary: ThemeColors.blueGreenDroidconColor,
-        secondaryContainer: ThemeColors.blueGreenDroidconColor,
-        onSecondary: Colors.black,
-        surface: Colors.grey,
+        secondary: ThemeColors.kComplementaryOrange,
+        secondaryContainer: ThemeColors.kComplementaryOrange,
+        onSecondary: ThemeColors.kDarkGrayBlack,
+        surface: ThemeColors.kLightGray,
         onSurface: Colors.black,
+        background: Colors.white,
+        onBackground: ThemeColors.kDarkOrange,
         error: Colors.red,
         onError: Colors.white,
       ),
       appBarTheme: const AppBarTheme(
-        backgroundColor: Colors.white,
-        foregroundColor: ThemeColors.blueDroidconColor,
+        foregroundColor: Colors.white,
+        backgroundColor: ThemeColors.kPrimaryOrange,
+        shadowColor: Colors.black,
+        elevation: 3,
       ),
       navigationBarTheme: const NavigationBarThemeData(
         backgroundColor: Colors.white,
-        indicatorColor: ThemeColors.blueDroidconColor,
+        indicatorColor: ThemeColors.accent,
         elevation: 3,
       ),
       pageTransitionsTheme: const PageTransitionsTheme(
@@ -41,28 +45,25 @@ class AppTheme {
 
   static ThemeData darkTheme() {
     return ThemeData(
-      scaffoldBackgroundColor: ThemeColors.greyDarkThemeBackground,
+      scaffoldBackgroundColor: ThemeColors.kMediumGray,
       colorScheme: const ColorScheme(
-        brightness: Brightness.light,
-        primary: ThemeColors.blueDroidconColor,
-        primaryContainer: ThemeColors.blueDroidconColor,
-        onPrimary: Colors.black,
-        secondary: ThemeColors.blueGreenDroidconColor,
-        secondaryContainer: ThemeColors.blueGreenDroidconColor,
-        onSecondary: Colors.white,
+        brightness: Brightness.dark,
+        primary: Colors.white,
+        primaryContainer: Colors.white,
+        onPrimary: Colors.white,
+        secondary: ThemeColors.kLightGrayDarkMode,
+        secondaryContainer: ThemeColors.kLightGrayDarkMode,
+        onSecondary: ThemeColors.kDarkTealBrown,
         surface: Colors.grey,
         onSurface: Colors.white,
+        background: ThemeColors.kMediumGray,
+        onBackground: ThemeColors.kLightGrayDarkMode,
         error: Colors.red,
-        onError: Colors.white,
+        onError: Colors.black,
       ),
       appBarTheme: const AppBarTheme(
-        backgroundColor: ThemeColors.greyDarkThemeBackground,
-        foregroundColor: ThemeColors.blueDroidconColor,
-      ),
-      navigationBarTheme: const NavigationBarThemeData(
         backgroundColor: Colors.black,
-        indicatorColor: ThemeColors.blueDroidconColor,
-        elevation: 3,
+        foregroundColor: Colors.white,
       ),
       pageTransitionsTheme: const PageTransitionsTheme(
         builders: {
