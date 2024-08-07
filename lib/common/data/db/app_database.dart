@@ -4,7 +4,6 @@ import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
 import '../../utils/app_util.dart';
-import '../../utils/constants/app_constants.dart';
 import '../models/models.dart';
 import 'dao/books_dao.dart';
 import 'dao/drafts_dao.dart';
@@ -17,25 +16,33 @@ import 'dao/songs_dao.dart';
 part 'app_database.g.dart';
 
 @Database(
-  version: 1,
-  entities: [Book, Song, Draft, Edit, History, Search, Listed],
-  views: [SongExt, HistoryExt, ListedExt],
+  version: 2,
+  entities: [Book, Draft, Edit, History, Listed, Search, Song],
+  views: [HistoryExt, ListedExt, SongExt],
 )
 abstract class AppDatabase extends FloorDatabase {
   BooksDao get booksDao;
-  SongsDao get songsDao;
-  EditsDao get editsDao;
   DraftsDao get draftsDao;
+  EditsDao get editsDao;
+  HistoriesDao get historiesDao;
   ListedsDao get listedsDao;
   SearchesDao get searchesDao;
-  HistoriesDao get historiesDao;
+  SongsDao get songsDao;
 }
 
-final addViewSongs = Migration(1, 2, (database) async {
-  logger("Migrating songs view");
-  await database.execute("""
-DROP VIEW IF EXISTS `${AppConstants.songsTableViews}`;
-CREATE VIEW IF NOT EXISTS `${AppConstants.songsTableViews}` AS
-  ${AppConstants.songExtSql}
- """);
+final addDraftsListedsTables = Migration(1, 2, (database) async {
+  logger("Add drafts and listeds tables");
+  await database.execute(
+      'CREATE TABLE IF NOT EXISTS `drafts` (`rid` INTEGER PRIMARY KEY AUTOINCREMENT, `songId` INTEGER, `songNo` INTEGER, `title` TEXT, `alias` TEXT, `content` TEXT, `views` INTEGER, `likes` INTEGER, `liked` INTEGER, `created` TEXT, `updated` TEXT)');
+  await database.execute(
+      'CREATE TABLE IF NOT EXISTS `listeds` (`rid` INTEGER PRIMARY KEY AUTOINCREMENT, `parentid` INTEGER, `song` INTEGER, `title` TEXT, `description` TEXT, `position` INTEGER, `created` TEXT, `updated` TEXT)');
 });
+
+final migrations = [addDraftsListedsTables];
+
+Future<AppDatabase> buildInMemoryDatabase() {
+  return $FloorAppDatabase
+      .inMemoryDatabaseBuilder()
+      .addMigrations(migrations)
+      .build();
+}

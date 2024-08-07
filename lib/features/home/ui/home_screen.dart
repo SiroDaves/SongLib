@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -7,16 +5,15 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../../common/utils/app_util.dart';
 import '../../../common/utils/constants/app_constants.dart';
-import '../../../common/utils/env/flavor_config.dart';
-import '../../../common/widgets/bottom_nav/bottom_nav_bar.dart';
+//import '../../../common/widgets/bottom_nav/bottom_nav_bar.dart';
 import '../../../common/widgets/page_item.dart';
 import '../../../core/navigator/route_names.dart';
 import '../../../core/theme/theme_fonts.dart';
-import '../../about/ui/about_screen.dart';
-import '../../feed/ui/feed_screen.dart';
-import '../../search/ui/search_screen.dart';
-import '../../search/ui/search_songs.dart';
-import '../../sessions/ui/sessions_screen.dart';
+import '../../home_drafts/ui/drafts_screen.dart';
+import '../../home_likes/ui/likes_screen.dart';
+import '../../home_lists/ui/lists_screen.dart';
+import '../../home_songs/ui/songs_screen.dart';
+import '../../home_songs/ui/songs_search.dart';
 import '../bloc/home_bloc.dart';
 
 /// Default Screen to handle all the UIs after the Splash Screen
@@ -92,10 +89,25 @@ class HomeScreenBodyState extends State<HomeScreenBody> {
     Size size = MediaQuery.of(context).size;
     final List<PageItem> pages = [
       PageItem(
-          title: 'Search', icon: 'search', screen: SearchScreen(parent: this)),
-      const PageItem(title: 'Feed', icon: 'bell', screen: FeedScreen()),
-      const PageItem(title: 'Sessions', icon: 'time', screen: SessionsScreen()),
-      const PageItem(title: 'About', icon: 'flower', screen: AboutScreen()),
+        title: 'Songs',
+        icon: Icons.search,
+        screen: SongsScreen(parent: this),
+      ),
+      PageItem(
+        title: 'Lists',
+        icon: Icons.list,
+        screen: ListsScreen(parent: this),
+      ),
+      PageItem(
+        title: 'Likes',
+        icon: Icons.favorite,
+        screen: LikesScreen(parent: this),
+      ),
+      PageItem(
+        title: 'Drafts',
+        icon: Icons.edit,
+        screen: DraftsScreen(parent: this),
+      ),
     ];
 
     return Scaffold(
@@ -110,7 +122,7 @@ class HomeScreenBodyState extends State<HomeScreenBody> {
                   onTap: () async {
                     await showSearch(
                       context: context,
-                      delegate: SearchSongs(context, _bloc, size.height),
+                      delegate: SongsSearch(context, _bloc, size.height),
                     );
                   },
                   child: const Padding(

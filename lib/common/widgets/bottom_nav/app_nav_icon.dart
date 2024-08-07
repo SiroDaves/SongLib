@@ -1,31 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class AppNavIcon extends StatelessWidget {
   const AppNavIcon(
-    this.name, {
+    this.icon, {
     super.key,
-    this.semanticsLabel,
-    this.color, // = Colors.black,
+    this.color,
     this.height,
     this.width,
   });
-  final String name;
-  final String? semanticsLabel;
+  final IconData icon;
   final Color? color;
   final double? height;
   final double? width;
 
   @override
   Widget build(BuildContext context) {
-    return SvgPicture.asset(
-      'assets/icons/$name.svg',
-      semanticsLabel: semanticsLabel,
-      colorFilter: color != null
-          ? ColorFilter.mode(color!, BlendMode.srcIn)
-          : ColorFilter.mode(IconTheme.of(context).color!, BlendMode.srcIn),
-      height: height ?? IconTheme.of(context).size,
-      width: width ?? IconTheme.of(context).size,
-    );
+    return Icon(icon, color: color);
   }
 }

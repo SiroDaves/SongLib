@@ -62,7 +62,7 @@ class SelectingScreenBodyDetailsState
               );
 
         return SafeArea(
-          child: Padding(
+          child: Container(
             padding: const EdgeInsets.all(Sizes.xs),
             child: Stack(
               children: [

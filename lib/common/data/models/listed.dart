@@ -2,7 +2,7 @@ import 'package:floor/floor.dart';
 
 import '../../utils/constants/app_constants.dart';
 
-@Entity(tableName: AppConstants.booksTable)
+@Entity(tableName: AppConstants.listedsTable)
 class Listed {
   @PrimaryKey(autoGenerate: true)
   int? rid;

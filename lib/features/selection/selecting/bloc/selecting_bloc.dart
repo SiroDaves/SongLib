@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:injectable/injectable.dart';
 
 import '../../../../common/data/models/models.dart';
 import '../../../../common/repository/database_repository.dart';
@@ -17,7 +16,6 @@ part 'selecting_event.dart';
 part 'selecting_state.dart';
 part 'selecting_bloc.freezed.dart';
 
-@injectable
 class SelectingBloc extends Bloc<SelectingEvent, SelectingState> {
   SelectingBloc() : super(const SelectingState()) {
     on<SelectingBooksFetch>(_onFetchData);
