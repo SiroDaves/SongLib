@@ -5,7 +5,7 @@ import '../../utils/constants/app_constants.dart';
 
 part 'draft.g.dart';
 
-@Entity(tableName: AppConstants.booksTable)
+@Entity(tableName: AppConstants.draftsTable)
 @JsonSerializable()
 class Draft {
   @PrimaryKey(autoGenerate: true)

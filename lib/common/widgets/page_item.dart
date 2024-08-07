@@ -7,6 +7,6 @@ class PageItem {
     required this.screen,
   });
   final String title;
-  final String icon;
+  final IconData icon;
   final Widget screen;
 }
