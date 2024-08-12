@@ -48,12 +48,12 @@ android {
 
     defaultConfig {
         applicationId "com.songlib"
-        minSdkVersion 21
+        minSdkVersion 24
         targetSdkVersion 34
         compileSdkVersion 34
         multiDexEnabled true
-        versionCode 773
-        versionName "1.0.7.73"
+        versionCode 776
+        versionName "1.0.7.76"
     }
 
     signingConfigs {
@@ -79,7 +79,7 @@ android {
             versionCode 765
             versionName "1.0.7.65"
         }
-        development {
+        develop {
             dimension "flavors"
             applicationIdSuffix ".dev"
             manifestPlaceholders = [appName: "Dev SongLib"]

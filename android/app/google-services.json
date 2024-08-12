@@ -79,9 +79,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1086992574189:android:0e7bf69f0f7fc34c38cee4",
+        "mobilesdk_app_id": "1:1086992574189:android:ea9616e9609f28ab38cee4",
         "android_client_info": {
-          "package_name": "com.songlib.uat"
+          "package_name": "com.songlib.stg"
         }
       },
       "oauth_client": [
