@@ -9,7 +9,7 @@ import 'di/injectable.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   FlavorConfig(
-    flavor: Flavor.uat,
+    flavor: Flavor.staging,
     name: 'UAT',
     color: Colors.transparent,
     values: const FlavorValues(
@@ -18,7 +18,7 @@ Future<void> main() async {
     ),
   );
   logger('Starting app from main_uat.dart');
-  await configureDependencies(Environments.uat);
+  await configureDependencies(Environments.staging);
 
   runApp(const MyApp());
 }

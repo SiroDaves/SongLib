@@ -10,7 +10,7 @@ import 'di/injectable.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   FlavorConfig(
-    flavor: Flavor.prod,
+    flavor: Flavor.production,
     name: 'PROD',
     color: Colors.transparent,
     values: const FlavorValues(
@@ -19,7 +19,7 @@ Future<void> main() async {
     ),
   );
   logger('Starting app from main_prod.dart');
-  await configureDependencies(Environments.prod);
+  await configureDependencies(Environments.production);
 
   if (isMobile) {
     //initialize firebase in the prod app

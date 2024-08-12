@@ -79,7 +79,7 @@ Follow this guide to set up and run Songlib:
     - **AppTester (Firebase Distribution):**
 
         ```bash
-        flutter build apk --flavor uat -t lib/main_uat.dart --no-tree-shake-icons
+        flutter build apk --flavor stg -t lib/main_stg.dart --no-tree-shake-icons
         ```
 
     - **Production (For Play Store):**

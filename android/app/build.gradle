@@ -48,21 +48,15 @@ android {
 
     defaultConfig {
         applicationId "com.songlib"
-        minSdkVersion 21
+        minSdkVersion 24
         targetSdkVersion 34
         compileSdkVersion 34
         multiDexEnabled true
-        versionCode 19
-        versionName "0.0.7.61"
+        versionCode 776
+        versionName "1.0.7.76"
     }
 
     signingConfigs {
-        debug {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storePassword keystoreProperties['storePassword']
-            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-        }
         release {
             keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']
@@ -70,6 +64,28 @@ android {
             storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
         }
     }
+
+    flavorDimensions "flavors"
+    productFlavors { 
+        production {
+            dimension "flavors"
+            applicationIdSuffix ""
+            manifestPlaceholders = [appName: "SongLib"]
+        }
+        staging {
+            dimension "flavors"
+            applicationIdSuffix ".stg"
+            manifestPlaceholders = [appName: "Stg SongLib"]
+            versionCode 765
+            versionName "1.0.7.65"
+        }
+        develop {
+            dimension "flavors"
+            applicationIdSuffix ".dev"
+            manifestPlaceholders = [appName: "Dev SongLib"]
+        }
+    }
+
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
@@ -77,31 +93,7 @@ android {
         release {
             minifyEnabled true
             signingConfig signingConfigs.release
-        }
-    }
-
-    flavorDimensions "flavors"
-    productFlavors {
-        dev {
-            manifestPlaceholders = [appLabel: "Songlib Dev"]
-            dimension "flavors"
-            applicationIdSuffix ".dev"
-            versionNameSuffix "-dev"
-        }
-        uat {
-            manifestPlaceholders = [appLabel: "Songlib Uat"]
-            dimension "flavors"
-            versionNameSuffix "-uat"
-            applicationId "com.songlib.uat"
-            versionCode 26
-            versionName "0.0.7.62"
-        }
-        prod {
-            manifestPlaceholders = [appLabel: "Songlib"]
-            dimension "flavors"
-            applicationId "com.songlib"
-            versionCode 26
-            versionName "0.0.7.62"
+            proguardFiles getDefaultProguardFile('proguard-android.txt')
         }
     }
 }

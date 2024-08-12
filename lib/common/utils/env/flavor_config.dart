@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum Flavor { dev, uat, prod }
+enum Flavor { develop, staging, production }
 
 class FlavorValues {
   final bool logNetworkInfo;
@@ -39,7 +39,7 @@ class FlavorConfig {
   static bool get hasInstance => _instance != null;
 
   static bool isProd() =>
-      _instance!.flavor == Flavor.prod || _instance!.flavor == Flavor.uat;
+      _instance!.flavor == Flavor.production || _instance!.flavor == Flavor.staging;
 
-  static bool isDev() => _instance!.flavor == Flavor.dev;
+  static bool isDev() => _instance!.flavor == Flavor.develop;
 }

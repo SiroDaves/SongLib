@@ -9,7 +9,7 @@ import 'di/injectable.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   FlavorConfig(
-    flavor: Flavor.dev,
+    flavor: Flavor.develop,
     name: 'DEV',
     color: Colors.red,
     values: const FlavorValues(
@@ -17,7 +17,7 @@ Future<void> main() async {
       showFullErrorMessages: true,
     ),
   );
-  logger('Starting app from main.dart');
-  await configureDependencies(Environments.dev);
+  logger('Starting app from main_dev.dart');
+  await configureDependencies(Environments.develop);
   runApp(const MyApp());
 }
