@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:styled_widget/styled_widget.dart';
 
-import '../../theme/theme_colors.dart';
+import '../../../core/theme/theme_colors.dart';
 
 class DetailCard extends StatelessWidget {
   final Widget? actionButton;
@@ -63,7 +63,7 @@ class DetailCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
               style:
-                  const TextStyle(fontSize: 12, color: ThemeColors.britamRed),
+                  const TextStyle(fontSize: 12, color: Colors.red),
             ),
             bottomWidget,
           ],

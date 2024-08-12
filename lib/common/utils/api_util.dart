@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:songlib/common/utils/constants/api_constants.dart';
 
-import 'logger.dart';
+import 'app_util.dart';
 
 /// Http get request
 Future<http.Response> makeApiGetRequest(

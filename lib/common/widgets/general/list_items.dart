@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:songlib/common/theme/theme_styles.dart';
 //import 'package:textstyle_extensions/textstyle_extensions.dart';
 //import 'package:timeago/timeago.dart' as timeago;
 
-import '../../../data/models/basic_model.dart';
-import '../../../data/models/book.dart';
 //import '../../theme/theme_colors.dart';
 //import '../../theme/theme_styles.dart';
 //import '../../theme/theme_fonts.dart';
-import '../../theme/theme_colors.dart';
+import '../../../core/theme/theme_colors.dart';
+import '../../../core/theme/theme_styles.dart';
+import '../../data/models/models.dart';
 import '../../utils/app_util.dart';
 
 var locale = 'en';
@@ -25,17 +24,13 @@ class BookItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color selectedColor = Theme.of(context).brightness == Brightness.light
-        ? ThemeColors.primary
-        : ThemeColors.kPrimaryDeepOrange;
-    Color unSelectedColor = Theme.of(context).brightness == Brightness.light
-        ? Colors.white
-        : Colors.grey;
     return Container(
       margin: const EdgeInsets.only(
           bottom: Sizes.xs, left: Sizes.xs, right: Sizes.xs),
       child: Card(
-        color: item.isSelected ? selectedColor : unSelectedColor,
+        color: item.isSelected
+            ? ThemeColors.bgColorPrimary(context)
+            : ThemeColors.bgColorBW(context),
         elevation: 5,
         child: Center(
           child: ListTile(
@@ -46,7 +41,9 @@ class BookItem extends StatelessWidget {
                 item.isSelected
                     ? Icons.check_box
                     : Icons.check_box_outline_blank,
-                color: item.isSelected ? Colors.white : Colors.black,
+                color: item.isSelected
+                    ? Colors.white
+                    : ThemeColors.bgColorWB(context),
               ),
             ),
             title: Padding(
@@ -56,7 +53,9 @@ class BookItem extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: item.isSelected ? Colors.white : Colors.black,
+                  color: item.isSelected
+                      ? Colors.white
+                      : ThemeColors.bgColorWB(context),
                 ),
               ),
             ),
@@ -66,7 +65,9 @@ class BookItem extends StatelessWidget {
                 "${item.data.songs!} ${item.data.subTitle} songs",
                 style: TextStyle(
                   fontSize: 18,
-                  color: item.isSelected ? Colors.white : Colors.black,
+                  color: item.isSelected
+                      ? Colors.white
+                      : ThemeColors.bgColorWB(context),
                 ),
               ),
             ),

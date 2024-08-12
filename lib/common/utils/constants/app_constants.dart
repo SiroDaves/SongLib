@@ -5,11 +5,18 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../app_util.dart';
-import '../logger.dart';
+
+enum ListingType { list, thumbnail }
 
 class AppConstants {
   AppConstants._();
-  static String dbName = 'Songlib.db';
+
+  static const String playStoreUrl =
+      'https://play.google.com/store/apps/details?id=com.songlib';
+
+  static ListingType defaultListingType = ListingType.list;
+
+  static String dbName = 'SongLib.db';
   static const String editsTable = 'edits';
   static const String draftsTable = 'drafts';
   static const String booksTable = 'books';
@@ -46,6 +53,7 @@ class AppConstants {
   static const String listedsTableViews = 'viewlisteds';
   static const String historiesTableViews = 'viewhistories';
 
+  static const fromApp = "\n\nSource: SongLib\nhttps://songlib.vercel.app";
   static const siteLink = "https://songlib.vercel.app/";
   static const applestoreLink = "https://apps.apple.com/app/id6446771305";
   static const playstoreLink =

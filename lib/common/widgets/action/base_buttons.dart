@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:styled_widget/styled_widget.dart';
 
-import '../../theme/theme_colors.dart';
-import '../../theme/theme_fonts.dart';
-import '../../theme/theme_styles.dart';
+import '../../../core/theme/theme_colors.dart';
+import '../../../core/theme/theme_fonts.dart';
+import '../../../core/theme/theme_styles.dart';
 
 class AppButton extends StatefulWidget {
   final String label;
@@ -49,7 +49,7 @@ class AppButton extends StatefulWidget {
     this.borderColor = Colors.white,
     this.foreColor = Colors.black,
     this.hoverColor = ThemeColors.primaryDark,
-    this.downColor = ThemeColors.britamRed,
+    this.downColor = Colors.red,
     this.margin = const EdgeInsets.symmetric(
       horizontal: Sizes.sm,
       vertical: Sizes.xs,

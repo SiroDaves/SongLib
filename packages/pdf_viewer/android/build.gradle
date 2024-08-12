@@ -1,4 +1,4 @@
-group 'com.britam.pdf_viewer'
+group 'com.sirodaves.pdf_viewer'
 version '1.0.7'
 
 buildscript {

@@ -10,13 +10,14 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   FlavorConfig(
     flavor: Flavor.staging,
-    name: 'UAT',
+    name: 'STG',
     color: Colors.transparent,
     values: const FlavorValues(
       logNetworkInfo: false,
       showFullErrorMessages: false,
     ),
   );
+  
   logger('Starting app from main_uat.dart');
   await configureDependencies(Environments.staging);
 

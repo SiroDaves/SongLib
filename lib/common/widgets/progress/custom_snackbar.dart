@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/theme_colors.dart';
+import '../../../core/theme/theme_colors.dart';
 
 class CustomSnackbar {
   static void show(
@@ -16,7 +16,7 @@ class CustomSnackbar {
         SnackBar(
           duration: duration,
           backgroundColor:
-              isSuccess ? ThemeColors.green : ThemeColors.britamRed,
+              isSuccess ? ThemeColors.green : Colors.red,
           content: Text(feedback),
         ),
       );
