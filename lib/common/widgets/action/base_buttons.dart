@@ -49,7 +49,7 @@ class AppButton extends StatefulWidget {
     this.borderColor = Colors.white,
     this.foreColor = Colors.black,
     this.hoverColor = ThemeColors.primaryDark,
-    this.downColor = Colors.red,
+    this.downColor = ThemeColors.britamRed,
     this.margin = const EdgeInsets.symmetric(
       horizontal: Sizes.sm,
       vertical: Sizes.xs,

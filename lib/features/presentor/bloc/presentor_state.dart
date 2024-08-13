@@ -33,7 +33,6 @@ final class PresentorState extends Equatable {
     this.songBook = '',
     this.songTitle = '...',
     this.hasChorus = false,
-    this.isLiked = false,
     this.songVerses = const <String>[],
     this.widgetTabs = const <Tab>[],
     this.widgetContent = const <Widget>[],
@@ -44,7 +43,6 @@ final class PresentorState extends Equatable {
   final String songBook;
   final String songTitle;
   final bool hasChorus;
-  final bool isLiked;
   final List<String> songVerses;
   final List<Tab> widgetTabs;
   final List<Widget> widgetContent;
@@ -55,7 +53,6 @@ final class PresentorState extends Equatable {
     String? songBook,
     String? songTitle,
     bool? hasChorus,
-    bool? isLiked,
     List<String>? songVerses,
     List<Tab>? widgetTabs,
     List<Widget>? widgetContent,
@@ -66,7 +63,6 @@ final class PresentorState extends Equatable {
       songBook: songBook ?? this.songBook,
       songTitle: songTitle ?? this.songTitle,
       hasChorus: hasChorus ?? this.hasChorus,
-      isLiked: isLiked ?? this.isLiked,
       songVerses: songVerses ?? this.songVerses,
       widgetTabs: widgetTabs ?? this.widgetTabs,
       widgetContent: widgetContent ?? this.widgetContent,
@@ -80,7 +76,6 @@ final class PresentorState extends Equatable {
         songBook,
         songTitle,
         hasChorus,
-        isLiked,
         songVerses,
         widgetTabs,
         widgetContent,

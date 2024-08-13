@@ -1,4 +1,4 @@
-export 'basics.dart';
+export 'basic_model.dart';
 export 'book.dart';
 export 'draft.dart';
 export 'edit.dart';

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:textstyle_extensions/textstyle_extensions.dart';
 
 class ThemeFonts {
+
   static const themeFonts = 'TrebuchetMS';
 
   static const title = themeFonts;
@@ -73,8 +74,7 @@ class TextStyles {
 
   static TextStyle get bodyStyle3 => trebuchetMS.size(FontSizes.s12);
 
-  static TextStyle get callOut =>
-      trebuchetMS.size(FontSizes.s20).letterSpace(1.5).bold;
+  static TextStyle get callOut => trebuchetMS.size(FontSizes.s20).letterSpace(1.5).bold;
 
   static TextStyle get callOutFocus => callOut.bold;
 
@@ -95,7 +95,7 @@ class TextStyles {
       const TextStyle(fontWeight: FontWeight.bold, fontSize: 14);
   static TextStyle get titleStyle22 =>
       const TextStyle(fontWeight: FontWeight.bold, fontSize: 22);
-  static TextStyle get titleStyle20 =>
+static TextStyle get titleStyle20 =>
       const TextStyle(fontWeight: FontWeight.bold, fontSize: 20);
 
   static TextStyle get labelStyle16 =>

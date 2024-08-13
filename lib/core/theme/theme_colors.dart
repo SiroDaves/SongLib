@@ -3,21 +3,6 @@ import 'package:pdf/pdf.dart';
 
 class ThemeColors {
   ThemeColors._();
-
-  static const Color lightGrayBackgroundColor = Color(0xffF5F5F5);
-  static const Color blueDroidconColor = Color(0xff000CEB);
-  static const Color orangeDroidconColor = Color(0xffFF6E4D);
-  static const Color greyDarkThemeBackground = Color(0xff20201E);
-  static const Color greyTextColor = Color(0xff707070);
-  static const Color lightGreyTextColor = Color(0xffC3C3C3);
-  static const Color blueGreenDroidconColor = Color(0xff00E2C3);
-
-  static const Color blueColor = Color(0xff000CEB);
-  static const Color orangeColor = Color(0xffFF6E4D);
-  static const Color blackColor = Color(0xff20201E);
-  static const Color tealColor = Color(0xff00E2C3);
-  static const Color lightGrayColor = Color(0xffF5F5F5);
-
   // General colors
   static const black2 = Color(0xFF202124);
   static const grey = Color(0xB3000000); //black 70%
@@ -28,8 +13,9 @@ class ThemeColors {
   static const shadow = Color(0x1e000000); //black 12%
   static const error = Color(0xFFE30000);
 
-  static PdfColor appRedPdf = PdfColor(192, 0, 0, 255);
-  static PdfColor appBluePdf = PdfColor(34, 65, 97, 255);
+  static const britamRed = Color(0xFFDC3444);
+  static PdfColor britamRedPdf = PdfColor(192, 0, 0, 255);
+  static PdfColor britamBluePdf = PdfColor(34, 65, 97, 255);
   static const whiteGrey = Color(0xFF868B9B);
   static const gray = Color(0xFFEEEEEE);
   static const success = Color(0xff116d5a);
@@ -46,18 +32,18 @@ class ThemeColors {
   static const Color trafficRed = Color.fromARGB(255, 246, 0, 1);
   static const Color trafficGreen = Color.fromARGB(255, 0, 247, 0);
 
-
   //supportive theme
   static const primary = Color(0XFFC55A11);
   static const primaryDark = Color(0XFF843C0C);
   static const accent = Color(0XFFF4B183);
+
 
   // Light Mode Colors
   /// Main color for the app, used in branding and key elements
   static const Color kPrimaryOrange = Color(0XFFC55A11);
 
   /// Used for headers and prominent UI elements
-  static const Color kDarkOrange = Color(0xFFF57C00);
+ static  const Color kDarkOrange = Color(0xFFF57C00);
 
   /// Background color for sections like chats
   static const Color kLightGray = Color(0xFFECECEC);
@@ -74,6 +60,7 @@ class ThemeColors {
 
   /// Used for headers and prominent UI elements in dark mode
   static const Color kDeepOrange = Color(0xFFBF360C);
+  
 
   /// Complementary dark color for various UI elements in dark mode
   static const Color kDarkTealBrown = Color(0xFF2C2C2C);
@@ -86,33 +73,4 @@ class ThemeColors {
 
   /// Used for icons and action buttons in dark mode
   static const Color kAccentOrange = Color(0xFFFFB74D);
-
-  static Color bgColorPrimary(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.light
-        ? ThemeColors.primary
-        : ThemeColors.kPrimaryDeepOrange;
-  }
-
-  static Color bgColorPrimary2(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.light
-        ? ThemeColors.primary
-        : ThemeColors.accent;
-  }
-
-  static Color bgColorAccent(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.light
-        ? ThemeColors.accent
-        : ThemeColors.kPrimaryDeepOrange;
-  }
-
-  static Color bgColorBW(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.light
-        ? Colors.white
-        : Colors.black;
-  }
-  static Color bgColorWB(BuildContext context) {
-    return Theme.of(context).brightness == Brightness.light
-        ? Colors.black
-        : Colors.white;
-  }
 }

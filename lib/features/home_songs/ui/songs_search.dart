@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../../common/data/models/models.dart';
-import '../../../common/widgets/list_items/search_book_item.dart';
-import '../../../common/widgets/list_items/search_song_item.dart';
 import '../../../core/theme/theme_data.dart';
 import '../../../core/theme/theme_styles.dart';
-import '../../presentor/ui/presentor_screen.dart';
+import '../../../common/widgets/list_items/search_book_item.dart';
+import '../../../common/widgets/list_items/search_song_item.dart';
+import '../../../common/data/models/models.dart';
 import '../../home/bloc/home_bloc.dart';
+import '../../presentor/ui/presentor_screen.dart';
 import '../utils/search_songs_utils.dart';
 
 /// Small screen search

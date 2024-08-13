@@ -3,15 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_platform_alert/flutter_platform_alert.dart';
 
-import '../../../../common/data/models/models.dart';
+import '../../../../core/theme/theme_colors.dart';
+import '../../../../core/theme/theme_styles.dart';
 import '../../../../common/utils/app_util.dart';
 import '../../../../common/widgets/general/list_items.dart';
 import '../../../../common/widgets/progress/custom_snackbar.dart';
 import '../../../../common/widgets/progress/general_progress.dart';
 import '../../../../common/widgets/progress/skeleton.dart';
+import '../../../../common/data/models/basic_model.dart';
+import '../../../../common/data/models/book.dart';
 import '../../../../core/navigator/route_names.dart';
-import '../../../../core/theme/theme_colors.dart';
-import '../../../../core/theme/theme_styles.dart';
 import '../bloc/selecting_bloc.dart';
 
 part 'selecting_screen_body.dart';

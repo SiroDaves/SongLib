@@ -13,8 +13,6 @@ abstract class DatabaseRepository{
 
   Future<List<SongExt>> fetchSongExts();
 
-  Future<List<SongExt>> fetchLikedSongs();
-
   Future<Song?> findSongById(int rid);
 
   Future<void> saveSong(Song song);

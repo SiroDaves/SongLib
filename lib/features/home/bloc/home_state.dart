@@ -26,6 +26,9 @@ enum Status {
   // status specific with this bloc
   /// App update found.
   updateFound,
+
+  /// App has been updated.
+  updated,
 }
 
 final class HomeState extends Equatable {
@@ -34,22 +37,14 @@ final class HomeState extends Equatable {
     this.books = const <Book>[],
     this.songs = const <SongExt>[],
     this.filtered = const <SongExt>[],
-    this.likes = const <SongExt>[],
-    this.listeds = const <Listed>[],
-    this.drafts = const <Draft>[],
     this.feedback = '',
-    this.update,
   });
 
   final Status status;
   final List<Book> books;
   final List<SongExt> songs;
   final List<SongExt> filtered;
-  final List<SongExt> likes;
-  final List<Listed> listeds;
-  final List<Draft> drafts;
   final String feedback;
-  final dynamic update;
 
   HomeState copyWith({
     Status? status,
@@ -57,26 +52,17 @@ final class HomeState extends Equatable {
     List<Book>? books,
     List<SongExt>? songs,
     List<SongExt>? filtered,
-    List<SongExt>? likes,
-    List<Listed>? listeds,
-    List<Draft>? drafts,
     String? feedback,
-    dynamic update,
   }) {
     return HomeState(
       status: status ?? this.status,
       books: books ?? this.books,
       songs: songs ?? this.songs,
       filtered: filtered ?? this.filtered,
-      likes: likes ?? this.likes,
-      listeds: listeds ?? this.listeds,
-      drafts: drafts ?? this.drafts,
       feedback: feedback ?? this.feedback,
-      update: update ?? this.update,
     );
   }
 
   @override
-  List<Object> get props =>
-      [status, books, songs, filtered, likes, listeds, drafts, feedback];
+  List<Object> get props => [status, books, songs, filtered, feedback];
 }

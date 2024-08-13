@@ -15,9 +15,6 @@ abstract class SongsDao {
   @Query('SELECT * FROM ${AppConstants.songsTableViews}')
   Stream<List<SongExt>> fetchSongExts();
 
-  @Query('SELECT * FROM ${AppConstants.songsTableViews} WHERE liked=true')
-  Stream<List<SongExt>> fetchLikedSongs();
-
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertSong(Song song);
 

@@ -10,15 +10,18 @@ class PresentorIndicator extends StatelessWidget {
   final Animation<double> animation;
 
   const PresentorIndicator({
-    super.key,
+    Key? key,
     required this.width,
     required this.left,
     required this.right,
     required this.animation,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Color bgColor = Theme.of(context).brightness == Brightness.light
+        ? ThemeColors.primary
+        : ThemeColors.kPrimaryDeepOrange;
     return Positioned(
       top: 2,
       bottom: 2,
@@ -33,11 +36,11 @@ class PresentorIndicator extends StatelessWidget {
           ),
         ),
         child: Container(
-          margin: const EdgeInsets.all(2),
           decoration: BoxDecoration(
-            color: ThemeColors.bgColorAccent(context),
-            borderRadius: const BorderRadius.all(
-              Radius.circular(10),
+            color: bgColor,
+            borderRadius: const BorderRadius.only(
+              topRight: Radius.circular(10),
+              bottomLeft: Radius.circular(10),
             ),
           ),
         ),
@@ -54,25 +57,29 @@ class PresentorContent extends StatelessWidget {
   final bool? isSelected;
 
   const PresentorContent({
-    super.key,
+    Key? key,
     required this.width,
     required this.child,
     required this.alignment,
     required this.onTap,
     this.isSelected = false,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Color bgColor = Theme.of(context).brightness == Brightness.light
+        ? ThemeColors.accent
+        : Colors.grey;
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: width,
         margin: const EdgeInsets.all(5),
         decoration: BoxDecoration(
-          color: isSelected! ? Colors.transparent : ThemeColors.bgColorBW(context),
-          borderRadius: const BorderRadius.all(
-            Radius.circular(10),
+          color: isSelected! ? Colors.transparent : bgColor,
+          borderRadius: const BorderRadius.only(
+            topRight: Radius.circular(10),
+            bottomLeft: Radius.circular(10),
           ),
         ),
         alignment: alignment,
@@ -87,10 +94,14 @@ class PresentorSongBook extends StatelessWidget {
   final double tabsWidth;
 
   const PresentorSongBook(
-      {super.key, required this.songbook, required this.tabsWidth});
+      {Key? key, required this.songbook, required this.tabsWidth})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var foreColor = Theme.of(context).brightness == Brightness.light
+        ? ThemeColors.primary
+        : Colors.white;
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.all(Sizes.l),
@@ -98,7 +109,7 @@ class PresentorSongBook extends StatelessWidget {
         songbook,
         style: TextStyle(
           fontSize: tabsWidth / 2,
-          color: Colors.white,
+          color: foreColor,
           fontWeight: FontWeight.bold,
         ),
       ),

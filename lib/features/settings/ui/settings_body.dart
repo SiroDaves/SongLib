@@ -36,7 +36,7 @@ class _SettingsScreenBodyState extends State<SettingsScreenBody> {
   @override
   Widget build(BuildContext context) {
     parent = widget.parent;
-    tr = AppLocalizations.of(context);
+    tr = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
     isTabletOrIpad = size.shortestSide > 550;
 

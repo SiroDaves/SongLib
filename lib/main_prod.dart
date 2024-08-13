@@ -5,16 +5,14 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 
 import 'app.dart';
-import 'bootstrap.dart';
 import 'common/utils/app_util.dart';
-import 'common/utils/env/environments.dart';
 import 'common/utils/env/flavor_config.dart';
+import 'common/utils/env/environments.dart';
 import 'core/di/injectable.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   FlavorConfig(
     flavor: Flavor.production,
     name: 'PROD',
@@ -27,21 +25,19 @@ Future<void> main() async {
   logger('Starting app from main_prod.dart');
   await configureDependencies(Environments.production);
 
-  // Initializes Firebase with default options for the current platform
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // Sets up a global error handler for uncaught "fatal" errors from the framework
+  // Pass all uncaught "fatal" errors from the framework to Crashlytics
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
   };
-
-  // Sets up a global error handler for uncaught asynchronous errors
+  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
   PlatformDispatcher.instance.onError = (error, stack) {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
 
-  await bootstrap(() => const MyApp());
+  runApp(const MyApp());
 }

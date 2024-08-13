@@ -21,7 +21,7 @@ class _SavingScreenBodyState extends State<SavingScreenBody> {
 
   @override
   Widget build(BuildContext context) {
-    AppLocalizations? l10n = AppLocalizations.of(context);
+    AppLocalizations? l10n = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
     double radius = isDesktop ? size.height / 2.5 : size.width / 2.5;
     return BlocConsumer<SavingBloc, SavingState>(
@@ -131,7 +131,7 @@ class _SavingScreenBodyState extends State<SavingScreenBody> {
                         : const SizedBox.shrink(),
                 state.status == Status.failure
                     ? EmptyState(
-                        title: feedbackMessage(state.feedback, l10n),
+                        title: emptyStateMessage(state.feedback, l10n),
                         showRetry: true,
                         onRetry: () => _bloc.add(const SavingSongsFetch()),
                       )

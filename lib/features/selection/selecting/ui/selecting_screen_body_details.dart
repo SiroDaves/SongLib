@@ -29,7 +29,7 @@ class SelectingScreenBodyDetailsState
 
   @override
   Widget build(BuildContext context) {
-    AppLocalizations? tr = AppLocalizations.of(context);
+    AppLocalizations? tr = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
     bool isTabletOrIpad = size.shortestSide > 550;
 
@@ -62,7 +62,7 @@ class SelectingScreenBodyDetailsState
               );
 
         return SafeArea(
-          child: Container(
+          child: Padding(
             padding: const EdgeInsets.all(Sizes.xs),
             child: Stack(
               children: [

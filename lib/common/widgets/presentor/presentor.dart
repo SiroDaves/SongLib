@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/theme/theme_colors.dart';
 import '../../utils/app_util.dart';
 
 class PresentorInfo extends StatelessWidget {
@@ -8,23 +7,20 @@ class PresentorInfo extends StatelessWidget {
   final double fontSize;
 
   const PresentorInfo({
-    super.key,
+    Key? key,
     required this.info,
     required this.fontSize,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Color foreColor = Theme.of(context).brightness == Brightness.light
-        ? ThemeColors.primary
-        : Colors.white;
     return Tab(
       child: Center(
         child: Text(
           info,
-          style: TextStyle(
-            fontSize: 25,
-            color: foreColor,
+          style: const TextStyle(
+            fontSize: 20,
+            color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -39,11 +35,11 @@ class PresentorText extends StatelessWidget {
   final Function()? onLongPress;
 
   const PresentorText({
-    super.key,
+    Key? key,
     required this.lyrics,
     this.onDoubleTap,
     this.onLongPress,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -53,11 +49,6 @@ class PresentorText extends StatelessWidget {
       size.height - 500,
       size.width,
     );
-
-    var bgColor = Theme.of(context).brightness == Brightness.light
-        ? Colors.white
-        : Colors.black;
-
     return GestureDetector(
       onDoubleTap: onDoubleTap,
       onLongPress: onLongPress,
@@ -66,8 +57,6 @@ class PresentorText extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         child: Card(
           elevation: 5,
-          shadowColor: Colors.black,
-          color: bgColor,
           child: Center(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),

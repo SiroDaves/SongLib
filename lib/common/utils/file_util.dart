@@ -48,20 +48,20 @@ Future<String> downloadDir() async {
   }
 }
 
-/// SongLib directory
-Future<String> sirodavesDirx() async {
+/// Songlib directory
+Future<String> britamDirx() async {
   Directory directory = Directory('/');
   if (Platform.isMacOS) {
     directory = Directory(
-        '/Users/${Platform.environment['USER']}/Documents/SongLib');
+        '/Users/${Platform.environment['USER']}/Documents/Songlib');
   } else if (Platform.isWindows) {
     directory = Directory(
-        '${Platform.environment['USERPROFILE']}\\Documents\\SongLib');
+        '${Platform.environment['USERPROFILE']}\\Documents\\Songlib');
   } else if (Platform.isLinux) {
     directory = Directory(
-        '/home/${Platform.environment['USER']}/Documents/SongLib');
+        '/home/${Platform.environment['USER']}/Documents/Songlib');
   } else if (Platform.isAndroid) {
-    directory = Directory('/storage/emulated/0/Documents/SongLib');
+    directory = Directory('/storage/emulated/0/Documents/Songlib');
   }
   if (await directory.exists()) {
     //if folder already exists return path

@@ -63,7 +63,7 @@ class DetailCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
               style:
-                  const TextStyle(fontSize: 12, color: Colors.red),
+                  const TextStyle(fontSize: 12, color: ThemeColors.britamRed),
             ),
             bottomWidget,
           ],

@@ -7,6 +7,7 @@ class AppTheme {
 
   static ThemeData lightTheme() {
     return ThemeData(
+      //fontFamily: ThemeFonts.lato,
       scaffoldBackgroundColor: ThemeColors.kLightGray,
       colorScheme: const ColorScheme(
         brightness: Brightness.light,
@@ -24,8 +25,8 @@ class AppTheme {
         onError: Colors.white,
       ),
       appBarTheme: const AppBarTheme(
-        foregroundColor: Colors.white,
-        backgroundColor: ThemeColors.kPrimaryOrange,
+        backgroundColor: Colors.white,
+        foregroundColor: ThemeColors.kPrimaryOrange,
         shadowColor: Colors.black,
         elevation: 3,
       ),
@@ -34,18 +35,20 @@ class AppTheme {
         indicatorColor: ThemeColors.accent,
         elevation: 3,
       ),
-      pageTransitionsTheme: const PageTransitionsTheme(
-        builders: {
-          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-          TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
-        },
-      ),
+      /*pageTransitionsTheme: PageTransitionsTheme(
+      builders: {
+        TargetPlatform.iOS: const CupertinoPageTransitionsBuilder(),
+        TargetPlatform.android: isInTest
+            ? const FadeUpwardsPageTransitionsBuilder()
+            : BaseThemeData.getCorrectPageTransitionBuilder(OsInfo.instance),
+      },
+    ),*/
     );
   }
 
   static ThemeData darkTheme() {
     return ThemeData(
-      scaffoldBackgroundColor: ThemeColors.kMediumGray,
+      //fontFamily: ThemeFonts.lato,
       colorScheme: const ColorScheme(
         brightness: Brightness.dark,
         primary: Colors.white,
@@ -65,11 +68,9 @@ class AppTheme {
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
       ),
-      pageTransitionsTheme: const PageTransitionsTheme(
-        builders: {
-          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-          TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
-        },
+      navigationBarTheme: const NavigationBarThemeData(
+        backgroundColor: Colors.black,
+        indicatorColor: ThemeColors.accent,
       ),
     );
   }

@@ -45,12 +45,6 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
-  Future<List<SongExt>> fetchLikedSongs() async {
-    final Stream<List<SongExt>> streams = _appDatabase.songsDao.fetchLikedSongs();
-    return await streams.first;
-  }
-
-  @override
   Future<void> removeSong(Song song) async {
     return _appDatabase.songsDao.deleteSong(song);
   }

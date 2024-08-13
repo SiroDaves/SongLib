@@ -5,11 +5,11 @@ import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../common/utils/app_util.dart';
+import '../../common/utils/constants/app_constants.dart';
 import '../../common/data/db/app_database.dart';
 import '../../common/data/db/database_repository_impl.dart';
 import '../../common/repository/database_repository.dart';
-import '../../common/utils/app_util.dart';
-import '../../common/utils/constants/app_constants.dart';
 import 'injectable.config.dart';
 
 final getIt = GetIt.instance;
@@ -28,13 +28,12 @@ Future<void> configureDependencies(String environment) async {
 abstract class RegisterModule {
   @singleton
   @preResolve
-  Future<SharedPreferences> prefs() => SharedPreferences.getInstance();
+  Future<SharedPreferences> localStorage() => SharedPreferences.getInstance();
 
   @singleton
   @preResolve
   Future<AppDatabase> provideAppDatabase() async => await $FloorAppDatabase
       .databaseBuilder(await AppConstants.databaseFile)
-      .addMigrations(migrations)
       .build();
 
   @lazySingleton

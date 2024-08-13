@@ -20,7 +20,7 @@ class SongsListState extends State<SongsList> {
       controller: scrollController,
       physics: const ClampingScrollPhysics(),
       shrinkWrap: true,
-      padding: const EdgeInsets.symmetric(horizontal: Sizes.xs),
+      padding: const EdgeInsets.only(left: Sizes.xs, right: Sizes.m),
       itemCount: parent.filtered.length + 1,
       itemBuilder: (context, index) {
         if (index == parent.filtered.length) {

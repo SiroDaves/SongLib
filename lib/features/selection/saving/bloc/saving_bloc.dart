@@ -3,19 +3,21 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 
-import '../../../../common/data/models/song.dart';
-import '../../../../common/repository/database_repository.dart';
 import '../../../../common/utils/app_util.dart';
 import '../../../../common/utils/constants/pref_constants.dart';
+import '../../../../common/data/models/song.dart';
+import '../../../../common/repository/database_repository.dart';
+import '../../../../common/repository/local_storage.dart';
 import '../../../../core/di/injectable.dart';
-import '../../../../core/local_storage.dart';
 import '../../common/domain/selection_repository.dart';
 
 part 'saving_event.dart';
 part 'saving_state.dart';
 part 'saving_bloc.freezed.dart';
 
+@injectable
 class SavingBloc extends Bloc<SavingEvent, SavingState> {
   SavingBloc() : super(const SavingState()) {
     on<SavingSongsFetch>(_onFetchData);

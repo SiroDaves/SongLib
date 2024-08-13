@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../common/data/models/models.dart';
+import '../../../core/theme/theme_colors.dart';
+import '../../../core/theme/theme_styles.dart';
 import '../../../common/widgets/list_items/search_book_item.dart';
 import '../../../common/widgets/list_items/search_song_item.dart';
 import '../../../common/widgets/progress/skeleton.dart';
-import '../../../core/theme/theme_colors.dart';
-import '../../../core/theme/theme_styles.dart';
+import '../../../common/data/models/book.dart';
+import '../../../common/data/models/songext.dart';
 import '../../home/bloc/home_bloc.dart';
 import '../../home/ui/home_screen.dart';
 import '../../presentor/ui/presentor_screen.dart';
