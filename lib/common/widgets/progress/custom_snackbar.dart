@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/theme_colors.dart';
+import '../../../core/theme/theme_colors.dart';
 
 class CustomSnackbar {
   static void show(

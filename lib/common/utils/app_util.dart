@@ -2,12 +2,19 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+import 'dart:developer' as logging show log;
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 bool isDesktop = Platform.isWindows || Platform.isLinux || Platform.isMacOS;
 bool isMobile = Platform.isAndroid || Platform.isIOS || Platform.isFuchsia;
+
+void logger(String message) {
+  return logging.log('''
+$message
+  ''');
+}
 
 String getThemeModeString(ThemeMode themeMode) {
   switch (themeMode) {

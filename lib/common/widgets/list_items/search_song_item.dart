@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:textstyle_extensions/textstyle_extensions.dart';
 
-import '../../../data/models/songext.dart';
-import '../../theme/theme_colors.dart';
-import '../../theme/theme_fonts.dart';
-import '../../theme/theme_styles.dart';
+import '../../data/models/songext.dart';
+import '../../../core/theme/theme_colors.dart';
+import '../../../core/theme/theme_fonts.dart';
+import '../../../core/theme/theme_styles.dart';
 import '../../utils/app_util.dart';
 import 'tag_item.dart';
 

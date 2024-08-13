@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/theme_colors.dart';
-import '../../theme/theme_styles.dart';
+import '../../../core/theme/theme_colors.dart';
+import '../../../core/theme/theme_styles.dart';
 
 class PresentorIndicator extends StatelessWidget {
   final double? width;

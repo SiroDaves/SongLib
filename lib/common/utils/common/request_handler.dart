@@ -1,7 +1,7 @@
 import 'package:http/http.dart';
 
 import '../../widgets/general/toast.dart';
-import '../logger.dart';
+import '../app_util.dart';
 
 class RequestHandler {
   Future<void> postRequestHandler(Future<Response> api, String successMessage,
