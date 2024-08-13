@@ -34,6 +34,7 @@ abstract class RegisterModule {
   @preResolve
   Future<AppDatabase> provideAppDatabase() async => await $FloorAppDatabase
       .databaseBuilder(await AppConstants.databaseFile)
+      .addMigrations(migrations)
       .build();
 
   @lazySingleton

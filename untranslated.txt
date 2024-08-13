@@ -1,0 +1,26 @@
+{
+  "sw": [
+    "feedback",
+    "appName",
+    "openSettings",
+    "supportSongLib",
+    "hintsCurrentUpdate",
+    "hintsCurrentUpdateText",
+    "donationRequestReminder",
+    "labelError0",
+    "labelError404",
+    "labelError500",
+    "labelError504",
+    "labelError999",
+    "labelError1000",
+    "labelFeedback0",
+    "labelFeedback404",
+    "labelFeedback500",
+    "labelFeedback504",
+    "labelFeedback999",
+    "labelFeedback1000",
+    "labelPermissionTitle",
+    "labelPermissionText",
+    "misc"
+  ]
+}

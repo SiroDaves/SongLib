@@ -24,7 +24,7 @@ class HomeScreenBodyState extends State<HomeScreenBody> {
     if (isMobile) {
       checkPermissions(context);
       if (FlavorConfig.isProd()) {
-        bloc.add(const HomeCheckUpdates());
+        //bloc.add(const HomeCheckVersion());
       }
     }
     bloc.add(const HomeFetchData());
