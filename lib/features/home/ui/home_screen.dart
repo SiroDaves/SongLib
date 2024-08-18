@@ -3,18 +3,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../../common/data/models/basic_model.dart';
+import '../../../common/widgets/action/bottom_nav_bar.dart';
 import '../../../core/theme/theme_fonts.dart';
 import '../../../common/utils/app_util.dart';
 import '../../../common/utils/constants/app_constants.dart';
 import '../../../common/utils/env/flavor_config.dart';
-import '../../../common/widgets/progress/skeleton.dart';
 import '../../../core/navigator/route_names.dart';
+import '../../home_likes/ui/likes_screen.dart';
 import '../../home_songs/ui/songs_screen.dart';
 import '../../home_songs/ui/songs_search.dart';
 import '../bloc/home_bloc.dart';
 
 part 'home_screen_body.dart';
-part 'mobile/home_screen_bottom_navbar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

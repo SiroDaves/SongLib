@@ -17,7 +17,15 @@ part 'app_database.g.dart';
 
 @Database(
   version: 2,
-  entities: [Book, Draft, Edit, History, Listed, Search, Song],
+  entities: [
+    Book,
+    Draft,
+    Edit,
+    History,
+    Listed,
+    Search,
+    Song,
+  ],
   views: [HistoryExt, ListedExt, SongExt],
 )
 abstract class AppDatabase extends FloorDatabase {
@@ -33,9 +41,11 @@ abstract class AppDatabase extends FloorDatabase {
 final addDraftsListedsTables = Migration(1, 2, (database) async {
   logger("Add drafts and listeds tables");
   await database.execute(
-      'CREATE TABLE IF NOT EXISTS `drafts` (`rid` INTEGER PRIMARY KEY AUTOINCREMENT, `songId` INTEGER, `songNo` INTEGER, `title` TEXT, `alias` TEXT, `content` TEXT, `views` INTEGER, `likes` INTEGER, `liked` INTEGER, `created` TEXT, `updated` TEXT)');
+    'CREATE TABLE IF NOT EXISTS `drafts` (`rid` INTEGER PRIMARY KEY AUTOINCREMENT, `songId` INTEGER, `songNo` INTEGER, `title` TEXT, `alias` TEXT, `content` TEXT, `views` INTEGER, `likes` INTEGER, `liked` INTEGER, `created` TEXT, `updated` TEXT)',
+  );
   await database.execute(
-      'CREATE TABLE IF NOT EXISTS `listeds` (`rid` INTEGER PRIMARY KEY AUTOINCREMENT, `parentid` INTEGER, `song` INTEGER, `title` TEXT, `description` TEXT, `position` INTEGER, `created` TEXT, `updated` TEXT)');
+    'CREATE TABLE IF NOT EXISTS `listeds` (`rid` INTEGER PRIMARY KEY AUTOINCREMENT, `parentid` INTEGER, `song` INTEGER, `title` TEXT, `description` TEXT, `position` INTEGER, `created` TEXT, `updated` TEXT)',
+  );
 });
 
 final migrations = [addDraftsListedsTables];

@@ -4,7 +4,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:in_app_update/in_app_update.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../common/utils/env/flavor_config.dart';
@@ -21,35 +20,21 @@ part 'home_bloc.freezed.dart';
 @injectable
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc() : super(const HomeState()) {
-    on<HomeCheckUpdates>(_onCheckUpdates);
-    on<HomeUpdateApp>(_onUpdateApp);
-    on<HomeFetchData>(_onFetch);
+    on<HomeCheckVersion>(_onCheckVersion);
+    on<HomeFetchData>(_onFetchData);
     on<HomeSortByBook>(_onSortByBook);
   }
 
   final _dbRepo = getIt<DatabaseRepository>();
+  //final _homeRepo = HomeRepository();
 
-  Future<void> _onCheckUpdates(
-    HomeCheckUpdates event,
+  void _onCheckVersion(
+    HomeCheckVersion event,
     Emitter<HomeState> emit,
   ) async {
     emit(state.copyWith(status: Status.inProgress));
     if (FlavorConfig.isProd()) {
-      try {
-        await InAppUpdate.checkForUpdate().then((updateInfo) {
-          if (updateInfo.updateAvailability ==
-              UpdateAvailability.updateAvailable) {
-            emit(
-              state.copyWith(
-                status: Status.updateFound,
-                feedback: 'There is a new app update',
-              ),
-            );
-          } else {
-            emit(state.copyWith(status: Status.success, feedback: ''));
-          }
-        });
-      } catch (e) {
+      try {} catch (e) {
         emit(state.copyWith(status: Status.success, feedback: ''));
       }
     } else {
@@ -57,31 +42,23 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
   }
 
-  Future<void> _onUpdateApp(
-    HomeUpdateApp event,
-    Emitter<HomeState> emit,
-  ) async {
-    InAppUpdate.performImmediateUpdate().then((appUpdateResult) {
-      if (appUpdateResult == AppUpdateResult.success) {
-        emit(
-          state.copyWith(
-            status: Status.updated,
-            feedback: 'Songlib successfully Updated',
-          ),
-        );
-      }
-    });
-  }
-
-  Future<void> _onFetch(
+  Future<void> _onFetchData(
     HomeFetchData event,
     Emitter<HomeState> emit,
   ) async {
     emit(state.copyWith(status: Status.inProgress));
     var books = await _dbRepo.fetchBooks();
     var songs = await _dbRepo.fetchSongExts();
+    var likes = await _dbRepo.fetchLikedSongs();
 
-    emit(state.copyWith(status: Status.loaded, books: books, songs: songs));
+    emit(
+      state.copyWith(
+        status: Status.loaded,
+        books: books,
+        songs: songs,
+        likes: likes,
+      ),
+    );
   }
 
   Future<void> _onSortByBook(
