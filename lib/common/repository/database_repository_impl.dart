@@ -1,6 +1,6 @@
-import '../../repository/database_repository.dart';
-import '../models/models.dart';
-import 'app_database.dart';
+import 'database_repository.dart';
+import '../data/models/models.dart';
+import '../data/db/app_database.dart';
 
 /// Implementor of Database Repository
 class DatabaseRepositoryImpl implements DatabaseRepository {

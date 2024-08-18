@@ -99,6 +99,9 @@ class SongsScreenState extends State<SongsScreen> {
         }
       },
       builder: (context, state) {
+        if (state.status == Status.inProgress){
+          return const SkeletonLoading();
+        }
         return Scaffold(
           body: SingleChildScrollView(
             controller: _scrollController,

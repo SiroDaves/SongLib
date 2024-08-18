@@ -9,7 +9,6 @@ import '../../../core/theme/theme_fonts.dart';
 import '../../../common/utils/app_util.dart';
 import '../../../common/utils/constants/app_constants.dart';
 import '../../../common/utils/env/flavor_config.dart';
-import '../../../common/widgets/progress/skeleton.dart';
 import '../../../core/navigator/route_names.dart';
 import '../../home_likes/ui/likes_screen.dart';
 import '../../home_songs/ui/songs_screen.dart';
