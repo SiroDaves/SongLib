@@ -3,29 +3,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/theme/theme_colors.dart';
 import '../../../core/theme/theme_styles.dart';
-import '../../../common/widgets/list_items/search_book_item.dart';
 import '../../../common/widgets/list_items/search_song_item.dart';
 import '../../../common/widgets/progress/skeleton.dart';
-import '../../../common/data/models/book.dart';
 import '../../../common/data/models/songext.dart';
 import '../../home/bloc/home_bloc.dart';
 import '../../home/ui/home_screen.dart';
 import '../../presentor/ui/presentor_screen.dart';
-import 'songs_search.dart';
+import 'likes_search.dart';
 
-part 'widgets/books_list.dart';
 part 'widgets/fab_widget.dart';
-part 'widgets/songs_list.dart';
+part 'widgets/likes_list.dart';
 
-class SongsScreen extends StatefulWidget {
+class LikesScreen extends StatefulWidget {
   final HomeScreenBodyState parent;
-  const SongsScreen({super.key, required this.parent});
+  const LikesScreen({super.key, required this.parent});
 
   @override
-  State<SongsScreen> createState() => SongsScreenState();
+  State<LikesScreen> createState() => LikesScreenState();
 }
 
-class SongsScreenState extends State<SongsScreen> {
+class LikesScreenState extends State<LikesScreen> {
   late HomeScreenBodyState parent;
   late HomeBloc bloc;
 
@@ -54,29 +51,25 @@ class SongsScreenState extends State<SongsScreen> {
     });
   }
 
-  /// filter songs based on the selected book
+  /// filter likes based on the selected book
   void filterSongsByBook() {
     if (!hasMoreData) return;
 
-    try {
-      Future.delayed(const Duration(seconds: 2), () {
-        setState(() {
-          final nextPageItems = bloc.state.songs
-              .where((song) => song.book == bloc.state.books[setBook].bookId)
-              .skip(currentPage * pageSize)
-              .take(pageSize)
-              .toList();
-          if (nextPageItems.isEmpty) {
-            hasMoreData = false;
-          } else {
-            filtered.addAll(nextPageItems);
-            currentPage++;
-          }
-        });
+    Future.delayed(const Duration(seconds: 2), () {
+      setState(() {
+        final nextPageItems = bloc.state.likes
+            .where((song) => song.book == bloc.state.books[setBook].bookId)
+            .skip(currentPage * pageSize)
+            .take(pageSize)
+            .toList();
+        if (nextPageItems.isEmpty) {
+          hasMoreData = false;
+        } else {
+          filtered.addAll(nextPageItems);
+          currentPage++;
+        }
       });
-    } catch (e) {
-      return;
-    }
+    });
   }
 
   @override
@@ -102,12 +95,7 @@ class SongsScreenState extends State<SongsScreen> {
         return Scaffold(
           body: SingleChildScrollView(
             controller: _scrollController,
-            child: Column(
-              children: <Widget>[
-                BooksList(parent: this),
-                SongsList(parent: this),
-              ],
-            ),
+            child: LikesList(parent: this),
           ),
           floatingActionButton: FabWidget(parent: this),
         );

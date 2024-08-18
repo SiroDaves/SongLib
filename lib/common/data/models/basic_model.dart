@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class ResponseModel {
   int status;
   String feedback;
@@ -20,3 +22,14 @@ class HomeSlider {
 }
 
 enum PageType { lists, search, likes, drafts, helpdesk, settings }
+
+class PageItem {
+  const PageItem({
+    required this.title,
+    required this.icon,
+    required this.screen,
+  });
+  final String title;
+  final IconData icon;
+  final Widget screen;
+}

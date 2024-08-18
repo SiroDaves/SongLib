@@ -36,6 +36,7 @@ final class HomeState extends Equatable {
     this.status = Status.initial,
     this.books = const <Book>[],
     this.songs = const <SongExt>[],
+    this.likes = const <SongExt>[],
     this.filtered = const <SongExt>[],
     this.feedback = '',
   });
@@ -43,6 +44,7 @@ final class HomeState extends Equatable {
   final Status status;
   final List<Book> books;
   final List<SongExt> songs;
+  final List<SongExt> likes;
   final List<SongExt> filtered;
   final String feedback;
 
@@ -51,6 +53,7 @@ final class HomeState extends Equatable {
     Book? setBook,
     List<Book>? books,
     List<SongExt>? songs,
+    List<SongExt>? likes,
     List<SongExt>? filtered,
     String? feedback,
   }) {
@@ -58,11 +61,12 @@ final class HomeState extends Equatable {
       status: status ?? this.status,
       books: books ?? this.books,
       songs: songs ?? this.songs,
+      likes: likes ?? this.likes,
       filtered: filtered ?? this.filtered,
       feedback: feedback ?? this.feedback,
     );
   }
 
   @override
-  List<Object> get props => [status, books, songs, filtered, feedback];
+  List<Object> get props => [status, books, songs, likes, filtered, feedback];
 }

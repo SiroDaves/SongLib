@@ -10,7 +10,8 @@ class HomeScreenBody extends StatefulWidget {
 class HomeScreenBodyState extends State<HomeScreenBody> {
   late HomeBloc bloc;
   late HomeScreenState parent;
-  int _currentPage = 0;
+  PageController pageController = PageController();
+  int selectedPageIndex = 0;
 
   bool updateFound = false;
   bool isTabletOrIpad = false;
@@ -30,23 +31,34 @@ class HomeScreenBodyState extends State<HomeScreenBody> {
     bloc.add(const HomeFetchData());
   }
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _currentPage = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     isTabletOrIpad = size.shortestSide > 550;
 
-    homePages = <Widget>[
-      SongsScreen(parent: this),
-      const Center(child: Text('Index 1: Business')),
-      const Center(child: Text('Index 2: School')),
-      const Center(child: Text('Index 3: Settings')),
+    final List<PageItem> pages = [
+      PageItem(
+        title: 'Songs',
+        icon: Icons.search,
+        screen: SongsScreen(parent: this),
+      ),
+      /*PageItem(
+        title: 'Lists',
+        icon: Icons.list,
+        screen: ListsScreen(parent: this),
+      ),*/
+      PageItem(
+        title: 'Likes',
+        icon: Icons.favorite,
+        screen: LikesScreen(parent: this),
+      ),
+      /*PageItem(
+        title: 'Drafts',
+        icon: Icons.edit,
+        screen: DraftsScreen(parent: this),
+      ),*/
     ];
+
 
     return bloc.state.status == Status.inProgress
         ? const SkeletonLoading()
@@ -86,9 +98,23 @@ class HomeScreenBodyState extends State<HomeScreenBody> {
                 ),
               ],
             ),
-            body:
-                SongsScreen(parent: this), //homePages.elementAt(_currentPage),
-            //bottomNavigationBar: HomeScreenBottomNavBar(parent: this),
+            bottomNavigationBar: CustomBottomNavigationBar(
+              selectedIndex: selectedPageIndex,
+              onPageChange: (int index) {
+                setState(() {
+                  selectedPageIndex = index;
+                  pageController.jumpToPage(index);
+                });
+              },
+              pages: pages,
+            ),
+            body: PageView(
+              controller: pageController,
+              onPageChanged: (index) =>
+                  setState(() => selectedPageIndex = index),
+              physics: const NeverScrollableScrollPhysics(),
+              children: pages.map<Widget>((item) => item.screen).toList(),
+            ),
           );
   }
 }

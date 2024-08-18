@@ -5,6 +5,12 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "pc",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main_dev.dart",
+        },
+        {
             "name": "dev",
             "request": "launch",
             "type": "dart",

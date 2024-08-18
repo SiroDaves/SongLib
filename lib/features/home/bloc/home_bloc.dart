@@ -34,9 +34,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     emit(state.copyWith(status: Status.inProgress));
     if (FlavorConfig.isProd()) {
-      try {
-        
-      } catch (e) {
+      try {} catch (e) {
         emit(state.copyWith(status: Status.success, feedback: ''));
       }
     } else {
@@ -51,8 +49,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(state.copyWith(status: Status.inProgress));
     var books = await _dbRepo.fetchBooks();
     var songs = await _dbRepo.fetchSongExts();
+    var likes = await _dbRepo.fetchLikedSongs();
 
-    emit(state.copyWith(status: Status.loaded, books: books, songs: songs));
+    emit(
+      state.copyWith(
+        status: Status.loaded,
+        books: books,
+        songs: songs,
+        likes: likes,
+      ),
+    );
   }
 
   Future<void> _onSortByBook(
