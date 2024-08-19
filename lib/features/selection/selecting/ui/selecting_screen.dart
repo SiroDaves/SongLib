@@ -15,8 +15,8 @@ import '../../../../common/data/models/book.dart';
 import '../../../../core/navigator/route_names.dart';
 import '../bloc/selecting_bloc.dart';
 
-part 'selecting_screen_body.dart';
-part 'selecting_screen_body_details.dart';
+part 'selecting_body.dart';
+part 'selecting_details.dart';
 
 class SelectingScreen extends StatelessWidget {
   const SelectingScreen({super.key});
@@ -27,13 +27,13 @@ class SelectingScreen extends StatelessWidget {
       create: (context) {
         return SelectingBloc();
       },
-      child: const SelectingScreenBody(),
+      child: const SelectingBody(),
     );
   }
 }
 
 Future<void> areYouDoneDialog(
-  SelectingScreenBodyState parent,
+  SelectingBodyState parent,
   AppLocalizations l10n,
   bool isValid,
 ) async {

@@ -58,25 +58,21 @@ class SongsScreenState extends State<SongsScreen> {
   void filterSongsByBook() {
     if (!hasMoreData) return;
 
-    try {
-      Future.delayed(const Duration(seconds: 2), () {
-        setState(() {
-          final nextPageItems = bloc.state.songs
-              .where((song) => song.book == bloc.state.books[setBook].bookId)
-              .skip(currentPage * pageSize)
-              .take(pageSize)
-              .toList();
-          if (nextPageItems.isEmpty) {
-            hasMoreData = false;
-          } else {
-            filtered.addAll(nextPageItems);
-            currentPage++;
-          }
-        });
+    Future.delayed(const Duration(seconds: 2), () {
+      setState(() {
+        final nextPageItems = bloc.state.songs
+            .where((song) => song.book == bloc.state.books[setBook].bookId)
+            .skip(currentPage * pageSize)
+            .take(pageSize)
+            .toList();
+        if (nextPageItems.isEmpty) {
+          hasMoreData = false;
+        } else {
+          filtered.addAll(nextPageItems);
+          currentPage++;
+        }
       });
-    } catch (e) {
-      return;
-    }
+    });
   }
 
   @override
@@ -99,7 +95,7 @@ class SongsScreenState extends State<SongsScreen> {
         }
       },
       builder: (context, state) {
-        if (state.status == Status.inProgress){
+        if (state.status == Status.inProgress) {
           return const SkeletonLoading();
         }
         return Scaffold(

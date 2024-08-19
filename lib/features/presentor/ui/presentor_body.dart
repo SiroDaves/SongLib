@@ -45,6 +45,9 @@ class PresentorScreenBodyState extends State<PresentorScreenBody> {
     l10n = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
     isTabletOrIpad = size.shortestSide > 550;
+    var bgImage = Theme.of(context).brightness == Brightness.light
+        ? AppAssets.imgBg
+        : AppAssets.imgBgBw;
 
     return BlocConsumer<PresentorBloc, PresentorState>(
       bloc: _bloc,
@@ -55,6 +58,20 @@ class PresentorScreenBodyState extends State<PresentorScreenBody> {
             feedbackMessage(state.feedback, l10n),
           );
         }
+        if (state.status == Status.liked) {
+          CustomSnackbar.show(
+            context,
+            'This has been added to your likes',
+            isSuccess: true,
+          );
+        }
+        if (state.status == Status.unliked) {
+          CustomSnackbar.show(
+            context,
+            'This has been removed from your likes',
+            isSuccess: true,
+          );
+        }
       },
       builder: (context, state) {
         return Scaffold(
@@ -62,10 +79,11 @@ class PresentorScreenBodyState extends State<PresentorScreenBody> {
             title: Text(state.songTitle),
             actions: <Widget>[
               InkWell(
-                onTap: () {},
-                child: const Padding(
+                onTap: () => _bloc.add(PresentorLikeSong(song)),
+                child: Padding(
                   padding: EdgeInsets.all(10),
-                  child: Icon(Icons.favorite),
+                  child:
+                      Icon(song.liked ? Icons.favorite : Icons.favorite_border),
                 ),
               ),
               /*InkWell(
@@ -83,20 +101,51 @@ class PresentorScreenBodyState extends State<PresentorScreenBody> {
               ),*/
             ],
           ),
-          body: state.status == Status.inProgress
-              ? const CircularProgress()
-              : state.widgetTabs.isNotEmpty
-                  ? PresentorMobile(
-                      index: curSlide,
-                      songbook: state.songBook,
-                      tabs: state.widgetTabs,
-                      contents: state.widgetContent,
-                      tabsWidth: size.height * 0.08156,
-                      indicatorWidth: size.height * 0.08156,
-                      contentScrollAxis:
-                          slideHorizontal ? Axis.horizontal : Axis.vertical,
-                    )
-                  : const SizedBox.shrink(),
+          body: DecoratedBox(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(bgImage),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: state.status == Status.inProgress
+                ? const CircularProgress()
+                : state.widgetTabs.isNotEmpty
+                    ? PresentorMobile(
+                        index: curSlide,
+                        songbook: state.songBook,
+                        tabs: state.widgetTabs,
+                        contents: state.widgetContent,
+                        tabsWidth: size.height * 0.08156,
+                        indicatorWidth: size.height * 0.08156,
+                        contentScrollAxis:
+                            slideHorizontal ? Axis.horizontal : Axis.vertical,
+                      )
+                    : const SizedBox.shrink(),
+          ),
+          floatingActionButton: ExpandableFab(
+            distance: 112.0,
+            children: [
+              FloatingActionButton(
+                heroTag: 'share_fab',
+                onPressed: () => shareSong(widget.song),
+                backgroundColor: ThemeColors.bgColorPrimary(context),
+                child: const Icon(Icons.share, color: Colors.white),
+              ),
+              FloatingActionButton(
+                heroTag: 'copy_fab',
+                onPressed: () => copySong(widget.song),
+                backgroundColor: ThemeColors.bgColorPrimary(context),
+                child: const Icon(Icons.copy, color: Colors.white),
+              ),
+              FloatingActionButton(
+                heroTag: 'edit_fab',
+                onPressed: () => {},
+                backgroundColor: ThemeColors.bgColorPrimary(context),
+                child: const Icon(Icons.edit, color: Colors.white),
+              ),
+            ],
+          ),
         );
       },
     );

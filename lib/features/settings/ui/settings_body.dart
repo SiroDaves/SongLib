@@ -46,11 +46,16 @@ class _SettingsScreenBodyState extends State<SettingsScreenBody> {
       builder: (context, state) {
         return ListView(
           children: [
-            ListTile(
-              title: const Text('App Theme'),
-              subtitle: Text(appTheme),
-              onTap: () => selectThemeDialog(context),
-            )
+            Card(
+              margin: EdgeInsets.all(Sizes.xs),
+              color: ThemeColors.bgColorBW(context),
+              child: ListTile(
+                leading: Icon(Icons.color_lens),
+                title: const Text('App Theme'),
+                subtitle: Text(appTheme),
+                onTap: () => selectThemeDialog(context),
+              ),
+            ),
           ],
         );
       },

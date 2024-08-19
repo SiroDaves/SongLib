@@ -9,6 +9,8 @@ import '../../../common/data/models/book.dart';
 import '../../../common/data/models/songext.dart';
 import '../../../common/repository/local_storage.dart';
 import '../../../core/di/injectable.dart';
+import '../../../core/theme/theme_colors.dart';
+import '../../../core/theme/theme_styles.dart';
 import '../bloc/settings_bloc.dart';
 
 part 'settings_body.dart';

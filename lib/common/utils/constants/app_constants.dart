@@ -45,6 +45,7 @@ class AppConstants {
   static const String listedsTableViews = 'viewlisteds';
   static const String historiesTableViews = 'viewhistories';
 
+  static const fromApp = "\n\nSource: SongLib\nhttps://songlib.vercel.app";
   static const siteLink = "https://songlib.vercel.app/";
   static const applestoreLink = "https://apps.apple.com/app/id6446771305";
   static const playstoreLink =
