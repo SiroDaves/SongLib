@@ -70,4 +70,5 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         state.songs.where((song) => song.book == event.book).toList();
     emit(state.copyWith(status: Status.filtered, filtered: filtered));
   }
+
 }

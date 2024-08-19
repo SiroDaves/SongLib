@@ -64,8 +64,6 @@ class PresentorBloc extends Bloc<PresentorEvent, PresentorState> {
     PresentorSaveHistory event,
     Emitter<PresentorState> emit,
   ) async {
-    emit(state.copyWith(status: Status.inProgress));
-
     await _dbRepo.saveHistory(
       History(song: event.song.rid, created: getCurrentDate()),
     );
