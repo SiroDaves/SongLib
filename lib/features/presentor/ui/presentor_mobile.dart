@@ -1,7 +1,4 @@
-import 'package:dartx/dartx.dart';
-import 'package:flutter/material.dart';
-
-import '../../../common/widgets/presentor/presentor_animate.dart';
+part of 'presentor_screen.dart';
 
 enum IndicatorSide { start, end }
 

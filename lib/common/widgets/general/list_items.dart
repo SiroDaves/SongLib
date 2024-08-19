@@ -25,17 +25,13 @@ class BookItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color selectedColor = Theme.of(context).brightness == Brightness.light
-        ? ThemeColors.primary
-        : ThemeColors.kPrimaryDeepOrange;
-    Color unSelectedColor = Theme.of(context).brightness == Brightness.light
-        ? Colors.white
-        : Colors.grey;
     return Container(
       margin: const EdgeInsets.only(
           bottom: Sizes.xs, left: Sizes.xs, right: Sizes.xs),
       child: Card(
-        color: item.isSelected ? selectedColor : unSelectedColor,
+        color: item.isSelected
+            ? ThemeColors.bgColorPrimary(context)
+            : ThemeColors.bgColorBW(context),
         elevation: 5,
         child: Center(
           child: ListTile(
@@ -46,7 +42,9 @@ class BookItem extends StatelessWidget {
                 item.isSelected
                     ? Icons.check_box
                     : Icons.check_box_outline_blank,
-                color: item.isSelected ? Colors.white : Colors.black,
+                color: item.isSelected
+                    ? Colors.white
+                    : ThemeColors.bgColorWB(context),
               ),
             ),
             title: Padding(
@@ -56,7 +54,9 @@ class BookItem extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: item.isSelected ? Colors.white : Colors.black,
+                  color: item.isSelected
+                      ? Colors.white
+                      : ThemeColors.bgColorWB(context),
                 ),
               ),
             ),
@@ -66,7 +66,9 @@ class BookItem extends StatelessWidget {
                 "${item.data.songs!} ${item.data.subTitle} songs",
                 style: TextStyle(
                   fontSize: 18,
-                  color: item.isSelected ? Colors.white : Colors.black,
+                  color: item.isSelected
+                      ? Colors.white
+                      : ThemeColors.bgColorWB(context),
                 ),
               ),
             ),

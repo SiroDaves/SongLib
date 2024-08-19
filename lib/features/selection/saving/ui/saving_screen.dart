@@ -11,7 +11,7 @@ import '../../../../common/widgets/progress/general_progress.dart';
 import '../../../../core/navigator/route_names.dart';
 import '../bloc/saving_bloc.dart';
 
-part 'saving_screen_body.dart';
+part 'saving_body.dart';
 
 class SavingScreen extends StatelessWidget {
   const SavingScreen({super.key});
@@ -22,7 +22,7 @@ class SavingScreen extends StatelessWidget {
       create: (context) {
         return SavingBloc();
       },
-      child: const SavingScreenBody(),
+      child: const SavingBody(),
     );
   }
 }
