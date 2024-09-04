@@ -36,6 +36,7 @@ class ThemeColors {
   static const primary = Color(0XFFC55A11);
   static const primaryDark = Color(0XFF843C0C);
   static const accent = Color(0XFFF4B183);
+  static const accent1 = Color(0XFFFED8B1);
 
   // Light Mode Colors
   /// Main color for the app, used in branding and key elements
@@ -79,6 +80,18 @@ class ThemeColors {
   }
 
   static Color bgColorPrimary2(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.light
+        ? ThemeColors.primary
+        : ThemeColors.accent;
+  }
+
+  static Color bgColorPrimary3(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.light
+        ? ThemeColors.accent1
+        : Colors.black;
+  }
+
+  static Color bgColorPrimary4(BuildContext context) {
     return Theme.of(context).brightness == Brightness.light
         ? ThemeColors.primary
         : ThemeColors.accent;

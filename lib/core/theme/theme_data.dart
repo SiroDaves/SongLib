@@ -25,8 +25,8 @@ class AppTheme {
         onError: Colors.white,
       ),
       appBarTheme: const AppBarTheme(
-        backgroundColor: Colors.white,
-        foregroundColor: ThemeColors.kPrimaryOrange,
+        backgroundColor: ThemeColors.kPrimaryDeepOrange,
+        foregroundColor: ThemeColors.accent,
         shadowColor: Colors.black,
         elevation: 3,
       ),

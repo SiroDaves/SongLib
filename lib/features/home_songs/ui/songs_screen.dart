@@ -9,7 +9,6 @@ import '../../../common/widgets/progress/skeleton.dart';
 import '../../../common/data/models/book.dart';
 import '../../../common/data/models/songext.dart';
 import '../../home/bloc/home_bloc.dart';
-import '../../home/ui/home_screen.dart';
 import '../../presentor/ui/presentor_screen.dart';
 import 'songs_search.dart';
 
@@ -18,15 +17,13 @@ part 'widgets/fab_widget.dart';
 part 'widgets/songs_list.dart';
 
 class SongsScreen extends StatefulWidget {
-  final HomeScreenBodyState parent;
-  const SongsScreen({super.key, required this.parent});
+  const SongsScreen({super.key});
 
   @override
   State<SongsScreen> createState() => SongsScreenState();
 }
 
 class SongsScreenState extends State<SongsScreen> {
-  late HomeScreenBodyState parent;
   late HomeBloc bloc;
 
   int setBook = 0, setSong = 0;
@@ -83,7 +80,6 @@ class SongsScreenState extends State<SongsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    parent = widget.parent;
     return BlocConsumer<HomeBloc, HomeState>(
       bloc: bloc,
       listener: (context, state) {

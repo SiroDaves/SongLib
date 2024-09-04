@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/theme/theme_colors.dart';
 import '../../../core/theme/theme_styles.dart';
 import '../../../common/widgets/list_items/search_song_item.dart';
 import '../../../common/widgets/progress/skeleton.dart';
@@ -9,21 +8,18 @@ import '../../../common/data/models/songext.dart';
 import '../../home/bloc/home_bloc.dart';
 import '../../home/ui/home_screen.dart';
 import '../../presentor/ui/presentor_screen.dart';
-import 'likes_search.dart';
 
-part 'widgets/fab_widget.dart';
 part 'widgets/likes_list.dart';
 
 class LikesScreen extends StatefulWidget {
-  final HomeScreenBodyState parent;
-  const LikesScreen({super.key, required this.parent});
+  const LikesScreen({super.key});
 
   @override
   State<LikesScreen> createState() => LikesScreenState();
 }
 
 class LikesScreenState extends State<LikesScreen> {
-  late HomeScreenBodyState parent;
+  late HomeBodyState parent;
   late HomeBloc bloc;
 
   int setBook = 0, setSong = 0;
@@ -80,7 +76,6 @@ class LikesScreenState extends State<LikesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    parent = widget.parent;
     return BlocConsumer<HomeBloc, HomeState>(
       bloc: bloc,
       listener: (context, state) {
@@ -97,7 +92,6 @@ class LikesScreenState extends State<LikesScreen> {
             controller: _scrollController,
             child: LikesList(parent: this),
           ),
-          floatingActionButton: FabWidget(parent: this),
         );
       },
     );
