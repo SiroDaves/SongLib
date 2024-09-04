@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "SongLib"
-#define MyAppVersion "1.0.7.65"
+#define MyAppVersion "1.0.7.81"
 #define MyAppPublisher "Futuristic Inc."
 #define MyAppURL "https://songlib.vercel.app"
 #define MyAppExeName "SongLib.exe"
