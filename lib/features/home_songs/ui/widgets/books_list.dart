@@ -10,13 +10,6 @@ class BooksList extends StatefulWidget {
 
 class BooksListState extends State<BooksList> {
   late SongsScreenState parent;
-  late HomeBloc _bloc;
-
-  @override
-  void initState() {
-    super.initState();
-    _bloc = context.read<HomeBloc>();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +20,9 @@ class BooksListState extends State<BooksList> {
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.all(5),
-        itemCount: _bloc.state.books.length,
+        itemCount: parent.books.length,
         itemBuilder: (context, index) {
-          final Book book = _bloc.state.books[index];
+          final Book book = parent.books[index];
           return SearchBookItem(
             text: book.title!,
             isSelected: parent.setBook == index,

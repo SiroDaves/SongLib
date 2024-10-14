@@ -40,12 +40,7 @@ class SettingsScreenState extends State<SettingsScreen> {
       appBar: AppBar(
         title: const Text('Settings'),
       ),
-      body: BlocProvider(
-        create: (context) {
-          return SettingsBloc();
-        },
-        child: SettingsScreenBody(parent: this),
-      ),
+      body: SettingsScreenBody(parent: this),
     );
   }
 }

@@ -41,10 +41,10 @@ class HomeMobileState extends State<HomeMobile> {
     return [
       InkWell(
         onTap: () async {
-          await showSearch(
+          /*await showSearch(
             context: context,
             delegate: SongsSearch(context, parent._bloc, height),
-          );
+          );*/
         },
         child: const Padding(
           padding: EdgeInsets.all(10),

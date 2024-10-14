@@ -5,16 +5,16 @@ import '../../../core/theme/theme_styles.dart';
 import '../../../common/widgets/list_items/search_book_item.dart';
 import '../../../common/widgets/list_items/search_song_item.dart';
 import '../../../common/data/models/models.dart';
-import '../../home/bloc/home_bloc.dart';
 import '../../presentor/ui/presentor_screen.dart';
 import '../utils/search_songs_utils.dart';
 
 /// Small screen search
 class SongsSearch extends SearchDelegate<List> {
-  final HomeBloc? bloc;
+  final List<Book> books;
+  final List<SongExt> songs;
   final double? height;
   Book setBook = Book();
-  SongsSearch(BuildContext context, this.bloc, this.height);
+  SongsSearch(BuildContext context, this.books, this.songs, this.height);
 
   @override
   String get searchFieldLabel => "Search a Song";
@@ -39,7 +39,7 @@ class SongsSearch extends SearchDelegate<List> {
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
-      onPressed: () => close(context, bloc!.state.songs),
+      onPressed: () => close(context, songs),
       icon: const Icon(Icons.arrow_back),
     );
   }
@@ -51,11 +51,11 @@ class SongsSearch extends SearchDelegate<List> {
   Widget buildSuggestions(BuildContext context) => searchThis(context);
 
   Widget searchThis(BuildContext context) {
-    var matchQuery = filterSongsByQry(query.toLowerCase(), bloc!.state.songs);
+    var matchQuery = filterSongsByQuery(query.toLowerCase(), songs);
     List<Widget> bookItems = <Widget>[
       SearchBookItem(text: 'All', isSelected: true, onPressed: () {}),
     ];
-    for (var book in bloc!.state.books) {
+    for (var book in books) {
       bookItems.add(
         SearchBookItem(
           text: book.title!,

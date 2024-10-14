@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/di/injectable.dart';
 import '../../../core/theme/theme_colors.dart';
 import '../../../core/theme/theme_styles.dart';
 import '../../../common/widgets/list_items/search_book_item.dart';
@@ -24,12 +25,13 @@ class SongsScreen extends StatefulWidget {
 }
 
 class SongsScreenState extends State<SongsScreen> {
-  late HomeBloc bloc;
+  late HomeBloc _bloc;
 
   int setBook = 0, setSong = 0;
   int pageSize = 20, currentPage = 0;
   bool hasMoreData = true;
-  List<SongExt> filtered = [];
+  List<Book> books = [];
+  List<SongExt> songs = [], filtered = [];
 
   final ScrollController _scrollController = ScrollController();
   bool _showBackToTopButton = false;
@@ -37,7 +39,7 @@ class SongsScreenState extends State<SongsScreen> {
   @override
   void initState() {
     super.initState();
-    bloc = context.read<HomeBloc>();
+    _bloc = getIt.get<HomeBloc>();
     _scrollController.addListener(() {
       if (_scrollController.offset > 200) {
         if (!_showBackToTopButton) {
@@ -57,8 +59,8 @@ class SongsScreenState extends State<SongsScreen> {
 
     Future.delayed(const Duration(seconds: 2), () {
       setState(() {
-        final nextPageItems = bloc.state.songs
-            .where((song) => song.book == bloc.state.books[setBook].bookId)
+        final nextPageItems = songs
+            .where((song) => song.book == books[setBook].bookId)
             .skip(currentPage * pageSize)
             .take(pageSize)
             .toList();
@@ -81,9 +83,9 @@ class SongsScreenState extends State<SongsScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeBloc, HomeState>(
-      bloc: bloc,
+      bloc: _bloc,
       listener: (context, state) {
-        if (state.status == Status.loaded) {
+        if (state is LoadedState) {
           setState(() {
             setBook = 0;
             filterSongsByBook();
@@ -91,7 +93,7 @@ class SongsScreenState extends State<SongsScreen> {
         }
       },
       builder: (context, state) {
-        if (state.status == Status.inProgress) {
+        if (state is ProgressState) {
           return const SkeletonLoading();
         }
         return Scaffold(

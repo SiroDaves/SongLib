@@ -1,40 +1,39 @@
 import 'dart:convert';
 
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../../common/data/models/basic_model.dart';
 import '../../../../common/utils/app_util.dart';
 import '../../../../common/utils/constants/pref_constants.dart';
-import '../../../../common/data/models/basic_model.dart';
 import '../../../../common/data/models/book.dart';
 import '../../../../common/repository/database_repository.dart';
 import '../../../../common/repository/local_storage.dart';
 import '../../../../core/di/injectable.dart';
 import '../../common/domain/selection_repository.dart';
 
-part 'selecting_event.dart';
-part 'selecting_state.dart';
-part 'selecting_bloc.freezed.dart';
+part 'step1_event.dart';
+part 'step1_state.dart';
+part 'step1_bloc.freezed.dart';
 
 @injectable
-class SelectingBloc extends Bloc<SelectingEvent, SelectingState> {
-  SelectingBloc() : super(const SelectingState()) {
-    on<SelectingBooksFetch>(_onFetchData);
-    on<SelectingSubmitData>(_onSubmitData);
+class Step1Bloc extends Bloc<Step1Event, Step1State> {
+  Step1Bloc() : super(const _Step1State()) {
+    on<FetchBooks>(_onFetchBooks);
+    on<SaveBooks>(_onSaveBooks);
   }
 
-  final _selectingRepo = SelectionRepository();
+  final _step1Repo = SelectionRepository();
   final _localStorage = getIt<LocalStorage>();
   final _dbRepo = getIt<DatabaseRepository>();
 
-  void _onFetchData(
-    SelectingBooksFetch event,
-    Emitter<SelectingState> emit,
+  void _onFetchBooks(
+    FetchBooks event,
+    Emitter<Step1State> emit,
   ) async {
-    emit(state.copyWith(status: Status.inProgress));
-    var resp = await _selectingRepo.getBooks();
+    emit(ProgressState());
+    var resp = await _step1Repo.getBooks();
     String selectedBooksIds =
         _localStorage.getPrefString(PrefConstants.selectedBooksKey);
     List<String> selectedBooksNumbers = [];
@@ -57,38 +56,27 @@ class SelectingBloc extends Bloc<SelectingEvent, SelectingState> {
             }
             booksListing.add(Selectable<Book>(book, setSelected));
           }
-          emit(
-            state.copyWith(
-              status: Status.booksFetched,
-              selectedBooksIds: selectedBooksIds,
-              booksListing: booksListing,
-            ),
-          );
+          emit(FetchedState(selectedBooksIds, books,booksListing));
           break;
 
         default:
-          emit(
-            state.copyWith(
-              status: Status.failure,
-              feedback: resp.statusCode.toString(),
-            ),
-          );
+          emit(FailureState(resp.statusCode.toString()));
           break;
       }
     } catch (e) {
       logger("Error log: $e");
-      emit(state.copyWith(status: Status.failure, feedback: '100'));
+      emit(FailureState('100'));
     }
   }
 
-  void _onSubmitData(
-    SelectingSubmitData event,
-    Emitter<SelectingState> emit,
+  void _onSaveBooks(
+    SaveBooks event,
+    Emitter<Step1State> emit,
   ) async {
-    emit(state.copyWith(status: Status.inProgress));
-    String selectedBooks = state.selectedBooksIds;
+    emit(ProgressState());
+    String selectedBooks = event.selectedBooksIds;
     try {
-      if (state.selectedBooksIds.isNotEmpty) {
+      if (event.selectedBooksIds.isNotEmpty) {
         await _dbRepo.removeAllBooks();
         _localStorage.setPrefString(
           PrefConstants.predistinatedBooksKey,
@@ -112,9 +100,6 @@ class SelectingBloc extends Bloc<SelectingEvent, SelectingState> {
       logger('Unable to save books: $e');
     }
 
-    emit(state.copyWith(
-      status: Status.booksSaved,
-      selectedBooksIds: selectedBooks,
-    ));
+    emit(SavedState(selectedBooks));
   }
 }

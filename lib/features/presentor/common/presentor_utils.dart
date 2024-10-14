@@ -7,7 +7,6 @@ import '../../../common/utils/constants/app_constants.dart';
 import '../../../common/widgets/general/toast.dart';
 import '../../../common/widgets/presentor/presentor.dart';
 import '../../../common/data/models/songext.dart';
-import '../bloc/presentor_bloc.dart';
 import '../models/presentor_model.dart';
 
 Future<PresentorModel> loadSong(SongExt song) async {
@@ -116,12 +115,13 @@ Future<void> copySong(SongExt song) async {
   }
 }
 
-Future<void> copyVerse(PresentorState state, String lyrics) async {
+Future<void> copyVerse(String songTitle,String songBook, String lyrics) async {
   try {
     await Clipboard.setData(
       ClipboardData(
         text:
-            '${lyrics.replaceAll("#", "\n")}\n\n${state.songTitle},\n${state.songBook}',
+            '${lyrics.replaceAll("#", "\n")}'
+            '\n\n$songTitle,\n$songBook',
       ),
     );
     showToast(

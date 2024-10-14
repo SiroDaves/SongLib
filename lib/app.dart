@@ -42,19 +42,42 @@ class MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    return RepositoryProvider.value(
+      value: _authRepo,
+      child: BlocProvider(
+        create: (_) => AuthBloc(authRepo: _authRepo),
+        child: const AppView(),
+      ),
+    );
+  }
+}
+
+/// A widget that builds the main view of the application. It sets up the
+/// necessary providers and handles navigation and theming.
+///
+/// The [AppView] widget can optionally take a [home] widget to display as the
+/// initial screen.
+class AppView extends StatefulWidget {
+  final Widget? home;
+  const AppView({super.key, this.home});
+
+  @override
+  State<AppView> createState() => AppViewState();
+}
+
+class AppViewState extends State<AppView> {
+  final navigatorKey = MainNavigatorState.navigationKey;
+  NavigatorState get navigator =>
+      MainNavigatorState.navigationKey.currentState!;
+
+  @override
+  Widget build(BuildContext context) {
     var localStorage = getIt<LocalStorage>();
     bool isSelected = localStorage.getPrefBool(PrefConstants.dataIsSelectedKey);
     bool isLoaded = localStorage.getPrefBool(PrefConstants.dataIsLoadedKey);
 
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => ThemeBloc(),
-        ),
-        BlocProvider(
-          create: (context) => AuthBloc(authRepo: _authRepo),
-        ),
-      ],
+    return BlocProvider(
+      create: (context) => ThemeBloc(),
       child: BlocBuilder<ThemeBloc, ThemeMode>(
         builder: (context, themeMode) {
           return MaterialApp(
@@ -89,7 +112,7 @@ class MyAppState extends State<MyApp> {
                     } else {
                       if (isSelected) {
                         navigator.pushNamedAndRemoveUntil<void>(
-                          RouteNames.saving,
+                          RouteNames.step2,
                           (route) => false,
                         );
                       } else {
@@ -99,7 +122,7 @@ class MyAppState extends State<MyApp> {
                         );
 
                         navigator.pushNamedAndRemoveUntil<void>(
-                          RouteNames.selecting,
+                          RouteNames.step1,
                           (route) => false,
                         );
                       }

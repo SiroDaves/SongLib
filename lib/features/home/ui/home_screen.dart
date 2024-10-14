@@ -19,7 +19,6 @@ import '../../../core/navigator/route_names.dart';
 import '../../../core/theme/theme_styles.dart';
 import '../../home_likes/ui/likes_screen.dart';
 import '../../home_songs/ui/songs_screen.dart';
-import '../../home_songs/ui/songs_search.dart';
 import '../../settings/ui/settings_screen.dart';
 import '../bloc/home_bloc.dart';
 
@@ -41,12 +40,7 @@ class HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     l10n = AppLocalizations.of(context)!;
 
-    return BlocProvider(
-      create: (context) {
-        return HomeBloc();
-      },
-      child: const HomeBody(),
-    );
+    return const HomeBody();
   }
 }
 

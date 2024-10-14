@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../common/data/models/book.dart';
 import '../../../core/theme/theme_styles.dart';
 import '../../../common/widgets/list_items/search_song_item.dart';
 import '../../../common/widgets/progress/skeleton.dart';
@@ -25,7 +26,8 @@ class LikesScreenState extends State<LikesScreen> {
   int setBook = 0, setSong = 0;
   int pageSize = 20, currentPage = 0;
   bool hasMoreData = true;
-  List<SongExt> filtered = [];
+  List<Book> books = [];
+  List<SongExt> likes = [], filtered = [];
 
   final ScrollController _scrollController = ScrollController();
   bool _showBackToTopButton = false;
@@ -53,8 +55,8 @@ class LikesScreenState extends State<LikesScreen> {
 
     Future.delayed(const Duration(seconds: 2), () {
       setState(() {
-        final nextPageItems = bloc.state.likes
-            .where((song) => song.book == bloc.state.books[setBook].bookId)
+        final nextPageItems = likes
+            .where((song) => song.book == books[setBook].bookId)
             .skip(currentPage * pageSize)
             .take(pageSize)
             .toList();
@@ -79,7 +81,7 @@ class LikesScreenState extends State<LikesScreen> {
     return BlocConsumer<HomeBloc, HomeState>(
       bloc: bloc,
       listener: (context, state) {
-        if (state.status == Status.loaded) {
+        if (state is LoadedState) {
           setState(() {
             setBook = 0;
             filterSongsByBook();

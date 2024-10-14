@@ -1,72 +1,28 @@
 part of 'home_bloc.dart';
 
-enum Status {
-  // Generic statuses
-  /// No action has been taken so far.
-  initial,
+@freezed
+class HomeState with _$HomeState {
+  const factory HomeState.initial() = _HomeState;
 
-  /// An action is being processed.
-  inProgress,
+  const factory HomeState.loaded(
+    List<Book> books,
+    List<SongExt> songs,
+    List<SongExt> likes,
+  ) = LoadedState;
 
-  /// A process has been completed successfully.
-  success,
+  const factory HomeState.progress() = ProgressState;
 
-  /// A process has failed.
-  failure,
+  const factory HomeState.success() = SuccessState;
 
-  /// A process has been canceled.
-  canceled,
+  const factory HomeState.updateFound(
+    String version,
+    String releaseNotes,
+  ) = UpdatedState;
 
-  /// Data loaded successfully.
-  loaded,
+  const factory HomeState.filtered(
+    List<SongExt> filtered,
+  ) = FilteredState;
 
-  /// Data filtered successfully.
-  filtered,
+  const factory HomeState.failure(String feedback) = FailureState;
 
-  // status specific with this bloc
-  /// App update found.
-  updateFound,
-
-  /// App has been updated.
-  updated,
-}
-
-final class HomeState extends Equatable {
-  const HomeState({
-    this.status = Status.initial,
-    this.books = const <Book>[],
-    this.songs = const <SongExt>[],
-    this.likes = const <SongExt>[],
-    this.filtered = const <SongExt>[],
-    this.feedback = '',
-  });
-
-  final Status status;
-  final List<Book> books;
-  final List<SongExt> songs;
-  final List<SongExt> likes;
-  final List<SongExt> filtered;
-  final String feedback;
-
-  HomeState copyWith({
-    Status? status,
-    Book? setBook,
-    List<Book>? books,
-    List<SongExt>? songs,
-    List<SongExt>? likes,
-    List<SongExt>? filtered,
-    String? feedback,
-  }) {
-    return HomeState(
-      status: status ?? this.status,
-      books: books ?? this.books,
-      songs: songs ?? this.songs,
-      likes: likes ?? this.likes,
-      filtered: filtered ?? this.filtered,
-      feedback: feedback ?? this.feedback,
-    );
-  }
-
-  @override
-  List<Object> get props => [status, books, songs, likes, filtered, feedback];
 }

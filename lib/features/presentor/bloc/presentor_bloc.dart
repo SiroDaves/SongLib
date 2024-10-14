@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -21,7 +20,7 @@ part 'presentor_bloc.freezed.dart';
 
 @injectable
 class PresentorBloc extends Bloc<PresentorEvent, PresentorState> {
-  PresentorBloc() : super(const PresentorState()) {
+  PresentorBloc() : super(const _PresentorState()) {
     on<PresentorLoadSong>(_onLoadSong);
     on<PresentorLikeSong>(_onLikeSong);
     on<PresentorSaveHistory>(_onSaveHistory);
@@ -33,16 +32,12 @@ class PresentorBloc extends Bloc<PresentorEvent, PresentorState> {
     PresentorLoadSong event,
     Emitter<PresentorState> emit,
   ) async {
-    emit(state.copyWith(status: Status.inProgress));
+    emit(ProgressState());
     var presentor = await loadSong(event.song);
-    emit(state.copyWith(
-      status: Status.loaded,
-      songBook: presentor.songBook,
-      songTitle: presentor.songTitle,
-      hasChorus: presentor.hasChorus,
-      songVerses: presentor.songVerses,
-      widgetTabs: presentor.widgetTabs,
-      widgetContent: presentor.widgetContent,
+    emit(LoadedState(
+      presentor.songVerses,
+      presentor.widgetTabs,
+      presentor.widgetContent,
     ));
   }
 
@@ -50,14 +45,11 @@ class PresentorBloc extends Bloc<PresentorEvent, PresentorState> {
     PresentorLikeSong event,
     Emitter<PresentorState> emit,
   ) async {
-    emit(state.copyWith(status: Status.inProgress));
+    emit(ProgressState());
     Song? song = await _dbRepo.findSongById(event.song.rid);
     event.song.liked = !event.song.liked;
     await _dbRepo.updateSong(song!);
-
-    emit(
-      state.copyWith(status: event.song.liked ? Status.liked : Status.unliked),
-    );
+    emit(LikedState(event.song.liked));
   }
 
   Future<void> _onSaveHistory(
@@ -68,6 +60,6 @@ class PresentorBloc extends Bloc<PresentorEvent, PresentorState> {
       History(song: event.song.rid, created: getCurrentDate()),
     );
 
-    emit(state.copyWith(status: Status.loaded));
+    emit(HistoryState());
   }
 }

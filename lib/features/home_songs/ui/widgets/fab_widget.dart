@@ -26,7 +26,8 @@ class FabWidgetState extends State<FabWidget> {
                 context: context,
                 delegate: SongsSearch(
                   context,
-                  parent.bloc,
+                  parent.books,
+                  parent.songs,
                   MediaQuery.of(context).size.height,
                 ),
               );

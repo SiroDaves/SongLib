@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -12,7 +11,7 @@ part 'settings_bloc.freezed.dart';
 
 @injectable
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
-  SettingsBloc() : super(const SettingsState()) {
+  SettingsBloc() : super(const _SettingsState()) {
     on<SettingsInit>(_onInit);
   }
 
@@ -20,10 +19,8 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     SettingsInit event,
     Emitter<SettingsState> emit,
   ) async {
-    emit(state.copyWith(status: Status.inProgress));
-
-    emit(
-      state.copyWith(status: Status.loaded),
-    );
+    emit(ProgressState());
+    
+    emit(LoadedState());
   }
 }

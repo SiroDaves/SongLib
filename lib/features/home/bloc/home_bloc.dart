@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -19,7 +18,7 @@ part 'home_bloc.freezed.dart';
 
 @injectable
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  HomeBloc() : super(const HomeState()) {
+  HomeBloc() : super(const _HomeState()) {
     on<HomeCheckVersion>(_onCheckVersion);
     on<HomeFetchData>(_onFetchData);
     on<HomeSortByBook>(_onSortByBook);
@@ -32,13 +31,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     HomeCheckVersion event,
     Emitter<HomeState> emit,
   ) async {
-    emit(state.copyWith(status: Status.inProgress));
+    emit(ProgressState());
     if (FlavorConfig.isProd()) {
       try {} catch (e) {
-        emit(state.copyWith(status: Status.success, feedback: ''));
+        emit(SuccessState());
       }
     } else {
-      emit(state.copyWith(status: Status.success, feedback: ''));
+      emit(SuccessState());
     }
   }
 
@@ -46,18 +45,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     HomeFetchData event,
     Emitter<HomeState> emit,
   ) async {
-    emit(state.copyWith(status: Status.inProgress));
+    emit(ProgressState());
     var books = await _dbRepo.fetchBooks();
     var songs = await _dbRepo.fetchSongExts();
     var likes = await _dbRepo.fetchLikedSongs();
 
     emit(
-      state.copyWith(
-        status: Status.loaded,
-        books: books,
-        songs: songs,
-        likes: likes,
-      ),
+      LoadedState(books, songs, likes),
     );
   }
 
@@ -65,10 +59,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     HomeSortByBook event,
     Emitter<HomeState> emit,
   ) async {
-    emit(state.copyWith(status: Status.inProgress));
+    emit(ProgressState());
     var filtered =
-        state.songs.where((song) => song.book == event.book).toList();
-    emit(state.copyWith(status: Status.filtered, filtered: filtered));
+        event.songs.where((song) => song.book == event.book).toList();
+    emit(FilteredState(filtered));
   }
-
 }

@@ -1,50 +1,14 @@
 part of 'settings_bloc.dart';
 
-enum Status {
-  // Generic statuses
-  /// No action has been taken so far.
-  initial,
+@freezed
+class SettingsState with _$SettingsState {
+  const factory SettingsState.initial() = _SettingsState;
 
-  /// An action is being processed.
-  inProgress,
+  const factory SettingsState.loaded() = LoadedState;
 
-  /// A process has been completed successfully.
-  success,
+  const factory SettingsState.progress() = ProgressState;
 
-  /// A process has failed.
-  failure,
+  const factory SettingsState.success() = SuccessState;
 
-  /// A process has been canceled.
-  canceled,
-
-  /// Data loaded successfully.
-  loaded,
-}
-
-final class SettingsState extends Equatable {
-  const SettingsState({
-    this.status = Status.initial,
-    this.feedback = '',
-    this.hasReachedMax = false,
-  });
-
-  final Status status;
-  final String feedback;
-  final bool hasReachedMax;
-
-  SettingsState copyWith({
-    Status? status,
-    String? feedback,
-    bool? hasReachedMax,
-  }) {
-    return SettingsState(
-      status: status ?? this.status,
-      feedback: feedback ?? this.feedback,
-      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
-    );
-  }
-
-  @override
-  List<Object> get props =>
-      [status, feedback, hasReachedMax];
+  const factory SettingsState.failure(String feedback) = FailureState;
 }
