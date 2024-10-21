@@ -88,6 +88,8 @@ class SongsScreenState extends State<SongsScreen> {
         if (state is LoadedState) {
           setState(() {
             setBook = 0;
+            books = state.books;
+            songs = state.songs;
             filterSongsByBook();
           });
         }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/data/models/book.dart';
+import '../../../core/di/injectable.dart';
 import '../../../core/theme/theme_styles.dart';
 import '../../../common/widgets/list_items/search_song_item.dart';
 import '../../../common/widgets/progress/skeleton.dart';
@@ -20,8 +21,8 @@ class LikesScreen extends StatefulWidget {
 }
 
 class LikesScreenState extends State<LikesScreen> {
-  late HomeBodyState parent;
   late HomeBloc bloc;
+  late HomeBodyState parent;
 
   int setBook = 0, setSong = 0;
   int pageSize = 20, currentPage = 0;
@@ -35,7 +36,7 @@ class LikesScreenState extends State<LikesScreen> {
   @override
   void initState() {
     super.initState();
-    bloc = context.read<HomeBloc>();
+    bloc = getIt<HomeBloc>();
     _scrollController.addListener(() {
       if (_scrollController.offset > 200) {
         if (!_showBackToTopButton) {
@@ -84,6 +85,8 @@ class LikesScreenState extends State<LikesScreen> {
         if (state is LoadedState) {
           setState(() {
             setBook = 0;
+            books = state.books;
+            likes = state.likes;
             filterSongsByBook();
           });
         }

@@ -29,10 +29,6 @@ class Step1BodyState extends State<Step1Body> {
             context,
             feedbackMessage(state.feedback, l10n),
           );
-          CustomSnackbar.show(
-            context,
-            'We encountered an error while trying to perform your request',
-          );
         }
         if (state is FetchedState) {
           parent.booksListing = state.booksListing;
@@ -50,7 +46,7 @@ class Step1BodyState extends State<Step1Body> {
           return EmptyState(
             title: emptyStateMessage(state.feedback, l10n),
             showRetry: true,
-            onRetry: () => context.read<Step1Bloc>().add(const FetchBooks()),
+            onRetry: () => parent.bloc.add(const FetchBooks()),
           );
         } else if (state is FetchedState) {
           if (parent.booksListing.isNotEmpty) {
@@ -59,7 +55,7 @@ class Step1BodyState extends State<Step1Body> {
             return EmptyState(
               title: 'Sorry nothing to show here at the moment.',
               showRetry: true,
-              onRetry: () => context.read<Step1Bloc>().add(const FetchBooks()),
+              onRetry: () => parent.bloc.add(const FetchBooks()),
             );
           }
         } else {

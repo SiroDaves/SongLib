@@ -24,7 +24,7 @@ class HomeBodyState extends State<HomeBody> {
   @override
   void initState() {
     super.initState();
-    _bloc = context.read<HomeBloc>();
+    _bloc = getIt<HomeBloc>();
     selectedPageIndex = pageController.initialPage;
 
     if (isMobile) {
@@ -45,9 +45,45 @@ class HomeBodyState extends State<HomeBody> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    final l10n = AppLocalizations.of(context)!;
     isTabletOrIpad = size.shortestSide > 550;
 
-    return isTabletOrIpad ? HomePc(parent: this) : HomeMobile(parent: this);
+    return BlocConsumer<HomeBloc, HomeState>(
+      bloc: _bloc,
+      listener: (context, state) {
+        if (state is FailureState) {
+          CustomSnackbar.show(
+            context,
+            feedbackMessage(state.feedback, l10n),
+          );
+        }
+      },
+      builder: (context, state) {
+        if (state is ProgressState) {
+          return const SkeletonLoading();
+        } else if (state is FailureState) {
+          return EmptyState(
+            title: emptyStateMessage(state.feedback, l10n),
+            showRetry: true,
+            onRetry: () => _bloc.add(const HomeFetchData()),
+          );
+        } else if (state is LoadedState) {
+          if (state.books.isNotEmpty && state.songs.isNotEmpty) {
+            return isTabletOrIpad
+                ? HomePc(parent: this)
+                : HomeMobile(parent: this);
+          } else {
+            return EmptyState(
+              title: 'Sorry nothing to show here at the moment.',
+              showRetry: true,
+              onRetry: () => _bloc.add(const HomeFetchData()),
+            );
+          }
+        } else {
+          return const SizedBox.shrink();
+        }
+      },
+    );
   }
 
   void onPageChanged(int index) {

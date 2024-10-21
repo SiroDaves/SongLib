@@ -10,6 +10,7 @@ class SettingsScreenBody extends StatefulWidget {
 
 class _SettingsScreenBodyState extends State<SettingsScreenBody> {
   late SettingsBloc _bloc;
+  late ThemeBloc _themeBloc;
   late SettingsScreenState parent;
   late LocalStorage _localStorage;
 
@@ -23,14 +24,15 @@ class _SettingsScreenBodyState extends State<SettingsScreenBody> {
   void initState() {
     super.initState();
     _localStorage = getIt<LocalStorage>();
-    _bloc = context.read<SettingsBloc>();
+    _bloc = getIt<SettingsBloc>();
+    _themeBloc =  context.read<ThemeBloc>();
     _bloc.add(const SettingsInit());
     appTheme = getThemeModeString(_localStorage.getThemeMode());
   }
 
   void onThemeChanged(ThemeMode themeMode) {
     _localStorage.updateThemeMode(themeMode);
-    context.read<ThemeBloc>().add(ThemeModeChanged(themeMode));
+    _themeBloc.add(ThemeModeChanged(themeMode));
   }
 
   @override
