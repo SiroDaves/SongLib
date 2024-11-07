@@ -1,7 +1,7 @@
 part of '../home_screen.dart';
 
 class HomePc extends StatefulWidget {
-  final HomeBodyState parent;
+  final HomeScreenState parent;
   const HomePc({super.key, required this.parent});
 
   @override
@@ -9,7 +9,7 @@ class HomePc extends StatefulWidget {
 }
 
 class HomePcState extends State<HomePc> {
-  late HomeBodyState parent;
+  late HomeScreenState parent;
 
   @override
   Widget build(BuildContext context) {

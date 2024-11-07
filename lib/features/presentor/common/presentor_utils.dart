@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:share_plus/share_plus.dart';
+//import 'package:share_plus/share_plus.dart';
 
 import '../../../common/utils/app_util.dart';
 import '../../../common/utils/constants/app_constants.dart';
-import '../../../common/widgets/general/toast.dart';
 import '../../../common/widgets/presentor/presentor.dart';
 import '../../../common/data/models/songext.dart';
-import '../bloc/presentor_bloc.dart';
 import '../models/presentor_model.dart';
 
 Future<PresentorModel> loadSong(SongExt song) async {
@@ -93,10 +91,10 @@ String getSongContent(SongExt song) {
 
 Future<void> shareSong(SongExt song) async {
   try {
-    Share.share(
+    /*Share.share(
       getSongContent(song) + AppConstants.fromApp,
       subject: 'Share the song: ${song.title}',
-    );
+    );*/
   } catch (e) {
     logger('Error during sharing song: $e');
   }
@@ -107,27 +105,28 @@ Future<void> copySong(SongExt song) async {
     await Clipboard.setData(ClipboardData(
       text: getSongContent(song) + AppConstants.fromApp,
     ));
-    showToast(
+    /*showToast(
       text: '${song.title} copied!',
       state: ToastStates.success,
-    );
+    );*/
   } catch (e) {
     logger('Error during copying song: $e');
   }
 }
 
-Future<void> copyVerse(PresentorState state, String lyrics) async {
+Future<void> copyVerse(String songTitle,String songBook, String lyrics) async {
   try {
     await Clipboard.setData(
       ClipboardData(
         text:
-            '${lyrics.replaceAll("#", "\n")}\n\n${state.songTitle},\n${state.songBook}',
+            '${lyrics.replaceAll("#", "\n")}'
+            '\n\n$songTitle,\n$songBook',
       ),
     );
-    showToast(
+    /*showToast(
       text: 'Verse copied',
       state: ToastStates.success,
-    );
+    );*/
   } catch (e) {
     logger('Error during copying verse: $e');
   }

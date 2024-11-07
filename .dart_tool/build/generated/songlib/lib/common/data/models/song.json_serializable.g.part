@@ -1,0 +1,32 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+Song _$SongFromJson(Map<String, dynamic> json) => Song(
+      book: (json['book'] as num?)?.toInt(),
+      songId: (json['songId'] as num?)?.toInt(),
+      songNo: (json['songNo'] as num?)?.toInt(),
+      title: json['title'] as String?,
+      alias: json['alias'] as String?,
+      content: json['content'] as String?,
+      views: (json['views'] as num?)?.toInt(),
+      likes: (json['likes'] as num?)?.toInt(),
+      liked: json['liked'] as bool?,
+      created: json['created'] as String?,
+      updated: json['updated'] as String?,
+    )..rid = (json['rid'] as num?)?.toInt();
+
+Map<String, dynamic> _$SongToJson(Song instance) => <String, dynamic>{
+      'rid': instance.rid,
+      'book': instance.book,
+      'songId': instance.songId,
+      'songNo': instance.songNo,
+      'title': instance.title,
+      'alias': instance.alias,
+      'content': instance.content,
+      'views': instance.views,
+      'likes': instance.likes,
+      'liked': instance.liked,
+      'created': instance.created,
+      'updated': instance.updated,
+    };

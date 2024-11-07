@@ -1,7 +1,7 @@
 part of '../home_screen.dart';
 
 class HomeMobile extends StatefulWidget {
-  final HomeBodyState parent;
+  final HomeScreenState parent;
   const HomeMobile({super.key, required this.parent});
 
   @override
@@ -9,7 +9,7 @@ class HomeMobile extends StatefulWidget {
 }
 
 class HomeMobileState extends State<HomeMobile> {
-  late HomeBodyState parent;
+  late HomeScreenState parent;
 
   @override
   Widget build(BuildContext context) {
@@ -41,10 +41,10 @@ class HomeMobileState extends State<HomeMobile> {
     return [
       InkWell(
         onTap: () async {
-          await showSearch(
+          /*await showSearch(
             context: context,
             delegate: SongsSearch(context, parent._bloc, height),
-          );
+          );*/
         },
         child: const Padding(
           padding: EdgeInsets.all(10),

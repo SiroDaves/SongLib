@@ -1,0 +1,1 @@
+ /home/siro/Developer/Flutter/Projects/songlib/.dart_tool/flutter_build/39844214e68d8c3878e2f1897f9b2f09/native_assets.yaml: 

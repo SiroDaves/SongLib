@@ -1,0 +1,29 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+Edit _$EditFromJson(Map<String, dynamic> json) => Edit(
+      rid: (json['rid'] as num?)?.toInt(),
+      song: json['song'] as String?,
+      book: (json['book'] as num?)?.toInt(),
+      songNo: (json['songNo'] as num?)?.toInt(),
+      title: json['title'] as String?,
+      alias: json['alias'] as String?,
+      content: json['content'] as String?,
+      key: json['key'] as String?,
+      created: json['created'] as String?,
+      updated: json['updated'] as String?,
+    );
+
+Map<String, dynamic> _$EditToJson(Edit instance) => <String, dynamic>{
+      'rid': instance.rid,
+      'song': instance.song,
+      'book': instance.book,
+      'songNo': instance.songNo,
+      'title': instance.title,
+      'alias': instance.alias,
+      'content': instance.content,
+      'key': instance.key,
+      'created': instance.created,
+      'updated': instance.updated,
+    };
