@@ -6,18 +6,18 @@ import '../../models/songext.dart';
 
 @dao
 abstract class SongsDao {
-  @Query('SELECT * FROM ${AppConstants.songsTable} WHERE rid = :rid')
+  @Query('SELECT * FROM ${AppConstants.songsTable} WHERE rid=:rid')
   Future<Song?> findSongById(int rid);
 
-  @Query('SELECT * FROM ${AppConstants.songsTable}')
-  Future<List<Song>> fetchSongs();
+  @Query('SELECT * FROM ${AppConstants.songsTableViews} WHERE book = :bid')
+  Stream<List<SongExt>> fetchSongs(int bid);
 
-  @Query('SELECT * FROM ${AppConstants.songsTableViews}')
-  Stream<List<SongExt>> fetchSongExts();
+  @Query('SELECT * FROM ${AppConstants.songsTableViews} WHERE book = :bid AND liked = 1')
+  Stream<List<SongExt>> fetchLikes(int bid);
 
-  @Query('SELECT * FROM ${AppConstants.songsTableViews} WHERE liked=1')
-  Stream<List<SongExt>> fetchLikedSongs();
-
+  //@Query('\$q --:query')
+  //Stream<List<SongExt>> fetchSongs(String query);
+  
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertSong(Song song);
 

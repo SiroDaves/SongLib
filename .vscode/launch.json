@@ -9,6 +9,11 @@
             "request": "launch",
             "type": "dart",
             "program": "lib/main_dev.dart",
+            "args": [
+                "develop",
+                "--target",
+                "lib/main_dev.dart",
+            ],
         },
         {
             "name": "dev",

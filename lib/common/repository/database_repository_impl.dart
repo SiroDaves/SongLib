@@ -1,6 +1,6 @@
-import 'database_repository.dart';
-import '../data/models/models.dart';
 import '../data/db/app_database.dart';
+import '../data/models/models.dart';
+import 'database_repository.dart';
 
 /// Implementor of Database Repository
 class DatabaseRepositoryImpl implements DatabaseRepository {
@@ -29,26 +29,43 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
-  Future<List<Song>> fetchSongs() async {
-    return _appDatabase.songsDao.fetchSongs();
-  }
-
-  @override
   Future<Song?> findSongById(int rid) async {
     return _appDatabase.songsDao.findSongById(rid);
   }
 
   @override
-  Future<List<SongExt>> fetchSongExts() async {
-    final Stream<List<SongExt>> streams = _appDatabase.songsDao.fetchSongExts();
+  Future<List<SongExt>> fetchSongs(int bid) async {
+    final Stream<List<SongExt>> streams = _appDatabase.songsDao.fetchSongs(bid);
     return await streams.first;
   }
 
   @override
-  Future<List<SongExt>> fetchLikedSongs() async {
-    final Stream<List<SongExt>> streams = _appDatabase.songsDao.fetchLikedSongs();
+  Future<List<SongExt>> fetchLikes(int bid) async {
+    final Stream<List<SongExt>> streams = _appDatabase.songsDao.fetchLikes(bid);
     return await streams.first;
   }
+
+  /*@override
+  Future<List<SongExt>> fetchSongs({int bid = 0, bool likes = false}) async {
+    String query = 'SELECT * FROM ${AppConstants.songsTableViews}';
+
+    List<String> conditions = [];
+
+    if (bid != 0) {
+      conditions.add('book = $bid');
+    }
+    if (likes) {
+      conditions.add('liked = 1');
+    }
+
+    if (conditions.isNotEmpty) {
+      query += ' WHERE ' + conditions.join(' AND ');
+    }
+    logger(query);
+    final Stream<List<SongExt>> streams =
+        _appDatabase.songsDao.fetchSongs(query);
+    return await streams.first;
+  }*/
 
   @override
   Future<void> removeSong(Song song) async {
@@ -117,7 +134,8 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
 
   @override
   Future<List<ListedExt>> fetchListedExts() async {
-    final Stream<List<ListedExt>> streams = _appDatabase.listedsDao.fetchListedExts();
+    final Stream<List<ListedExt>> streams =
+        _appDatabase.listedsDao.fetchListedExts();
     return await streams.first;
   }
 
@@ -163,7 +181,8 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
 
   @override
   Future<List<HistoryExt>> fetchHistoryExts() async {
-    final Stream<List<HistoryExt>> streams = _appDatabase.historiesDao.fetchHistoryExts();
+    final Stream<List<HistoryExt>> streams =
+        _appDatabase.historiesDao.fetchHistoryExts();
     return await streams.first;
   }
 

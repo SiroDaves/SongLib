@@ -8,8 +8,7 @@ environment:
 
 dependencies:
   card_swiper: ^3.0.1
-  carousel_slider: ^4.2.1
-  context_menus: ^2.0.0+1
+  #context_menus: ^2.0.0+1
   cupertino_icons: ^1.0.6
   dartx: ^0.7.1
   firebase_analytics: ^11.2.0
@@ -24,13 +23,11 @@ dependencies:
     sdk: flutter
   flutter_platform_alert: ^0.5.1
   flutter_svg: ^2.0.10+1
-  fluttertoast: ^8.2.6
   freezed_annotation: ^2.4.4
   get_it: ^7.2.0
   injectable: ^2.1.2
   intl: ^0.18.0
   json_annotation: ^4.9.0
-  open_file: ^3.0.1
   package_info_plus: ^8.0.1
   path: ^1.8.3
   path_provider: ^2.1.1
@@ -39,7 +36,7 @@ dependencies:
   permission_handler: ^11.3.1
   rxdart: ^0.27.7
   sentry_flutter: ^8.5.0
-  share_plus: ^10.0.0
+  #share_plus: ^10.0.0
   shared_preferences: ^2.2.3
   sizer: ^2.0.15
   skeleton_loader: ^2.0.0+4
@@ -47,6 +44,7 @@ dependencies:
   styled_widget: ^0.4.1
   textstyle_extensions: ^2.0.0-nullsafety
   timeago: ^3.6.1
+  #url_launcher: ^6.3.1
 
 dev_dependencies:
   build_runner: ^2.4.6

@@ -1,8 +1,6 @@
 import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -11,23 +9,16 @@ import '../../../common/data/models/models.dart';
 import '../../../common/widgets/action/bottom_nav_bar.dart';
 import '../../../common/widgets/action/sidebar_btn.dart';
 import '../../../common/widgets/general/fading_index_stack.dart';
-import '../../../common/widgets/progress/custom_snackbar.dart';
-import '../../../common/widgets/progress/general_progress.dart';
-import '../../../common/widgets/progress/skeleton.dart';
-import '../../../core/di/injectable.dart';
 import '../../../core/theme/theme_colors.dart';
 import '../../../core/theme/theme_fonts.dart';
 import '../../../common/utils/app_util.dart';
 import '../../../common/utils/constants/app_constants.dart';
-import '../../../common/utils/env/flavor_config.dart';
 import '../../../core/navigator/route_names.dart';
 import '../../../core/theme/theme_styles.dart';
-import '../../home_likes/ui/likes_screen.dart';
-import '../../home_songs/ui/songs_screen.dart';
+import '../likes/ui/likes_screen.dart';
+import '../songs/ui/songs_screen.dart';
 import '../../settings/ui/settings_screen.dart';
-import '../bloc/home_bloc.dart';
 
-part 'home_body.dart';
 part 'widgets/home_mobile.dart';
 part 'widgets/home_pc.dart';
 
@@ -41,11 +32,41 @@ class HomeScreen extends StatefulWidget {
 class HomeScreenState extends State<HomeScreen> {
   late AppLocalizations l10n;
 
+  PageController pageController = PageController();
+  bool isTabletOrIpad = false;
+  int selectedPageIndex = 0;
+
+  List<PageItem> pages = [
+    PageItem(title: 'Songs', icon: Icons.search, screen: SongsScreen()),
+    PageItem(title: 'Likes', icon: Icons.favorite, screen: LikesScreen()),
+    //PageItem(title: 'Lists', icon: Icons.list, screen: ListsScreen()),
+    //PageItem(title: 'Drafts', icon: Icons.edit, screen: DraftsScreen()),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    selectedPageIndex = pageController.initialPage;
+
+    if (isMobile) {
+      checkPermissions(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     l10n = AppLocalizations.of(context)!;
 
-    return const HomeBody();
+    return isTabletOrIpad ? HomePc(parent: this) : HomeMobile(parent: this);
+  }
+
+  void onPageChanged(int index) {
+    setState(() {
+      selectedPageIndex = index;
+      if (!isTabletOrIpad) {
+        pageController.jumpToPage(index);
+      }
+    });
   }
 }
 

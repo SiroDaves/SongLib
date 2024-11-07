@@ -1,6 +1,6 @@
 import '../data/models/models.dart';
 
-abstract class DatabaseRepository{
+abstract class DatabaseRepository {
   Future<List<Book>> fetchBooks();
 
   Future<void> saveBook(Book book);
@@ -9,18 +9,18 @@ abstract class DatabaseRepository{
 
   Future<void> removeAllBooks();
 
-  Future<List<Song>> fetchSongs();
+  //Future<List<SongExt>> fetchSongs({int bid = 0, bool likes = false});
 
-  Future<List<SongExt>> fetchSongExts();
+  Future<List<SongExt>> fetchSongs(int bid);
 
-  Future<List<SongExt>> fetchLikedSongs();
+  Future<List<SongExt>> fetchLikes(int bid);
 
   Future<Song?> findSongById(int rid);
 
   Future<void> saveSong(Song song);
 
   Future<void> updateSong(Song song);
-  
+
   Future<void> removeSong(Song song);
 
   Future<void> removeAllSongs();
