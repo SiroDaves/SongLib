@@ -6,8 +6,7 @@ import '../../../../common/data/models/models.dart';
 import '../../../../common/utils/app_util.dart';
 import '../../../../common/widgets/action/bottom_nav_bar.dart';
 import '../../../../common/widgets/progress/custom_snackbar.dart';
-import '../../../../common/widgets/progress/general_progress.dart';
-import '../../../../core/di/injectable.dart';
+import '../../../../common/widgets/progress/skeleton.dart';
 import '../../songs/ui/songs_search.dart';
 import '../../likes/ui/likes_screen.dart';
 import '../../songs/ui/songs_screen.dart';
@@ -36,19 +35,18 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var _bloc = getIt<HomeBloc>();
     var l10n = AppLocalizations.of(context)!;
     var size = MediaQuery.of(context).size;
 
     return BlocProvider(
-      create: (context) => _bloc..add(FetchData()),
+      create: (context) => HomeBloc()..add(FetchData()),
       child: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state) {
-          if (state is FetchedState) {
+          if (state is HomeFetchedState) {
             books = state.books;
             songs = state.songs;
-            _bloc.add(FilterData(books[0]));
-          } else if (state is FailureState) {
+            context.read<HomeBloc>().add(FilterData(books[0]));
+          } else if (state is HomeFailureState) {
             CustomSnackbar.show(
               context,
               feedbackMessage(state.feedback, l10n),
@@ -56,9 +54,9 @@ class HomeScreenState extends State<HomeScreen> {
           }
         },
         builder: (context, state) {
-          if (state is FetchingState) {
-            return Scaffold(body: CircularProgress());
-          } else if (state is FilteredState) {
+          if (state is HomeFetchingState) {
+            return Scaffold(body: HomeLoading());
+          } else if (state is HomeFilteredState) {
             List<PageItem> homeScreens = [
               PageItem(
                 title: 'Songs',
@@ -68,7 +66,7 @@ class HomeScreenState extends State<HomeScreen> {
               PageItem(
                 title: 'Likes',
                 icon: Icons.favorite,
-                screen: LikesScreen(),
+                screen: LikesScreen(books: books),
               ),
               //PageItem(title: 'Lists', icon: Icons.list, screen: ListsScreen()),
               //PageItem(title: 'Drafts', icon: Icons.edit, screen: DraftsScreen()),

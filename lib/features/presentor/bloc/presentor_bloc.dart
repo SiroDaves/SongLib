@@ -3,11 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:injectable/injectable.dart';
 
+import '../../../common/utils/app_util.dart';
 import '../../../common/utils/date_util.dart';
 import '../../../common/data/models/history.dart';
-import '../../../common/data/models/song.dart';
 import '../../../common/data/models/songext.dart';
 import '../../../common/repository/database_repository.dart';
 import '../../../core/di/injectable.dart';
@@ -18,7 +17,6 @@ part 'presentor_state.dart';
 
 part 'presentor_bloc.freezed.dart';
 
-@injectable
 class PresentorBloc extends Bloc<PresentorEvent, PresentorState> {
   PresentorBloc() : super(const _PresentorState()) {
     on<LoadSong>(_onLoadSong);
@@ -32,9 +30,9 @@ class PresentorBloc extends Bloc<PresentorEvent, PresentorState> {
     LoadSong event,
     Emitter<PresentorState> emit,
   ) async {
-    emit(ProgressState());
+    emit(PresentorProgressState());
     var presentor = await loadSong(event.song);
-    emit(LoadedState(
+    emit(PresentorLoadedState(
       presentor.songVerses,
       presentor.widgetTabs,
       presentor.widgetContent,
@@ -45,11 +43,21 @@ class PresentorBloc extends Bloc<PresentorEvent, PresentorState> {
     LikeSong event,
     Emitter<PresentorState> emit,
   ) async {
-    emit(ProgressState());
-    Song? song = await _dbRepo.findSongById(event.song.rid);
-    event.song.liked = !event.song.liked;
-    await _dbRepo.updateSong(song!);
-    emit(LikedState(event.song.liked));
+    emit(PresentorProgressState());
+
+    try {
+      await _dbRepo.updateSong(
+        event.song.rid,
+        event.song.title,
+        event.song.content,
+        !event.song.liked,
+        getIso8601Date(),
+      );
+    } catch (e) {
+      logger('Unable to update song: $e');
+    }
+
+    emit(PresentorLikedState(!event.song.liked));
   }
 
   Future<void> _onSaveHistory(
@@ -60,6 +68,6 @@ class PresentorBloc extends Bloc<PresentorEvent, PresentorState> {
       History(song: event.song.rid, created: getCurrentDate()),
     );
 
-    emit(HistoryState());
+    emit(PresentorHistoryState());
   }
 }

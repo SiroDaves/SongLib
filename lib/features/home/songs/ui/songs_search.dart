@@ -106,7 +106,11 @@ class SongsSearch extends SearchDelegate<List> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => PresentorScreen(song: result),
+                          builder: (context) => PresentorScreen(
+                            song: result,
+                            books: books,
+                            songs: songs,
+                          ),
                         ),
                       );
                     },

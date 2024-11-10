@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:injectable/injectable.dart';
 
 import '../../../../common/utils/app_util.dart';
 import '../../../../common/utils/constants/pref_constants.dart';
@@ -14,9 +13,9 @@ import '../../common/domain/selection_repository.dart';
 
 part 'step2_event.dart';
 part 'step2_state.dart';
+
 part 'step2_bloc.freezed.dart';
 
-@injectable
 class Step2Bloc extends Bloc<Step2Event, Step2State> {
   Step2Bloc() : super(const _Step2State()) {
     on<FetchSongs>(_onFetchSongs);
@@ -31,7 +30,7 @@ class Step2Bloc extends Bloc<Step2Event, Step2State> {
     FetchSongs event,
     Emitter<Step2State> emit,
   ) async {
-    emit(ProgressState());
+    emit(Step2ProgressState());
     String selectedBooks =
         _localStorage.getPrefString(PrefConstants.selectedBooksKey);
     var resp = await _step1Repo.getSongsByBooks(selectedBooks);
@@ -43,18 +42,18 @@ class Step2Bloc extends Bloc<Step2Event, Step2State> {
             jsonDecode(resp.body)['data'],
           );
           emit(
-            FetchedState(
+            Step2FetchedState(
               dataList.map((item) => Song.fromJson(item)).toList(),
             ),
           );
           break;
         default:
-          emit(FailureState(resp.statusCode.toString()));
+          emit(Step2FailureState(resp.statusCode.toString()));
           break;
       }
     } catch (e) {
       logger("Error log: $e");
-      emit(FailureState('100'));
+      emit(Step2FailureState('100'));
     }
   }
 
@@ -62,7 +61,7 @@ class Step2Bloc extends Bloc<Step2Event, Step2State> {
     SaveSongs event,
     Emitter<Step2State> emit,
   ) async {
-    emit(ProgressState());
+    emit(Step2ProgressState());
 
     if (event.songs.isNotEmpty) {
       for (int i = 0; i < event.songs.length; i++) {
@@ -96,7 +95,7 @@ class Step2Bloc extends Bloc<Step2Event, Step2State> {
               feedback = "Almost done";
               break;
           }
-          emit(SavingState(progress, feedback));
+          emit(Step2SavingState(progress, feedback));
           await _dbRepo.saveSong(event.songs[i]);
         } catch (_) {}
       }
@@ -105,6 +104,6 @@ class Step2Bloc extends Bloc<Step2Event, Step2State> {
     _localStorage.setPrefBool(PrefConstants.dataIsLoadedKey, true);
     _localStorage.setPrefBool(PrefConstants.wakeLockCheckKey, true);
 
-    emit(SavedState());
+    emit(Step2SavedState());
   }
 }

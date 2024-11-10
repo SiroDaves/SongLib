@@ -7,19 +7,19 @@ class HomeState with _$HomeState {
   const factory HomeState.fetched(
     List<Book> books,
     List<SongExt> songs,
-  ) = FetchedState;
+  ) = HomeFetchedState;
 
   const factory HomeState.filtered(
     Book book,
     List<SongExt> songs,
     List<SongExt> likes,
-  ) = FilteredState;
+  ) = HomeFilteredState;
 
-  const factory HomeState.fetching() = FetchingState;
+  const factory HomeState.fetching() = HomeFetchingState;
 
-  const factory HomeState.filtering() = FilteringState;
+  const factory HomeState.filtering() = HomeFilteringState;
 
-  const factory HomeState.success() = SuccessState;
+  const factory HomeState.success() = HomeSuccessState;
 
-  const factory HomeState.failure(String feedback) = FailureState;
+  const factory HomeState.failure(String feedback) = HomeFailureState;
 }

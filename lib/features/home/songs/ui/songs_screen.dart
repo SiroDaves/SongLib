@@ -5,8 +5,6 @@ import '../../../../common/data/models/models.dart';
 import '../../../../common/widgets/list_items/search_book_item.dart';
 import '../../../../common/widgets/list_items/search_song_item.dart';
 import '../../../../common/widgets/progress/general_progress.dart';
-import '../../../../common/widgets/progress/skeleton.dart';
-import '../../../../core/di/injectable.dart';
 import '../../../../core/theme/theme_styles.dart';
 import '../../../presentor/ui/presentor_screen.dart';
 import '../../common/bloc/home_bloc.dart';
@@ -38,7 +36,7 @@ class SongsScreenState extends State<SongsScreen> {
             text: book.title!,
             isSelected: setBook == index,
             onPressed: () {
-              getIt.get<HomeBloc>().add(FilterData(book));
+              context.read<HomeBloc>().add(FilterData(book));
             },
           );
         },
@@ -51,15 +49,15 @@ class SongsScreenState extends State<SongsScreen> {
 
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
-        if (state is FilteringState) {
-          songList = SkeletonLoading();
-        } else if (state is FilteredState && state.songs.isNotEmpty) {
+        if (state is HomeFilteringState) {
+          songList = CircularProgress();
+        } else if (state is HomeFilteredState && state.songs.isNotEmpty) {
           setBook = widget.books.indexOf(state.book);
           songList = ListView.builder(
             itemCount: state.songs.length,
             physics: const ClampingScrollPhysics(),
             shrinkWrap: true,
-            padding: const EdgeInsets.only(left: Sizes.xs, right: Sizes.m),
+            padding: const EdgeInsets.only(left: Sizes.xs, right: Sizes.sm),
             itemBuilder: (context, index) {
               final SongExt song = state.songs[index];
               return SearchSongItem(
@@ -69,7 +67,11 @@ class SongsScreenState extends State<SongsScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => PresentorScreen(song: song),
+                      builder: (context) => PresentorScreen(
+                        song: song,
+                        books: widget.books,
+                        songs: state.songs,
+                      ),
                     ),
                   );
                 },

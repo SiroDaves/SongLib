@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../../common/data/models/models.dart';
 import '../../../common/utils/app_util.dart';
 import '../../../common/utils/constants/app_assets.dart';
 import '../../../common/widgets/action/fab_widget.dart';
 import '../../../common/widgets/presentor/presentor_animate.dart';
 import '../../../common/widgets/progress/custom_snackbar.dart';
 import '../../../common/widgets/progress/general_progress.dart';
-import '../../../common/data/models/songext.dart';
-import '../../../core/di/injectable.dart';
 import '../../../core/theme/theme_colors.dart';
 import '../bloc/presentor_bloc.dart';
 import '../common/presentor_utils.dart';
@@ -20,7 +19,14 @@ part 'widgets/fab_widget.dart';
 
 class PresentorScreen extends StatefulWidget {
   final SongExt song;
-  const PresentorScreen({super.key, required this.song});
+  final List<Book> books;
+  final List<SongExt> songs;
+  const PresentorScreen({
+    super.key,
+    required this.song,
+    required this.books,
+    required this.songs,
+  });
 
   @override
   State<PresentorScreen> createState() => PresentorScreenState();
@@ -28,6 +34,7 @@ class PresentorScreen extends StatefulWidget {
 
 class PresentorScreenState extends State<PresentorScreen> {
   bool isTabletOrIpad = false;
+  late Book book;
   late SongExt song;
 
   bool isLiked = false, hasChorus = false, shownPcHints = false;
@@ -44,11 +51,11 @@ class PresentorScreenState extends State<PresentorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var _bloc = getIt<PresentorBloc>();
     var l10n = AppLocalizations.of(context)!;
     Size size = MediaQuery.of(context).size;
     isTabletOrIpad = size.shortestSide > 550;
     song = widget.song;
+    book = widget.books.firstWhere((b) => b.bookId == song.book);
     songBook = refineTitle(song.songbook);
     songTitle = songItemTitle(song.songNo, song.title);
     var bgImage = Theme.of(context).brightness == Brightness.light
@@ -56,50 +63,56 @@ class PresentorScreenState extends State<PresentorScreen> {
         : AppAssets.imgBgBw;
 
     return BlocProvider(
-      create: (context) => _bloc..add(LoadSong(widget.song)),
+      create: (context) => PresentorBloc()..add(LoadSong(widget.song)),
       child: BlocConsumer<PresentorBloc, PresentorState>(
         listener: (context, state) {
-          if (state is FailureState) {
+          if (state is PresentorFailureState) {
             CustomSnackbar.show(
               context,
               feedbackMessage(state.feedback, l10n),
             );
           }
-          if (state is LikedState) {
+          if (state is PresentorLikedState) {
+            setState(() => song.liked = !song.liked);
             if (state.liked) {
               CustomSnackbar.show(
                 context,
-                'This has been added to your likes',
+                '${song.title} added to your likes',
                 isSuccess: true,
               );
             } else {
               CustomSnackbar.show(
                 context,
-                'This has been removed from your likes',
-                isSuccess: true,
+                '${song.title} removed from your likes',
               );
             }
+          } else if (state is PresentorLoadedState) {
+            setState(() {
+              songVerses = state.songVerses!;
+              widgetTabs = state.widgetTabs!;
+              widgetContent = state.widgetContent!;
+            });
           }
         },
         builder: (context, state) {
-          if (state is ProgressState) {
+          if (state is PresentorProgressState) {
             return Scaffold(body: CircularProgress());
-          } else if (state is LoadedState) {
-            return Scaffold(
-              appBar: AppBar(
-                title: Text(songTitle),
-                actions: <Widget>[
-                  InkWell(
-                    onTap: () {
-                      _bloc.add(LikeSong(song));
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Icon(
-                          song.liked ? Icons.favorite : Icons.favorite_border),
-                    ),
+          }
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(songTitle),
+              actions: <Widget>[
+                InkWell(
+                  onTap: () {
+                    context.read<PresentorBloc>().add(LikeSong(song));
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Icon(
+                        song.liked ? Icons.favorite : Icons.favorite_border),
                   ),
-                  /*InkWell(
+                ),
+                /*InkWell(
                     onTap: () async {
                       await showModalBottomSheet<void>(
                           context: context,
@@ -112,35 +125,8 @@ class PresentorScreenState extends State<PresentorScreen> {
                       child: Icon(Icons.list),
                     ),
                   ),*/
-                ],
-              ),
-              body: DecoratedBox(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(bgImage),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                child: state.widgetTabs!.isNotEmpty
-                    ? PresentorMobile(
-                        index: curSlide,
-                        songbook: songBook,
-                        tabs: state.widgetTabs,
-                        contents: state.widgetContent,
-                        tabsWidth: size.height * 0.08156,
-                        indicatorWidth: size.height * 0.08156,
-                        contentScrollAxis:
-                            slideHorizontal ? Axis.horizontal : Axis.vertical,
-                      )
-                    : SizedBox(
-                        height: size.height,
-                        width: size.width,
-                      ),
-              ),
-              floatingActionButton: PresentorFabWidget(song: song),
-            );
-          }
-          return Scaffold(
+              ],
+            ),
             body: DecoratedBox(
               decoration: BoxDecoration(
                 image: DecorationImage(
@@ -148,11 +134,23 @@ class PresentorScreenState extends State<PresentorScreen> {
                   fit: BoxFit.cover,
                 ),
               ),
-              child: SizedBox(
-                height: size.height,
-                width: size.width,
-              ),
+              child: widgetTabs.isNotEmpty
+                  ? PresentorMobile(
+                      index: curSlide,
+                      songbook: songBook,
+                      tabs: widgetTabs,
+                      contents: widgetContent,
+                      tabsWidth: size.height * 0.08156,
+                      indicatorWidth: size.height * 0.08156,
+                      contentScrollAxis:
+                          slideHorizontal ? Axis.horizontal : Axis.vertical,
+                    )
+                  : SizedBox(
+                      height: size.height,
+                      width: size.width,
+                    ),
             ),
+            floatingActionButton: PresentorFabWidget(song: song),
           );
         },
       ),

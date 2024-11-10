@@ -9,7 +9,7 @@ abstract class DatabaseRepository {
 
   Future<void> removeAllBooks();
 
-  Future<List<SongExt>> fetchSongs(int bid);
+  Future<List<SongExt>> fetchSongs({int bid = 0});
 
   Future<List<SongExt>> fetchLikes();
 
@@ -17,7 +17,13 @@ abstract class DatabaseRepository {
 
   Future<void> saveSong(Song song);
 
-  Future<void> updateSong(Song song);
+  Future<void> updateSong(
+    int rid,
+    String title,
+    String content,
+    bool liked,
+    String updated,
+  );
 
   Future<void> removeSong(Song song);
 
