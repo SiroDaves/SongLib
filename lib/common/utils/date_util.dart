@@ -5,7 +5,11 @@ import 'package:intl/intl.dart';
 
 String dateNow() {
   return DateFormat('yyyy-MM-ddTHH:mm:ss').format(DateTime.now());
-  
+}
+
+String getIso8601Date() {
+  final now = DateTime.now().toUtc();
+  return now.toIso8601String() + 'Z';
 }
 
 String getCurrentDate() {

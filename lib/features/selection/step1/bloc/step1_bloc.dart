@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:injectable/injectable.dart';
 
 import '../../../../common/data/models/basic_model.dart';
 import '../../../../common/utils/app_util.dart';
@@ -17,7 +16,6 @@ part 'step1_event.dart';
 part 'step1_state.dart';
 part 'step1_bloc.freezed.dart';
 
-@injectable
 class Step1Bloc extends Bloc<Step1Event, Step1State> {
   Step1Bloc() : super(const _Step1State()) {
     on<FetchBooks>(_onFetchBooks);
@@ -32,7 +30,7 @@ class Step1Bloc extends Bloc<Step1Event, Step1State> {
     FetchBooks event,
     Emitter<Step1State> emit,
   ) async {
-    emit(ProgressState());
+    emit(Step1ProgressState());
     var resp = await _step1Repo.getBooks();
     String selectedBooksIds =
         _localStorage.getPrefString(PrefConstants.selectedBooksKey);
@@ -56,16 +54,16 @@ class Step1Bloc extends Bloc<Step1Event, Step1State> {
             }
             booksListing.add(Selectable<Book>(book, setSelected));
           }
-          emit(FetchedState(selectedBooksIds, books,booksListing));
+          emit(Step1FetchedState(selectedBooksIds, books,booksListing));
           break;
 
         default:
-          emit(FailureState(resp.statusCode.toString()));
+          emit(Step1FailureState(resp.statusCode.toString()));
           break;
       }
     } catch (e) {
       logger("Error log: $e");
-      emit(FailureState('100'));
+      emit(Step1FailureState('100'));
     }
   }
 
@@ -73,7 +71,7 @@ class Step1Bloc extends Bloc<Step1Event, Step1State> {
     SaveBooks event,
     Emitter<Step1State> emit,
   ) async {
-    emit(ProgressState());
+    emit(Step1ProgressState());
     String selectedBooks = event.selectedBooksIds;
     try {
       if (event.selectedBooksIds.isNotEmpty) {
@@ -100,6 +98,6 @@ class Step1Bloc extends Bloc<Step1Event, Step1State> {
       logger('Unable to save books: $e');
     }
 
-    emit(SavedState(selectedBooks));
+    emit(Step1SavedState(selectedBooks));
   }
 }

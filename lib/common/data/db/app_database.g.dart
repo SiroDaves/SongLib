@@ -805,25 +805,6 @@ class _$SongsDao extends SongsDao {
                   'updated': item.updated
                 },
             changeListener),
-        _songUpdateAdapter = UpdateAdapter(
-            database,
-            'songs',
-            ['rid'],
-            (Song item) => <String, Object?>{
-                  'rid': item.rid,
-                  'book': item.book,
-                  'songId': item.songId,
-                  'songNo': item.songNo,
-                  'title': item.title,
-                  'alias': item.alias,
-                  'content': item.content,
-                  'views': item.views,
-                  'likes': item.likes,
-                  'liked': item.liked == null ? null : (item.liked! ? 1 : 0),
-                  'created': item.created,
-                  'updated': item.updated
-                },
-            changeListener),
         _songDeletionAdapter = DeletionAdapter(
             database,
             'songs',
@@ -852,13 +833,11 @@ class _$SongsDao extends SongsDao {
 
   final InsertionAdapter<Song> _songInsertionAdapter;
 
-  final UpdateAdapter<Song> _songUpdateAdapter;
-
   final DeletionAdapter<Song> _songDeletionAdapter;
 
   @override
   Future<Song?> findSongById(int rid) async {
-    return _queryAdapter.query('SELECT * FROM songs WHERE rid=?1',
+    return _queryAdapter.query('SELECT * FROM songs WHERE rid = ?1',
         mapper: (Map<String, Object?> row) => Song(
             book: row['book'] as int?,
             songId: row['songId'] as int?,
@@ -872,6 +851,25 @@ class _$SongsDao extends SongsDao {
             created: row['created'] as String?,
             updated: row['updated'] as String?),
         arguments: [rid]);
+  }
+
+  @override
+  Stream<List<SongExt>> fetchAllSongs() {
+    return _queryAdapter.queryListStream('SELECT * FROM viewsongs',
+        mapper: (Map<String, Object?> row) => SongExt(
+            row['rid'] as int,
+            row['book'] as int,
+            row['songId'] as int,
+            row['songNo'] as int,
+            row['title'] as String,
+            row['alias'] as String,
+            row['content'] as String,
+            row['views'] as int,
+            row['likes'] as int,
+            (row['liked'] as int) != 0,
+            row['songbook'] as String),
+        queryableName: 'viewsongs',
+        isView: true);
   }
 
   @override
@@ -896,9 +894,9 @@ class _$SongsDao extends SongsDao {
   }
 
   @override
-  Stream<List<SongExt>> fetchLikes(int bid) {
+  Stream<List<SongExt>> fetchLikes() {
     return _queryAdapter.queryListStream(
-        'SELECT * FROM viewsongs WHERE book = ?1 AND liked = 1',
+        'SELECT * FROM viewsongs WHERE liked = 1',
         mapper: (Map<String, Object?> row) => SongExt(
             row['rid'] as int,
             row['book'] as int,
@@ -911,9 +909,21 @@ class _$SongsDao extends SongsDao {
             row['likes'] as int,
             (row['liked'] as int) != 0,
             row['songbook'] as String),
-        arguments: [bid],
         queryableName: 'viewsongs',
         isView: true);
+  }
+
+  @override
+  Future<void> updateSong(
+    int rid,
+    String title,
+    String content,
+    bool liked,
+    String updated,
+  ) async {
+    await _queryAdapter.queryNoReturn(
+        'UPDATE songs SET title = ?2, content = ?3, liked = ?4, updated = ?5 WHERE rid = ?1',
+        arguments: [rid, title, content, liked ? 1 : 0, updated]);
   }
 
   @override
@@ -924,11 +934,6 @@ class _$SongsDao extends SongsDao {
   @override
   Future<void> insertSong(Song song) async {
     await _songInsertionAdapter.insert(song, OnConflictStrategy.replace);
-  }
-
-  @override
-  Future<void> updateSong(Song song) async {
-    await _songUpdateAdapter.update(song, OnConflictStrategy.abort);
   }
 
   @override

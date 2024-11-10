@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
+import '../../../../../common/utils/constants/app_assets.dart';
 import '../../../../../common/widgets/progress/advanced/advanced_progress.dart';
+import '../../../../../common/widgets/progress/wave/wave_progress.dart';
 import '../../../../../core/theme/theme_colors.dart';
 
 class BackgroundProgress extends StatelessWidget {
@@ -85,6 +88,64 @@ class ForegroundProgress extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class WaveProgress extends StatelessWidget {
+  const WaveProgress({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var bgImage = Theme.of(context).brightness == Brightness.light
+        ? AppAssets.imgBg
+        : AppAssets.imgBgBw;
+    var color1 = Theme.of(context).brightness == Brightness.light
+        ? ThemeColors.accent
+        : Colors.white;
+    var color2 = Theme.of(context).brightness == Brightness.light
+        ? ThemeColors.primary
+        : Colors.black;
+
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(bgImage),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Stack(
+        alignment: AlignmentDirectional.center,
+        children: <Widget>[
+          RotatedBox(
+            quarterTurns: 2,
+            child: WaveProgressIndicator(
+              value: 0.35,
+              valueColor: AlwaysStoppedAnimation(color1),
+              backgroundColor: Colors.white,
+              borderColor: Colors.black,
+              borderWidth: 5.0,
+            ),
+          ),
+          Text(
+            'Get ready,\nGet ready ...',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              letterSpacing: 1.5,
+              fontWeight: FontWeight.bold,
+              fontSize: 30,
+              color: Colors.white,
+            ),
+          ),
+          WaveProgressIndicator(
+            value: 0.35,
+            valueColor: AlwaysStoppedAnimation(color2),
+            backgroundColor: Colors.white,
+            borderColor: Colors.black,
+            borderWidth: 5.0,
+          ),
+        ],
       ),
     );
   }

@@ -372,34 +372,34 @@ mixin _$Step1State {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Step1State value) initial,
-    required TResult Function(LoadedState value) loaded,
-    required TResult Function(ProgressState value) progress,
-    required TResult Function(SuccessState value) success,
-    required TResult Function(FetchedState value) fetched,
-    required TResult Function(SavedState value) saved,
-    required TResult Function(FailureState value) failure,
+    required TResult Function(Step1LoadedState value) loaded,
+    required TResult Function(Step1ProgressState value) progress,
+    required TResult Function(Step1SuccessState value) success,
+    required TResult Function(Step1FetchedState value) fetched,
+    required TResult Function(Step1SavedState value) saved,
+    required TResult Function(Step1FailureState value) failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Step1State value)? initial,
-    TResult? Function(LoadedState value)? loaded,
-    TResult? Function(ProgressState value)? progress,
-    TResult? Function(SuccessState value)? success,
-    TResult? Function(FetchedState value)? fetched,
-    TResult? Function(SavedState value)? saved,
-    TResult? Function(FailureState value)? failure,
+    TResult? Function(Step1LoadedState value)? loaded,
+    TResult? Function(Step1ProgressState value)? progress,
+    TResult? Function(Step1SuccessState value)? success,
+    TResult? Function(Step1FetchedState value)? fetched,
+    TResult? Function(Step1SavedState value)? saved,
+    TResult? Function(Step1FailureState value)? failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Step1State value)? initial,
-    TResult Function(LoadedState value)? loaded,
-    TResult Function(ProgressState value)? progress,
-    TResult Function(SuccessState value)? success,
-    TResult Function(FetchedState value)? fetched,
-    TResult Function(SavedState value)? saved,
-    TResult Function(FailureState value)? failure,
+    TResult Function(Step1LoadedState value)? loaded,
+    TResult Function(Step1ProgressState value)? progress,
+    TResult Function(Step1SuccessState value)? success,
+    TResult Function(Step1FetchedState value)? fetched,
+    TResult Function(Step1SavedState value)? saved,
+    TResult Function(Step1FailureState value)? failure,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -514,12 +514,12 @@ class _$Step1StateImpl implements _Step1State {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Step1State value) initial,
-    required TResult Function(LoadedState value) loaded,
-    required TResult Function(ProgressState value) progress,
-    required TResult Function(SuccessState value) success,
-    required TResult Function(FetchedState value) fetched,
-    required TResult Function(SavedState value) saved,
-    required TResult Function(FailureState value) failure,
+    required TResult Function(Step1LoadedState value) loaded,
+    required TResult Function(Step1ProgressState value) progress,
+    required TResult Function(Step1SuccessState value) success,
+    required TResult Function(Step1FetchedState value) fetched,
+    required TResult Function(Step1SavedState value) saved,
+    required TResult Function(Step1FailureState value) failure,
   }) {
     return initial(this);
   }
@@ -528,12 +528,12 @@ class _$Step1StateImpl implements _Step1State {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Step1State value)? initial,
-    TResult? Function(LoadedState value)? loaded,
-    TResult? Function(ProgressState value)? progress,
-    TResult? Function(SuccessState value)? success,
-    TResult? Function(FetchedState value)? fetched,
-    TResult? Function(SavedState value)? saved,
-    TResult? Function(FailureState value)? failure,
+    TResult? Function(Step1LoadedState value)? loaded,
+    TResult? Function(Step1ProgressState value)? progress,
+    TResult? Function(Step1SuccessState value)? success,
+    TResult? Function(Step1FetchedState value)? fetched,
+    TResult? Function(Step1SavedState value)? saved,
+    TResult? Function(Step1FailureState value)? failure,
   }) {
     return initial?.call(this);
   }
@@ -542,12 +542,12 @@ class _$Step1StateImpl implements _Step1State {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Step1State value)? initial,
-    TResult Function(LoadedState value)? loaded,
-    TResult Function(ProgressState value)? progress,
-    TResult Function(SuccessState value)? success,
-    TResult Function(FetchedState value)? fetched,
-    TResult Function(SavedState value)? saved,
-    TResult Function(FailureState value)? failure,
+    TResult Function(Step1LoadedState value)? loaded,
+    TResult Function(Step1ProgressState value)? progress,
+    TResult Function(Step1SuccessState value)? success,
+    TResult Function(Step1FetchedState value)? fetched,
+    TResult Function(Step1SavedState value)? saved,
+    TResult Function(Step1FailureState value)? failure,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -562,25 +562,25 @@ abstract class _Step1State implements Step1State {
 }
 
 /// @nodoc
-abstract class _$$LoadedStateImplCopyWith<$Res> {
-  factory _$$LoadedStateImplCopyWith(
-          _$LoadedStateImpl value, $Res Function(_$LoadedStateImpl) then) =
-      __$$LoadedStateImplCopyWithImpl<$Res>;
+abstract class _$$Step1LoadedStateImplCopyWith<$Res> {
+  factory _$$Step1LoadedStateImplCopyWith(_$Step1LoadedStateImpl value,
+          $Res Function(_$Step1LoadedStateImpl) then) =
+      __$$Step1LoadedStateImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$LoadedStateImplCopyWithImpl<$Res>
-    extends _$Step1StateCopyWithImpl<$Res, _$LoadedStateImpl>
-    implements _$$LoadedStateImplCopyWith<$Res> {
-  __$$LoadedStateImplCopyWithImpl(
-      _$LoadedStateImpl _value, $Res Function(_$LoadedStateImpl) _then)
+class __$$Step1LoadedStateImplCopyWithImpl<$Res>
+    extends _$Step1StateCopyWithImpl<$Res, _$Step1LoadedStateImpl>
+    implements _$$Step1LoadedStateImplCopyWith<$Res> {
+  __$$Step1LoadedStateImplCopyWithImpl(_$Step1LoadedStateImpl _value,
+      $Res Function(_$Step1LoadedStateImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$LoadedStateImpl implements LoadedState {
-  const _$LoadedStateImpl();
+class _$Step1LoadedStateImpl implements Step1LoadedState {
+  const _$Step1LoadedStateImpl();
 
   @override
   String toString() {
@@ -590,7 +590,7 @@ class _$LoadedStateImpl implements LoadedState {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$LoadedStateImpl);
+        (other.runtimeType == runtimeType && other is _$Step1LoadedStateImpl);
   }
 
   @override
@@ -652,12 +652,12 @@ class _$LoadedStateImpl implements LoadedState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Step1State value) initial,
-    required TResult Function(LoadedState value) loaded,
-    required TResult Function(ProgressState value) progress,
-    required TResult Function(SuccessState value) success,
-    required TResult Function(FetchedState value) fetched,
-    required TResult Function(SavedState value) saved,
-    required TResult Function(FailureState value) failure,
+    required TResult Function(Step1LoadedState value) loaded,
+    required TResult Function(Step1ProgressState value) progress,
+    required TResult Function(Step1SuccessState value) success,
+    required TResult Function(Step1FetchedState value) fetched,
+    required TResult Function(Step1SavedState value) saved,
+    required TResult Function(Step1FailureState value) failure,
   }) {
     return loaded(this);
   }
@@ -666,12 +666,12 @@ class _$LoadedStateImpl implements LoadedState {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Step1State value)? initial,
-    TResult? Function(LoadedState value)? loaded,
-    TResult? Function(ProgressState value)? progress,
-    TResult? Function(SuccessState value)? success,
-    TResult? Function(FetchedState value)? fetched,
-    TResult? Function(SavedState value)? saved,
-    TResult? Function(FailureState value)? failure,
+    TResult? Function(Step1LoadedState value)? loaded,
+    TResult? Function(Step1ProgressState value)? progress,
+    TResult? Function(Step1SuccessState value)? success,
+    TResult? Function(Step1FetchedState value)? fetched,
+    TResult? Function(Step1SavedState value)? saved,
+    TResult? Function(Step1FailureState value)? failure,
   }) {
     return loaded?.call(this);
   }
@@ -680,12 +680,12 @@ class _$LoadedStateImpl implements LoadedState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Step1State value)? initial,
-    TResult Function(LoadedState value)? loaded,
-    TResult Function(ProgressState value)? progress,
-    TResult Function(SuccessState value)? success,
-    TResult Function(FetchedState value)? fetched,
-    TResult Function(SavedState value)? saved,
-    TResult Function(FailureState value)? failure,
+    TResult Function(Step1LoadedState value)? loaded,
+    TResult Function(Step1ProgressState value)? progress,
+    TResult Function(Step1SuccessState value)? success,
+    TResult Function(Step1FetchedState value)? fetched,
+    TResult Function(Step1SavedState value)? saved,
+    TResult Function(Step1FailureState value)? failure,
     required TResult orElse(),
   }) {
     if (loaded != null) {
@@ -695,30 +695,30 @@ class _$LoadedStateImpl implements LoadedState {
   }
 }
 
-abstract class LoadedState implements Step1State {
-  const factory LoadedState() = _$LoadedStateImpl;
+abstract class Step1LoadedState implements Step1State {
+  const factory Step1LoadedState() = _$Step1LoadedStateImpl;
 }
 
 /// @nodoc
-abstract class _$$ProgressStateImplCopyWith<$Res> {
-  factory _$$ProgressStateImplCopyWith(
-          _$ProgressStateImpl value, $Res Function(_$ProgressStateImpl) then) =
-      __$$ProgressStateImplCopyWithImpl<$Res>;
+abstract class _$$Step1ProgressStateImplCopyWith<$Res> {
+  factory _$$Step1ProgressStateImplCopyWith(_$Step1ProgressStateImpl value,
+          $Res Function(_$Step1ProgressStateImpl) then) =
+      __$$Step1ProgressStateImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$ProgressStateImplCopyWithImpl<$Res>
-    extends _$Step1StateCopyWithImpl<$Res, _$ProgressStateImpl>
-    implements _$$ProgressStateImplCopyWith<$Res> {
-  __$$ProgressStateImplCopyWithImpl(
-      _$ProgressStateImpl _value, $Res Function(_$ProgressStateImpl) _then)
+class __$$Step1ProgressStateImplCopyWithImpl<$Res>
+    extends _$Step1StateCopyWithImpl<$Res, _$Step1ProgressStateImpl>
+    implements _$$Step1ProgressStateImplCopyWith<$Res> {
+  __$$Step1ProgressStateImplCopyWithImpl(_$Step1ProgressStateImpl _value,
+      $Res Function(_$Step1ProgressStateImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$ProgressStateImpl implements ProgressState {
-  const _$ProgressStateImpl();
+class _$Step1ProgressStateImpl implements Step1ProgressState {
+  const _$Step1ProgressStateImpl();
 
   @override
   String toString() {
@@ -728,7 +728,7 @@ class _$ProgressStateImpl implements ProgressState {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$ProgressStateImpl);
+        (other.runtimeType == runtimeType && other is _$Step1ProgressStateImpl);
   }
 
   @override
@@ -790,12 +790,12 @@ class _$ProgressStateImpl implements ProgressState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Step1State value) initial,
-    required TResult Function(LoadedState value) loaded,
-    required TResult Function(ProgressState value) progress,
-    required TResult Function(SuccessState value) success,
-    required TResult Function(FetchedState value) fetched,
-    required TResult Function(SavedState value) saved,
-    required TResult Function(FailureState value) failure,
+    required TResult Function(Step1LoadedState value) loaded,
+    required TResult Function(Step1ProgressState value) progress,
+    required TResult Function(Step1SuccessState value) success,
+    required TResult Function(Step1FetchedState value) fetched,
+    required TResult Function(Step1SavedState value) saved,
+    required TResult Function(Step1FailureState value) failure,
   }) {
     return progress(this);
   }
@@ -804,12 +804,12 @@ class _$ProgressStateImpl implements ProgressState {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Step1State value)? initial,
-    TResult? Function(LoadedState value)? loaded,
-    TResult? Function(ProgressState value)? progress,
-    TResult? Function(SuccessState value)? success,
-    TResult? Function(FetchedState value)? fetched,
-    TResult? Function(SavedState value)? saved,
-    TResult? Function(FailureState value)? failure,
+    TResult? Function(Step1LoadedState value)? loaded,
+    TResult? Function(Step1ProgressState value)? progress,
+    TResult? Function(Step1SuccessState value)? success,
+    TResult? Function(Step1FetchedState value)? fetched,
+    TResult? Function(Step1SavedState value)? saved,
+    TResult? Function(Step1FailureState value)? failure,
   }) {
     return progress?.call(this);
   }
@@ -818,12 +818,12 @@ class _$ProgressStateImpl implements ProgressState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Step1State value)? initial,
-    TResult Function(LoadedState value)? loaded,
-    TResult Function(ProgressState value)? progress,
-    TResult Function(SuccessState value)? success,
-    TResult Function(FetchedState value)? fetched,
-    TResult Function(SavedState value)? saved,
-    TResult Function(FailureState value)? failure,
+    TResult Function(Step1LoadedState value)? loaded,
+    TResult Function(Step1ProgressState value)? progress,
+    TResult Function(Step1SuccessState value)? success,
+    TResult Function(Step1FetchedState value)? fetched,
+    TResult Function(Step1SavedState value)? saved,
+    TResult Function(Step1FailureState value)? failure,
     required TResult orElse(),
   }) {
     if (progress != null) {
@@ -833,30 +833,30 @@ class _$ProgressStateImpl implements ProgressState {
   }
 }
 
-abstract class ProgressState implements Step1State {
-  const factory ProgressState() = _$ProgressStateImpl;
+abstract class Step1ProgressState implements Step1State {
+  const factory Step1ProgressState() = _$Step1ProgressStateImpl;
 }
 
 /// @nodoc
-abstract class _$$SuccessStateImplCopyWith<$Res> {
-  factory _$$SuccessStateImplCopyWith(
-          _$SuccessStateImpl value, $Res Function(_$SuccessStateImpl) then) =
-      __$$SuccessStateImplCopyWithImpl<$Res>;
+abstract class _$$Step1SuccessStateImplCopyWith<$Res> {
+  factory _$$Step1SuccessStateImplCopyWith(_$Step1SuccessStateImpl value,
+          $Res Function(_$Step1SuccessStateImpl) then) =
+      __$$Step1SuccessStateImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$SuccessStateImplCopyWithImpl<$Res>
-    extends _$Step1StateCopyWithImpl<$Res, _$SuccessStateImpl>
-    implements _$$SuccessStateImplCopyWith<$Res> {
-  __$$SuccessStateImplCopyWithImpl(
-      _$SuccessStateImpl _value, $Res Function(_$SuccessStateImpl) _then)
+class __$$Step1SuccessStateImplCopyWithImpl<$Res>
+    extends _$Step1StateCopyWithImpl<$Res, _$Step1SuccessStateImpl>
+    implements _$$Step1SuccessStateImplCopyWith<$Res> {
+  __$$Step1SuccessStateImplCopyWithImpl(_$Step1SuccessStateImpl _value,
+      $Res Function(_$Step1SuccessStateImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$SuccessStateImpl implements SuccessState {
-  const _$SuccessStateImpl();
+class _$Step1SuccessStateImpl implements Step1SuccessState {
+  const _$Step1SuccessStateImpl();
 
   @override
   String toString() {
@@ -866,7 +866,7 @@ class _$SuccessStateImpl implements SuccessState {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$SuccessStateImpl);
+        (other.runtimeType == runtimeType && other is _$Step1SuccessStateImpl);
   }
 
   @override
@@ -928,12 +928,12 @@ class _$SuccessStateImpl implements SuccessState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Step1State value) initial,
-    required TResult Function(LoadedState value) loaded,
-    required TResult Function(ProgressState value) progress,
-    required TResult Function(SuccessState value) success,
-    required TResult Function(FetchedState value) fetched,
-    required TResult Function(SavedState value) saved,
-    required TResult Function(FailureState value) failure,
+    required TResult Function(Step1LoadedState value) loaded,
+    required TResult Function(Step1ProgressState value) progress,
+    required TResult Function(Step1SuccessState value) success,
+    required TResult Function(Step1FetchedState value) fetched,
+    required TResult Function(Step1SavedState value) saved,
+    required TResult Function(Step1FailureState value) failure,
   }) {
     return success(this);
   }
@@ -942,12 +942,12 @@ class _$SuccessStateImpl implements SuccessState {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Step1State value)? initial,
-    TResult? Function(LoadedState value)? loaded,
-    TResult? Function(ProgressState value)? progress,
-    TResult? Function(SuccessState value)? success,
-    TResult? Function(FetchedState value)? fetched,
-    TResult? Function(SavedState value)? saved,
-    TResult? Function(FailureState value)? failure,
+    TResult? Function(Step1LoadedState value)? loaded,
+    TResult? Function(Step1ProgressState value)? progress,
+    TResult? Function(Step1SuccessState value)? success,
+    TResult? Function(Step1FetchedState value)? fetched,
+    TResult? Function(Step1SavedState value)? saved,
+    TResult? Function(Step1FailureState value)? failure,
   }) {
     return success?.call(this);
   }
@@ -956,12 +956,12 @@ class _$SuccessStateImpl implements SuccessState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Step1State value)? initial,
-    TResult Function(LoadedState value)? loaded,
-    TResult Function(ProgressState value)? progress,
-    TResult Function(SuccessState value)? success,
-    TResult Function(FetchedState value)? fetched,
-    TResult Function(SavedState value)? saved,
-    TResult Function(FailureState value)? failure,
+    TResult Function(Step1LoadedState value)? loaded,
+    TResult Function(Step1ProgressState value)? progress,
+    TResult Function(Step1SuccessState value)? success,
+    TResult Function(Step1FetchedState value)? fetched,
+    TResult Function(Step1SavedState value)? saved,
+    TResult Function(Step1FailureState value)? failure,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -971,15 +971,15 @@ class _$SuccessStateImpl implements SuccessState {
   }
 }
 
-abstract class SuccessState implements Step1State {
-  const factory SuccessState() = _$SuccessStateImpl;
+abstract class Step1SuccessState implements Step1State {
+  const factory Step1SuccessState() = _$Step1SuccessStateImpl;
 }
 
 /// @nodoc
-abstract class _$$FetchedStateImplCopyWith<$Res> {
-  factory _$$FetchedStateImplCopyWith(
-          _$FetchedStateImpl value, $Res Function(_$FetchedStateImpl) then) =
-      __$$FetchedStateImplCopyWithImpl<$Res>;
+abstract class _$$Step1FetchedStateImplCopyWith<$Res> {
+  factory _$$Step1FetchedStateImplCopyWith(_$Step1FetchedStateImpl value,
+          $Res Function(_$Step1FetchedStateImpl) then) =
+      __$$Step1FetchedStateImplCopyWithImpl<$Res>;
   @useResult
   $Res call(
       {String selectedBooksIds,
@@ -988,11 +988,11 @@ abstract class _$$FetchedStateImplCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$FetchedStateImplCopyWithImpl<$Res>
-    extends _$Step1StateCopyWithImpl<$Res, _$FetchedStateImpl>
-    implements _$$FetchedStateImplCopyWith<$Res> {
-  __$$FetchedStateImplCopyWithImpl(
-      _$FetchedStateImpl _value, $Res Function(_$FetchedStateImpl) _then)
+class __$$Step1FetchedStateImplCopyWithImpl<$Res>
+    extends _$Step1StateCopyWithImpl<$Res, _$Step1FetchedStateImpl>
+    implements _$$Step1FetchedStateImplCopyWith<$Res> {
+  __$$Step1FetchedStateImplCopyWithImpl(_$Step1FetchedStateImpl _value,
+      $Res Function(_$Step1FetchedStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1002,7 +1002,7 @@ class __$$FetchedStateImplCopyWithImpl<$Res>
     Object? books = null,
     Object? booksListing = null,
   }) {
-    return _then(_$FetchedStateImpl(
+    return _then(_$Step1FetchedStateImpl(
       null == selectedBooksIds
           ? _value.selectedBooksIds
           : selectedBooksIds // ignore: cast_nullable_to_non_nullable
@@ -1021,8 +1021,8 @@ class __$$FetchedStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$FetchedStateImpl implements FetchedState {
-  const _$FetchedStateImpl(this.selectedBooksIds, final List<Book> books,
+class _$Step1FetchedStateImpl implements Step1FetchedState {
+  const _$Step1FetchedStateImpl(this.selectedBooksIds, final List<Book> books,
       final List<Selectable<Book>> booksListing)
       : _books = books,
         _booksListing = booksListing;
@@ -1054,7 +1054,7 @@ class _$FetchedStateImpl implements FetchedState {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FetchedStateImpl &&
+            other is _$Step1FetchedStateImpl &&
             (identical(other.selectedBooksIds, selectedBooksIds) ||
                 other.selectedBooksIds == selectedBooksIds) &&
             const DeepCollectionEquality().equals(other._books, _books) &&
@@ -1072,8 +1072,9 @@ class _$FetchedStateImpl implements FetchedState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$FetchedStateImplCopyWith<_$FetchedStateImpl> get copyWith =>
-      __$$FetchedStateImplCopyWithImpl<_$FetchedStateImpl>(this, _$identity);
+  _$$Step1FetchedStateImplCopyWith<_$Step1FetchedStateImpl> get copyWith =>
+      __$$Step1FetchedStateImplCopyWithImpl<_$Step1FetchedStateImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1131,12 +1132,12 @@ class _$FetchedStateImpl implements FetchedState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Step1State value) initial,
-    required TResult Function(LoadedState value) loaded,
-    required TResult Function(ProgressState value) progress,
-    required TResult Function(SuccessState value) success,
-    required TResult Function(FetchedState value) fetched,
-    required TResult Function(SavedState value) saved,
-    required TResult Function(FailureState value) failure,
+    required TResult Function(Step1LoadedState value) loaded,
+    required TResult Function(Step1ProgressState value) progress,
+    required TResult Function(Step1SuccessState value) success,
+    required TResult Function(Step1FetchedState value) fetched,
+    required TResult Function(Step1SavedState value) saved,
+    required TResult Function(Step1FailureState value) failure,
   }) {
     return fetched(this);
   }
@@ -1145,12 +1146,12 @@ class _$FetchedStateImpl implements FetchedState {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Step1State value)? initial,
-    TResult? Function(LoadedState value)? loaded,
-    TResult? Function(ProgressState value)? progress,
-    TResult? Function(SuccessState value)? success,
-    TResult? Function(FetchedState value)? fetched,
-    TResult? Function(SavedState value)? saved,
-    TResult? Function(FailureState value)? failure,
+    TResult? Function(Step1LoadedState value)? loaded,
+    TResult? Function(Step1ProgressState value)? progress,
+    TResult? Function(Step1SuccessState value)? success,
+    TResult? Function(Step1FetchedState value)? fetched,
+    TResult? Function(Step1SavedState value)? saved,
+    TResult? Function(Step1FailureState value)? failure,
   }) {
     return fetched?.call(this);
   }
@@ -1159,12 +1160,12 @@ class _$FetchedStateImpl implements FetchedState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Step1State value)? initial,
-    TResult Function(LoadedState value)? loaded,
-    TResult Function(ProgressState value)? progress,
-    TResult Function(SuccessState value)? success,
-    TResult Function(FetchedState value)? fetched,
-    TResult Function(SavedState value)? saved,
-    TResult Function(FailureState value)? failure,
+    TResult Function(Step1LoadedState value)? loaded,
+    TResult Function(Step1ProgressState value)? progress,
+    TResult Function(Step1SuccessState value)? success,
+    TResult Function(Step1FetchedState value)? fetched,
+    TResult Function(Step1SavedState value)? saved,
+    TResult Function(Step1FailureState value)? failure,
     required TResult orElse(),
   }) {
     if (fetched != null) {
@@ -1174,35 +1175,35 @@ class _$FetchedStateImpl implements FetchedState {
   }
 }
 
-abstract class FetchedState implements Step1State {
-  const factory FetchedState(
+abstract class Step1FetchedState implements Step1State {
+  const factory Step1FetchedState(
       final String selectedBooksIds,
       final List<Book> books,
-      final List<Selectable<Book>> booksListing) = _$FetchedStateImpl;
+      final List<Selectable<Book>> booksListing) = _$Step1FetchedStateImpl;
 
   String get selectedBooksIds;
   List<Book> get books;
   List<Selectable<Book>> get booksListing;
   @JsonKey(ignore: true)
-  _$$FetchedStateImplCopyWith<_$FetchedStateImpl> get copyWith =>
+  _$$Step1FetchedStateImplCopyWith<_$Step1FetchedStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$SavedStateImplCopyWith<$Res> {
-  factory _$$SavedStateImplCopyWith(
-          _$SavedStateImpl value, $Res Function(_$SavedStateImpl) then) =
-      __$$SavedStateImplCopyWithImpl<$Res>;
+abstract class _$$Step1SavedStateImplCopyWith<$Res> {
+  factory _$$Step1SavedStateImplCopyWith(_$Step1SavedStateImpl value,
+          $Res Function(_$Step1SavedStateImpl) then) =
+      __$$Step1SavedStateImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String selectedBooks});
 }
 
 /// @nodoc
-class __$$SavedStateImplCopyWithImpl<$Res>
-    extends _$Step1StateCopyWithImpl<$Res, _$SavedStateImpl>
-    implements _$$SavedStateImplCopyWith<$Res> {
-  __$$SavedStateImplCopyWithImpl(
-      _$SavedStateImpl _value, $Res Function(_$SavedStateImpl) _then)
+class __$$Step1SavedStateImplCopyWithImpl<$Res>
+    extends _$Step1StateCopyWithImpl<$Res, _$Step1SavedStateImpl>
+    implements _$$Step1SavedStateImplCopyWith<$Res> {
+  __$$Step1SavedStateImplCopyWithImpl(
+      _$Step1SavedStateImpl _value, $Res Function(_$Step1SavedStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1210,7 +1211,7 @@ class __$$SavedStateImplCopyWithImpl<$Res>
   $Res call({
     Object? selectedBooks = null,
   }) {
-    return _then(_$SavedStateImpl(
+    return _then(_$Step1SavedStateImpl(
       null == selectedBooks
           ? _value.selectedBooks
           : selectedBooks // ignore: cast_nullable_to_non_nullable
@@ -1221,8 +1222,8 @@ class __$$SavedStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SavedStateImpl implements SavedState {
-  const _$SavedStateImpl(this.selectedBooks);
+class _$Step1SavedStateImpl implements Step1SavedState {
+  const _$Step1SavedStateImpl(this.selectedBooks);
 
   @override
   final String selectedBooks;
@@ -1236,7 +1237,7 @@ class _$SavedStateImpl implements SavedState {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SavedStateImpl &&
+            other is _$Step1SavedStateImpl &&
             (identical(other.selectedBooks, selectedBooks) ||
                 other.selectedBooks == selectedBooks));
   }
@@ -1247,8 +1248,9 @@ class _$SavedStateImpl implements SavedState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$SavedStateImplCopyWith<_$SavedStateImpl> get copyWith =>
-      __$$SavedStateImplCopyWithImpl<_$SavedStateImpl>(this, _$identity);
+  _$$Step1SavedStateImplCopyWith<_$Step1SavedStateImpl> get copyWith =>
+      __$$Step1SavedStateImplCopyWithImpl<_$Step1SavedStateImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1306,12 +1308,12 @@ class _$SavedStateImpl implements SavedState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Step1State value) initial,
-    required TResult Function(LoadedState value) loaded,
-    required TResult Function(ProgressState value) progress,
-    required TResult Function(SuccessState value) success,
-    required TResult Function(FetchedState value) fetched,
-    required TResult Function(SavedState value) saved,
-    required TResult Function(FailureState value) failure,
+    required TResult Function(Step1LoadedState value) loaded,
+    required TResult Function(Step1ProgressState value) progress,
+    required TResult Function(Step1SuccessState value) success,
+    required TResult Function(Step1FetchedState value) fetched,
+    required TResult Function(Step1SavedState value) saved,
+    required TResult Function(Step1FailureState value) failure,
   }) {
     return saved(this);
   }
@@ -1320,12 +1322,12 @@ class _$SavedStateImpl implements SavedState {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Step1State value)? initial,
-    TResult? Function(LoadedState value)? loaded,
-    TResult? Function(ProgressState value)? progress,
-    TResult? Function(SuccessState value)? success,
-    TResult? Function(FetchedState value)? fetched,
-    TResult? Function(SavedState value)? saved,
-    TResult? Function(FailureState value)? failure,
+    TResult? Function(Step1LoadedState value)? loaded,
+    TResult? Function(Step1ProgressState value)? progress,
+    TResult? Function(Step1SuccessState value)? success,
+    TResult? Function(Step1FetchedState value)? fetched,
+    TResult? Function(Step1SavedState value)? saved,
+    TResult? Function(Step1FailureState value)? failure,
   }) {
     return saved?.call(this);
   }
@@ -1334,12 +1336,12 @@ class _$SavedStateImpl implements SavedState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Step1State value)? initial,
-    TResult Function(LoadedState value)? loaded,
-    TResult Function(ProgressState value)? progress,
-    TResult Function(SuccessState value)? success,
-    TResult Function(FetchedState value)? fetched,
-    TResult Function(SavedState value)? saved,
-    TResult Function(FailureState value)? failure,
+    TResult Function(Step1LoadedState value)? loaded,
+    TResult Function(Step1ProgressState value)? progress,
+    TResult Function(Step1SuccessState value)? success,
+    TResult Function(Step1FetchedState value)? fetched,
+    TResult Function(Step1SavedState value)? saved,
+    TResult Function(Step1FailureState value)? failure,
     required TResult orElse(),
   }) {
     if (saved != null) {
@@ -1349,30 +1351,31 @@ class _$SavedStateImpl implements SavedState {
   }
 }
 
-abstract class SavedState implements Step1State {
-  const factory SavedState(final String selectedBooks) = _$SavedStateImpl;
+abstract class Step1SavedState implements Step1State {
+  const factory Step1SavedState(final String selectedBooks) =
+      _$Step1SavedStateImpl;
 
   String get selectedBooks;
   @JsonKey(ignore: true)
-  _$$SavedStateImplCopyWith<_$SavedStateImpl> get copyWith =>
+  _$$Step1SavedStateImplCopyWith<_$Step1SavedStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$FailureStateImplCopyWith<$Res> {
-  factory _$$FailureStateImplCopyWith(
-          _$FailureStateImpl value, $Res Function(_$FailureStateImpl) then) =
-      __$$FailureStateImplCopyWithImpl<$Res>;
+abstract class _$$Step1FailureStateImplCopyWith<$Res> {
+  factory _$$Step1FailureStateImplCopyWith(_$Step1FailureStateImpl value,
+          $Res Function(_$Step1FailureStateImpl) then) =
+      __$$Step1FailureStateImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String feedback});
 }
 
 /// @nodoc
-class __$$FailureStateImplCopyWithImpl<$Res>
-    extends _$Step1StateCopyWithImpl<$Res, _$FailureStateImpl>
-    implements _$$FailureStateImplCopyWith<$Res> {
-  __$$FailureStateImplCopyWithImpl(
-      _$FailureStateImpl _value, $Res Function(_$FailureStateImpl) _then)
+class __$$Step1FailureStateImplCopyWithImpl<$Res>
+    extends _$Step1StateCopyWithImpl<$Res, _$Step1FailureStateImpl>
+    implements _$$Step1FailureStateImplCopyWith<$Res> {
+  __$$Step1FailureStateImplCopyWithImpl(_$Step1FailureStateImpl _value,
+      $Res Function(_$Step1FailureStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1380,7 +1383,7 @@ class __$$FailureStateImplCopyWithImpl<$Res>
   $Res call({
     Object? feedback = null,
   }) {
-    return _then(_$FailureStateImpl(
+    return _then(_$Step1FailureStateImpl(
       null == feedback
           ? _value.feedback
           : feedback // ignore: cast_nullable_to_non_nullable
@@ -1391,8 +1394,8 @@ class __$$FailureStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$FailureStateImpl implements FailureState {
-  const _$FailureStateImpl(this.feedback);
+class _$Step1FailureStateImpl implements Step1FailureState {
+  const _$Step1FailureStateImpl(this.feedback);
 
   @override
   final String feedback;
@@ -1406,7 +1409,7 @@ class _$FailureStateImpl implements FailureState {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FailureStateImpl &&
+            other is _$Step1FailureStateImpl &&
             (identical(other.feedback, feedback) ||
                 other.feedback == feedback));
   }
@@ -1417,8 +1420,9 @@ class _$FailureStateImpl implements FailureState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$FailureStateImplCopyWith<_$FailureStateImpl> get copyWith =>
-      __$$FailureStateImplCopyWithImpl<_$FailureStateImpl>(this, _$identity);
+  _$$Step1FailureStateImplCopyWith<_$Step1FailureStateImpl> get copyWith =>
+      __$$Step1FailureStateImplCopyWithImpl<_$Step1FailureStateImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1476,12 +1480,12 @@ class _$FailureStateImpl implements FailureState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Step1State value) initial,
-    required TResult Function(LoadedState value) loaded,
-    required TResult Function(ProgressState value) progress,
-    required TResult Function(SuccessState value) success,
-    required TResult Function(FetchedState value) fetched,
-    required TResult Function(SavedState value) saved,
-    required TResult Function(FailureState value) failure,
+    required TResult Function(Step1LoadedState value) loaded,
+    required TResult Function(Step1ProgressState value) progress,
+    required TResult Function(Step1SuccessState value) success,
+    required TResult Function(Step1FetchedState value) fetched,
+    required TResult Function(Step1SavedState value) saved,
+    required TResult Function(Step1FailureState value) failure,
   }) {
     return failure(this);
   }
@@ -1490,12 +1494,12 @@ class _$FailureStateImpl implements FailureState {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Step1State value)? initial,
-    TResult? Function(LoadedState value)? loaded,
-    TResult? Function(ProgressState value)? progress,
-    TResult? Function(SuccessState value)? success,
-    TResult? Function(FetchedState value)? fetched,
-    TResult? Function(SavedState value)? saved,
-    TResult? Function(FailureState value)? failure,
+    TResult? Function(Step1LoadedState value)? loaded,
+    TResult? Function(Step1ProgressState value)? progress,
+    TResult? Function(Step1SuccessState value)? success,
+    TResult? Function(Step1FetchedState value)? fetched,
+    TResult? Function(Step1SavedState value)? saved,
+    TResult? Function(Step1FailureState value)? failure,
   }) {
     return failure?.call(this);
   }
@@ -1504,12 +1508,12 @@ class _$FailureStateImpl implements FailureState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Step1State value)? initial,
-    TResult Function(LoadedState value)? loaded,
-    TResult Function(ProgressState value)? progress,
-    TResult Function(SuccessState value)? success,
-    TResult Function(FetchedState value)? fetched,
-    TResult Function(SavedState value)? saved,
-    TResult Function(FailureState value)? failure,
+    TResult Function(Step1LoadedState value)? loaded,
+    TResult Function(Step1ProgressState value)? progress,
+    TResult Function(Step1SuccessState value)? success,
+    TResult Function(Step1FetchedState value)? fetched,
+    TResult Function(Step1SavedState value)? saved,
+    TResult Function(Step1FailureState value)? failure,
     required TResult orElse(),
   }) {
     if (failure != null) {
@@ -1519,11 +1523,12 @@ class _$FailureStateImpl implements FailureState {
   }
 }
 
-abstract class FailureState implements Step1State {
-  const factory FailureState(final String feedback) = _$FailureStateImpl;
+abstract class Step1FailureState implements Step1State {
+  const factory Step1FailureState(final String feedback) =
+      _$Step1FailureStateImpl;
 
   String get feedback;
   @JsonKey(ignore: true)
-  _$$FailureStateImplCopyWith<_$FailureStateImpl> get copyWith =>
+  _$$Step1FailureStateImplCopyWith<_$Step1FailureStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

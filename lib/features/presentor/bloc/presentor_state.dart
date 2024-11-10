@@ -8,15 +8,15 @@ class PresentorState with _$PresentorState {
     List<String>? songVerses,
     List<Tab>? widgetTabs,
     List<Widget>? widgetContent,
-  ) = LoadedState;
+  ) = PresentorLoadedState;
 
-  const factory PresentorState.progress() = ProgressState;
+  const factory PresentorState.progress() = PresentorProgressState;
 
-  const factory PresentorState.success() = SuccessState;
+  const factory PresentorState.success() = PresentorSuccessState;
 
-  const factory PresentorState.liked(bool liked) = LikedState;
+  const factory PresentorState.liked(bool liked) = PresentorLikedState;
 
-  const factory PresentorState.history() = HistoryState;
+  const factory PresentorState.history() = PresentorHistoryState;
 
-  const factory PresentorState.failure(String feedback) = FailureState;
+  const factory PresentorState.failure(String feedback) = PresentorFailureState;
 }

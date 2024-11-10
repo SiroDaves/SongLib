@@ -1,4 +1,4 @@
-part of '../home_screen.dart';
+/*part of '../home_screen.dart';
 
 class HomeMobile extends StatefulWidget {
   final HomeScreenState parent;
@@ -67,4 +67,4 @@ class HomeMobileState extends State<HomeMobile> {
       ),
     ];
   }
-}
+}*/

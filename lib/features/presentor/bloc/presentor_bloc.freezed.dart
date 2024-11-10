@@ -19,45 +19,45 @@ mixin _$PresentorEvent {
   SongExt get song => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(SongExt song) loadSong,
-    required TResult Function(SongExt song) likeSong,
+    required TResult Function(SongExt song) load,
+    required TResult Function(SongExt song) like,
     required TResult Function(SongExt song) history,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(SongExt song)? loadSong,
-    TResult? Function(SongExt song)? likeSong,
+    TResult? Function(SongExt song)? load,
+    TResult? Function(SongExt song)? like,
     TResult? Function(SongExt song)? history,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SongExt song)? loadSong,
-    TResult Function(SongExt song)? likeSong,
+    TResult Function(SongExt song)? load,
+    TResult Function(SongExt song)? like,
     TResult Function(SongExt song)? history,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(PresentorLoadSong value) loadSong,
-    required TResult Function(PresentorLikeSong value) likeSong,
-    required TResult Function(PresentorSaveHistory value) history,
+    required TResult Function(LoadSong value) load,
+    required TResult Function(LikeSong value) like,
+    required TResult Function(SaveHistory value) history,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(PresentorLoadSong value)? loadSong,
-    TResult? Function(PresentorLikeSong value)? likeSong,
-    TResult? Function(PresentorSaveHistory value)? history,
+    TResult? Function(LoadSong value)? load,
+    TResult? Function(LikeSong value)? like,
+    TResult? Function(SaveHistory value)? history,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(PresentorLoadSong value)? loadSong,
-    TResult Function(PresentorLikeSong value)? likeSong,
-    TResult Function(PresentorSaveHistory value)? history,
+    TResult Function(LoadSong value)? load,
+    TResult Function(LikeSong value)? like,
+    TResult Function(SaveHistory value)? history,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -101,22 +101,22 @@ class _$PresentorEventCopyWithImpl<$Res, $Val extends PresentorEvent>
 }
 
 /// @nodoc
-abstract class _$$PresentorLoadSongImplCopyWith<$Res>
+abstract class _$$LoadSongImplCopyWith<$Res>
     implements $PresentorEventCopyWith<$Res> {
-  factory _$$PresentorLoadSongImplCopyWith(_$PresentorLoadSongImpl value,
-          $Res Function(_$PresentorLoadSongImpl) then) =
-      __$$PresentorLoadSongImplCopyWithImpl<$Res>;
+  factory _$$LoadSongImplCopyWith(
+          _$LoadSongImpl value, $Res Function(_$LoadSongImpl) then) =
+      __$$LoadSongImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({SongExt song});
 }
 
 /// @nodoc
-class __$$PresentorLoadSongImplCopyWithImpl<$Res>
-    extends _$PresentorEventCopyWithImpl<$Res, _$PresentorLoadSongImpl>
-    implements _$$PresentorLoadSongImplCopyWith<$Res> {
-  __$$PresentorLoadSongImplCopyWithImpl(_$PresentorLoadSongImpl _value,
-      $Res Function(_$PresentorLoadSongImpl) _then)
+class __$$LoadSongImplCopyWithImpl<$Res>
+    extends _$PresentorEventCopyWithImpl<$Res, _$LoadSongImpl>
+    implements _$$LoadSongImplCopyWith<$Res> {
+  __$$LoadSongImplCopyWithImpl(
+      _$LoadSongImpl _value, $Res Function(_$LoadSongImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -124,7 +124,7 @@ class __$$PresentorLoadSongImplCopyWithImpl<$Res>
   $Res call({
     Object? song = null,
   }) {
-    return _then(_$PresentorLoadSongImpl(
+    return _then(_$LoadSongImpl(
       null == song
           ? _value.song
           : song // ignore: cast_nullable_to_non_nullable
@@ -135,22 +135,22 @@ class __$$PresentorLoadSongImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$PresentorLoadSongImpl implements PresentorLoadSong {
-  const _$PresentorLoadSongImpl(this.song);
+class _$LoadSongImpl implements LoadSong {
+  const _$LoadSongImpl(this.song);
 
   @override
   final SongExt song;
 
   @override
   String toString() {
-    return 'PresentorEvent.loadSong(song: $song)';
+    return 'PresentorEvent.load(song: $song)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PresentorLoadSongImpl &&
+            other is _$LoadSongImpl &&
             (identical(other.song, song) || other.song == song));
   }
 
@@ -160,40 +160,39 @@ class _$PresentorLoadSongImpl implements PresentorLoadSong {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$PresentorLoadSongImplCopyWith<_$PresentorLoadSongImpl> get copyWith =>
-      __$$PresentorLoadSongImplCopyWithImpl<_$PresentorLoadSongImpl>(
-          this, _$identity);
+  _$$LoadSongImplCopyWith<_$LoadSongImpl> get copyWith =>
+      __$$LoadSongImplCopyWithImpl<_$LoadSongImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(SongExt song) loadSong,
-    required TResult Function(SongExt song) likeSong,
+    required TResult Function(SongExt song) load,
+    required TResult Function(SongExt song) like,
     required TResult Function(SongExt song) history,
   }) {
-    return loadSong(song);
+    return load(song);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(SongExt song)? loadSong,
-    TResult? Function(SongExt song)? likeSong,
+    TResult? Function(SongExt song)? load,
+    TResult? Function(SongExt song)? like,
     TResult? Function(SongExt song)? history,
   }) {
-    return loadSong?.call(song);
+    return load?.call(song);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SongExt song)? loadSong,
-    TResult Function(SongExt song)? likeSong,
+    TResult Function(SongExt song)? load,
+    TResult Function(SongExt song)? like,
     TResult Function(SongExt song)? history,
     required TResult orElse(),
   }) {
-    if (loadSong != null) {
-      return loadSong(song);
+    if (load != null) {
+      return load(song);
     }
     return orElse();
   }
@@ -201,66 +200,66 @@ class _$PresentorLoadSongImpl implements PresentorLoadSong {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(PresentorLoadSong value) loadSong,
-    required TResult Function(PresentorLikeSong value) likeSong,
-    required TResult Function(PresentorSaveHistory value) history,
+    required TResult Function(LoadSong value) load,
+    required TResult Function(LikeSong value) like,
+    required TResult Function(SaveHistory value) history,
   }) {
-    return loadSong(this);
+    return load(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(PresentorLoadSong value)? loadSong,
-    TResult? Function(PresentorLikeSong value)? likeSong,
-    TResult? Function(PresentorSaveHistory value)? history,
+    TResult? Function(LoadSong value)? load,
+    TResult? Function(LikeSong value)? like,
+    TResult? Function(SaveHistory value)? history,
   }) {
-    return loadSong?.call(this);
+    return load?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(PresentorLoadSong value)? loadSong,
-    TResult Function(PresentorLikeSong value)? likeSong,
-    TResult Function(PresentorSaveHistory value)? history,
+    TResult Function(LoadSong value)? load,
+    TResult Function(LikeSong value)? like,
+    TResult Function(SaveHistory value)? history,
     required TResult orElse(),
   }) {
-    if (loadSong != null) {
-      return loadSong(this);
+    if (load != null) {
+      return load(this);
     }
     return orElse();
   }
 }
 
-abstract class PresentorLoadSong implements PresentorEvent {
-  const factory PresentorLoadSong(final SongExt song) = _$PresentorLoadSongImpl;
+abstract class LoadSong implements PresentorEvent {
+  const factory LoadSong(final SongExt song) = _$LoadSongImpl;
 
   @override
   SongExt get song;
   @override
   @JsonKey(ignore: true)
-  _$$PresentorLoadSongImplCopyWith<_$PresentorLoadSongImpl> get copyWith =>
+  _$$LoadSongImplCopyWith<_$LoadSongImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$PresentorLikeSongImplCopyWith<$Res>
+abstract class _$$LikeSongImplCopyWith<$Res>
     implements $PresentorEventCopyWith<$Res> {
-  factory _$$PresentorLikeSongImplCopyWith(_$PresentorLikeSongImpl value,
-          $Res Function(_$PresentorLikeSongImpl) then) =
-      __$$PresentorLikeSongImplCopyWithImpl<$Res>;
+  factory _$$LikeSongImplCopyWith(
+          _$LikeSongImpl value, $Res Function(_$LikeSongImpl) then) =
+      __$$LikeSongImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({SongExt song});
 }
 
 /// @nodoc
-class __$$PresentorLikeSongImplCopyWithImpl<$Res>
-    extends _$PresentorEventCopyWithImpl<$Res, _$PresentorLikeSongImpl>
-    implements _$$PresentorLikeSongImplCopyWith<$Res> {
-  __$$PresentorLikeSongImplCopyWithImpl(_$PresentorLikeSongImpl _value,
-      $Res Function(_$PresentorLikeSongImpl) _then)
+class __$$LikeSongImplCopyWithImpl<$Res>
+    extends _$PresentorEventCopyWithImpl<$Res, _$LikeSongImpl>
+    implements _$$LikeSongImplCopyWith<$Res> {
+  __$$LikeSongImplCopyWithImpl(
+      _$LikeSongImpl _value, $Res Function(_$LikeSongImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -268,7 +267,7 @@ class __$$PresentorLikeSongImplCopyWithImpl<$Res>
   $Res call({
     Object? song = null,
   }) {
-    return _then(_$PresentorLikeSongImpl(
+    return _then(_$LikeSongImpl(
       null == song
           ? _value.song
           : song // ignore: cast_nullable_to_non_nullable
@@ -279,22 +278,22 @@ class __$$PresentorLikeSongImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$PresentorLikeSongImpl implements PresentorLikeSong {
-  const _$PresentorLikeSongImpl(this.song);
+class _$LikeSongImpl implements LikeSong {
+  const _$LikeSongImpl(this.song);
 
   @override
   final SongExt song;
 
   @override
   String toString() {
-    return 'PresentorEvent.likeSong(song: $song)';
+    return 'PresentorEvent.like(song: $song)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PresentorLikeSongImpl &&
+            other is _$LikeSongImpl &&
             (identical(other.song, song) || other.song == song));
   }
 
@@ -304,40 +303,39 @@ class _$PresentorLikeSongImpl implements PresentorLikeSong {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$PresentorLikeSongImplCopyWith<_$PresentorLikeSongImpl> get copyWith =>
-      __$$PresentorLikeSongImplCopyWithImpl<_$PresentorLikeSongImpl>(
-          this, _$identity);
+  _$$LikeSongImplCopyWith<_$LikeSongImpl> get copyWith =>
+      __$$LikeSongImplCopyWithImpl<_$LikeSongImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(SongExt song) loadSong,
-    required TResult Function(SongExt song) likeSong,
+    required TResult Function(SongExt song) load,
+    required TResult Function(SongExt song) like,
     required TResult Function(SongExt song) history,
   }) {
-    return likeSong(song);
+    return like(song);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(SongExt song)? loadSong,
-    TResult? Function(SongExt song)? likeSong,
+    TResult? Function(SongExt song)? load,
+    TResult? Function(SongExt song)? like,
     TResult? Function(SongExt song)? history,
   }) {
-    return likeSong?.call(song);
+    return like?.call(song);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SongExt song)? loadSong,
-    TResult Function(SongExt song)? likeSong,
+    TResult Function(SongExt song)? load,
+    TResult Function(SongExt song)? like,
     TResult Function(SongExt song)? history,
     required TResult orElse(),
   }) {
-    if (likeSong != null) {
-      return likeSong(song);
+    if (like != null) {
+      return like(song);
     }
     return orElse();
   }
@@ -345,66 +343,66 @@ class _$PresentorLikeSongImpl implements PresentorLikeSong {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(PresentorLoadSong value) loadSong,
-    required TResult Function(PresentorLikeSong value) likeSong,
-    required TResult Function(PresentorSaveHistory value) history,
+    required TResult Function(LoadSong value) load,
+    required TResult Function(LikeSong value) like,
+    required TResult Function(SaveHistory value) history,
   }) {
-    return likeSong(this);
+    return like(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(PresentorLoadSong value)? loadSong,
-    TResult? Function(PresentorLikeSong value)? likeSong,
-    TResult? Function(PresentorSaveHistory value)? history,
+    TResult? Function(LoadSong value)? load,
+    TResult? Function(LikeSong value)? like,
+    TResult? Function(SaveHistory value)? history,
   }) {
-    return likeSong?.call(this);
+    return like?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(PresentorLoadSong value)? loadSong,
-    TResult Function(PresentorLikeSong value)? likeSong,
-    TResult Function(PresentorSaveHistory value)? history,
+    TResult Function(LoadSong value)? load,
+    TResult Function(LikeSong value)? like,
+    TResult Function(SaveHistory value)? history,
     required TResult orElse(),
   }) {
-    if (likeSong != null) {
-      return likeSong(this);
+    if (like != null) {
+      return like(this);
     }
     return orElse();
   }
 }
 
-abstract class PresentorLikeSong implements PresentorEvent {
-  const factory PresentorLikeSong(final SongExt song) = _$PresentorLikeSongImpl;
+abstract class LikeSong implements PresentorEvent {
+  const factory LikeSong(final SongExt song) = _$LikeSongImpl;
 
   @override
   SongExt get song;
   @override
   @JsonKey(ignore: true)
-  _$$PresentorLikeSongImplCopyWith<_$PresentorLikeSongImpl> get copyWith =>
+  _$$LikeSongImplCopyWith<_$LikeSongImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$PresentorSaveHistoryImplCopyWith<$Res>
+abstract class _$$SaveHistoryImplCopyWith<$Res>
     implements $PresentorEventCopyWith<$Res> {
-  factory _$$PresentorSaveHistoryImplCopyWith(_$PresentorSaveHistoryImpl value,
-          $Res Function(_$PresentorSaveHistoryImpl) then) =
-      __$$PresentorSaveHistoryImplCopyWithImpl<$Res>;
+  factory _$$SaveHistoryImplCopyWith(
+          _$SaveHistoryImpl value, $Res Function(_$SaveHistoryImpl) then) =
+      __$$SaveHistoryImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({SongExt song});
 }
 
 /// @nodoc
-class __$$PresentorSaveHistoryImplCopyWithImpl<$Res>
-    extends _$PresentorEventCopyWithImpl<$Res, _$PresentorSaveHistoryImpl>
-    implements _$$PresentorSaveHistoryImplCopyWith<$Res> {
-  __$$PresentorSaveHistoryImplCopyWithImpl(_$PresentorSaveHistoryImpl _value,
-      $Res Function(_$PresentorSaveHistoryImpl) _then)
+class __$$SaveHistoryImplCopyWithImpl<$Res>
+    extends _$PresentorEventCopyWithImpl<$Res, _$SaveHistoryImpl>
+    implements _$$SaveHistoryImplCopyWith<$Res> {
+  __$$SaveHistoryImplCopyWithImpl(
+      _$SaveHistoryImpl _value, $Res Function(_$SaveHistoryImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -412,7 +410,7 @@ class __$$PresentorSaveHistoryImplCopyWithImpl<$Res>
   $Res call({
     Object? song = null,
   }) {
-    return _then(_$PresentorSaveHistoryImpl(
+    return _then(_$SaveHistoryImpl(
       null == song
           ? _value.song
           : song // ignore: cast_nullable_to_non_nullable
@@ -423,8 +421,8 @@ class __$$PresentorSaveHistoryImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$PresentorSaveHistoryImpl implements PresentorSaveHistory {
-  const _$PresentorSaveHistoryImpl(this.song);
+class _$SaveHistoryImpl implements SaveHistory {
+  const _$SaveHistoryImpl(this.song);
 
   @override
   final SongExt song;
@@ -438,7 +436,7 @@ class _$PresentorSaveHistoryImpl implements PresentorSaveHistory {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PresentorSaveHistoryImpl &&
+            other is _$SaveHistoryImpl &&
             (identical(other.song, song) || other.song == song));
   }
 
@@ -448,16 +446,14 @@ class _$PresentorSaveHistoryImpl implements PresentorSaveHistory {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$PresentorSaveHistoryImplCopyWith<_$PresentorSaveHistoryImpl>
-      get copyWith =>
-          __$$PresentorSaveHistoryImplCopyWithImpl<_$PresentorSaveHistoryImpl>(
-              this, _$identity);
+  _$$SaveHistoryImplCopyWith<_$SaveHistoryImpl> get copyWith =>
+      __$$SaveHistoryImplCopyWithImpl<_$SaveHistoryImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(SongExt song) loadSong,
-    required TResult Function(SongExt song) likeSong,
+    required TResult Function(SongExt song) load,
+    required TResult Function(SongExt song) like,
     required TResult Function(SongExt song) history,
   }) {
     return history(song);
@@ -466,8 +462,8 @@ class _$PresentorSaveHistoryImpl implements PresentorSaveHistory {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(SongExt song)? loadSong,
-    TResult? Function(SongExt song)? likeSong,
+    TResult? Function(SongExt song)? load,
+    TResult? Function(SongExt song)? like,
     TResult? Function(SongExt song)? history,
   }) {
     return history?.call(song);
@@ -476,8 +472,8 @@ class _$PresentorSaveHistoryImpl implements PresentorSaveHistory {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SongExt song)? loadSong,
-    TResult Function(SongExt song)? likeSong,
+    TResult Function(SongExt song)? load,
+    TResult Function(SongExt song)? like,
     TResult Function(SongExt song)? history,
     required TResult orElse(),
   }) {
@@ -490,9 +486,9 @@ class _$PresentorSaveHistoryImpl implements PresentorSaveHistory {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(PresentorLoadSong value) loadSong,
-    required TResult Function(PresentorLikeSong value) likeSong,
-    required TResult Function(PresentorSaveHistory value) history,
+    required TResult Function(LoadSong value) load,
+    required TResult Function(LikeSong value) like,
+    required TResult Function(SaveHistory value) history,
   }) {
     return history(this);
   }
@@ -500,9 +496,9 @@ class _$PresentorSaveHistoryImpl implements PresentorSaveHistory {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(PresentorLoadSong value)? loadSong,
-    TResult? Function(PresentorLikeSong value)? likeSong,
-    TResult? Function(PresentorSaveHistory value)? history,
+    TResult? Function(LoadSong value)? load,
+    TResult? Function(LikeSong value)? like,
+    TResult? Function(SaveHistory value)? history,
   }) {
     return history?.call(this);
   }
@@ -510,9 +506,9 @@ class _$PresentorSaveHistoryImpl implements PresentorSaveHistory {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(PresentorLoadSong value)? loadSong,
-    TResult Function(PresentorLikeSong value)? likeSong,
-    TResult Function(PresentorSaveHistory value)? history,
+    TResult Function(LoadSong value)? load,
+    TResult Function(LikeSong value)? like,
+    TResult Function(SaveHistory value)? history,
     required TResult orElse(),
   }) {
     if (history != null) {
@@ -522,16 +518,15 @@ class _$PresentorSaveHistoryImpl implements PresentorSaveHistory {
   }
 }
 
-abstract class PresentorSaveHistory implements PresentorEvent {
-  const factory PresentorSaveHistory(final SongExt song) =
-      _$PresentorSaveHistoryImpl;
+abstract class SaveHistory implements PresentorEvent {
+  const factory SaveHistory(final SongExt song) = _$SaveHistoryImpl;
 
   @override
   SongExt get song;
   @override
   @JsonKey(ignore: true)
-  _$$PresentorSaveHistoryImplCopyWith<_$PresentorSaveHistoryImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$SaveHistoryImplCopyWith<_$SaveHistoryImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -579,34 +574,34 @@ mixin _$PresentorState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_PresentorState value) initial,
-    required TResult Function(LoadedState value) loaded,
-    required TResult Function(ProgressState value) progress,
-    required TResult Function(SuccessState value) success,
-    required TResult Function(LikedState value) liked,
-    required TResult Function(HistoryState value) history,
-    required TResult Function(FailureState value) failure,
+    required TResult Function(PresentorLoadedState value) loaded,
+    required TResult Function(PresentorProgressState value) progress,
+    required TResult Function(PresentorSuccessState value) success,
+    required TResult Function(PresentorLikedState value) liked,
+    required TResult Function(PresentorHistoryState value) history,
+    required TResult Function(PresentorFailureState value) failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_PresentorState value)? initial,
-    TResult? Function(LoadedState value)? loaded,
-    TResult? Function(ProgressState value)? progress,
-    TResult? Function(SuccessState value)? success,
-    TResult? Function(LikedState value)? liked,
-    TResult? Function(HistoryState value)? history,
-    TResult? Function(FailureState value)? failure,
+    TResult? Function(PresentorLoadedState value)? loaded,
+    TResult? Function(PresentorProgressState value)? progress,
+    TResult? Function(PresentorSuccessState value)? success,
+    TResult? Function(PresentorLikedState value)? liked,
+    TResult? Function(PresentorHistoryState value)? history,
+    TResult? Function(PresentorFailureState value)? failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_PresentorState value)? initial,
-    TResult Function(LoadedState value)? loaded,
-    TResult Function(ProgressState value)? progress,
-    TResult Function(SuccessState value)? success,
-    TResult Function(LikedState value)? liked,
-    TResult Function(HistoryState value)? history,
-    TResult Function(FailureState value)? failure,
+    TResult Function(PresentorLoadedState value)? loaded,
+    TResult Function(PresentorProgressState value)? progress,
+    TResult Function(PresentorSuccessState value)? success,
+    TResult Function(PresentorLikedState value)? liked,
+    TResult Function(PresentorHistoryState value)? history,
+    TResult Function(PresentorFailureState value)? failure,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -721,12 +716,12 @@ class _$PresentorStateImpl implements _PresentorState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_PresentorState value) initial,
-    required TResult Function(LoadedState value) loaded,
-    required TResult Function(ProgressState value) progress,
-    required TResult Function(SuccessState value) success,
-    required TResult Function(LikedState value) liked,
-    required TResult Function(HistoryState value) history,
-    required TResult Function(FailureState value) failure,
+    required TResult Function(PresentorLoadedState value) loaded,
+    required TResult Function(PresentorProgressState value) progress,
+    required TResult Function(PresentorSuccessState value) success,
+    required TResult Function(PresentorLikedState value) liked,
+    required TResult Function(PresentorHistoryState value) history,
+    required TResult Function(PresentorFailureState value) failure,
   }) {
     return initial(this);
   }
@@ -735,12 +730,12 @@ class _$PresentorStateImpl implements _PresentorState {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_PresentorState value)? initial,
-    TResult? Function(LoadedState value)? loaded,
-    TResult? Function(ProgressState value)? progress,
-    TResult? Function(SuccessState value)? success,
-    TResult? Function(LikedState value)? liked,
-    TResult? Function(HistoryState value)? history,
-    TResult? Function(FailureState value)? failure,
+    TResult? Function(PresentorLoadedState value)? loaded,
+    TResult? Function(PresentorProgressState value)? progress,
+    TResult? Function(PresentorSuccessState value)? success,
+    TResult? Function(PresentorLikedState value)? liked,
+    TResult? Function(PresentorHistoryState value)? history,
+    TResult? Function(PresentorFailureState value)? failure,
   }) {
     return initial?.call(this);
   }
@@ -749,12 +744,12 @@ class _$PresentorStateImpl implements _PresentorState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_PresentorState value)? initial,
-    TResult Function(LoadedState value)? loaded,
-    TResult Function(ProgressState value)? progress,
-    TResult Function(SuccessState value)? success,
-    TResult Function(LikedState value)? liked,
-    TResult Function(HistoryState value)? history,
-    TResult Function(FailureState value)? failure,
+    TResult Function(PresentorLoadedState value)? loaded,
+    TResult Function(PresentorProgressState value)? progress,
+    TResult Function(PresentorSuccessState value)? success,
+    TResult Function(PresentorLikedState value)? liked,
+    TResult Function(PresentorHistoryState value)? history,
+    TResult Function(PresentorFailureState value)? failure,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -769,10 +764,10 @@ abstract class _PresentorState implements PresentorState {
 }
 
 /// @nodoc
-abstract class _$$LoadedStateImplCopyWith<$Res> {
-  factory _$$LoadedStateImplCopyWith(
-          _$LoadedStateImpl value, $Res Function(_$LoadedStateImpl) then) =
-      __$$LoadedStateImplCopyWithImpl<$Res>;
+abstract class _$$PresentorLoadedStateImplCopyWith<$Res> {
+  factory _$$PresentorLoadedStateImplCopyWith(_$PresentorLoadedStateImpl value,
+          $Res Function(_$PresentorLoadedStateImpl) then) =
+      __$$PresentorLoadedStateImplCopyWithImpl<$Res>;
   @useResult
   $Res call(
       {List<String>? songVerses,
@@ -781,11 +776,11 @@ abstract class _$$LoadedStateImplCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$LoadedStateImplCopyWithImpl<$Res>
-    extends _$PresentorStateCopyWithImpl<$Res, _$LoadedStateImpl>
-    implements _$$LoadedStateImplCopyWith<$Res> {
-  __$$LoadedStateImplCopyWithImpl(
-      _$LoadedStateImpl _value, $Res Function(_$LoadedStateImpl) _then)
+class __$$PresentorLoadedStateImplCopyWithImpl<$Res>
+    extends _$PresentorStateCopyWithImpl<$Res, _$PresentorLoadedStateImpl>
+    implements _$$PresentorLoadedStateImplCopyWith<$Res> {
+  __$$PresentorLoadedStateImplCopyWithImpl(_$PresentorLoadedStateImpl _value,
+      $Res Function(_$PresentorLoadedStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -795,7 +790,7 @@ class __$$LoadedStateImplCopyWithImpl<$Res>
     Object? widgetTabs = freezed,
     Object? widgetContent = freezed,
   }) {
-    return _then(_$LoadedStateImpl(
+    return _then(_$PresentorLoadedStateImpl(
       freezed == songVerses
           ? _value._songVerses
           : songVerses // ignore: cast_nullable_to_non_nullable
@@ -814,8 +809,8 @@ class __$$LoadedStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$LoadedStateImpl implements LoadedState {
-  const _$LoadedStateImpl(final List<String>? songVerses,
+class _$PresentorLoadedStateImpl implements PresentorLoadedState {
+  const _$PresentorLoadedStateImpl(final List<String>? songVerses,
       final List<Tab>? widgetTabs, final List<Widget>? widgetContent)
       : _songVerses = songVerses,
         _widgetTabs = widgetTabs,
@@ -860,7 +855,7 @@ class _$LoadedStateImpl implements LoadedState {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$LoadedStateImpl &&
+            other is _$PresentorLoadedStateImpl &&
             const DeepCollectionEquality()
                 .equals(other._songVerses, _songVerses) &&
             const DeepCollectionEquality()
@@ -879,8 +874,10 @@ class _$LoadedStateImpl implements LoadedState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$LoadedStateImplCopyWith<_$LoadedStateImpl> get copyWith =>
-      __$$LoadedStateImplCopyWithImpl<_$LoadedStateImpl>(this, _$identity);
+  _$$PresentorLoadedStateImplCopyWith<_$PresentorLoadedStateImpl>
+      get copyWith =>
+          __$$PresentorLoadedStateImplCopyWithImpl<_$PresentorLoadedStateImpl>(
+              this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -938,12 +935,12 @@ class _$LoadedStateImpl implements LoadedState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_PresentorState value) initial,
-    required TResult Function(LoadedState value) loaded,
-    required TResult Function(ProgressState value) progress,
-    required TResult Function(SuccessState value) success,
-    required TResult Function(LikedState value) liked,
-    required TResult Function(HistoryState value) history,
-    required TResult Function(FailureState value) failure,
+    required TResult Function(PresentorLoadedState value) loaded,
+    required TResult Function(PresentorProgressState value) progress,
+    required TResult Function(PresentorSuccessState value) success,
+    required TResult Function(PresentorLikedState value) liked,
+    required TResult Function(PresentorHistoryState value) history,
+    required TResult Function(PresentorFailureState value) failure,
   }) {
     return loaded(this);
   }
@@ -952,12 +949,12 @@ class _$LoadedStateImpl implements LoadedState {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_PresentorState value)? initial,
-    TResult? Function(LoadedState value)? loaded,
-    TResult? Function(ProgressState value)? progress,
-    TResult? Function(SuccessState value)? success,
-    TResult? Function(LikedState value)? liked,
-    TResult? Function(HistoryState value)? history,
-    TResult? Function(FailureState value)? failure,
+    TResult? Function(PresentorLoadedState value)? loaded,
+    TResult? Function(PresentorProgressState value)? progress,
+    TResult? Function(PresentorSuccessState value)? success,
+    TResult? Function(PresentorLikedState value)? liked,
+    TResult? Function(PresentorHistoryState value)? history,
+    TResult? Function(PresentorFailureState value)? failure,
   }) {
     return loaded?.call(this);
   }
@@ -966,12 +963,12 @@ class _$LoadedStateImpl implements LoadedState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_PresentorState value)? initial,
-    TResult Function(LoadedState value)? loaded,
-    TResult Function(ProgressState value)? progress,
-    TResult Function(SuccessState value)? success,
-    TResult Function(LikedState value)? liked,
-    TResult Function(HistoryState value)? history,
-    TResult Function(FailureState value)? failure,
+    TResult Function(PresentorLoadedState value)? loaded,
+    TResult Function(PresentorProgressState value)? progress,
+    TResult Function(PresentorSuccessState value)? success,
+    TResult Function(PresentorLikedState value)? liked,
+    TResult Function(PresentorHistoryState value)? history,
+    TResult Function(PresentorFailureState value)? failure,
     required TResult orElse(),
   }) {
     if (loaded != null) {
@@ -981,40 +978,42 @@ class _$LoadedStateImpl implements LoadedState {
   }
 }
 
-abstract class LoadedState implements PresentorState {
-  const factory LoadedState(
+abstract class PresentorLoadedState implements PresentorState {
+  const factory PresentorLoadedState(
       final List<String>? songVerses,
       final List<Tab>? widgetTabs,
-      final List<Widget>? widgetContent) = _$LoadedStateImpl;
+      final List<Widget>? widgetContent) = _$PresentorLoadedStateImpl;
 
   List<String>? get songVerses;
   List<Tab>? get widgetTabs;
   List<Widget>? get widgetContent;
   @JsonKey(ignore: true)
-  _$$LoadedStateImplCopyWith<_$LoadedStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$PresentorLoadedStateImplCopyWith<_$PresentorLoadedStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ProgressStateImplCopyWith<$Res> {
-  factory _$$ProgressStateImplCopyWith(
-          _$ProgressStateImpl value, $Res Function(_$ProgressStateImpl) then) =
-      __$$ProgressStateImplCopyWithImpl<$Res>;
+abstract class _$$PresentorProgressStateImplCopyWith<$Res> {
+  factory _$$PresentorProgressStateImplCopyWith(
+          _$PresentorProgressStateImpl value,
+          $Res Function(_$PresentorProgressStateImpl) then) =
+      __$$PresentorProgressStateImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$ProgressStateImplCopyWithImpl<$Res>
-    extends _$PresentorStateCopyWithImpl<$Res, _$ProgressStateImpl>
-    implements _$$ProgressStateImplCopyWith<$Res> {
-  __$$ProgressStateImplCopyWithImpl(
-      _$ProgressStateImpl _value, $Res Function(_$ProgressStateImpl) _then)
+class __$$PresentorProgressStateImplCopyWithImpl<$Res>
+    extends _$PresentorStateCopyWithImpl<$Res, _$PresentorProgressStateImpl>
+    implements _$$PresentorProgressStateImplCopyWith<$Res> {
+  __$$PresentorProgressStateImplCopyWithImpl(
+      _$PresentorProgressStateImpl _value,
+      $Res Function(_$PresentorProgressStateImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$ProgressStateImpl implements ProgressState {
-  const _$ProgressStateImpl();
+class _$PresentorProgressStateImpl implements PresentorProgressState {
+  const _$PresentorProgressStateImpl();
 
   @override
   String toString() {
@@ -1024,7 +1023,8 @@ class _$ProgressStateImpl implements ProgressState {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$ProgressStateImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$PresentorProgressStateImpl);
   }
 
   @override
@@ -1086,12 +1086,12 @@ class _$ProgressStateImpl implements ProgressState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_PresentorState value) initial,
-    required TResult Function(LoadedState value) loaded,
-    required TResult Function(ProgressState value) progress,
-    required TResult Function(SuccessState value) success,
-    required TResult Function(LikedState value) liked,
-    required TResult Function(HistoryState value) history,
-    required TResult Function(FailureState value) failure,
+    required TResult Function(PresentorLoadedState value) loaded,
+    required TResult Function(PresentorProgressState value) progress,
+    required TResult Function(PresentorSuccessState value) success,
+    required TResult Function(PresentorLikedState value) liked,
+    required TResult Function(PresentorHistoryState value) history,
+    required TResult Function(PresentorFailureState value) failure,
   }) {
     return progress(this);
   }
@@ -1100,12 +1100,12 @@ class _$ProgressStateImpl implements ProgressState {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_PresentorState value)? initial,
-    TResult? Function(LoadedState value)? loaded,
-    TResult? Function(ProgressState value)? progress,
-    TResult? Function(SuccessState value)? success,
-    TResult? Function(LikedState value)? liked,
-    TResult? Function(HistoryState value)? history,
-    TResult? Function(FailureState value)? failure,
+    TResult? Function(PresentorLoadedState value)? loaded,
+    TResult? Function(PresentorProgressState value)? progress,
+    TResult? Function(PresentorSuccessState value)? success,
+    TResult? Function(PresentorLikedState value)? liked,
+    TResult? Function(PresentorHistoryState value)? history,
+    TResult? Function(PresentorFailureState value)? failure,
   }) {
     return progress?.call(this);
   }
@@ -1114,12 +1114,12 @@ class _$ProgressStateImpl implements ProgressState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_PresentorState value)? initial,
-    TResult Function(LoadedState value)? loaded,
-    TResult Function(ProgressState value)? progress,
-    TResult Function(SuccessState value)? success,
-    TResult Function(LikedState value)? liked,
-    TResult Function(HistoryState value)? history,
-    TResult Function(FailureState value)? failure,
+    TResult Function(PresentorLoadedState value)? loaded,
+    TResult Function(PresentorProgressState value)? progress,
+    TResult Function(PresentorSuccessState value)? success,
+    TResult Function(PresentorLikedState value)? liked,
+    TResult Function(PresentorHistoryState value)? history,
+    TResult Function(PresentorFailureState value)? failure,
     required TResult orElse(),
   }) {
     if (progress != null) {
@@ -1129,30 +1129,31 @@ class _$ProgressStateImpl implements ProgressState {
   }
 }
 
-abstract class ProgressState implements PresentorState {
-  const factory ProgressState() = _$ProgressStateImpl;
+abstract class PresentorProgressState implements PresentorState {
+  const factory PresentorProgressState() = _$PresentorProgressStateImpl;
 }
 
 /// @nodoc
-abstract class _$$SuccessStateImplCopyWith<$Res> {
-  factory _$$SuccessStateImplCopyWith(
-          _$SuccessStateImpl value, $Res Function(_$SuccessStateImpl) then) =
-      __$$SuccessStateImplCopyWithImpl<$Res>;
+abstract class _$$PresentorSuccessStateImplCopyWith<$Res> {
+  factory _$$PresentorSuccessStateImplCopyWith(
+          _$PresentorSuccessStateImpl value,
+          $Res Function(_$PresentorSuccessStateImpl) then) =
+      __$$PresentorSuccessStateImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$SuccessStateImplCopyWithImpl<$Res>
-    extends _$PresentorStateCopyWithImpl<$Res, _$SuccessStateImpl>
-    implements _$$SuccessStateImplCopyWith<$Res> {
-  __$$SuccessStateImplCopyWithImpl(
-      _$SuccessStateImpl _value, $Res Function(_$SuccessStateImpl) _then)
+class __$$PresentorSuccessStateImplCopyWithImpl<$Res>
+    extends _$PresentorStateCopyWithImpl<$Res, _$PresentorSuccessStateImpl>
+    implements _$$PresentorSuccessStateImplCopyWith<$Res> {
+  __$$PresentorSuccessStateImplCopyWithImpl(_$PresentorSuccessStateImpl _value,
+      $Res Function(_$PresentorSuccessStateImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$SuccessStateImpl implements SuccessState {
-  const _$SuccessStateImpl();
+class _$PresentorSuccessStateImpl implements PresentorSuccessState {
+  const _$PresentorSuccessStateImpl();
 
   @override
   String toString() {
@@ -1162,7 +1163,8 @@ class _$SuccessStateImpl implements SuccessState {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$SuccessStateImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$PresentorSuccessStateImpl);
   }
 
   @override
@@ -1224,12 +1226,12 @@ class _$SuccessStateImpl implements SuccessState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_PresentorState value) initial,
-    required TResult Function(LoadedState value) loaded,
-    required TResult Function(ProgressState value) progress,
-    required TResult Function(SuccessState value) success,
-    required TResult Function(LikedState value) liked,
-    required TResult Function(HistoryState value) history,
-    required TResult Function(FailureState value) failure,
+    required TResult Function(PresentorLoadedState value) loaded,
+    required TResult Function(PresentorProgressState value) progress,
+    required TResult Function(PresentorSuccessState value) success,
+    required TResult Function(PresentorLikedState value) liked,
+    required TResult Function(PresentorHistoryState value) history,
+    required TResult Function(PresentorFailureState value) failure,
   }) {
     return success(this);
   }
@@ -1238,12 +1240,12 @@ class _$SuccessStateImpl implements SuccessState {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_PresentorState value)? initial,
-    TResult? Function(LoadedState value)? loaded,
-    TResult? Function(ProgressState value)? progress,
-    TResult? Function(SuccessState value)? success,
-    TResult? Function(LikedState value)? liked,
-    TResult? Function(HistoryState value)? history,
-    TResult? Function(FailureState value)? failure,
+    TResult? Function(PresentorLoadedState value)? loaded,
+    TResult? Function(PresentorProgressState value)? progress,
+    TResult? Function(PresentorSuccessState value)? success,
+    TResult? Function(PresentorLikedState value)? liked,
+    TResult? Function(PresentorHistoryState value)? history,
+    TResult? Function(PresentorFailureState value)? failure,
   }) {
     return success?.call(this);
   }
@@ -1252,12 +1254,12 @@ class _$SuccessStateImpl implements SuccessState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_PresentorState value)? initial,
-    TResult Function(LoadedState value)? loaded,
-    TResult Function(ProgressState value)? progress,
-    TResult Function(SuccessState value)? success,
-    TResult Function(LikedState value)? liked,
-    TResult Function(HistoryState value)? history,
-    TResult Function(FailureState value)? failure,
+    TResult Function(PresentorLoadedState value)? loaded,
+    TResult Function(PresentorProgressState value)? progress,
+    TResult Function(PresentorSuccessState value)? success,
+    TResult Function(PresentorLikedState value)? liked,
+    TResult Function(PresentorHistoryState value)? history,
+    TResult Function(PresentorFailureState value)? failure,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -1267,25 +1269,25 @@ class _$SuccessStateImpl implements SuccessState {
   }
 }
 
-abstract class SuccessState implements PresentorState {
-  const factory SuccessState() = _$SuccessStateImpl;
+abstract class PresentorSuccessState implements PresentorState {
+  const factory PresentorSuccessState() = _$PresentorSuccessStateImpl;
 }
 
 /// @nodoc
-abstract class _$$LikedStateImplCopyWith<$Res> {
-  factory _$$LikedStateImplCopyWith(
-          _$LikedStateImpl value, $Res Function(_$LikedStateImpl) then) =
-      __$$LikedStateImplCopyWithImpl<$Res>;
+abstract class _$$PresentorLikedStateImplCopyWith<$Res> {
+  factory _$$PresentorLikedStateImplCopyWith(_$PresentorLikedStateImpl value,
+          $Res Function(_$PresentorLikedStateImpl) then) =
+      __$$PresentorLikedStateImplCopyWithImpl<$Res>;
   @useResult
   $Res call({bool liked});
 }
 
 /// @nodoc
-class __$$LikedStateImplCopyWithImpl<$Res>
-    extends _$PresentorStateCopyWithImpl<$Res, _$LikedStateImpl>
-    implements _$$LikedStateImplCopyWith<$Res> {
-  __$$LikedStateImplCopyWithImpl(
-      _$LikedStateImpl _value, $Res Function(_$LikedStateImpl) _then)
+class __$$PresentorLikedStateImplCopyWithImpl<$Res>
+    extends _$PresentorStateCopyWithImpl<$Res, _$PresentorLikedStateImpl>
+    implements _$$PresentorLikedStateImplCopyWith<$Res> {
+  __$$PresentorLikedStateImplCopyWithImpl(_$PresentorLikedStateImpl _value,
+      $Res Function(_$PresentorLikedStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1293,7 +1295,7 @@ class __$$LikedStateImplCopyWithImpl<$Res>
   $Res call({
     Object? liked = null,
   }) {
-    return _then(_$LikedStateImpl(
+    return _then(_$PresentorLikedStateImpl(
       null == liked
           ? _value.liked
           : liked // ignore: cast_nullable_to_non_nullable
@@ -1304,8 +1306,8 @@ class __$$LikedStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$LikedStateImpl implements LikedState {
-  const _$LikedStateImpl(this.liked);
+class _$PresentorLikedStateImpl implements PresentorLikedState {
+  const _$PresentorLikedStateImpl(this.liked);
 
   @override
   final bool liked;
@@ -1319,7 +1321,7 @@ class _$LikedStateImpl implements LikedState {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$LikedStateImpl &&
+            other is _$PresentorLikedStateImpl &&
             (identical(other.liked, liked) || other.liked == liked));
   }
 
@@ -1329,8 +1331,9 @@ class _$LikedStateImpl implements LikedState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$LikedStateImplCopyWith<_$LikedStateImpl> get copyWith =>
-      __$$LikedStateImplCopyWithImpl<_$LikedStateImpl>(this, _$identity);
+  _$$PresentorLikedStateImplCopyWith<_$PresentorLikedStateImpl> get copyWith =>
+      __$$PresentorLikedStateImplCopyWithImpl<_$PresentorLikedStateImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1388,12 +1391,12 @@ class _$LikedStateImpl implements LikedState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_PresentorState value) initial,
-    required TResult Function(LoadedState value) loaded,
-    required TResult Function(ProgressState value) progress,
-    required TResult Function(SuccessState value) success,
-    required TResult Function(LikedState value) liked,
-    required TResult Function(HistoryState value) history,
-    required TResult Function(FailureState value) failure,
+    required TResult Function(PresentorLoadedState value) loaded,
+    required TResult Function(PresentorProgressState value) progress,
+    required TResult Function(PresentorSuccessState value) success,
+    required TResult Function(PresentorLikedState value) liked,
+    required TResult Function(PresentorHistoryState value) history,
+    required TResult Function(PresentorFailureState value) failure,
   }) {
     return liked(this);
   }
@@ -1402,12 +1405,12 @@ class _$LikedStateImpl implements LikedState {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_PresentorState value)? initial,
-    TResult? Function(LoadedState value)? loaded,
-    TResult? Function(ProgressState value)? progress,
-    TResult? Function(SuccessState value)? success,
-    TResult? Function(LikedState value)? liked,
-    TResult? Function(HistoryState value)? history,
-    TResult? Function(FailureState value)? failure,
+    TResult? Function(PresentorLoadedState value)? loaded,
+    TResult? Function(PresentorProgressState value)? progress,
+    TResult? Function(PresentorSuccessState value)? success,
+    TResult? Function(PresentorLikedState value)? liked,
+    TResult? Function(PresentorHistoryState value)? history,
+    TResult? Function(PresentorFailureState value)? failure,
   }) {
     return liked?.call(this);
   }
@@ -1416,12 +1419,12 @@ class _$LikedStateImpl implements LikedState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_PresentorState value)? initial,
-    TResult Function(LoadedState value)? loaded,
-    TResult Function(ProgressState value)? progress,
-    TResult Function(SuccessState value)? success,
-    TResult Function(LikedState value)? liked,
-    TResult Function(HistoryState value)? history,
-    TResult Function(FailureState value)? failure,
+    TResult Function(PresentorLoadedState value)? loaded,
+    TResult Function(PresentorProgressState value)? progress,
+    TResult Function(PresentorSuccessState value)? success,
+    TResult Function(PresentorLikedState value)? liked,
+    TResult Function(PresentorHistoryState value)? history,
+    TResult Function(PresentorFailureState value)? failure,
     required TResult orElse(),
   }) {
     if (liked != null) {
@@ -1431,35 +1434,37 @@ class _$LikedStateImpl implements LikedState {
   }
 }
 
-abstract class LikedState implements PresentorState {
-  const factory LikedState(final bool liked) = _$LikedStateImpl;
+abstract class PresentorLikedState implements PresentorState {
+  const factory PresentorLikedState(final bool liked) =
+      _$PresentorLikedStateImpl;
 
   bool get liked;
   @JsonKey(ignore: true)
-  _$$LikedStateImplCopyWith<_$LikedStateImpl> get copyWith =>
+  _$$PresentorLikedStateImplCopyWith<_$PresentorLikedStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$HistoryStateImplCopyWith<$Res> {
-  factory _$$HistoryStateImplCopyWith(
-          _$HistoryStateImpl value, $Res Function(_$HistoryStateImpl) then) =
-      __$$HistoryStateImplCopyWithImpl<$Res>;
+abstract class _$$PresentorHistoryStateImplCopyWith<$Res> {
+  factory _$$PresentorHistoryStateImplCopyWith(
+          _$PresentorHistoryStateImpl value,
+          $Res Function(_$PresentorHistoryStateImpl) then) =
+      __$$PresentorHistoryStateImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$HistoryStateImplCopyWithImpl<$Res>
-    extends _$PresentorStateCopyWithImpl<$Res, _$HistoryStateImpl>
-    implements _$$HistoryStateImplCopyWith<$Res> {
-  __$$HistoryStateImplCopyWithImpl(
-      _$HistoryStateImpl _value, $Res Function(_$HistoryStateImpl) _then)
+class __$$PresentorHistoryStateImplCopyWithImpl<$Res>
+    extends _$PresentorStateCopyWithImpl<$Res, _$PresentorHistoryStateImpl>
+    implements _$$PresentorHistoryStateImplCopyWith<$Res> {
+  __$$PresentorHistoryStateImplCopyWithImpl(_$PresentorHistoryStateImpl _value,
+      $Res Function(_$PresentorHistoryStateImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$HistoryStateImpl implements HistoryState {
-  const _$HistoryStateImpl();
+class _$PresentorHistoryStateImpl implements PresentorHistoryState {
+  const _$PresentorHistoryStateImpl();
 
   @override
   String toString() {
@@ -1469,7 +1474,8 @@ class _$HistoryStateImpl implements HistoryState {
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$HistoryStateImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$PresentorHistoryStateImpl);
   }
 
   @override
@@ -1531,12 +1537,12 @@ class _$HistoryStateImpl implements HistoryState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_PresentorState value) initial,
-    required TResult Function(LoadedState value) loaded,
-    required TResult Function(ProgressState value) progress,
-    required TResult Function(SuccessState value) success,
-    required TResult Function(LikedState value) liked,
-    required TResult Function(HistoryState value) history,
-    required TResult Function(FailureState value) failure,
+    required TResult Function(PresentorLoadedState value) loaded,
+    required TResult Function(PresentorProgressState value) progress,
+    required TResult Function(PresentorSuccessState value) success,
+    required TResult Function(PresentorLikedState value) liked,
+    required TResult Function(PresentorHistoryState value) history,
+    required TResult Function(PresentorFailureState value) failure,
   }) {
     return history(this);
   }
@@ -1545,12 +1551,12 @@ class _$HistoryStateImpl implements HistoryState {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_PresentorState value)? initial,
-    TResult? Function(LoadedState value)? loaded,
-    TResult? Function(ProgressState value)? progress,
-    TResult? Function(SuccessState value)? success,
-    TResult? Function(LikedState value)? liked,
-    TResult? Function(HistoryState value)? history,
-    TResult? Function(FailureState value)? failure,
+    TResult? Function(PresentorLoadedState value)? loaded,
+    TResult? Function(PresentorProgressState value)? progress,
+    TResult? Function(PresentorSuccessState value)? success,
+    TResult? Function(PresentorLikedState value)? liked,
+    TResult? Function(PresentorHistoryState value)? history,
+    TResult? Function(PresentorFailureState value)? failure,
   }) {
     return history?.call(this);
   }
@@ -1559,12 +1565,12 @@ class _$HistoryStateImpl implements HistoryState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_PresentorState value)? initial,
-    TResult Function(LoadedState value)? loaded,
-    TResult Function(ProgressState value)? progress,
-    TResult Function(SuccessState value)? success,
-    TResult Function(LikedState value)? liked,
-    TResult Function(HistoryState value)? history,
-    TResult Function(FailureState value)? failure,
+    TResult Function(PresentorLoadedState value)? loaded,
+    TResult Function(PresentorProgressState value)? progress,
+    TResult Function(PresentorSuccessState value)? success,
+    TResult Function(PresentorLikedState value)? liked,
+    TResult Function(PresentorHistoryState value)? history,
+    TResult Function(PresentorFailureState value)? failure,
     required TResult orElse(),
   }) {
     if (history != null) {
@@ -1574,25 +1580,26 @@ class _$HistoryStateImpl implements HistoryState {
   }
 }
 
-abstract class HistoryState implements PresentorState {
-  const factory HistoryState() = _$HistoryStateImpl;
+abstract class PresentorHistoryState implements PresentorState {
+  const factory PresentorHistoryState() = _$PresentorHistoryStateImpl;
 }
 
 /// @nodoc
-abstract class _$$FailureStateImplCopyWith<$Res> {
-  factory _$$FailureStateImplCopyWith(
-          _$FailureStateImpl value, $Res Function(_$FailureStateImpl) then) =
-      __$$FailureStateImplCopyWithImpl<$Res>;
+abstract class _$$PresentorFailureStateImplCopyWith<$Res> {
+  factory _$$PresentorFailureStateImplCopyWith(
+          _$PresentorFailureStateImpl value,
+          $Res Function(_$PresentorFailureStateImpl) then) =
+      __$$PresentorFailureStateImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String feedback});
 }
 
 /// @nodoc
-class __$$FailureStateImplCopyWithImpl<$Res>
-    extends _$PresentorStateCopyWithImpl<$Res, _$FailureStateImpl>
-    implements _$$FailureStateImplCopyWith<$Res> {
-  __$$FailureStateImplCopyWithImpl(
-      _$FailureStateImpl _value, $Res Function(_$FailureStateImpl) _then)
+class __$$PresentorFailureStateImplCopyWithImpl<$Res>
+    extends _$PresentorStateCopyWithImpl<$Res, _$PresentorFailureStateImpl>
+    implements _$$PresentorFailureStateImplCopyWith<$Res> {
+  __$$PresentorFailureStateImplCopyWithImpl(_$PresentorFailureStateImpl _value,
+      $Res Function(_$PresentorFailureStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1600,7 +1607,7 @@ class __$$FailureStateImplCopyWithImpl<$Res>
   $Res call({
     Object? feedback = null,
   }) {
-    return _then(_$FailureStateImpl(
+    return _then(_$PresentorFailureStateImpl(
       null == feedback
           ? _value.feedback
           : feedback // ignore: cast_nullable_to_non_nullable
@@ -1611,8 +1618,8 @@ class __$$FailureStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$FailureStateImpl implements FailureState {
-  const _$FailureStateImpl(this.feedback);
+class _$PresentorFailureStateImpl implements PresentorFailureState {
+  const _$PresentorFailureStateImpl(this.feedback);
 
   @override
   final String feedback;
@@ -1626,7 +1633,7 @@ class _$FailureStateImpl implements FailureState {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$FailureStateImpl &&
+            other is _$PresentorFailureStateImpl &&
             (identical(other.feedback, feedback) ||
                 other.feedback == feedback));
   }
@@ -1637,8 +1644,9 @@ class _$FailureStateImpl implements FailureState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$FailureStateImplCopyWith<_$FailureStateImpl> get copyWith =>
-      __$$FailureStateImplCopyWithImpl<_$FailureStateImpl>(this, _$identity);
+  _$$PresentorFailureStateImplCopyWith<_$PresentorFailureStateImpl>
+      get copyWith => __$$PresentorFailureStateImplCopyWithImpl<
+          _$PresentorFailureStateImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1696,12 +1704,12 @@ class _$FailureStateImpl implements FailureState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_PresentorState value) initial,
-    required TResult Function(LoadedState value) loaded,
-    required TResult Function(ProgressState value) progress,
-    required TResult Function(SuccessState value) success,
-    required TResult Function(LikedState value) liked,
-    required TResult Function(HistoryState value) history,
-    required TResult Function(FailureState value) failure,
+    required TResult Function(PresentorLoadedState value) loaded,
+    required TResult Function(PresentorProgressState value) progress,
+    required TResult Function(PresentorSuccessState value) success,
+    required TResult Function(PresentorLikedState value) liked,
+    required TResult Function(PresentorHistoryState value) history,
+    required TResult Function(PresentorFailureState value) failure,
   }) {
     return failure(this);
   }
@@ -1710,12 +1718,12 @@ class _$FailureStateImpl implements FailureState {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_PresentorState value)? initial,
-    TResult? Function(LoadedState value)? loaded,
-    TResult? Function(ProgressState value)? progress,
-    TResult? Function(SuccessState value)? success,
-    TResult? Function(LikedState value)? liked,
-    TResult? Function(HistoryState value)? history,
-    TResult? Function(FailureState value)? failure,
+    TResult? Function(PresentorLoadedState value)? loaded,
+    TResult? Function(PresentorProgressState value)? progress,
+    TResult? Function(PresentorSuccessState value)? success,
+    TResult? Function(PresentorLikedState value)? liked,
+    TResult? Function(PresentorHistoryState value)? history,
+    TResult? Function(PresentorFailureState value)? failure,
   }) {
     return failure?.call(this);
   }
@@ -1724,12 +1732,12 @@ class _$FailureStateImpl implements FailureState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_PresentorState value)? initial,
-    TResult Function(LoadedState value)? loaded,
-    TResult Function(ProgressState value)? progress,
-    TResult Function(SuccessState value)? success,
-    TResult Function(LikedState value)? liked,
-    TResult Function(HistoryState value)? history,
-    TResult Function(FailureState value)? failure,
+    TResult Function(PresentorLoadedState value)? loaded,
+    TResult Function(PresentorProgressState value)? progress,
+    TResult Function(PresentorSuccessState value)? success,
+    TResult Function(PresentorLikedState value)? liked,
+    TResult Function(PresentorHistoryState value)? history,
+    TResult Function(PresentorFailureState value)? failure,
     required TResult orElse(),
   }) {
     if (failure != null) {
@@ -1739,11 +1747,12 @@ class _$FailureStateImpl implements FailureState {
   }
 }
 
-abstract class FailureState implements PresentorState {
-  const factory FailureState(final String feedback) = _$FailureStateImpl;
+abstract class PresentorFailureState implements PresentorState {
+  const factory PresentorFailureState(final String feedback) =
+      _$PresentorFailureStateImpl;
 
   String get feedback;
   @JsonKey(ignore: true)
-  _$$FailureStateImplCopyWith<_$FailureStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$PresentorFailureStateImplCopyWith<_$PresentorFailureStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

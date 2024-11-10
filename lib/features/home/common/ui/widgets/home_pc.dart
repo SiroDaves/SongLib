@@ -1,4 +1,4 @@
-part of '../home_screen.dart';
+/*part of '../home_screen.dart';
 
 class HomePc extends StatefulWidget {
   final HomeScreenState parent;
@@ -83,4 +83,4 @@ class HomePcState extends State<HomePc> {
       ),
     );
   }
-}
+}*/
