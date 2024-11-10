@@ -858,7 +858,7 @@ class _$SongsDao extends SongsDao {
 
   @override
   Future<Song?> findSongById(int rid) async {
-    return _queryAdapter.query('SELECT * FROM songs WHERE rid=?1',
+    return _queryAdapter.query('SELECT * FROM songs WHERE rid = ?1',
         mapper: (Map<String, Object?> row) => Song(
             book: row['book'] as int?,
             songId: row['songId'] as int?,
@@ -896,9 +896,9 @@ class _$SongsDao extends SongsDao {
   }
 
   @override
-  Stream<List<SongExt>> fetchLikes(int bid) {
+  Stream<List<SongExt>> fetchLikes() {
     return _queryAdapter.queryListStream(
-        'SELECT * FROM viewsongs WHERE book = ?1 AND liked = 1',
+        'SELECT * FROM viewsongs WHERE liked = 1',
         mapper: (Map<String, Object?> row) => SongExt(
             row['rid'] as int,
             row['book'] as int,
@@ -911,7 +911,6 @@ class _$SongsDao extends SongsDao {
             row['likes'] as int,
             (row['liked'] as int) != 0,
             row['songbook'] as String),
-        arguments: [bid],
         queryableName: 'viewsongs',
         isView: true);
   }

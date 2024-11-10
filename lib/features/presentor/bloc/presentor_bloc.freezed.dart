@@ -19,45 +19,45 @@ mixin _$PresentorEvent {
   SongExt get song => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(SongExt song) loadSong,
-    required TResult Function(SongExt song) likeSong,
+    required TResult Function(SongExt song) load,
+    required TResult Function(SongExt song) like,
     required TResult Function(SongExt song) history,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(SongExt song)? loadSong,
-    TResult? Function(SongExt song)? likeSong,
+    TResult? Function(SongExt song)? load,
+    TResult? Function(SongExt song)? like,
     TResult? Function(SongExt song)? history,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SongExt song)? loadSong,
-    TResult Function(SongExt song)? likeSong,
+    TResult Function(SongExt song)? load,
+    TResult Function(SongExt song)? like,
     TResult Function(SongExt song)? history,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(PresentorLoadSong value) loadSong,
-    required TResult Function(PresentorLikeSong value) likeSong,
-    required TResult Function(PresentorSaveHistory value) history,
+    required TResult Function(LoadSong value) load,
+    required TResult Function(LikeSong value) like,
+    required TResult Function(SaveHistory value) history,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(PresentorLoadSong value)? loadSong,
-    TResult? Function(PresentorLikeSong value)? likeSong,
-    TResult? Function(PresentorSaveHistory value)? history,
+    TResult? Function(LoadSong value)? load,
+    TResult? Function(LikeSong value)? like,
+    TResult? Function(SaveHistory value)? history,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(PresentorLoadSong value)? loadSong,
-    TResult Function(PresentorLikeSong value)? likeSong,
-    TResult Function(PresentorSaveHistory value)? history,
+    TResult Function(LoadSong value)? load,
+    TResult Function(LikeSong value)? like,
+    TResult Function(SaveHistory value)? history,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -101,22 +101,22 @@ class _$PresentorEventCopyWithImpl<$Res, $Val extends PresentorEvent>
 }
 
 /// @nodoc
-abstract class _$$PresentorLoadSongImplCopyWith<$Res>
+abstract class _$$LoadSongImplCopyWith<$Res>
     implements $PresentorEventCopyWith<$Res> {
-  factory _$$PresentorLoadSongImplCopyWith(_$PresentorLoadSongImpl value,
-          $Res Function(_$PresentorLoadSongImpl) then) =
-      __$$PresentorLoadSongImplCopyWithImpl<$Res>;
+  factory _$$LoadSongImplCopyWith(
+          _$LoadSongImpl value, $Res Function(_$LoadSongImpl) then) =
+      __$$LoadSongImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({SongExt song});
 }
 
 /// @nodoc
-class __$$PresentorLoadSongImplCopyWithImpl<$Res>
-    extends _$PresentorEventCopyWithImpl<$Res, _$PresentorLoadSongImpl>
-    implements _$$PresentorLoadSongImplCopyWith<$Res> {
-  __$$PresentorLoadSongImplCopyWithImpl(_$PresentorLoadSongImpl _value,
-      $Res Function(_$PresentorLoadSongImpl) _then)
+class __$$LoadSongImplCopyWithImpl<$Res>
+    extends _$PresentorEventCopyWithImpl<$Res, _$LoadSongImpl>
+    implements _$$LoadSongImplCopyWith<$Res> {
+  __$$LoadSongImplCopyWithImpl(
+      _$LoadSongImpl _value, $Res Function(_$LoadSongImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -124,7 +124,7 @@ class __$$PresentorLoadSongImplCopyWithImpl<$Res>
   $Res call({
     Object? song = null,
   }) {
-    return _then(_$PresentorLoadSongImpl(
+    return _then(_$LoadSongImpl(
       null == song
           ? _value.song
           : song // ignore: cast_nullable_to_non_nullable
@@ -135,22 +135,22 @@ class __$$PresentorLoadSongImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$PresentorLoadSongImpl implements PresentorLoadSong {
-  const _$PresentorLoadSongImpl(this.song);
+class _$LoadSongImpl implements LoadSong {
+  const _$LoadSongImpl(this.song);
 
   @override
   final SongExt song;
 
   @override
   String toString() {
-    return 'PresentorEvent.loadSong(song: $song)';
+    return 'PresentorEvent.load(song: $song)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PresentorLoadSongImpl &&
+            other is _$LoadSongImpl &&
             (identical(other.song, song) || other.song == song));
   }
 
@@ -160,40 +160,39 @@ class _$PresentorLoadSongImpl implements PresentorLoadSong {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$PresentorLoadSongImplCopyWith<_$PresentorLoadSongImpl> get copyWith =>
-      __$$PresentorLoadSongImplCopyWithImpl<_$PresentorLoadSongImpl>(
-          this, _$identity);
+  _$$LoadSongImplCopyWith<_$LoadSongImpl> get copyWith =>
+      __$$LoadSongImplCopyWithImpl<_$LoadSongImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(SongExt song) loadSong,
-    required TResult Function(SongExt song) likeSong,
+    required TResult Function(SongExt song) load,
+    required TResult Function(SongExt song) like,
     required TResult Function(SongExt song) history,
   }) {
-    return loadSong(song);
+    return load(song);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(SongExt song)? loadSong,
-    TResult? Function(SongExt song)? likeSong,
+    TResult? Function(SongExt song)? load,
+    TResult? Function(SongExt song)? like,
     TResult? Function(SongExt song)? history,
   }) {
-    return loadSong?.call(song);
+    return load?.call(song);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SongExt song)? loadSong,
-    TResult Function(SongExt song)? likeSong,
+    TResult Function(SongExt song)? load,
+    TResult Function(SongExt song)? like,
     TResult Function(SongExt song)? history,
     required TResult orElse(),
   }) {
-    if (loadSong != null) {
-      return loadSong(song);
+    if (load != null) {
+      return load(song);
     }
     return orElse();
   }
@@ -201,66 +200,66 @@ class _$PresentorLoadSongImpl implements PresentorLoadSong {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(PresentorLoadSong value) loadSong,
-    required TResult Function(PresentorLikeSong value) likeSong,
-    required TResult Function(PresentorSaveHistory value) history,
+    required TResult Function(LoadSong value) load,
+    required TResult Function(LikeSong value) like,
+    required TResult Function(SaveHistory value) history,
   }) {
-    return loadSong(this);
+    return load(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(PresentorLoadSong value)? loadSong,
-    TResult? Function(PresentorLikeSong value)? likeSong,
-    TResult? Function(PresentorSaveHistory value)? history,
+    TResult? Function(LoadSong value)? load,
+    TResult? Function(LikeSong value)? like,
+    TResult? Function(SaveHistory value)? history,
   }) {
-    return loadSong?.call(this);
+    return load?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(PresentorLoadSong value)? loadSong,
-    TResult Function(PresentorLikeSong value)? likeSong,
-    TResult Function(PresentorSaveHistory value)? history,
+    TResult Function(LoadSong value)? load,
+    TResult Function(LikeSong value)? like,
+    TResult Function(SaveHistory value)? history,
     required TResult orElse(),
   }) {
-    if (loadSong != null) {
-      return loadSong(this);
+    if (load != null) {
+      return load(this);
     }
     return orElse();
   }
 }
 
-abstract class PresentorLoadSong implements PresentorEvent {
-  const factory PresentorLoadSong(final SongExt song) = _$PresentorLoadSongImpl;
+abstract class LoadSong implements PresentorEvent {
+  const factory LoadSong(final SongExt song) = _$LoadSongImpl;
 
   @override
   SongExt get song;
   @override
   @JsonKey(ignore: true)
-  _$$PresentorLoadSongImplCopyWith<_$PresentorLoadSongImpl> get copyWith =>
+  _$$LoadSongImplCopyWith<_$LoadSongImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$PresentorLikeSongImplCopyWith<$Res>
+abstract class _$$LikeSongImplCopyWith<$Res>
     implements $PresentorEventCopyWith<$Res> {
-  factory _$$PresentorLikeSongImplCopyWith(_$PresentorLikeSongImpl value,
-          $Res Function(_$PresentorLikeSongImpl) then) =
-      __$$PresentorLikeSongImplCopyWithImpl<$Res>;
+  factory _$$LikeSongImplCopyWith(
+          _$LikeSongImpl value, $Res Function(_$LikeSongImpl) then) =
+      __$$LikeSongImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({SongExt song});
 }
 
 /// @nodoc
-class __$$PresentorLikeSongImplCopyWithImpl<$Res>
-    extends _$PresentorEventCopyWithImpl<$Res, _$PresentorLikeSongImpl>
-    implements _$$PresentorLikeSongImplCopyWith<$Res> {
-  __$$PresentorLikeSongImplCopyWithImpl(_$PresentorLikeSongImpl _value,
-      $Res Function(_$PresentorLikeSongImpl) _then)
+class __$$LikeSongImplCopyWithImpl<$Res>
+    extends _$PresentorEventCopyWithImpl<$Res, _$LikeSongImpl>
+    implements _$$LikeSongImplCopyWith<$Res> {
+  __$$LikeSongImplCopyWithImpl(
+      _$LikeSongImpl _value, $Res Function(_$LikeSongImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -268,7 +267,7 @@ class __$$PresentorLikeSongImplCopyWithImpl<$Res>
   $Res call({
     Object? song = null,
   }) {
-    return _then(_$PresentorLikeSongImpl(
+    return _then(_$LikeSongImpl(
       null == song
           ? _value.song
           : song // ignore: cast_nullable_to_non_nullable
@@ -279,22 +278,22 @@ class __$$PresentorLikeSongImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$PresentorLikeSongImpl implements PresentorLikeSong {
-  const _$PresentorLikeSongImpl(this.song);
+class _$LikeSongImpl implements LikeSong {
+  const _$LikeSongImpl(this.song);
 
   @override
   final SongExt song;
 
   @override
   String toString() {
-    return 'PresentorEvent.likeSong(song: $song)';
+    return 'PresentorEvent.like(song: $song)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PresentorLikeSongImpl &&
+            other is _$LikeSongImpl &&
             (identical(other.song, song) || other.song == song));
   }
 
@@ -304,40 +303,39 @@ class _$PresentorLikeSongImpl implements PresentorLikeSong {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$PresentorLikeSongImplCopyWith<_$PresentorLikeSongImpl> get copyWith =>
-      __$$PresentorLikeSongImplCopyWithImpl<_$PresentorLikeSongImpl>(
-          this, _$identity);
+  _$$LikeSongImplCopyWith<_$LikeSongImpl> get copyWith =>
+      __$$LikeSongImplCopyWithImpl<_$LikeSongImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(SongExt song) loadSong,
-    required TResult Function(SongExt song) likeSong,
+    required TResult Function(SongExt song) load,
+    required TResult Function(SongExt song) like,
     required TResult Function(SongExt song) history,
   }) {
-    return likeSong(song);
+    return like(song);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(SongExt song)? loadSong,
-    TResult? Function(SongExt song)? likeSong,
+    TResult? Function(SongExt song)? load,
+    TResult? Function(SongExt song)? like,
     TResult? Function(SongExt song)? history,
   }) {
-    return likeSong?.call(song);
+    return like?.call(song);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SongExt song)? loadSong,
-    TResult Function(SongExt song)? likeSong,
+    TResult Function(SongExt song)? load,
+    TResult Function(SongExt song)? like,
     TResult Function(SongExt song)? history,
     required TResult orElse(),
   }) {
-    if (likeSong != null) {
-      return likeSong(song);
+    if (like != null) {
+      return like(song);
     }
     return orElse();
   }
@@ -345,66 +343,66 @@ class _$PresentorLikeSongImpl implements PresentorLikeSong {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(PresentorLoadSong value) loadSong,
-    required TResult Function(PresentorLikeSong value) likeSong,
-    required TResult Function(PresentorSaveHistory value) history,
+    required TResult Function(LoadSong value) load,
+    required TResult Function(LikeSong value) like,
+    required TResult Function(SaveHistory value) history,
   }) {
-    return likeSong(this);
+    return like(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(PresentorLoadSong value)? loadSong,
-    TResult? Function(PresentorLikeSong value)? likeSong,
-    TResult? Function(PresentorSaveHistory value)? history,
+    TResult? Function(LoadSong value)? load,
+    TResult? Function(LikeSong value)? like,
+    TResult? Function(SaveHistory value)? history,
   }) {
-    return likeSong?.call(this);
+    return like?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(PresentorLoadSong value)? loadSong,
-    TResult Function(PresentorLikeSong value)? likeSong,
-    TResult Function(PresentorSaveHistory value)? history,
+    TResult Function(LoadSong value)? load,
+    TResult Function(LikeSong value)? like,
+    TResult Function(SaveHistory value)? history,
     required TResult orElse(),
   }) {
-    if (likeSong != null) {
-      return likeSong(this);
+    if (like != null) {
+      return like(this);
     }
     return orElse();
   }
 }
 
-abstract class PresentorLikeSong implements PresentorEvent {
-  const factory PresentorLikeSong(final SongExt song) = _$PresentorLikeSongImpl;
+abstract class LikeSong implements PresentorEvent {
+  const factory LikeSong(final SongExt song) = _$LikeSongImpl;
 
   @override
   SongExt get song;
   @override
   @JsonKey(ignore: true)
-  _$$PresentorLikeSongImplCopyWith<_$PresentorLikeSongImpl> get copyWith =>
+  _$$LikeSongImplCopyWith<_$LikeSongImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$PresentorSaveHistoryImplCopyWith<$Res>
+abstract class _$$SaveHistoryImplCopyWith<$Res>
     implements $PresentorEventCopyWith<$Res> {
-  factory _$$PresentorSaveHistoryImplCopyWith(_$PresentorSaveHistoryImpl value,
-          $Res Function(_$PresentorSaveHistoryImpl) then) =
-      __$$PresentorSaveHistoryImplCopyWithImpl<$Res>;
+  factory _$$SaveHistoryImplCopyWith(
+          _$SaveHistoryImpl value, $Res Function(_$SaveHistoryImpl) then) =
+      __$$SaveHistoryImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({SongExt song});
 }
 
 /// @nodoc
-class __$$PresentorSaveHistoryImplCopyWithImpl<$Res>
-    extends _$PresentorEventCopyWithImpl<$Res, _$PresentorSaveHistoryImpl>
-    implements _$$PresentorSaveHistoryImplCopyWith<$Res> {
-  __$$PresentorSaveHistoryImplCopyWithImpl(_$PresentorSaveHistoryImpl _value,
-      $Res Function(_$PresentorSaveHistoryImpl) _then)
+class __$$SaveHistoryImplCopyWithImpl<$Res>
+    extends _$PresentorEventCopyWithImpl<$Res, _$SaveHistoryImpl>
+    implements _$$SaveHistoryImplCopyWith<$Res> {
+  __$$SaveHistoryImplCopyWithImpl(
+      _$SaveHistoryImpl _value, $Res Function(_$SaveHistoryImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -412,7 +410,7 @@ class __$$PresentorSaveHistoryImplCopyWithImpl<$Res>
   $Res call({
     Object? song = null,
   }) {
-    return _then(_$PresentorSaveHistoryImpl(
+    return _then(_$SaveHistoryImpl(
       null == song
           ? _value.song
           : song // ignore: cast_nullable_to_non_nullable
@@ -423,8 +421,8 @@ class __$$PresentorSaveHistoryImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$PresentorSaveHistoryImpl implements PresentorSaveHistory {
-  const _$PresentorSaveHistoryImpl(this.song);
+class _$SaveHistoryImpl implements SaveHistory {
+  const _$SaveHistoryImpl(this.song);
 
   @override
   final SongExt song;
@@ -438,7 +436,7 @@ class _$PresentorSaveHistoryImpl implements PresentorSaveHistory {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PresentorSaveHistoryImpl &&
+            other is _$SaveHistoryImpl &&
             (identical(other.song, song) || other.song == song));
   }
 
@@ -448,16 +446,14 @@ class _$PresentorSaveHistoryImpl implements PresentorSaveHistory {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$PresentorSaveHistoryImplCopyWith<_$PresentorSaveHistoryImpl>
-      get copyWith =>
-          __$$PresentorSaveHistoryImplCopyWithImpl<_$PresentorSaveHistoryImpl>(
-              this, _$identity);
+  _$$SaveHistoryImplCopyWith<_$SaveHistoryImpl> get copyWith =>
+      __$$SaveHistoryImplCopyWithImpl<_$SaveHistoryImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(SongExt song) loadSong,
-    required TResult Function(SongExt song) likeSong,
+    required TResult Function(SongExt song) load,
+    required TResult Function(SongExt song) like,
     required TResult Function(SongExt song) history,
   }) {
     return history(song);
@@ -466,8 +462,8 @@ class _$PresentorSaveHistoryImpl implements PresentorSaveHistory {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(SongExt song)? loadSong,
-    TResult? Function(SongExt song)? likeSong,
+    TResult? Function(SongExt song)? load,
+    TResult? Function(SongExt song)? like,
     TResult? Function(SongExt song)? history,
   }) {
     return history?.call(song);
@@ -476,8 +472,8 @@ class _$PresentorSaveHistoryImpl implements PresentorSaveHistory {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SongExt song)? loadSong,
-    TResult Function(SongExt song)? likeSong,
+    TResult Function(SongExt song)? load,
+    TResult Function(SongExt song)? like,
     TResult Function(SongExt song)? history,
     required TResult orElse(),
   }) {
@@ -490,9 +486,9 @@ class _$PresentorSaveHistoryImpl implements PresentorSaveHistory {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(PresentorLoadSong value) loadSong,
-    required TResult Function(PresentorLikeSong value) likeSong,
-    required TResult Function(PresentorSaveHistory value) history,
+    required TResult Function(LoadSong value) load,
+    required TResult Function(LikeSong value) like,
+    required TResult Function(SaveHistory value) history,
   }) {
     return history(this);
   }
@@ -500,9 +496,9 @@ class _$PresentorSaveHistoryImpl implements PresentorSaveHistory {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(PresentorLoadSong value)? loadSong,
-    TResult? Function(PresentorLikeSong value)? likeSong,
-    TResult? Function(PresentorSaveHistory value)? history,
+    TResult? Function(LoadSong value)? load,
+    TResult? Function(LikeSong value)? like,
+    TResult? Function(SaveHistory value)? history,
   }) {
     return history?.call(this);
   }
@@ -510,9 +506,9 @@ class _$PresentorSaveHistoryImpl implements PresentorSaveHistory {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(PresentorLoadSong value)? loadSong,
-    TResult Function(PresentorLikeSong value)? likeSong,
-    TResult Function(PresentorSaveHistory value)? history,
+    TResult Function(LoadSong value)? load,
+    TResult Function(LikeSong value)? like,
+    TResult Function(SaveHistory value)? history,
     required TResult orElse(),
   }) {
     if (history != null) {
@@ -522,16 +518,15 @@ class _$PresentorSaveHistoryImpl implements PresentorSaveHistory {
   }
 }
 
-abstract class PresentorSaveHistory implements PresentorEvent {
-  const factory PresentorSaveHistory(final SongExt song) =
-      _$PresentorSaveHistoryImpl;
+abstract class SaveHistory implements PresentorEvent {
+  const factory SaveHistory(final SongExt song) = _$SaveHistoryImpl;
 
   @override
   SongExt get song;
   @override
   @JsonKey(ignore: true)
-  _$$PresentorSaveHistoryImplCopyWith<_$PresentorSaveHistoryImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$SaveHistoryImplCopyWith<_$SaveHistoryImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc

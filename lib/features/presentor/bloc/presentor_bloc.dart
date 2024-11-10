@@ -21,15 +21,15 @@ part 'presentor_bloc.freezed.dart';
 @injectable
 class PresentorBloc extends Bloc<PresentorEvent, PresentorState> {
   PresentorBloc() : super(const _PresentorState()) {
-    on<PresentorLoadSong>(_onLoadSong);
-    on<PresentorLikeSong>(_onLikeSong);
-    on<PresentorSaveHistory>(_onSaveHistory);
+    on<LoadSong>(_onLoadSong);
+    on<LikeSong>(_onLikeSong);
+    on<SaveHistory>(_onSaveHistory);
   }
 
   final _dbRepo = getIt<DatabaseRepository>();
 
   Future<void> _onLoadSong(
-    PresentorLoadSong event,
+    LoadSong event,
     Emitter<PresentorState> emit,
   ) async {
     emit(ProgressState());
@@ -42,7 +42,7 @@ class PresentorBloc extends Bloc<PresentorEvent, PresentorState> {
   }
 
   Future<void> _onLikeSong(
-    PresentorLikeSong event,
+    LikeSong event,
     Emitter<PresentorState> emit,
   ) async {
     emit(ProgressState());
@@ -53,7 +53,7 @@ class PresentorBloc extends Bloc<PresentorEvent, PresentorState> {
   }
 
   Future<void> _onSaveHistory(
-    PresentorSaveHistory event,
+    SaveHistory event,
     Emitter<PresentorState> emit,
   ) async {
     await _dbRepo.saveHistory(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../features/home/ui/home_screen.dart';
+import '../../features/home/common/ui/home_screen.dart';
 import '../../common/widgets/text_scale_factor.dart';
 import '../../features/selection/step1/ui/step1_screen.dart';
 import '../../features/selection/step2/ui/step2_screen.dart';

@@ -9,11 +9,9 @@ abstract class DatabaseRepository {
 
   Future<void> removeAllBooks();
 
-  //Future<List<SongExt>> fetchSongs({int bid = 0, bool likes = false});
-
   Future<List<SongExt>> fetchSongs(int bid);
 
-  Future<List<SongExt>> fetchLikes(int bid);
+  Future<List<SongExt>> fetchLikes();
 
   Future<Song?> findSongById(int rid);
 
