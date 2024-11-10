@@ -26,7 +26,6 @@ class HomeScreenState extends State<HomeScreen> {
   List<SongExt> songs = [];
   List<PageItem> homeScreens = [];
   PageController pageController = PageController();
-  Widget? bodyWidget, bottomWidget;
 
   void onPageChanged(int index) {
     setState(() {
@@ -40,7 +39,9 @@ class HomeScreenState extends State<HomeScreen> {
     var l10n = AppLocalizations.of(context)!;
     var size = MediaQuery.of(context).size;
 
-    bodyWidget = BlocProvider(
+    var loadingWidget = HomeLoading();
+
+    var bodyWidget = BlocProvider(
       create: (context) => HomeBloc()..add(FetchData()),
       child: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state) {
@@ -70,7 +71,7 @@ class HomeScreenState extends State<HomeScreen> {
         },
         builder: (context, state) {
           if (state is HomeFetchingState) {
-            return Scaffold(body: HomeLoading());
+            return loadingWidget;
           } else if (state is HomeFilteredState) {
             return Scaffold(
               body: PageView(
@@ -86,7 +87,7 @@ class HomeScreenState extends State<HomeScreen> {
               ),
             );
           }
-          return Scaffold(body: HomeLoading());
+          return loadingWidget;
         },
       ),
     );
