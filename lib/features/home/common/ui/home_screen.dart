@@ -24,7 +24,9 @@ class HomeScreenState extends State<HomeScreen> {
 
   List<Book> books = [];
   List<SongExt> songs = [];
+  List<PageItem> homeScreens = [];
   PageController pageController = PageController();
+  Widget? bodyWidget, bottomWidget;
 
   void onPageChanged(int index) {
     setState(() {
@@ -38,7 +40,7 @@ class HomeScreenState extends State<HomeScreen> {
     var l10n = AppLocalizations.of(context)!;
     var size = MediaQuery.of(context).size;
 
-    return BlocProvider(
+    bodyWidget = BlocProvider(
       create: (context) => HomeBloc()..add(FetchData()),
       child: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state) {
@@ -46,6 +48,19 @@ class HomeScreenState extends State<HomeScreen> {
             books = state.books;
             songs = state.songs;
             context.read<HomeBloc>().add(FilterData(books[0]));
+          } else if (state is HomeFilteredState) {
+            homeScreens = [
+              PageItem(
+                title: 'Songs',
+                icon: Icons.search,
+                screen: SongsScreen(books: books),
+              ),
+              PageItem(
+                title: 'Likes',
+                icon: Icons.favorite,
+                screen: LikesScreen(books: books),
+              ),
+            ];
           } else if (state is HomeFailureState) {
             CustomSnackbar.show(
               context,
@@ -57,47 +72,7 @@ class HomeScreenState extends State<HomeScreen> {
           if (state is HomeFetchingState) {
             return Scaffold(body: HomeLoading());
           } else if (state is HomeFilteredState) {
-            List<PageItem> homeScreens = [
-              PageItem(
-                title: 'Songs',
-                icon: Icons.search,
-                screen: SongsScreen(books: books),
-              ),
-              PageItem(
-                title: 'Likes',
-                icon: Icons.favorite,
-                screen: LikesScreen(books: books),
-              ),
-              //PageItem(title: 'Lists', icon: Icons.list, screen: ListsScreen()),
-              //PageItem(title: 'Drafts', icon: Icons.edit, screen: DraftsScreen()),
-            ];
-
             return Scaffold(
-              appBar: AppBar(
-                title: Text('SongLib'),
-                actions: [
-                  if (selectedPage == 0) ...[
-                    IconButton(
-                      icon: Icon(Icons.search),
-                      onPressed: () async {
-                        showSearch(
-                          context: context,
-                          delegate: SongsSearch(
-                            context,
-                            books,
-                            songs,
-                            size.height * 0.5,
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                  IconButton(
-                    icon: Icon(Icons.settings),
-                    onPressed: () {},
-                  ),
-                ],
-              ),
               body: PageView(
                 controller: pageController,
                 onPageChanged: onPageChanged,
@@ -111,9 +86,38 @@ class HomeScreenState extends State<HomeScreen> {
               ),
             );
           }
-          return Scaffold(body: SizedBox.shrink());
+          return Scaffold(body: HomeLoading());
         },
       ),
+    );
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('SongLib'),
+        actions: [
+          if (selectedPage == 0) ...[
+            IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () async {
+                showSearch(
+                  context: context,
+                  delegate: SongsSearch(
+                    context,
+                    books,
+                    songs,
+                    size.height * 0.5,
+                  ),
+                );
+              },
+            ),
+          ],
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {},
+          ),
+        ],
+      ),
+      body: bodyWidget,
     );
   }
 }

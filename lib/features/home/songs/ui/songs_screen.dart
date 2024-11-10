@@ -49,9 +49,7 @@ class SongsScreenState extends State<SongsScreen> {
 
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
-        if (state is HomeFilteringState) {
-          songList = CircularProgress();
-        } else if (state is HomeFilteredState && state.songs.isNotEmpty) {
+        if (state is HomeFilteredState && state.songs.isNotEmpty) {
           setBook = widget.books.indexOf(state.book);
           songList = ListView.builder(
             itemCount: state.songs.length,
@@ -63,8 +61,8 @@ class SongsScreenState extends State<SongsScreen> {
               return SearchSongItem(
                 song: song,
                 height: 50,
-                onPressed: () {
-                  Navigator.push(
+                onPressed: () async {
+                  bool? result = await Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => PresentorScreen(
@@ -74,6 +72,13 @@ class SongsScreenState extends State<SongsScreen> {
                       ),
                     ),
                   );
+
+                  if (result == true) {
+                    var book = widget.books.firstWhere(
+                      (b) => b.bookId == song.book,
+                    );
+                    context.read<HomeBloc>().add(FilterData(book));
+                  }
                 },
               );
             },
