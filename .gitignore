@@ -53,3 +53,5 @@ google-services.json
 .fvm/
 .fvmrc
 .vscode/settings.json
+.flutter*
+.metadata*
