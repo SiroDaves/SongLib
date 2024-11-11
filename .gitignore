@@ -30,6 +30,7 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+firebase_options.dart
 *.config.dart
 *.freezed.dart
 *.g.dart
@@ -45,6 +46,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+google-services.json
 
 
 # FVM Version Cache
