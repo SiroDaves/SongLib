@@ -7,6 +7,7 @@ import '../../../../common/utils/app_util.dart';
 import '../../../../common/widgets/action/bottom_nav_bar.dart';
 import '../../../../common/widgets/progress/custom_snackbar.dart';
 import '../../../../common/widgets/progress/skeleton.dart';
+import '../../../../core/navigator/route_names.dart';
 import '../../songs/ui/songs_search.dart';
 import '../../likes/ui/likes_screen.dart';
 import '../../songs/ui/songs_screen.dart';
@@ -66,6 +67,16 @@ class HomeScreenState extends State<HomeScreen> {
             CustomSnackbar.show(
               context,
               feedbackMessage(state.feedback, l10n),
+            );
+          } else if (state is HomeResettedState) {
+            CustomSnackbar.show(
+              context,
+              'Redirecting you to select songs afresh',
+            );
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              RouteNames.step1Selection,
+              (route) => false,
             );
           }
         },

@@ -8,6 +8,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import '../../../../../common/repository/database_repository.dart';
 import '../../../../../core/di/injectable.dart';
 import '../../../../common/data/models/models.dart';
+import '../../../../common/repository/local_storage.dart';
 import '../../../../common/utils/app_util.dart';
 
 part 'home_event.dart';
@@ -19,8 +20,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc() : super(const _HomeState()) {
     on<FetchData>(_onFetchData);
     on<FilterData>(_onFilterData);
+    on<ResetData>(_onResetData);
   }
 
+  final _localStorage = getIt<LocalStorage>();
   final _dbRepo = getIt<DatabaseRepository>();
 
   Future<void> _onFetchData(
@@ -54,4 +57,22 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(HomeFailureState('Unable to fetch songs'));
     }
   }
+
+  Future<void> _onResetData(
+    ResetData event,
+    Emitter<HomeState> emit,
+  ) async {
+    emit(HomeFetchingState());
+    try {
+      await _dbRepo.removeAllBooks();
+      await _dbRepo.removeAllSongs();
+      _localStorage.clearData();
+      emit(HomeResettedState());
+    } catch (e) {
+      logger('Unable to: $e');
+      Sentry.captureException(e);
+      emit(HomeResettedState());
+    }
+  }
+
 }

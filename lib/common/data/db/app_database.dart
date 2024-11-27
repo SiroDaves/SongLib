@@ -54,5 +54,6 @@ Future<AppDatabase> buildInMemoryDatabase() {
   return $FloorAppDatabase
       .inMemoryDatabaseBuilder()
       .addMigrations(migrations)
+      
       .build();
 }
