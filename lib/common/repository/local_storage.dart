@@ -55,8 +55,9 @@ class LocalStorageImp implements LocalStorage {
 
   @override
   void clearData() {
-    sharedPrefs.remove(PrefConstants.isLoggedInKey);
-    sharedPrefs.remove(PrefConstants.emailKey);
+    sharedPrefs.remove(PrefConstants.selectedBooksKey);
+    sharedPrefs.remove(PrefConstants.dataIsSelectedKey);
+    sharedPrefs.remove(PrefConstants.dataIsLoadedKey);
   }
 
   @override

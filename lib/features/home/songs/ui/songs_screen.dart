@@ -42,9 +42,16 @@ class SongsScreenState extends State<SongsScreen> {
         },
       ),
     );
-    songList = EmptyState(
-      title: 'You have selected any songs yet.\n'
-          'You might have to go back to select songs afresh',
+    songList = Padding(
+      padding: EdgeInsets.only(top: 20),
+      child: EmptyState(
+        title:
+            'Oops there is a problem displaying songs under the book you selected.\n\n'
+            'You can fix the issue by selecting them afresh',
+        showRetry: true,
+        titleRetry: 'SELECT SONGS AFRESH',
+        onRetry: () => context.read<HomeBloc>().add(const ResetData()),
+      ),
     );
 
     return BlocBuilder<HomeBloc, HomeState>(

@@ -21,5 +21,7 @@ class HomeState with _$HomeState {
 
   const factory HomeState.success() = HomeSuccessState;
 
+  const factory HomeState.reset() = HomeResettedState;
+
   const factory HomeState.failure(String feedback) = HomeFailureState;
 }

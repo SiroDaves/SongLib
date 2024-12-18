@@ -54,7 +54,7 @@ class Step1Bloc extends Bloc<Step1Event, Step1State> {
             }
             booksListing.add(Selectable<Book>(book, setSelected));
           }
-          emit(Step1FetchedState(selectedBooksIds, books,booksListing));
+          emit(Step1FetchedState(selectedBooksIds, books, booksListing));
           break;
 
         default:

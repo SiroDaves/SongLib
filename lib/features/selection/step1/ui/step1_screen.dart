@@ -55,7 +55,7 @@ class Step1ScreenState extends State<Step1Screen> {
       child: BlocConsumer<Step1Bloc, Step1State>(
         listener: (context, state) {
           if (state is Step1SavedState) {
-            Navigator.pushNamed(context, RouteNames.step2);
+            Navigator.pushNamed(context, RouteNames.step2Selection);
           }
           if (state is Step1FailureState) {
             CustomSnackbar.show(

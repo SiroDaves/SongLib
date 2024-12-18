@@ -112,7 +112,7 @@ class AppViewState extends State<AppView> {
                     } else {
                       if (isSelected) {
                         navigator.pushNamedAndRemoveUntil<void>(
-                          RouteNames.step2,
+                          RouteNames.step2Selection,
                           (route) => false,
                         );
                       } else {
@@ -122,7 +122,7 @@ class AppViewState extends State<AppView> {
                         );
 
                         navigator.pushNamedAndRemoveUntil<void>(
-                          RouteNames.step1,
+                          RouteNames.step1Selection,
                           (route) => false,
                         );
                       }

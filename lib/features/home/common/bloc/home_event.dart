@@ -6,4 +6,6 @@ sealed class HomeEvent with _$HomeEvent {
 
   const factory HomeEvent.filter(Book book) = FilterData;
   
+  const factory HomeEvent.reset() = ResetData;
+  
 }
