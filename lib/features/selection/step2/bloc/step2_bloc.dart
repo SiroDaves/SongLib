@@ -75,7 +75,7 @@ class Step2Bloc extends Bloc<Step2Event, Step2State> {
               feedback = "On your\nmarks ...";
               break;
             case 5:
-              feedback = "Set,\nReady ...";
+              feedback = "Set. \nReady ...";
               break;
             case 10:
               feedback = "Loading\nsongs ...";
@@ -93,7 +93,7 @@ class Step2Bloc extends Bloc<Step2Event, Step2State> {
               feedback = "Finishing up";
               break;
             case 95:
-              feedback = "Almost done";
+              feedback = "We're almost done";
               break;
           }
 
