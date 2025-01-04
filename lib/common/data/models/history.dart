@@ -3,8 +3,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 import '../../utils/constants/app_constants.dart';
 
-part 'history.g.dart';
-
 @Entity(tableName: AppConstants.historiesTable)
 @JsonSerializable()
 class History {

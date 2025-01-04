@@ -82,8 +82,7 @@ class Step1Bloc extends Bloc<Step1Event, Step1State> {
         );
         selectedBooks = "";
       }
-      for (int i = 0; i < event.books.length; i++) {
-        final Book book = event.books[i];
+      for (final book in event.books) {
         selectedBooks = "$selectedBooks${book.bookNo},";
         await _dbRepo.saveBook(book);
       }
