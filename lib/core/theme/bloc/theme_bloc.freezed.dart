@@ -50,7 +50,9 @@ mixin _$ThemeEvent {
   }) =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ThemeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ThemeEventCopyWith<ThemeEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -74,6 +76,8 @@ class _$ThemeEventCopyWithImpl<$Res, $Val extends ThemeEvent>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ThemeEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -107,6 +111,8 @@ class __$$ThemeModeChangedImplCopyWithImpl<$Res>
       $Res Function(_$ThemeModeChangedImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ThemeEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -146,7 +152,9 @@ class _$ThemeModeChangedImpl implements ThemeModeChanged {
   @override
   int get hashCode => Object.hash(runtimeType, themeMode);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ThemeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ThemeModeChangedImplCopyWith<_$ThemeModeChangedImpl> get copyWith =>
@@ -216,8 +224,11 @@ abstract class ThemeModeChanged implements ThemeEvent {
 
   @override
   ThemeMode get themeMode;
+
+  /// Create a copy of ThemeEvent
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ThemeModeChangedImplCopyWith<_$ThemeModeChangedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

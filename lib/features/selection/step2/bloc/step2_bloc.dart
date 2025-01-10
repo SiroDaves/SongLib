@@ -64,17 +64,18 @@ class Step2Bloc extends Bloc<Step2Event, Step2State> {
     emit(Step2ProgressState());
 
     if (event.songs.isNotEmpty) {
-      for (int i = 0; i < event.songs.length; i++) {
+      int index = 0;
+      for (final song in event.songs) {
         try {
           String feedback = '';
-          int progress = (i / event.songs.length * 100).toInt();
+          int progress = ((index / event.songs.length) * 100).toInt();
 
           switch (progress) {
             case 1:
               feedback = "On your\nmarks ...";
               break;
             case 5:
-              feedback = "Set,\nReady ...";
+              feedback = "Set. \nReady ...";
               break;
             case 10:
               feedback = "Loading\nsongs ...";
@@ -92,11 +93,14 @@ class Step2Bloc extends Bloc<Step2Event, Step2State> {
               feedback = "Finishing up";
               break;
             case 95:
-              feedback = "Almost done";
+              feedback = "We're almost done";
               break;
           }
+
           emit(Step2SavingState(progress, feedback));
-          await _dbRepo.saveSong(event.songs[i]);
+          await _dbRepo.saveSong(song);
+
+          index++;
         } catch (_) {}
       }
     }
