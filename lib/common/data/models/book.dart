@@ -7,7 +7,6 @@ part 'book.g.dart';
 
 @Entity(tableName: AppConstants.booksTable)
 @JsonSerializable()
-
 class Book {
   @PrimaryKey(autoGenerate: true)
   int? rid;

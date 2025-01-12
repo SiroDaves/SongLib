@@ -72,6 +72,16 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
+  Future<void> syncSong(
+    int songId,
+    String title,
+    String alias,
+    String content,
+  ) async {
+    return _appDB.songsDao.syncSong(songId, title, alias, content);
+  }
+
+  @override
   Future<void> removeAllSongs() async {
     return _appDB.songsDao.deleteAllSongs();
   }

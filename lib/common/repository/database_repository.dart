@@ -25,6 +25,13 @@ abstract class DatabaseRepository {
     String updated,
   );
 
+  Future<void> syncSong(
+    int rid,
+    String title,
+    String content,
+    String updated,
+  );
+
   Future<void> removeSong(Song song);
 
   Future<void> removeAllSongs();

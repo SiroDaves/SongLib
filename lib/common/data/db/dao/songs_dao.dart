@@ -33,6 +33,17 @@ abstract class SongsDao {
     String updated,
   );
 
+  @Query(
+    'UPDATE ${AppConstants.songsTable} '
+    'SET title = :title, alias = :alias, content = :content WHERE songId = :songId',
+  )
+  Future<void> syncSong(
+    int songId,
+    String title,
+    String alias,
+    String content,
+  );
+
   @delete
   Future<void> deleteSong(Song song);
 
