@@ -46,7 +46,7 @@ class HomeScreenState extends State<HomeScreen> {
       create: (context) => HomeBloc()..add(FetchData()),
       child: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state) {
-          if (state is HomeFetchedState) {
+          if (state is HomeDataFetchedState) {
             books = state.books;
             songs = state.songs;
             context.read<HomeBloc>().add(FilterData(books[0]));

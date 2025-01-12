@@ -7,7 +7,9 @@ class HomeState with _$HomeState {
   const factory HomeState.fetched(
     List<Book> books,
     List<SongExt> songs,
-  ) = HomeFetchedState;
+  ) = HomeDataFetchedState;
+
+  const factory HomeState.synced() = HomeDataSyncedState;
 
   const factory HomeState.filtered(
     Book book,

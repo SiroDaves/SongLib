@@ -22,7 +22,7 @@ class Step2Bloc extends Bloc<Step2Event, Step2State> {
     on<SaveSongs>(_onSaveSongs);
   }
 
-  final _step1Repo = SelectionRepository();
+  final _selectRepo = SelectionRepository();
   final _localStorage = getIt<LocalStorage>();
   final _dbRepo = getIt<DatabaseRepository>();
 
@@ -33,7 +33,7 @@ class Step2Bloc extends Bloc<Step2Event, Step2State> {
     emit(Step2ProgressState());
     String selectedBooks =
         _localStorage.getPrefString(PrefConstants.selectedBooksKey);
-    var resp = await _step1Repo.getSongsByBooks(selectedBooks);
+    var resp = await _selectRepo.getSongsByBooks(selectedBooks);
 
     try {
       switch (resp.statusCode) {
