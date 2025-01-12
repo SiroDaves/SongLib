@@ -4,7 +4,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../common/utils/app_util.dart';
 import '../../../../common/widgets/progress/custom_snackbar.dart';
-import '../../../../common/widgets/progress/general_progress.dart';
 import '../../../../core/navigator/route_names.dart';
 import '../bloc/step2_bloc.dart';
 import 'widgets/step2_widgets.dart';
@@ -46,31 +45,22 @@ class Step2ScreenState extends State<Step2Screen> {
           }
         },
         builder: (context, state) {
-          var bloc = context.read<Step2Bloc>();
-          Widget bodyWidget = EmptyState(
-            title: 'Sorry nothing to show here at the moment.',
-            showRetry: true,
-            onRetry: () => bloc.add(const FetchSongs()),
+          return Scaffold(
+            body: state.maybeWhen(
+              orElse: () => SizedBox(),
+              progress: () => const WaveProgress(),
+              saving: (progress, feedback) => Stack(
+                children: [
+                  BackgroundProgress(size: size, progress: progress),
+                  ForegroundProgress(
+                    progress: progress,
+                    radius: radius,
+                    feedback: feedback,
+                  ),
+                ],
+              ),
+            ),
           );
-
-          if (state is Step2ProgressState) {
-            bodyWidget = WaveProgress();
-          } else if (state is Step2SavingState) {
-            bodyWidget = Stack(
-              children: [
-                BackgroundProgress(
-                  size: size,
-                  progress: state.progress,
-                ),
-                ForegroundProgress(
-                  progress: state.progress,
-                  radius: radius,
-                  feedback: state.feedback,
-                ),
-              ],
-            );
-          }
-          return Scaffold(body: bodyWidget);
         },
       ),
     );

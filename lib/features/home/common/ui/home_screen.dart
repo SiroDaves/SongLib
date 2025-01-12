@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -39,10 +42,7 @@ class HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     var l10n = AppLocalizations.of(context)!;
     var size = MediaQuery.of(context).size;
-
-    var loadingWidget = HomeLoading();
-
-    var bodyWidget = BlocProvider(
+    return BlocProvider(
       create: (context) => HomeBloc()..add(FetchData()),
       child: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state) {
@@ -81,55 +81,56 @@ class HomeScreenState extends State<HomeScreen> {
           }
         },
         builder: (context, state) {
-          if (state is HomeFetchingState) {
-            return loadingWidget;
-          } else if (state is HomeFilteredState) {
-            return Scaffold(
-              body: PageView(
-                controller: pageController,
-                onPageChanged: onPageChanged,
-                physics: const NeverScrollableScrollPhysics(),
-                children: homeScreens.map((item) => item.screen).toList(),
+          return Scaffold(
+            appBar: AppBar(
+              title: Text('SongLib'),
+              actions: [
+                if (selectedPage == 0) ...[
+                  IconButton(
+                    icon: Platform.isIOS
+                        ? Icon(CupertinoIcons.search)
+                        : Icon(Icons.search),
+                    onPressed: () async {
+                      showSearch(
+                        context: context,
+                        delegate: SongsSearch(
+                          context,
+                          books,
+                          songs,
+                          size.height * 0.5,
+                        ),
+                      );
+                    },
+                  ),
+                ],
+                IconButton(
+                  icon: Platform.isIOS
+                      ? Icon(CupertinoIcons.settings)
+                      : Icon(Icons.search),
+                  onPressed: () {},
+                ),
+              ],
+            ),
+            body: state.maybeWhen(
+              orElse: () => HomeLoading(),
+              fetching: () => HomeLoading(),
+              filtered: (book, songs, likes) => Scaffold(
+                body: PageView(
+                  controller: pageController,
+                  onPageChanged: onPageChanged,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: homeScreens.map((item) => item.screen).toList(),
+                ),
+                bottomNavigationBar: CustomBottomNavigationBar(
+                  selectedIndex: selectedPage,
+                  onPageChange: onPageChanged,
+                  pages: homeScreens,
+                ),
               ),
-              bottomNavigationBar: CustomBottomNavigationBar(
-                selectedIndex: selectedPage,
-                onPageChange: onPageChanged,
-                pages: homeScreens,
-              ),
-            );
-          }
-          return loadingWidget;
+            ),
+          );
         },
       ),
-    );
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('SongLib'),
-        actions: [
-          if (selectedPage == 0) ...[
-            IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () async {
-                showSearch(
-                  context: context,
-                  delegate: SongsSearch(
-                    context,
-                    books,
-                    songs,
-                    size.height * 0.5,
-                  ),
-                );
-              },
-            ),
-          ],
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: bodyWidget,
     );
   }
 }

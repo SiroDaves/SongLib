@@ -52,13 +52,9 @@ class Step1FabState extends State<Step1Fab> {
             onPressed: () => areYouDoneDialog(),
             label: Text(
               l10n.proceed.toUpperCase(),
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            icon: Icon(Platform.isIOS ? Icons.check_outlined : Icons.check,
-                color: Colors.white),
+            icon: Icon(Icons.check, color: Colors.white),
           ),
         );
       },
