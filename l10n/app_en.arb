@@ -78,6 +78,8 @@
     "hintsCurrentUpdate": "In this Latest Update",
     "hintsCurrentUpdateText": "1. Search without worrying about commas or exclamations \n2. Search with words not following each other by using a comma in between them \n\t\tE.g 'Jesus, sin' can be used to search the song 'Jesus paid it all'",
     "donationRequestReminder": "\n\nRemember to support our work with your donation from time to time.\nHead over to the Help Desk to Donate",
+    "availableBooks": "Here are the available books, please select as many as you like to proceed",
+    "nothingHere": "Sorry nothing to show here at the moment.",
     "disabled": "Disabled",
     "enabled": "Enabled",
     "systemDefault": "System Default",

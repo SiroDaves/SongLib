@@ -32,14 +32,12 @@ class Step2ScreenState extends State<Step2Screen> {
         listener: (context, state) {
           if (state is Step2FetchedState) {
             context.read<Step2Bloc>().add(SaveSongs(state.songs));
-          }
-          if (state is Step2FailureState) {
+          } else if (state is Step2FailureState) {
             CustomSnackbar.show(
               context,
               feedbackMessage(state.feedback, l10n),
             );
-          }
-          if (state is Step2SavedState) {
+          } else if (state is Step2SavedState) {
             Navigator.pushNamedAndRemoveUntil(
               context,
               RouteNames.home,

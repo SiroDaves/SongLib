@@ -7,6 +7,8 @@
     "hintsCurrentUpdate",
     "hintsCurrentUpdateText",
     "donationRequestReminder",
+    "availableBooks",
+    "nothingHere",
     "labelError0",
     "labelError404",
     "labelError500",
