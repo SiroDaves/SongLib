@@ -9,6 +9,7 @@
     "donationRequestReminder",
     "availableBooks",
     "nothingHere",
+    "redirectingYou",
     "labelError0",
     "labelError404",
     "labelError500",
