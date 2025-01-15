@@ -71,8 +71,7 @@ class PresentorScreenState extends State<PresentorScreen> {
               context,
               feedbackMessage(state.feedback, l10n),
             );
-          }
-          if (state is PresentorLikedState) {
+          } else if (state is PresentorLikedState) {
             setState(() {
               song.liked = !song.liked;
               likeChanged = true;
@@ -98,35 +97,34 @@ class PresentorScreenState extends State<PresentorScreen> {
           }
         },
         builder: (context, state) {
-          if (state is PresentorProgressState) {
-            return Scaffold(body: CircularProgress());
-          }
-
-          return PopScope(
-            canPop: false,
-            onPopInvoked: (bool didPop) async {
-              if (didPop) {
-                return;
-              }
-              if (context.mounted) {
-                Navigator.pop(context, likeChanged);
-              }
-            },
-            child: Scaffold(
-              appBar: AppBar(
-                title: Text(songTitle),
-                actions: <Widget>[
-                  InkWell(
-                    onTap: () {
-                      context.read<PresentorBloc>().add(LikeSong(song));
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Icon(
-                          song.liked ? Icons.favorite : Icons.favorite_border),
+          return state.maybeWhen(
+            progress: () => Scaffold(body: CircularProgress()),
+            orElse: () => PopScope(
+              canPop: false,
+              onPopInvokedWithResult: (bool didPop, dynamic result) async {
+                if (didPop) {
+                  return;
+                }
+                if (context.mounted) {
+                  Navigator.pop(context, likeChanged);
+                }
+              },
+              child: Scaffold(
+                appBar: AppBar(
+                  title: Text(songTitle),
+                  actions: <Widget>[
+                    InkWell(
+                      onTap: () {
+                        context.read<PresentorBloc>().add(LikeSong(song));
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Icon(song.liked
+                            ? Icons.favorite
+                            : Icons.favorite_border),
+                      ),
                     ),
-                  ),
-                  /*InkWell(
+                    /*InkWell(
                     onTap: () async {
                       await showModalBottomSheet<void>(
                           context: context,
@@ -139,32 +137,33 @@ class PresentorScreenState extends State<PresentorScreen> {
                       child: Icon(Icons.list),
                     ),
                   ),*/
-                ],
-              ),
-              body: DecoratedBox(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(bgImage),
-                    fit: BoxFit.cover,
-                  ),
+                  ],
                 ),
-                child: widgetTabs.isNotEmpty
-                    ? PresentorMobile(
-                        index: curSlide,
-                        songbook: songBook,
-                        tabs: widgetTabs,
-                        contents: widgetContent,
-                        tabsWidth: size.height * 0.08156,
-                        indicatorWidth: size.height * 0.08156,
-                        contentScrollAxis:
-                            slideHorizontal ? Axis.horizontal : Axis.vertical,
-                      )
-                    : SizedBox(
-                        height: size.height,
-                        width: size.width,
-                      ),
+                body: DecoratedBox(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(bgImage),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: widgetTabs.isNotEmpty
+                      ? PresentorMobile(
+                          index: curSlide,
+                          songbook: songBook,
+                          tabs: widgetTabs,
+                          contents: widgetContent,
+                          tabsWidth: size.height * 0.08156,
+                          indicatorWidth: size.height * 0.08156,
+                          contentScrollAxis:
+                              slideHorizontal ? Axis.horizontal : Axis.vertical,
+                        )
+                      : SizedBox(
+                          height: size.height,
+                          width: size.width,
+                        ),
+                ),
+                floatingActionButton: PresentorFabWidget(song: song),
               ),
-              floatingActionButton: PresentorFabWidget(song: song),
             ),
           );
         },

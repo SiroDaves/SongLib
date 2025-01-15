@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:songlib/core/theme/theme_styles.dart';
 //import 'package:textstyle_extensions/textstyle_extensions.dart';
@@ -25,52 +27,44 @@ class BookItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(
-          bottom: Sizes.xs, left: Sizes.xs, right: Sizes.xs),
-      child: Card(
-        color: item.isSelected
-            ? ThemeColors.bgColorPrimary(context)
-            : ThemeColors.bgColorBW(context),
-        elevation: 5,
-        child: Center(
-          child: ListTile(
-            onTap: onPressed,
-            leading: Padding(
-              padding: const EdgeInsets.all(Sizes.m),
-              child: Icon(
-                item.isSelected
-                    ? Icons.check_box
-                    : Icons.check_box_outline_blank,
-                color: item.isSelected
-                    ? Colors.white
-                    : ThemeColors.bgColorWB(context),
-              ),
+    return Card(
+      color: item.isSelected
+          ? ThemeColors.bgColorPrimary(context)
+          : ThemeColors.bgColorBW(context),
+      elevation: 5,
+      child: Center(
+        child: ListTile(
+          onTap: onPressed,
+          leading: Padding(
+            padding: const EdgeInsets.all(Sizes.xs),
+            child: Icon(
+              item.isSelected
+                  ? (Platform.isIOS ? Icons.check_circle : Icons.check_box)
+                  : (Platform.isIOS
+                      ? Icons.radio_button_unchecked
+                      : Icons.check_box_outline_blank),
+              color: item.isSelected
+                  ? Colors.white
+                  : ThemeColors.bgColorWB(context),
             ),
-            title: Padding(
-              padding: const EdgeInsets.symmetric(vertical: Sizes.xs),
-              child: Text(
-                refineTitle(item.data.title!),
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: item.isSelected
-                      ? Colors.white
-                      : ThemeColors.bgColorWB(context),
-                ),
-              ),
+          ),
+          title: Text(
+            refineTitle(item.data.title!),
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: item.isSelected
+                  ? Colors.white
+                  : ThemeColors.bgColorWB(context),
             ),
-            subtitle: Padding(
-              padding: const EdgeInsets.only(bottom: Sizes.xs),
-              child: Text(
-                "${item.data.songs!} ${item.data.subTitle} songs",
-                style: TextStyle(
-                  fontSize: 18,
-                  color: item.isSelected
-                      ? Colors.white
-                      : ThemeColors.bgColorWB(context),
-                ),
-              ),
+          ),
+          subtitle: Text(
+            "${item.data.songs!} ${item.data.subTitle} songs",
+            style: TextStyle(
+              fontSize: 18,
+              color: item.isSelected
+                  ? Colors.white
+                  : ThemeColors.bgColorWB(context),
             ),
           ),
         ),

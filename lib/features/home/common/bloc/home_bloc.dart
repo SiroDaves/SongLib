@@ -13,6 +13,7 @@ import '../../../../common/repository/local_storage.dart';
 import '../../../../common/utils/app_util.dart';
 import '../../../../common/utils/constants/pref_constants.dart';
 import '../../../selection/common/domain/selection_repository.dart';
+import '../utils/home_utils.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -30,6 +31,42 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final _selectRepo = SelectionRepository();
   final _localStorage = getIt<LocalStorage>();
   final _dbRepo = getIt<DatabaseRepository>();
+
+  static Future<void> syncDataManually() async {
+    final _selectRepo = SelectionRepository();
+    final _localStorage = getIt<LocalStorage>();
+    final _dbRepo = getIt<DatabaseRepository>();
+
+    if (!await isConnectedToInternet()) {
+      print("No internet connection. Skipping sync.");
+      return;
+    }
+
+    String selectedBooks =
+        _localStorage.getPrefString(PrefConstants.selectedBooksKey);
+    var resp = await _selectRepo.getSongsByBooks(selectedBooks);
+    try {
+      if (resp.statusCode == 200) {
+        List<dynamic> dataList = List<Map<String, dynamic>>.from(
+          jsonDecode(resp.body)['data'],
+        );
+        var songs = dataList.map((item) => Song.fromJson(item)).toList();
+        if (songs.isNotEmpty) {
+          for (final song in songs) {
+            await _dbRepo.syncSong(
+              song.songId!,
+              song.title!,
+              song.alias!,
+              song.content!,
+            );
+          }
+        }
+        print("Sync successful.");
+      }
+    } catch (e) {
+      print("Sync error: $e");
+    }
+  }
 
   Future<void> _onSyncData(
     SyncData event,

@@ -44,22 +44,19 @@ class Step1FabState extends State<Step1Fab> {
 
     return BlocBuilder<Step1Bloc, Step1State>(
       builder: (context, state) {
-        if (state is Step1ProgressState || state is Step1FailureState) {
-          return const SizedBox.shrink();
-        } else {
-          return FloatingActionButton.extended(
+        return state.maybeWhen(
+          progress: () => const SizedBox.shrink(),
+          failure: (feedback) => const SizedBox.shrink(),
+          orElse: () => FloatingActionButton.extended(
             backgroundColor: fabBgColor,
             onPressed: () => areYouDoneDialog(),
             label: Text(
               l10n.proceed.toUpperCase(),
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            icon: const Icon(Icons.check, color: Colors.white),
-          );
-        }
+            icon: Icon(Icons.check, color: Colors.white),
+          ),
+        );
       },
     );
   }
