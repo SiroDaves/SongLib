@@ -27,6 +27,7 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
   Timer? _syncTimer;
+  late HomeBloc _bloc;
   bool periodicSyncStarted = false;
   int selectedPage = 0, selectedBook = 0;
   List<Book> books = [];
@@ -43,9 +44,7 @@ class HomeScreenState extends State<HomeScreen> {
   void startPeriodicSync() {
     periodicSyncStarted = true;
     _syncTimer = Timer.periodic(Duration(minutes: 5), (_) async {
-      if (await isConnectedToInternet()) {
-        context.read<HomeBloc>().add(FetchData());
-      }
+      if (await isConnectedToInternet()) _bloc.add(FetchData());
     });
   }
 
@@ -65,13 +64,14 @@ class HomeScreenState extends State<HomeScreen> {
       create: (context) => HomeBloc()..add(SyncData()),
       child: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state) {
+          _bloc = context.read<HomeBloc>();
           if (state is HomeDataSyncedState) {
-            context.read<HomeBloc>().add(FetchData());
+            _bloc.add(FetchData());
             if (!periodicSyncStarted) startPeriodicSync();
           } else if (state is HomeDataFetchedState) {
             books = state.books;
             songs = state.songs;
-            context.read<HomeBloc>().add(FilterData(books[selectedBook]));
+            _bloc.add(FilterData(books[selectedBook]));
           } else if (state is HomeFilteredState) {
             selectedBook = books.indexOf(state.book);
             homeScreens = [
