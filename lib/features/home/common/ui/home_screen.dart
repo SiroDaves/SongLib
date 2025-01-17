@@ -5,9 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:workmanager/workmanager.dart';
 
 import '../../../../common/data/models/models.dart';
+import '../../../../common/utils/api_util.dart';
 import '../../../../common/utils/app_util.dart';
 import '../../../../common/widgets/action/bottom_nav_bar.dart';
 import '../../../../common/widgets/progress/custom_snackbar.dart';
@@ -17,7 +17,6 @@ import '../../songs/ui/songs_search.dart';
 import '../../likes/ui/likes_screen.dart';
 import '../../songs/ui/songs_screen.dart';
 import '../bloc/home_bloc.dart';
-import '../utils/home_utils.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -28,6 +27,7 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
   Timer? _syncTimer;
+  bool periodicSyncStarted = false;
   int selectedPage = 0, selectedBook = 0;
   List<Book> books = [];
   List<SongExt> songs = [];
@@ -35,51 +35,16 @@ class HomeScreenState extends State<HomeScreen> {
   PageController pageController = PageController();
 
   @override
-  void initState() {
-    super.initState();
-    _setupPeriodicSync();
-  }
-
-  @override
   void dispose() {
     _syncTimer?.cancel();
     super.dispose();
   }
 
-  void _setupPeriodicSync() {
-    if (Platform.isAndroid || Platform.isIOS) {
-      _setupMobileSync();
-    } else {
-      _startDesktopSyncTimer();
-    }
-  }
-
-  // Mobile: Use workmanager for background tasks
-  void _setupMobileSync() {
-    Workmanager().initialize(_callbackDispatcher, isInDebugMode: true);
-
-    Workmanager().registerPeriodicTask(
-      "syncTask",
-      "syncData",
-      frequency: Duration(minutes: 5),
-      constraints: Constraints(networkType: NetworkType.connected),
-    );
-  }
-
-  // Workmanager callback for mobile
-  void _callbackDispatcher() {
-    Workmanager().executeTask((task, inputData) async {
-      await HomeBloc.syncDataManually(); 
-      return Future.value(true);
-    });
-  }
-  // Desktop: Use Timer for periodic syncing
-  void _startDesktopSyncTimer() {
+  void startPeriodicSync() {
+    periodicSyncStarted = true;
     _syncTimer = Timer.periodic(Duration(minutes: 5), (_) async {
       if (await isConnectedToInternet()) {
-        context.read<HomeBloc>().add(SyncData());
-      } else {
-        logger("No internet connection. Skipping sync.");
+        context.read<HomeBloc>().add(FetchData());
       }
     });
   }
@@ -95,12 +60,14 @@ class HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     var l10n = AppLocalizations.of(context)!;
     var size = MediaQuery.of(context).size;
+
     return BlocProvider(
-      create: (context) => HomeBloc()..add(FetchData()),
+      create: (context) => HomeBloc()..add(SyncData()),
       child: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state) {
           if (state is HomeDataSyncedState) {
             context.read<HomeBloc>().add(FetchData());
+            if (!periodicSyncStarted) startPeriodicSync();
           } else if (state is HomeDataFetchedState) {
             books = state.books;
             songs = state.songs;

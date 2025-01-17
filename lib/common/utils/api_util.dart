@@ -5,6 +5,12 @@ import 'package:http/http.dart' as http;
 
 import 'app_util.dart';
 import 'constants/api_constants.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+
+Future<bool> isConnectedToInternet() async {
+  var connectivityResult = await Connectivity().checkConnectivity();
+  return connectivityResult != ConnectivityResult.none;
+}
 
 /// Http get request
 Future<http.Response> makeApiGetRequest(

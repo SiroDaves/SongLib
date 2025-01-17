@@ -40,7 +40,6 @@ class SplashScreen extends StatelessWidget {
     var appDevelopers = const Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        // Names app developers in splash screen
         Text(
           AppConstants.appCredits1,
           style: TextStyle(
@@ -72,7 +71,6 @@ class SplashScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Spacer(),
-            // Shows app icon on splash screen
             Image.asset(AppAssets.appIcon, height: 200, width: 200),
             const SizedBox(height: 10),
             const Text(
