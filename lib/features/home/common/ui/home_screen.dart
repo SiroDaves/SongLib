@@ -66,8 +66,11 @@ class HomeScreenState extends State<HomeScreen> {
         listener: (context, state) {
           _bloc = context.read<HomeBloc>();
           if (state is HomeDataSyncedState) {
-            _bloc.add(FetchData());
-            if (!periodicSyncStarted) startPeriodicSync();
+            if (state.success) _bloc.add(FetchData());
+            if (!periodicSyncStarted) {
+              _bloc.add(FetchData());
+              startPeriodicSync();
+            }
           } else if (state is HomeDataFetchedState) {
             books = state.books;
             songs = state.songs;

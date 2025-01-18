@@ -48,10 +48,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             dataList.map((item) => Song.fromJson(item)).toList();
 
         final storedSongs = await _dbRepo.fetchSongs();
-
         final storedSongsMap = {
           for (var song in storedSongs) song.songId: song
         };
+
+        bool updatesMade = false;
 
         final updateTasks = fetchedSongs.map((song) async {
           final dbSong = storedSongsMap[song.songId];
@@ -66,11 +67,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
               song.alias ?? '',
               song.content ?? '',
             );
+            updatesMade = true;
           }
         }).toList();
-
         await Future.wait(updateTasks);
-        emit(HomeDataSyncedState());
+        emit(HomeDataSyncedState(updatesMade));
+      } else {
+        emit(HomeDataSyncedState(false));
       }
     } catch (e, stackTrace) {
       logger("Error log: $e\n$stackTrace");
