@@ -1,6 +1,5 @@
 import UIKit
 import Flutter
-import workmanager
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {
@@ -8,8 +7,6 @@ import workmanager
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-    GeneratedPluginRegistrant.register(with: self)
-    WorkmanagerPlugin.registerTask(withIdentifier: "syncTask")
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }

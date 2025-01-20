@@ -9,7 +9,7 @@ class HomeState with _$HomeState {
     List<SongExt> songs,
   ) = HomeDataFetchedState;
 
-  const factory HomeState.synced() = HomeDataSyncedState;
+  const factory HomeState.synced(bool success) = HomeDataSyncedState;
 
   const factory HomeState.filtered(
     Book book,

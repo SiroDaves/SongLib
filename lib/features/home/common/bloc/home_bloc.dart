@@ -13,7 +13,6 @@ import '../../../../common/repository/local_storage.dart';
 import '../../../../common/utils/app_util.dart';
 import '../../../../common/utils/constants/pref_constants.dart';
 import '../../../selection/common/domain/selection_repository.dart';
-import '../utils/home_utils.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -32,69 +31,52 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final _localStorage = getIt<LocalStorage>();
   final _dbRepo = getIt<DatabaseRepository>();
 
-  static Future<void> syncDataManually() async {
-    final _selectRepo = SelectionRepository();
-    final _localStorage = getIt<LocalStorage>();
-    final _dbRepo = getIt<DatabaseRepository>();
-
-    if (!await isConnectedToInternet()) {
-      print("No internet connection. Skipping sync.");
-      return;
-    }
-
-    String selectedBooks =
-        _localStorage.getPrefString(PrefConstants.selectedBooksKey);
-    var resp = await _selectRepo.getSongsByBooks(selectedBooks);
-    try {
-      if (resp.statusCode == 200) {
-        List<dynamic> dataList = List<Map<String, dynamic>>.from(
-          jsonDecode(resp.body)['data'],
-        );
-        var songs = dataList.map((item) => Song.fromJson(item)).toList();
-        if (songs.isNotEmpty) {
-          for (final song in songs) {
-            await _dbRepo.syncSong(
-              song.songId!,
-              song.title!,
-              song.alias!,
-              song.content!,
-            );
-          }
-        }
-        print("Sync successful.");
-      }
-    } catch (e) {
-      print("Sync error: $e");
-    }
-  }
-
   Future<void> _onSyncData(
     SyncData event,
     Emitter<HomeState> emit,
   ) async {
-    String selectedBooks =
-        _localStorage.getPrefString(PrefConstants.selectedBooksKey);
-    var resp = await _selectRepo.getSongsByBooks(selectedBooks);
     try {
+      String selectedBooks =
+          _localStorage.getPrefString(PrefConstants.selectedBooksKey);
+      var resp = await _selectRepo.getSongsByBooks(selectedBooks);
+
       if (resp.statusCode == 200) {
-        List<dynamic> dataList = List<Map<String, dynamic>>.from(
+        List<Map<String, dynamic>> dataList = List<Map<String, dynamic>>.from(
           jsonDecode(resp.body)['data'],
         );
-        var songs = dataList.map((item) => Song.fromJson(item)).toList();
-        if (songs.isNotEmpty) {
-          for (final song in songs) {
+        final fetchedSongs =
+            dataList.map((item) => Song.fromJson(item)).toList();
+
+        final storedSongs = await _dbRepo.fetchSongs();
+        final storedSongsMap = {
+          for (var song in storedSongs) song.songId: song
+        };
+
+        bool updatesMade = false;
+
+        final updateTasks = fetchedSongs.map((song) async {
+          final dbSong = storedSongsMap[song.songId];
+
+          if (dbSong == null ||
+              dbSong.title != song.title ||
+              dbSong.alias != song.alias ||
+              dbSong.content != song.content) {
             await _dbRepo.syncSong(
-              song.songId!,
-              song.title!,
-              song.alias!,
-              song.content!,
+              song.songId ?? 0,
+              song.title ?? '',
+              song.alias ?? '',
+              song.content ?? '',
             );
+            updatesMade = true;
           }
-        }
-        emit(HomeDataSyncedState());
+        }).toList();
+        await Future.wait(updateTasks);
+        emit(HomeDataSyncedState(updatesMade));
+      } else {
+        emit(HomeDataSyncedState(false));
       }
-    } catch (e) {
-      logger("Error log: $e");
+    } catch (e, stackTrace) {
+      logger("Error log: $e\n$stackTrace");
     }
   }
 
