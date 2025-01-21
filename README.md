@@ -93,6 +93,18 @@ Follow this guide to set up and run SongLib:
         ```bash
         flutter build appbundle --flavor production -t lib/main_prod.dart --no-tree-shake-icons
         ```
+    
+2. **iOS:**
+
+    - **Production (For Play Store):**
+
+        ```bash
+        flutter build ipa -t lib/main_prod.dart --no-tree-shake-icons
+        ```
+    To upload to the App Store either:
+    - Drag and drop the "build/ios/ipa/*.ipa" bundle into the Apple Transporter macOS app https://apps.apple.com/us/app/transporter/id1450874784
+    - Run "xcrun altool --upload-app --type ios -f build/ios/ipa/*.ipa --apiKey your_api_key --apiIssuer your_issuer_id".
+       See "man altool" for details about how to authenticate with the App Store Connect API key.
         
 2. **Windows:**
 
