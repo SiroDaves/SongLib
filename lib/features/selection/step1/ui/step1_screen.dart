@@ -82,8 +82,9 @@ class Step1ScreenState extends State<Step1Screen> {
                   icon: Platform.isIOS
                       ? Icon(CupertinoIcons.settings)
                       : Icon(Icons.settings),
-                  onPressed: () =>
-                      Navigator.pushNamed(context, RouteNames.settings),
+                  onPressed: () {
+                    Navigator.pushNamed(context, RouteNames.settings);
+                  },
                 )
               ],
             ),
