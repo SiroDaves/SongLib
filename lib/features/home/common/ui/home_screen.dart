@@ -126,8 +126,10 @@ class HomeScreenState extends State<HomeScreen> {
                 IconButton(
                   icon: Platform.isIOS
                       ? Icon(CupertinoIcons.settings)
-                      : Icon(Icons.search),
-                  onPressed: () {},
+                      : Icon(Icons.settings),
+                  onPressed: () {
+                    Navigator.pushNamed(context, RouteNames.settings);
+                  },
                 ),
               ],
             ),
