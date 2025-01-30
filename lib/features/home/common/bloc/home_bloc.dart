@@ -9,7 +9,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import '../../../../../common/repository/database_repository.dart';
 import '../../../../../core/di/injectable.dart';
 import '../../../../common/data/models/models.dart';
-import '../../../../common/repository/local_storage.dart';
+import '../../../../common/repository/pref_repository.dart';
 import '../../../../common/utils/app_util.dart';
 import '../../../../common/utils/constants/pref_constants.dart';
 import '../../../selection/common/domain/selection_repository.dart';
@@ -28,7 +28,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   final _selectRepo = SelectionRepository();
-  final _localStorage = getIt<LocalStorage>();
+  final _prefRepo = getIt<PrefRepository>();
   final _dbRepo = getIt<DatabaseRepository>();
 
   Future<void> _onSyncData(
@@ -37,7 +37,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) async {
     try {
       String selectedBooks =
-          _localStorage.getPrefString(PrefConstants.selectedBooksKey);
+          _prefRepo.getPrefString(PrefConstants.selectedBooksKey);
       var resp = await _selectRepo.getSongsByBooks(selectedBooks);
 
       if (resp.statusCode == 200) {
@@ -84,7 +84,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     FetchData event,
     Emitter<HomeState> emit,
   ) async {
-    emit(HomeFetchingState());
+    if (!event.refreshing) emit(HomeFetchingState());
     try {
       var books = await _dbRepo.fetchBooks();
       var songs = await _dbRepo.fetchSongs();
@@ -120,7 +120,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     try {
       await _dbRepo.removeAllBooks();
       await _dbRepo.removeAllSongs();
-      _localStorage.clearData();
+      _prefRepo.clearData();
       emit(HomeResettedState());
     } catch (e) {
       logger('Unable to: $e');

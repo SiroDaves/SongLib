@@ -78,14 +78,6 @@ class Step1ScreenState extends State<Step1Screen> {
                       : Icon(Icons.refresh),
                   onPressed: () => bloc.add(const FetchBooks()),
                 ),
-                IconButton(
-                  icon: Platform.isIOS
-                      ? Icon(CupertinoIcons.settings)
-                      : Icon(Icons.settings),
-                  onPressed: () {
-                    Navigator.pushNamed(context, RouteNames.settings);
-                  },
-                )
               ],
             ),
             body: state.maybeWhen(

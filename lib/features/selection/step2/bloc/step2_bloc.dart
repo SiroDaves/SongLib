@@ -7,7 +7,7 @@ import '../../../../common/utils/app_util.dart';
 import '../../../../common/utils/constants/pref_constants.dart';
 import '../../../../common/data/models/song.dart';
 import '../../../../common/repository/database_repository.dart';
-import '../../../../common/repository/local_storage.dart';
+import '../../../../common/repository/pref_repository.dart';
 import '../../../../core/di/injectable.dart';
 import '../../common/domain/selection_repository.dart';
 
@@ -23,7 +23,7 @@ class Step2Bloc extends Bloc<Step2Event, Step2State> {
   }
 
   final _selectRepo = SelectionRepository();
-  final _localStorage = getIt<LocalStorage>();
+  final _prefRepo = getIt<PrefRepository>();
   final _dbRepo = getIt<DatabaseRepository>();
 
   void _onFetchSongs(
@@ -32,7 +32,7 @@ class Step2Bloc extends Bloc<Step2Event, Step2State> {
   ) async {
     emit(Step2ProgressState());
     String selectedBooks =
-        _localStorage.getPrefString(PrefConstants.selectedBooksKey);
+        _prefRepo.getPrefString(PrefConstants.selectedBooksKey);
     var resp = await _selectRepo.getSongsByBooks(selectedBooks);
 
     try {
@@ -105,8 +105,8 @@ class Step2Bloc extends Bloc<Step2Event, Step2State> {
       }
     }
 
-    _localStorage.setPrefBool(PrefConstants.dataIsLoadedKey, true);
-    _localStorage.setPrefBool(PrefConstants.wakeLockCheckKey, true);
+    _prefRepo.setPrefBool(PrefConstants.dataIsLoadedKey, true);
+    _prefRepo.setPrefBool(PrefConstants.wakeLockCheckKey, true);
 
     emit(Step2SavedState());
   }
