@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:share_plus/share_plus.dart';
 //import 'package:share_plus/share_plus.dart';
 
 import '../../../common/utils/app_util.dart';
@@ -61,10 +62,10 @@ Future<PresentorModel> loadSong(SongExt song) async {
     for (final verse in verseTexts) {
       widgetContent.add(PresentorText(
         lyrics: verse,
-        /*onDoubleTap: () => Share.share(
+        onDoubleTap: () => Share.share(
           '${verse.replaceAll("#", "\n")}\n\n${songTitle},\n${songBook}',
-          subject: l10n.shareVerse,
-        ),*/
+          subject: 'Share verse',
+        ),
         //onLongPress: () => copyVerse(verse),
       ));
     }
@@ -91,10 +92,10 @@ String getSongContent(SongExt song) {
 
 Future<void> shareSong(SongExt song) async {
   try {
-    /*Share.share(
+    Share.share(
       getSongContent(song) + AppConstants.fromApp,
       subject: 'Share the song: ${song.title}',
-    );*/
+    );
   } catch (e) {
     logger('Error during sharing song: $e');
   }
