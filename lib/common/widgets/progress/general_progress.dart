@@ -6,7 +6,7 @@ import '../../../core/theme/theme_colors.dart';
 import '../../../core/theme/theme_fonts.dart';
 import '../../../core/theme/theme_styles.dart';
 import '../../utils/constants/app_assets.dart';
-import '../action/base_buttons.dart';
+import '../action/app_button.dart';
 
 class CircularProgress extends StatelessWidget {
   const CircularProgress({Key? key}) : super(key: key);

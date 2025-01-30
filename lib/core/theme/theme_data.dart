@@ -7,8 +7,7 @@ class AppTheme {
 
   static ThemeData lightTheme() {
     return ThemeData(
-      //fontFamily: ThemeFonts.lato,
-      scaffoldBackgroundColor: ThemeColors.kLightGray,
+      scaffoldBackgroundColor: ThemeColors.accent1,
       colorScheme: const ColorScheme(
         brightness: Brightness.light,
         primary: ThemeColors.kPrimaryOrange,
@@ -19,14 +18,12 @@ class AppTheme {
         onSecondary: ThemeColors.kDarkGrayBlack,
         surface: ThemeColors.kLightGray,
         onSurface: Colors.black,
-        background: Colors.white,
-        onBackground: ThemeColors.kDarkOrange,
         error: Colors.red,
         onError: Colors.white,
       ),
       appBarTheme: const AppBarTheme(
-        backgroundColor: ThemeColors.kPrimaryDeepOrange,
-        foregroundColor: ThemeColors.accent,
+        backgroundColor: ThemeColors.primary,
+        foregroundColor: ThemeColors.accent1,
         shadowColor: Colors.black,
         elevation: 3,
       ),
@@ -35,20 +32,12 @@ class AppTheme {
         indicatorColor: ThemeColors.accent,
         elevation: 3,
       ),
-      /*pageTransitionsTheme: PageTransitionsTheme(
-      builders: {
-        TargetPlatform.iOS: const CupertinoPageTransitionsBuilder(),
-        TargetPlatform.android: isInTest
-            ? const FadeUpwardsPageTransitionsBuilder()
-            : BaseThemeData.getCorrectPageTransitionBuilder(OsInfo.instance),
-      },
-    ),*/
     );
   }
 
   static ThemeData darkTheme() {
     return ThemeData(
-      //fontFamily: ThemeFonts.lato,
+      scaffoldBackgroundColor: ThemeColors.kPrimaryDeepOrange,
       colorScheme: const ColorScheme(
         brightness: Brightness.dark,
         primary: Colors.white,
@@ -59,8 +48,6 @@ class AppTheme {
         onSecondary: ThemeColors.kDarkTealBrown,
         surface: Colors.grey,
         onSurface: Colors.white,
-        background: ThemeColors.kMediumGray,
-        onBackground: ThemeColors.kLightGrayDarkMode,
         error: Colors.red,
         onError: Colors.black,
       ),
