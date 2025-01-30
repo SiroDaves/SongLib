@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:styled_widget/styled_widget.dart';
 import 'package:textstyle_extensions/textstyle_extensions.dart';
 
 import '../../data/models/songext.dart';
@@ -44,7 +45,7 @@ class SearchSongItem extends StatelessWidget {
     }
 
     versesText = verses.length == 1 ? versesText : '${versesText}s';
-    
+
     Color unSelectedColor = Theme.of(context).brightness == Brightness.light
         ? Colors.white
         : Colors.grey;
@@ -62,12 +63,17 @@ class SearchSongItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(
-                songItemTitle(song.songNo, song.title),
-                maxLines: 1,
-                style: TextStyles.headingStyle1
-                    .textColor(isSelected ? Colors.white : Colors.black),
-              ),
+              [
+                Text(
+                  songItemTitle(song.songNo, song.title),
+                  maxLines: 1,
+                  style: TextStyles.headingStyle1
+                      .textColor(isSelected ? Colors.white : Colors.black),
+                ).expanded(),
+                Icon(
+                  song.liked ? Icons.favorite : Icons.favorite_border,
+                )
+              ].toRow(),
               const SizedBox(height: 5),
               Divider(
                   color: Theme.of(context).brightness == Brightness.light

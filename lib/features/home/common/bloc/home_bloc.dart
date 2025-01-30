@@ -77,6 +77,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }
     } catch (e, stackTrace) {
       logger("Error log: $e\n$stackTrace");
+      emit(HomeDataSyncedState(false));
     }
   }
 
