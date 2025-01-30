@@ -7,7 +7,6 @@ import '../../../common/repository/local_storage.dart';
 import '../../../common/widgets/inputs/radio_input.dart';
 import '../../../core/di/injectable.dart';
 import '../../../core/theme/bloc/theme_bloc.dart';
-import '../../../core/theme/theme_colors.dart';
 import '../../../core/theme/theme_styles.dart';
 import '../bloc/settings_bloc.dart';
 
@@ -52,8 +51,7 @@ class SettingsScreenState extends State<SettingsScreen> {
           return ListView(
             children: [
               Card(
-                margin: EdgeInsets.all(Sizes.xs),
-                color: ThemeColors.bgColorBW(context),
+                margin: EdgeInsets.all(Sizes.sm),
                 child: ListTile(
                   leading: Icon(Icons.color_lens),
                   title: const Text('App Theme'),

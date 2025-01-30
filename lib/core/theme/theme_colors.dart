@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pdf/pdf.dart';
 
 class ThemeColors {
   ThemeColors._();
@@ -13,16 +12,6 @@ class ThemeColors {
   static const shadow = Color(0x1e000000); //black 12%
   static const error = Color(0xFFE30000);
 
-  static const britamRed = Color(0xFFDC3444);
-  static PdfColor britamRedPdf = PdfColor(192, 0, 0, 255);
-  static PdfColor britamBluePdf = PdfColor(34, 65, 97, 255);
-  static const whiteGrey = Color(0xFF868B9B);
-  static const gray = Color(0xFFEEEEEE);
-  static const success = Color(0xff116d5a);
-  static const error1 = Color(0xFFfadcd3);
-  static const green = Color(0xFF1A821A);
-  static const yellow = Color(0xFFF1AF3A);
-
   static const Color midGray = Color.fromARGB(255, 198, 198, 198);
   static const Color darkGray = Color.fromARGB(255, 157, 161, 174);
   static const Color textGray = Color.fromARGB(255, 134, 139, 155);
@@ -32,51 +21,27 @@ class ThemeColors {
   static const Color trafficRed = Color.fromARGB(255, 246, 0, 1);
   static const Color trafficGreen = Color.fromARGB(255, 0, 247, 0);
 
-  //supportive theme
-  static const primary = Color(0XFFC55A11);
-  static const primaryDark = Color(0XFF843C0C);
-  static const accent = Color(0XFFF4B183);
-  static const accent1 = Color(0XFFFED8B1);
+  // Theme Colors
+  static const primary = Color(0xFFB86918);
+  static const primary1 = Color(0xFFF57C00);
+  static const primary2 = Color(0xFFBF360C);
+  static const primaryDark = Color(0xFF432B25);
+  static const primaryDark1 = Color(0xFF331900);
+  static const accent = Color(0xFFECECEC);
+  static const accent1 = Color(0xFFEEDAC4);
+  static const accent2 = Color(0xFFBEA264);
+  static const accent3 = Color(0xFFFFB74D);
 
-  // Light Mode Colors
-  /// Main color for the app, used in branding and key elements
-  static const Color kPrimaryOrange = Color(0XFFC55A11);
-
-  /// Used for headers and prominent UI elements
-  static const Color kDarkOrange = Color(0xFFF57C00);
-
-  /// Background color for sections like chats
-  static const Color kLightGray = Color(0xFFECECEC);
-
-  /// Provides variation and depth in the color scheme
-  static const Color kComplementaryOrange = Color(0xFFFFA726);
-
-  // Dark Mode Colors
-  /// Primary background color in dark mode
-  static const Color kDarkGrayBlack = Color(0xFF121212);
-
-  /// Used for headers and prominent UI elements in dark mode
-  static const Color kPrimaryDeepOrange = Color(0xFF331900);
-
-  /// Used for headers and prominent UI elements in dark mode
-  static const Color kDeepOrange = Color(0xFFBF360C);
-
-  /// Complementary dark color for various UI elements in dark mode
-  static const Color kDarkTealBrown = Color(0xFF2C2C2C);
-
-  /// Background color for message bubbles and other elements in dark mode
-  static const Color kMediumGray = Color(0xFF303030);
-
-  /// Text color for readability against dark background
-  static const Color kLightGrayDarkMode = Color(0xFFAEBAC1);
-
-  /// Used for icons and action buttons in dark mode
-  static const Color kAccentOrange = Color(0xFFFFB74D);
+  static Color foreColorPrimary(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.light
+        ? Colors.white
+        : ThemeColors.primary2;
+  }
 
   static Color bgColorPrimary(BuildContext context) {
     return Theme.of(context).brightness == Brightness.light
         ? ThemeColors.primary
-        : ThemeColors.kPrimaryDeepOrange;
+        : ThemeColors.primaryDark1;
   }
 
   static Color bgColorPrimary2(BuildContext context) {
@@ -87,14 +52,14 @@ class ThemeColors {
 
   static Color bgColorPrimary3(BuildContext context) {
     return Theme.of(context).brightness == Brightness.light
-        ? ThemeColors.accent1
-        : Colors.black;
+        ? ThemeColors.primary2
+        : ThemeColors.accent;
   }
 
   static Color bgColorPrimary4(BuildContext context) {
     return Theme.of(context).brightness == Brightness.light
-        ? ThemeColors.primary
-        : ThemeColors.accent;
+        ? ThemeColors.primaryDark
+        : Colors.white;
   }
 
   static Color bgColorPrimary5(BuildContext context) {
@@ -106,7 +71,7 @@ class ThemeColors {
   static Color bgColorAccent(BuildContext context) {
     return Theme.of(context).brightness == Brightness.light
         ? ThemeColors.accent
-        : ThemeColors.kPrimaryDeepOrange;
+        : ThemeColors.primary2;
   }
 
   static Color bgColorBW(BuildContext context) {

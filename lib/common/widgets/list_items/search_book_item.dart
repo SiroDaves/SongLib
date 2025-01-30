@@ -22,7 +22,7 @@ class SearchBookItem extends StatelessWidget {
   Widget build(BuildContext context) {
     Color selectedColor = Theme.of(context).brightness == Brightness.light
         ? ThemeColors.primary
-        : ThemeColors.kPrimaryDeepOrange;
+        : ThemeColors.primary2;
     Color unSelectedColor = Theme.of(context).brightness == Brightness.light
         ? ThemeColors.accent
         : Colors.grey;
@@ -31,7 +31,7 @@ class SearchBookItem extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 3),
         child: RawMaterialButton(
           fillColor: isSelected ? selectedColor : unSelectedColor,
-          highlightColor: Colors.white.withOpacity(.1),
+          highlightColor: Colors.white.withValues(alpha: .1),
           focusElevation: 0,
           hoverColor: isSelected ? unSelectedColor : selectedColor,
           hoverElevation: 1,
@@ -57,7 +57,7 @@ class SearchBookItem extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 3),
         child: RawMaterialButton(
           fillColor: isSelected ? selectedColor : unSelectedColor,
-          highlightColor: Colors.white.withOpacity(.1),
+          highlightColor: Colors.white.withValues(alpha: .1),
           focusElevation: 0,
           hoverColor: isSelected ? unSelectedColor : selectedColor,
           hoverElevation: 1,

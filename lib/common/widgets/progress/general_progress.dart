@@ -18,7 +18,7 @@ class CircularProgress extends StatelessWidget {
         child: CircularProgressIndicator(
           color: ThemeColors.primary,
           strokeWidth: 5,
-          backgroundColor: Colors.white.withOpacity(0.3),
+          backgroundColor: Colors.white.withValues(alpha: 0.3),
         ),
       ),
     );
@@ -35,7 +35,7 @@ class SmallCircularProgress extends StatelessWidget {
       child: CircularProgressIndicator(
         color: ThemeColors.primary,
         strokeWidth: 3,
-        backgroundColor: Colors.white.withOpacity(0.3),
+        backgroundColor: Colors.white.withValues(alpha: 0.3),
       ),
     );
   }
@@ -76,10 +76,7 @@ class EmptyState extends StatelessWidget {
             AppButton(
               label: titleRetry,
               onPressed: onRetry,
-              bgColor: Colors.white,
-              foreColor: ThemeColors.primary,
-              hoverColor: ThemeColors.primary,
-              border: Border.all(width: 2, color: ThemeColors.primary),
+              bgColor: ThemeColors.bgColorPrimary3(context),
               borderRadius: const BorderRadius.all(Radius.circular(10)),
             ).expanded(),
           ].toRow().padding(all: Sizes.l),

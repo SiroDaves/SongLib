@@ -48,7 +48,7 @@ class PresentOnPcState extends State<PresentOnPc> with TickerProviderStateMixin 
             padding: const EdgeInsets.symmetric(horizontal: 5),
             child: RawMaterialButton(
               fillColor: isSelected ? ThemeColors.primary : Colors.white,
-              highlightColor: Colors.white.withOpacity(.1),
+              highlightColor: Colors.white.withValues(alpha: .1),
               focusElevation: 0,
               hoverColor: ThemeColors.lightGrey,
               hoverElevation: 1,

@@ -48,9 +48,9 @@ class AppButton extends StatefulWidget {
     this.fontSize = FontSizes.s16,
     this.bgColor = ThemeColors.primary,
     this.borderColor = Colors.white,
-    this.foreColor = Colors.black,
-    this.hoverColor = ThemeColors.primaryDark,
-    this.downColor = ThemeColors.britamRed,
+    this.foreColor = Colors.white,
+    this.hoverColor = Colors.red,
+    this.downColor = Colors.black,
     this.margin = const EdgeInsets.symmetric(
       horizontal: Sizes.sm,
       vertical: Sizes.xs,
@@ -92,7 +92,7 @@ class AppButtonState extends State<AppButton> {
   @override
   Widget build(BuildContext context) {
     var hoverColor = widget.bgColor;
-    if (widget.bgColor == ThemeColors.britamRed ||
+    if (widget.bgColor == Colors.red ||
         widget.bgColor == ThemeColors.primary) {
       hoverColor = widget.foreColor;
     }
@@ -188,7 +188,7 @@ class AppButtonState extends State<AppButton> {
           fillColor: Colors.transparent,
           //hoverColor: widget.hoverColor,
           highlightColor: widget.downColor,
-          focusColor: Colors.grey.withOpacity(0.35),
+          focusColor: Colors.grey.withValues(alpha: 0.35),
           constraints: BoxConstraints(
             minHeight: widget.bigMode ? 60 : 42,
             minWidth: widget.bigMode ? 160 : 78,

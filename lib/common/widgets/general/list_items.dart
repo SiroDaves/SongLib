@@ -28,9 +28,8 @@ class BookItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: item.isSelected
-          ? ThemeColors.bgColorPrimary(context)
-          : ThemeColors.bgColorBW(context),
+      color:
+          item.isSelected ? ThemeColors.primary : Colors.white,
       elevation: 5,
       child: Center(
         child: ListTile(
@@ -96,7 +95,7 @@ class BookItem extends StatelessWidget {
       padding: const EdgeInsets.only(right: 5, bottom: 5, top: 5),
       child: RawMaterialButton(
         fillColor: isSelected ? ThemeColors.primary : Colors.white,
-        highlightColor: Colors.white.withOpacity(.1),
+        highlightColor: Colors.white.withValues(alpha: .1),
         focusElevation: 0,
         hoverColor: isSelected ? ThemeColors.primary : ThemeColors.accent,
         hoverElevation: 1,
