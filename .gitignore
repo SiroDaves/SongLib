@@ -21,7 +21,9 @@ migrate_working_dir/
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
-#.vscode/
+.vscode/
+.flutter*
+.metadata*
 
 # Flutter/Dart/Pub related
 **/doc/api/
@@ -49,11 +51,3 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 google-services.json
-
-
-# FVM Version Cache
-.fvm/
-.fvmrc
-.vscode/settings.json
-.flutter*
-.metadata*

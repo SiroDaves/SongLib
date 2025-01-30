@@ -2,11 +2,7 @@ part of '../presentor_screen.dart';
 
 class PresentorFabWidget extends StatelessWidget {
   final SongExt song;
-
-  const PresentorFabWidget({
-    Key? key,
-    required this.song,
-  }) : super(key: key);
+  const PresentorFabWidget({Key? key, required this.song}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

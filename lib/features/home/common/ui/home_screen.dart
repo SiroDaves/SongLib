@@ -27,8 +27,9 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
   Timer? _syncTimer;
-  late HomeBloc _bloc;
   bool periodicSyncStarted = false;
+
+  late HomeBloc _bloc;
   int selectedPage = 0, selectedBook = 0;
   List<Book> books = [];
   List<SongExt> songs = [];
@@ -72,9 +73,14 @@ class HomeScreenState extends State<HomeScreen> {
               startPeriodicSync();
             }
           } else if (state is HomeDataFetchedState) {
-            books = state.books;
-            songs = state.songs;
-            _bloc.add(FilterData(books[selectedBook]));
+            try {
+              books = state.books;
+              songs = state.songs;
+              _bloc.add(FilterData(books[selectedBook]));
+            } catch (e) {
+              logger("Unable to set books and songs: $e");
+              CustomSnackbar.show(context, "Unable to set books and songs");
+            }
           } else if (state is HomeFilteredState) {
             selectedBook = books.indexOf(state.book);
             homeScreens = [
