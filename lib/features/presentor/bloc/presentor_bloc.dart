@@ -43,8 +43,6 @@ class PresentorBloc extends Bloc<PresentorEvent, PresentorState> {
     LikeSong event,
     Emitter<PresentorState> emit,
   ) async {
-    emit(PresentorProgressState());
-
     try {
       await _dbRepo.updateSong(
         event.song.rid,
@@ -67,7 +65,6 @@ class PresentorBloc extends Bloc<PresentorEvent, PresentorState> {
     await _dbRepo.saveHistory(
       History(song: event.song.rid, created: getCurrentDate()),
     );
-
     emit(PresentorHistoryState());
   }
 }

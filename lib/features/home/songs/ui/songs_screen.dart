@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common/data/models/models.dart';
+import '../../../../common/utils/app_util.dart';
 import '../../../../common/widgets/list_items/search_book_item.dart';
 import '../../../../common/widgets/list_items/search_song_item.dart';
 import '../../../../common/widgets/progress/general_progress.dart';
@@ -69,21 +70,27 @@ class SongsScreenState extends State<SongsScreen> {
                 song: song,
                 height: 50,
                 onPressed: () async {
+                  Book book = widget.books[0];
+                  try {
+                    book = widget.books.firstWhere(
+                      (b) => b.bookId == song.book,
+                    );
+                  } catch (e) {
+                    logger('Failed to get the book: $e');
+                  }
+
                   bool? result = await Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => PresentorScreen(
                         song: song,
-                        books: widget.books,
+                        book: book,
                         songs: state.songs,
                       ),
                     ),
                   );
 
                   if (result == true) {
-                    var book = widget.books.firstWhere(
-                      (b) => b.bookId == song.book,
-                    );
                     context.read<HomeBloc>().add(FilterData(book));
                   }
                 },

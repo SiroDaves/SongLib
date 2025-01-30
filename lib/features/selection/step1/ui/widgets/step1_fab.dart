@@ -16,7 +16,7 @@ class Step1FabState extends State<Step1Fab> {
     if (parent.booksSelected.isNotEmpty) {
       var result = await FlutterPlatformAlert.showCustomAlert(
         windowTitle: l10n.doneSelecting,
-        text: l10n.doneSelecting,
+        text: l10n.doneSelectingBody,
         iconStyle: IconStyle.information,
         neutralButtonTitle: l10n.cancel.toUpperCase(),
         positiveButtonTitle: l10n.proceed.toUpperCase(),
@@ -38,9 +38,6 @@ class Step1FabState extends State<Step1Fab> {
   Widget build(BuildContext context) {
     parent = widget.parent;
     l10n = AppLocalizations.of(context)!;
-    var fabBgColor = Theme.of(context).brightness == Brightness.light
-        ? ThemeColors.primary
-        : ThemeColors.kPrimaryDeepOrange;
 
     return BlocBuilder<Step1Bloc, Step1State>(
       builder: (context, state) {
@@ -48,7 +45,7 @@ class Step1FabState extends State<Step1Fab> {
           progress: () => const SizedBox.shrink(),
           failure: (feedback) => const SizedBox.shrink(),
           orElse: () => FloatingActionButton.extended(
-            backgroundColor: fabBgColor,
+            backgroundColor:  ThemeColors.bgColorPrimary3(context),
             onPressed: () => areYouDoneDialog(),
             label: Text(
               l10n.proceed.toUpperCase(),

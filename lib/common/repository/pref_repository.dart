@@ -5,9 +5,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/constants/pref_constants.dart';
 
 @singleton
-abstract class LocalStorage {
+abstract class PrefRepository {
   @factoryMethod
-  factory LocalStorage(SharedPreferences localStorage) = LocalStorageImp;
+  factory PrefRepository(SharedPreferences localStorage) = LocalStorageImp;
 
   ThemeMode getThemeMode();
 
@@ -26,7 +26,7 @@ abstract class LocalStorage {
   bool keyExists(String settingsKey);
 }
 
-class LocalStorageImp implements LocalStorage {
+class LocalStorageImp implements PrefRepository {
   final SharedPreferences sharedPrefs;
 
   LocalStorageImp(this.sharedPrefs);

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import '../../../core/di/injectable.dart';
 import '../../../core/theme/theme_colors.dart';
 import '../../data/models/basic_model.dart';
-import '../../repository/local_storage.dart';
+import '../../repository/pref_repository.dart';
 import 'app_nav_icon.dart';
 
-/// Custom Bottom Navigation Bar that will handles the page to be displayed on the dashboard
+/// Custom Bottom Navigation Bar that will handle the page to be displayed on the dashboard
 class CustomBottomNavigationBar extends StatefulWidget {
   const CustomBottomNavigationBar({
     required this.selectedIndex,
@@ -26,7 +26,7 @@ class CustomBottomNavigationBar extends StatefulWidget {
 
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   /// This is used for the swipe drag gesture on the bottom nav bar
-  LocalStorage localStorage = getIt<LocalStorage>();
+  PrefRepository localStorage = getIt<PrefRepository>();
   bool bottomNavBarSwipeGestures = false;
   bool bottomNavBarDoubleTapGestures = false;
 
@@ -92,10 +92,10 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           : null,
       child: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: ThemeColors.bgColorPrimary3(context),
+        backgroundColor: ThemeColors.bgColorPrimary2(context),
         currentIndex: widget.selectedIndex,
         elevation: 5,
-        selectedItemColor: ThemeColors.bgColorPrimary2(context),
+        selectedItemColor: ThemeColors.foreColorPrimary(context),
         unselectedItemColor: ThemeColors.bgColorWB(context),
         unselectedLabelStyle: const TextStyle(fontSize: 12),
         selectedLabelStyle: const TextStyle(fontSize: 12),
@@ -109,7 +109,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               child: AppNavIcon(
                 page.icon,
                 color: isActive
-                    ? ThemeColors.bgColorPrimary2(context)
+                    ? ThemeColors.foreColorPrimary(context)
                     : ThemeColors.bgColorWB(context),
               ),
             ),

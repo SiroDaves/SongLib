@@ -5,7 +5,7 @@
 </a>
 
 <a href="https://apps.apple.com/app/id6446771305">
-  <img alt='Get it on AppStore' src='https://linkmaker.itunes.apple.com/en-us/badge-lrg.svg?releaseDate=2019-04-02&kind=iossoftware&bubble=ios_apps' width='200'>
+  <img alt='Get it on AppStore' src='https://developer.apple.com/app-store/marketing/guidelines/images/badge-example-preferred_2x.png' width='200'>
 </a>
 
 <a href="https://github.com/Solido/awesome-flutter#components">
@@ -26,7 +26,6 @@ SongLib is a robust mobile solution tailored for our users who need to sing hymn
 <td><img src="screenshots/Droid/image5.png" width="200px" /></td>
 </tr>
 </table>
-
 
 ## Getting Started
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../common/utils/app_util.dart';
 import '../../../../core/theme/theme_data.dart';
 import '../../../../core/theme/theme_styles.dart';
 import '../../../../common/widgets/list_items/search_book_item.dart';
@@ -103,12 +104,18 @@ class SongsSearch extends SearchDelegate<List> {
                     height: height!,
                     isSearching: true,
                     onPressed: () {
+                      Book book = books[0];
+                      try {
+                        book = books.firstWhere((b) => b.bookId == result.book);
+                      } catch (e) {
+                        logger('Failed to get the book: $e');
+                      }
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => PresentorScreen(
                             song: result,
-                            books: books,
+                            book: book,
                             songs: songs,
                           ),
                         ),

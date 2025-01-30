@@ -20,20 +20,14 @@ class SearchBookItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color selectedColor = Theme.of(context).brightness == Brightness.light
-        ? ThemeColors.primary
-        : ThemeColors.kPrimaryDeepOrange;
-    Color unSelectedColor = Theme.of(context).brightness == Brightness.light
-        ? ThemeColors.accent
-        : Colors.grey;
     if (icon == null) {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 3),
         child: RawMaterialButton(
-          fillColor: isSelected ? selectedColor : unSelectedColor,
-          highlightColor: Colors.white.withOpacity(.1),
+          fillColor: isSelected ? ThemeColors.primary2 : ThemeColors.accent,
+          highlightColor: Colors.white.withValues(alpha: .1),
           focusElevation: 0,
-          hoverColor: isSelected ? unSelectedColor : selectedColor,
+          hoverColor: isSelected ? ThemeColors.accent : ThemeColors.primary2,
           hoverElevation: 1,
           highlightElevation: 0,
           elevation: 3,
@@ -56,10 +50,10 @@ class SearchBookItem extends StatelessWidget {
         width: 40,
         padding: const EdgeInsets.symmetric(horizontal: 3),
         child: RawMaterialButton(
-          fillColor: isSelected ? selectedColor : unSelectedColor,
-          highlightColor: Colors.white.withOpacity(.1),
+          fillColor: isSelected ? ThemeColors.primary2 : ThemeColors.accent,
+          highlightColor: Colors.white.withValues(alpha: .1),
           focusElevation: 0,
-          hoverColor: isSelected ? unSelectedColor : selectedColor,
+          hoverColor: isSelected ? ThemeColors.accent : ThemeColors.primary2,
           hoverElevation: 1,
           highlightElevation: 0,
           elevation: 3,

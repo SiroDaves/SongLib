@@ -9,7 +9,7 @@ import 'core/theme/theme_data.dart';
 import 'common/utils/constants/pref_constants.dart';
 import 'common/utils/date_util.dart';
 import 'common/repository/auth_repository.dart';
-import 'common/repository/local_storage.dart';
+import 'common/repository/pref_repository.dart';
 import 'core/di/injectable.dart';
 import 'core/navigator/main_navigator.dart';
 import 'core/navigator/route_names.dart';
@@ -72,7 +72,7 @@ class AppViewState extends State<AppView> {
 
   @override
   Widget build(BuildContext context) {
-    var localStorage = getIt<LocalStorage>();
+    var localStorage = getIt<PrefRepository>();
     bool isSelected = localStorage.getPrefBool(PrefConstants.dataIsSelectedKey);
     bool isLoaded = localStorage.getPrefBool(PrefConstants.dataIsLoadedKey);
 

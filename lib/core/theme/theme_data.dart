@@ -7,25 +7,22 @@ class AppTheme {
 
   static ThemeData lightTheme() {
     return ThemeData(
-      //fontFamily: ThemeFonts.lato,
-      scaffoldBackgroundColor: ThemeColors.kLightGray,
+      scaffoldBackgroundColor: ThemeColors.accent1,
       colorScheme: const ColorScheme(
         brightness: Brightness.light,
-        primary: ThemeColors.kPrimaryOrange,
-        primaryContainer: ThemeColors.kPrimaryOrange,
+        primary: ThemeColors.primary,
         onPrimary: Colors.white,
-        secondary: ThemeColors.kComplementaryOrange,
-        secondaryContainer: ThemeColors.kComplementaryOrange,
-        onSecondary: ThemeColors.kDarkGrayBlack,
-        surface: ThemeColors.kLightGray,
+        primaryContainer: ThemeColors.primary,
+        secondary: ThemeColors.primary1,
+        onSecondary: Colors.grey,
+        secondaryContainer: ThemeColors.primary1,
+        surface: Colors.white,
         onSurface: Colors.black,
-        background: Colors.white,
-        onBackground: ThemeColors.kDarkOrange,
         error: Colors.red,
         onError: Colors.white,
       ),
       appBarTheme: const AppBarTheme(
-        backgroundColor: ThemeColors.kPrimaryDeepOrange,
+        backgroundColor: ThemeColors.primary,
         foregroundColor: ThemeColors.accent,
         shadowColor: Colors.black,
         elevation: 3,
@@ -35,42 +32,35 @@ class AppTheme {
         indicatorColor: ThemeColors.accent,
         elevation: 3,
       ),
-      /*pageTransitionsTheme: PageTransitionsTheme(
-      builders: {
-        TargetPlatform.iOS: const CupertinoPageTransitionsBuilder(),
-        TargetPlatform.android: isInTest
-            ? const FadeUpwardsPageTransitionsBuilder()
-            : BaseThemeData.getCorrectPageTransitionBuilder(OsInfo.instance),
-      },
-    ),*/
     );
   }
 
   static ThemeData darkTheme() {
     return ThemeData(
-      //fontFamily: ThemeFonts.lato,
+      scaffoldBackgroundColor: ThemeColors.primaryDark1,
       colorScheme: const ColorScheme(
-        brightness: Brightness.dark,
-        primary: Colors.white,
-        primaryContainer: Colors.white,
-        onPrimary: Colors.white,
-        secondary: ThemeColors.kLightGrayDarkMode,
-        secondaryContainer: ThemeColors.kLightGrayDarkMode,
-        onSecondary: ThemeColors.kDarkTealBrown,
-        surface: Colors.grey,
+        brightness: Brightness.light,
+        primary: ThemeColors.primary2,
+        onPrimary: ThemeColors.primaryDark1,
+        primaryContainer: ThemeColors.primaryDark,
+        secondary: ThemeColors.primaryDark1,
+        onSecondary: ThemeColors.primaryDark1,
+        secondaryContainer: ThemeColors.primaryDark1,
+        surface: ThemeColors.primaryDark,
         onSurface: Colors.white,
-        background: ThemeColors.kMediumGray,
-        onBackground: ThemeColors.kLightGrayDarkMode,
         error: Colors.red,
-        onError: Colors.black,
+        onError: Colors.white,
       ),
       appBarTheme: const AppBarTheme(
-        backgroundColor: Colors.black,
+        backgroundColor: ThemeColors.primaryDark1,
         foregroundColor: Colors.white,
+        shadowColor: Colors.black,
+        elevation: 3,
       ),
       navigationBarTheme: const NavigationBarThemeData(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
         indicatorColor: ThemeColors.accent,
+        elevation: 3,
       ),
     );
   }

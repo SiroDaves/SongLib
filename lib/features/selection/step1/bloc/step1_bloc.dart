@@ -8,7 +8,7 @@ import '../../../../common/utils/app_util.dart';
 import '../../../../common/utils/constants/pref_constants.dart';
 import '../../../../common/data/models/book.dart';
 import '../../../../common/repository/database_repository.dart';
-import '../../../../common/repository/local_storage.dart';
+import '../../../../common/repository/pref_repository.dart';
 import '../../../../core/di/injectable.dart';
 import '../../common/domain/selection_repository.dart';
 
@@ -23,7 +23,7 @@ class Step1Bloc extends Bloc<Step1Event, Step1State> {
   }
 
   final _selectRepo = SelectionRepository();
-  final _localStorage = getIt<LocalStorage>();
+  final _prefRepo = getIt<PrefRepository>();
   final _dbRepo = getIt<DatabaseRepository>();
 
   void _onFetchBooks(
@@ -33,7 +33,7 @@ class Step1Bloc extends Bloc<Step1Event, Step1State> {
     emit(Step1ProgressState());
     var resp = await _selectRepo.getBooks();
     String selectedBooksIds =
-        _localStorage.getPrefString(PrefConstants.selectedBooksKey);
+        _prefRepo.getPrefString(PrefConstants.selectedBooksKey);
     List<String> selectedBooksNumbers = [];
     List<Selectable<Book>> booksListing = [];
 
@@ -76,7 +76,7 @@ class Step1Bloc extends Bloc<Step1Event, Step1State> {
     try {
       if (event.selectedBooksIds.isNotEmpty) {
         await _dbRepo.removeAllBooks();
-        _localStorage.setPrefString(
+        _prefRepo.setPrefString(
           PrefConstants.predistinatedBooksKey,
           selectedBooks,
         );
@@ -87,12 +87,12 @@ class Step1Bloc extends Bloc<Step1Event, Step1State> {
         await _dbRepo.saveBook(book);
       }
       selectedBooks = selectedBooks.substring(0, selectedBooks.length - 1);
-      _localStorage.setPrefString(
+      _prefRepo.setPrefString(
         PrefConstants.selectedBooksKey,
         selectedBooks,
       );
 
-      _localStorage.setPrefBool(PrefConstants.dataIsSelectedKey, true);
+      _prefRepo.setPrefBool(PrefConstants.dataIsSelectedKey, true);
     } catch (e) {
       logger('Unable to save books: $e');
     }

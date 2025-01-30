@@ -19,12 +19,12 @@ part 'widgets/fab_widget.dart';
 
 class PresentorScreen extends StatefulWidget {
   final SongExt song;
-  final List<Book> books;
+  final Book book;
   final List<SongExt> songs;
   const PresentorScreen({
     super.key,
     required this.song,
-    required this.books,
+    required this.book,
     required this.songs,
   });
 
@@ -55,7 +55,6 @@ class PresentorScreenState extends State<PresentorScreen> {
     Size size = MediaQuery.of(context).size;
     isTabletOrIpad = size.shortestSide > 550;
     song = widget.song;
-    book = widget.books.firstWhere((b) => b.bookId == song.book);
     songBook = refineTitle(song.songbook);
     songTitle = songItemTitle(song.songNo, song.title);
     var bgImage = Theme.of(context).brightness == Brightness.light
