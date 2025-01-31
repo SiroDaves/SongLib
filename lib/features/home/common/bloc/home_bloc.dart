@@ -34,11 +34,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) async {
     try {
-      bool updatesMade = await _syncRepo.syncData();
-      emit(HomeDataSyncedState(updatesMade));
+      await _syncRepo.syncData();
+      var books = await _dbRepo.fetchBooks();
+      var songs = await _dbRepo.fetchSongs();
+      emit(HomeDataSyncedState(books, songs));
     } catch (e, stackTrace) {
       logger("Error log: $e\n$stackTrace");
-      emit(HomeDataSyncedState(false));
+      emit(HomeLoadedState());
     }
   }
 
@@ -46,7 +48,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     FetchData event,
     Emitter<HomeState> emit,
   ) async {
-    if (!event.refreshing) emit(HomeFetchingState());
+    emit(HomeFetchingState());
     try {
       var books = await _dbRepo.fetchBooks();
       var songs = await _dbRepo.fetchSongs();
@@ -70,7 +72,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     } catch (e) {
       logger('Unable to: $e');
       Sentry.captureException(e);
-      emit(HomeFailureState('Unable to fetch songs'));
+      emit(HomeLoadedState());
     }
   }
 
@@ -87,7 +89,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     } catch (e) {
       logger('Unable to: $e');
       Sentry.captureException(e);
-      emit(HomeResettedState());
+      emit(HomeLoadedState());
     }
   }
 }

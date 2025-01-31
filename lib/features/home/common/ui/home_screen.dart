@@ -18,6 +18,8 @@ import '../../likes/ui/likes_screen.dart';
 import '../../songs/ui/songs_screen.dart';
 import '../bloc/home_bloc.dart';
 
+part 'views/small_screen.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -45,7 +47,7 @@ class HomeScreenState extends State<HomeScreen> {
   void startPeriodicSync() {
     periodicSyncStarted = true;
     _syncTimer = Timer.periodic(Duration(minutes: 5), (_) async {
-      if (await isConnectedToInternet()) _bloc.add(FetchData(true));
+      if (await isConnectedToInternet()) _bloc.add(SyncData());
     });
   }
 
@@ -62,12 +64,19 @@ class HomeScreenState extends State<HomeScreen> {
     var size = MediaQuery.of(context).size;
 
     return BlocProvider(
-      create: (context) => HomeBloc()..add(FetchData(false)),
+      create: (context) => HomeBloc()..add(FetchData()),
       child: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state) {
           _bloc = context.read<HomeBloc>();
           if (state is HomeDataSyncedState) {
-            if (state.success) _bloc.add(FetchData(false));
+            try {
+              books = state.books;
+              songs = state.songs;
+              _bloc.add(FilterData(books[selectedBook]));
+            } catch (e) {
+              logger("Unable to set books and songs: $e");
+              CustomSnackbar.show(context, "Unable to set books and songs");
+            }
           } else if (state is HomeDataFetchedState) {
             try {
               books = state.books;
