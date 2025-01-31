@@ -14,6 +14,7 @@ class SelectionRepository {
   Future<Response> getSongs() async => await _selectionClient.getSongs();
 
   /// Fetch songs by book ids
-  Future<Response> getSongsByBooks(String bookIds) async =>
-      await _selectionClient.getSongsByBooks(bookIds);
+  Future<Response> getSongsByBooks(String bookIds) async {
+    return await _selectionClient.getSongsByBooks(bookIds);
+  }
 }

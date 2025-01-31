@@ -13,8 +13,6 @@ class AuthRepository {
 
   Stream<AuthStatus> get status async* {
     await Future<void>.delayed(const Duration(seconds: 3));
-    // alter this to authenticated to skip navigation to auth screen
-    // be sure to return this to guest when pushing to production
     yield AuthStatus.authenticated;
     yield* _controller.stream;
   }

@@ -62,16 +62,12 @@ class HomeScreenState extends State<HomeScreen> {
     var size = MediaQuery.of(context).size;
 
     return BlocProvider(
-      create: (context) => HomeBloc()..add(SyncData()),
+      create: (context) => HomeBloc()..add(FetchData(false)),
       child: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state) {
           _bloc = context.read<HomeBloc>();
           if (state is HomeDataSyncedState) {
             if (state.success) _bloc.add(FetchData(false));
-            if (!periodicSyncStarted) {
-              _bloc.add(FetchData(true));
-              startPeriodicSync();
-            }
           } else if (state is HomeDataFetchedState) {
             try {
               books = state.books;
@@ -81,6 +77,7 @@ class HomeScreenState extends State<HomeScreen> {
               logger("Unable to set books and songs: $e");
               CustomSnackbar.show(context, "Unable to set books and songs");
             }
+            if (!periodicSyncStarted) startPeriodicSync();
           } else if (state is HomeFilteredState) {
             selectedBook = books.indexOf(state.book);
             homeScreens = [

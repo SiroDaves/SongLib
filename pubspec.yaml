@@ -1,7 +1,7 @@
 name: songlib
 description: "SongLib gives you access to your church songbook/hymns seamlessly that you don't have to worry about even being online once you have set up the app on your device."
 publish_to: 'none'
-version: 1.0.7.92
+version: 1.0.792
 
 environment:
   sdk: ^3.5.4
