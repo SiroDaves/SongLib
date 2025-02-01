@@ -35,7 +35,6 @@ class HomeScreenState extends State<HomeScreen> {
   int selectedPage = 0, selectedBook = 0;
   List<Book> books = [];
   List<SongExt> songs = [];
-  List<PageItem> homeScreens = [];
   PageController pageController = PageController();
 
   @override
@@ -51,17 +50,9 @@ class HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void onPageChanged(int index) {
-    setState(() {
-      selectedPage = index;
-      pageController.jumpToPage(index);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     var l10n = AppLocalizations.of(context)!;
-    var size = MediaQuery.of(context).size;
 
     return BlocProvider(
       create: (context) => HomeBloc()..add(FetchData()),
@@ -89,18 +80,7 @@ class HomeScreenState extends State<HomeScreen> {
             if (!periodicSyncStarted) startPeriodicSync();
           } else if (state is HomeFilteredState) {
             selectedBook = books.indexOf(state.book);
-            homeScreens = [
-              PageItem(
-                title: 'Songs',
-                icon: Icons.search,
-                screen: SongsScreen(books: books),
-              ),
-              PageItem(
-                title: 'Likes',
-                icon: Icons.favorite,
-                screen: LikesScreen(books: books),
-              ),
-            ];
+            
           } else if (state is HomeFailureState) {
             CustomSnackbar.show(context, feedbackMessage(state.feedback, l10n));
           } else if (state is HomeResettedState) {
@@ -113,55 +93,10 @@ class HomeScreenState extends State<HomeScreen> {
           }
         },
         builder: (context, state) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text(l10n.appName),
-              actions: [
-                if (selectedPage == 0) ...[
-                  IconButton(
-                    icon: Platform.isIOS
-                        ? Icon(CupertinoIcons.search)
-                        : Icon(Icons.search),
-                    onPressed: () async {
-                      showSearch(
-                        context: context,
-                        delegate: SongsSearch(
-                          context,
-                          books,
-                          songs,
-                          size.height * 0.5,
-                        ),
-                      );
-                    },
-                  ),
-                ],
-                IconButton(
-                  icon: Platform.isIOS
-                      ? Icon(CupertinoIcons.settings)
-                      : Icon(Icons.settings),
-                  onPressed: () {
-                    Navigator.pushNamed(context, RouteNames.settings);
-                  },
-                ),
-              ],
-            ),
-            body: state.maybeWhen(
-              orElse: () => HomeLoading(),
-              fetching: () => HomeLoading(),
-              filtered: (book, songs, likes) => Scaffold(
-                body: PageView(
-                  controller: pageController,
-                  onPageChanged: onPageChanged,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: homeScreens.map((item) => item.screen).toList(),
-                ),
-                bottomNavigationBar: CustomBottomNavigationBar(
-                  selectedIndex: selectedPage,
-                  onPageChange: onPageChanged,
-                  pages: homeScreens,
-                ),
-              ),
-            ),
+          return state.maybeWhen(
+            orElse: () => Scaffold(body: HomeLoading()),
+            fetching: () => Scaffold(body: HomeLoading()),
+            filtered: (book, songs, likes) => SmallScreen(parent: this),
           );
         },
       ),
