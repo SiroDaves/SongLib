@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:styled_widget/styled_widget.dart';
 import 'package:textstyle_extensions/textstyle_extensions.dart';
 
@@ -19,13 +18,13 @@ class SearchSongItem extends StatelessWidget {
   final VoidCallback? onPressed;
 
   SearchSongItem({
-    Key? key,
+    super.key,
     required this.song,
     required this.height,
     this.isSelected = false,
     this.isSearching = false,
     this.onPressed,
-  }) : super(key: key);
+  });
 
   bool hasChorus = false;
   String chorusText = '', versesText = '';
@@ -33,78 +32,61 @@ class SearchSongItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var l10n = AppLocalizations.of(context)!;
     final verses = song.content.split("##");
 
     if (song.content.contains("CHORUS")) {
       hasChorus = true;
-      chorusText = l10n.hasChorus;
-      versesText = '${verses.length - 1} ${l10n.verses}';
+      chorusText = 'Chorus';
+      versesText = '${verses.length - 1} V';
     } else {
-      versesText = '${verses.length} ${l10n.verses}';
+      versesText = '${verses.length} V';
     }
 
     versesText = verses.length == 1 ? versesText : '${versesText}s';
 
-    Color unSelectedColor = Theme.of(context).brightness == Brightness.light
-        ? Colors.white
-        : Colors.grey;
     return GestureDetector(
       onTap: onPressed,
-      child: Card(
-        elevation: 2,
-        color: unSelectedColor,
-        child: Container(
-          decoration: BoxDecoration(
-            color: unSelectedColor,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          padding: const EdgeInsets.all(Sizes.xs),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              [
-                Text(
-                  songItemTitle(song.songNo, song.title),
-                  maxLines: 1,
-                  style: TextStyles.headingStyle1
-                      .textColor(isSelected ? Colors.white : Colors.black),
-                ).expanded(),
-                Icon(
-                  song.liked ? Icons.favorite : Icons.favorite_border,
-                )
-              ].toRow(),
-              const SizedBox(height: 5),
-              Divider(
-                  color: Theme.of(context).brightness == Brightness.light
-                      ? ThemeColors.primary
-                      : Colors.white,
-                  height: 2),
-              const SizedBox(height: 3),
+      child: Container(
+        decoration: BoxDecoration(
+          color: isSelected ? ThemeColors.primary : Colors.transparent,
+          borderRadius: BorderRadius.circular(5),
+        ),
+        padding: const EdgeInsets.all(Sizes.xs),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            [
+              Text(
+                songItemTitle(song.songNo, song.title),
+                maxLines: 1,
+                style: TextStyles.headingStyle3.textColor(
+                  ThemeColors.foreColorBW(context),
+                ),
+              ).expanded(),
+              if (isSearching) ...[
+                TagItem(tagText: refineTitle(song.songbook), height: height),
+              ],
+              TagItem(tagText: versesText, height: height),
+              if (hasChorus) TagItem(tagText: chorusText, height: height),
+              Icon(
+                song.liked ? Icons.favorite : Icons.favorite_border,
+                color: ThemeColors.foreColorBW(context),
+              )
+            ].toRow(),
+            const SizedBox(height: 3),
+            Divider(color: ThemeColors.foreColorPrimary1(context), height: 1),
+            [
               Text(
                 refineContent(verses[0]),
                 maxLines: 2,
-                style: TextStyles.bodyStyle1
-                    .textColor(isSelected ? Colors.white : Colors.black)
+                style: TextStyles.bodyStyle2
+                    .textColor(
+                      ThemeColors.foreColorBW(context),
+                    )
                     .textHeight(1.5),
-              ),
-              SizedBox(
-                height: 25,
-                width: MediaQuery.of(context).size.width - 30,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: <Widget>[
-                    if (isSearching)
-                      TagItem(
-                          tagText: refineTitle(song.songbook), height: height),
-                    TagItem(tagText: versesText, height: height),
-                    if (hasChorus) TagItem(tagText: chorusText, height: height),
-                    Container(width: 10),
-                  ],
-                ),
-              ),
-            ],
-          ),
+              ).expanded(),
+            ].toRow(),
+          ],
         ),
       ),
     );

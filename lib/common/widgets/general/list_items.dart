@@ -20,16 +20,19 @@ class BookItem extends StatelessWidget {
   final Function()? onPressed;
 
   const BookItem({
-    Key? key,
+    super.key,
     required this.item,
     this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
+    Color unSelectedColor = Theme.of(context).brightness == Brightness.light
+        ? Colors.white
+        : ThemeColors.primaryDark;
     return Card(
       color:
-          item.isSelected ? ThemeColors.primary : Colors.white,
+          item.isSelected ? ThemeColors.primary : unSelectedColor,
       elevation: 5,
       child: Center(
         child: ListTile(

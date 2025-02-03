@@ -59,10 +59,11 @@ class SongsScreenState extends State<SongsScreen> {
       builder: (context, state) {
         if (state is HomeFilteredState && state.songs.isNotEmpty) {
           setBook = widget.books.indexOf(state.book);
-          songList = ListView.builder(
+          songList = ListView.separated(
             itemCount: state.songs.length,
             physics: const ClampingScrollPhysics(),
             shrinkWrap: true,
+            separatorBuilder: (context, index) => const SizedBox(height: Sizes.xs),
             padding: const EdgeInsets.only(left: Sizes.xs, right: Sizes.sm),
             itemBuilder: (context, index) {
               final SongExt song = state.songs[index];

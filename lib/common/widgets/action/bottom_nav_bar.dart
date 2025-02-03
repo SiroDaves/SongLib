@@ -92,7 +92,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           : null,
       child: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: ThemeColors.bgColorPrimary2(context),
+        backgroundColor: ThemeColors.bgColorPrimary(context),
         currentIndex: widget.selectedIndex,
         elevation: 5,
         selectedItemColor: ThemeColors.foreColorPrimary(context),

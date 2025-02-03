@@ -11,12 +11,12 @@ class SearchBookItem extends StatelessWidget {
   final VoidCallback? onPressed;
 
   const SearchBookItem({
-    Key? key,
+    super.key,
     required this.text,
     this.isSelected = false,
     this.icon,
     this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
