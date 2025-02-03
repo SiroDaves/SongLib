@@ -5,7 +5,6 @@ import 'package:textstyle_extensions/textstyle_extensions.dart';
 import '../../data/models/songext.dart';
 import '../../../core/theme/theme_colors.dart';
 import '../../../core/theme/theme_fonts.dart';
-import '../../../core/theme/theme_styles.dart';
 import '../../utils/app_util.dart';
 import 'tag_item.dart';
 
@@ -44,51 +43,56 @@ class SearchSongItem extends StatelessWidget {
 
     versesText = verses.length == 1 ? versesText : '${versesText}s';
 
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        decoration: BoxDecoration(
-          color: isSelected ? ThemeColors.primary : Colors.transparent,
-          borderRadius: BorderRadius.circular(5),
-        ),
-        padding: const EdgeInsets.all(Sizes.xs),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            [
-              Text(
-                songItemTitle(song.songNo, song.title),
-                maxLines: 1,
-                style: TextStyles.headingStyle3.textColor(
-                  ThemeColors.foreColorBW(context),
-                ),
-              ).expanded(),
-              if (isSearching) ...[
-                TagItem(tagText: refineTitle(song.songbook), height: height),
-              ],
-              TagItem(tagText: versesText, height: height),
-              if (hasChorus) TagItem(tagText: chorusText, height: height),
-              Icon(
-                song.liked ? Icons.favorite : Icons.favorite_border,
-                color: ThemeColors.foreColorBW(context),
-              )
-            ].toRow(),
-            const SizedBox(height: 3),
-            Divider(color: ThemeColors.foreColorPrimary1(context), height: 1),
-            [
-              Text(
-                refineContent(verses[0]),
-                maxLines: 2,
-                style: TextStyles.bodyStyle2
-                    .textColor(
-                      ThemeColors.foreColorBW(context),
-                    )
-                    .textHeight(1.5),
-              ).expanded(),
-            ].toRow(),
+    var btnContents = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        [
+          Text(
+            songItemTitle(song.songNo, song.title),
+            maxLines: 1,
+            style: TextStyles.headingStyle3.textColor(
+              ThemeColors.foreColorBW(context),
+            ),
+          ).expanded(),
+          if (isSearching) ...[
+            TagItem(tagText: refineTitle(song.songbook), height: height),
           ],
-        ),
-      ),
+          TagItem(tagText: versesText, height: height),
+          if (hasChorus) TagItem(tagText: chorusText, height: height),
+          Icon(
+            song.liked ? Icons.favorite : Icons.favorite_border,
+            color: ThemeColors.foreColorBW(context),
+          )
+        ].toRow(),
+        const SizedBox(height: 3),
+        Divider(color: ThemeColors.foreColorPrimary1(context), height: 1),
+        [
+          Text(
+            refineContent(verses[0]),
+            maxLines: 2,
+            style: TextStyles.bodyStyle2
+                .textColor(
+                  ThemeColors.foreColorBW(context),
+                )
+                .textHeight(1.5),
+          ).expanded(),
+        ].toRow(),
+      ],
+    );
+    return RawMaterialButton(
+      textStyle: TextStyles.buttonTextStyle.bold
+          .size(20)
+          .textColor(isSelected ? Colors.white : Colors.black),
+      fillColor: isSelected ? ThemeColors.primary : Colors.transparent,
+      highlightColor: Colors.white.withValues(alpha: .1),
+      focusElevation: 0,
+      hoverColor: ThemeColors.accent2,
+      hoverElevation: 1,
+      highlightElevation: 0,
+      elevation: 0,
+      padding: EdgeInsets.all(5),
+      onPressed: onPressed,
+      child: btnContents,
     );
   }
 }

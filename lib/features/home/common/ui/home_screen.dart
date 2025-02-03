@@ -21,8 +21,8 @@ import '../../../../core/navigator/route_names.dart';
 import '../../../../core/theme/theme_colors.dart';
 import '../../../../core/theme/theme_fonts.dart';
 import '../../../../core/theme/theme_styles.dart';
+import '../../../common/songs_search.dart';
 import '../../../settings/ui/settings_screen.dart';
-import '../../songs/ui/songs_search.dart';
 import '../../likes/ui/likes_screen.dart';
 import '../../songs/ui/songs_screen.dart';
 import '../bloc/home_bloc.dart';
@@ -43,7 +43,7 @@ class HomeScreen extends StatefulWidget {
 class HomeScreenState extends State<HomeScreen> {
   late HomeBloc _bloc;
   Timer? _syncTimer;
-  
+
   bool periodicSyncStarted = false;
   int selectedPage = 0, selectedBook = 0;
   List<Book> books = [];

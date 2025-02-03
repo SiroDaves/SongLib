@@ -21,28 +21,25 @@ class SearchBookItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (icon == null) {
-      return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 3),
-        child: RawMaterialButton(
-          fillColor: isSelected ? ThemeColors.primary2 : ThemeColors.accent,
-          highlightColor: Colors.white.withValues(alpha: .1),
-          focusElevation: 0,
-          hoverColor: isSelected ? ThemeColors.accent : ThemeColors.primary2,
-          hoverElevation: 1,
-          highlightElevation: 0,
-          elevation: 3,
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-          ),
-          onPressed: onPressed,
-          child: Text(
-            text,
-            textAlign: TextAlign.center,
-            style: TextStyles.headingStyle4
-                .textColor(isSelected ? Colors.white : Colors.black)
-                .letterSpace(2),
-          ),
+      return RawMaterialButton(
+        fillColor: isSelected ? ThemeColors.primary2 : ThemeColors.accent,
+        highlightColor: Colors.white.withValues(alpha: .1),
+        focusElevation: 0,
+        hoverColor: isSelected ? ThemeColors.accent : ThemeColors.primary2,
+        hoverElevation: 1,
+        highlightElevation: 0,
+        elevation: 3,
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+        ),
+        onPressed: onPressed,
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: TextStyles.headingStyle4
+              .textColor(isSelected ? Colors.white : Colors.black)
+              .letterSpace(2),
         ),
       );
     } else {

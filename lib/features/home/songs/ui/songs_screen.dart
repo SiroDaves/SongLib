@@ -10,105 +10,54 @@ import '../../../../core/theme/theme_styles.dart';
 import '../../../presentor/ui/presentor_screen.dart';
 import '../../common/bloc/home_bloc.dart';
 
+part 'widgets/books_list.dart';
+part 'widgets/songs_list.dart';
+
 class SongsScreen extends StatefulWidget {
+  final bool isBigScreen;
   final List<Book> books;
-  const SongsScreen({super.key, required this.books});
+  const SongsScreen({
+    super.key,
+    required this.books,
+    this.isBigScreen = false,
+  });
 
   @override
   State<SongsScreen> createState() => SongsScreenState();
 }
 
 class SongsScreenState extends State<SongsScreen> {
-  int setBook = 0;
-  late Widget bookList, songList;
+  int setBook = 0, setSong = 0;
+  late Widget songListWidget;
 
   @override
   Widget build(BuildContext context) {
-    bookList = SizedBox(
-      height: 40,
-      child: ListView.builder(
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.all(5),
-        itemCount: widget.books.length,
-        itemBuilder: (context, index) {
-          final Book book = widget.books[index];
-          return SearchBookItem(
-            text: book.title!,
-            isSelected: setBook == index,
-            onPressed: () {
-              context.read<HomeBloc>().add(FilterData(book));
-            },
-          );
-        },
-      ),
-    );
-    songList = Padding(
-      padding: EdgeInsets.only(top: 20),
-      child: EmptyState(
-        title:
-            'Oops there is a problem displaying songs under the book you selected.\n\n'
-            'You can fix the issue by selecting them afresh',
-        showRetry: true,
-        titleRetry: 'SELECT SONGS AFRESH',
-        onRetry: () => context.read<HomeBloc>().add(const ResetData()),
-      ),
-    );
+    songListWidget = EmptySongsList();
 
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         if (state is HomeFilteredState && state.songs.isNotEmpty) {
           setBook = widget.books.indexOf(state.book);
-          songList = ListView.separated(
-            itemCount: state.songs.length,
-            physics: const ClampingScrollPhysics(),
-            shrinkWrap: true,
-            separatorBuilder: (context, index) => const SizedBox(height: Sizes.xs),
-            padding: const EdgeInsets.only(left: Sizes.xs, right: Sizes.sm),
-            itemBuilder: (context, index) {
-              final SongExt song = state.songs[index];
-              return SearchSongItem(
-                song: song,
-                height: 50,
-                onPressed: () async {
-                  Book book = widget.books[0];
-                  try {
-                    book = widget.books.firstWhere(
-                      (b) => b.bookId == song.book,
-                    );
-                  } catch (e) {
-                    logger('Failed to get the book: $e');
-                  }
-
-                  bool? result = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PresentorScreen(
-                        song: song,
-                        book: book,
-                        songs: state.songs,
-                      ),
-                    ),
-                  );
-
-                  if (result == true) {
-                    context.read<HomeBloc>().add(FilterData(book));
-                  }
-                },
-              );
-            },
+          songListWidget = SongsList(
+            books: widget.books,
+            songs: state.songs,
+            setSong: 0,
           );
         }
 
-        return SingleChildScrollView(
-          //controller: _scrollController,
-          child: Column(
-            children: <Widget>[
-              bookList,
-              songList,
-            ],
-          ),
-        );
+        if (widget.isBigScreen) {
+          return Row(children: [songListWidget],);
+        } else {
+          return SingleChildScrollView(
+            //controller: _scrollController,
+            child: Column(
+              children: <Widget>[
+                BooksList(books: widget.books, setBook: setBook),
+                songListWidget,
+              ],
+            ),
+          );
+        }
       },
     );
   }

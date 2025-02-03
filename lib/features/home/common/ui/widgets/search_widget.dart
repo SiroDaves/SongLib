@@ -23,11 +23,11 @@ class SearchWidget extends StatelessWidget {
           ),
           isDense: true,
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(5),
             borderSide: const BorderSide(color: Colors.white),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(5),
             borderSide: const BorderSide(color: Colors.white),
           ),
         ),
@@ -36,7 +36,7 @@ class SearchWidget extends StatelessWidget {
         onChanged: (String query) => onSearch(query),
       ).decorated(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(5),
       ),
     );
   }

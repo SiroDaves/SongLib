@@ -63,7 +63,7 @@ class SidebarBtnState extends State<SidebarBtn> {
       fillColor: widget.isSelected ? ThemeColors.primary : Colors.transparent,
       highlightColor: Colors.white.withValues(alpha: .1),
       focusElevation: 0,
-      hoverColor: ThemeColors.lightGrey,
+      hoverColor: ThemeColors.primary,
       hoverElevation: 1,
       highlightElevation: 0,
       elevation: 0,

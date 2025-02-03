@@ -58,7 +58,7 @@ class BigScreenState extends State<BigScreen> {
             index: pages.indexOf(parent.setPage),
             children: <Widget>[
               //ListTabPc(vm),
-              SongsScreen(books: parent.books),
+              SongsScreen(books: parent.books, isBigScreen: true),
               LikesScreen(books: parent.books),
               //DraftsTabPc(vm),
               //const HelpDeskScreen(),
