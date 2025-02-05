@@ -71,7 +71,7 @@ class SplashScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Spacer(),
-            Image.asset(AppAssets.appIcon, height: 200, width: 200),
+            Image.asset(AppAssets.iconApp, height: 200, width: 200),
             const SizedBox(height: 10),
             const Text(
               AppConstants.appTitle,

@@ -13,6 +13,7 @@ class SongsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var bloc = context.read<HomeBloc>();
     return ListView.separated(
       itemCount: songs.length,
       physics: const ClampingScrollPhysics(),
@@ -46,7 +47,7 @@ class SongsList extends StatelessWidget {
             );
 
             if (result == true) {
-              context.read<HomeBloc>().add(FilterData(book));
+              bloc.add(FilterData(book));
             }
           },
         );

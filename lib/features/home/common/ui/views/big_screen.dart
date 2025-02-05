@@ -26,7 +26,7 @@ class BigScreenState extends State<BigScreen> {
         title: Row(
           children: [
             const SizedBox(width: 10),
-            Image.asset(AppAssets.appIcon, height: 35, width: 35),
+            Image.asset(AppAssets.iconApp, height: 35, width: 35),
             const SizedBox(width: 10),
             Text(
               l10n.appName,

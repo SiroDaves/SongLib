@@ -4,8 +4,8 @@ class AppAssets {
   static const assetsImages = 'assets/images';
   static const assetsIcons = 'assets/icons';
 
-  static const String appIcon = '$assetsIcons/app_icon.png';
-  static const String otpIcon = '$assetsIcons/otp.png';
+  static const String iconApp = '$assetsIcons/app_icon.png';
+  static const String iconProject = '$assetsIcons/otp.png';
   static const String imgGraduation = '$assetsIcons/graduation.png';
   static const String imgCar = '$assetsIcons/car.png';
   static const String imgCase = '$assetsIcons/case.png';
