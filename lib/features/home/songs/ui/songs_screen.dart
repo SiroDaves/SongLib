@@ -7,7 +7,6 @@ import '../../../../common/utils/app_util.dart';
 import '../../../../common/utils/constants/app_assets.dart';
 import '../../../../common/widgets/list_items/search_book_item.dart';
 import '../../../../common/widgets/list_items/search_song_item.dart';
-import '../../../../common/widgets/progress/skeleton.dart';
 import '../../../../core/theme/theme_styles.dart';
 import '../../../common/search_songs_utils.dart';
 import '../../../presentor/ui/presentor_screen.dart';
@@ -92,30 +91,17 @@ class _SongsScreenState extends State<SongsScreen> {
         children: [
           Scaffold(
             appBar: AppBar(
-              title: TextField(
-                controller: searchController,
-                decoration: InputDecoration(
-                  hintText: "Search songs...",
-                  border: InputBorder.none,
-                  prefixIcon: const Icon(Icons.search),
-                  suffixIcon: searchController.text.isNotEmpty
-                      ? IconButton(
-                          icon: const Icon(Icons.clear),
-                          onPressed: () {
-                            searchController.clear();
-                            _onSearch("");
-                          },
-                        )
-                      : null,
-                ),
-                onChanged: _onSearch,
+              title: SearchWidget(
+                searchController: searchController,
+                onSearch: _onSearch,
               ),
             ),
             body: Column(
               children: [
                 BooksList(
-                    books: widget.parent.books,
-                    selectedBook: parent.selectedBook),
+                  books: widget.parent.books,
+                  selectedBook: parent.selectedBook,
+                ),
                 SongsList(
                   selectedSong: parent.selectedSong,
                   songs: parent.filtered,
