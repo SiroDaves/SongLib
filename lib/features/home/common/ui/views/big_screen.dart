@@ -15,7 +15,7 @@ class BigScreenState extends State<BigScreen> {
   late SongExt selectedSong;
 
   void setCurrentPage(PageType page) {
-    setState(() => parent.setPage = page);
+    setState(() => parent.currentPage = page);
   }
 
   @override
@@ -23,13 +23,13 @@ class BigScreenState extends State<BigScreen> {
     parent = widget.parent;
     l10n = AppLocalizations.of(context)!;
     isSearchPage =
-        parent.setPage == PageType.search || parent.setPage == PageType.likes;
+        parent.currentPage == PageType.search || parent.currentPage == PageType.likes;
 
     return Stack(
       children: [
         FadingIndexedStack(
           duration: AppDurations.slow,
-          index: pages.indexOf(parent.setPage),
+          index: pages.indexOf(parent.currentPage),
           children: <Widget>[
             //ListTabPc(vm),
             SongsScreen(parent: parent, isBigScreen: true),
@@ -42,7 +42,7 @@ class BigScreenState extends State<BigScreen> {
             .positioned(left: 250, right: 0, bottom: 0, top: 0, animate: true)
             .animate(.35.seconds, Curves.bounceIn),
         Sidebar(
-          pageType: parent.setPage,
+          pageType: parent.currentPage,
           onSelect: (page) => setCurrentPage(page),
         )
             .positioned(left: 0, top: 0, bottom: 0, width: 250, animate: true)
