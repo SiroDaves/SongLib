@@ -10,23 +10,23 @@ class TagItem extends StatelessWidget {
   final double height;
 
   const TagItem({
-    Key? key,
+    super.key,
     required this.tagText,
     required this.height,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     try {
       if (tagText.isNotEmpty) {
         return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
           margin: const EdgeInsets.only(right: Sizes.xs),
           decoration: BoxDecoration(
             color: Theme.of(context).brightness == Brightness.light
                 ? ThemeColors.primary
                 : ThemeColors.primary2,
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            borderRadius: const BorderRadius.all(Radius.circular(5)),
           ),
           child: Text(
             tagText,

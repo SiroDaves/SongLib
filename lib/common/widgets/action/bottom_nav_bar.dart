@@ -26,7 +26,7 @@ class CustomBottomNavigationBar extends StatefulWidget {
 
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   /// This is used for the swipe drag gesture on the bottom nav bar
-  PrefRepository localStorage = getIt<PrefRepository>();
+  PrefRepository prefrepo = getIt<PrefRepository>();
   bool bottomNavBarSwipeGestures = false;
   bool bottomNavBarDoubleTapGestures = false;
 
@@ -92,7 +92,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           : null,
       child: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: ThemeColors.bgColorPrimary2(context),
+        backgroundColor: ThemeColors.bgColorPrimary(context),
         currentIndex: widget.selectedIndex,
         elevation: 5,
         selectedItemColor: ThemeColors.foreColorPrimary(context),

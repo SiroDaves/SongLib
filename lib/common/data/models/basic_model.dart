@@ -23,6 +23,15 @@ class HomeSlider {
 
 enum PageType { lists, search, likes, drafts, helpdesk, settings }
 
+List<PageType> pages = [
+  //PageType.lists,
+  PageType.search,
+  PageType.likes,
+  //PageType.drafts,
+  //PageType.helpdesk,
+  PageType.settings,
+];
+
 class PageItem {
   const PageItem({
     required this.title,

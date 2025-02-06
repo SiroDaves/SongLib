@@ -5,7 +5,7 @@
 
     "appName": "SongLib",
     "listTitle": "Song Lists",
-    "searchTitle": "Search",
+    "searchTitle": "Search Songs",
     "likesTitle": "Liked Songs",
     "historiesTitle": "Histories",
     "draftTitle": "Song Drafts",
@@ -55,6 +55,9 @@
     "justAMinute": "Just a minute!",
     "supportSongLib": "Support SongLib",
     "notificationDialog": "Let's remind you",
+    "noSongSelected": "No song item has been selected",
+    "selectSongsAfresh": "Select Songs Afresh",
+    "problemDisplaySongs": "Oops there is a problem displaying songs under the book you selected.\n\nYou can fix the issue by selecting them afresh",
     "donationRequest": "Donation Request",
     "donationRequestBody": "SongLib has a lot in the pipelines and will need your support to accomplish that.",
     "doneSelecting": "Done with selecting?",

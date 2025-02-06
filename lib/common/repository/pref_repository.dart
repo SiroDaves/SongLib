@@ -7,7 +7,7 @@ import '../utils/constants/pref_constants.dart';
 @singleton
 abstract class PrefRepository {
   @factoryMethod
-  factory PrefRepository(SharedPreferences localStorage) = LocalStorageImp;
+  factory PrefRepository(SharedPreferences prefrepo) = LocalStorageImp;
 
   ThemeMode getThemeMode();
 

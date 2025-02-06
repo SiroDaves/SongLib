@@ -17,6 +17,7 @@ class Step1FabState extends State<Step1Fab> {
       var result = await FlutterPlatformAlert.showCustomAlert(
         windowTitle: l10n.doneSelecting,
         text: l10n.doneSelectingBody,
+        iconPath: AppAssets.iconApp,
         iconStyle: IconStyle.information,
         neutralButtonTitle: l10n.cancel.toUpperCase(),
         positiveButtonTitle: l10n.proceed.toUpperCase(),
@@ -28,6 +29,7 @@ class Step1FabState extends State<Step1Fab> {
       await FlutterPlatformAlert.showCustomAlert(
         windowTitle: l10n.noSelection,
         text: l10n.noSelectionBody,
+        iconPath: AppAssets.iconApp,
         iconStyle: IconStyle.warning,
         neutralButtonTitle: l10n.okay.toUpperCase(),
       );

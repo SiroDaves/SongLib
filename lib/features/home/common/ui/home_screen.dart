@@ -1,22 +1,38 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:dartx/dartx.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:styled_widget/styled_widget.dart';
+import 'package:textstyle_extensions/textstyle_extensions.dart';
 
 import '../../../../common/data/models/models.dart';
 import '../../../../common/utils/api_util.dart';
 import '../../../../common/utils/app_util.dart';
+import '../../../../common/utils/constants/app_assets.dart';
 import '../../../../common/widgets/action/bottom_nav_bar.dart';
+import '../../../../common/widgets/general/fading_index_stack.dart';
 import '../../../../common/widgets/progress/custom_snackbar.dart';
+import '../../../../common/widgets/progress/general_progress.dart';
 import '../../../../common/widgets/progress/skeleton.dart';
 import '../../../../core/navigator/route_names.dart';
-import '../../songs/ui/songs_search.dart';
+import '../../../../core/theme/theme_colors.dart';
+import '../../../../core/theme/theme_fonts.dart';
+import '../../../../core/theme/theme_styles.dart';
+import '../../../common/songs_search.dart';
+import '../../../settings/ui/settings_screen.dart';
 import '../../likes/ui/likes_screen.dart';
 import '../../songs/ui/songs_screen.dart';
 import '../bloc/home_bloc.dart';
+
+part 'views/big_screen.dart';
+part 'views/small_screen.dart';
+part 'widgets/search_widget.dart';
+part 'widgets/sidebar.dart';
+part 'widgets/sidebar_btn.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -26,15 +42,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
-  Timer? _syncTimer;
-  bool periodicSyncStarted = false;
-
   late HomeBloc _bloc;
+  Timer? _syncTimer;
+
+  bool periodicSyncStarted = false;
   int selectedPage = 0, selectedBook = 0;
   List<Book> books = [];
   List<SongExt> songs = [];
-  List<PageItem> homeScreens = [];
   PageController pageController = PageController();
+
+  PageType setPage = PageType.search;
 
   @override
   void dispose() {
@@ -45,56 +62,29 @@ class HomeScreenState extends State<HomeScreen> {
   void startPeriodicSync() {
     periodicSyncStarted = true;
     _syncTimer = Timer.periodic(Duration(minutes: 5), (_) async {
-      if (await isConnectedToInternet()) _bloc.add(FetchData(true));
-    });
-  }
-
-  void onPageChanged(int index) {
-    setState(() {
-      selectedPage = index;
-      pageController.jumpToPage(index);
+      if (await isConnectedToInternet()) _bloc.add(SyncData());
     });
   }
 
   @override
   Widget build(BuildContext context) {
     var l10n = AppLocalizations.of(context)!;
-    var size = MediaQuery.of(context).size;
-
     return BlocProvider(
-      create: (context) => HomeBloc()..add(SyncData()),
+      create: (context) => HomeBloc()..add(FetchData()),
       child: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state) {
           _bloc = context.read<HomeBloc>();
           if (state is HomeDataSyncedState) {
-            if (state.success) _bloc.add(FetchData(false));
-            if (!periodicSyncStarted) {
-              _bloc.add(FetchData(true));
-              startPeriodicSync();
-            }
+            books = state.books;
+            songs = state.songs;
+            _bloc.add(FilterData(books[selectedBook]));
           } else if (state is HomeDataFetchedState) {
-            try {
-              books = state.books;
-              songs = state.songs;
-              _bloc.add(FilterData(books[selectedBook]));
-            } catch (e) {
-              logger("Unable to set books and songs: $e");
-              CustomSnackbar.show(context, "Unable to set books and songs");
-            }
+            books = state.books;
+            songs = state.songs;
+            _bloc.add(FilterData(books[selectedBook]));
+            //if (!periodicSyncStarted) startPeriodicSync();
           } else if (state is HomeFilteredState) {
             selectedBook = books.indexOf(state.book);
-            homeScreens = [
-              PageItem(
-                title: 'Songs',
-                icon: Icons.search,
-                screen: SongsScreen(books: books),
-              ),
-              PageItem(
-                title: 'Likes',
-                icon: Icons.favorite,
-                screen: LikesScreen(books: books),
-              ),
-            ];
           } else if (state is HomeFailureState) {
             CustomSnackbar.show(context, feedbackMessage(state.feedback, l10n));
           } else if (state is HomeResettedState) {
@@ -107,55 +97,23 @@ class HomeScreenState extends State<HomeScreen> {
           }
         },
         builder: (context, state) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text(l10n.appName),
-              actions: [
-                if (selectedPage == 0) ...[
-                  IconButton(
-                    icon: Platform.isIOS
-                        ? Icon(CupertinoIcons.search)
-                        : Icon(Icons.search),
-                    onPressed: () async {
-                      showSearch(
-                        context: context,
-                        delegate: SongsSearch(
-                          context,
-                          books,
-                          songs,
-                          size.height * 0.5,
-                        ),
-                      );
-                    },
-                  ),
-                ],
-                IconButton(
-                  icon: Platform.isIOS
-                      ? Icon(CupertinoIcons.settings)
-                      : Icon(Icons.settings),
-                  onPressed: () {
-                    Navigator.pushNamed(context, RouteNames.settings);
-                  },
-                ),
-              ],
-            ),
-            body: state.maybeWhen(
-              orElse: () => HomeLoading(),
-              fetching: () => HomeLoading(),
-              filtered: (book, songs, likes) => Scaffold(
-                body: PageView(
-                  controller: pageController,
-                  onPageChanged: onPageChanged,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: homeScreens.map((item) => item.screen).toList(),
-                ),
-                bottomNavigationBar: CustomBottomNavigationBar(
-                  selectedIndex: selectedPage,
-                  onPageChange: onPageChanged,
-                  pages: homeScreens,
-                ),
+          ;
+          var homeView = MediaQuery.of(context).size.shortestSide > 550
+              ? BigScreen(parent: this)
+              : SmallScreen(parent: this);
+          return state.maybeWhen(
+            failure: (feedback) => Scaffold(
+              body: EmptyState(
+                title: l10n.problemDisplaySongs,
+                showRetry: true,
+                titleRetry: l10n.selectSongsAfresh,
+                onRetry: () => context.read<HomeBloc>().add(const ResetData()),
               ),
             ),
+            fetching: () => Scaffold(body: HomeLoading()),
+            orElse: () => homeView,
+            filtered: (book, songs, likes) => homeView,
+            synced: (book, songs) => homeView,
           );
         },
       ),

@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 
 import 'app_util.dart';
@@ -8,8 +10,20 @@ import 'constants/api_constants.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 Future<bool> isConnectedToInternet() async {
-  var connectivityResult = await Connectivity().checkConnectivity();
-  return connectivityResult != ConnectivityResult.none;
+  try {
+    final connectivityResult = await Connectivity().checkConnectivity();
+    // ignore: unrelated_type_equality_checks
+    if (connectivityResult == ConnectivityResult.none) return false;
+
+    // Verify actual internet connection
+    const exampleHost = 'example.com'; // Or use your server
+    final result = await InternetAddress.lookup(exampleHost);
+    return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
+  } on SocketException catch (_) {
+    return false;
+  } catch (_) {
+    return false; // Handle other exceptions
+  }
 }
 
 /// Http get request

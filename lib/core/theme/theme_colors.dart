@@ -38,10 +38,22 @@ class ThemeColors {
         : ThemeColors.primary2;
   }
 
+  static Color foreColorPrimary1(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.light
+        ? ThemeColors.primaryDark1
+        : ThemeColors.accent1;
+  }
+
+  static Color foreColorBW(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.light
+        ? Colors.black
+        : Colors.white;
+  }
+
   static Color bgColorPrimary(BuildContext context) {
     return Theme.of(context).brightness == Brightness.light
-        ? ThemeColors.primary
-        : ThemeColors.primaryDark1;
+        ? ThemeColors.primaryDark1
+        : ThemeColors.primary;
   }
 
   static Color bgColorPrimary2(BuildContext context) {
@@ -64,8 +76,8 @@ class ThemeColors {
 
   static Color bgColorPrimary5(BuildContext context) {
     return Theme.of(context).brightness == Brightness.light
-        ? ThemeColors.primary
-        : Colors.black;
+        ? Colors.white
+        : ThemeColors.primaryDark;
   }
 
   static Color bgColorAccent(BuildContext context) {
@@ -84,5 +96,11 @@ class ThemeColors {
     return Theme.of(context).brightness == Brightness.light
         ? Colors.black
         : Colors.white;
+  }
+
+  static Color bgColorShadow(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.light
+        ? ThemeColors.accent2
+        : Colors.grey;
   }
 }
