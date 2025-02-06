@@ -58,7 +58,9 @@ class SongViewerState extends State<SongViewer> {
     List<String> verses = song.content.split("##");
     return Scaffold(
       appBar: AppBar(
-        title: Text(song.title),
+        title: Text(
+          '${songItemTitle(song.songNo, song.title)} - ${refineTitle(song.songbook)}',
+        ),
         actions: <Widget>[
           InkWell(
             onTap: () {},

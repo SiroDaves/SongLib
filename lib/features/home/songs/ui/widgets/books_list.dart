@@ -29,3 +29,32 @@ class BooksList extends StatelessWidget {
     );
   }
 }
+
+class SongsList extends StatelessWidget {
+  final List<SongExt> songs;
+  final void Function(SongExt, List<SongExt>) onPressed;
+  const SongsList({
+    super.key,
+    required this.songs,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.separated(
+      itemCount: songs.length,
+      physics: const ClampingScrollPhysics(),
+      shrinkWrap: true,
+      separatorBuilder: (_, __) => const SizedBox(height: Sizes.xs),
+      padding: const EdgeInsets.only(left: Sizes.xs, right: Sizes.sm),
+      itemBuilder: (context, index) {
+        final song = songs[index];
+        return SearchSongItem(
+          song: song,
+          height: 50,
+          onPressed: () => onPressed(song, songs),
+        );
+      },
+    );
+  }
+}

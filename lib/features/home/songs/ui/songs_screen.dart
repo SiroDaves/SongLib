@@ -9,6 +9,7 @@ import '../../../../common/utils/constants/app_assets.dart';
 import '../../../../common/widgets/list_items/search_book_item.dart';
 import '../../../../common/widgets/list_items/search_song_item.dart';
 import '../../../../common/widgets/progress/general_progress.dart';
+import '../../../../core/theme/theme_colors.dart';
 import '../../../../core/theme/theme_styles.dart';
 import '../../../presentor/ui/presentor_screen.dart';
 import '../../common/bloc/home_bloc.dart';
@@ -28,12 +29,18 @@ class SongsScreen extends StatefulWidget {
   });
 
   @override
-  State<SongsScreen> createState() => SongsScreenState();
+  State<SongsScreen> createState() => _SongsScreenState();
 }
 
-class SongsScreenState extends State<SongsScreen> {
-  late HomeBloc bloc;
+class _SongsScreenState extends State<SongsScreen> {
+  late final HomeBloc bloc;
   final TextEditingController searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    bloc = context.read<HomeBloc>();
+  }
 
   void onSongSelect(SongExt song, List<SongExt> songs) async {
     Book book = widget.parent.books.firstWhere(
@@ -50,77 +57,79 @@ class SongsScreenState extends State<SongsScreen> {
         ),
       );
 
-      if (result == true) {
-        bloc.add(FilterData(book));
-      }
+      if (result == true) bloc.add(FilterData(book));
     }
   }
 
-  Widget _buildSongList(List<SongExt> songs) {
-    return ListView.separated(
-      itemCount: songs.length,
-      physics: const ClampingScrollPhysics(),
-      shrinkWrap: true,
-      separatorBuilder: (_, __) => const SizedBox(height: Sizes.xs),
-      padding: const EdgeInsets.only(left: Sizes.xs, right: Sizes.sm),
-      itemBuilder: (context, index) {
-        final song = songs[index];
-        return SearchSongItem(
-          song: song,
-          height: 50,
-          onPressed: () => onSongSelect(song, songs),
+  @override
+  Widget build(BuildContext context) {
+    var l10n = AppLocalizations.of(context)!;
+
+    return LayoutBuilder(
+      builder: (context, dimens) {
+        return BlocBuilder<HomeBloc, HomeState>(
+          builder: (context, state) {
+            if (state is HomeFilteredState && state.songs.isNotEmpty) {
+              return widget.isBigScreen
+                  ? _buildBigScreen(state, dimens.maxWidth)
+                  : _buildSmallScreen(state);
+            }
+
+            return EmptyState(
+              title: l10n.problemDisplaySongs,
+              showRetry: true,
+              titleRetry: l10n.selectSongsAfresh,
+              onRetry: () => bloc.add(const ResetData()),
+            );
+          },
         );
       },
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    bloc = context.read<HomeBloc>();
-    var l10n = AppLocalizations.of(context)!;
+  Widget _buildBigScreen(HomeFilteredState state, double maxWidth) {
+    final bookIndex = widget.parent.books.indexOf(state.book);
+    final selectedSong = widget.parent.selectedSong = state.songs[0];
 
-    return BlocBuilder<HomeBloc, HomeState>(
-      builder: (context, state) {
-        if (state is HomeFilteredState && state.songs.isNotEmpty) {
-          final bookIndex = widget.parent.books.indexOf(state.book);
-          final selectedSong = widget.parent.selectedSong = state.songs[0];
-
-          var bigScreenView = [
-            Scaffold(
-              appBar: AppBar(
-                title: SearchWidget(
-                  onSearch: (query) {},
-                  searchController: searchController,
-                ),
-              ),
-              body: [
-                BooksList(books: widget.parent.books, setBook: bookIndex),
-                Expanded(child: _buildSongList(state.songs)),
-              ].toColumn(),
-            ).expanded(),
-            SongViewer(
-              song: selectedSong,
-              books: widget.parent.books,
-              songs: state.songs,
-            ).expanded(),
-          ].toRow();
-
-          var smallScreenView = SingleChildScrollView(
-            child: [
+    return [
+      Scaffold(
+        appBar: AppBar(
+          title: SearchWidget(
+            onSearch: (query) {},
+            searchController: searchController,
+          ),
+        ),
+        body: Container(
+          decoration: BoxDecoration(
+            border: Border(
+              right: BorderSide(color: ThemeColors.foreColorPrimary1(context)),
+            ),
+          ),
+          child: Column(
+            children: [
               BooksList(books: widget.parent.books, setBook: bookIndex),
-              _buildSongList(state.songs),
-            ].toColumn(),
-          );
-          return widget.isBigScreen ? bigScreenView : smallScreenView;
-        }
+              SongsList(songs: state.songs, onPressed: onSongSelect).expanded(),
+            ],
+          ),
+        ),
+      ).width(maxWidth / 2.2),
+      SongViewer(
+        song: selectedSong,
+        books: widget.parent.books,
+        songs: state.songs,
+      ).expanded(),
+    ].toRow();
+  }
 
-        return EmptyState(
-          title: l10n.problemDisplaySongs,
-          showRetry: true,
-          titleRetry: l10n.selectSongsAfresh,
-          onRetry: () => bloc.add(const ResetData()),
-        );
-      },
+  Widget _buildSmallScreen(HomeFilteredState state) {
+    final bookIndex = widget.parent.books.indexOf(state.book);
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          BooksList(books: widget.parent.books, setBook: bookIndex),
+          SongsList(songs: state.songs, onPressed: onSongSelect),
+        ],
+      ),
     );
   }
 }
