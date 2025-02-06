@@ -2,8 +2,8 @@ part of '../songs_screen.dart';
 
 class BooksList extends StatelessWidget {
   final List<Book> books;
-  final int setBook;
-  const BooksList({super.key, required this.books, this.setBook = 0});
+  final int selectedBook;
+  const BooksList({super.key, required this.books, this.selectedBook = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class BooksList extends StatelessWidget {
           final Book book = books[index];
           return SearchBookItem(
             text: book.title!,
-            isSelected: setBook == index,
+            isSelected: selectedBook == index,
             onPressed: () {
               context.read<HomeBloc>().add(FilterData(book));
             },
@@ -32,10 +32,12 @@ class BooksList extends StatelessWidget {
 
 class SongsList extends StatelessWidget {
   final List<SongExt> songs;
+  final SongExt selectedSong;
   final void Function(SongExt) onPressed;
   const SongsList({
     super.key,
     required this.songs,
+    required this.selectedSong,
     required this.onPressed,
   });
 
@@ -52,6 +54,7 @@ class SongsList extends StatelessWidget {
         return SearchSongItem(
           song: song,
           height: 50,
+          isSelected: song == selectedSong,
           onPressed: () => onPressed(song),
         );
       },

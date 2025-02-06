@@ -1,14 +1,10 @@
 part of '../songs_screen.dart';
 
 class SongViewer extends StatefulWidget {
-  final SongExt song;
-  final List<Book> books;
-  final List<SongExt> songs;
+  final HomeScreenState parent;
   const SongViewer({
     super.key,
-    required this.song,
-    required this.books,
-    required this.songs,
+    required this.parent,
   });
 
   @override
@@ -22,15 +18,15 @@ class SongViewerState extends State<SongViewer> {
   @override
   void initState() {
     super.initState();
-    song = widget.song;
+    song = widget.parent.selectedSong;
     bloc = context.read<HomeBloc>();
   }
 
   void presentSong() async {
-    Book book = widget.books[0];
+    Book book = widget.parent.books[0];
     try {
-      book = widget.books.firstWhere(
-        (b) => b.bookId == widget.song.book,
+      book = widget.parent.books.firstWhere(
+        (b) => b.bookId == widget.parent.selectedSong.book,
       );
     } catch (e) {
       logger('Failed to get the book: $e');
@@ -40,9 +36,9 @@ class SongViewerState extends State<SongViewer> {
       context,
       MaterialPageRoute(
         builder: (context) => PresentorScreen(
-          song: widget.song,
+          song: widget.parent.selectedSong,
           book: book,
-          songs: widget.songs,
+          songs: widget.parent.songs,
         ),
       ),
     );

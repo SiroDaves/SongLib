@@ -48,10 +48,17 @@ class HomeScreenState extends State<HomeScreen> {
   bool periodicSyncStarted = false;
   int selectedPage = 0, selectedBook = 0;
   List<Book> books = [];
-  List<SongExt> songs = [];
+  late SongExt selectedSong;
+  List<SongExt> songs = [], likes = [], filtered = [];
   PageController pageController = PageController();
 
-  PageType setPage = PageType.search;
+  PageType currentPage = PageType.search;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedSong = SongExt(0, 0, 0, 0, '', '', '', 0, 0, false, '');
+  }
 
   @override
   void dispose() {
@@ -84,7 +91,10 @@ class HomeScreenState extends State<HomeScreen> {
             _bloc.add(FilterData(books[selectedBook]));
             //if (!periodicSyncStarted) startPeriodicSync();
           } else if (state is HomeFilteredState) {
+            likes = state.likes;
+            filtered = state.songs;
             selectedBook = books.indexOf(state.book);
+            selectedSong = state.songs[0];
           } else if (state is HomeFailureState) {
             CustomSnackbar.show(context, feedbackMessage(state.feedback, l10n));
           } else if (state is HomeResettedState) {
