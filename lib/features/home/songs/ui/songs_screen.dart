@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../../common/data/models/models.dart';
@@ -8,9 +7,10 @@ import '../../../../common/utils/app_util.dart';
 import '../../../../common/utils/constants/app_assets.dart';
 import '../../../../common/widgets/list_items/search_book_item.dart';
 import '../../../../common/widgets/list_items/search_song_item.dart';
-import '../../../../common/widgets/progress/general_progress.dart';
+import '../../../../common/widgets/progress/skeleton.dart';
 import '../../../../core/theme/theme_colors.dart';
 import '../../../../core/theme/theme_styles.dart';
+import '../../../common/search_songs_utils.dart';
 import '../../../presentor/ui/presentor_screen.dart';
 import '../../common/bloc/home_bloc.dart';
 import '../../common/ui/home_screen.dart';
@@ -35,6 +35,7 @@ class SongsScreen extends StatefulWidget {
 class _SongsScreenState extends State<SongsScreen> {
   late final HomeBloc bloc;
   final TextEditingController searchController = TextEditingController();
+  List<SongExt> filtered = [];
 
   @override
   void initState() {
@@ -42,7 +43,7 @@ class _SongsScreenState extends State<SongsScreen> {
     bloc = context.read<HomeBloc>();
   }
 
-  void onSongSelect(SongExt song, List<SongExt> songs) async {
+  void onSongSelect(SongExt song) async {
     Book book = widget.parent.books.firstWhere(
       (b) => b.bookId == song.book,
       orElse: () => widget.parent.books[0],
@@ -52,8 +53,11 @@ class _SongsScreenState extends State<SongsScreen> {
       bool? result = await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              PresentorScreen(song: song, book: book, songs: songs),
+          builder: (context) => PresentorScreen(
+            song: song,
+            book: book,
+            songs: widget.parent.songs,
+          ),
         ),
       );
 
@@ -63,8 +67,6 @@ class _SongsScreenState extends State<SongsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var l10n = AppLocalizations.of(context)!;
-
     return LayoutBuilder(
       builder: (context, dimens) {
         return BlocBuilder<HomeBloc, HomeState>(
@@ -74,13 +76,7 @@ class _SongsScreenState extends State<SongsScreen> {
                   ? _buildBigScreen(state, dimens.maxWidth)
                   : _buildSmallScreen(state);
             }
-
-            return EmptyState(
-              title: l10n.problemDisplaySongs,
-              showRetry: true,
-              titleRetry: l10n.selectSongsAfresh,
-              onRetry: () => bloc.add(const ResetData()),
-            );
+            return Scaffold(appBar: AppBar(), body: HomeLoading());
           },
         );
       },
@@ -88,14 +84,20 @@ class _SongsScreenState extends State<SongsScreen> {
   }
 
   Widget _buildBigScreen(HomeFilteredState state, double maxWidth) {
+    filtered = state.songs;
+    final selectedSong = filtered[0];
     final bookIndex = widget.parent.books.indexOf(state.book);
-    final selectedSong = widget.parent.selectedSong = state.songs[0];
 
     return [
       Scaffold(
         appBar: AppBar(
           title: SearchWidget(
-            onSearch: (query) {},
+            onSearch: (query) {
+              filtered = query.isEmpty
+                  ? state.songs
+                  : filterSongsByQuery(query.toLowerCase(), widget.parent.songs);
+              logger('We found: ${filtered.length}');
+            },
             searchController: searchController,
           ),
         ),
@@ -108,7 +110,7 @@ class _SongsScreenState extends State<SongsScreen> {
           child: Column(
             children: [
               BooksList(books: widget.parent.books, setBook: bookIndex),
-              SongsList(songs: state.songs, onPressed: onSongSelect).expanded(),
+              SongsList(songs: filtered, onPressed: onSongSelect).expanded(),
             ],
           ),
         ),
@@ -116,7 +118,7 @@ class _SongsScreenState extends State<SongsScreen> {
       SongViewer(
         song: selectedSong,
         books: widget.parent.books,
-        songs: state.songs,
+        songs: widget.parent.songs,
       ).expanded(),
     ].toRow();
   }
@@ -127,7 +129,7 @@ class _SongsScreenState extends State<SongsScreen> {
       child: Column(
         children: [
           BooksList(books: widget.parent.books, setBook: bookIndex),
-          SongsList(songs: state.songs, onPressed: onSongSelect),
+          SongsList(songs: filtered, onPressed: onSongSelect),
         ],
       ),
     );

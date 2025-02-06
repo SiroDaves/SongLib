@@ -32,7 +32,7 @@ class BooksList extends StatelessWidget {
 
 class SongsList extends StatelessWidget {
   final List<SongExt> songs;
-  final void Function(SongExt, List<SongExt>) onPressed;
+  final void Function(SongExt) onPressed;
   const SongsList({
     super.key,
     required this.songs,
@@ -52,7 +52,7 @@ class SongsList extends StatelessWidget {
         return SearchSongItem(
           song: song,
           height: 50,
-          onPressed: () => onPressed(song, songs),
+          onPressed: () => onPressed(song),
         );
       },
     );

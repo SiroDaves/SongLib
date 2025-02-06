@@ -16,6 +16,7 @@ import '../../../../common/utils/constants/app_assets.dart';
 import '../../../../common/widgets/action/bottom_nav_bar.dart';
 import '../../../../common/widgets/general/fading_index_stack.dart';
 import '../../../../common/widgets/progress/custom_snackbar.dart';
+import '../../../../common/widgets/progress/general_progress.dart';
 import '../../../../common/widgets/progress/skeleton.dart';
 import '../../../../core/navigator/route_names.dart';
 import '../../../../core/theme/theme_colors.dart';
@@ -44,7 +45,6 @@ class HomeScreenState extends State<HomeScreen> {
   late HomeBloc _bloc;
   Timer? _syncTimer;
 
-  late SongExt selectedSong;
   bool periodicSyncStarted = false;
   int selectedPage = 0, selectedBook = 0;
   List<Book> books = [];
@@ -81,8 +81,8 @@ class HomeScreenState extends State<HomeScreen> {
           } else if (state is HomeDataFetchedState) {
             books = state.books;
             songs = state.songs;
-            _bloc.add(FilterData(books[selectedBook]));
-            if (!periodicSyncStarted) startPeriodicSync();
+            //_bloc.add(FilterData(books[selectedBook]));
+            //if (!periodicSyncStarted) startPeriodicSync();
           } else if (state is HomeFilteredState) {
             selectedBook = books.indexOf(state.book);
           } else if (state is HomeFailureState) {
@@ -97,10 +97,19 @@ class HomeScreenState extends State<HomeScreen> {
           }
         },
         builder: (context, state) {
+          ;
           var homeView = MediaQuery.of(context).size.shortestSide > 550
               ? BigScreen(parent: this)
               : SmallScreen(parent: this);
           return state.maybeWhen(
+            failure: (feedback) => Scaffold(
+              body: EmptyState(
+                title: l10n.problemDisplaySongs,
+                showRetry: true,
+                titleRetry: l10n.selectSongsAfresh,
+                onRetry: () => context.read<HomeBloc>().add(const ResetData()),
+              ),
+            ),
             fetching: () => Scaffold(body: HomeLoading()),
             orElse: () => homeView,
             filtered: (book, songs, likes) => homeView,

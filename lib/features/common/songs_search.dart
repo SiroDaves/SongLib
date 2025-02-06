@@ -7,7 +7,7 @@ import '../../common/widgets/list_items/search_book_item.dart';
 import '../../common/widgets/list_items/search_song_item.dart';
 import '../../common/data/models/models.dart';
 import '../presentor/ui/presentor_screen.dart';
-import '../home/songs/utils/search_songs_utils.dart';
+import 'search_songs_utils.dart';
 
 /// Small screen search
 class SongsSearch extends SearchDelegate<List> {

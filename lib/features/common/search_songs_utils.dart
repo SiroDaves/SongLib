@@ -1,8 +1,8 @@
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
-import '../../../../common/utils/app_util.dart';
-import '../../../../common/data/models/songext.dart';
+import '../../common/utils/app_util.dart';
+import '../../common/data/models/songext.dart';
 
 List<SongExt> filterSongsByQuery(String query, List<SongExt> songs) {
   try {

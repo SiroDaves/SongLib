@@ -17,16 +17,19 @@ class SearchWidget extends StatelessWidget {
       decoration: InputDecoration(
         prefixIcon: const Icon(Icons.search, color: ThemeColors.primaryDark),
         suffixIcon: InkWell(
-          onTap: () => searchController!.clear(),
+          onTap: () {
+            searchController!.clear();
+            onSearch('');
+          },
           child: const Icon(Icons.clear, color: ThemeColors.primaryDark),
         ),
         isDense: true,
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(color: Colors.white),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(color: Colors.white),
         ),
       ),
@@ -35,7 +38,7 @@ class SearchWidget extends StatelessWidget {
       onChanged: (String query) => onSearch(query),
     ).decorated(
       color: Colors.white,
-      borderRadius: BorderRadius.circular(5),
+      borderRadius: BorderRadius.circular(10),
     );
   }
 }
