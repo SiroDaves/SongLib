@@ -188,7 +188,7 @@ class _SongsScreenState extends State<SongsScreen> {
       child: Column(
         children: [
           BooksList(books: widget.parent.books, setBook: bookIndex),
-          SongsList(songs: filtered, onPressed: onSongSelect),
+          SongsList(songs: state.songs, onPressed: onSongSelect),
         ],
       ),
     );
