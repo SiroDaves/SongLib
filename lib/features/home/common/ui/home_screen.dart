@@ -81,7 +81,7 @@ class HomeScreenState extends State<HomeScreen> {
           } else if (state is HomeDataFetchedState) {
             books = state.books;
             songs = state.songs;
-            //_bloc.add(FilterData(books[selectedBook]));
+            _bloc.add(FilterData(books[selectedBook]));
             //if (!periodicSyncStarted) startPeriodicSync();
           } else if (state is HomeFilteredState) {
             selectedBook = books.indexOf(state.book);
