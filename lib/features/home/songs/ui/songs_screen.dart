@@ -42,8 +42,7 @@ class _SongsScreenState extends State<SongsScreen> {
   }
 
   void onSongSelect(SongExt song) {
-    //setState(() => selectedSong = song);
-
+    setState(() => parent.selectedSong = song);
     if (!widget.isBigScreen) {
       Navigator.push(
         context,
@@ -77,7 +76,11 @@ class _SongsScreenState extends State<SongsScreen> {
             child: Column(
               children: [
                 BooksList(books: widget.parent.books, selectedBook: 0),
-                SongsList(songs: parent.filtered, onPressed: onSongSelect),
+                SongsList(
+                  selectedSong: parent.selectedSong,
+                  songs: parent.filtered,
+                  onPressed: onSongSelect,
+                ),
               ],
             ),
           );
@@ -110,17 +113,18 @@ class _SongsScreenState extends State<SongsScreen> {
             ),
             body: Column(
               children: [
-                BooksList(books: widget.parent.books, selectedBook: parent.selectedBook),
-                SongsList(songs: parent.filtered, onPressed: onSongSelect)
-                    .expanded(),
+                BooksList(
+                    books: widget.parent.books,
+                    selectedBook: parent.selectedBook),
+                SongsList(
+                  selectedSong: parent.selectedSong,
+                  songs: parent.filtered,
+                  onPressed: onSongSelect,
+                ).expanded(),
               ],
             ),
           ).width(dimens.maxWidth / 2.2),
-          SongViewer(
-            song: parent.selectedSong,
-            books: parent.books,
-            songs: parent.songs,
-          ).expanded(),
+          SongViewer(parent: parent).expanded(),
         ],
       );
     });

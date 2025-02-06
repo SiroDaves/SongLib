@@ -32,10 +32,12 @@ class BooksList extends StatelessWidget {
 
 class SongsList extends StatelessWidget {
   final List<SongExt> songs;
+  final SongExt selectedSong;
   final void Function(SongExt) onPressed;
   const SongsList({
     super.key,
     required this.songs,
+    required this.selectedSong,
     required this.onPressed,
   });
 
@@ -52,6 +54,7 @@ class SongsList extends StatelessWidget {
         return SearchSongItem(
           song: song,
           height: 50,
+          isSelected: song == selectedSong,
           onPressed: () => onPressed(song),
         );
       },
