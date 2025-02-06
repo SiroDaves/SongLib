@@ -10,7 +10,6 @@ import '../../../../common/widgets/list_items/search_book_item.dart';
 import '../../../../common/widgets/list_items/search_song_item.dart';
 import '../../../../common/widgets/progress/skeleton.dart';
 import '../../../../core/theme/theme_styles.dart';
-import '../../../common/search_songs_utils.dart';
 import '../../../presentor/ui/presentor_screen.dart';
 import '../../common/bloc/home_bloc.dart';
 import '../../common/ui/home_screen.dart';
@@ -33,7 +32,8 @@ class SongsScreen extends StatefulWidget {
 }
 
 class _SongsScreenState extends State<SongsScreen> {
-  late final HomeBloc bloc;
+  late HomeBloc bloc;
+  late SongExt selectedSong;
   final TextEditingController searchController = TextEditingController();
   List<SongExt> filtered = [], temp = [];
   final searchBarController = FloatingSearchBarController();
@@ -49,6 +49,7 @@ class _SongsScreenState extends State<SongsScreen> {
       (b) => b.bookId == song.book,
       orElse: () => widget.parent.books[0],
     );
+    setState(() => selectedSong = song);
 
     if (!widget.isBigScreen) {
       bool? result = await Navigator.push(
@@ -84,92 +85,19 @@ class _SongsScreenState extends State<SongsScreen> {
     );
   }
 
-  Widget buildFloatingSearchBar() {
-    final isPortrait =
-        MediaQuery.of(context).orientation == Orientation.portrait;
-
-    return FloatingSearchBar(
-      height: 42,
-      margins: EdgeInsets.all(7),
-      hint: 'Search songs',
-      borderRadius: BorderRadius.circular(7),
-      scrollPadding: const EdgeInsets.only(top: 16, bottom: 100),
-      transitionDuration: const Duration(milliseconds: 800),
-      transitionCurve: Curves.easeInOut,
-      physics: const BouncingScrollPhysics(),
-      axisAlignment: isPortrait ? 0.0 : -1.0,
-      openAxisAlignment: 0.0,
-      width: 500,
-      debounceDelay: const Duration(milliseconds: 500),
-      onQueryChanged: (query) {
-        filtered = filterSongsByQuery(query.toLowerCase(), widget.parent.songs);
-      },
-      transition: CircularFloatingSearchBarTransition(),
-      actions: [
-        FloatingSearchBarAction(
-          showIfOpened: false,
-          child: CircularButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {},
-          ),
-        ),
-        FloatingSearchBarAction.searchToClear(
-          showIfClosed: false,
-        ),
-      ],
-      builder: (context, transition) {
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: Material(
-            color: Colors.white,
-            elevation: 4.0,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: filtered
-                  .take(5)
-                  .map(
-                    (song) => ListTile(
-                      title: Text(song.title),
-                      subtitle: Text("Song No: ${song.songNo}"),
-                      onTap: () {
-                        setState(() {
-                          filtered = [song];
-                        });
-                        searchBarController.close();
-                      },
-                    ),
-                  )
-                  .toList(),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
   Widget _buildBigScreen(HomeFilteredState state, double maxWidth) {
     filtered = state.songs;
-    final selectedSong = filtered[0];
+    selectedSong = filtered[0];
     final bookIndex = widget.parent.books.indexOf(state.book);
 
     return Row(
       children: [
         Scaffold(
-          body: Stack(
-            fit: StackFit.expand,
+          appBar: AppBar(),
+          body: Column(
             children: [
-              Scaffold(appBar: AppBar()),
-              Container(
-                margin: EdgeInsets.only(top: 55),
-                child: Column(
-                  children: [
-                    BooksList(books: widget.parent.books, setBook: bookIndex),
-                    SongsList(songs: filtered, onPressed: onSongSelect)
-                        .expanded(),
-                  ],
-                ),
-              ),
-              buildFloatingSearchBar(),
+              BooksList(books: widget.parent.books, setBook: bookIndex),
+              SongsList(songs: filtered, onPressed: onSongSelect).expanded(),
             ],
           ),
         ).width(maxWidth / 2.2),
