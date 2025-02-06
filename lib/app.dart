@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:songlib/common/utils/api_util.dart';
 
 import 'common/auth/auth_bloc.dart';
 import 'common/repository/sync_repository.dart';
+import 'common/utils/api_util.dart';
 import 'core/theme/bloc/theme_bloc.dart';
 import 'core/theme/theme_data.dart';
 import 'common/utils/constants/pref_constants.dart';

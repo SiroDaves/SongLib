@@ -29,7 +29,7 @@ class SmallScreenState extends State<SmallScreen> {
       PageItem(
         title: 'Songs',
         icon: Icons.search,
-        screen: SongsScreen(books: parent.books),
+        screen: SongsScreen(parent: parent),
       ),
       PageItem(
         title: 'Likes',

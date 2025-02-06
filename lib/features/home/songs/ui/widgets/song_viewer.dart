@@ -57,9 +57,7 @@ class SongViewerState extends State<SongViewer> {
     Size size = MediaQuery.of(context).size;
     List<String> verses = song.content.split("##");
     return Scaffold(
-      backgroundColor: ThemeColors.backgroundGrey,
       appBar: AppBar(
-        elevation: 8,
         title: Text(song.title),
         actions: <Widget>[
           InkWell(

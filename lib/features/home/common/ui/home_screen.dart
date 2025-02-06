@@ -44,12 +44,12 @@ class HomeScreenState extends State<HomeScreen> {
   late HomeBloc _bloc;
   Timer? _syncTimer;
 
+  late SongExt selectedSong;
   bool periodicSyncStarted = false;
   int selectedPage = 0, selectedBook = 0;
   List<Book> books = [];
   List<SongExt> songs = [];
   PageController pageController = PageController();
-  TextEditingController? searchController = TextEditingController();
 
   PageType setPage = PageType.search;
 

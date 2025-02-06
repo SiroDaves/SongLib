@@ -61,14 +61,23 @@ class Sidebar extends StatelessWidget {
       ],
     );
 
-    return Container(
-      padding: const EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        border: Border(
-          right: BorderSide(color: ThemeColors.foreColorPrimary1(context)),
+    return Scaffold(
+      appBar: AppBar(
+        leading: Padding(
+          padding: EdgeInsets.all(12),
+          child: Image.asset(AppAssets.iconApp),
         ),
+        title: Text(l10n.appName, style: TextStyle(fontSize: 25)),
       ),
-      child: itemsColumn.padding(bottom: 20).constrained(maxWidth: 280),
+      body: Container(
+        padding: const EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          border: Border(
+            right: BorderSide(color: ThemeColors.foreColorPrimary1(context)),
+          ),
+        ),
+        child: itemsColumn.padding(bottom: 20).constrained(maxWidth: 250),
+      ),
     );
   }
 }
