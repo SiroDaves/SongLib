@@ -110,7 +110,7 @@ class _SongsScreenState extends State<SongsScreen> {
               ],
             ),
           ).width(dimens.maxWidth / 2.2),
-          SongViewer(parent: parent).expanded(),
+          SongViewer(song: parent.selectedSong).expanded(),
         ],
       );
     });
