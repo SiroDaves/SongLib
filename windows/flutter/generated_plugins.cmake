@@ -4,6 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   connectivity_plus
+  desktop_window
   firebase_core
   flutter_platform_alert
   permission_handler_windows

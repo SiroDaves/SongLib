@@ -1,9 +1,8 @@
-part of 'presentor_screen.dart';
+part of '../presentor_screen.dart';
 
 enum IndicatorSide { start, end }
 
-/// A vertical tab widget for flutter
-class PresentorMobile extends StatefulWidget {
+class PresentorView extends StatefulWidget {
   final int? index;
   final double? tabsWidth;
   final double? indicatorWidth;
@@ -19,7 +18,7 @@ class PresentorMobile extends StatefulWidget {
   final TextStyle? tabTextStyle;
   final Function(int? tabIndex)? onSelect;
 
-  const PresentorMobile(
+  const PresentorView(
       {super.key,
       required this.index,
       required this.tabs,
@@ -39,10 +38,10 @@ class PresentorMobile extends StatefulWidget {
             tabs != null && contents != null && tabs.length == contents.length);
 
   @override
-  PresentorMobileState createState() => PresentorMobileState();
+  PresentorViewState createState() => PresentorViewState();
 }
 
-class PresentorMobileState extends State<PresentorMobile>
+class PresentorViewState extends State<PresentorView>
     with TickerProviderStateMixin {
   int? selectedIndex;
   bool? changePageByTapView;
@@ -58,7 +57,7 @@ class PresentorMobileState extends State<PresentorMobile>
   double targetOpacity = 1;
 
   @override
-  void didUpdateWidget(PresentorMobile oldWidget) {
+  void didUpdateWidget(PresentorView oldWidget) {
     if (oldWidget.index == widget.index) return;
     setState(() => targetOpacity = 0);
     Future.delayed(1.milliseconds, () => setState(() => targetOpacity = 1));
