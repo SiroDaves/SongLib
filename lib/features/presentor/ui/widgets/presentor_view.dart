@@ -93,15 +93,17 @@ class _PresentorViewState extends State<PresentorView>
       textDirection: widget.direction,
       child: Column(
         children: <Widget>[
-          PresentorPageView(
-            pageController: pageController,
-            contents: widget.contents,
+          PageView.builder(
+            controller: pageController,
+            physics: const AlwaysScrollableScrollPhysics(),
+            itemCount: widget.contents.length,
             onPageChanged: (index) {
               setState(() {
                 if (changePageByTapView != true) selectTab(index);
                 changePageByTapView = null;
               });
             },
+            itemBuilder: (context, index) => widget.contents[index],
           ).expanded(),
           PresentorTabBar(
             tabs: widget.tabs,

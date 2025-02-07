@@ -107,7 +107,6 @@ class HomeScreenState extends State<HomeScreen> {
           }
         },
         builder: (context, state) {
-          ;
           var homeView = MediaQuery.of(context).size.shortestSide > 550
               ? BigScreen(parent: this)
               : SmallScreen(parent: this);
