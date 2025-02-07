@@ -17,6 +17,7 @@ class PresentorView extends StatefulWidget {
   final TextStyle selectedTabTextStyle;
   final TextStyle tabTextStyle;
   final Function(int tabIndex)? onSelect;
+  final bool isBigScreen;
 
   const PresentorView({
     super.key,
@@ -34,6 +35,7 @@ class PresentorView extends StatefulWidget {
     this.selectedTabTextStyle = const TextStyle(color: Colors.black),
     this.tabTextStyle = const TextStyle(color: Colors.black38),
     this.onSelect,
+    this.isBigScreen = false,
   }) : assert(tabs.length == contents.length);
 
   @override
@@ -89,41 +91,53 @@ class _PresentorViewState extends State<PresentorView>
 
   @override
   Widget build(BuildContext context) {
+    var presentorTabBar = PresentorTabBar(
+      tabs: widget.tabs,
+      selectedIndex: selectedIndex,
+      direction: widget.direction,
+      indicatorSide: widget.indicatorSide,
+      indicatorWidth: widget.indicatorWidth,
+      animationControllers: animationControllers,
+      onTabSelected: (index) {
+        changePageByTapView = true;
+        selectTab(index);
+        pageController.animateToPage(
+          index,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      },
+    );
     return Directionality(
       textDirection: widget.direction,
       child: Column(
-        children: <Widget>[
-          PresentorPageView(
-            pageController: pageController,
-            contents: widget.contents,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          PageView.builder(
+            controller: pageController,
+            physics: const AlwaysScrollableScrollPhysics(),
+            itemCount: widget.contents.length,
             onPageChanged: (index) {
               setState(() {
                 if (changePageByTapView != true) selectTab(index);
                 changePageByTapView = null;
               });
             },
+            itemBuilder: (context, index) => widget.contents[index],
           ).expanded(),
-          PresentorTabBar(
-            tabs: widget.tabs,
-            selectedIndex: selectedIndex,
-            direction: widget.direction,
-            indicatorSide: widget.indicatorSide,
-            indicatorWidth: widget.indicatorWidth,
-            animationControllers: animationControllers,
-            onTabSelected: (index) {
-              changePageByTapView = true;
-              selectTab(index);
-              pageController.animateToPage(
-                index,
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeInOut,
-              );
-            },
-          ),
-          PresentorSongBook(
-            songbook: widget.songbook,
-            tabsWidth: widget.tabsWidth,
-          ),
+          if (widget.isBigScreen) ...[
+            presentorTabBar,
+            PresentorSongBook(
+              songbook: widget.songbook,
+              tabsWidth: widget.tabsWidth,
+            ),
+          ] else ...[
+            Align(
+              alignment: Alignment.center,
+              child: presentorTabBar,
+            ),
+            const SizedBox(height: 20),
+          ],
         ],
       ),
     );
