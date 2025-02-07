@@ -3,6 +3,7 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  desktop_window
   flutter_platform_alert
   sentry_flutter
   url_launcher_linux
