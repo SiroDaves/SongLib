@@ -3,181 +3,127 @@ part of '../presentor_screen.dart';
 enum IndicatorSide { start, end }
 
 class PresentorView extends StatefulWidget {
-  final int? index;
-  final double? tabsWidth;
-  final double? indicatorWidth;
+  final int index;
+  final double tabsWidth;
+  final double indicatorWidth;
   final IndicatorSide? indicatorSide;
-  final List<Tab>? tabs;
-  final List<Widget>? contents;
-  final String? songbook;
-  final TextDirection? direction;
-  final Color? indicatorColor;
-  final Axis? contentScrollAxis;
-  final Color? tabBackgroundColor;
-  final TextStyle? selectedTabTextStyle;
-  final TextStyle? tabTextStyle;
-  final Function(int? tabIndex)? onSelect;
+  final List<Tab> tabs;
+  final List<Widget> contents;
+  final String songbook;
+  final TextDirection direction;
+  final Color indicatorColor;
+  final Axis contentScrollAxis;
+  final Color tabBackgroundColor;
+  final TextStyle selectedTabTextStyle;
+  final TextStyle tabTextStyle;
+  final Function(int tabIndex)? onSelect;
 
-  const PresentorView(
-      {super.key,
-      required this.index,
-      required this.tabs,
-      required this.contents,
-      required this.songbook,
-      this.tabsWidth = 200,
-      this.indicatorWidth = 3,
-      this.indicatorSide,
-      this.direction = TextDirection.ltr,
-      this.indicatorColor = Colors.green,
-      this.contentScrollAxis = Axis.horizontal,
-      this.tabBackgroundColor = const Color(0xfff8f8f8),
-      this.selectedTabTextStyle = const TextStyle(color: Colors.black),
-      this.tabTextStyle = const TextStyle(color: Colors.black38),
-      this.onSelect})
-      : assert(
-            tabs != null && contents != null && tabs.length == contents.length);
+  const PresentorView({
+    super.key,
+    required this.index,
+    required this.tabs,
+    required this.contents,
+    required this.songbook,
+    this.tabsWidth = 200,
+    this.indicatorWidth = 3,
+    this.indicatorSide,
+    this.direction = TextDirection.ltr,
+    this.indicatorColor = Colors.green,
+    this.contentScrollAxis = Axis.horizontal,
+    this.tabBackgroundColor = const Color(0xfff8f8f8),
+    this.selectedTabTextStyle = const TextStyle(color: Colors.black),
+    this.tabTextStyle = const TextStyle(color: Colors.black38),
+    this.onSelect,
+  }) : assert(tabs.length == contents.length);
 
   @override
-  PresentorViewState createState() => PresentorViewState();
+  State<PresentorView> createState() => _PresentorViewState();
 }
 
-class PresentorViewState extends State<PresentorView>
+class _PresentorViewState extends State<PresentorView>
     with TickerProviderStateMixin {
-  int? selectedIndex;
+  late int selectedIndex;
   bool? changePageByTapView;
-
-  AnimationController? animationController;
-  Animation<double?>? animation;
-  Animation<RelativeRect?>? rectAnimation;
-
-  PageController? pageController = PageController();
-
-  List<AnimationController?>? animationControllers = [];
-
-  double targetOpacity = 1;
-
-  @override
-  void didUpdateWidget(PresentorView oldWidget) {
-    if (oldWidget.index == widget.index) return;
-    setState(() => targetOpacity = 0);
-    Future.delayed(1.milliseconds, () => setState(() => targetOpacity = 1));
-    super.didUpdateWidget(oldWidget);
-  }
+  late PageController pageController;
+  late List<AnimationController> animationControllers;
 
   @override
   void initState() {
+    super.initState();
     selectedIndex = widget.index;
-    for (int? i = 0; i! < widget.tabs!.length; i++) {
-      animationControllers!.add(AnimationController(
+    pageController = PageController(initialPage: widget.index);
+
+    animationControllers = List.generate(
+      widget.tabs.length,
+      (_) => AnimationController(
         duration: const Duration(milliseconds: 400),
         vsync: this,
-      ));
-    }
-    selectTab(widget.index!);
+      ),
+    );
 
-    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      pageController!.jumpToPage(widget.index!);
       setState(() {});
     });
   }
 
   @override
+  void dispose() {
+    for (final controller in animationControllers) {
+      controller.dispose();
+    }
+    pageController.dispose();
+    super.dispose();
+  }
+
+  void selectTab(int index) {
+    setState(() {
+      selectedIndex = index;
+      animationControllers.forEach((controller) => controller.reset());
+      animationControllers[index].forward();
+    });
+
+    widget.onSelect?.call(index);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    var contentContainer = Expanded(
-      child: PageView.builder(
-        scrollDirection: widget.contentScrollAxis!,
-        physics: const AlwaysScrollableScrollPhysics(),
-        onPageChanged: (index) {
-          setState(() {
-            if (changePageByTapView == false || changePageByTapView == null) {
-              selectTab(index);
-            }
-            if (selectedIndex == index) {
-              changePageByTapView = null;
-            }
-          });
-        },
-        controller: pageController,
-        itemCount: widget.contents!.length,
-        itemBuilder: (BuildContext? context, int? index) {
-          return widget.contents![index!];
-        },
-      ),
-    );
-    var indicatorContainer = SizedBox(
-      height: widget.tabsWidth,
-      child: ListView.builder(
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        itemCount: widget.tabs!.length,
-        itemBuilder: (context, index) {
-          Tab? tab = widget.tabs![index];
-          Alignment? alignment = Alignment.centerLeft;
-          if (widget.direction == TextDirection.rtl) {
-            alignment = Alignment.centerRight;
-          }
-
-          double? left, right;
-          if (widget.direction == TextDirection.rtl) {
-            left = (widget.indicatorSide == IndicatorSide.end) ? 0 : null;
-            right = (widget.indicatorSide == IndicatorSide.start) ? 0 : null;
-          } else {
-            left = (widget.indicatorSide == IndicatorSide.start) ? 0 : null;
-            right = (widget.indicatorSide == IndicatorSide.end) ? 0 : null;
-          }
-
-          return Stack(
-            children: <Widget>[
-              PresentorIndicator(
-                width: widget.indicatorWidth!,
-                left: left,
-                right: right,
-                animation: animationControllers![index]!,
-              ),
-              PresentorContent(
-                width: widget.indicatorWidth,
-                alignment: alignment,
-                isSelected: selectedIndex == index,
-                onTap: () {
-                  changePageByTapView = true;
-                  setState(() => selectTab(index));
-                  pageController!.animateToPage(
-                    index,
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeInOut,
-                  );
-                },
-                child: tab.child,
-              ),
-            ],
-          );
-        },
-      ),
-    );
     return Directionality(
-      textDirection: widget.direction!,
+      textDirection: widget.direction,
       child: Column(
         children: <Widget>[
-          contentContainer,
-          indicatorContainer,
+          PresentorPageView(
+            pageController: pageController,
+            contents: widget.contents,
+            onPageChanged: (index) {
+              setState(() {
+                if (changePageByTapView != true) selectTab(index);
+                changePageByTapView = null;
+              });
+            },
+          ).expanded(),
+          PresentorTabBar(
+            tabs: widget.tabs,
+            selectedIndex: selectedIndex,
+            direction: widget.direction,
+            indicatorSide: widget.indicatorSide,
+            indicatorWidth: widget.indicatorWidth,
+            animationControllers: animationControllers,
+            onTabSelected: (index) {
+              changePageByTapView = true;
+              selectTab(index);
+              pageController.animateToPage(
+                index,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+              );
+            },
+          ),
           PresentorSongBook(
-            songbook: widget.songbook!,
-            tabsWidth: widget.tabsWidth!,
+            songbook: widget.songbook,
+            tabsWidth: widget.tabsWidth,
           ),
         ],
       ),
     );
-  }
-
-  void selectTab(int index) {
-    selectedIndex = index;
-    for (final AnimationController? animController in animationControllers!) {
-      animController!.reset();
-    }
-    animationControllers![index]!.forward();
-    if (widget.onSelect != null) {
-      widget.onSelect!(selectedIndex);
-    }
   }
 }

@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:dartx/dartx.dart';
 import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:styled_widget/styled_widget.dart';
 
 import '../../../common/data/models/models.dart';
 import '../../../common/utils/app_util.dart';
@@ -16,8 +16,9 @@ import '../common/presentor_utils.dart';
 
 part 'widgets/presentor_view.dart';
 part 'widgets/fab_widget.dart';
-part 'widgets/presentor_appbar.dart';
-part 'widgets/presentor_body.dart';
+part 'widgets/presentor_details.dart';
+part 'widgets/presentor_pageview.dart';
+part 'widgets/presentor_tabbar.dart';
 
 class PresentorScreen extends StatefulWidget {
   final SongExt song;
