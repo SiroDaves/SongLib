@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -12,11 +13,12 @@ import '../../../common/widgets/action/fab_widget.dart';
 import '../../../common/widgets/presentor/presentor_animate.dart';
 import '../../../common/widgets/progress/custom_snackbar.dart';
 import '../../../core/theme/theme_colors.dart';
+import '../common/presentor_intents.dart';
 import '../common/presentor_utils.dart';
 
 part 'widgets/presentor_view.dart';
 part 'widgets/fab_widget.dart';
-part 'widgets/presentor_details.dart';
+part 'widgets/presentor_body.dart';
 part 'widgets/presentor_pageview.dart';
 part 'widgets/presentor_tabbar.dart';
 
@@ -98,10 +100,18 @@ class _PresentorScreenState extends State<PresentorScreen> {
         }
       },
       child: Scaffold(
-        appBar: PresentorAppBar(
-          songTitle: songTitle,
-          isLiked: widget.song.liked,
-          onLikePressed: _toggleLike,
+        appBar: AppBar(
+          title: Text(songTitle),
+          actions: [
+            Tooltip(
+              message: widget.song.liked ? l10n.songLike : l10n.songDislike,
+              child: IconButton(
+                onPressed: _toggleLike,
+                icon: Icon(
+                    widget.song.liked ? Icons.favorite : Icons.favorite_border),
+              ),
+            ),
+          ],
         ),
         body: PresentorBody(
           bgImage: bgImage,
