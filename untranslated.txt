@@ -2,6 +2,10 @@
   "sw": [
     "feedback",
     "appName",
+    "projectSong",
+    "songDisliked",
+    "songLike",
+    "songDislike",
     "openSettings",
     "supportSongLib",
     "noSongSelected",

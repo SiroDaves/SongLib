@@ -1,10 +1,14 @@
 part of '../songs_screen.dart';
 
 class SongViewer extends StatefulWidget {
-  final HomeScreenState parent;
+  final SongExt song;
+  final List<Book> books;
+  final List<SongExt> songs;
   const SongViewer({
     super.key,
-    required this.parent,
+    required this.song,
+    required this.books,
+    required this.songs,
   });
 
   @override
@@ -12,21 +16,20 @@ class SongViewer extends StatefulWidget {
 }
 
 class SongViewerState extends State<SongViewer> {
-  late SongExt song;
   late HomeBloc bloc;
 
   @override
   void initState() {
     super.initState();
-    song = widget.parent.selectedSong;
     bloc = context.read<HomeBloc>();
   }
 
-  void presentSong() async {
-    Book book = widget.parent.books[0];
+  Future<void> onPresent() async {
+    Book book = widget.books[0];
     try {
-      book = widget.parent.books.firstWhere(
-        (b) => b.bookId == widget.parent.selectedSong.book,
+      widget.books.firstWhere(
+        (b) => b.bookId == widget.song.book,
+        orElse: () => widget.books[0],
       );
     } catch (e) {
       logger('Failed to get the book: $e');
@@ -36,9 +39,9 @@ class SongViewerState extends State<SongViewer> {
       context,
       MaterialPageRoute(
         builder: (context) => PresentorScreen(
-          song: widget.parent.selectedSong,
+          song: widget.song,
           book: book,
-          songs: widget.parent.songs,
+          songs: widget.songs,
         ),
       ),
     );
@@ -50,33 +53,44 @@ class SongViewerState extends State<SongViewer> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    List<String> verses = song.content.split("##");
+    var l10n = AppLocalizations.of(context)!;
+    List<String> verses = widget.song.content.split("##");
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '${songItemTitle(song.songNo, song.title)} - ${refineTitle(song.songbook)}',
+          '${songItemTitle(widget.song.songNo, widget.song.title)} - ${refineTitle(widget.song.songbook)}',
         ),
         actions: <Widget>[
-          InkWell(
-            onTap: () {},
-            child: const Padding(
-              padding: EdgeInsets.all(10),
-              child: Icon(Icons.copy),
+          Tooltip(
+            message: l10n.copySong,
+            child: InkWell(
+              onTap: () {},
+              child: const Padding(
+                padding: EdgeInsets.all(10),
+                child: Icon(Icons.copy),
+              ),
             ),
           ),
-          InkWell(
-            onTap: presentSong,
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Icon(song.liked ? Icons.favorite : Icons.favorite_border),
+          Tooltip(
+            message: widget.song.liked ? l10n.songLike : l10n.songDislike,
+            child: InkWell(
+              onTap: () {},
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Icon(
+                  widget.song.liked ? Icons.favorite : Icons.favorite_border,
+                ),
+              ),
             ),
           ),
-          InkWell(
-            onTap: presentSong,
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Image.asset(AppAssets.iconProject, height: 30, width: 30),
+          Tooltip(
+            message: l10n.projectSong,
+            child: InkWell(
+              onTap: onPresent,
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Icon(Icons.north_east),
+              ),
             ),
           ),
           const SizedBox(width: 10),
@@ -90,7 +104,7 @@ class SongViewerState extends State<SongViewer> {
             margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
             child: Text(
               verses[index].replaceAll("#", "\n"),
-              style: TextStyle(fontSize: size.height * 0.03),
+              style: TextStyle(fontSize: 16),
             ).padding(all: 10),
           );
         },
