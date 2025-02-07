@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:styled_widget/styled_widget.dart';
 
@@ -12,11 +13,13 @@ import '../../../common/widgets/action/fab_widget.dart';
 import '../../../common/widgets/presentor/presentor_animate.dart';
 import '../../../common/widgets/progress/custom_snackbar.dart';
 import '../../../core/theme/theme_colors.dart';
+import '../common/presentor_intents.dart';
 import '../common/presentor_utils.dart';
+import '../common/slide_utils.dart';
 
 part 'widgets/presentor_view.dart';
 part 'widgets/fab_widget.dart';
-part 'widgets/presentor_details.dart';
+part 'widgets/presentor_body.dart';
 part 'widgets/presentor_pageview.dart';
 part 'widgets/presentor_tabbar.dart';
 
@@ -33,32 +36,27 @@ class PresentorScreen extends StatefulWidget {
   });
 
   @override
-  State<PresentorScreen> createState() => _PresentorScreenState();
+  State<PresentorScreen> createState() => PresentorScreenState();
 }
 
-class _PresentorScreenState extends State<PresentorScreen> {
-  bool likeChanged = false;
+class PresentorScreenState extends State<PresentorScreen> {
   late AppLocalizations l10n;
-  late List<String> songVerses;
-  late List<Tab> widgetTabs;
-  late List<Widget> widgetContent;
   late String songTitle, songBook;
-  bool slideHorizontal = false;
-  int curSlide = 0;
+  bool hasChorus = false, likeChanged = false, slideHorizontal = false;
+  List<String> songVerses = [];
+  List<Tab> widgetTabs = [];
+  List<Widget> widgetContent = [];
+  int currentSlide = 0;
 
   @override
   void initState() {
     super.initState();
-    _initialize();
-  }
-
-  void _initialize() {
+    if (widget.song.content.contains("CHORUS")) {
+      hasChorus = true;
+    }
     l10n = AppLocalizations.of(context)!;
     songTitle = songItemTitle(widget.song.songNo, widget.song.title);
     songBook = refineTitle(widget.song.songbook);
-    songVerses = [];
-    widgetTabs = [];
-    widgetContent = [];
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
       DesktopWindow.setFullScreen(true);
     }
@@ -70,6 +68,30 @@ class _PresentorScreenState extends State<PresentorScreen> {
       DesktopWindow.setFullScreen(false);
     }
     super.dispose();
+  }
+
+  void setSlideByNumber(int slide) {
+    setState(() {
+      currentSlide = getSlideByNumber(slide, hasChorus, widgetContent.length);
+    });
+  }
+
+  void setSlideByLetter(String slide) {
+    setState(() {
+      currentSlide = getSlideByLetter(slide, hasChorus, widgetContent.length);
+    });
+  }
+
+  void setPreviousSlide() {
+    if (currentSlide != 0) {
+      setState(() => currentSlide = currentSlide - 1);
+    }
+  }
+
+  void setNextSlide() {
+    if (currentSlide < widgetContent.length) {
+      setState(() => currentSlide = currentSlide + 1);
+    }
   }
 
   void _toggleLike() {
@@ -85,10 +107,6 @@ class _PresentorScreenState extends State<PresentorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String bgImage = Theme.of(context).brightness == Brightness.light
-        ? AppAssets.imgBg
-        : AppAssets.imgBgBw;
-
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (bool didPop, dynamic result) async {
@@ -98,19 +116,20 @@ class _PresentorScreenState extends State<PresentorScreen> {
         }
       },
       child: Scaffold(
-        appBar: PresentorAppBar(
-          songTitle: songTitle,
-          isLiked: widget.song.liked,
-          onLikePressed: _toggleLike,
+        appBar: AppBar(
+          title: Text(songTitle),
+          actions: [
+            Tooltip(
+              message: widget.song.liked ? l10n.songLike : l10n.songDislike,
+              child: IconButton(
+                onPressed: _toggleLike,
+                icon: Icon(
+                    widget.song.liked ? Icons.favorite : Icons.favorite_border),
+              ),
+            ),
+          ],
         ),
-        body: PresentorBody(
-          bgImage: bgImage,
-          widgetTabs: widgetTabs,
-          widgetContent: widgetContent,
-          slideHorizontal: slideHorizontal,
-          curSlide: curSlide,
-          songBook: songBook,
-        ),
+        body: PresentorBody(parent: this),
         floatingActionButton: PresentorFabWidget(song: widget.song),
       ),
     );

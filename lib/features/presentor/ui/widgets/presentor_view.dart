@@ -78,7 +78,9 @@ class _PresentorViewState extends State<PresentorView>
   void selectTab(int index) {
     setState(() {
       selectedIndex = index;
-      animationControllers.forEach((controller) => controller.reset());
+      for (var controller in animationControllers) {
+        controller.reset();
+      }
       animationControllers[index].forward();
     });
 

@@ -115,12 +115,11 @@ Future<void> copySong(SongExt song) async {
   }
 }
 
-Future<void> copyVerse(String songTitle,String songBook, String lyrics) async {
+Future<void> copyVerse(String songTitle, String songBook, String lyrics) async {
   try {
     await Clipboard.setData(
       ClipboardData(
-        text:
-            '${lyrics.replaceAll("#", "\n")}'
+        text: '${lyrics.replaceAll("#", "\n")}'
             '\n\n$songTitle,\n$songBook',
       ),
     );
