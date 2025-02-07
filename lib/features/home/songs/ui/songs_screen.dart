@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../../common/data/models/models.dart';
 import '../../../../common/utils/app_util.dart';
-import '../../../../common/utils/constants/app_assets.dart';
 import '../../../../common/widgets/list_items/search_book_item.dart';
 import '../../../../common/widgets/list_items/search_song_item.dart';
 import '../../../../core/theme/theme_styles.dart';
@@ -31,6 +31,7 @@ class SongsScreen extends StatefulWidget {
 }
 
 class _SongsScreenState extends State<SongsScreen> {
+  late HomeBloc bloc;
   late HomeScreenState parent;
   final TextEditingController searchController = TextEditingController();
 
@@ -38,32 +39,44 @@ class _SongsScreenState extends State<SongsScreen> {
   void initState() {
     super.initState();
     parent = widget.parent;
+    bloc = context.read<HomeBloc>();
   }
 
-  void onSongSelect(SongExt song) {
+  Future<void> onSongSelect(SongExt song) async {
     setState(() => parent.selectedSong = song);
     if (!widget.isBigScreen) {
-      Navigator.push(
+      Book book = parent.books[0];
+      try {
+        parent.books.firstWhere(
+          (b) => b.bookId == song.book,
+          orElse: () => parent.books[0],
+        );
+      } catch (e) {
+        logger('Failed to get the book: $e');
+      }
+
+      bool? result = await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => PresentorScreen(
             song: song,
-            book: widget.parent.books.firstWhere(
-              (b) => b.bookId == song.book,
-              orElse: () => widget.parent.books[0],
-            ),
-            songs: widget.parent.songs,
+            book: book,
+            songs: parent.songs,
           ),
         ),
       );
+
+      if (result == true) {
+        bloc.add(FilterData(book));
+      }
     }
   }
 
   void _onSearch(String query) {
     setState(() {
       parent.filtered = query.isEmpty
-          ? widget.parent.songs
-          : filterSongsByQuery(query.toLowerCase(), widget.parent.songs);
+          ? parent.songs
+          : filterSongsByQuery(query.toLowerCase(), parent.songs);
     });
   }
 
@@ -74,7 +87,7 @@ class _SongsScreenState extends State<SongsScreen> {
         : SingleChildScrollView(
             child: Column(
               children: [
-                BooksList(books: widget.parent.books, selectedBook: 0),
+                BooksList(books: parent.books, selectedBook: 0),
                 SongsList(
                   selectedSong: parent.selectedSong,
                   songs: parent.filtered,
@@ -99,7 +112,7 @@ class _SongsScreenState extends State<SongsScreen> {
             body: Column(
               children: [
                 BooksList(
-                  books: widget.parent.books,
+                  books: parent.books,
                   selectedBook: parent.selectedBook,
                 ),
                 SongsList(
@@ -110,7 +123,11 @@ class _SongsScreenState extends State<SongsScreen> {
               ],
             ),
           ).width(dimens.maxWidth / 2.2),
-          SongViewer(song: parent.selectedSong).expanded(),
+          SongViewer(
+            song: parent.selectedSong,
+            books: parent.books,
+            songs: parent.songs,
+          ).expanded(),
         ],
       );
     });
