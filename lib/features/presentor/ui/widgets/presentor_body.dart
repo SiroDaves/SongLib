@@ -35,6 +35,7 @@ class PresentorBodyState extends State<PresentorBody> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    bool isBigScreen = size.shortestSide > 550;
     l10n = AppLocalizations.of(context)!;
     String bgImage = Theme.of(context).brightness == Brightness.light
         ? AppAssets.imgBg
@@ -52,7 +53,8 @@ class PresentorBodyState extends State<PresentorBody> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(parent.songTitle),
+          title: Text(
+              parent.songTitle + (isBigScreen ? ' - ${parent.songBook}' : '')),
           actions: [
             Tooltip(
               message: song.liked ? l10n.songDislike : l10n.songLike,
@@ -72,10 +74,10 @@ class PresentorBodyState extends State<PresentorBody> {
           ),
           child: PresentorDetails(
             parent: parent,
-            isBigScreen: size.shortestSide > 550,
+            isBigScreen: !isBigScreen,
           ),
         ),
-        floatingActionButton: size.shortestSide > 550
+        floatingActionButton: isBigScreen
             ? const SizedBox.shrink()
             : PresentorFabWidget(song: song),
       ),

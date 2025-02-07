@@ -21,6 +21,7 @@ class PresentorDetails extends StatelessWidget {
             contents: parent.widgetContent,
             tabsWidth: size.height * 0.08156,
             indicatorWidth: size.height * 0.08156,
+            isBigScreen: isBigScreen,
             contentScrollAxis:
                 parent.slideHorizontal ? Axis.horizontal : Axis.vertical,
           )

@@ -8,12 +8,15 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../common/data/models/models.dart';
+import '../../../common/repository/pref_repository.dart';
 import '../../../common/utils/app_util.dart';
 import '../../../common/utils/constants/app_assets.dart';
+import '../../../common/utils/constants/pref_constants.dart';
 import '../../../common/widgets/action/fab_widget.dart';
 import '../../../common/widgets/presentor/presentor_animate.dart';
 import '../../../common/widgets/progress/custom_snackbar.dart';
 import '../../../common/widgets/progress/general_progress.dart';
+import '../../../core/di/injectable.dart';
 import '../../../core/theme/theme_colors.dart';
 import '../bloc/presentor_bloc.dart';
 import '../common/presentor_intents.dart';
@@ -44,6 +47,7 @@ class PresentorScreen extends StatefulWidget {
 
 class PresentorScreenState extends State<PresentorScreen> {
   late AppLocalizations l10n;
+  late PrefRepository _prefrepo;
   late SongExt song;
   late String songTitle, songBook;
   bool hasChorus = false, likeChanged = false, slideHorizontal = false;
@@ -55,10 +59,12 @@ class PresentorScreenState extends State<PresentorScreen> {
   @override
   void initState() {
     super.initState();
+    _prefrepo = getIt<PrefRepository>();
     song = widget.song;
     if (song.content.contains("CHORUS")) {
       hasChorus = true;
     }
+    slideHorizontal = _prefrepo.getPrefBool(PrefConstants.slideHorizontalKey);
     songTitle = songItemTitle(song.songNo, widget.song.title);
     songBook = refineTitle(song.songbook);
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
