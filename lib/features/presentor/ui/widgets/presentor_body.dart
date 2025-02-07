@@ -1,27 +1,15 @@
 part of '../presentor_screen.dart';
 
 class PresentorBody extends StatelessWidget {
-  final String bgImage;
-  final List<Tab> widgetTabs;
-  final List<Widget> widgetContent;
-  final bool slideHorizontal;
-  final int curSlide;
-  final String songBook;
-
-  const PresentorBody({
-    super.key,
-    required this.bgImage,
-    required this.widgetTabs,
-    required this.widgetContent,
-    required this.slideHorizontal,
-    required this.curSlide,
-    required this.songBook,
-  });
+  final PresentorScreenState parent;
+  const PresentorBody({super.key, required this.parent});
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
+    String bgImage = Theme.of(context).brightness == Brightness.light
+        ? AppAssets.imgBg
+        : AppAssets.imgBgBw;
     var presentation = DecoratedBox(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -29,16 +17,16 @@ class PresentorBody extends StatelessWidget {
           fit: BoxFit.cover,
         ),
       ),
-      child: widgetTabs.isNotEmpty
+      child: parent.widgetTabs.isNotEmpty
           ? PresentorView(
-              index: curSlide,
-              songbook: songBook,
-              tabs: widgetTabs,
-              contents: widgetContent,
+              index: parent.currentSlide,
+              songbook: parent.songBook,
+              tabs: parent.widgetTabs,
+              contents: parent.widgetContent,
               tabsWidth: size.height * 0.08156,
               indicatorWidth: size.height * 0.08156,
               contentScrollAxis:
-                  slideHorizontal ? Axis.horizontal : Axis.vertical,
+                  parent.slideHorizontal ? Axis.horizontal : Axis.vertical,
             )
           : SizedBox(
               height: size.height,
@@ -50,7 +38,6 @@ class PresentorBody extends StatelessWidget {
         SingleActivator(LogicalKeyboardKey.escape): CloseIntent(),
         SingleActivator(LogicalKeyboardKey.arrowUp): PreviousIntent(),
         SingleActivator(LogicalKeyboardKey.arrowDown): NextIntent(),
-        SingleActivator(LogicalKeyboardKey.keyC): ChorusIntent(),
         SingleActivator(LogicalKeyboardKey.numpad1): VerseOneIntent(),
         SingleActivator(LogicalKeyboardKey.digit1): VerseOneIntent(),
         SingleActivator(LogicalKeyboardKey.numpad2): VerseTwoIntent(),
@@ -65,120 +52,58 @@ class PresentorBody extends StatelessWidget {
         SingleActivator(LogicalKeyboardKey.digit6): VerseSixIntent(),
         SingleActivator(LogicalKeyboardKey.numpad7): VerseSevenIntent(),
         SingleActivator(LogicalKeyboardKey.digit7): VerseSevenIntent(),
+        SingleActivator(LogicalKeyboardKey.keyC): ChorusIntent(),
         SingleActivator(LogicalKeyboardKey.keyL): VerseLastIntent(),
         SingleActivator(LogicalKeyboardKey.keyS): VerseSecondLastIntent(),
-        //SingleActivator(LogicalKeyboardKey.arrowRight): BiggerFontIntent(),
-        //SingleActivator(LogicalKeyboardKey.arrowLeft): SmallerFontIntent(),
       },
       child: Actions(
         actions: <Type, Action<Intent>>{
           CloseIntent: CallbackAction<CloseIntent>(
-            onInvoke: (CloseIntent intent) => {},//vm.navigator.goBack(),
+            onInvoke: (CloseIntent intent) => Navigator.pop(context, true),
           ),
           PreviousIntent: CallbackAction<PreviousIntent>(
-            onInvoke: (PreviousIntent intent) => {
-              //if (vm.curSlide != 0)
-              //  setState(() => vm.curSlide = vm.curSlide - 1),
-            },
+            onInvoke: (PreviousIntent intent) => parent.setPreviousSlide,
           ),
           NextIntent: CallbackAction<NextIntent>(
-            onInvoke: (NextIntent intent) => {
-              //if (vm.curSlide < vm.widgetContent.length)
-              //  setState(() => vm.curSlide = vm.curSlide + 1),
-            },
-          ),
-          ChorusIntent: CallbackAction<ChorusIntent>(
-            onInvoke: (ChorusIntent intent) => {
-              //if (vm.hasChorus) setState(() => vm.curSlide = 1),
-            },
+            onInvoke: (NextIntent intent) => parent.setNextSlide,
           ),
           VerseOneIntent: CallbackAction<VerseOneIntent>(
-            onInvoke: (VerseOneIntent intent) =>
-               {}// setState(() => vm.curSlide = 0),
+            onInvoke: (VerseOneIntent intent) => parent.setSlideByNumber(1),
           ),
           VerseTwoIntent: CallbackAction<VerseTwoIntent>(
-            onInvoke: (VerseTwoIntent intent) => {
-              /*if (vm.hasChorus && vm.widgetContent.length >= 3)
-                setState(() => vm.curSlide = 2)
-              else if (vm.widgetContent.length >= 2)
-                setState(() => vm.curSlide = 1)*/
-            },
+            onInvoke: (VerseTwoIntent intent) => parent.setSlideByNumber(2),
           ),
           VerseThreeIntent: CallbackAction<VerseThreeIntent>(
-            onInvoke: (VerseThreeIntent intent) => {
-              /*if (vm.hasChorus && vm.widgetContent.length >= 5)
-                setState(() => vm.curSlide = 4)
-              else if (vm.widgetContent.length >= 3)
-                setState(() => vm.curSlide = 2)*/
-            },
+            onInvoke: (VerseThreeIntent intent) => parent.setSlideByNumber(3),
           ),
           VerseFourIntent: CallbackAction<VerseFourIntent>(
-            onInvoke: (VerseFourIntent intent) => {
-              /*if (vm.hasChorus && vm.widgetContent.length >= 7)
-                setState(() => vm.curSlide = 6)
-              else if (vm.widgetContent.length >= 2)
-                setState(() => vm.curSlide = 3)*/
-            },
+            onInvoke: (VerseFourIntent intent) => parent.setSlideByNumber(4),
           ),
           VerseFiveIntent: CallbackAction<VerseFiveIntent>(
-            onInvoke: (VerseFiveIntent intent) => {
-              /*if (vm.hasChorus && vm.widgetContent.length >= 9)
-                setState(() => vm.curSlide = 8)
-              else if (vm.widgetContent.length >= 5)
-                setState(() => vm.curSlide = 2)*/
-            },
+            onInvoke: (VerseFiveIntent intent) => parent.setSlideByNumber(5),
           ),
           VerseSixIntent: CallbackAction<VerseSixIntent>(
-            onInvoke: (VerseSixIntent intent) => {
-              /*if (vm.hasChorus && vm.widgetContent.length >= 11)
-                setState(() => vm.curSlide = 10)
-              else if (vm.widgetContent.length >= 6)
-                setState(() => vm.curSlide = 5)*/
-            },
+            onInvoke: (VerseSixIntent intent) => parent.setSlideByNumber(6),
           ),
           VerseSevenIntent: CallbackAction<VerseSevenIntent>(
-            onInvoke: (VerseSevenIntent intent) => {
-              /*if (vm.hasChorus && vm.widgetContent.length >= 13)
-                setState(() => vm.curSlide = 12)
-              else if (vm.widgetContent.length >= 7)
-                setState(() => vm.curSlide = 6)*/
+            onInvoke: (VerseSevenIntent intent) => parent.setSlideByNumber(7),
+          ),
+          ChorusIntent: CallbackAction<ChorusIntent>(
+            onInvoke: (ChorusIntent intent) => parent.setSlideByLetter('C'),
+          ),
+          VerseSecondLastIntent: CallbackAction<VerseSecondLastIntent>(
+            onInvoke: (VerseSecondLastIntent intent) {
+              return parent.setSlideByLetter('S');
             },
           ),
           VerseLastIntent: CallbackAction<VerseLastIntent>(
-            onInvoke: (VerseLastIntent intent) => {
-              /*if (vm.hasChorus)
-                setState(() => vm.curSlide = vm.widgetContent.length - 2)
-              else
-                setState(() => vm.curSlide = vm.widgetContent.length - 1)*/
-            },
-          ),
-          VerseSecondLastIntent: CallbackAction<VerseSecondLastIntent>(
-            onInvoke: (VerseSecondLastIntent intent) => {
-              /*if (vm.hasChorus)
-                setState(() => vm.curSlide = vm.widgetContent.length - 4)
-              else
-                setState(() => vm.curSlide = vm.widgetContent.length - 2)*/
-            },
+            onInvoke: (VerseLastIntent intent) => parent.setSlideByLetter('L'),
           ),
           SmallerFontIntent: CallbackAction<SmallerFontIntent>(
-            onInvoke: (SmallerFontIntent intent) {
-              /*if (vm.fSize > 5) {
-                setState(() => vm.curSlide = 0);
-                setState(() => vm.fSize = vm.fSize - 3);
-                vm.loadPresentor();
-              }
-              return null;*/
-            },
+            onInvoke: (SmallerFontIntent intent) => null,
           ),
           BiggerFontIntent: CallbackAction<BiggerFontIntent>(
-            onInvoke: (BiggerFontIntent intent) {
-              /*if (vm.fSize < 100) {
-                setState(() => vm.curSlide = 0);
-                setState(() => vm.fSize = vm.fSize + 3);
-                vm.loadPresentor();
-              }
-              return null;*/
-            },
+            onInvoke: (BiggerFontIntent intent) => null,
           ),
         },
         child: Focus(autofocus: true, child: presentation),

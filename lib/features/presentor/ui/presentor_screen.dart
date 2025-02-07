@@ -15,6 +15,7 @@ import '../../../common/widgets/progress/custom_snackbar.dart';
 import '../../../core/theme/theme_colors.dart';
 import '../common/presentor_intents.dart';
 import '../common/presentor_utils.dart';
+import '../common/slide_utils.dart';
 
 part 'widgets/presentor_view.dart';
 part 'widgets/fab_widget.dart';
@@ -35,32 +36,27 @@ class PresentorScreen extends StatefulWidget {
   });
 
   @override
-  State<PresentorScreen> createState() => _PresentorScreenState();
+  State<PresentorScreen> createState() => PresentorScreenState();
 }
 
-class _PresentorScreenState extends State<PresentorScreen> {
-  bool likeChanged = false;
+class PresentorScreenState extends State<PresentorScreen> {
   late AppLocalizations l10n;
-  late List<String> songVerses;
-  late List<Tab> widgetTabs;
-  late List<Widget> widgetContent;
   late String songTitle, songBook;
-  bool slideHorizontal = false;
-  int curSlide = 0;
+  bool hasChorus = false, likeChanged = false, slideHorizontal = false;
+  List<String> songVerses = [];
+  List<Tab> widgetTabs = [];
+  List<Widget> widgetContent = [];
+  int currentSlide = 0;
 
   @override
   void initState() {
     super.initState();
-    _initialize();
-  }
-
-  void _initialize() {
+    if (widget.song.content.contains("CHORUS")) {
+      hasChorus = true;
+    }
     l10n = AppLocalizations.of(context)!;
     songTitle = songItemTitle(widget.song.songNo, widget.song.title);
     songBook = refineTitle(widget.song.songbook);
-    songVerses = [];
-    widgetTabs = [];
-    widgetContent = [];
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
       DesktopWindow.setFullScreen(true);
     }
@@ -72,6 +68,30 @@ class _PresentorScreenState extends State<PresentorScreen> {
       DesktopWindow.setFullScreen(false);
     }
     super.dispose();
+  }
+
+  void setSlideByNumber(int slide) {
+    setState(() {
+      currentSlide = getSlideByNumber(slide, hasChorus, widgetContent.length);
+    });
+  }
+
+  void setSlideByLetter(String slide) {
+    setState(() {
+      currentSlide = getSlideByLetter(slide, hasChorus, widgetContent.length);
+    });
+  }
+
+  void setPreviousSlide() {
+    if (currentSlide != 0) {
+      setState(() => currentSlide = currentSlide - 1);
+    }
+  }
+
+  void setNextSlide() {
+    if (currentSlide < widgetContent.length) {
+      setState(() => currentSlide = currentSlide + 1);
+    }
   }
 
   void _toggleLike() {
@@ -87,10 +107,6 @@ class _PresentorScreenState extends State<PresentorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String bgImage = Theme.of(context).brightness == Brightness.light
-        ? AppAssets.imgBg
-        : AppAssets.imgBgBw;
-
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (bool didPop, dynamic result) async {
@@ -113,14 +129,7 @@ class _PresentorScreenState extends State<PresentorScreen> {
             ),
           ],
         ),
-        body: PresentorBody(
-          bgImage: bgImage,
-          widgetTabs: widgetTabs,
-          widgetContent: widgetContent,
-          slideHorizontal: slideHorizontal,
-          curSlide: curSlide,
-          songBook: songBook,
-        ),
+        body: PresentorBody(parent: this),
         floatingActionButton: PresentorFabWidget(song: widget.song),
       ),
     );
