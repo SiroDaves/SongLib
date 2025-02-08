@@ -32,6 +32,10 @@ class ThemeColors {
   static const accent2 = Color(0xFFBEA264);
   static const accent3 = Color(0xFFFFB74D);
 
+  static bool isLightTheme(BuildContext context) {
+    return MediaQuery.platformBrightnessOf(context) == Brightness.light;
+  }
+
   static Color foreColorPrimary(BuildContext context) {
     return Theme.of(context).brightness == Brightness.light
         ? Colors.white

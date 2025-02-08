@@ -35,7 +35,6 @@ class SettingsScreenState extends State<SettingsScreen> {
 
   bool updateFound = false, slideVertically = true;
   late AppLocalizations l10n;
-
   String appTheme = '';
 
   @override
@@ -98,7 +97,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                 subtitle: Text(l10n.songPresentationDesc),
                 trailing: Switch(
                   value: slideVertically,
-                  onChanged: (value) => updateSlideAxis,
+                  onChanged: (value) => updateSlideAxis(value),
                 ),
                 onTap: () => updateSlideAxis(!slideVertically),
               ),
@@ -128,6 +127,7 @@ class SettingsScreenState extends State<SettingsScreen> {
 
   Future<void> updateSlideAxis(bool value) async {
     _prefRepo.setPrefBool(PrefConstants.slideVerticallyKey, value);
+    setState(() => slideVertically = value);
   }
 
   Future<void> onResetData() async {

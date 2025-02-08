@@ -42,6 +42,9 @@ class SearchSongItem extends StatelessWidget {
     }
 
     versesText = verses.length == 1 ? versesText : '${versesText}s';
+    var foreColor = Theme.of(context).colorScheme.brightness == Brightness.light
+        ? ThemeColors.accent1
+        : ThemeColors.primaryDark1;
 
     var btnContents = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,9 +53,7 @@ class SearchSongItem extends StatelessWidget {
           Text(
             songItemTitle(song.songNo, song.title),
             maxLines: 1,
-            style: TextStyles.headingStyle3.textColor(
-              ThemeColors.foreColorBW(context),
-            ),
+            style: TextStyles.headingStyle3.textColor(foreColor),
           ).expanded(),
           if (isSearching) ...[
             TagItem(tagText: refineTitle(song.songbook), height: height),
@@ -61,20 +62,16 @@ class SearchSongItem extends StatelessWidget {
           if (hasChorus) TagItem(tagText: chorusText, height: height),
           Icon(
             song.liked ? Icons.favorite : Icons.favorite_border,
-            color: ThemeColors.foreColorBW(context),
+            color: foreColor,
           )
         ].toRow(),
         const SizedBox(height: 3),
-        Divider(color: ThemeColors.foreColorPrimary1(context), height: 1),
+        Divider(color: foreColor, height: 1),
         [
           Text(
             refineContent(verses[0]),
             maxLines: 2,
-            style: TextStyles.bodyStyle2
-                .textColor(
-                  ThemeColors.foreColorBW(context),
-                )
-                .textHeight(1.5),
+            style: TextStyles.bodyStyle2.textColor(foreColor).textHeight(1.5),
           ).expanded(),
         ].toRow(),
       ],
