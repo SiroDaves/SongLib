@@ -27,7 +27,7 @@ part 'widgets/presentor_view.dart';
 part 'widgets/fab_widget.dart';
 part 'widgets/presentor_body.dart';
 part 'widgets/presentor_details.dart';
-part 'widgets/presentor_widget.dart';
+part 'widgets/indicator_container.dart';
 
 class PresentorScreen extends StatefulWidget {
   final SongExt song;
@@ -47,7 +47,6 @@ class PresentorScreen extends StatefulWidget {
 
 class PresentorScreenState extends State<PresentorScreen> {
   late AppLocalizations l10n;
-  late PrefRepository _prefrepo;
   late SongExt song;
   late String songTitle, songBook;
   bool hasChorus = false, likeChanged = false, slideVertically = true;
@@ -59,12 +58,10 @@ class PresentorScreenState extends State<PresentorScreen> {
   @override
   void initState() {
     super.initState();
-    _prefrepo = getIt<PrefRepository>();
     song = widget.song;
     if (song.content.contains("CHORUS")) {
       hasChorus = true;
     }
-    slideVertically = _prefrepo.getPrefBool(PrefConstants.slideVerticallyKey);
     songTitle = songItemTitle(song.songNo, widget.song.title);
     songBook = refineTitle(song.songbook);
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {

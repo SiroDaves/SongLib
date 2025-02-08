@@ -9,6 +9,7 @@ import 'package:styled_widget/styled_widget.dart';
 import '../../../../common/utils/app_util.dart';
 import '../../../common/repository/database_repository.dart';
 import '../../../common/repository/pref_repository.dart';
+import '../../../common/utils/constants/pref_constants.dart';
 import '../../../common/widgets/inputs/radio_input.dart';
 import '../../../common/widgets/progress/custom_snackbar.dart';
 import '../../../common/widgets/progress/general_progress.dart';
@@ -32,7 +33,7 @@ class SettingsScreenState extends State<SettingsScreen> {
   late PrefRepository _prefRepo;
   late DatabaseRepository _dbRepo;
 
-  bool updateFound = false, isTabletOrIpad = false;
+  bool updateFound = false, slideVertically = true;
   late AppLocalizations l10n;
 
   String appTheme = '';
@@ -44,6 +45,7 @@ class SettingsScreenState extends State<SettingsScreen> {
     _dbRepo = getIt<DatabaseRepository>();
     _themeBloc = context.read<ThemeBloc>();
     appTheme = getThemeModeString(_prefRepo.getThemeMode());
+    slideVertically = _prefRepo.getPrefBool(PrefConstants.slideVerticallyKey);
   }
 
   void onThemeChanged(ThemeMode themeMode) {
@@ -54,6 +56,7 @@ class SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     l10n = AppLocalizations.of(context)!;
+
     return BlocProvider(
       create: (context) => SettingsBloc()..add(SettingsInit()),
       child: BlocConsumer<SettingsBloc, SettingsState>(
@@ -93,7 +96,11 @@ class SettingsScreenState extends State<SettingsScreen> {
                 leading: Icon(Icons.slideshow),
                 title: Text(l10n.songPresentation),
                 subtitle: Text(l10n.songPresentationDesc),
-                onTap: onResetData,
+                trailing: Switch(
+                  value: slideVertically,
+                  onChanged: (value) => updateSlideAxis,
+                ),
+                onTap: () => updateSlideAxis(!slideVertically),
               ),
             ),
           ];
@@ -117,6 +124,10 @@ class SettingsScreenState extends State<SettingsScreen> {
         },
       ),
     );
+  }
+
+  Future<void> updateSlideAxis(bool value) async {
+    _prefRepo.setPrefBool(PrefConstants.slideVerticallyKey, value);
   }
 
   Future<void> onResetData() async {
