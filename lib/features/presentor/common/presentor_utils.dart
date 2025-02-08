@@ -60,7 +60,7 @@ Future<PresentorModel> loadSong(SongExt song) async {
       );
     }
     for (final verse in verseTexts) {
-      widgetContent.add(PresentorText(
+      widgetContent.add(SliderTextWidget(
         lyrics: verse,
         onDoubleTap: () => Share.share(
           '${verse.replaceAll("#", "\n")}\n\n${songTitle},\n${songBook}',

@@ -12,7 +12,6 @@ class PresentorView extends StatefulWidget {
   final String songbook;
   final TextDirection direction;
   final Color indicatorColor;
-  final Axis contentScrollAxis;
   final Color tabBackgroundColor;
   final TextStyle selectedTabTextStyle;
   final TextStyle tabTextStyle;
@@ -30,7 +29,6 @@ class PresentorView extends StatefulWidget {
     this.indicatorSide,
     this.direction = TextDirection.ltr,
     this.indicatorColor = Colors.green,
-    this.contentScrollAxis = Axis.horizontal,
     this.tabBackgroundColor = const Color(0xfff8f8f8),
     this.selectedTabTextStyle = const TextStyle(color: Colors.black),
     this.tabTextStyle = const TextStyle(color: Colors.black38),
@@ -45,16 +43,23 @@ class PresentorView extends StatefulWidget {
 class _PresentorViewState extends State<PresentorView>
     with TickerProviderStateMixin {
   late int selectedIndex;
+  late PrefRepository _prefRepo;
   bool? changePageByTapView;
+  bool slideVertically = false;
   late PageController pageController;
   late List<AnimationController> animationControllers;
 
   @override
   void initState() {
     super.initState();
+    _prefRepo = getIt<PrefRepository>();
     selectedIndex = widget.index;
     pageController = PageController(initialPage: widget.index);
 
+    slideVertically = _prefRepo.getPrefBool(
+      PrefConstants.slideVerticallyKey,
+      defaultValue: true,
+    );
     animationControllers = List.generate(
       widget.tabs.length,
       (_) => AnimationController(
@@ -91,7 +96,7 @@ class _PresentorViewState extends State<PresentorView>
 
   @override
   Widget build(BuildContext context) {
-    var presentorTabBar = PresentorTabBar(
+    var indicatorContainer = IndicatorContainer(
       tabs: widget.tabs,
       selectedIndex: selectedIndex,
       direction: widget.direction,
@@ -114,6 +119,7 @@ class _PresentorViewState extends State<PresentorView>
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           PageView.builder(
+            scrollDirection: slideVertically ? Axis.vertical : Axis.horizontal,
             controller: pageController,
             physics: const AlwaysScrollableScrollPhysics(),
             itemCount: widget.contents.length,
@@ -126,7 +132,7 @@ class _PresentorViewState extends State<PresentorView>
             itemBuilder: (context, index) => widget.contents[index],
           ).expanded(),
           if (widget.isBigScreen) ...[
-            presentorTabBar,
+            indicatorContainer,
             PresentorSongBook(
               songbook: widget.songbook,
               tabsWidth: widget.tabsWidth,
@@ -134,7 +140,7 @@ class _PresentorViewState extends State<PresentorView>
           ] else ...[
             Align(
               alignment: Alignment.center,
-              child: presentorTabBar,
+              child: indicatorContainer,
             ),
             const SizedBox(height: 20),
           ],

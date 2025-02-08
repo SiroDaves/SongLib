@@ -13,7 +13,7 @@ class PresentorBodyState extends State<PresentorBody> {
   late AppLocalizations l10n;
   late PresentorScreenState parent;
   late SongExt song;
-  bool hasChorus = false, likeChanged = false, slideHorizontal = false;
+  bool hasChorus = false, likeChanged = false, isDarkTheme = false;
 
   @override
   void initState() {
@@ -37,9 +37,7 @@ class PresentorBodyState extends State<PresentorBody> {
     Size size = MediaQuery.of(context).size;
     bool isBigScreen = size.shortestSide > 550;
     l10n = AppLocalizations.of(context)!;
-    String bgImage = Theme.of(context).brightness == Brightness.light
-        ? AppAssets.imgBg
-        : AppAssets.imgBgBw;
+    isDarkTheme = Theme.of(context).brightness == Brightness.light;
 
     return PopScope(
       canPop: false,
@@ -65,18 +63,23 @@ class PresentorBodyState extends State<PresentorBody> {
             ),
           ],
         ),
-        body: DecoratedBox(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(bgImage),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: PresentorDetails(
-            parent: parent,
-            isBigScreen: !isBigScreen,
-          ),
-        ),
+        body: isDarkTheme
+            ? PresentorDetails(
+                parent: parent,
+                isBigScreen: !isBigScreen,
+              )
+            : DecoratedBox(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(AppAssets.imgBg),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: PresentorDetails(
+                  parent: parent,
+                  isBigScreen: !isBigScreen,
+                ),
+              ),
         floatingActionButton: isBigScreen
             ? const SizedBox.shrink()
             : PresentorFabWidget(song: song),

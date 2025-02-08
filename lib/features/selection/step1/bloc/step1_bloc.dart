@@ -87,12 +87,10 @@ class Step1Bloc extends Bloc<Step1Event, Step1State> {
         await _dbRepo.saveBook(book);
       }
       selectedBooks = selectedBooks.substring(0, selectedBooks.length - 1);
-      _prefRepo.setPrefString(
-        PrefConstants.selectedBooksKey,
-        selectedBooks,
-      );
+      _prefRepo.setPrefString(PrefConstants.selectedBooksKey, selectedBooks);
 
       _prefRepo.setPrefBool(PrefConstants.dataIsSelectedKey, true);
+      _prefRepo.setPrefBool(PrefConstants.slideVerticallyKey, true);
     } catch (e) {
       logger('Unable to save books: $e');
     }

@@ -13,7 +13,7 @@ abstract class PrefRepository {
 
   Future<void> updateThemeMode(ThemeMode themeMode);
 
-  bool getPrefBool(String settingsKey);
+  bool getPrefBool(String settingsKey, {bool defaultValue});
   int getPrefInt(String settingsKey);
   String getPrefString(String settingsKey);
 
@@ -71,8 +71,11 @@ class LocalStorageImp implements PrefRepository {
   }
 
   @override
-  bool getPrefBool(String settingsKey) {
-    return sharedPrefs.getBool(settingsKey) ?? false;
+  bool getPrefBool(String settingsKey, {bool defaultValue = false}) {
+    if (!sharedPrefs.containsKey(settingsKey)) {
+      setPrefBool(settingsKey, defaultValue);
+    }
+    return sharedPrefs.getBool(settingsKey) ?? defaultValue;
   }
 
   @override

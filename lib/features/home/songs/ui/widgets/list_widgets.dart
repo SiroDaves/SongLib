@@ -33,12 +33,14 @@ class BooksList extends StatelessWidget {
 class SongsList extends StatelessWidget {
   final List<SongExt> songs;
   final SongExt selectedSong;
+  final bool isBigScreen;
   final void Function(SongExt) onPressed;
   const SongsList({
     super.key,
     required this.songs,
     required this.selectedSong,
     required this.onPressed,
+    this.isBigScreen = true,
   });
 
   @override
@@ -54,7 +56,7 @@ class SongsList extends StatelessWidget {
         return SearchSongItem(
           song: song,
           height: 50,
-          isSelected: song == selectedSong,
+          isSelected: isBigScreen ? false : song == selectedSong,
           onPressed: () => onPressed(song),
         );
       },

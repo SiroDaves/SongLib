@@ -32,6 +32,10 @@ class ThemeColors {
   static const accent2 = Color(0xFFBEA264);
   static const accent3 = Color(0xFFFFB74D);
 
+  static bool isLightTheme(BuildContext context) {
+    return MediaQuery.platformBrightnessOf(context) == Brightness.light;
+  }
+
   static Color foreColorPrimary(BuildContext context) {
     return Theme.of(context).brightness == Brightness.light
         ? Colors.white
@@ -44,16 +48,28 @@ class ThemeColors {
         : ThemeColors.accent1;
   }
 
+  static Color foreColorPrimary2(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.light
+        ? ThemeColors.accent1
+        : ThemeColors.primaryDark1;
+  }
+
   static Color foreColorBW(BuildContext context) {
     return Theme.of(context).brightness == Brightness.light
         ? Colors.black
         : Colors.white;
   }
 
+  static Color foreColorWB(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.light
+        ? Colors.white
+        : Colors.black;
+  }
+
   static Color bgColorPrimary(BuildContext context) {
     return Theme.of(context).brightness == Brightness.light
-        ? ThemeColors.primaryDark1
-        : ThemeColors.primary;
+        ? ThemeColors.primary
+        : ThemeColors.primaryDark1;
   }
 
   static Color bgColorPrimary2(BuildContext context) {

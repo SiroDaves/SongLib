@@ -14,7 +14,7 @@ import '../../common/bloc/home_bloc.dart';
 import '../../common/ui/home_screen.dart';
 
 part 'widgets/song_viewer.dart';
-part 'widgets/books_list.dart';
+part 'widgets/list_widgets.dart';
 
 class SongsScreen extends StatefulWidget {
   final bool isBigScreen;

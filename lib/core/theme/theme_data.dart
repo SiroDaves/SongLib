@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 
+import '../../common/repository/pref_repository.dart';
+import '../../common/utils/app_util.dart';
+import '../di/injectable.dart';
 import 'theme_colors.dart';
 
 class AppTheme {
   AppTheme._();
+
+  static String currentTheme() {
+    var prefRepo = getIt<PrefRepository>();
+    return getThemeModeString(prefRepo.getThemeMode());
+  }
 
   static ThemeData lightTheme() {
     return ThemeData(
@@ -24,7 +32,6 @@ class AppTheme {
       appBarTheme: const AppBarTheme(
         backgroundColor: ThemeColors.primary,
         foregroundColor: ThemeColors.accent,
-        //shadowColor: Colors.black,
         elevation: 3,
       ),
       navigationBarTheme: const NavigationBarThemeData(
@@ -54,8 +61,6 @@ class AppTheme {
       appBarTheme: const AppBarTheme(
         backgroundColor: ThemeColors.primaryDark1,
         foregroundColor: Colors.white,
-        //shadowColor: Colors.black,
-        
         elevation: 3,
       ),
       navigationBarTheme: const NavigationBarThemeData(

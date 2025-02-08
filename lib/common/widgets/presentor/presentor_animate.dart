@@ -70,7 +70,7 @@ class PresentorContent extends StatelessWidget {
         width: width,
         margin: const EdgeInsets.all(5),
         decoration: BoxDecoration(
-          color: isSelected! ? Colors.transparent : ThemeColors.bgColorBW(context),
+          color: isSelected! ? ThemeColors.primaryDark1 : ThemeColors.accent1,
           borderRadius: const BorderRadius.all(
             Radius.circular(10),
           ),
@@ -97,7 +97,7 @@ class PresentorSongBook extends StatelessWidget {
       child: Text(
         songbook,
         style: TextStyle(
-          fontSize: tabsWidth / 2,
+          fontSize: tabsWidth / 2.5,
           color: Colors.white,
           fontWeight: FontWeight.bold,
         ),

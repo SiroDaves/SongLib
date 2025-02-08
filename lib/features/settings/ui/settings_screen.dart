@@ -4,15 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:styled_widget/styled_widget.dart';
 
 import '../../../../common/utils/app_util.dart';
 import '../../../common/repository/database_repository.dart';
 import '../../../common/repository/pref_repository.dart';
+import '../../../common/utils/constants/pref_constants.dart';
 import '../../../common/widgets/inputs/radio_input.dart';
 import '../../../common/widgets/progress/custom_snackbar.dart';
+import '../../../common/widgets/progress/general_progress.dart';
 import '../../../core/di/injectable.dart';
 import '../../../core/navigator/route_names.dart';
 import '../../../core/theme/bloc/theme_bloc.dart';
+import '../../../core/theme/theme_data.dart';
+import '../../../core/theme/theme_fonts.dart';
 import '../../../core/theme/theme_styles.dart';
 import '../bloc/settings_bloc.dart';
 
@@ -29,9 +34,8 @@ class SettingsScreenState extends State<SettingsScreen> {
   late PrefRepository _prefRepo;
   late DatabaseRepository _dbRepo;
 
-  bool updateFound = false, isTabletOrIpad = false;
+  bool updateFound = false, slideVertically = true;
   late AppLocalizations l10n;
-
   String appTheme = '';
 
   @override
@@ -40,7 +44,8 @@ class SettingsScreenState extends State<SettingsScreen> {
     _prefRepo = getIt<PrefRepository>();
     _dbRepo = getIt<DatabaseRepository>();
     _themeBloc = context.read<ThemeBloc>();
-    appTheme = getThemeModeString(_prefRepo.getThemeMode());
+    appTheme = AppTheme.currentTheme();
+    slideVertically = _prefRepo.getPrefBool(PrefConstants.slideVerticallyKey);
   }
 
   void onThemeChanged(ThemeMode themeMode) {
@@ -51,42 +56,79 @@ class SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     l10n = AppLocalizations.of(context)!;
-    var bodyWidget = BlocProvider(
+
+    return BlocProvider(
       create: (context) => SettingsBloc()..add(SettingsInit()),
       child: BlocConsumer<SettingsBloc, SettingsState>(
         listener: (context, state) {},
         builder: (context, state) {
-          return ListView(
-            children: [
-              Card(
-                margin: EdgeInsets.all(Sizes.sm),
-                child: ListTile(
-                  leading: Icon(Icons.color_lens),
-                  title: const Text('App Theme'),
-                  subtitle: Text('Current Theme: $appTheme'),
-                  onTap: () => selectThemeDialog(context),
-                ),
+          var widgets = [
+            Text(
+              l10n.displayTitle,
+              style: TextStyles.headingStyle3,
+            ).padding(left: Sizes.sm, top: Sizes.sm),
+            Card(
+              child: ListTile(
+                leading: Icon(Icons.color_lens),
+                title: Text(l10n.appTheme),
+                subtitle: Text('${l10n.appThemeDesc} $appTheme'),
+                onTap: () => selectThemeDialog(context),
               ),
-              Card(
-                margin: EdgeInsets.all(Sizes.sm),
-                child: ListTile(
-                  leading: Icon(Icons.color_lens),
-                  title: const Text('Select songbooks afresh'),
-                  subtitle:
-                      const Text('Restructure your collection once again'),
-                  onTap: onResetData,
-                ),
+            ),
+            Text(
+              l10n.collectionTitle,
+              style: TextStyles.headingStyle3,
+            ).padding(left: Sizes.sm, top: Sizes.sm),
+            Card(
+              child: ListTile(
+                leading: Icon(Icons.library_books),
+                title: Text(l10n.reselectSongbooks),
+                subtitle: Text(l10n.reselectSongbooksDesc),
+                onTap: onResetData,
               ),
-            ],
+            ),
+            Text(
+              l10n.presentationTitle,
+              style: TextStyles.headingStyle3,
+            ).padding(left: Sizes.sm, top: Sizes.sm),
+            Card(
+              child: ListTile(
+                leading: Icon(Icons.slideshow),
+                title: Text(l10n.songPresentation),
+                subtitle: Text(l10n.songPresentationDesc),
+                trailing: Switch(
+                  value: slideVertically,
+                  onChanged: (value) => updateSlideAxis(value),
+                ),
+                onTap: () => updateSlideAxis(!slideVertically),
+              ),
+            ),
+          ];
+
+          return state.maybeWhen(
+            failure: (feedback) => Scaffold(body: EmptyState(title: feedback)),
+            orElse: () => Scaffold(
+              appBar: AppBar(title: Text(l10n.appSettings)),
+              body: ListView.separated(
+                itemCount: widgets.length,
+                physics: const ClampingScrollPhysics(),
+                shrinkWrap: true,
+                separatorBuilder: (_, __) => const SizedBox(height: Sizes.xs),
+                padding: const EdgeInsets.all(Sizes.sm),
+                itemBuilder: (context, index) {
+                  return widgets[index];
+                },
+              ),
+            ),
           );
         },
       ),
     );
+  }
 
-    return Scaffold(
-      appBar: AppBar(title: Text('App Settings')),
-      body: bodyWidget,
-    );
+  Future<void> updateSlideAxis(bool value) async {
+    _prefRepo.setPrefBool(PrefConstants.slideVerticallyKey, value);
+    setState(() => slideVertically = value);
   }
 
   Future<void> onResetData() async {
@@ -131,6 +173,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                       onThemeChanged(ThemeMode.system);
                       break;
                   }
+                  appTheme = AppTheme.currentTheme();
                   Navigator.of(context).pop();
                 });
               },
