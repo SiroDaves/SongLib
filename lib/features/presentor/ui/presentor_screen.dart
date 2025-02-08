@@ -27,7 +27,7 @@ part 'widgets/presentor_view.dart';
 part 'widgets/fab_widget.dart';
 part 'widgets/presentor_body.dart';
 part 'widgets/presentor_details.dart';
-part 'widgets/presentor_tabbar.dart';
+part 'widgets/presentor_widget.dart';
 
 class PresentorScreen extends StatefulWidget {
   final SongExt song;

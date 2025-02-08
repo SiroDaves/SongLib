@@ -1,6 +1,6 @@
 part of '../presentor_screen.dart';
 
-class PresentorTabBar extends StatelessWidget {
+class PresentorWidget extends StatelessWidget {
   final List<Tab> tabs;
   final int selectedIndex;
   final TextDirection direction;
@@ -9,7 +9,7 @@ class PresentorTabBar extends StatelessWidget {
   final List<AnimationController> animationControllers;
   final ValueChanged<int> onTabSelected;
 
-  const PresentorTabBar({
+  const PresentorWidget({
     super.key,
     required this.tabs,
     required this.selectedIndex,

@@ -91,7 +91,7 @@ class _PresentorViewState extends State<PresentorView>
 
   @override
   Widget build(BuildContext context) {
-    var presentorTabBar = PresentorTabBar(
+    var presentorWidget = PresentorWidget(
       tabs: widget.tabs,
       selectedIndex: selectedIndex,
       direction: widget.direction,
@@ -126,7 +126,7 @@ class _PresentorViewState extends State<PresentorView>
             itemBuilder: (context, index) => widget.contents[index],
           ).expanded(),
           if (widget.isBigScreen) ...[
-            presentorTabBar,
+            presentorWidget,
             PresentorSongBook(
               songbook: widget.songbook,
               tabsWidth: widget.tabsWidth,
@@ -134,7 +134,7 @@ class _PresentorViewState extends State<PresentorView>
           ] else ...[
             Align(
               alignment: Alignment.center,
-              child: presentorTabBar,
+              child: presentorWidget,
             ),
             const SizedBox(height: 20),
           ],
