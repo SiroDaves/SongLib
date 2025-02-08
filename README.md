@@ -105,10 +105,17 @@ Follow this guide to set up and run SongLib:
     - Run "xcrun altool --upload-app --type ios -f build/ios/ipa/*.ipa --apiKey your_api_key --apiIssuer your_issuer_id".
        See "man altool" for details about how to authenticate with the App Store Connect API key.
         
-2. **Windows:**
+3. **Windows:**
 
     ```
     flutter build windows --target=lib/main_prod.dart
+    ```
+        
+4. **All the mobile builds:**
+
+    ```
+    flutter build appbundle --flavor production -t lib/main_prod.dart --no-tree-shake-icons
+    flutter build ipa -t lib/main_prod.dart --no-tree-shake-icons
     ```
 
 ---
