@@ -7,9 +7,6 @@ import 'dart:developer' as logging show log;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
-bool isDesktop = Platform.isWindows || Platform.isLinux || Platform.isMacOS;
-bool isMobile = Platform.isAndroid || Platform.isIOS || Platform.isFuchsia;
-
 void logger(String message) {
   return logging.log('''
 $message
@@ -29,15 +26,6 @@ String getThemeModeString(ThemeMode themeMode) {
   }
 }
 
-/// Function to update a dropdown value by checking if the new value exists in the current list of values in the dropdown
-dynamic updateValue(dynamic newValue, List<dynamic> values) {
-  if (values.contains(newValue)) {
-    return newValue;
-  } else {
-    return values[0];
-  }
-}
-
 /// Filter out unwanted characters
 String? filterString(String input) {
   RegExp regex = RegExp(r': (.+?) :');
@@ -45,7 +33,7 @@ String? filterString(String input) {
   if (match != null && match.groupCount >= 1) {
     return match.group(1);
   }
-  return input; // Return original string if no match found
+  return input;
 }
 
 String feedbackMessage(String code, AppLocalizations tr) {
@@ -199,7 +187,7 @@ List<String> generateDropDownItems({
 
 String capitalize(String? str) {
   if (str == null || str.isEmpty) {
-    return ''; // Return an empty string if the input is null or empty
+    return ''; 
   }
   return str.substring(0, 1).toUpperCase() + str.substring(1);
 }
@@ -219,8 +207,6 @@ String truncateString(int cutoff, String myString) {
       return myString.trim();
     }
   } catch (e) {
-    // ignore: avoid_print
-    print(e);
     return myString.trim();
   }
 }

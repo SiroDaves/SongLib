@@ -33,12 +33,12 @@ class PresentorInfo extends StatelessWidget {
   }
 }
 
-class PresentorText extends StatelessWidget {
+class SliderTextWidget extends StatelessWidget {
   final String lyrics;
   final Function()? onDoubleTap;
   final Function()? onLongPress;
 
-  const PresentorText({
+  const SliderTextWidget({
     super.key,
     required this.lyrics,
     this.onDoubleTap,
@@ -53,11 +53,7 @@ class PresentorText extends StatelessWidget {
       size.height - 500,
       size.width,
     );
-
-    var bgColor = Theme.of(context).brightness == Brightness.light
-        ? Colors.white
-        : Colors.black;
-
+    
     return GestureDetector(
       onDoubleTap: onDoubleTap,
       onLongPress: onLongPress,
@@ -67,7 +63,6 @@ class PresentorText extends StatelessWidget {
         child: Card(
           elevation: 5,
           shadowColor: Colors.black,
-          color: bgColor,
           child: Center(
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),

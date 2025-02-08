@@ -6,6 +6,9 @@ import 'package:path_provider/path_provider.dart';
 
 import '../app_util.dart';
 
+bool isDesktop = Platform.isWindows || Platform.isLinux || Platform.isMacOS;
+bool isMobile = Platform.isAndroid || Platform.isIOS || Platform.isFuchsia;
+
 class AppConstants {
   AppConstants._();
   static String dbName = 'SongLib.db';

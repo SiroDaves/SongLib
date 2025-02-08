@@ -16,6 +16,7 @@ import '../../../common/widgets/progress/general_progress.dart';
 import '../../../core/di/injectable.dart';
 import '../../../core/navigator/route_names.dart';
 import '../../../core/theme/bloc/theme_bloc.dart';
+import '../../../core/theme/theme_data.dart';
 import '../../../core/theme/theme_fonts.dart';
 import '../../../core/theme/theme_styles.dart';
 import '../bloc/settings_bloc.dart';
@@ -43,7 +44,7 @@ class SettingsScreenState extends State<SettingsScreen> {
     _prefRepo = getIt<PrefRepository>();
     _dbRepo = getIt<DatabaseRepository>();
     _themeBloc = context.read<ThemeBloc>();
-    appTheme = getThemeModeString(_prefRepo.getThemeMode());
+    appTheme = AppTheme.currentTheme();
     slideVertically = _prefRepo.getPrefBool(PrefConstants.slideVerticallyKey);
   }
 
@@ -172,6 +173,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                       onThemeChanged(ThemeMode.system);
                       break;
                   }
+                  appTheme = AppTheme.currentTheme();
                   Navigator.of(context).pop();
                 });
               },

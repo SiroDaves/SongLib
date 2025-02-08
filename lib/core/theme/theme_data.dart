@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 
+import '../../common/repository/pref_repository.dart';
+import '../../common/utils/app_util.dart';
+import '../di/injectable.dart';
 import 'theme_colors.dart';
 
 class AppTheme {
   AppTheme._();
+
+  static String currentTheme() {
+    var prefRepo = getIt<PrefRepository>();
+    return getThemeModeString(prefRepo.getThemeMode());
+  }
 
   static ThemeData lightTheme() {
     return ThemeData(

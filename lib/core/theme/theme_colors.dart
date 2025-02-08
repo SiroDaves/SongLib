@@ -48,10 +48,22 @@ class ThemeColors {
         : ThemeColors.accent1;
   }
 
+  static Color foreColorPrimary2(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.light
+        ? ThemeColors.accent1
+        : ThemeColors.primaryDark1;
+  }
+
   static Color foreColorBW(BuildContext context) {
     return Theme.of(context).brightness == Brightness.light
         ? Colors.black
         : Colors.white;
+  }
+
+  static Color foreColorWB(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.light
+        ? Colors.white
+        : Colors.black;
   }
 
   static Color bgColorPrimary(BuildContext context) {
