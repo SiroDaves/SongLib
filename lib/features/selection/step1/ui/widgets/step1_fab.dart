@@ -2,7 +2,7 @@ part of '../step1_screen.dart';
 
 class Step1Fab extends StatefulWidget {
   final Step1ScreenState parent;
-  const Step1Fab({Key? key, required this.parent}) : super(key: key);
+  const Step1Fab({super.key, required this.parent});
 
   @override
   State<Step1Fab> createState() => Step1FabState();
@@ -11,6 +11,7 @@ class Step1Fab extends StatefulWidget {
 class Step1FabState extends State<Step1Fab> {
   late Step1ScreenState parent;
   late AppLocalizations l10n;
+  late Step1Bloc bloc;
 
   Future<void> areYouDoneDialog() async {
     if (parent.booksSelected.isNotEmpty) {
@@ -23,7 +24,7 @@ class Step1FabState extends State<Step1Fab> {
         positiveButtonTitle: l10n.proceed.toUpperCase(),
       );
       if (result == CustomButton.positiveButton) {
-        context.read<Step1Bloc>().add(SaveBooks('', parent.booksSelected));
+        bloc.add(SaveBooks('', parent.booksSelected));
       }
     } else {
       await FlutterPlatformAlert.showCustomAlert(
@@ -39,6 +40,7 @@ class Step1FabState extends State<Step1Fab> {
   @override
   Widget build(BuildContext context) {
     parent = widget.parent;
+    bloc = context.read<Step1Bloc>();
     l10n = AppLocalizations.of(context)!;
 
     return BlocBuilder<Step1Bloc, Step1State>(
@@ -47,7 +49,7 @@ class Step1FabState extends State<Step1Fab> {
           progress: () => const SizedBox.shrink(),
           failure: (feedback) => const SizedBox.shrink(),
           orElse: () => FloatingActionButton.extended(
-            backgroundColor:  ThemeColors.bgColorPrimary3(context),
+            backgroundColor: ThemeColors.bgColorPrimary3(context),
             onPressed: () => areYouDoneDialog(),
             label: Text(
               l10n.proceed.toUpperCase(),

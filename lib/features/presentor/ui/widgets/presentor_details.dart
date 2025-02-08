@@ -23,7 +23,7 @@ class PresentorDetails extends StatelessWidget {
             indicatorWidth: size.height * 0.08156,
             isBigScreen: isBigScreen,
             contentScrollAxis:
-                parent.slideHorizontal ? Axis.horizontal : Axis.vertical,
+                parent.slideVertically ? Axis.horizontal : Axis.vertical,
           )
         : SizedBox(
             height: size.height,

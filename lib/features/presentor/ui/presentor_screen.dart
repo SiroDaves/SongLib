@@ -50,7 +50,7 @@ class PresentorScreenState extends State<PresentorScreen> {
   late PrefRepository _prefrepo;
   late SongExt song;
   late String songTitle, songBook;
-  bool hasChorus = false, likeChanged = false, slideHorizontal = false;
+  bool hasChorus = false, likeChanged = false, slideVertically = true;
   List<String> songVerses = [];
   List<Tab> widgetTabs = [];
   List<Widget> widgetContent = [];
@@ -64,7 +64,7 @@ class PresentorScreenState extends State<PresentorScreen> {
     if (song.content.contains("CHORUS")) {
       hasChorus = true;
     }
-    slideHorizontal = _prefrepo.getPrefBool(PrefConstants.slideHorizontalKey);
+    slideVertically = _prefrepo.getPrefBool(PrefConstants.slideVerticallyKey);
     songTitle = songItemTitle(song.songNo, widget.song.title);
     songBook = refineTitle(song.songbook);
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
