@@ -73,10 +73,8 @@ class PresentorDetailsState extends State<PresentorDetails> {
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
       return Shortcuts(
         shortcuts: <ShortcutActivator, Intent>{
-          // Escape Key
           SingleActivator(LogicalKeyboardKey.escape): CloseIntent(),
 
-          // Arrow Keys for Navigation
           SingleActivator(LogicalKeyboardKey.arrowUp): PreviousIntent(),
           SingleActivator(LogicalKeyboardKey.arrowDown): NextIntent(),
 
@@ -96,7 +94,6 @@ class PresentorDetailsState extends State<PresentorDetails> {
           SingleActivator(LogicalKeyboardKey.numpad6): SlideNumberIntent(6),
           SingleActivator(LogicalKeyboardKey.numpad7): SlideNumberIntent(7),
 
-          // Letter Keys (Using CharacterActivator for macOS compatibility)
           CharacterActivator('c'): SlideLetterIntent('C'),
           CharacterActivator('s'): SlideLetterIntent('S'),
           CharacterActivator('l'): SlideLetterIntent('L'),
@@ -112,18 +109,12 @@ class PresentorDetailsState extends State<PresentorDetails> {
             NextIntent: CallbackAction<NextIntent>(
               onInvoke: (intent) => setNextSlide(),
             ),
-
-            // Handles Numbered Verses
             SlideNumberIntent: CallbackAction<SlideNumberIntent>(
               onInvoke: (intent) => setSlideByNumber(intent.slideNumber),
             ),
-
-            // Handles Letter-Based Navigation (Chorus, Last Verse, etc.)
             SlideLetterIntent: CallbackAction<SlideLetterIntent>(
               onInvoke: (intent) => setSlideByLetter(intent.letter),
             ),
-
-            // Font Size Control (No function yet)
             BiggerFontIntent: CallbackAction<BiggerFontIntent>(
               onInvoke: (intent) => null,
             ),

@@ -26,7 +26,7 @@ class LikesScreen extends StatelessWidget {
               return SearchSongItem(
                 song: like,
                 height: 50,
-                onPressed: () {
+                onTap: () {
                   Book book = books[0];
                   try {
                     book = books.firstWhere((b) => b.bookId == like.book);

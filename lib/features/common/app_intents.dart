@@ -34,3 +34,11 @@ class SmallerFontIntent extends Intent {
 class InfoIntent extends Intent {
   const InfoIntent();
 }
+
+class  SearchIntent extends Intent {
+  const SearchIntent();
+}
+
+class  OpenIntent extends Intent {
+  const OpenIntent();
+}

@@ -2,16 +2,19 @@ part of '../home_screen.dart';
 
 class SearchWidget extends StatelessWidget {
   final Function(String) onSearch;
+  final FocusNode? searchFocus;
   final TextEditingController? searchController;
   const SearchWidget({
     super.key,
     required this.onSearch,
+    required this.searchFocus,
     required this.searchController,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      focusNode: searchFocus,
       controller: searchController,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(

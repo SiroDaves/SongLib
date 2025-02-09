@@ -14,7 +14,8 @@ class SearchSongItem extends StatelessWidget {
   final double height;
   final bool isSelected;
   final bool isSearching;
-  final VoidCallback? onPressed;
+  final VoidCallback? onTap;
+  final VoidCallback? onDoubleTap;
 
   SearchSongItem({
     super.key,
@@ -22,7 +23,8 @@ class SearchSongItem extends StatelessWidget {
     required this.height,
     this.isSelected = false,
     this.isSearching = false,
-    this.onPressed,
+    this.onTap,
+    this.onDoubleTap,
   });
 
   bool hasChorus = false;
@@ -75,7 +77,8 @@ class SearchSongItem extends StatelessWidget {
       ],
     );
     return InkWell(
-      onTap: onPressed,
+      onTap: onTap,
+      onDoubleTap: onDoubleTap,
       hoverColor: ThemeColors.accent2,
       child: Container(
         color: isSelected ? ThemeColors.primary : Colors.transparent,
