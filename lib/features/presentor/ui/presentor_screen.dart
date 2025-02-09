@@ -19,7 +19,7 @@ import '../../../common/widgets/progress/general_progress.dart';
 import '../../../core/di/injectable.dart';
 import '../../../core/theme/theme_colors.dart';
 import '../bloc/presentor_bloc.dart';
-import '../common/presentor_intents.dart';
+import '../../common/app_intents.dart';
 import '../common/presentor_utils.dart';
 import '../common/slide_utils.dart';
 

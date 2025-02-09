@@ -103,7 +103,7 @@ class SongsSearch extends SearchDelegate<List> {
                     song: result,
                     height: height!,
                     isSearching: true,
-                    onPressed: () {
+                    onTap: () {
                       Book book = books[0];
                       try {
                         book = books.firstWhere((b) => b.bookId == result.book);

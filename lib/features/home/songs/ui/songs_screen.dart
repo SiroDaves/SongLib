@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:styled_widget/styled_widget.dart';
@@ -8,6 +11,7 @@ import '../../../../common/utils/app_util.dart';
 import '../../../../common/widgets/list_items/search_book_item.dart';
 import '../../../../common/widgets/list_items/search_song_item.dart';
 import '../../../../core/theme/theme_styles.dart';
+import '../../../common/app_intents.dart';
 import '../../../common/search_songs_utils.dart';
 import '../../../presentor/ui/presentor_screen.dart';
 import '../../common/bloc/home_bloc.dart';
@@ -42,33 +46,38 @@ class _SongsScreenState extends State<SongsScreen> {
     bloc = context.read<HomeBloc>();
   }
 
-  Future<void> onSongSelect(SongExt song) async {
+  Future<void> onSongSelect(SongExt song, bool shouldOpen) async {
     setState(() => parent.selectedSong = song);
-    if (!widget.isBigScreen) {
-      Book book = parent.books[0];
-      try {
-        parent.books.firstWhere(
-          (b) => b.bookId == song.book,
-          orElse: () => parent.books[0],
-        );
-      } catch (e) {
-        logger('Failed to get the book: $e');
-      }
+    if (shouldOpen) {
+      onSongOpen();
+    }
+  }
 
-      bool? result = await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => PresentorScreen(
-            song: song,
-            book: book,
-            songs: parent.songs,
-          ),
-        ),
+  Future<void> onSongOpen() async {
+    SongExt song = parent.selectedSong;
+    Book book = parent.books[0];
+    try {
+      parent.books.firstWhere(
+        (b) => b.bookId == song.book,
+        orElse: () => parent.books[0],
       );
+    } catch (e) {
+      logger('Failed to get the book: $e');
+    }
 
-      if (result == true) {
-        bloc.add(FilterData(book));
-      }
+    bool? result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PresentorScreen(
+          song: song,
+          book: book,
+          songs: parent.songs,
+        ),
+      ),
+    );
+
+    if (result == true) {
+      bloc.add(FilterData(book));
     }
   }
 
@@ -91,7 +100,7 @@ class _SongsScreenState extends State<SongsScreen> {
                 SongsList(
                   selectedSong: parent.selectedSong,
                   songs: parent.filtered,
-                  onPressed: onSongSelect,
+                  onTap: onSongSelect,
                 ),
               ],
             ),
@@ -100,7 +109,7 @@ class _SongsScreenState extends State<SongsScreen> {
 
   Widget _buildBigScreen() {
     return LayoutBuilder(builder: (context, dimens) {
-      return Row(
+      var bigScreenView = Row(
         children: [
           Scaffold(
             appBar: AppBar(
@@ -118,7 +127,8 @@ class _SongsScreenState extends State<SongsScreen> {
                 SongsList(
                   selectedSong: parent.selectedSong,
                   songs: parent.filtered,
-                  onPressed: onSongSelect,
+                  onTap: onSongSelect,
+                  isBigScreen: true,
                 ).expanded(),
               ],
             ),
@@ -130,6 +140,36 @@ class _SongsScreenState extends State<SongsScreen> {
           ).expanded(),
         ],
       );
+      if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+        return Shortcuts(
+          shortcuts: <ShortcutActivator, Intent>{
+            CharacterActivator('s'): SearchIntent(),
+            SingleActivator(LogicalKeyboardKey.enter): OpenIntent(),
+          },
+          child: Actions(
+            actions: <Type, Action<Intent>>{
+              SearchIntent: CallbackAction<SearchIntent>(
+                onInvoke: (intent) => {
+                  //searchController.
+                },
+              ),
+              OpenIntent: CallbackAction<OpenIntent>(
+                onInvoke: (intent) => onSongOpen(),
+              ),
+            },
+            child: Focus(
+              autofocus: true,
+              onKeyEvent: (node, event) {
+                logger('Key pressed: ${event.logicalKey.keyLabel}');
+                return KeyEventResult.ignored;
+              },
+              child: bigScreenView,
+            ),
+          ),
+        );
+      } else {
+        return bigScreenView;
+      }
     });
   }
 }
