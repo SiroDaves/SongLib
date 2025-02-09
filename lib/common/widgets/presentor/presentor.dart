@@ -1,44 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/theme/theme_colors.dart';
 import '../../utils/app_util.dart';
 
-class PresentorInfo extends StatelessWidget {
-  final String info;
-  final double fontSize;
-
-  const PresentorInfo({
-    super.key,
-    required this.info,
-    required this.fontSize,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    Color foreColor = Theme.of(context).brightness == Brightness.light
-        ? ThemeColors.primary
-        : Colors.white;
-    return Tab(
-      child: Center(
-        child: Text(
-          info,
-          style: TextStyle(
-            fontSize: 25,
-            color: foreColor,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class SliderTextWidget extends StatelessWidget {
+class SliderContent extends StatelessWidget {
   final String lyrics;
   final Function()? onDoubleTap;
   final Function()? onLongPress;
 
-  const SliderTextWidget({
+  const SliderContent({
     super.key,
     required this.lyrics,
     this.onDoubleTap,
@@ -74,6 +43,33 @@ class SliderTextWidget extends StatelessWidget {
                 ),
               ),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class SliderNumbers extends StatelessWidget {
+  final String info;
+  final double fontSize;
+
+  const SliderNumbers({
+    super.key,
+    required this.info,
+    required this.fontSize,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Tab(
+      child: Center(
+        child: Text(
+          info,
+          style: TextStyle(
+            fontSize: 25,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),

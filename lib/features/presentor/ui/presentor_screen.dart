@@ -10,10 +10,10 @@ import 'package:styled_widget/styled_widget.dart';
 import '../../../common/data/models/models.dart';
 import '../../../common/repository/pref_repository.dart';
 import '../../../common/utils/app_util.dart';
-import '../../../common/utils/constants/app_assets.dart';
 import '../../../common/utils/constants/pref_constants.dart';
 import '../../../common/widgets/action/fab_widget.dart';
-import '../../../common/widgets/presentor/presentor_animate.dart';
+import '../../../common/widgets/presentor/slide_container.dart';
+import '../../../common/widgets/presentor/indicators.dart';
 import '../../../common/widgets/progress/custom_snackbar.dart';
 import '../../../common/widgets/progress/general_progress.dart';
 import '../../../core/di/injectable.dart';
@@ -23,11 +23,10 @@ import '../common/presentor_intents.dart';
 import '../common/presentor_utils.dart';
 import '../common/slide_utils.dart';
 
-part 'widgets/presentor_view.dart';
+part 'widgets/presentor_slide.dart';
 part 'widgets/fab_widget.dart';
 part 'widgets/presentor_body.dart';
 part 'widgets/presentor_details.dart';
-part 'widgets/indicator_container.dart';
 
 class PresentorScreen extends StatefulWidget {
   final SongExt song;
@@ -49,11 +48,10 @@ class PresentorScreenState extends State<PresentorScreen> {
   late AppLocalizations l10n;
   late SongExt song;
   late String songTitle, songBook;
-  bool hasChorus = false, likeChanged = false, slideVertically = true;
+  bool hasChorus = false, likeChanged = false, slideVertical = true;
   List<String> songVerses = [];
   List<Tab> widgetTabs = [];
   List<Widget> widgetContent = [];
-  int currentSlide = 0;
 
   @override
   void initState() {
@@ -75,30 +73,6 @@ class PresentorScreenState extends State<PresentorScreen> {
       DesktopWindow.setFullScreen(false);
     }
     super.dispose();
-  }
-
-  void setSlideByNumber(int slide) {
-    setState(() {
-      currentSlide = getSlideByNumber(slide, hasChorus, widgetContent.length);
-    });
-  }
-
-  void setSlideByLetter(String slide) {
-    setState(() {
-      currentSlide = getSlideByLetter(slide, hasChorus, widgetContent.length);
-    });
-  }
-
-  void setPreviousSlide() {
-    if (currentSlide != 0) {
-      setState(() => currentSlide = currentSlide - 1);
-    }
-  }
-
-  void setNextSlide() {
-    if (currentSlide < widgetContent.length) {
-      setState(() => currentSlide = currentSlide + 1);
-    }
   }
 
   @override

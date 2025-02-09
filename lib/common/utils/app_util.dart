@@ -7,6 +7,8 @@ import 'dart:developer' as logging show log;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
+enum IndicatorSide { start, end }
+
 void logger(String message) {
   return logging.log('''
 $message

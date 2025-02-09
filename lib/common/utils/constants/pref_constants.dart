@@ -18,7 +18,7 @@ class PrefConstants {
   static const onboardedCheckKey = 'on_boarded';
   static const predistinatedBooksKey = 'predestinated_books';
   static const selectedBooksKey = 'selected_books';
-  static const slideVerticallyKey = 'slide_vertically';
+  static const slideVerticalKey = 'slide_vertically';
   static const pcHintsKey = 'pc_hints';
   static const uninstallCheckKey = 'uninstall_check';
   static const donationCheckKey = 'donation_check';

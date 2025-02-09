@@ -1,8 +1,9 @@
 part of '../presentor_screen.dart';
 
-class PresentorDetails extends StatelessWidget {
+class PresentorDetails extends StatefulWidget {
   final PresentorScreenState parent;
   final bool isBigScreen;
+
   const PresentorDetails({
     super.key,
     required this.parent,
@@ -10,18 +11,59 @@ class PresentorDetails extends StatelessWidget {
   });
 
   @override
+  State<PresentorDetails> createState() => PresentorDetailsState();
+}
+
+class PresentorDetailsState extends State<PresentorDetails> {
+  late PresentorScreenState parent;
+  int currentSlide = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    parent = widget.parent;
+  }
+
+  void setSlideByNumber(int slide) {
+    setState(() {
+      currentSlide = getSlideByNumber(
+          slide, parent.hasChorus, parent.widgetContent.length);
+    });
+  }
+
+  void setSlideByLetter(String slide) {
+    setState(() {
+      currentSlide = getSlideByLetter(
+          slide, parent.hasChorus, parent.widgetContent.length);
+    });
+  }
+
+  void setPreviousSlide() {
+    if (currentSlide != 0) {
+      setState(() => currentSlide = currentSlide - 1);
+    }
+  }
+
+  void setNextSlide() {
+    if (currentSlide < parent.widgetContent.length) {
+      setState(() => currentSlide = currentSlide + 1);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
     var presentation = parent.widgetTabs.isNotEmpty
-        ? PresentorView(
-            index: parent.currentSlide,
+        ? PresentorSlide(
+            key: ValueKey(currentSlide),
+            index: currentSlide,
             songbook: parent.songBook,
             tabs: parent.widgetTabs,
             contents: parent.widgetContent,
             tabsWidth: size.height * 0.08156,
             indicatorWidth: size.height * 0.08156,
-            isBigScreen: isBigScreen,
+            isBigScreen: widget.isBigScreen,
           )
         : SizedBox(
             height: size.height,
@@ -30,80 +72,73 @@ class PresentorDetails extends StatelessWidget {
 
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
       return Shortcuts(
-        shortcuts: const <ShortcutActivator, Intent>{
+        shortcuts: <ShortcutActivator, Intent>{
+          // Escape Key
           SingleActivator(LogicalKeyboardKey.escape): CloseIntent(),
+
+          // Arrow Keys for Navigation
           SingleActivator(LogicalKeyboardKey.arrowUp): PreviousIntent(),
           SingleActivator(LogicalKeyboardKey.arrowDown): NextIntent(),
-          SingleActivator(LogicalKeyboardKey.numpad1): VerseOneIntent(),
-          SingleActivator(LogicalKeyboardKey.digit1): VerseOneIntent(),
-          SingleActivator(LogicalKeyboardKey.numpad2): VerseTwoIntent(),
-          SingleActivator(LogicalKeyboardKey.digit2): VerseTwoIntent(),
-          SingleActivator(LogicalKeyboardKey.numpad3): VerseThreeIntent(),
-          SingleActivator(LogicalKeyboardKey.digit3): VerseThreeIntent(),
-          SingleActivator(LogicalKeyboardKey.numpad4): VerseFourIntent(),
-          SingleActivator(LogicalKeyboardKey.digit4): VerseFourIntent(),
-          SingleActivator(LogicalKeyboardKey.numpad5): VerseFiveIntent(),
-          SingleActivator(LogicalKeyboardKey.digit5): VerseFiveIntent(),
-          SingleActivator(LogicalKeyboardKey.numpad6): VerseSixIntent(),
-          SingleActivator(LogicalKeyboardKey.digit6): VerseSixIntent(),
-          SingleActivator(LogicalKeyboardKey.numpad7): VerseSevenIntent(),
-          SingleActivator(LogicalKeyboardKey.digit7): VerseSevenIntent(),
-          SingleActivator(LogicalKeyboardKey.keyC): ChorusIntent(),
-          SingleActivator(LogicalKeyboardKey.keyS): VerseSecondLastIntent(),
-          SingleActivator(LogicalKeyboardKey.keyL): VerseLastIntent(),
+
+          SingleActivator(LogicalKeyboardKey.digit1): SlideNumberIntent(1),
+          SingleActivator(LogicalKeyboardKey.digit2): SlideNumberIntent(2),
+          SingleActivator(LogicalKeyboardKey.digit3): SlideNumberIntent(3),
+          SingleActivator(LogicalKeyboardKey.digit4): SlideNumberIntent(4),
+          SingleActivator(LogicalKeyboardKey.digit5): SlideNumberIntent(5),
+          SingleActivator(LogicalKeyboardKey.digit6): SlideNumberIntent(6),
+          SingleActivator(LogicalKeyboardKey.digit7): SlideNumberIntent(7),
+
+          SingleActivator(LogicalKeyboardKey.numpad1): SlideNumberIntent(1),
+          SingleActivator(LogicalKeyboardKey.numpad2): SlideNumberIntent(2),
+          SingleActivator(LogicalKeyboardKey.numpad3): SlideNumberIntent(3),
+          SingleActivator(LogicalKeyboardKey.numpad4): SlideNumberIntent(4),
+          SingleActivator(LogicalKeyboardKey.numpad5): SlideNumberIntent(5),
+          SingleActivator(LogicalKeyboardKey.numpad6): SlideNumberIntent(6),
+          SingleActivator(LogicalKeyboardKey.numpad7): SlideNumberIntent(7),
+
+          // Letter Keys (Using CharacterActivator for macOS compatibility)
+          CharacterActivator('c'): SlideLetterIntent('C'),
+          CharacterActivator('s'): SlideLetterIntent('S'),
+          CharacterActivator('l'): SlideLetterIntent('L'),
         },
         child: Actions(
           actions: <Type, Action<Intent>>{
             CloseIntent: CallbackAction<CloseIntent>(
-              onInvoke: (CloseIntent intent) => Navigator.pop(context, true),
+              onInvoke: (intent) => Navigator.pop(context, true),
             ),
             PreviousIntent: CallbackAction<PreviousIntent>(
-              onInvoke: (PreviousIntent intent) => parent.setPreviousSlide,
+              onInvoke: (intent) => setPreviousSlide(),
             ),
             NextIntent: CallbackAction<NextIntent>(
-              onInvoke: (NextIntent intent) => parent.setNextSlide,
+              onInvoke: (intent) => setNextSlide(),
             ),
-            VerseOneIntent: CallbackAction<VerseOneIntent>(
-              onInvoke: (VerseOneIntent intent) => parent.setSlideByNumber(1),
+
+            // Handles Numbered Verses
+            SlideNumberIntent: CallbackAction<SlideNumberIntent>(
+              onInvoke: (intent) => setSlideByNumber(intent.slideNumber),
             ),
-            VerseTwoIntent: CallbackAction<VerseTwoIntent>(
-              onInvoke: (VerseTwoIntent intent) => parent.setSlideByNumber(2),
+
+            // Handles Letter-Based Navigation (Chorus, Last Verse, etc.)
+            SlideLetterIntent: CallbackAction<SlideLetterIntent>(
+              onInvoke: (intent) => setSlideByLetter(intent.letter),
             ),
-            VerseThreeIntent: CallbackAction<VerseThreeIntent>(
-              onInvoke: (VerseThreeIntent intent) => parent.setSlideByNumber(3),
-            ),
-            VerseFourIntent: CallbackAction<VerseFourIntent>(
-              onInvoke: (VerseFourIntent intent) => parent.setSlideByNumber(4),
-            ),
-            VerseFiveIntent: CallbackAction<VerseFiveIntent>(
-              onInvoke: (VerseFiveIntent intent) => parent.setSlideByNumber(5),
-            ),
-            VerseSixIntent: CallbackAction<VerseSixIntent>(
-              onInvoke: (VerseSixIntent intent) => parent.setSlideByNumber(6),
-            ),
-            VerseSevenIntent: CallbackAction<VerseSevenIntent>(
-              onInvoke: (VerseSevenIntent intent) => parent.setSlideByNumber(7),
-            ),
-            ChorusIntent: CallbackAction<ChorusIntent>(
-              onInvoke: (ChorusIntent intent) => parent.setSlideByLetter('C'),
-            ),
-            VerseSecondLastIntent: CallbackAction<VerseSecondLastIntent>(
-              onInvoke: (VerseSecondLastIntent intent) {
-                return parent.setSlideByLetter('S');
-              },
-            ),
-            VerseLastIntent: CallbackAction<VerseLastIntent>(
-              onInvoke: (VerseLastIntent intent) =>
-                  parent.setSlideByLetter('L'),
+
+            // Font Size Control (No function yet)
+            BiggerFontIntent: CallbackAction<BiggerFontIntent>(
+              onInvoke: (intent) => null,
             ),
             SmallerFontIntent: CallbackAction<SmallerFontIntent>(
-              onInvoke: (SmallerFontIntent intent) => null,
-            ),
-            BiggerFontIntent: CallbackAction<BiggerFontIntent>(
-              onInvoke: (BiggerFontIntent intent) => null,
+              onInvoke: (intent) => null,
             ),
           },
-          child: Focus(autofocus: true, child: presentation),
+          child: Focus(
+            autofocus: true,
+            onKeyEvent: (node, event) {
+              logger('Key pressed: ${event.logicalKey.keyLabel}');
+              return KeyEventResult.ignored;
+            },
+            child: presentation,
+          ),
         ),
       );
     } else {

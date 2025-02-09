@@ -63,23 +63,10 @@ class PresentorBodyState extends State<PresentorBody> {
             ),
           ],
         ),
-        body: isDarkTheme
-            ? PresentorDetails(
-                parent: parent,
-                isBigScreen: !isBigScreen,
-              )
-            : DecoratedBox(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(AppAssets.imgBg),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                child: PresentorDetails(
-                  parent: parent,
-                  isBigScreen: !isBigScreen,
-                ),
-              ),
+        body: PresentorDetails(
+          parent: parent,
+          isBigScreen: !isBigScreen,
+        ),
         floatingActionButton: isBigScreen
             ? const SizedBox.shrink()
             : PresentorFabWidget(song: song),
