@@ -1,8 +1,6 @@
 part of '../presentor_screen.dart';
 
-enum IndicatorSide { start, end }
-
-class PresentorView extends StatefulWidget {
+class PresentorSlide extends StatefulWidget {
   final int index;
   final double tabsWidth;
   final double indicatorWidth;
@@ -15,10 +13,10 @@ class PresentorView extends StatefulWidget {
   final Color tabBackgroundColor;
   final TextStyle selectedTabTextStyle;
   final TextStyle tabTextStyle;
-  final Function(int tabIndex)? onSelect;
   final bool isBigScreen;
+  final Function(int tabIndex)? onSelect;
 
-  const PresentorView({
+  const PresentorSlide({
     super.key,
     required this.index,
     required this.tabs,
@@ -32,15 +30,15 @@ class PresentorView extends StatefulWidget {
     this.tabBackgroundColor = const Color(0xfff8f8f8),
     this.selectedTabTextStyle = const TextStyle(color: Colors.black),
     this.tabTextStyle = const TextStyle(color: Colors.black38),
-    this.onSelect,
     this.isBigScreen = false,
+    this.onSelect,
   }) : assert(tabs.length == contents.length);
 
   @override
-  State<PresentorView> createState() => _PresentorViewState();
+  State<PresentorSlide> createState() => _PresentorSlideState();
 }
 
-class _PresentorViewState extends State<PresentorView>
+class _PresentorSlideState extends State<PresentorSlide>
     with TickerProviderStateMixin {
   late int selectedIndex;
   late PrefRepository _prefRepo;
@@ -96,7 +94,7 @@ class _PresentorViewState extends State<PresentorView>
 
   @override
   Widget build(BuildContext context) {
-    var indicatorContainer = IndicatorContainer(
+    var slideContainer = SlideContainer(
       tabs: widget.tabs,
       selectedIndex: selectedIndex,
       direction: widget.direction,
@@ -132,7 +130,7 @@ class _PresentorViewState extends State<PresentorView>
             itemBuilder: (context, index) => widget.contents[index],
           ).expanded(),
           if (widget.isBigScreen) ...[
-            indicatorContainer,
+            slideContainer,
             PresentorSongBook(
               songbook: widget.songbook,
               tabsWidth: widget.tabsWidth,
@@ -140,7 +138,7 @@ class _PresentorViewState extends State<PresentorView>
           ] else ...[
             Align(
               alignment: Alignment.center,
-              child: indicatorContainer,
+              child: slideContainer,
             ),
             const SizedBox(height: 20),
           ],

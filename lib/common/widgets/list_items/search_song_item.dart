@@ -59,7 +59,7 @@ class SearchSongItem extends StatelessWidget {
           if (hasChorus) TagItem(tagText: chorusText, height: height),
           Icon(
             song.liked ? Icons.favorite : Icons.favorite_border,
-            color: ThemeColors.foreColorWB(context),
+            color: ThemeColors.foreColorBW(context),
           )
         ].toRow(),
         const SizedBox(height: 3),

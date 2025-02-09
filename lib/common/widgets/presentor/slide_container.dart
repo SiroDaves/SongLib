@@ -1,6 +1,10 @@
-part of '../presentor_screen.dart';
+import 'package:flutter/material.dart';
 
-class IndicatorContainer extends StatelessWidget {
+import '../../../core/theme/theme_colors.dart';
+import '../../utils/app_util.dart';
+import 'indicators.dart';
+
+class SlideContainer extends StatelessWidget {
   final List<Tab> tabs;
   final int selectedIndex;
   final TextDirection direction;
@@ -9,7 +13,7 @@ class IndicatorContainer extends StatelessWidget {
   final List<AnimationController> animationControllers;
   final ValueChanged<int> onTabSelected;
 
-  const IndicatorContainer({
+  const SlideContainer({
     super.key,
     required this.tabs,
     required this.selectedIndex,
@@ -43,13 +47,13 @@ class IndicatorContainer extends StatelessWidget {
 
             return Stack(
               children: <Widget>[
-                PresentorTabIndicator(
+                TabIndicator(
                   width: indicatorWidth,
                   left: left,
                   right: right,
                   animation: animationControllers[index],
                 ),
-                PresentorContent(
+                IndicatorItem(
                   width: indicatorWidth,
                   alignment: alignment,
                   isSelected: selectedIndex == index,
@@ -65,12 +69,12 @@ class IndicatorContainer extends StatelessWidget {
   }
 }
 
-class PresentorTabIndicator extends StatelessWidget {
+class TabIndicator extends StatelessWidget {
   final double width;
   final double? left, right;
   final AnimationController animation;
 
-  const PresentorTabIndicator({
+  const TabIndicator({
     super.key,
     required this.width,
     required this.left,
@@ -83,7 +87,7 @@ class PresentorTabIndicator extends StatelessWidget {
     return Positioned(
       top: 2,
       bottom: 2,
-      width: width,
+      width: width * 1.1,
       left: left,
       right: right,
       child: ScaleTransition(
@@ -94,9 +98,8 @@ class PresentorTabIndicator extends StatelessWidget {
           ),
         ),
         child: Container(
-          margin: const EdgeInsets.all(2),
           decoration: BoxDecoration(
-            color: ThemeColors.bgColorAccent(context),
+            color: ThemeColors.primary2,
             borderRadius: const BorderRadius.all(
               Radius.circular(10),
             ),

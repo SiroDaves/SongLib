@@ -14,7 +14,7 @@ class PresentorDetails extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     var presentation = parent.widgetTabs.isNotEmpty
-        ? PresentorView(
+        ? PresentorSlide(
             index: parent.currentSlide,
             songbook: parent.songBook,
             tabs: parent.widgetTabs,

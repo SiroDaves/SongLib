@@ -46,14 +46,14 @@ class PresentorIndicator extends StatelessWidget {
   }
 }
 
-class PresentorContent extends StatelessWidget {
+class IndicatorItem extends StatelessWidget {
   final double? width;
   final Widget? child;
   final AlignmentGeometry alignment;
   final Function()? onTap;
   final bool? isSelected;
 
-  const PresentorContent({
+  const IndicatorItem({
     super.key,
     required this.width,
     required this.child,
@@ -70,7 +70,7 @@ class PresentorContent extends StatelessWidget {
         width: width,
         margin: const EdgeInsets.all(5),
         decoration: BoxDecoration(
-          color: isSelected! ? ThemeColors.primaryDark1 : ThemeColors.accent1,
+          color: isSelected! ? Colors.transparent : ThemeColors.primary,
           borderRadius: const BorderRadius.all(
             Radius.circular(10),
           ),

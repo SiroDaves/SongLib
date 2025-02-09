@@ -48,11 +48,10 @@ Future<PresentorModel> loadSong(SongExt song) async {
       }
     }
 
-    // Generate presentor slides
     for (final verse in verseInfos) {
       widgetTabs.add(
         Tab(
-          child: PresentorInfo(
+          child: SliderNumbers(
             info: verse,
             fontSize: 0.5 * .75,
           ),
@@ -60,10 +59,10 @@ Future<PresentorModel> loadSong(SongExt song) async {
       );
     }
     for (final verse in verseTexts) {
-      widgetContent.add(SliderTextWidget(
+      widgetContent.add(SliderContent(
         lyrics: verse,
         onDoubleTap: () => Share.share(
-          '${verse.replaceAll("#", "\n")}\n\n${songTitle},\n${songBook}',
+          '${verse.replaceAll("#", "\n")}\n\n$songTitle,\n$songBook',
           subject: 'Share verse',
         ),
         //onLongPress: () => copyVerse(verse),
