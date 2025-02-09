@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dartx/dartx.dart';
 import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -52,7 +53,6 @@ class PresentorScreenState extends State<PresentorScreen> {
   List<String> songVerses = [];
   List<Tab> widgetTabs = [];
   List<Widget> widgetContent = [];
-  int currentSlide = 0;
 
   @override
   void initState() {
@@ -74,30 +74,6 @@ class PresentorScreenState extends State<PresentorScreen> {
       DesktopWindow.setFullScreen(false);
     }
     super.dispose();
-  }
-
-  void setSlideByNumber(int slide) {
-    setState(() {
-      currentSlide = getSlideByNumber(slide, hasChorus, widgetContent.length);
-    });
-  }
-
-  void setSlideByLetter(String slide) {
-    setState(() {
-      currentSlide = getSlideByLetter(slide, hasChorus, widgetContent.length);
-    });
-  }
-
-  void setPreviousSlide() {
-    if (currentSlide != 0) {
-      setState(() => currentSlide = currentSlide - 1);
-    }
-  }
-
-  void setNextSlide() {
-    if (currentSlide < widgetContent.length) {
-      setState(() => currentSlide = currentSlide + 1);
-    }
   }
 
   @override

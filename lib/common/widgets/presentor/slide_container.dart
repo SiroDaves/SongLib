@@ -5,13 +5,13 @@ import '../../utils/app_util.dart';
 import 'indicators.dart';
 
 class SlideContainer extends StatelessWidget {
-  final List<Tab> tabs;
-  final int selectedIndex;
-  final TextDirection direction;
+  final List<Tab>? tabs;
+  final int? selectedIndex;
+  final TextDirection? direction;
   final IndicatorSide? indicatorSide;
-  final double indicatorWidth;
-  final List<AnimationController> animationControllers;
-  final ValueChanged<int> onTabSelected;
+  final double? indicatorWidth;
+  final List<AnimationController?>? animationControllers;
+  final ValueChanged<int>? onTabSelected;
 
   const SlideContainer({
     super.key,
@@ -32,7 +32,7 @@ class SlideContainer extends StatelessWidget {
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
-          itemCount: tabs.length,
+          itemCount: tabs!.length,
           itemBuilder: (context, index) {
             Alignment alignment = (direction == TextDirection.rtl)
                 ? Alignment.centerRight
@@ -48,17 +48,17 @@ class SlideContainer extends StatelessWidget {
             return Stack(
               children: <Widget>[
                 TabIndicator(
-                  width: indicatorWidth,
+                  width: indicatorWidth!,
                   left: left,
                   right: right,
-                  animation: animationControllers[index],
+                  animation: animationControllers![index]!,
                 ),
                 IndicatorItem(
                   width: indicatorWidth,
                   alignment: alignment,
                   isSelected: selectedIndex == index,
-                  onTap: () => onTabSelected(index),
-                  child: tabs[index].child,
+                  onTap: () => onTabSelected!(index),
+                  child: tabs![index].child,
                 ),
               ],
             );
