@@ -110,8 +110,14 @@ Follow this guide to set up and run SongLib:
     ```
     flutter build windows --target=lib/main_prod.dart
     ```
+          
+4. **MacOS:**
+
+    ```
+    flutter build macos -t lib/main_prod.dart --no-tree-shake-icons
+    ```
         
-4. **All the mobile builds:**
+5. **All the mobile builds:**
 
     ```
     flutter build appbundle --flavor production -t lib/main_prod.dart --no-tree-shake-icons
