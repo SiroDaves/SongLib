@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dartx/dartx.dart';
 import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -49,7 +48,7 @@ class PresentorScreenState extends State<PresentorScreen> {
   late AppLocalizations l10n;
   late SongExt song;
   late String songTitle, songBook;
-  bool hasChorus = false, likeChanged = false, slideVertically = true;
+  bool hasChorus = false, likeChanged = false, slideVertical = true;
   List<String> songVerses = [];
   List<Tab> widgetTabs = [];
   List<Widget> widgetContent = [];

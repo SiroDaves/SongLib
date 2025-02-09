@@ -32,7 +32,7 @@ class PresentorSlide extends StatefulWidget {
 class _PresentorSlideState extends State<PresentorSlide>
     with TickerProviderStateMixin {
   late PrefRepository _prefRepo;
-  bool slideVertically = false;
+  bool slideVertical = false;
 
   int? selectedIndex;
   bool? changePageByTapView;
@@ -42,21 +42,27 @@ class _PresentorSlideState extends State<PresentorSlide>
 
   PageController? pageController = PageController();
   List<AnimationController?>? animationControllers = [];
-  double targetOpacity = 1;
 
   @override
   void didUpdateWidget(covariant PresentorSlide oldWidget) {
-    if (oldWidget.index == widget.index) return;
-    setState(() => targetOpacity = 0);
-    Future.delayed(1.milliseconds, () => setState(() => targetOpacity = 1));
     super.didUpdateWidget(oldWidget);
+    if (oldWidget.index != widget.index && widget.index != null) {
+      selectedIndex = widget.index!;
+      changePageByTapView = true;
+      selectTab(selectedIndex!);
+      pageController!.animateToPage(
+        selectedIndex!,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
   }
 
   @override
   void initState() {
     _prefRepo = getIt<PrefRepository>();
-    slideVertically = _prefRepo.getPrefBool(
-      PrefConstants.slideVerticallyKey,
+    slideVertical = _prefRepo.getPrefBool(
+      PrefConstants.slideVerticalKey,
       defaultValue: true,
     );
 
@@ -118,7 +124,7 @@ class _PresentorSlideState extends State<PresentorSlide>
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           PageView.builder(
-            scrollDirection: slideVertically ? Axis.vertical : Axis.horizontal,
+            scrollDirection: slideVertical ? Axis.vertical : Axis.horizontal,
             controller: pageController,
             physics: const AlwaysScrollableScrollPhysics(),
             itemCount: widget.contents!.length,

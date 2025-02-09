@@ -34,7 +34,7 @@ class SettingsScreenState extends State<SettingsScreen> {
   late PrefRepository _prefRepo;
   late DatabaseRepository _dbRepo;
 
-  bool updateFound = false, slideVertically = true;
+  bool updateFound = false, slideVertical = true;
   late AppLocalizations l10n;
   String appTheme = '';
 
@@ -45,7 +45,7 @@ class SettingsScreenState extends State<SettingsScreen> {
     _dbRepo = getIt<DatabaseRepository>();
     _themeBloc = context.read<ThemeBloc>();
     appTheme = AppTheme.currentTheme();
-    slideVertically = _prefRepo.getPrefBool(PrefConstants.slideVerticallyKey);
+    slideVertical = _prefRepo.getPrefBool(PrefConstants.slideVerticalKey);
   }
 
   void onThemeChanged(ThemeMode themeMode) {
@@ -97,10 +97,10 @@ class SettingsScreenState extends State<SettingsScreen> {
                 title: Text(l10n.songPresentation),
                 subtitle: Text(l10n.songPresentationDesc),
                 trailing: Switch(
-                  value: slideVertically,
+                  value: slideVertical,
                   onChanged: (value) => updateSlideAxis(value),
                 ),
-                onTap: () => updateSlideAxis(!slideVertically),
+                onTap: () => updateSlideAxis(!slideVertical),
               ),
             ),
           ];
@@ -127,8 +127,8 @@ class SettingsScreenState extends State<SettingsScreen> {
   }
 
   Future<void> updateSlideAxis(bool value) async {
-    _prefRepo.setPrefBool(PrefConstants.slideVerticallyKey, value);
-    setState(() => slideVertically = value);
+    _prefRepo.setPrefBool(PrefConstants.slideVerticalKey, value);
+    setState(() => slideVertical = value);
   }
 
   Future<void> onResetData() async {

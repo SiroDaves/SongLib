@@ -80,10 +80,21 @@ class PresentorDetailsState extends State<PresentorDetails> {
           SingleActivator(LogicalKeyboardKey.arrowUp): PreviousIntent(),
           SingleActivator(LogicalKeyboardKey.arrowDown): NextIntent(),
 
-          /*for (int i = 1; i <= 7; i++) ...{
-            SingleActivator(LogicalKeyboardKey.values.firstWhere((key) => key.keyLabel == '$i')): SlideNumberIntent(i),
-            SingleActivator(LogicalKeyboardKey.values.firstWhere((key) => key.keyLabel == 'Numpad$i')): SlideNumberIntent(i),
-          },*/
+          SingleActivator(LogicalKeyboardKey.digit1): SlideNumberIntent(1),
+          SingleActivator(LogicalKeyboardKey.digit2): SlideNumberIntent(2),
+          SingleActivator(LogicalKeyboardKey.digit3): SlideNumberIntent(3),
+          SingleActivator(LogicalKeyboardKey.digit4): SlideNumberIntent(4),
+          SingleActivator(LogicalKeyboardKey.digit5): SlideNumberIntent(5),
+          SingleActivator(LogicalKeyboardKey.digit6): SlideNumberIntent(6),
+          SingleActivator(LogicalKeyboardKey.digit7): SlideNumberIntent(7),
+
+          SingleActivator(LogicalKeyboardKey.numpad1): SlideNumberIntent(1),
+          SingleActivator(LogicalKeyboardKey.numpad2): SlideNumberIntent(2),
+          SingleActivator(LogicalKeyboardKey.numpad3): SlideNumberIntent(3),
+          SingleActivator(LogicalKeyboardKey.numpad4): SlideNumberIntent(4),
+          SingleActivator(LogicalKeyboardKey.numpad5): SlideNumberIntent(5),
+          SingleActivator(LogicalKeyboardKey.numpad6): SlideNumberIntent(6),
+          SingleActivator(LogicalKeyboardKey.numpad7): SlideNumberIntent(7),
 
           // Letter Keys (Using CharacterActivator for macOS compatibility)
           CharacterActivator('c'): SlideLetterIntent('C'),

@@ -90,7 +90,7 @@ class Step1Bloc extends Bloc<Step1Event, Step1State> {
       _prefRepo.setPrefString(PrefConstants.selectedBooksKey, selectedBooks);
 
       _prefRepo.setPrefBool(PrefConstants.dataIsSelectedKey, true);
-      _prefRepo.setPrefBool(PrefConstants.slideVerticallyKey, true);
+      _prefRepo.setPrefBool(PrefConstants.slideVerticalKey, true);
     } catch (e) {
       logger('Unable to save books: $e');
     }
