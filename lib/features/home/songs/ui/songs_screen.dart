@@ -37,13 +37,24 @@ class SongsScreen extends StatefulWidget {
 class _SongsScreenState extends State<SongsScreen> {
   late HomeBloc bloc;
   late HomeScreenState parent;
-  final TextEditingController searchController = TextEditingController();
+  late FocusNode searchFocus;
+  late TextEditingController searchController;
 
   @override
   void initState() {
     super.initState();
     parent = widget.parent;
     bloc = context.read<HomeBloc>();
+    searchFocus = FocusNode();
+    searchController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    searchFocus.dispose();
+    searchController.dispose();
+
+    super.dispose();
   }
 
   Future<void> onSongSelect(SongExt song, bool shouldOpen) async {
@@ -114,6 +125,7 @@ class _SongsScreenState extends State<SongsScreen> {
           Scaffold(
             appBar: AppBar(
               title: SearchWidget(
+                searchFocus: searchFocus,
                 searchController: searchController,
                 onSearch: _onSearch,
               ),
@@ -145,13 +157,12 @@ class _SongsScreenState extends State<SongsScreen> {
           shortcuts: <ShortcutActivator, Intent>{
             CharacterActivator('s'): SearchIntent(),
             SingleActivator(LogicalKeyboardKey.enter): OpenIntent(),
+            SingleActivator(LogicalKeyboardKey.escape): CloseIntent(),
           },
           child: Actions(
             actions: <Type, Action<Intent>>{
               SearchIntent: CallbackAction<SearchIntent>(
-                onInvoke: (intent) => {
-                  //searchController.
-                },
+                onInvoke: (intent) => searchFocus.requestFocus(),
               ),
               OpenIntent: CallbackAction<OpenIntent>(
                 onInvoke: (intent) => onSongOpen(),
