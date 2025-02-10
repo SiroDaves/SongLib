@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'app.dart';
 import 'common/utils/app_util.dart';
@@ -21,7 +20,7 @@ Future<void> main() async {
   logger('Starting app from main_prod.dart');
   await configureDependencies(Environments.production);
 
-  await SentryFlutter.init(
+  /*await SentryFlutter.init(
     (options) {
       options.dsn =
           'https://3fe2721bbfa7a1184eb24a8241a58822@o1365314.ingest.us.sentry.io/4507672351014912';
@@ -33,5 +32,6 @@ Future<void> main() async {
       options.profilesSampleRate = 1.0;
     },
     appRunner: () => runApp(const MyApp()),
-  );
+  );*/
+  runApp(const MyApp());
 }
