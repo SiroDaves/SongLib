@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:styled_widget/styled_widget.dart';
 
 import '../../../../common/utils/app_util.dart';
@@ -144,7 +143,6 @@ class SettingsScreenState extends State<SettingsScreen> {
       );
     } catch (e) {
       logger('Unable to: $e');
-      Sentry.captureException(e);
     }
   }
 

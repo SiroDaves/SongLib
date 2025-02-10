@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../../../../common/repository/database_repository.dart';
 import '../../../../../core/di/injectable.dart';
@@ -55,7 +54,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(HomeDataFetchedState(books, songs));
     } catch (e) {
       logger('Unable to: $e');
-      Sentry.captureException(e);
       emit(HomeFailureState('Unable to fetch songs'));
     }
   }
@@ -71,7 +69,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(HomeFilteredState(event.book, songs, likes));
     } catch (e) {
       logger('Unable to: $e');
-      Sentry.captureException(e);
       emit(HomeLoadedState());
     }
   }
@@ -88,7 +85,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(HomeResettedState());
     } catch (e) {
       logger('Unable to: $e');
-      Sentry.captureException(e);
       emit(HomeLoadedState());
     }
   }

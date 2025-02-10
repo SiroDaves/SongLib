@@ -1,17 +1,17 @@
-import 'dart:ui';
+//import 'dart:ui';
 
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+//import 'package:firebase_core/firebase_core.dart';
+//import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
+//import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'app.dart';
 import 'common/utils/app_util.dart';
-import 'common/utils/constants/app_constants.dart';
+//import 'common/utils/constants/app_constants.dart';
 import 'common/utils/env/flavor_config.dart';
 import 'common/utils/env/environments.dart';
 import 'core/di/injectable.dart';
-import 'firebase_options.dart';
+//import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +27,7 @@ Future<void> main() async {
   logger('Starting app from main_prod.dart');
   await configureDependencies(Environments.production);
 
-  if (isMobile) {
+  /*if (isMobile) {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
@@ -55,5 +55,6 @@ Future<void> main() async {
       options.profilesSampleRate = 1.0;
     },
     appRunner: () => runApp(const MyApp()),
-  );
+  );*/
+  runApp(const MyApp());
 }
