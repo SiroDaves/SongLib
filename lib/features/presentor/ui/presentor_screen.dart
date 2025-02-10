@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:styled_widget/styled_widget.dart';
+import 'package:window_manager/window_manager.dart';
 
 import '../../../common/data/models/models.dart';
 import '../../../common/repository/pref_repository.dart';
@@ -63,16 +63,20 @@ class PresentorScreenState extends State<PresentorScreen> {
     songTitle = songItemTitle(song.songNo, widget.song.title);
     songBook = refineTitle(song.songbook);
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-      //DesktopWindow.setFullScreen(true);
+      setFullScreen(true);
     }
   }
 
   @override
   void dispose() {
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-      DesktopWindow.setFullScreen(false);
+      setFullScreen(false);
     }
     super.dispose();
+  }
+
+  Future<void> setFullScreen(bool value) async {
+    await windowManager.setFullScreen(value);
   }
 
   @override
