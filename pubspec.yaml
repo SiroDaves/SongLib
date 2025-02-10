@@ -73,7 +73,7 @@ flutter:
         - asset: assets/fonts/Trebuchet-MS.ttf
 
 msix_config:
-  display_name: SongLib - Songs of Worship
+  display_name: SongLib (Formerly vSongBook)
   publisher_display_name: Jackson Siro
   identity_name: 49927JackonSiro.SongLib-SongsofWorship
   publisher: CN=FF945805-BB5A-4BF1-8668-776816B557C6
