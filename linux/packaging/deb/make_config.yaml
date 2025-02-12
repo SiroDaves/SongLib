@@ -1,0 +1,38 @@
+display_name: SongLib
+package_name: songlib
+
+maintainer:
+  name: Siro Daves
+  email: sirodevske@gmail.com
+
+priority: optional
+
+section: x11
+
+installed_size: 15700
+
+dependencies:
+  - libsqlite3-dev
+
+essential: false
+
+icon: assets/icons/app_icon.png
+
+postuninstall_scripts:
+  - echo "We are song to see you go. Please check back soon."
+
+keywords:
+  - SongLib
+  - Songs
+  - Church
+  - vSongBook
+  - Songs of Worship
+  - Nyimbo za Injili
+  - Jack Siro
+
+generic_name: SongLib
+
+categories:
+  - Education
+
+startup_notify: false
