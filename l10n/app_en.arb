@@ -109,13 +109,13 @@
     "slideDirection": "Song Slides Direction",
     "setDirection": "Direction: {direction}",
     "@setDirection": {
-    "description": "A message with a single parameter",
-    "placeholders": {
-    "direction": {
-    "type": "String",
-    "example": "Bob"
-    }
-    }
+        "description": "A message with a single parameter",
+        "placeholders": {
+            "direction": {
+                "type": "String",
+                "example": "Bob"
+            }
+        }
     },
     "themeMode": "Theme Mode",
     "@themeMode": { "description": "" },
