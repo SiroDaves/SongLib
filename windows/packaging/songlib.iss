@@ -31,7 +31,7 @@ DisableProgramGroupPage=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 OutputDir=D:\Dev\Flutter\Projects\SongLib\dist\windows
-OutputBaseFilename={#MyAppName}-{#MyAppVersion}
+OutputBaseFilename={#MyAppName}_{#MyAppVersion}
 SetupIconFile=D:\Dev\Flutter\Projects\SongLib\windows\runner\resources\app_icon.ico
 Compression=lzma
 SolidCompression=yes
