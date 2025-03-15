@@ -116,18 +116,49 @@ Follow this guide to set up and run SongLib:
     ```
     flutter build macos -t lib/main_prod.dart --no-tree-shake-icons
     ```
+
+    Install create-dmg
+    ```
+    brew install create-dmg
+    ```
+
+    Generate DMG
+    ```
+    create-dmg \
+    --volname "SongLib" \
+    --window-pos 200 120 \
+    --window-size 800 400 \
+    --icon-size 100 \
+    --icon "SongLib.app" 200 190 \
+    --hide-extension "SongLib.app" \
+    --app-drop-link 600 185 \
+    "dist/macos/SongLib.dmg" \
+    "build/macos/Build/Products/Release/SongLib.app"
+    ```
          
 5. **Linux:**
 
+    Generate the build
     ```
     flutter build linux -t lib/main_prod.dart --no-tree-shake-icons
     ```
+
+    Create a deb package
+    ```
+    flutter_distributor package --platform linux --targets deb
+    ```
+    Or an rpm package 
+    ```
+    flutter_distributor package --platform linux --targets rpm
+    ```
         
-5. **All the mobile builds:**
+6. **All the builds:**
 
     ```
     flutter build appbundle --flavor production -t lib/main_prod.dart --no-tree-shake-icons
+    flutter build apk --flavor production -t lib/main_prod.dart --no-tree-shake-icons
     flutter build ipa -t lib/main_prod.dart --no-tree-shake-icons
+    flutter build macos -t lib/main_prod.dart --no-tree-shake-icons
     ```
 
 ---

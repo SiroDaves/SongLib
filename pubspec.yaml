@@ -58,7 +58,6 @@ dev_dependencies:
   freezed: ^2.5.7
   injectable_generator: ^2.6.2
   json_serializable: ^6.9.0
-  msix: ^3.16.8
     
 flutter:
   generate: true
@@ -71,19 +70,3 @@ flutter:
     - family: TrebuchetMS
       fonts:
         - asset: assets/fonts/Trebuchet-MS.ttf
-
-msix_config:
-  display_name: SongLib (Formerly vSongBook)
-  publisher_display_name: Jackson Siro
-  identity_name: 49927JackonSiro.SongLib-SongsofWorship
-  publisher: CN=FF945805-BB5A-4BF1-8668-776816B557C6
-  msix_version: 1.0.7.96
-  logo_path: assets\icons\app_icon.png
-  architecture: x64
-  capabilities: internetClient
-  app_installer:
-    hours_between_update_checks: 0
-    automatic_background_task: true
-    update_blocks_activation: true
-    show_prompt: false
-    force_update_from_any_version: false
