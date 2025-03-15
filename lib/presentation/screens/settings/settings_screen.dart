@@ -25,7 +25,6 @@ class SettingsScreen extends StatefulWidget {
 
 class SettingsScreenState extends State<SettingsScreen> {
   late ThemeBloc _themeBloc;
-  late SettingsScreenState parent;
   late PrefRepository _prefRepo;
   late DatabaseRepository _dbRepo;
 
