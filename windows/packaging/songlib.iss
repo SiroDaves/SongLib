@@ -3,7 +3,7 @@
 
 #define MyAppName "SongLib"
 #define MyAppVersion "1.0.797"
-#define MyAppPublisher "jackson Siro"
+#define MyAppPublisher "Jackson Siro"
 #define MyAppURL "https://songlib.siro.co.ke"
 #define MyAppExeName "SongLib.exe"
 
@@ -30,9 +30,9 @@ ArchitecturesInstallIn64BitMode=x64compatible
 DisableProgramGroupPage=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-OutputDir=C:\Devs\Flutter\Projects\SongLib\dist\windows
+OutputDir=D:\Dev\Flutter\Projects\SongLib\dist\windows
 OutputBaseFilename={#MyAppName}-{#MyAppVersion}
-SetupIconFile=C:\Devs\Flutter\Projects\SongLib\windows\runner\resources\app_icon.ico
+SetupIconFile=D:\Dev\Flutter\Projects\SongLib\windows\runner\resources\app_icon.ico
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -44,7 +44,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\Devs\Flutter\Projects\SongLib\build\windows\x64\runner\Release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "D:\Dev\Flutter\Projects\SongLib\build\windows\x64\runner\Release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

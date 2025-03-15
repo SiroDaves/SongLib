@@ -132,7 +132,7 @@ Follow this guide to set up and run SongLib:
     --icon "SongLib.app" 200 190 \
     --hide-extension "SongLib.app" \
     --app-drop-link 600 185 \
-    "SongLib.dmg" \
+    "dist/macos/SongLib.dmg" \
     "build/macos/Build/Products/Release/SongLib.app"
     ```
          
