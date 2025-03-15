@@ -1,0 +1,6 @@
+# Builds
+
+*.deb
+*.dmg
+*.exe
+*.rpm

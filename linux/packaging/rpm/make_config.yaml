@@ -1,0 +1,26 @@
+icon: assets/icons/app_icon.png
+summary: Your songbook on the go
+group: Application/Education
+vendor: Jackson Siro
+packager: Jackson Siro
+packagerEmail: sirodevske@gmail.com
+license: GPLv3
+url: https://songlib.siro.co.ke
+
+display_name: SongLib
+
+keywords:
+  - SongLib
+  - Songs
+  - Church
+  - vSongBook
+  - Songs of Worship
+  - Nyimbo za Injili
+  - Jack Siro
+
+generic_name: SongLib
+
+categories:
+  - Education
+
+startup_notify: false

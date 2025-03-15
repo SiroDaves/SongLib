@@ -138,8 +138,18 @@ Follow this guide to set up and run SongLib:
          
 5. **Linux:**
 
+    Generate the build
     ```
     flutter build linux -t lib/main_prod.dart --no-tree-shake-icons
+    ```
+
+    Create a deb package
+    ```
+    flutter_distributor package --platform linux --targets deb
+    ```
+    Or an rpm package 
+    ```
+    flutter_distributor package --platform linux --targets rpm
     ```
         
 6. **All the builds:**
