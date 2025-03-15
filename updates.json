@@ -2,11 +2,7 @@
     "version": "1.0.798",
     "title": "Minimal bug fixes",
     "description": "We hope you are doing fine",
-    "links": {
-        "android": "https://play.google.com/store/apps/details?id=com.songlib",
-        "ios": "https://apps.apple.com/us/app/id6446771305",
-        "windows": "https://github.com/SiroDaves/SongLib",
-        "macos": "https://github.com/SiroDaves/SongLib",
-        "linux": "https://github.com/SiroDaves/SongLib"
-    }
+    "android": "https://play.google.com/store/apps/details?id=com.songlib",
+    "ios": "https://apps.apple.com/us/app/id6446771305",
+    "desktop": "https://github.com/SiroDaves/SongLib"
 }
