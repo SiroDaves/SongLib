@@ -2,7 +2,10 @@
 
 //import 'package:firebase_core/firebase_core.dart';
 //import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:window_manager/window_manager.dart';
 //import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'app.dart';
@@ -56,5 +59,20 @@ Future<void> main() async {
     },
     appRunner: () => runApp(const MyApp()),
   );*/
+
+  if (!Platform.isAndroid && !Platform.isIOS && !Platform.isFuchsia) {
+    await windowManager.ensureInitialized();
+    WindowOptions windowOptions = const WindowOptions(
+      fullScreen: false,
+      alwaysOnTop: false,
+      titleBarStyle: TitleBarStyle.normal,
+    );
+
+    windowManager.waitUntilReadyToShow(windowOptions, () async {
+      await windowManager.maximize();
+      await windowManager.show();
+    });
+  }
+
   runApp(const MyApp());
 }
