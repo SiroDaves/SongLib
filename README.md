@@ -1,18 +1,10 @@
 # Welcome to SongLib
 
-<a href='https://play.google.com/store/apps/details?id=com.songlib'>
-  <img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width='200'/>
+<a href='https://songlib.siro.co.ke'>
+  <img alt='Get it on your Device' src='screenshots/main_banner.png'/>
 </a>
 
-<a href="https://apps.apple.com/app/id6446771305">
-  <img alt='Get it on AppStore' src='https://developer.apple.com/app-store/marketing/guidelines/images/badge-example-preferred_2x.png' width='200'>
-</a>
-
-<a href="https://github.com/Solido/awesome-flutter#components">
-   <img alt="Awesome Flutter" src="https://img.shields.io/badge/Awesome-Flutter-blue.svg?longCache=true&style=flat-square" />
-</a>
-
- SongLib for Android, iOS, Windows
+ Your songbook for Android, iOS, Windows, Linux, MacOS
 
 ## Overview
 
@@ -74,7 +66,7 @@ Follow this guide to set up and run SongLib:
     ```
 5. **Running SongLib:**
     ```bash
-    flutter run
+    flutter run --flavor develop -t lib/main_dev.dart --no-tree-shake-icons
     ```
 
 ### Building SongLib
@@ -90,7 +82,7 @@ Follow this guide to set up and run SongLib:
     - **Production (For Play Store):**
 
         ```bash
-        flutter build appbundle --flavor production -t lib/main_prod.dart --no-tree-shake-icons
+        flutter build appbundle --flavor production -t lib/main.dart --no-tree-shake-icons
         ```
     
 2. **iOS:**
@@ -98,7 +90,7 @@ Follow this guide to set up and run SongLib:
     - **Production (For Play Store):**
 
         ```bash
-        flutter build ipa -t lib/main_prod.dart --no-tree-shake-icons
+        flutter build ipa -t lib/main.dart --no-tree-shake-icons
         ```
     To upload to the App Store either:
     - Drag and drop the "build/ios/ipa/*.ipa" bundle into the Apple Transporter macOS app https://apps.apple.com/us/app/transporter/id1450874784
@@ -108,13 +100,13 @@ Follow this guide to set up and run SongLib:
 3. **Windows:**
 
     ```
-    flutter build windows --target=lib/main_prod.dart --no-tree-shake-icons
+    flutter build windows --target=lib/main.dart --no-tree-shake-icons
     ```
           
 4. **MacOS:**
 
     ```
-    flutter build macos -t lib/main_prod.dart --no-tree-shake-icons
+    flutter build macos -t lib/main.dart --no-tree-shake-icons
     ```
 
     Install create-dmg
@@ -140,7 +132,7 @@ Follow this guide to set up and run SongLib:
 
     Generate the build
     ```
-    flutter build linux -t lib/main_prod.dart --no-tree-shake-icons
+    flutter build linux -t lib/main.dart --no-tree-shake-icons
     ```
 
     Create a deb package
@@ -155,10 +147,10 @@ Follow this guide to set up and run SongLib:
 6. **All the builds:**
 
     ```
-    flutter build appbundle --flavor production -t lib/main_prod.dart --no-tree-shake-icons
-    flutter build apk --flavor production -t lib/main_prod.dart --no-tree-shake-icons
-    flutter build ipa -t lib/main_prod.dart --no-tree-shake-icons
-    flutter build macos -t lib/main_prod.dart --no-tree-shake-icons
+    flutter build appbundle --flavor production -t lib/main.dart --no-tree-shake-icons
+    flutter build apk --flavor production -t lib/main.dart --no-tree-shake-icons
+    flutter build ipa -t lib/main.dart --no-tree-shake-icons
+    flutter build macos -t lib/main.dart --no-tree-shake-icons
     ```
 
 ---

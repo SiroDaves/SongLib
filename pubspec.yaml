@@ -1,7 +1,7 @@
 name: songlib
 description: "SongLib gives you access to your church songbook/hymns seamlessly that you don't have to worry about even being online once you have set up the app on your device."
 publish_to: 'none'
-version: 1.0.798
+version: 1.0.799
 
 environment:
   sdk: ^3.5.4
@@ -48,6 +48,7 @@ dependencies:
   url_launcher: ^6.3.1
   wakelock_plus: ^1.2.10
   window_manager: ^0.4.3
+  sentry_flutter: ^8.14.0
 
 dev_dependencies:
   build_runner: ^2.4.13
