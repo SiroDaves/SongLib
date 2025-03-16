@@ -5,10 +5,10 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'app.dart';
-import 'core/utils/app_util.dart';
-import 'core/utils/env/flavor_config.dart';
-import 'core/utils/env/environments.dart';
 import 'core/di/injectable.dart';
+import 'core/utils/app_util.dart';
+import 'core/utils/env/environments.dart';
+import 'core/utils/env/flavor_config.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
