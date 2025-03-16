@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:window_manager/window_manager.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:window_manager/window_manager.dart';
 
 import 'app.dart';
 import 'core/utils/app_util.dart';
