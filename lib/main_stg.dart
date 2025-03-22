@@ -21,7 +21,7 @@ Future<void> main() async {
     ),
   );
   logger('Starting app from main_stg.dart');
-  await configureDependencies(Environments.production);
+  await configureDependencies(Environments.staging);
 
   if (!Platform.isAndroid && !Platform.isIOS && !Platform.isFuchsia) {
     await windowManager.ensureInitialized();

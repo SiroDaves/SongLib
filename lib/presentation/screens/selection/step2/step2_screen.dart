@@ -4,9 +4,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../core/utils/app_util.dart';
 import '../../../../core/utils/constants/app_constants.dart';
-import '../../../widgets/progress/custom_snackbar.dart';
-import '../../../navigator/route_names.dart';
 import '../../../blocs/step2/step2_bloc.dart';
+import '../../../navigator/route_names.dart';
+import '../../../widgets/progress/custom_snackbar.dart';
 import 'widgets/step2_widgets.dart';
 
 class Step2Screen extends StatefulWidget {
