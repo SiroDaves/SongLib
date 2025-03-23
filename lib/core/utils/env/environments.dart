@@ -1,9 +1,9 @@
 import 'package:injectable/injectable.dart';
 
 class Environments {
-  static const String develop = 'dev';
-  static const String staging = 'stg';
-  static const String production = 'prod';
+  static const String develop = 'develop';
+  static const String staging = 'staging';
+  static const String production = 'production';
 }
 
 const dummy = Environment(Environments.develop);

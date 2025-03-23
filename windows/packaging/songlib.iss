@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "SongLib"
-#define MyAppVersion "1.0.799"
+#define MyAppVersion "1.0.8"
 #define MyAppPublisher "Jackson Siro"
 #define MyAppURL "https://songlib.siro.co.ke"
 #define MyAppExeName "SongLib.exe"
