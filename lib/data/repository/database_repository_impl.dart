@@ -1,5 +1,5 @@
-import '../datasources/local/app_database.dart';
 import '../models/models.dart';
+import '../sources/local/app_database.dart';
 import 'database_repository.dart';
 
 /// Implementor of Database Repository
