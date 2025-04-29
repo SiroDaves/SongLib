@@ -11,7 +11,7 @@ import '../../../../core/di/injectable.dart';
 import '../../../../core/utils/app_util.dart';
 import '../../../../core/utils/constants/pref_constants.dart';
 import '../../../../data/models/models.dart';
-import '../../../../data/repository/pref_repository.dart';
+import '../../../../data/repositories/pref_repository.dart';
 import '../../../blocs/presentor/presentor_bloc.dart';
 import '../../../widgets/action/fab_widget.dart';
 import '../../../widgets/presentor/slide_container.dart';
